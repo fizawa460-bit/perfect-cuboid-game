@@ -1,0 +1,236 @@
+﻿Stage37 hostile audit — M3-T11-084 through M3-T11-087 grouped chain
+
+
+HOSTILE_AUDIT=PASS
+AUDIT_SCOPE=STAGE37_X_MINUS_ONE_EIGHTH_RESIDUAL_KERNEL_TO_TRIPLE_SPIN_SIGMA_SUPPORT_CHAIN
+AUDITED_CARDS=M3-T11-084,M3-T11-085,M3-T11-086,M3-T11-087
+PRIOR_AUDITED_FRONTIER=M3-T11-083
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-087
+GITHUB_ACCESSED=false
+
+
+Frozen authority
+MAIN=K16-C3-M3-LOCAL-TO-GLOBAL-MAIN
+RESULT_LEDGER=K16-C3-M3-RESULT-LEDGER
+ROUTE=K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE
+RESEARCH_INDEX=K16-C3-M3-RESEARCH-INDEX
+PRIMARY_GATE=M3-T11-GATE-001
+ACTIVE_ROUTE=K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE
+
+
+Audit conclusion
+
+
+The grouped M3-T11-084 -> 085 -> 086 -> 087 chain passes as an exact same-physical-measure support compression.
+
+
+M3-T11-084 is valid but is strictly subsumed by the sharper M3-T11-085 split.
+M3-T11-086 is valid as part of the grouped chain. Its statement that the fresh denominator of sigma is exactly M_rel^2 needs the denominator-exclusion argument written explicitly in M3-T11-087 Section 97.1; that missing direction is independently rechecked here and passes.
+M3-T11-087 then closes the pushforward multiplicity issue: one realized sigma recovers M_rel outside the fixed packet support and has only B^o(1) physical multiplicity for one fixed packet.
+
+
+No fixed-power support deficit is proved by these cards. No x=-1/8 total power saving, primary-gate closure, endpoint theorem, P(B)/M3(B) limit, or Perfect Cuboid claim is promoted.
+
+
+1. M3-T11-084 support transfer: PASS
+
+
+Retain the hostile-audit-passed M3-T11-083 divisibility
+D*h^2*M_rel^2 | L_vee*tau^2
+and the exact factorization
+tau=tau_0*M_rel*N_rel.
+Cancelling the common M_rel^2 factor gives exactly
+D*h^2 | L_vee*tau_0^2*N_rel^2.
+
+
+With
+Delta_pkt=rad(L_vee*c_1*c_2*c_3),
+all prime support of L_vee and N_rel is packet/content-supported. Since D is squarefree, the packet-free part
+D_fr=D/gcd(D,Delta_pkt)
+therefore satisfies
+D_fr | rad(tau_0^sharp).
+
+
+For tau_0^sharp <= B^(1/12-eta), the number of tau_0^sharp values is at most B^(1/12-eta); for each such value the squarefree divisor choices for D_fr and packet-supported choices for D_pkt are B^o(1). Hostile-audit-passed M3-T11-080 then gives
+# physical x=-1/8 endpoints <= B^(1/12-eta+o(1))
+on this subbranch.
+
+
+The remaining large-tau_0^sharp branch is legally routed to the already retained Section-28.3 all-same Gaussian square-divisor condition. No independent probability factor is charged.
+
+
+2. M3-T11-085 residual-kernel split: PASS
+
+
+Outside Delta_pkt, write
+d=v_p(D) in {0,1},
+e=v_p(h),
+a=v_p(tau_0).
+The exact divisibility gives
+d+2e <= 2a.
+Because d is 0 or 1, this implies
+d+e <= a.
+Hence
+D_fr*h_fr | tau_0^sharp.
+
+
+This strictly strengthens M3-T11-084.
+
+
+If D_fr <= B^(1/12-eta), then D_pkt has only divisor-many packet-supported choices and the fixed-D B^o(1) theorem yields
+# physical x=-1/8 endpoints <= B^(1/12-eta+o(1)).
+
+
+If D_fr > B^(1/12-eta), every p|D_fr lies in tau_0^sharp. Selecting the oriented Gaussian prime pi_p from G_0^sharp gives
+mathfrak_D=product_{p|D_fr} pi_p,
+N(mathfrak_D)=D_fr.
+Section 28.3 gives
+mathfrak_D^2 | Num_Gauss(A),
+so
+N(mathfrak_D^2)=D_fr^2 > B^(1/6-2eta).
+
+
+The orientation multiplicity over fixed D_fr is 2^omega(D_fr)=B^o(1) in the retained polynomial range. This is a router only; it is not itself a square-divisor counting theorem.
+
+
+3. M3-T11-086 triple-spin sigma root line: PASS WITH GROUPED DENOMINATOR COMPLETION
+
+
+From the exact common-phase quadratic
+conj(A)*U^2+2U+A=0
+and
+sigma^2=|A|^2-1,
+one obtains
+conj(A)*U=-1+epsilon*i*sigma,
+epsilon in {+1,-1}.
+
+
+For p^a||tau_0^sharp and the oriented pi^a||G_0^sharp, the other fresh core supports are p-disjoint and
+v_pi(U)=2a.
+The fixed packet coefficients and relative phases are pi-integral on this branch, so
+v_pi(-1+epsilon*i*sigma)>=2a.
+
+
+Writing sigma=A_sigma/B_sigma in lowest terms, p cannot divide B_sigma; otherwise the displayed quotient has negative pi-valuation. Therefore
+pi^(2a) | (-B_sigma+epsilon*i*A_sigma),
+equivalently
+A_sigma==rho_0*B_sigma mod (tau_0^sharp)^2
+for the oriented square root rho_0 of -1, and
+(tau_0^sharp)^2 | A_sigma^2+B_sigma^2.
+
+
+For p^a||m_i, the exact cyclic valuation theorem gives two trace factors of valuation -2a and one of valuation 0 in
+sigma^2=lambda_12*lambda_13*lambda_23.
+Hence
+v_p(sigma)=-2a.
+
+
+The remaining direction needed for the word exactly is supplied by M3-T11-087 Section 97.1: if p is outside the fixed packet support and p does not divide R_rel, all relative phases and pairwise traces are p-integral, hence v_p(sigma)>=0. Therefore there are no additional packet-free denominator primes.
+
+
+Thus the packet-free reduced denominator is exactly
+B_sigma,fr=M_rel^2.
+
+
+The simultaneous congruences
+B_sigma==0 mod M_rel^2,
+A_sigma==rho_0*B_sigma mod (tau_0^sharp)^2
+define one rank-two lattice of exact index
+M_rel^2*(tau_0^sharp)^2.
+On the selected D_fr branch the corresponding index is
+M_rel^2*D_fr^2.
+These are structural indices only. No density saving is charged.
+
+
+For fixed sigma, D_fr^2 | A_sigma^2+B_sigma^2 gives only divisor-many compatible squarefree D_fr labels, and the polynomial-height bound H(sigma)=B^O(1) makes this B^o(1). Combined with audited fixed-D multiplicity, the M3-T11-086 pushforward bound is valid.
+
+
+4. M3-T11-087 exact fresh-support coordinate: PASS
+
+
+Outside the fixed packet prime set, if p does not divide R_rel then all r_i and all lambda_ij are p-integral, hence sigma is p-integral.
+For p^a||m_i, the audited cyclic valuation calculation gives
+v_p(sigma)=-2a.
+Therefore
+B_sigma,fr=M_rel^2
+and
+M_rel=sqrt(B_sigma,fr)
+is uniquely recovered from one reduced realized sigma.
+
+
+Conversely, fixing M_rel leaves only B^o(1) choices for the content-supported quotient N_rel. Thus only B^o(1) values of R_rel=M_rel*N_rel occur, and the retained fixed-R_rel theorem gives only B^o(1) physical endpoint states. Hence realized-sigma support and active-M_rel support have the same polynomial exponent.
+
+
+For fixed sigma,
+(tau_0^sharp)^2 | A_sigma^2+B_sigma^2
+gives only divisor-many tau_0^sharp values.
+The nonfresh quotient
+N_0=tau_0/tau_0^sharp
+is supported on the fixed content-prime set and has B^o(1) choices.
+Together with recovered M_rel and B^o(1) choices of N_rel, fixed sigma permits only B^o(1) values of
+tau=tau_0*M_rel*N_rel.
+Section 19 then gives
+fixed sigma + fixed content/coefficient packet => B^o(1) physical endpoints.
+
+
+Therefore sigma is a legal one-dimensional same-measure support coordinate.
+
+
+5. No-double-charge and credit firewall: PASS
+
+
+The all-same root line is an exact reformulation of the existing common-phase square-divisor structure, not a new independent saving.
+The M_rel denominator condition is support recovery, not a relative anti-root density factor.
+The lattice index is not charged as a physical density estimate.
+Divisor counts used in the pushforward are only B^o(1) multiplicity controls.
+
+
+Promoted audited flags
+
+
+M3_T11_084_HOSTILE_AUDIT=PASS
+M3_T11_085_HOSTILE_AUDIT=PASS
+M3_T11_086_HOSTILE_AUDIT=PASS
+M3_T11_087_HOSTILE_AUDIT=PASS
+M3_T11_X_MINUS_ONE_EIGHTH_RESIDUAL_D_FRESH_SUPPORT_IN_TAU0=true
+M3_T11_X_MINUS_ONE_EIGHTH_DFR_HFR_DIVIDES_TAU0_FRESH=true
+M3_T11_X_MINUS_ONE_EIGHTH_SMALL_DFR_BRANCH_ONE_TWELFTH=true
+M3_T11_X_MINUS_ONE_EIGHTH_LARGE_DFR_COMMON_PHASE_SQUARE_DIVISOR=true
+M3_T11_TRIPLE_SPIN_SIGMA_TAU0_FRESH_ROOTLINE=true
+M3_T11_TRIPLE_SPIN_SIGMA_RELATIVE_FRESH_DENOMINATOR_MREL2=true
+M3_T11_TRIPLE_SPIN_SIGMA_DUAL_CONDUCTOR_LATTICE=true
+M3_T11_TRIPLE_SPIN_SIGMA_FRESH_DENOMINATOR_RECOVERS_MREL=true
+M3_T11_TRIPLE_SPIN_SIGMA_ACTIVE_MREL_POWER_EQUIVALENT=true
+M3_T11_FIXED_SIGMA_FIXED_PACKET_PHYSICAL_MULTIPLICITY=BO1
+M3_T11_X_MINUS_ONE_EIGHTH_SIGMA_SUPPORT_RECEIVER=true
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-087
+
+
+Retained non-credit flags
+
+
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_SIGMA_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_D_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+M3_T11_FIXED_X_GENERIC_BO1_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+Next routing
+
+
+CANONICAL_RECEIVER=XMinusOneEighthDualConductorTripleSpinSigmaSupportOneTwelfth
+NEXT_RESEARCH_CARD_ID=M3-T11-088
+
+
+The next theorem-level task is same-measure and one-dimensional:
+uniformly per fixed content/coefficient packet, prove
+# {realized sigma on the exact x=-1/8 physical measure
+   with D_fr>B^(1/12-eta)
+   and the audited dual-conductor constraints}
+<< B^(1/12-delta)
+for some fixed delta>eta>0.
+
+
+Do not infer this fixed-power deficit from the lattice index, the large square divisor, denominator recovery, or fixed-sigma B^o(1) multiplicity alone.

@@ -1,0 +1,274 @@
+﻿Stage37-PAIR-PREFLIGHT-229G — occupied-pair weight equivalence and thin-base collapse
+
+
+STATUS: PAIR_ONE_SHOT_PREFLIGHT_COMPLETE / PROVED_FIXED_POWER_PAIR_OBJECT_EQUIVALENCE / PROVED_EXACT_WEIGHTED_THIN_BASE_FORM / NO_INDEPENDENT_INTERNAL_PAIR_MECHANISM / PAIR_RETURNED_TO_HOLD / T11_230_NOT_ISSUED / GLOBAL_CREDIT=0
+
+
+AUTHORITY
+Operational authority remains M3-T11-229.
+Latest mathematical construction remains M3-T11-228.
+Previous delta research is Stage37-NEW-INPUT-DELTA-AUDIT-229F.
+Strategy instruction is Stage37-ROUTE-PORTFOLIO-AUDIT-229F-R4.
+This card executes exactly the one-shot PAIR occupied-image preflight authorized by 229F-R4.
+No endpoint counting credit is claimed.
+
+
+1. Pair weights on the exact physical image
+
+
+Let
+
+
+    W_B = {(X,D): there exists E in M3(B) with physical pair (X,D)},
+
+
+and for q=(X,D) in W_B define the exact physical multiplicity
+
+
+    m_B(q) = #{E in M3(B): pair(E)=q}.
+
+
+M3-XD-001 gives uniformly on the exact physical population
+
+
+    1 <= m_B(q) <= B^{o(1)}.                       (229G.1)
+
+
+The endpoint predicate depends only on q:
+
+
+    S(q)=1  iff  X^2+D^2 is an integer square.      (229G.2)
+
+
+Define
+
+
+    E_B={q in W_B:S(q)=1}.
+
+
+Because every M3 object above the same q has the same endpoint state,
+
+
+    M3(B) = sum_{q in W_B} m_B(q),                 (229G.3)
+    P(B)  = sum_{q in E_B} m_B(q).                 (229G.4)
+
+
+Hence
+
+
+    |W_B| <= M3(B) <= B^{o(1)} |W_B|,              (229G.5)
+    |E_B| <= P(B)  <= B^{o(1)} |E_B|.              (229G.6)
+
+
+Therefore
+
+
+    B^{-o(1)} |E_B|/|W_B|
+      <= P(B)/M3(B)
+      <= B^{o(1)} |E_B|/|W_B|.                     (229G.7)
+
+
+RESULT_229G_1:
+PAIR_FIXED_POWER_EXPONENT_EQUIVALENCE=PROVED_EXACT_UP_TO_B^o.
+
+
+In particular, for any fixed delta>0,
+
+
+    |E_B| <= B^{-delta+o(1)} |W_B|
+
+
+implies the original density target with a fixed-power margin; conversely any fixed-power bound
+P/M3 <= B^{-delta+o(1)} transfers back to a fixed-power pair deficit, with only B^{o(1)} loss.
+
+
+This strengthens the old statement that PAIR is merely sufficient: at the fixed-power scale it is exponent-equivalent to the original object problem.
+
+
+Caveat:
+this does NOT identify arbitrary little-o rates, because the B^{o(1)} multiplicity factor can absorb a non-power decay.
+
+
+2. Exact collapse to the existing w=D/X thin base
+
+
+On the physical dense open define
+
+
+    w = D/X.
+
+
+For each rational w let
+
+
+    n_B(w)
+      = #{(X,D) in W_B : D/X=w}.                   (229G.8)
+
+
+M3-BASE-001 proves that an exact M3 point is an endpoint iff
+
+
+    w = 2 tau/(1-tau^2)                            (229G.9)
+
+
+for some rational tau, i.e. iff w lies in the degree-two Pythagorean thin image T.
+
+
+Since the endpoint predicate is constant along every occupied ray D/X=w,
+
+
+    |W_B| = sum_w n_B(w),                           (229G.10)
+    |E_B| = sum_{w in T} n_B(w).                   (229G.11)
+
+
+Thus the PAIR receiver is exactly the weighted thin-base statement
+
+
+    sum_{w in T} n_B(w)
+      <= B^{-delta+o(1)} sum_w n_B(w).              (229G.12)
+
+
+RESULT_229G_2:
+PAIR_OCCUPIED_IMAGE_EQUALS_WEIGHTED_PYTHAGOREAN_THIN_BASE=PROVED_EXACT.
+
+
+This is not a new geometric cover.
+It is the M3-BASE-001 thin-base formulation after forgetting the individual M3 completion multiplicities and retaining only the number of occupied physical pairs on each rational base value.
+
+
+3. Why generic thin-set sparsity does not solve PAIR
+
+
+Equation (229G.12) is NOT a count of all rational w of bounded ordinary height.
+Its weight n_B(w) is produced by the exact M3 occupied image under the physical cutoff R<=B.
+
+
+The current authority contains:
+- no asymptotic or power lower bound for sum_w n_B(w) by ordinary w-height sectors;
+- no uniform upper bound forcing n_B(w) to spread over non-thin w;
+- no theorem preventing most occupied-pair mass from concentrating on the Pythagorean thin subset;
+- only fixed-(X,D) B^{o(1)} multiplicity, which does not bound the number of occupied scalar pairs sharing one ratio w.
+
+
+M3-BASE-001 also identifies each fixed nonzero w normalized M3 fiber as genus 5, but explicitly warns that fixed-fiber finiteness/Faltings is not a uniform moving-base mass theorem.
+
+
+Therefore replacing the occupied support by all primitive pairs, all rational w of bounded height, or a generic toric/projective ambient set changes the measure and is forbidden by the PAIR gate.
+
+
+RESULT_229G_3:
+AMBIENT_THIN_SET_COUNT_DOES_NOT_TRANSFER_TO_PAIR_WITH_CURRENT_INPUTS.
+
+
+4. Comparison with LOCAL
+
+
+LOCAL and PAIR are not literally the same current theorem gate.
+
+
+LOCAL asks for same-M3 object-weight contraction through fixed inert-prime residue half-sets.
+PAIR asks for an unweighted occupied-pair deficit, equivalently the n_B(w)-weighted thin-base deficit (229G.12).
+
+
+The B^{o(1)} point multiplicity is sufficient to compare fixed-power final exponents, but it is not strong enough to transfer a fixed constant contraction at each finite prime block between the pair measure and the M3 object measure.
+
+
+Hence:
+
+
+    PAIR_GATE == LOCAL_GATE
+
+
+is NOT proved.
+
+
+However, any attempted local-sieve proof of (229G.12) would require a new equidistribution/counting theorem for the occupied pair weights n_B(w) or the occupied residue image W_B modulo fixed Q.
+That is the same missing theorem species already isolated by LOCAL: distribution on the sparse M3-derived occupied support rather than ambient parameter space.
+
+
+RESULT_229G_4:
+PAIR_NOT_FORMALLY_MERGED_WITH_LOCAL,
+BUT_CURRENT_PAIR_LOCAL-SIEVE_PATH_REQUIRES_THE_SAME_OCCUPIED-SUPPORT_DISTRIBUTION_INPUT.
+
+
+5. One-shot preflight verdict
+
+
+The GO test from 229F-R4 required an independent theorem-ready image/incidence mechanism whose hypotheses live directly on W_B.
+
+
+No such internal mechanism emerges.
+
+
+Instead:
+- the endpoint condition factors completely through w=D/X;
+- the fixed-power pair count is exponent-equivalent to the original P/M3 problem;
+- the pair image problem is exactly a weighted thin-base distribution problem;
+- the required missing input is control of the moving occupied support n_B(w).
+
+
+This meets the explicit STOP condition
+UNQUANTIFIED_MOVING_SUPPORT_THEOREM.
+
+
+PAIR_ONE_SHOT_RESULT=STOP.
+PAIR_ROUTE_STATUS=HOLD_PENDING_GENUINELY_NEW_OCCUPIED_IMAGE_DISTRIBUTION_THEOREM.
+PAIR_INTERNAL_IDENTITY_CHAIN_ALLOWED=false.
+
+
+6. Reopen contract
+
+
+Reopen PAIR only on a theorem of one of these types:
+
+
+A. Occupied-ratio distribution:
+a same-physical-height theorem giving power-level nonconcentration of n_B(w) on degree-two thin images.
+
+
+B. Occupied-pair incidence:
+an exact theorem on W_B itself proving a fixed-power deficit for X^2+D^2=square without replacing W_B by ambient integer pairs.
+
+
+C. Fixed-modulus occupied-pair equidistribution:
+a theorem on W_B modulo fixed Q with enough quantitative strength to produce a power deficit after an allowed sieve, with exact physical-height and multiplicity control.
+
+
+D. A rigorous transfer from a solved LOCAL theorem to the pair measure or conversely, including control of the B^{o(1)} multiplicity at the required rate.
+
+
+Do NOT reopen PAIR for:
+- another endpoint identity in X,D;
+- generic Pythagorean sparsity among all integer pairs;
+- fixed-w genus bounds without moving-base summation;
+- ambient rational thin-set theorems without a W_B adapter;
+- local half-set recomputation.
+
+
+7. State after preflight
+
+
+M3-T11-229 remains latest operational authority.
+M3-T11-228 remains latest mathematical construction.
+Stage37-PAIR-PREFLIGHT-229G is the latest post-229 research result.
+M3-T11-230 remains unissued.
+
+
+Production status returns to:
+HOLD_PENDING_GENUINELY_NEW_THEOREM_INPUT.
+
+
+A centered route: THEOREM_WATCH.
+LOCAL fixed-Q route: THEOREM_WATCH.
+FIB moving-base route: THEOREM_WATCH.
+PAIR occupied-image route: HOLD_AFTER_ONE_SHOT_PREFLIGHT.
+CROSS-GCD: HOLD_STRONG.
+TQ: HOLD_STRONG.
+229F geometry: PARK_THEOREM_TARGET.
+DEN: NEW_IDEA_ONLY.
+TI: PARKED.
+
+
+GLOBAL_COUNTING_CREDIT=0.
+M3_T11_GATE_001=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.

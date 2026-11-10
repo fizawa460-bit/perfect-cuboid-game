@@ -1,0 +1,40 @@
+﻿Stage37 229HI-A7 — primitive ideal and sparse mod16 mean exact certificate
+CURRENT=Stage37-NEW-INPUT-DELTA-AUDIT-229HI-A7; CARD_DOC_ID=1gxmR1eFMPEUtRahE8c5CP6C_cFIkZOMNAksxWcai9zk; PREVIOUS_A6=1qPCl4bFo7B5EJytRVO3bdu9zRHpi3CHspMuooUISfug; SOURCE_ROW688.
+MATHEMATICAL START: A4 exact primitive third-source equation r^4+h²=2p²q², h=g/2>0 odd nonsquare, p<q<r distinct split primes; A5 every prime factor ell|h satisfies ell≡1 or15(mod16). A6 Pell α=X+Y√2 with X=r², Y=pq in Q²≤X,Y≤4Q², alpha>0, Norm α=−h², unit box ratio4<3+2√2.
+PRIMITIVE IDEALS:
+gcd(X,Y)=gcd(r²,pq)=1. For odd ell|h, inert case would imply ell|X,Y; for split ell, P and conjugate Pbar both dividing (α) imply product (ell) divides α hence ell|X,Y, impossible. Thus ell splits and exponent2e all assigned P or Pbar for ell^e||h. Number permitted integral ideals ≤2^{ω(h)}. The same norm−h² principal ideal generators differ by norm1 unit ε^k (ε=3+2√2>4), only one α in fixed dyadic ratio4. Therefore PRIME TRIPLE count for two signed original FJ source labels with h≤H ≤ ∑_{h≤H, ell|h =>ell≡±1mod16}2^{ω(h)}. Prime triple r determined from X square and p<q uniquely from Y=pq. No one-per-p free floor; no use of external large-P rank theorem.
+ANALYTIC THEOREM (STANDARD SELBERG–DELANGE):
+f(1)=1, f(ell^k)=2 if ell≡±1(mod16), 0 otherwise for k≥1. Euler product F(s)=∏_{ell∈S}(1+ell^{-s})/(1−ell^{-s}). Four even characters of (Z/16)^× satisfy (1/2)∑_{chi even}chi(ell)=2*1_S(ell) for odd ell. Hence F(s)=(∏_{chi even}L(s,chi))^(1/2)G(s), G Euler product absolutely locally convergent for Re s>1/2 since log discrepancy O(ell^{-2Re s}); ell2 is a finite local correction. Principal χ contributes ζ(s)^(1/2); three nonprincipal even χ have finite nonzero L(1,χ). Consequently F(s)=ζ(s)^(1/2)G_*(s), G_* regular nonzero at s1 with standard fixed-modulus Dirichlet L zero-free domain. By standard Selberg–Delange asymptotic, ∑_{h≤H}f(h) ∼C16 H/(log H)^(1/2), C16=G_*(1)/Γ(1/2)>0. Gives O(H/√logH). This is a certified application of classical external theorem, not a new unconditional proof of Selberg–Delange; external independent hostile method audit pending. For H=Q(logQ)^(1/2−η) fixed η∈(0,1/2), N≪_η Q/(logQ)^η=o(Q). H=Q gives N≪Q/√logQ. Does NOT count h larger than cutoff, other140 labels, repeated powers, omega>=4.
+SECOND INDEPENDENT EXACT BRIDGE:
+Ring O=Z[√2] is norm-Euclidean. Since (α) has only EVEN prime ideal exponents and is principal, (α)=J²=(β²), α=u β² with u a norm−1 unit. Absorb norm+1 unit ε=(1+√2)² into β square and α>0 sign, giving α=(1+√2)(m+n√2)², with gcd(m,n)=1, |m²−2n²|=h. Expanding:
+X=m²+4mn+2n²=(m+2n)²−2n²=r²;
+Y=m²+2mn+2n²=(m+n)²+n²=pq.
+The exact witness m3 n1 gives X23 Y17 h7 and is NOT a physical prime triple. This is an alternative to A5 quartic and A6 divisor switch; HIGH-h saving remains OPEN.
+EXACT PORTABLE FINITE CODE REPLAY (original SHA 44624d01c4dfd9816c06bdbf91276c2846ff51e29adfb7801415322d3f601d92, output SHA 2be4ee53aa0c9a1b4d2d2c1583e41363a844f1547a8ef5fa60cf8d3874000c0d; first script auto-generated in local /mnt/data/stage37_a7.py, here essential reproducible):
+from math import isqrt, gcd, sqrt,log
+def spf_table(N):
+  spf=list(range(N+1))
+  for p in range(2,isqrt(N)+1):
+    if spf[p]==p:
+      for n in range(p*p,N+1,p):
+        if spf[n]==n:spf[n]=p
+  return spf
+N=1000000
+spf=spf_table(N)
+f=[0]*(N+1);f[1]=1;s=0;R={}
+for n in range(1,N+1):
+  if n>1:
+    p=spf[n];m=n//p
+    f[n]=0 if p%16 not in (1,15) else (f[m] if m%p==0 else 2*f[m])
+  s+=f[n]
+  if n in (100,1000,10000,100000,1000000):R[n]=(s,round(s*sqrt(log(n))/n,6))
+assert R=={100:(11,0.236056),1000:(89,0.233915),10000:(791,0.240057),100000:(7245,0.245828),1000000:(66435,0.246934)}
+print('MOD16 WEIGHTED FACTOR SUPPORT PASS',R)
+# Primitive norm sample tested Q/H=(10,100),(30,150),(70,120)
+# Enumerate X in [Q²,4Q²], odd h up to H, find Y=isqrt((X²+h²)/2), Q²≤Y≤4Q² and gcd(X,Y)=1.
+# Each h fiber count ≤2^ω(h), numerical totals 14,23,20 resp., saturating max ratio1.0.
+# Note no primitive signed original FJ triple existence inferred from these raw Pell norms.
+GOVERNANCE FIREWALL: THIS is scoped ORIGINAL SAME-P FJ TWO KEY source triple theorem conditional on original FJ source labeling audit; no global Stage37 count theorem or change AUTHORITY229/CONSTRUCTION228/OPEN GATE/GLOBALCREDIT0. A7 hostile NOT_RUN; legacy FJ/FS/FW/HB HOSTILE HOLD.
+
+
+POSTWRITE CERT READBACK RECEIPT — 2026-10-10 JST. Exact primitive ideal orientation 2^omega and fixed ±1mod16 Selberg–Delange mean proof, plus square-root α=(1+√2)(m+n√2)² alternate and executable code persisted. MAIN, INDEX source688/AI00 live687/AI10 A7, LEDGER/ROUTE/NEG/FAST currentA7 verified. Research CARD and CERT both in Stage37 M3-Research-Cards. External independent FJ/FS/FW/HB, A7 hostile audit NOT_RUN. GLOBAL_CREDIT0 and GATE OPEN unchanged.

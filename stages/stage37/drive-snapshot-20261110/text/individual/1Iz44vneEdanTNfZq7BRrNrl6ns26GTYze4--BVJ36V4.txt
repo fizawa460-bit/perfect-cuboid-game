@@ -1,0 +1,155 @@
+﻿M3-T11-163 — Summed short primitive-leg endpoint sector
+
+
+CARD_ID: M3-T11-163
+CANONICAL_CARD_KEY: M3-T11-163
+STATUS: PROVED_ENDPOINT_SECTOR_USING_RETAINED010 / INTERIOR_COMPLEMENT_OPEN
+GLOBAL_OPERATION: ACTIVE_T11_RESEARCH_WITH_SCOPED_DECOMPOSITION
+PRIMARY_GATE: M3-T11-GATE-001, OPEN
+GLOBAL_COUNTING_CREDIT: 0
+AUDIT_MODE: WITHIN_SESSION_NOT_INDEPENDENT
+
+
+1. Current decision and scope
+
+
+Current MAIN, CARD-INDEX, RESULT-LEDGER, active ROUTE, M3-T11-162 and the needed retained cards 010/160/161 were read. CARD-INDEX search for “small leg”, “primitive leg”, “min leg”, “extreme ratio”, “skinny face”, “small coordinate” and “short leg” found no prior card for the statistic below. This is a scoped new endpoint-sector bound, not a global endpoint bound and not a literature-wide novelty claim.
+
+
+For a principal first-cover state at exact R<=B, reduce its missing-face legs by
+g=gcd(C,X), c=C/g, x=X/g, p=sqrt(c^2+x^2)<=B.
+The pair (c,x) is primitive. Define its primitive short-leg statistic
+ell=min(c,x)=min(C,X)/gcd(C,X).
+
+
+Let A_axis(B,E) be the number of ORDERED primitive positive Pythagorean directions with p<=B and ell<=E. Let r_axis(B;E) count original H_F class1 first-cover states with ell<=E, preserving all physical parents, lifts, contents and original masks. Let P_axis(B;E) count primitive canonical endpoints for which at least one of the three reduced face pairs has ell_ij<=E.
+
+
+2. Complete moving-family direction count
+
+
+Fix ell>=1 and suppose the other primitive leg is x>=ell.
+
+
+If ell is odd, the primitive triple has x even and p odd. Then
+(p-x)(p+x)=ell^2.
+Both factors are positive odd integers. Every triple with this fixed ell determines a factor pair u*v=ell^2, u<v, via
+u=p-x, v=p+x,
+and conversely the factor pair determines
+p=(u+v)/2, x=(v-u)/2.
+Primitivity and x>=ell can only remove factor pairs. Hence the number of unordered primitive directions with short leg ell is at most tau(ell^2).
+
+
+If ell is even, it is the even leg of the primitive triple, while x and p are odd. Put
+u=(p-x)/2, v=(p+x)/2.
+Then u,v are positive integers and
+u*v=ell^2/4.
+Again a factor pair determines (p,x), so the number is at most tau(ell^2/4)<=tau(ell^2).
+
+
+Allowing both leg orders costs at most a factor 2. Therefore, uniformly for 1<=E<=B,
+A_axis(B,E) <= 2 sum_{ell<=E} tau(ell^2).
+
+
+For every eta>0 the elementary divisor bound tau(n)<<_eta n^(eta/2) gives tau(ell^2)<<_eta ell^eta after renaming eta. Consequently
+A_axis(B,E) <<_eta E^(1+eta) <= E B^eta.
+Equivalently,
+A_axis(B,E) = E B^o(1)
+uniformly for E<=B.
+No fixed-leg constant, moving direction family, content, lift or physical parent multiplicity is hidden in this arithmetic family sum.
+
+
+3. Transfer to the original physical endpoint measure
+
+
+Each ordered primitive direction fixes exactly one reduced physical ratio rho=C/X. Retained M3-T11-010 gives, for every eta>0, one uniform K_eta such that
+m_rho(B) <= K_eta B^eta
+for every physical rational ratio rho, with contents/lifts already included.
+
+
+Thus
+r_axis(B;E) <= B^o(1) A_axis(B,E) <= E B^o(1).
+
+
+For a canonical endpoint with some ell_ij<=E, choose a face attaining the minimum ell_ij, breaking ties in canonical face order. Use the complementary edge as the shared edge. Retained M3-T11-160 gives the corresponding principal physical first-cover state; the original parent is retained. Exactly as in the deterministic charging used in M3-T11-161/162, this is injective at parent level up to the retained fixed chart constant. Hence
+P_axis(B;E) <= E B^o(1).
+
+
+For every fixed 0<delta<1/3, take
+E=floor(B^(1/3-delta)).
+Choosing the subpower exponent smaller than delta and using the retained lower bound
+M3(B) >> B^(1/3)
+gives
+P_axis(B;E)/M3(B) -> 0.
+
+
+This is an all-family/all-content endpoint SECTOR bound dependent on retained010 and the retained physical charging of160. It does not control the complementary endpoints.
+
+
+4. This sector is genuinely additional to 161 and 162
+
+
+For every odd ell>=3,
+(ell, (ell^2-1)/2, (ell^2+1)/2)
+is a primitive Pythagorean triple. Its short leg is ell, its primitive hypotenuse is asymptotic to ell^2/2, and its reduced leg difference is
+(ell^2-2ell-1)/2,
+also asymptotic to ell^2/2.
+
+
+Thus at equal cutoffs T=D=E, large odd ell<=E gives arithmetic directions in the new short-leg sector while p>T and d>D. For E=B^(1/3-delta), these examples still have p=O(B^(2/3-2delta))<B for large B. This proves non-containment at the arithmetic-direction level. It does NOT assert that any member of this family is occupied by a full physical endpoint.
+
+
+5. Combined endpoint decomposition and exact residual
+
+
+Use disjoint bookkeeping in this order:
+(1) charge M3-T11-161 endpoints with some primitive face hypotenuse p_ij<=T;
+(2) among the rest, charge M3-T11-162 endpoints with some reduced leg difference d_ij<=D;
+(3) among the rest, charge M3-T11-163 endpoints with some primitive short leg ell_ij<=E.
+
+
+Let P_core(B;T,D,E) be the remaining original endpoints. Then
+P(B) <= P_short(B;T) + P_near(B;D) + P_axis(B;E) + P_core(B;T,D,E),
+and every endpoint in P_core satisfies on all three faces simultaneously
+p_ij>T,
+d_ij>D,
+ell_ij>E.
+
+
+At T=D=E=B^(1/3-delta), the first three terms are o(M3). The core remains OPEN. This is not a proof of P(B)/M3(B)->0, does not improve E_bal by itself, and does not permit multiplying independent face densities.
+
+
+6. Verification and audit limits
+
+
+A complete finite replay enumerated every primitive Pythagorean triple with p<=200000: 31819 unordered triples. For E=10,50,100,300,1000, direct Euclid enumeration of triples with min leg<=E matched exactly the reconstruction from the fixed-leg factor equations above, with counts
+5,42,100,366,1246.
+For the same E values, the crude envelopes sum_{ell<=E} tau(ell^2) were
+48,470,1194,4984,22502,
+respectively, so every exact count lay below the stated divisor envelope.
+
+
+The finite replay checks the arithmetic adapter only. Physical endpoints enumerated=0. The asymptotic theorem follows from the factorization argument plus retained010/160, not from finite data. Audit is within-session, not an independent external hostile audit.
+
+
+7. Handoff
+
+
+LATEST_RESEARCH_CARD=M3-T11-163
+NEXT_CANDIDATE=M3-T11-164
+CURRENT_ATTACK=PrincipalInteriorThreeFaceSupportOrRatioIncidence
+
+
+The residual is now the three-face interior:
+all p_ij>T, all d_ij>D, all ell_ij>E.
+The next useful step should exploit simultaneous three-face physical incidence/coupling, or another summable geometric statistic whose full moving-family/content cost is paid. Do not obtain “progress” by merely introducing another arbitrary one-face cutoff without a new summable mechanism. The separate M3-A-001 correlation receiver remains available and is not declared exhausted.
+
+
+NEW_ENDPOINT_SECTOR_BOUND=true
+NEW_GLOBAL_ENDPOINT_BOUND=false
+PRINCIPAL_CLASS_GLOBALLY_CONTROLLED=false
+P_OVER_M3_LIMIT_PROVED=false
+GLOBAL_COUNTING_CREDIT=0
+TI=PARKED
+120=RETRACTED
+147-149=FROZEN

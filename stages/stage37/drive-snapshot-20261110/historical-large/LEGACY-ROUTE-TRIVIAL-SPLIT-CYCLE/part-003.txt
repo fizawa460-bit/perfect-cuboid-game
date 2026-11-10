@@ -1,0 +1,2882 @@
+ncrete receiver for the remaining degree6 case. Do not reread the known history from the beginning.
+
+
+## 1. Scope, dedupe and result
+
+
+Use the common degree d of a homogeneous basepoint-free P1_Q parameter map in the138/139 plus projection, with common factors removed. A contained generically open map has, by146, real/rational forms E_i,F_i,R of that same degree satisfying
+ E_i^2+F_i^2=R^2, sum E_i^2=R^2.
+Their common basepoints are absent. A real zero of R is impossible by147. Original positivity/source/packet/coefficient/orientation/cyclic/content/canonical conditions remain necessary.
+
+
+We prove that if the complex roots of R occupy at most TWO distinct conjugate pairs, EVERY nonconstant basepoint-free signed lift has an identically zero edge, for arbitrary multiplicities and arbitrary degree. The one-pair case was already148; the new part is two pairs when at least one multiplicity>=2. Together with148's simple two-pair quartic, this excludes the entire two-pair class.
+
+
+Consequently any nonconstant potentially all-positive contained degree6 P1_Q map must have square-free R with THREE distinct conjugate root pairs. This remaining class is OPEN; existence and nonexistence are not proved. Historical Stage19 M4/odd-M absence and Stage20 Saunderson M6 remain as recorded in M3-HIST28-GEOMETRY-FW-001. No comparison with the current parameter degree or Stage19 M6 absence is claimed. No global counting credit is added.
+
+
+## 2. Elementary sparse-power zero-multiplicity lemma
+
+
+Let S(w)=sum_(j=1)^r d_j*w^(ell_j), with nonzero d_j, distinct integer ell_j, r<=3. At any finite w_0!=0, a nonzero S has zero multiplicity at most r-1. Indeed vanishing to order>=r implies its first r Euler derivatives (w*d/dw)^h, h=0..r-1, vanish. Their coefficient matrix is (ell_j^h*w_0^(ell_j)). Its determinant is product w_0^(ell_j) times the nonzero Vandermonde product_(i<j)(ell_j-ell_i). This forces every d_j=0, a contradiction. Negative exponents are allowed because w_0 is nonzero. Equal exponents are grouped first; cancellations can reduce the number of terms or make S identically zero. This is a universal lemma, not a finite exponent search.
+
+
+## 3. Exhaustive two-pair factor allocations
+
+
+Suppose R=Q_1^n*Q_2^m up to a real scalar, with distinct definite quadratics, n,m>=1. Use148's real projective normalization, valid also with multiplicities, to write
+ R=(L*bar(L))^n*(M*bar(M))^m,
+ z=L/bar(L), w=M/bar(M).
+Every H_i=E_i+iF_i has
+ H_i/R=c_i*z^(a_i)*w^(b_i),
+ |c_i|=1, -n<=a_i<=n, -m<=b_i<=m.
+This follows exactly from unique factorization of H_i*bar(H_i)=R^2 and conjugation, not a chosen family. If |a_i|<n for all three coordinates, each H_i and bar(H_i), hence all E_i,F_i and R, is divisible by Q_1. This contradicts basepoint-freeness. Thus at least one |a_i|=n.
+
+
+When one multiplicity is>=2, choose that pair as Q_1, so n>=2. Independently conjugate H_i if needed to arrange a_i>=0; this changes F_i's sign but leaves E_i and every squared identity unchanged. We use this only for the proof, not to relax original signed masks. Let t_0 be the simple pole of z. Since the two root pairs are distinct, w(t_0) is finite and nonzero and w is unramified there. Write r for the number of coordinates with a_i=n, so r=1,2 or3.
+
+
+## 4. Pole order forces a boundary edge
+
+
+The sphere identity is
+ sum_i [c_i^2*z^(2a_i)*w^(2b_i) + bar(c_i)^2*z^(-2a_i)*w^(-2b_i)] +2=0.
+
+
+If r=1, its sole leading term has a pole of order2n at t_0 with a nonzero coefficient. All other terms have pole order at most2n-2, or are regular. Cancellation is impossible.
+
+
+If r=2, factor their pole part as z^(2n)*S(w), where S has at most two powers. Every other term has pole order<=2n-2. Thus S must vanish to order>=2 at w(t_0). Section2 forces S identically zero. Since the two coefficients are nonzero, their exponents must coincide, b_1=b_2, and c_1^2+c_2^2=0. Their conjugate terms cancel identically as well. Therefore E_1^2+E_2^2=R^2, and the original sphere identity forces E_3^2=0: E_3 is identically zero. Relabeling coordinates is harmless.
+
+
+If r=3, all three positive-pole terms are z^(2n)*S(w), with at most three distinct powers after grouping. The reflected terms are regular (indeed vanish) at t_0, so S must have zero multiplicity>=2n>=4. Section2 permits at most2 for a nonzero S. Hence S is identically zero. Its reflected conjugate sum also vanishes identically, leaving the impossible constant identity2=0.
+
+
+The cases are exhaustive. Thus arbitrary two-pair multiplicities with at least one>=2 force a zero edge. The remaining n=m=1 case is exactly148 and already has the same conclusion. This establishes the all-degree two-pair obstruction. Legitimate zero-edge boundary maps are preserved; constant maps are also not excluded as perfect-cuboid candidates. The theorem concerns nonconstant maps with no common factor/basepoint.
+
+
+## 5. Remaining square-free degree6: finite allocation and exact phase receiver
+
+
+For degree6, the other partitions of root multiplicity are3 and2+1, already excluded by148 and sections3–4. The only remaining possibility is1+1+1. Normalize two upper roots to i,ki with k>0,k!=1 and write the third as u+iv with v>0, distinct from the first two. Then
+ R=(t^2+1)(t^2+k^2)((t-u)^2+v^2).
+Let alpha=(i,ki,u+iv). For a=(a_1,a_2,a_3) in {-1,0,1}^3 define
+ H_a=product_j (t-alpha_j)^(1+a_j)*(t-bar(alpha_j))^(1-a_j), C_a=H_a^2.
+There are exactly27 allocations, H_a*bar(H_a)=R^2 and C_-a=bar(C_a), degree12. Every coordinate H_i=c_i H_(a_i), |c_i|=1.
+
+
+At each root pair j, zero active allocations (all a_ij=0) would make all forms divisible by Q_j. Exactly one active allocation gives an uncancellable order2 pole in the sphere identity, after orienting that coordinate toward the pole. Therefore each column of the3x3 allocation matrix has at least TWO nonzero entries. There are20 possible signed columns, hence20^3=8000 ordered allocation matrices satisfying this necessary local condition, versus27^3=19683 unrestricted ordered triples. This is a finite algebraic pattern reduction, NOT a count of Stage37 endpoints or a proof all8000 survive.
+
+
+For a fixed allowed allocation triple and fixed real root parameters, write lambda_i=c_i^2=x_i+i*y_i. The FULL signed sphere identity is exactly the following13 real linear coefficient equations plus three unit-circle constraints:
+ sum_i [x_i*Re(C_(a_i)) - y_i*Im(C_(a_i))] + R^2 =0,
+ x_i^2+y_i^2=1, i=1,2,3.
+Equate coefficients of t^h for h=0..12; homogenization includes infinity. Thus a13x6 real linear system with right-hand side -coeff(R^2), intersected with three unit circles, is an exact REAL-lift receiver. Every unit lambda_i has a unit square root c_i, which reconstructs E_i=Re(c_i H_(a_i)), F_i=Im(c_i H_(a_i)); conversely every real polynomial lift gives this system. Basepoint-freeness still must hold, and original endpoint positivity/masks must be checked separately. In the square-free setting the >=2-active condition already guarantees no common signed basepoint at roots of R; elsewhere R is nonzero. This does NOT prove rationality of the reconstructed coefficients: Q descent is a separate unresolved requirement, especially when roots are not individually defined over Q(i).
+
+
+This receiver accounts for the dependence of all phase functions on one parameter; it never treats three phases as independent Laurent variables. It replaces an unsigned slice or genus observation by the exact original full signed equations.
+
+
+## 6. Why148's circuit shortcut does not transfer
+
+
+In degree4, nine squared allocations had a rank8 one-dimensional relation, necessarily involving all eight nonconstant modes. For degree6 there are27 squared allocations in a13-dimensional polynomial coefficient space, so the full relation space always has dimension AT LEAST14. A one-dimensional all-mode circuit is impossible. Exact examples with roots (i,2i,1+i) and (i,3i,2+i) both have rank13 and relation dimension14. These are fixed-root examples, not a universal rank formula or an exclusion theorem. A relation supported on at most six allocation modes plus the center must now be checked using the13x6 receiver and its phase norms; the quartic sparse-support argument cannot simply be repeated.
+
+
+## 7. Counting scope and verification
+
+
+A noncontained basepoint-free degree6 Q parameter map has a nonzero degree96 homogeneous pullback of P, hence at most96 projective parameter roots and at most96 eligible endpoints by146's unique inverse. This is occupancy per map, not a global curve-cover bound. A contained generically open degree6 map must have square-free three-pair R; this class is not closed. Positive-genus curves, nonsplit normalization, isolated singular rational points and constant perfect cuboids remain outside the exclusion. No global power saving or nonexistence credit follows.
+
+
+verify149.py is self-contained standard Python with exact Fraction/Gaussian arithmetic. It checks377 sparse-power Vandermonde determinants,8000 local allocation patterns,54 circle factor identities,162 phase-receiver coefficient identities, four valid two-pair boundary maps with multiplicities (2,1),(3,1),(2,2),(4,3), and rank13 for the two stated sample27-column matrices. The universal theorem is the pole-order/sparse-power proof; finite exponent checks and sample ranks are supporting verification only. Audit is within-session, not external.
+
+
+## 8. Handoff
+
+
+Next150: solve or universally obstruct the square-free degree6 allocation/phase system, preserving Q descent and positivity; alternatively prove a direct global eligible-support estimate. Current concrete blocker: uniform compatibility of the13x6 system with three phase unit circles as (k,u,v) and8000 allowed allocation patterns vary, followed by rational descent/original masks. Do not claim a fixed-root rank check solves the uniform problem. One/two-pair classes are now excluded in all degrees and should not be re-enumerated as new credit. Do not identify current parameter degree with historical M-degree or assert Stage19 M6 absence. TI stays parked,120 stays retracted, credit0, gate OPEN. Persist card/audit/replay and all four current controls with readback.
+
+
+
+
+PRIOR AUTHORITY MATERIAL — HISTORICAL OPERATIONAL POINTERS BELOW; MATHEMATICS RETAINED WITHIN ITS AUDITED SCOPE.
+
+
+CURRENT AUTHORITY CONTROL — M3-T11-148 / FULL SIGNED DEGREE4 PARAMETER OBSTRUCTION
+PRIMARY_GATE=M3-T11-GATE-001
+PRIMARY_GATE_STATUS=OPEN
+ACTIVE_ROUTE=K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE
+ACTIVE_ROUTE_DOC_ID=1_O0DDPJxK1DT6wV2cXm3UqaMcZc7YLFZgKpfQ7dXlaE
+ACTIVE_RESEARCH_CARD=M3-T11-148
+ACTIVE_RESEARCH_CARD_FILE_ID=1ywVZmoeVhD5oOHYy0aPiHsu4bC-H2e7S
+LATEST_RESEARCH_CARD=M3-T11-148
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-148
+LATEST_AUDIT_FILE_ID=1GX_OBnelty8WC8SgSL7aecgvxGivZNJH
+LATEST_VERIFICATION_SCRIPT_FILE_ID=19iqRFK-l8iSFx_FCLSeOgbHL6XepPj7d
+LATEST_VERIFICATION_JSON_FILE_ID=1jc4CazXssHWgUjS7aaBFPGTx3yRcxJ3q
+LATEST_CARD_STATUS=PROVED_FULL_SIGNED_DEGREE4_PARAMETER_OBSTRUCTION / WITHIN_SESSION_EXACT_ALGEBRA_PASS_WITH_SCOPE_LIMITS / GLOBAL_COUNTING_CREDIT0
+LATEST_AUDIT_MODE=WITHIN_SESSION_EXACT_ALGEBRA_CERTIFICATE_NOT_EXTERNAL
+NEXT_RESEARCH_CARD_ID=M3-T11-149
+CURRENT_ATTACK=DegreeSixFullSignedAllocationOrDirectSupportEstimate
+PHYSICAL_148_SCOPE=Common homogeneous basepoint-free P1_Q parameter degree in138/139 plusprojection; NOT arbitrary geometric curve degree/genus/historical Mdegree.146 genericopen supplies degreepreserving signedpolynomiallift;147 Rhasnorealzeros.
+PHYSICAL_148_SINGLEPAIR=R=Q^n definitequadratic,ALLn: Hi/R=ci z^ki,|ci|1; sphereLaurentconstant m/2+sumfixed ai²=1 excludesm1/3; m2 frequenciesmatch andfixededge0;m0 constant/commonfactor. Every nonconstant singleconjugatepairpower lift haszeroedge.
+PHYSICAL_148_TWO_PAIRS=Normalize realroots toi,ki,k>0,k!=1;R=(t²+1)(t²+k²). Exhaustive9 Hi=ci H_ab,a/b=-1,0,1;H_ab=(t-i)^(1+a)(t+i)^(1-a)(t-ki)^(1+b)(t+ki)^(1-b),|ci|1.
+PHYSICAL_148_CIRCUIT=9squaresC_ab have rank8,one relation: w00=4(k⁴-10k²+1);axial=-2(k²-1)²;same-sign=(k-1)⁴;opposite-sign=(k+1)⁴. ALL8offcenterweightsnonzero;center mayvanishandisnotassumednonzero.
+PHYSICAL_148_RANK=Odd4x4minor=-32768k^6(k²-1)²;even4x4minor=-2048k³(k²-1)³. Disjointparity givesrank>=8;relationgives<=8.17exactnodes+degree<=16 certifydeterminantpolynomialidentities;kerneldegree<=8 certifiedexactly.
+PHYSICAL_148_SPARSE=Sphereidentity sum(ci² Cmode+conjci² Coppositemode)+2C00=0 has<=6offcentermodes;nonzerocircuitneeds8,so coefficientvectorZERO.2rotatingcoordinatesmustsameoppositepairandfixedci=+/-i=>edge0;3rotatingcenter2fails;1fails;0constant. Bothsquarefreeandrepeatquarticphysicallyexcluded.
+PHYSICAL_148_DEPENDENCE=z=(t-i)/(t+i),w=(t-ki)/(t+ki) AREdependent;rankcircuitaccountsforit. DoNOTtreatasindependentLaurentvariables.
+PHYSICAL_148_RECEIVER=Contained genericopen degree4 P1_Q map hasNOpositive3edgeendpoint. Noncontaineddegree4pullbackPdegree64=>atmost64eligibleendpoints via146uniqueinverse,includinginfinity. No globalcurvecovercost.
+PHYSICAL_148_NEXT_DEGREE=147odd/degree2 plus148degree4 leavesfirstpossiblecontainednonconstantP1_Qparameterdegree6; existenceNOTproved. Positivegenus/ellipticcubics/nonsplitnormalization/isolatedsingularQpoints/constantperfectcuboidsNOTexcluded.
+PHYSICAL_148_DEDUPE=Historical Stage19M4/oddMabsence alreadyretained;no newcreditforrediscovery,no degreecomparisonproved;Stage20SaundersonM6retained;Stage19M6absenceNOTproved.
+PHYSICAL_148_VERIFICATION=17exactinterpolationnodes/153kernelcoefficientchecks/729allocationsupportpatterns/6singlepairboundarypowers PASS. Thisisdegreeboundedpolynomialidentitycertificate,NOTcensus extrapolation;withinsessionNOTexternal.
+NEXT_LEGAL_ACTION=Read148card/audit/script/json. Degree6fullsignedallocations overone/two/threeconjugatepairs andmultiplicities (singlepairalreadyexcludedALLdegrees),or directglobaleligible-supportbound. DoNOTextendquarticrankcircuitto3pairswithoutproof orpromoteuncostedcurvecover.
+GLOBAL_COUNTING_CREDIT=0
+GLOBAL_FIXED_POWER_SAVING=false
+PRIMARY_GATE_CLOSED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+TI_RESEARCH_STATUS=PARKED_BY_EXPLICIT_USER_REQUEST / RESULTS_RETAINED
+TI_RESUME_POLICY=Do not automatically resume TI during ordinary stage37mainbatch.
+T11_120_STATUS=RETRACTED_PHYSICAL_ADAPTER
+PRIOR_RESULTS=147odd/degree2/conicreceiver;146 arbitraryfield squarecollapse/uniquegradientinverse/degreepreservinglift;145 lineoccupancy16;144 unsignedlogcounts;143 unsignedfirewall;139 fullsignedeliminant;138 height allretainedwithin scopes. Originalsource/packet/coefficient/orientation/cyclic/content/canonical masks REQUIRED.
+STARTUP=MAIN/INDEX current148 -> standalone148card/audit/script/json -> ROUTE/LEDGER148;147/146/139 andolderdependenciesonlyasneeded. No fullhistoryreread.
+ARTIFACT_READBACK=148card/audit/script/JSON fetchedfromDrive andexactbytescompared PASS beforecontrolupdate.
+LOWER_OPERATIONAL_POINTERS=Historical and superseded operationally; prior mathematics retains audited scope.
+
+
+# M3-T11-148 — Full signed quartic parameter obstruction and single-pair power firewall
+
+
+STATUS=PROVED_FULL_SIGNED_DEGREE4_PARAMETER_OBSTRUCTION
+AUDIT_MODE=WITHIN_SESSION_EXACT_ALGEBRA_CERTIFICATE_NOT_EXTERNAL
+GLOBAL_COUNTING_CREDIT=0
+PRIMARY_GATE_STATUS=OPEN
+TI=PARKED
+NEXT=M3-T11-149 DegreeSixFullSignedAllocationOrDirectSupportEstimate
+
+
+Authority: freshly read MAIN / INDEX / RESULT-LEDGER / active ROUTE all147; standalone147 card/audit read. Use146's degree-preserving unique polynomial lift on the generic138/139 open mask and147's real basepoint obstruction. Preserve original endpoint masks, retracted120 and parked TI. No full-history reread.
+
+
+## 1. Scope and dedupe
+
+
+The degree here is the common degree d of a homogeneous basepoint-free P1_Q parameter map into the138/139 plus coordinates [A_1:A_2:A_3:R], after common factors are removed. It is not automatically the degree of its image, genus or the historical K3 quasi-polarization M-degree. Historical M3-HIST28-GEOMETRY-FW-001 already records Stage19 physical M4 and odd-M absence, Stage20 Saunderson M6, and no proved Stage19 M6 absence. Keep those facts and do not count their rediscovery as new credit. We still have no comparison identifying M-degree with this projection parameter degree. This card supplies a direct146 receiver and exact factor-allocation certificate, rather than a new global low-degree spectrum.
+
+
+We prove: a nonconstant basepoint-free degree4 real polynomial lift satisfying
+ E_i^2+F_i^2=R^2, sum_i E_i^2=R^2
+cannot have all three E_i strictly positive at any real parameter. In fact at least one E_i is identically zero. Thus a contained generically open degree4 P1_Q parameter map in P=0 has no eligible positive endpoints, by146. Constant positive rational lifts are NOT excluded; one would already be a perfect cuboid. Curves of positive genus, nonsplit normalization and isolated singular rational points are not covered by this theorem.
+
+
+## 2. Single conjugate root pair: exclusion for every power
+
+
+By147, R has no real projective zero. Suppose R is proportional to Q^n with Q a definite real quadratic. Normalize R=(L*bar(L))^n. Put H_i=E_i+iF_i. Unique factorization of H_i*bar(H_i)=R^2 gives
+ H_i=c_i L^(n+k_i) bar(L)^(n-k_i), -n<=k_i<=n, |c_i|=1.
+Hence H_i/R=c_i z^k_i, z=L/bar(L), and E_i/R=(c_i z^k_i+bar(c_i)z^(-k_i))/2. For k_i=0 this is a fixed real ratio a_i; otherwise the square has constant coefficient1/2. The nonconstant z makes Laurent coefficients independent. The sphere identity forces
+ m/2+sum_fixed a_i^2=1,
+where m is the number of nonzero k_i, and cancellation of every nonzero frequency. m=1 is impossible; m=3 has constant coefficient3/2. If m=2, their absolute frequencies must agree, their squared phases cancel, and the sole fixed a_i=0. If m=0 the image is constant and all forms share R. Thus every nonconstant single-pair-power lift has a zero edge, for ALL n. In particular the repeated-quadratic quartic case R=Q^2 is excluded physically. Boundary maps remain: take E_1+iE_2=(t-i)^(2n), E_3=0 and R=(t^2+1)^n.
+
+
+## 3. Distinct pairs: real normalization and nine exhaustive allocations
+
+
+The remaining real quartic with no real zero has two distinct conjugate pairs. A real projective change of parameter sends their upper half-plane roots to i and k*i, with k>0 and k!=1. For completeness: first send the first root to i by translation/scaling. For a second root p+iq, q>0, a transformation (cos(theta)z+sin(theta))/(-sin(theta)z+cos(theta)) fixes i; the numerator of its real part is p*cos(2theta)+(1-p^2-q^2)*sin(2theta)/2. Choose theta making this zero. Its denominator cannot vanish in the upper half-plane, and injectivity prevents k=1 for distinct roots. This is a real change; losing rational coefficients causes no issue for a real impossibility theorem.
+
+
+Absorb a nonzero real scalar into all forms and normalize
+ R=(t^2+1)(t^2+k^2).
+The homogeneous statement includes infinity. For a,b in {-1,0,1}, define degree4 forms (dehomogenized below)
+ H_ab=(t-i)^(1+a)(t+i)^(1-a)(t-ki)^(1+b)(t+ki)^(1-b).
+Conjugation gives bar(H_ab)=H_(-a,-b), H_ab*bar(H_ab)=R^2. Every H_i=E_i+iF_i is exactly c_i H_(a_i,b_i), |c_i|=1. At each conjugate pair the exponents sum2, by H_i*bar(H_i)=R^2, so these nine allocations are exhaustive, not an ansatz. Put C_ab=H_ab^2, degree8, and C_00=R^2.
+
+
+## 4. Exact rank8 circuit of the nine squared allocations
+
+
+The nine C_ab have a one-dimensional relation space. Its generator has weights
+ w_00=4(k^4-10k^2+1),
+ w_a0=w_0b=-2(k^2-1)^2 for a,b nonzero,
+ w_ab=(k-1)^4 for ab=1,
+ w_ab=(k+1)^4 for ab=-1.
+Then sum_(a,b) w_ab C_ab=0. Every one of the EIGHT off-center weights is nonzero for k>0,k!=1; the center weight may vanish, and we do NOT assume otherwise.
+
+
+Here is a reproducible universal rank certificate, not a finite parameter census. Choose representatives (1,1),(1,0),(1,-1),(0,1). Write B_j=Im(C_rep_j) and T_j=Re(C_rep_j); these are odd and even polynomials respectively. In the odd coefficient rows t,t^3,t^5,t^7, the determinant of the four B columns is
+ -32768*k^6*(k^2-1)^2.
+In the even rows t^2,t^4,t^6,t^8, the determinant of columns T_1,T_2,T_3,R^2 is
+ -2048*k^3*(k^2-1)^3.
+Both are nonzero on the stated range. Odd and even coefficient subspaces are disjoint, so rank is at least8; the displayed relation makes it at most8. Passing between conjugate pairs and their real/imaginary parts is invertible over C. Thus the relation space is exactly one-dimensional.
+
+
+verify148.py proves these determinant formulas by exact Gaussian rational arithmetic and interpolation: every matrix entry is a polynomial in k of degree<=4; a4x4 determinant has degree<=16. Its exact values at17 distinct integers determine it uniquely, and the interpolated coefficients equal the displayed polynomial coefficients. The relation coefficients have degree<=4 and C coefficients degree<=4, so their sum has degree<=8; exact zeros at17 distinct integers certify the identity coefficient by coefficient (nine coefficient rows). This is a finite certificate of polynomial identities with an explicit degree bound, not empirical extrapolation. Degenerate test nodes k=0,1 are allowed for polynomial certification; they are excluded from the rank theorem.
+
+
+## 5. Sparse three-coordinate identity forces a boundary edge
+
+
+Since E_i=(H_i+bar(H_i))/2 and H_i*bar(H_i)=R^2, the sphere identity is precisely
+ sum_i (c_i^2 C_(a_i,b_i)+bar(c_i)^2 C_(-a_i,-b_i)) + 2 C_00 =0.
+Three coordinates contribute at most SIX distinct off-center allocation modes. Consequently the resulting coefficient vector omits at least two off-center entries. By section4, any nonzero relation must have all eight off-center entries nonzero. Our coefficient vector must therefore be ZERO entry by entry.
+
+
+Call (a,b)=(0,0) fixed, and group nonfixed modes into opposite pairs. A single coordinate in an opposite-pair group contributes a nonzero squared phase, so it cannot cancel. If two of the three coordinates rotate, they must lie in the SAME opposite-pair group and their squared phases cancel; the fixed coordinate c has center equation2+2 Re(c^2)=0. Since |c|=1, c=+/-i and its E is identically zero. If all three rotate, the center coefficient is2, impossible, even if all are in one group. One rotating coordinate is impossible. With zero rotating coordinates all forms are proportional to R and the projective image is constant/common-factor. This exhausts every allocation and proves the theorem. Surviving two-rotating boundary maps are algebraically valid; positivity removes them.
+
+
+The two phase functions z=(t-i)/(t+i),w=(t-ki)/(t+ki) are algebraically dependent. Treating them as independent Laurent variables would be invalid. The rank8 circuit explicitly accounts for this dependence. Its center coefficient can vanish without weakening the sparse-support obstruction.
+
+
+## 6. Projection receiver, counts and limits
+
+
+For a degree4 basepoint-free Q parameter map contained in P=0 with generic146 open mask,146 supplies a polynomial signed lift of the same degree and no common basepoint. Sections2–5 exclude all-positive endpoints. If the open mask fails identically, it cannot contain an original eligible positive rational endpoint, by146's mask inclusion. A NONCONTAINED degree4 parameter map has a nonzero homogeneous degree64 pullback of P, so at most64 projective parameter roots and, by146 uniqueness, at most64 eligible endpoints. This includes infinity and does not assert a bound on the number/cost of such maps.
+
+
+Together with147's odd-degree and degree2 obstructions, the first remaining possible nonconstant contained P1_Q parameter degree is6. Existence at degree6 is not proved, and no assertion is made about historical Stage19 M6. Smooth elliptic cubics, positive-genus quartics, rational curves whose normalization has no Q parameterization and isolated singular rational points are not silently removed. No global population estimate, exponent saving or perfect-cuboid nonexistence follows.
+
+
+## 7. Replay and handoff
+
+
+Self-contained verify148.py / verification148.json:17 exact interpolation nodes for both determinant polynomials;153 exact kernel coefficient checks;729 three-coordinate allocation support patterns; six exact single-pair boundary powers. The algebra certificate proves the universal rank statements with degree bounds. Boundary and constant cases are retained explicitly. Audit is within-session, not independent external review.
+
+
+Next149: degree6 full signed factor allocations (one/two/three conjugate pairs and multiplicities) or a direct global eligible-support estimate. The one-pair-power class is now excluded for all degrees; do not re-enumerate it as new credit. For three pairs the mode count and rank may change: do not extend the quartic sparse circuit without proof. Preserve all original positivity/source/coefficient/orientation/cyclic/content/canonical masks, TI parked and120 retracted. GLOBAL_COUNTING_CREDIT=0; PRIMARY_GATE_STATUS=OPEN.
+
+
+
+
+PRIOR AUTHORITY MATERIAL — HISTORICAL OPERATIONAL POINTERS BELOW; MATHEMATICS RETAINED WITHIN ITS AUDITED SCOPE.
+
+
+CURRENT AUTHORITY CONTROL — M3-T11-147 / FULL SIGNED LOW PARAMETER DEGREE OBSTRUCTION
+PRIMARY_GATE=M3-T11-GATE-001
+PRIMARY_GATE_STATUS=OPEN
+ACTIVE_ROUTE=K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE
+ACTIVE_ROUTE_DOC_ID=1_O0DDPJxK1DT6wV2cXm3UqaMcZc7YLFZgKpfQ7dXlaE
+ACTIVE_RESEARCH_CARD=M3-T11-147
+ACTIVE_RESEARCH_CARD_FILE_ID=15JrJ64xgR6ED8auzSrvtb55H34FUTLIO
+LATEST_RESEARCH_CARD=M3-T11-147
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-147
+LATEST_AUDIT_FILE_ID=1KCiqYJ9XLeEF5pKL5Voxz4W5Mz17OdYz
+LATEST_VERIFICATION_SCRIPT_FILE_ID=1HKahzfXqcmWCpvDVDVZEofQ1OK2C-hLX
+LATEST_VERIFICATION_JSON_FILE_ID=1us7FcT9pbVKyMWYs9DBaPE3Xg1kOpBMv
+LATEST_CARD_STATUS=PROVED_LOW_PARAMETER_DEGREE_ADAPTER_WITH_BOUNDARY_CLASSIFICATION / WITHIN_SESSION_AUDIT_PASS_WITH_SCOPE_LIMITS / GLOBAL_COUNTING_CREDIT0
+LATEST_AUDIT_MODE=WITHIN_SESSION_ADVERSARIAL_REDERIVATION_NOT_EXTERNAL
+NEXT_RESEARCH_CARD_ID=M3-T11-148
+CURRENT_ATTACK=DegreeFourFullSignedCurveAllocationOrDirectSupportEstimate
+PHYSICAL_147_DEGREE=Common degree of homogeneous basepoint-free P1_Q parameter map in138/139 plus projection after common factors removed; NOT historical quasi-polarization M-degree. Constant maps are excluded from nonconstant conclusions.
+PHYSICAL_147_LIFT=146 on generic open R product(Ai qi Ki)!=0 gives unique polynomial Yi degree<=d; homogenized Ei=(Ai+Yi)/2,Fi=(Ai-Yi)/2 satisfy Ei²+Fi²=R²,sumEi²=R²,with no common basepoint.
+PHYSICAL_147_ODD=R cannot have real projective zero: all E/F would vanish there. Odd homogeneous degree forces such zero. Thus contained generic-open basepoint-free P1 real/Q parameter maps have EVEN degree.
+PHYSICAL_147_QUADRATIC=Definite R=L barL. Each Ei/R is fixed or rotating phase Re(ci L/barL),|ci|1. Laurent identity forces m=0 constant image/common factor,or m=2 and fixed third edge identically0; m=1/3 impossible. No positive3-edge nonconstant degree2 curve.
+PHYSICAL_147_CONICS=Smooth geometrically irreducible Q-conic containedP has no eligible positiveQpoint. Noncontained <=32 endpoints by degree16 pullback and146 uniqueness. TwoQlines<=32,doubleQline<=16,conjugate nonQline pair<=1 isolated Qintersection,not excluded.
+PHYSICAL_147_LIMITS=First remaining nonconstant contained P1_Q parameter degree4. Quartics NOT excluded; elliptic cubics/positivegenus/singular isolated rational points NOT globally excluded. No curvecover cost/global exponent obtained.
+PHYSICAL_147_DEDUPE=M3-HIST28-GEOMETRY-FW-001 already records Stage19 physical M4 and oddM absence; retained without new credit or equality of degrees. Stage20 Saunderson M6 retained; Stage19 M6 absence NOT proved.
+PHYSICAL_147_VERIFICATION=24 exact circle checks/13824 triples/216 fixed and144 boundary two-rotating sphere identities/196 odd antipodal checks/signed boundary plus identities PASS. Universal proof is factor allocation/Laurent coefficients,NOT finite census.
+NEXT_LEGAL_ACTION=Read147card/audit/script/json. Analyze degree4 fullsigned polynomial maps with squarefree/repeated quadratic R factors and all positivity/original masks,or prove directglobal eligible-support bound. Do not restate uncosted lowdegreecover as credit or equate historical Mdegree without comparison.
+GLOBAL_COUNTING_CREDIT=0
+GLOBAL_FIXED_POWER_SAVING=false
+PRIMARY_GATE_CLOSED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+TI_RESEARCH_STATUS=PARKED_BY_EXPLICIT_USER_REQUEST / RESULTS_RETAINED
+TI_RESUME_POLICY=Do not automatically resume TI during ordinary stage37mainbatch.
+T11_120_STATUS=RETRACTED_PHYSICAL_ADAPTER
+PRIOR_RESULTS=146 arbitraryfield squarecollapse/unique gradientinverse/degreepreservinglift;145 rational lineoccupancy16;144 unsignedlogcounts;143 unsignedfirewall;139 fullsignedeliminant;138 height allretainedwithin scopes. Historical geometry firewall retained.
+STARTUP=MAIN/INDEX current147 -> standalone147card/audit/script/json -> ROUTE/LEDGER147;146/139 and older dependencies only asneeded. No fullhistory reread.
+ARTIFACT_READBACK=147 card/audit/script/JSON fetched from Drive and exact bytes compared PASS before control update.
+LOWER_OPERATIONAL_POINTERS=Historical and superseded operationally; prior mathematics retains audited scope.
+
+
+# M3-T11-147 — Degree-two and odd-parameter obstruction in the full signed projection
+
+
+STATUS=PROVED_LOW_PARAMETER_DEGREE_ADAPTER_WITH_BOUNDARY_CLASSIFICATION
+AUDIT_MODE=WITHIN_SESSION_ADVERSARIAL_REDERIVATION_NOT_EXTERNAL
+GLOBAL_COUNTING_CREDIT=0
+PRIMARY_GATE_STATUS=OPEN
+TI=PARKED
+NEXT=M3-T11-148 DegreeFourFullSignedCurveAllocationOrDirectSupportEstimate
+
+
+Authority: fresh MAIN / INDEX / RESULT-LEDGER / active ROUTE all146; latest146 card and audit read. Use146's full139 eliminant and degree-preserving unique inverse, with original138 positive endpoint masks retained. T11-120 remains retracted. No full-history reread.
+
+
+## 1. Historical dedupe and exact scope
+
+
+The current ledger already records M3-HIST28-GEOMETRY-FW-001: on the earlier blow-up/K3 models with quasi-polarization M, Stage19 physical M-degree4 rational curves and every odd physical M-degree are absent; Stage20 has the Saunderson M-degree6 curve. Stage19 M-degree6 absence is NOT proved. Those historical results remain authority and receive no new credit here. We have NOT identified that M-degree with the parameter degree in the138/139 plus projection. The contribution here is an explicit positivity proof in the146 lift coordinates, its degree-preserving projection receiver, and bounded noncontained-conic occupancy. It is not a claim of a new global low-degree spectrum or of Stage19 M-degree6 absence.
+
+
+Parameter degree d below means the common degree of a homogeneous basepoint-free map from P1_Q to [A_1:A_2:A_3:R], after removing common factors. It does not mean genus, the earlier M-degree, or the degree of an arbitrary multiply-covered image. Real coefficients suffice for the obstruction. Constant maps are explicitly excluded from the nonconstant conclusion.
+
+
+## 2. Pass from projection to a basepoint-free signed polynomial lift
+
+
+Suppose the map is contained in P=0, and the146 open mask R*product(A_i*q_i*K_i) is not identically zero, where q_i=2R^2-A_i^2 and K_i=R^2-A_i^2. By146 over Q(t), there is a unique Y_i in Q(t) with Y_i^2=q_i and sum A_iY_i=-R^2. A rational function whose square is a polynomial is a polynomial (reduce numerator and denominator in the UFD Q[t]). Its degree is at most d. Homogenization gives degree-d forms Y_i; then
+ E_i=(A_i+Y_i)/2, F_i=(A_i-Y_i)/2,
+ E_i^2+F_i^2=R^2, sum E_i^2=R^2.
+These identities hold globally as polynomial identities, including at excluded parameter values. If R,E_i,F_i all vanished at a complex projective parameter, A_i=E_i+F_i would also vanish, contradicting basepoint-freeness of the original map. Thus the lifted forms have no common basepoint. Original positivity, source, packet, content, orientation and canonical masks are still required for endpoints.
+
+
+## 3. Odd parameter degree is impossible
+
+
+At a real projective zero of R, sum E_i^2=0 forces every E_i=0; then E_i^2+F_i^2=0 forces every F_i=0. This is a forbidden common basepoint. Therefore R has no real projective zero. A nonzero real homogeneous form of odd degree satisfies R(-s,-t)=-R(s,t); continuity on the real unit circle forces a zero. R identically zero would force all lifted forms zero. Hence every basepoint-free map as above has even parameter degree.
+
+
+This is a statement about global real/P1_Q parameter maps. It does not exclude all odd-degree algebraic curves, elliptic cubics, positive-genus curves, or isolated rational points on singular curves with nonrational normalization branches. Multiplying forms by a common polynomial does not change the minimal map degree and cannot circumvent the proof.
+
+
+## 4. Degree two: every nonconstant lift has an identically zero edge
+
+
+For d=2, R is a definite real quadratic. Change its overall sign if needed and write R=L*bar(L), where L and bar(L) are distinct complex linear forms. For each i,
+ (E_i+iF_i)(E_i-iF_i)=L^2*bar(L)^2.
+Neither factor is zero; unique factorization and conjugation leave exactly three allocations of the two quadratic factors: (L^2,bar(L)^2), (L*bar(L),L*bar(L)), or the reversed first allocation. In the middle case E_i=a_i R and F_i=b_i R, with a_i^2+b_i^2=1. In either other case, after absorbing the reversed allocation into conjugation,
+ E_i=(c_i L^2+bar(c_i)bar(L)^2)/2, |c_i|=1.
+Put z=L/bar(L), a nonconstant rational function. For m rotating coordinates, the identity sum E_i^2/R^2=1 becomes the Laurent identity
+ m/2 + sum_fixed a_i^2 + (z^2 sum_rot c_i^2 + z^(-2) sum_rot bar(c_i)^2)/4 = 1.
+Its coefficients imply sum_rot c_i^2=0 and m/2+sum_fixed a_i^2=1. The cases are exhaustive:
+ - m=0: all coordinates proportional to R; the projective image is constant and the quadratic forms share R, so this is not a basepoint-free degree-two map.
+ - m=1: c_i^2 cannot vanish, impossible.
+ - m=3: the constant coefficient is3/2, impossible.
+ - m=2: the sole fixed coordinate has a_k=0, so E_k is identically zero. The two rotating phases have opposite squares, giving the familiar boundary Pythagorean conic.
+Therefore a nonconstant degree-two curve cannot have three strictly positive edges at any parameter. Boundary conics do exist: R=s^2+t^2, E=(t^2-s^2,2st,0), F=(2st,s^2-t^2,R). This example also satisfies the original signed plus identities with A=E+F,Y=E-F. It must not be discarded as an algebraic impossibility; positivity excludes it.
+
+
+## 5. Exact receivers and limitations
+
+
+A smooth geometrically irreducible Q-conic with a rational point has its degree-two rational parameterization by lines through that point. If such a conic is contained in P=0 and contains an eligible positive rational point, its open mask is generic, so sections2–4 give a contradiction. If it is not contained, pullback P is a nonzero homogeneous degree32 form and has at most32 distinct projective parameter roots. Uniqueness146 gives at most32 eligible endpoints on the conic, including the parameter at infinity. No height cutoff is needed for this occupancy bound.
+
+
+A reducible conic of two Q-lines has at most32 eligible endpoints by145/146, and a doubled Q-line at most16. A conjugate pair of non-Q lines has at most one Q-point, their intersection: a rational point on one lies on its conjugate too. We do not exclude that isolated intersection as a physical point. These distinctions prevent applying the smooth parameter argument to a nonsplit singular conic.
+
+
+More generally, a noncontained degree-d basepoint-free P1_Q parameter map has at most16d preimages, hence at most16d eligible endpoints. A contained generically open odd-degree map is impossible. For nonconstant contained P1_Q maps with potentially positive edges, the first remaining parameter degree is4. Quartic maps are NOT excluded. Curves of positive genus, nonsplit normalization issues and the number/cost of curves covering the Stage37 population remain unresolved. None of these occupancy constants establishes a global count or exponent saving.
+
+
+## 6. Reproducible supporting verification
+
+
+verify147.py uses exact Fraction arithmetic, 12 rational unit phases, 24 individual circle identities and13,824 triples. The sphere identity survives for216 all-fixed triples and144 two-rotating triples; none with one or three rotating coordinates survive. Every two-rotating solution has its fixed edge zero. It checks196 odd antipodal evaluations and the boundary example's signed plus identities. These are supporting checks; the universal exclusion is the factor-allocation/Laurent-coefficient proof, not the finite grid. There are no new rational perfect-cuboid examples or global counting certificates.
+
+
+## 7. Handoff
+
+
+Next148: investigate full signed degree-four basepoint-free polynomial maps, splitting square-free and repeated quadratic factors of R and preserving all positivity/original packet masks; alternatively prove a direct global eligible-support estimate. Do not promote unsigned slice curves, small searches, genus facts, fixed-curve occupancy or an uncosted cover to credit. Do not identify current parameter degree with historical M-degree without a proved comparison. Do not restart parked TI or reopen retracted120. GLOBAL_COUNTING_CREDIT=0, PRIMARY_GATE_STATUS=OPEN.
+
+
+
+
+PRIOR AUTHORITY MATERIAL — HISTORICAL OPERATIONAL POINTERS BELOW; MATHEMATICS RETAINED WITHIN ITS AUDITED SCOPE.
+
+
+CURRENT AUTHORITY CONTROL — M3-T11-146 / OPEN-MASK SQUARE COLLAPSE AND UNIQUE SIGNED INVERSE
+PRIMARY_GATE=M3-T11-GATE-001
+PRIMARY_GATE_STATUS=OPEN
+ACTIVE_ROUTE=K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE
+ACTIVE_ROUTE_DOC_ID=1_O0DDPJxK1DT6wV2cXm3UqaMcZc7YLFZgKpfQ7dXlaE
+ACTIVE_RESEARCH_CARD=M3-T11-146
+ACTIVE_RESEARCH_CARD_FILE_ID=1wtb7xrFxUaghJqi3ooG9_lKDimacoHXN
+LATEST_RESEARCH_CARD=M3-T11-146
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-146
+LATEST_AUDIT_FILE_ID=16Xg-77MHuIJ066bgvbl8Ytjb6HNBTzqn
+LATEST_VERIFICATION_SCRIPT_FILE_ID=1EbRXDFXi25Zn2F0E4eDUVfk7zLspZVSR
+LATEST_VERIFICATION_JSON_FILE_ID=1nGwc1RyDViYETKVax7n-HgBenR1ow1lg
+LATEST_CARD_STATUS=PROVED_FIELD_LEVEL_SIGNED_LIFT_EQUIVALENCE_AND_DEGREE_PRESERVING_CURVE_LIFT / WITHIN_SESSION_AUDIT_PASS_WITH_SCOPE_LIMITS / GLOBAL_COUNTING_CREDIT0
+LATEST_AUDIT_MODE=WITHIN_SESSION_ADVERSARIAL_REDERIVATION_NOT_EXTERNAL
+NEXT_RESEARCH_CARD_ID=M3-T11-147
+CURRENT_ATTACK=GlobalSignedPolynomialCurveExceptionsOrDirectSupportEstimate
+PHYSICAL_146_OPEN=R product(Ai qi Ki)!=0,qi=2R²-Ai²,Ki=R²-Ai²; containsoriginalpositiverationalsignedendpoints in138/139chart. No hiddenphysicalboundaryremoved.
+PHYSICAL_146_COLLAPSE=Over ANYchar0basefieldK,onopen P=0 IFF signedK-lift exists;ALL3qi squaresIN K. Trace excludes0/2/1trivialclasses;1wouldforceKk0. Dependentclassesallowed. NotjustsquareoverC(t).
+PHYSICAL_146_UNIQUE=Two vanishingbranches wouldcancel1/2/3terms;only2possiblebutforcesremainingKk0. Unique signedYi,soeach(A,R)gives<=1canonicalendpoint.
+PHYSICAL_146_INVERSE=gi=partialP/partialAi;h=sum Ai Ki gj gk;Ni=-R²Ki gjgk;Yi=Ni/h. gi=2C Ki/Yi andh=-4C²R² productKi/productYi allnonzeroonopen. Homogeneousdegree1inversepreservesexactR/scaling.
+PHYSICAL_146_INTEGER=IntegerA/R forceYi integer;oddA givesintegerei/fi,primitiveA givesprimitiveedges. Positivity/originalsource/coefficient/orientation/cyclic/content/canonicalmasks STILLrequired. NooriginalpacketconversefromP alone.
+PHYSICAL_146_CURVES=R,A rationalpolynomialsdegree<=d;nonzeroP has<=16dparameterroots;Pidentically0 ongenericopen forcesUNIQUE GLOBAL rationalpolynomialYi degree<=d. No constanttwist/extraindependentsquarefilter. NonlinearcurvesNOTexcluded.
+PHYSICAL_146_COUNT=145lineprojection16 retained,endpointperline128 sharpenedto16 byuniqueinverse. 144unsignedlogarithmiccounts retained. AllconstantimprovementsONLY;NOglobalpowersaving.
+PHYSICAL_146_VERIFICATION=198REAL ALGEBRAIC nonrational-face sphereexamples/594exactinversechecks/198unique-branchchecks PASS;22261smallrationalcensus/293boundaryPzeros/0offboundaryzeros. Physicalendpointsenumerated0;censusNOTnonexistenceproof;withinsessionNOTexternal.
+NEXT_LEGAL_ACTION=Read146card/audit/replay. Actual nonlinearcontainedcurveclassification/count withglobal signedpolynomiallifts (degree2nextconcreteexceptiontask),or directP realizedintegersupportbound withexactR/originalmasks. Do notrepeatline/Pelloccupancy or multiplyautomaticqi squaretests.
+GLOBAL_COUNTING_CREDIT=0
+GLOBAL_FIXED_POWER_SAVING=false
+PRIMARY_GATE_CLOSED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+TI_RESEARCH_STATUS=PARKED_BY_EXPLICIT_USER_REQUEST / RESULTS_RETAINED
+TI_RESUME_POLICY=Do not automatically resume TI during ordinary stage37mainbatch.
+T11_120_STATUS=RETRACTED_PHYSICAL_ADAPTER
+PRIOR_RESULTS=145projectedlineclassification/144unsignedgap/143unsignedfirewall/142barecoverOmegaB/141necessity/140properness/139eliminant/138height allretainedwithin scopes. 8signbound/128linebound supersededONLYby146openuniqueinverse.
+STARTUP=MAIN/INDEX current146 -> standalone146card/audit/script/json -> ROUTE/LEDGER146;145/139andolderdependenciesonlyasneeded. No fullhistoryreread.
+LOWER_OPERATIONAL_POINTERS=Historical and superseded operationally; prior mathematics retains audited scope.
+
+
+# M3-T11-146 — Open-mask rational square collapse and explicit unique signed inverse
+
+
+STATUS=PROVED_FIELD_LEVEL_SIGNED_LIFT_EQUIVALENCE_AND_DEGREE_PRESERVING_CURVE_LIFT
+AUDIT_MODE=WITHIN_SESSION_ADVERSARIAL_REDERIVATION_NOT_EXTERNAL
+GLOBAL_COUNTING_CREDIT=0
+PRIMARY_GATE_STATUS=OPEN
+TI=PARKED
+NEXT=M3-T11-147 GlobalSignedPolynomialCurveExceptionsOrDirectSupportEstimate
+
+
+Authority: fresh MAIN / INDEX / RESULT-LEDGER / active ROUTE all145;145 and audit read,139 eliminant and138 original plus coordinates retained. Semantic comparison distinguishes this from134 four-square reduction,145 trace over C(t) for affine lines, and old anti-root/quartic inverses. No previous full139 gradient inverse or arbitrary-field converse was found. No full-history reread. We extend145's trace argument over the BASE FIELD, rather than C(t) alone, and use the complete139 eliminant.
+
+
+## 1. Define the exact open mask
+
+
+Over a field K of characteristic0, take R,A_1,A_2,A_3 in K and define
+ Z=R^2, q_i=2R^2-A_i^2, Q_i=A_i^2*q_i,
+ K_i=R^2-A_i^2,
+ D=Z^4+sum Q_i^2-2Z^2*sum Q_i-2sum_(i<j) Q_i*Q_j,
+ P=D^2-64Z^2*Q_1*Q_2*Q_3.
+Assume the OPEN MASK
+ R*product_i(A_i*q_i*K_i)!=0.
+This mask contains the original positive rational signed endpoints in the138/139 projection: A_i are nonzero primitive odd plus coordinates; q_i=Y_i^2 cannot vanish rationally when R!=0 because Y_i=0 would give A_i^2=2R^2. Also K_i=-2e_i*f_i!=0 because all positive edges and face hypotenuses are nonzero. No newly discarded physical endpoints are hidden in this mask. Original source/coefficient/orientation/cyclic/content/canonical restrictions are still required for the Stage37 population.
+
+
+## 2. P=0 forces ALL three q_i to be squares in K
+
+
+By139 P is the product of eight factors R^2+sum epsilon_i*A_i*sqrt(q_i). If P=0 in K, one factor vanishes in the multiquadratic FIELD extension L=K(sqrt(q_1),sqrt(q_2),sqrt(q_3)). Absorb its signs into Y_i. Then
+ Y_i^2=q_i, sum A_iY_i=-R^2.
+For a nonsquare q_i, a sign-changing K-automorphism of L exists, so the normalized trace of Y_i is0. A square q_i has Y_i in K. The trace of the displayed sum therefore forces at least one square q_i.
+If exactly TWO q_i are squares, the remaining nonzero A_iY_i would have to belong to K, contradicting nonsquareness. If exactly ONE, say q_k, is square, trace gives A_kY_k=-R^2, hence
+ A_k^2*(2R^2-A_k^2)=R^4,
+ (A_k^2-R^2)^2=0,
+ contradicting K_k!=0. ZERO squares contradicts trace directly. Thus ALL THREE are squares IN THE BASE FIELD K.
+Dependencies among the squareclasses do not affect this argument; no independence hypothesis is used. Conversely any signed lift with the stated sum gives P=0 by the exact norm identity. Therefore on the open mask P=0 is equivalent to the EXISTENCE of a signed K-lift. Over Q this supplies all rational square tests; over Q(t) it supplies global rational-function square tests. It does not remove positivity or the original packet masks.
+
+
+## 3. There is exactly ONE signed lift on the open mask
+
+
+Suppose two sign branches vanish. Subtracting their sums shows a nonempty subset of the three nonzero terms U_i=A_iY_i has sum0. A one-term subset is impossible by the mask; all three would contradict sum U_i=-R^2!=0. If two terms cancel, the remaining term equals -R^2 and the same square calculation forces its K_i=0. Thus two branches cannot vanish. All Y_i are nonzero, so this proves uniqueness of the signed tuple, including over algebraic closure.
+In particular each original eligible (A,R) pair reconstructs at most ONE ordered positive edge triple and at most one canonical endpoint. The old at-most8 sign bound was safe but loose.145's per-line endpoint bound improves from128 to16 on this mask; projection occupancy16 itself is unchanged. This is a constant improvement, NOT an exponent or global credit.
+
+
+## 4. Polynomial-gradient formula recovers the lift without choosing square roots
+
+
+Let g_i=partial P/partial A_i, with R and the other A_j held fixed. On the unique vanishing branch put C=product of the seven OTHER signed factors. Then C!=0 and differentiating the exact product gives
+ g_i=C*(Y_i-A_i^2/Y_i)=2C*K_i/Y_i.
+Thus every g_i is nonzero on the open mask P=0. Define
+ h=sum_i A_i*K_i*g_j*g_k, where {i,j,k}={1,2,3},
+ N_i=-R^2*K_i*g_j*g_k.
+Using sum A_iY_i=-R^2 gives
+ h=-4*C^2*R^2*K_1*K_2*K_3/(Y_1*Y_2*Y_3)!=0,
+ Y_i=N_i/h.
+All expressions N_i,h are polynomials in the original A,R with rational coefficients. The ratio is homogeneous of degree1, so the original scaling and exact R are preserved. It is an explicit rational inverse on the stated open; no irreducibility claim for the whole P surface or unspecified normalization is needed. The nonzero gradients also show this open of the eliminant is smooth.
+
+
+For implementation one can compute
+ dQ_i/dA_i=4A_iK_i,
+ dD/dQ_i=2Q_i-2Z^2-2sum_(j!=i) Q_j,
+ g_i=4A_iK_i*[2D*(dD/dQ_i)-64Z^2*product_(j!=i) Q_j].
+Then evaluate h and N_i exactly. Do not replace the denominator h by an approximate nonzero test.
+
+
+For integer A,R on this open, q_i are integers and their rational square roots Y_i are necessarily integers (a reduced rational denominator cannot square to an integer). If the retained odd-A mask holds, Y_i are odd and e_i=(A_i+Y_i)/2,f_i=(A_i-Y_i)/2 are integers. Their exact identities are
+ e_i^2+f_i^2=R^2,
+ sum e_i^2=R^2,
+ f_i^2=e_j^2+e_k^2.
+Positivity of the e_i and the original canonical/packet filters remain essential. Primitive A implies primitive edges: a common edge divisor divides integer R, then all f_i, then all A_i. This does not certify an original T11 source packet from P alone.
+
+
+## 5. Consequence for nonlinear contained curves
+
+
+Let R(t),A_i(t) be rational polynomials of degree<=d representing a rational parameter curve, with no common projective base factor. If P(t) is NOT identically0, degree(P(t))<=16d gives at most16d parameter values, with the homogeneous formulation counting infinity as well. This is only an intersection bound, not a global cover count.
+If P(t)=0 identically and the open mask holds GENERICALLY, apply section2 with K=Q(t): all q_i are squares in Q(t), and the UNIQUE signed tuple Y_i is in Q(t). Since q_i are polynomials, their rational-function square roots have no finite denominator (UFD valuation argument); hence Y_i are polynomials of degree<=d. Homogenizing gives a degree-preserving signed lift of the parameter map. There are no hidden constant twists requiring later arithmetic root selection. The gradient inverse supplies the same tuple.
+
+
+Thus a nonlinear rational curve generically meeting the physical open cannot be certified by the eliminant alone and then treated as a weaker moving-square enlargement: it ALREADY carries a global signed polynomial lift. Classifying low-degree contained curves must solve those global identities, not merely test local leading characters or CRT squares.
+If some K_i is identically0, the positive real signed population is empty by145's sum e_i^2=R^2 argument. If R or A_i is identically0, the original physical mask is empty. q_i identically0 is impossible over Q(t) when R!=0. Isolated failures of the mask do not add positive rational physical endpoints by the same rational/positivity checks. No assertion that nonboundary nonlinear rational curves do not exist is made. No genus, finite rational-point classification, or curve-count exponent is proved.
+
+
+## 6. Current counting receiver after the collapse
+
+
+For the original retained canonical chart, the physical image is counted by primitive integer (A,R) in the original exact height window R<=B, satisfying P=0, the open mask, and positivity/original packet masks applied to the UNIQUE inverse above. The separate square tests are redundant after imposing the FULL eliminant on this open. This is not a new independent sieve condition.
+At-most8 fixed-pair sign multiplicity and145's128-per-line bound are sharpened; they cannot generate a fixed power saving. Ambient integer hypersurface counting is not automatically the physical A_1,1 support estimate. A low-degree curve cover must retain actual realized support and separately control the number and heights of the curves. The primary B^(1/3-eta) gate remains unproved.
+
+
+## Verification and within-session audit
+
+
+Exact replay:198 real algebraic signed lifts generated from integer sphere coordinates;594 gradient-inverse coordinate identities Y_i*h=N_i;198 unique-branch checks. The face witnesses in these samples are algebraic square roots, and at least one is nonrational in EVERY sample. They are NOT rational/integer perfect cuboids or positive physical endpoints. The quotient algebra of three square roots checks polynomial identities exactly, including dependencies, without floating roots.
+Small rational integer projection census:22261 positive A/R candidates,293 P-zero points,all293 on A_i^2=R^2 boundary;0 off-boundary hits. This census does not prove global emptiness. Its scope is explicit; the infinite field theorem is the trace/uniqueness/gradient proof, not the finite scan. Physical endpoints enumerated0.
+Within-session adversarial audit checked the BASE-field trace, dependent squareclasses, all three alternative square counts, nonzero q/A/R/K masks, uniqueness subset cases, differentiation constants, gradient and h nonvanishing, homogeneous scaling, integer root/parity/primitive-edge inference, polynomial-root denominator removal, and empty boundary charts. No external audit.
+
+
+## Handoff
+
+
+147: use the unique inverse/full signed polynomial lift to study actual nonlinear exceptional curves or a direct integer support estimate on P with original masks. A degree2 parameter curve on the nonboundary open must lift with all seven coordinates of degree<=2; that is a concrete low-degree exception classification problem, NOT a proved exclusion. Alternatively seek a global noncircular support theorem on the eliminant. Do not repeat line/Pell occupancy, multiply rational square conditions that are now automatic, or infer global scarcity from inverse uniqueness.145 projected-line16,144 unsigned logarithmic bounds,143 unsigned firewall,142 bare-cover OmegaB,141 necessity,140 properness,139 norm/eliminant,138 physical height,120 retraction and TI parking retained. GLOBAL_COUNTING_CREDIT=0; all closure/limit/nonexistence flags remain false.
+
+
+
+
+PRIOR ROUTE HISTORY — retained scopes follow
+
+
+CURRENT AUTHORITY CONTROL — M3-T11-145 / FULL SIGNED RATIONAL LINE OCCUPANCY <=16
+PRIMARY_GATE=M3-T11-GATE-001
+PRIMARY_GATE_STATUS=OPEN
+ACTIVE_ROUTE=K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE
+ACTIVE_ROUTE_DOC_ID=1_O0DDPJxK1DT6wV2cXm3UqaMcZc7YLFZgKpfQ7dXlaE
+ACTIVE_RESEARCH_CARD=M3-T11-145
+ACTIVE_RESEARCH_CARD_FILE_ID=13A55q774Ln-6_sR5sgWDqum6907K4oGB
+LATEST_RESEARCH_CARD=M3-T11-145
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-145
+LATEST_AUDIT_FILE_ID=1zGjc1KPSym9VmSEekSHXb0UHsASDZnVH
+LATEST_VERIFICATION_SCRIPT_FILE_ID=1dQjEJSk75PZqBW8rOzc4pyCfsuuiZLjU
+LATEST_VERIFICATION_JSON_FILE_ID=1_OymmK2KIoB2UDdDht-h-nRY0lSuJ9mf
+LATEST_CARD_STATUS=PROVED_RATIONAL_PROJECTED_LINE_CLASSIFICATION_AND_UNIFORM_FINITE_OCCUPANCY / WITHIN_SESSION_AUDIT_PASS_WITH_SCOPE_LIMITS / GLOBAL_COUNTING_CREDIT0
+LATEST_AUDIT_MODE=WITHIN_SESSION_ADVERSARIAL_REDERIVATION_NOT_EXTERNAL
+NEXT_RESEARCH_CARD_ID=M3-T11-146
+CURRENT_ATTACK=DirectSignedRealizedSupportBeyondLineCoverRestatement
+PHYSICAL_145_ELIMINANT=139 P is product8(R²+sum epsilon_i Ai sqrt(2R²-Ai²)),homogeneous degree16 in(A,R). Nonzero restriction to rational projective line has<=16roots includinginfinity; no converseclaimed.
+PHYSICAL_145_IDENTITY=For nonzero R/A rational linear polynomials, qi nonzero. Trace overC(t) forces trivial squareclass. All3trivial=>constant[A:R];exactly1=>Ak=+/-R,Ai=+/-Aj;exactly0or2impossible. Dependentclasses handledbycharacterprojections.
+PHYSICAL_145_BOUNDARY=All real signed lifts satisfy sum ei²=R². Ak=+/-R forces ek0or+/-R,so strictthreeedgepositivityIMPOSSIBLE includingisolatedcollisions/alternatesigns. Ridentically0/Aiidentically0 outsideoriginalmask.
+PHYSICAL_145_COUNT=Every genuine rational projectedline has<=16positivephysical(A,R)projections;containedboundarylines0. PrimitiveA/R givesuniquerepresentative;<=8signedY reconstruction,so<=128canonicalendpointsperline. Coefficient/height/content-independent.
+PHYSICAL_145_SCOPE=Rationalcoefficientlines/full139signedpopulationonly. No complexorirrationalreal-lineclassification,nonexistence,globalpointcountorhigherdegreecurvebound.
+PHYSICAL_145_COVER=J justifiedlines =>Spairs<=16J,Echart<=128J;Jmin betweenSpairs/16andSpairs. Linecovernumber andphysicalsupport have SAMEexponent;no countgainfromrestatement. NOglobalJboundproved.
+PHYSICAL_145_HISTORY=144unsignedPell/logarithmiccoefficientboundsRETAINED;144weightedcostSUPERSEDED forfullsignedlineoccupancy. 143unsignedliftno-line/AP retained;142bareHeronOmegaB,141necessity,140properness,139signedlift,138height retained.
+PHYSICAL_145_VERIFICATION=27648affinepackets/480nonradialboundaryidentities/64radialidentities/27104nonidentities;200exactradicalnorms/310signedzeroedgeboundaries/100retained142samples PASS;physicalendpointsenumerated0;withinsessionNOTexternal.
+NEXT_LEGAL_ACTION=Read145card/audit/replay,139signedsupportasneeded. Direct noncircular global realizedsupport count or genuinelynonlinear/movingcurvegeometry with exactR/originalpacket/contentmasks. Do not repeat AP/Pellgap or presentlinecoverrestatementasglobalcredit.
+GLOBAL_COUNTING_CREDIT=0
+GLOBAL_FIXED_POWER_SAVING=false
+PRIMARY_GATE_CLOSED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+TI_RESEARCH_STATUS=PARKED_BY_EXPLICIT_USER_REQUEST / RESULTS_RETAINED
+TI_RESUME_POLICY=Do not automatically resume TI during ordinary stage37mainbatch.
+T11_120_STATUS=RETRACTED_PHYSICAL_ADAPTER
+STARTUP=MAIN/INDEX current145 -> standalone145card/audit/script/json -> ROUTE/LEDGER145;144/143/139/141/142 onlyasneeded. No fullhistoryreread.
+LOWER_OPERATIONAL_POINTERS=Historical and superseded operationally; prior mathematics retains audited scope.
+
+
+# M3-T11-145 — Full signed lift gives coefficient-independent degree16 line occupancy
+
+
+STATUS=PROVED_RATIONAL_PROJECTED_LINE_CLASSIFICATION_AND_UNIFORM_FINITE_OCCUPANCY
+AUDIT_MODE=WITHIN_SESSION_ADVERSARIAL_REDERIVATION_NOT_EXTERNAL
+GLOBAL_COUNTING_CREDIT=0
+PRIMARY_GATE_STATUS=OPEN
+TI=PARKED
+NEXT=M3-T11-146 DirectSignedRealizedSupportBeyondLineCoverRestatement
+
+
+Authority: fresh MAIN / INDEX / RESULT-LEDGER / active ROUTE all144; latest144 and audit read.139 full signed integral lift,138 primitive plus/exact height,143 unsigned lifted-line firewall and144 unsigned fixed-family count are retained. Semantic search finds no prior projected rational line classification or uniform degree16 occupancy. No full-history reread. The result below uses the FULL signed condition that144 deliberately did not use.
+
+
+## 1. Restrict139's eliminant to an affine family
+
+
+Let R(t),A_1(t),A_2(t),A_3(t) be rational polynomials of degree<=1. At physical points R>0, primitive integer A, and all A_i!=0. Put
+ Z=R^2,
+ q_i=2R^2-A_i^2,
+ Q_i=A_i^2*q_i,
+ D=Z^4+sum_i Q_i^2-2Z^2*sum_i Q_i-2sum_(i<j) Q_i*Q_j,
+ P=D^2-64Z^2*Q_1*Q_2*Q_3.
+By139,
+ P=product_(epsilon in {+1,-1}^3)(R^2+sum_i epsilon_i*A_i*sqrt(q_i)).
+This is an exact algebraic identity, including coincident squareclasses. In the affine parameter degree(P)<=16. In homogeneous line parameters it is a homogeneous binary form of degree16. Any full signed lift Y_i^2=q_i,sum A_iY_i=-R^2 requires P=0; no converse is claimed.
+If P is NONZERO, there are at most16 finite parameter values, and at most16 projective values including infinity in the homogeneous formulation. This bound does not depend on B, coefficient size, content, or the Pell discriminants. The issue is to classify P IDENTICALLY ZERO, which is addressed next rather than silently assumed away.
+
+
+## 2. Squareclass trace forces a constant-ratio coordinate
+
+
+Assume R and all A_i are nonzero polynomials. Since the coefficients are rational and R!=0, q_i cannot vanish identically: A_i^2=2R^2 would require the rational function A_i/R to equal +/-sqrt(2), impossible over Q(t).
+Work over K=C(t) and its multiquadratic extension generated by the sqrt(q_i). If P=0 identically, one of the eight signed factors vanishes in this FIELD. Absorb its signs into Y_i; then
+ sum_i A_iY_i=-R^2.
+For a q_i not square in K, a sign-changing Galois automorphism exists, so the field trace of Y_i is0. For a square q_i, Y_i is in K. Taking the normalized trace shows the sum of the SQUARE-class-trivial terms is -R^2. There must be at least one such term.
+More generally, distinct squareclasses are distinct character eigenspaces of the multiquadratic Galois group; applying the character projections shows terms belonging to different nontrivial classes cannot cancel. This remains true when the three classes are dependent (for example their product is square). No generic independence assumption is used.
+
+
+For degree<=2 q_i, being square in C(t) means every polynomial zero has even multiplicity, hence q_i is a square polynomial over C (a nonzero constant is included). Write R=r*t+s,A_i=a_i*t+b_i. Its discriminant is8(r*b_i-s*a_i)^2 from143. Thus q_i square implies r*b_i=s*a_i; for r=0,s!=0 this says a_i=0. In either case A_i=c_i*R with a rational constant c_i. This uses C(t) to classify roots; no claim that sqrt(2-c_i^2) is rational is made.
+
+
+## 3. Complete identity classification on the relevant rational lines
+
+
+There cannot be exactly TWO trivial q_i classes: the remaining nontrivial term is nonzero and cannot cancel. ZERO trivial classes is excluded by trace. Thus either all THREE are trivial or exactly ONE is trivial.
+
+
+If all three are trivial, every A_i/R is constant. The image [A_1:A_2:A_3:R] is a single projective point, not a genuine projected line. For primitive integer A and R>0, there is at most one distinct (A,R) candidate, as in144. A constant coefficient family is covered by this case.
+
+
+If exactly one class, say q_k, is trivial, trace gives
+ A_kY_k=-R^2,
+ hence A_k^2*(2R^2-A_k^2)=R^4,
+ so (A_k^2-R^2)^2=0 and A_k=+/-R.
+The other two terms must have the same nontrivial class and cancel. Squaring their cancellation gives
+ A_i^2*q_i=A_j^2*q_j,
+ equivalently (A_i^2-A_j^2)*(2R^2-A_i^2-A_j^2)=0.
+The polynomial ring is a domain. In the second alternative A_i^2+A_j^2=2R^2. Since the coefficients are real and linear, its coefficient Gram matrix has rank1, forcing A_i and A_j proportional to R (the same elementary sum-of-squares argument as143). This would make both q_i,q_j trivial, a contradiction. Therefore
+ A_i=+/-A_j.
+
+
+Conclusion: when R and every A_i are nonzero polynomials, a nonconstant rational projected line contained in P=0 has the boundary pattern
+ A_k=+/-R, A_i=+/-A_j.
+Conversely that pattern makes a signed factor identically0 by taking Y_k=-R^2/A_k and cancelling the equal-root pair. This includes nonlinear minus-root branches. Example R=t,A=(t,t+1,t+1): P=0 identically, but the two remaining roots are sqrt(2t^2-(t+1)^2), generally nonlinear. Thus143's unsigned LIFTED no-line result alone could not justify this projected-line classification.
+If R is identically0, there is no physical R>0 point. If an A_i is identically0, there is no point in the original138/139 nonzero-plus mask. These cases are explicitly empty for the population being counted, whatever their polynomial P is. No classification of complex lines or irrational-coefficient real lines is claimed.
+
+
+## 4. The contained boundary lines have NO positive physical lift, even at exceptional parameters
+
+
+At any real signed lift satisfying139, let e_i=(A_i+Y_i)/2. Then
+ sum_i e_i^2=(sum_i(A_i^2+Y_i^2)+2sum_i A_iY_i)/4=R^2.
+On A_k=+/-R the square equation forces Y_k=+/-R. Hence e_k is0 or+/-R. If e_k=0, positivity fails. If e_k=-R, positivity fails. If e_k=R, the displayed sum forces all other e_i=0. Consequently no branch at ANY real parameter with R>0 has all e_i>0.
+This handles isolated root collisions and alternate sign branches; it is stronger than saying only the generic identity branch has a zero edge. Zero q_i at isolated parameters is allowed in this check. Original packet/content/canonical masks can only reduce the population further.
+
+
+## 5. Uniform line occupancy and what it does to144's cover proposal
+
+
+Every genuine rational projective line contains at most16 relevant positive physical projection points [A:R]. Lines contained in P=0 contribute0, while noncontained lines meet the nonzero binary degree16 form at at most16 points. Primitive integer A and R>0 choose at most one (A,R) representative per projective point. A degenerate affine family whose projective image is one point contributes at most one primitive candidate. This is a coefficient-independent bound for the FULL signed population;144's logarithmic bound remains valid for the larger UNSIGNED population.
+For each (A,R) there are at most8 signed Y triples, hence at most8 reconstructed canonical endpoints; use this factor once. Therefore any J genuine rational lines covering the required physical projections give
+ S_pairs(B)<=16*J(B),
+ E_chart(B)<=128*J(B).
+The weaker L^4*log cost in144 is no longer required for FULL signed line occupancy. There is still no supplied family cover and no global J(B) estimate.
+
+
+Moreover, for a finite physical pair set of size S, the minimum number J_min of rational lines covering it satisfies
+ S/16<=J_min<=S.
+The upper bound chooses a line through each point; it is an existence statement, NOT an algorithm or noncircular research construction. Thus line-cover number and physical pair support have the SAME exponent, within constants. Reducing the problem to an economical line list does not itself create an exponent gain. An independent, noncircular estimate for J could still be useful, but a line-cover restatement of the unknown support is not progress toward global counting.
+The primary B^(1/3-eta) support gate remains OPEN. This theorem does not show the support empty, prove P/M3->0, or supply global fixed power saving. It does not count higher-degree curves or all rational points on the surface.
+
+
+## Verification and within-session audit
+
+
+PASS:27648 exhaustive small-coefficient families with R=t or R=1;480 nonradial identity families satisfy the boundary classification,64 radial identity families,27104 nonidentity families,maximum degree16.200 exact radical-algebra norm products agree with139's P formula, including dependent/zero specialized roots; no floating radicals used.310 signed zero-edge boundary examples satisfy the full equations but fail positivity.142's restriction is nonzero and100 AP samples have P!=0;142's all-AP mod3 certificate is retained, not recredited. Positive physical endpoints enumerated0.
+Within-session adversarial rederivation checked the trace argument over C(t), squareclasses with dependencies, two/zero/three trivial classes, nonzero q_i over Q(t), constant R, rank-one polynomial sum-of-squares alternative, exceptional sign branches, zeros at isolated parameters, points at infinity via homogeneous form, primitive representatives, and the single-use8 sign bound. Finite replay validates algebra and examples; the uniform theorem is the classification/proof above. This is not an external audit.
+
+
+## Handoff
+
+
+146: retire coefficient-weighted affine/Pell summation as the current blocker for the FULL signed population; its per-line occupancy has been replaced by an absolute16 projection bound. The actual remaining blocker is global realized signed support, equivalently the number of necessary rational lines up to constants. Continue with a noncircular direct139 support argument or genuinely nonlinear/moving-curve geometry with exact R and original coefficient/orientation/cyclic/content masks. Do not repeat143AP/144Pell gaps, promote a line-cover restatement to credit, or infer generic sparsity from absence of positive contained lines.138 height/eight-fiber,139 signed lift,140 properness,141 necessity,142 bare-cover obstruction,143/144 unsigned results,120 retraction and TI parking retained. GLOBAL_COUNTING_CREDIT=0; all closure/limit/nonexistence flags remain false.
+
+
+
+
+PRIOR ROUTE HISTORY — retained scopes follow
+
+
+CURRENT AUTHORITY CONTROL — M3-T11-144 / FIXED AFFINE LIFT LOGARITHMIC COUNT
+PRIMARY_GATE=M3-T11-GATE-001
+PRIMARY_GATE_STATUS=OPEN
+ACTIVE_ROUTE=K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE
+ACTIVE_ROUTE_DOC_ID=1_O0DDPJxK1DT6wV2cXm3UqaMcZc7YLFZgKpfQ7dXlaE
+ACTIVE_RESEARCH_CARD=M3-T11-144
+ACTIVE_RESEARCH_CARD_FILE_ID=1mA4w0nEjyLLUwZ3pKqAGSm7Ab35Gg15r
+LATEST_RESEARCH_CARD=M3-T11-144
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-144
+LATEST_AUDIT_FILE_ID=1OpfSKZr1Kyg-P3OdBZCI8m1mTT6FzdSc
+LATEST_VERIFICATION_SCRIPT_FILE_ID=1h_9rT0cTuRB1pvCTNdpAze3QaTZuFDRq
+LATEST_VERIFICATION_JSON_FILE_ID=1DLyhQQYkCvoY1b7J_VJ-HlRixOkow82F
+LATEST_CARD_STATUS=PROVED_FIXED_AFFINE_LOGARITHMIC_OCCUPANCY_WITH_EXPLICIT_COEFFICIENT_COST / WITHIN_SESSION_AUDIT_PASS_WITH_SCOPE_LIMITS / GLOBAL_COUNTING_CREDIT0
+LATEST_AUDIT_MODE=WITHIN_SESSION_ADVERSARIAL_REDERIVATION_NOT_EXTERNAL
+NEXT_RESEARCH_CARD_ID=M3-T11-145
+CURRENT_ATTACK=WeightedAffineCoverExistenceOrDirectSignedSupportCount
+PHYSICAL_144_GAP=x²-dw²=D>0, x>0,w>=0; z=x+sqrt(d)w. Distinct integer solutions have log(z2/z1)>=arsinh(sqrt(d)/D) by positive integer determinant; holds across all norm orbits and square d.
+PHYSICAL_144_EXACT_HEIGHT=k=rb-sa!=0,d=2r²-a²,D=8k²;rX=2dR-2ak. For d>0,U=(2dB+2|ak|)/|r|;countn<=2[1+log(2U/sqrtD)/arsinh(sqrtd/D)] whenU>=sqrtD,otherwise0. d<0 count<=1+floor(sqrtD/|d|).
+PHYSICAL_144_DEGENERATE=Allki0/r!=0 primitiveA gives<=1candidate;constantR movingAi confined finite interval;constantfamilies counted once. No radial parameter multiplicity.
+PHYSICAL_144_UNIFORM=CoefficientheightL gives O(L^4 log(2L(B+L))) occupancy. Fixedfamily Ocoeff(logB) is proved, coefficient-independent count NOTclaimed.
+PHYSICAL_144_CONDITIONAL_COVER=Proved finite physical family cover would give <=8 sum occupancy by signed139 reconstruction. Overlap allowed for union upper bound; no double use of138fiber. J families maxL cost O(J L^4 log(2L(B+L))). NOeconomicaloriginalpacketcover proved.
+PHYSICAL_144_VERIFICATION=3942affinepackets/899486evaluations/3020unsignedsquarehits;722normsets/1586successivegaps PASS;physicalendpointsenumerated0;within-sessionNOTexternal.
+NEXT_LEGAL_ACTION=Read144card/audit/replay. Construct justified economical coefficient-controlled cover of required ORIGINAL physical A_1,1 support/all retained branches with summable weight, or direct139signednonlocalsupportcount. Do not repeat AP proof or multiply independent Pell densities.
+GLOBAL_COUNTING_CREDIT=0
+GLOBAL_FIXED_POWER_SAVING=false
+PRIMARY_GATE_CLOSED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+TI_RESEARCH_STATUS=PARKED_BY_EXPLICIT_USER_REQUEST / RESULTS_RETAINED
+TI_RESUME_POLICY=Do not automatically resume TI during ordinary stage37mainbatch.
+T11_120_STATUS=RETRACTED_PHYSICAL_ADAPTER
+PRIOR_RESULTS=143AP/polynomialfirewall strengthened by144fixedfamilycount;142bareHeronOmegaB,141necessity,140properness,139signedlift,138height/eightfiber retained. No newglobalcount.
+STARTUP=MAIN/INDEX current144 -> standalone144card/audit/script/json -> ROUTE/LEDGER144;143/139/141/142 as needed. No fullhistoryreread.
+LOWER_OPERATIONAL_POINTERS=Historical and superseded operationally; prior mathematics retains audited scope.
+
+
+# M3-T11-144 — Explicit logarithmic occupancy of a fixed affine minus-lift family
+
+
+STATUS=PROVED_FIXED_AFFINE_FAMILY_LOGARITHMIC_COUNT_WITH_EXPLICIT_COEFFICIENT_WEIGHT
+AUDIT_MODE=WITHIN_SESSION_ADVERSARIAL_REDERIVATION_NOT_EXTERNAL
+GLOBAL_COUNTING_CREDIT=0
+PRIMARY_GATE_STATUS=OPEN
+TI=PARKED
+NEXT=M3-T11-145 WeightedAffineCoverExistenceOrDirectSignedSupportCount
+
+
+Authority: fresh MAIN / INDEX / RESULT-LEDGER / active ROUTE all143; standalone143 and audit read.139 supplies the signed physical lift;138 supplies actual plus coordinates and exact R.142 bare Heron counterfamily and141 content-complete necessity retained. Ledger/route semantic search found no prior determinant-gap fixed-affine count. This strengthens143's all-AP obstruction; it does not reopen old Master linear ansatz or count the bare Heron cover.
+
+
+## 1. Integer determinant gives a gap without any Pell orbit theorem
+
+
+Let d and D be positive integers. Consider distinct integer solutions x>0,w>=0 of
+ x^2-d*w^2=D.
+Set z=x+sqrt(d)*w, so z>=sqrt(D), and x=(z+D/z)/2, w=(z-D/z)/(2sqrt(d)). For two solutions with z2>z1,
+ J=x1*w2-x2*w1
+   =D/(2sqrt(d))*(z2/z1-z1/z2)>0.
+Since J is a positive INTEGER, J>=1. Consequently
+ log(z2/z1)>=g(d,D):=arsinh(sqrt(d)/D)>0.
+This holds for ALL solutions together, including different norm orbits and square d. No fundamental-unit computation, unit-group theorem, local density or independent-Pell assumption is used.
+If x<=U and U>=sqrt(D), then z<=2U. Ordering all solutions therefore gives
+ #solutions <=1+log(2U/sqrt(D))/g(d,D).
+If U<sqrt(D), there are none. w=0 is included. The exact identity
+ (x1*x2-d*w1*w2)^2-d*J^2=D^2
+is an independent algebraic check of the same gap.
+
+
+## 2. Apply to143 with the ACTUAL physical height
+
+
+Fix integer coefficients R(n)=r*n+s,A_i(n)=a_i*n+b_i. Count distinct integer n with 0<R(n)<=B and ALL three integer minus-square tests, then any additional signed/content/packet filters. Suppose r!=0 and choose any coordinate with k=r*b-s*a!=0. Put
+ d=2*r^2-a^2 !=0,
+ beta=4*r*s-2*a*b,
+ D=8*k^2>0,
+ X=2*d*n+beta, W=2*abs(Y), Y^2=2R^2-A^2.
+143 gives X^2-dW^2=D. Moreover the exact height identity is
+ r*X=2*d*R-2*a*k.
+
+
+For d>0 take
+ U=(2*d*B+2*abs(a*k))/abs(r).
+Map each n to (abs(X),W); each norm point has at most TWO preimages because X is a nonconstant linear function of n. Thus
+ N_line(B)<=2*(1+log(2U/sqrt(D))/arsinh(sqrt(d)/D))
+when U>=sqrt(D), and N_line(B)=0 otherwise.
+This is O_(fixed coefficients)(log(2B)), already using ONE compulsory coordinate. The same n, the other squares,139 signed sum, positivity, and original T11 masks can only reduce this upper bound; no multiplication of three densities is allowed.
+
+
+For d<0 the exact equation X^2+abs(d)*W^2=D implies abs(X)<=sqrt(D). The allowed n lie in an interval of length sqrt(D)/abs(d), hence
+ N_line(B)<=1+floor(sqrt(D)/abs(d)),
+independent of B. The integer d=0 case cannot occur for r!=0. Negative X and either sign of Y are covered; no assumption that n itself is positive is made.
+
+
+## 3. Degenerate coefficient families and primitive candidates
+
+
+If r!=0 and k_i=0 for all three coordinates, then A_i/R=a_i/r is constant. Let g=gcd(a_1,a_2,a_3)>0 and a_i=g*v_i with primitive integer vector v. Integer A=(Rg/r)*v forces Rg/r integer. Primitive A then forces abs(Rg/r)=1. With R>0 there is at most ONE (A,R) candidate, if it exists. Count distinct candidates, not repeated parameter labels. If all a_i=0, all b_i=0 and primitive A is impossible.
+If r=0, only s>0 can be physical. If some a_i!=0, the necessary bound abs(a_i*n+b_i)<=sqrt(2)*s confines n to length2sqrt(2)*s/abs(a_i), so at most1+floor(2sqrt(2)*s/abs(a_i)) values. If all a_i=0, the family is one constant candidate, whatever the number of parameter labels.
+These cases prevent a radial or constant-family multiplicity leak. A nonconstant normalized plus direction always has some k_i!=0 when r!=0.
+
+
+## 4. Explicit moving-coefficient cost and a CONDITIONAL cover receiver
+
+
+Let L=max(1,abs(r),abs(s),abs(a_i),abs(b_i)). Then abs(k)<=2L^2,D<=32L^4,1<=d<=2L^2 in the indefinite case, and U<=4L^2*B+4L^3. Since arsinh(x)>=x/(1+x),
+ 1/g(d,D)<=1+D/sqrt(d)<=1+32L^4.
+The preceding formula gives the coarse uniform bound
+ N_line(B)<=2+2*(1+32L^4)*log(8L^2*(B+L)).
+The definite/constant-R/primitive-radial bounds are also absorbed by O(L^4*log(2L*(B+L))). The sharper d,D,U formula should be retained whenever it matters. The constant depends on explicit coefficients; there is no hidden content constant. All height statements concern integer139 A and the original exact R, not a proxy for R.
+
+
+Suppose a FINITE, justified family list F_B covers every relevant original physical (A,R) pair in the retained138/139 chart with R<=B. For each pair there are at most8 signed Y triples, hence at most8 reconstructed canonical endpoints from139; original packet filters remain mandatory. A union upper bound gives
+ E_chart(B) << sum_(ell in F_B) L_ell^4*log(2L_ell*(B+L_ell)).
+Bounded overlap is NOT needed for this sufficient upper bound: multiple covering simply overcounts. A canonical or disjoint cover would improve the estimate but is not an extra mathematical prerequisite. This corrects any interpretation of143's multiplicity-control handoff as requiring disjointness for a union upper bound. The per-pair sign bound is used once; do not multiply again by138's eight-fiber bound.
+
+
+In particular, J(B) families of coefficient height<=L(B) give O(J(B)*L(B)^4*log(2L(B)*(B+L(B)))) as an UPPER bound if coverage is proved. If such a bound for the REQUIRED A_1,1 population is <<B^(1/3-epsilon) for fixed epsilon>0, with all other charts/retained branches covered, it would meet the primary P(B)<=B^o(1)*A_1,1(B) receiver after absorbing the subpower factor. This is an implication ONLY. No such family list, bound on J or L, or coverage of all charts is proved here.
+
+
+Taking one arbitrary line per unknown endpoint is circular; choosing arbitrary coefficients of size B makes the L^4 cost useless. Fixed-line logarithmic scarcity cannot itself imply the global fixed power saving. The full global signed/original-packet realized support remains the blocker.
+
+
+## Verification and within-session audit
+
+
+PASS:3942 affine coefficient packets (1958 indefinite,1984 definite),899486 exact integer evaluations,3020 unsigned square hits; every count lies below its coefficient-specific bound. These are ONE-coordinate algebraic tests, not full physical points.722 norm sets and1586 consecutive gaps verify positive integer determinant, exact bilinear identity and the analytic gap bound; square and nonsquare d both included. Constant-R intervals and primitive radial repetition were checked separately. Physical endpoints enumerated0.
+Adversarial rederivation checked determinant sign/nonzero, all norm orbits, w=0, both X signs, n-to-norm multiplicity<=2, actual R conversion, negative d, impossible d=0, primitive radial exception, r=0, coefficient dependence, sign-fiber count used once, and union-cover logic. Audit is within-session, not external. Numerical scans validate examples only; the infinite count theorem follows from the integer determinant argument.
+
+
+## Handoff
+
+
+145: fixed-affine occupancy is now quantitative, so do not repeat143's AP argument or merely search more leading characters. Either construct a genuinely economical coefficient-controlled cover of the ORIGINAL realized support and estimate its weighted sum, or abandon the affine-cover summation in favor of a direct139 signed nonlocal count. A cover construction must carry exact R, primitive A, content and original coefficient/orientation/cyclic masks; no bare Heron enlargement transfer. Global fixed power saving NOT proved; primary gate OPEN, GLOBAL_COUNTING_CREDIT=0, TI PARKED,120 retraction retained, all closure/limit/nonexistence flags false.
+
+
+
+
+PRIOR ROUTE HISTORY — retained scopes follow
+
+
+CURRENT AUTHORITY CONTROL — M3-T11-143 / SYNCHRONIZED AFFINE MINUS LIFT; FULL AP NO-GO
+PRIMARY_GATE=M3-T11-GATE-001
+PRIMARY_GATE_STATUS=OPEN
+ACTIVE_ROUTE=K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE
+ACTIVE_ROUTE_DOC_ID=1_O0DDPJxK1DT6wV2cXm3UqaMcZc7YLFZgKpfQ7dXlaE
+ACTIVE_RESEARCH_CARD=M3-T11-143
+ACTIVE_RESEARCH_CARD_FILE_ID=1LVLio_DH7iBvJ1ub3orIa-fLlJPuqm5o
+LATEST_RESEARCH_CARD=M3-T11-143
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-143
+LATEST_AUDIT_FILE_ID=15mXGL19sb23uJLTpPCsK1zrinUE2_smR
+LATEST_VERIFICATION_SCRIPT_FILE_ID=1f7gEFqEEDR4nyTuoRsBqNeTEJDn-rDdN
+LATEST_VERIFICATION_JSON_FILE_ID=1saOfJSDAut0zQbzCdOHi8agdggVRN8lf
+LATEST_CARD_STATUS=PROVED_EXACT_AFFINE_LIFT_RECEIVER_AND_FULL_AP_NO_GO / WITHIN_SESSION_AUDIT_PASS_WITH_SCOPE_LIMITS / GLOBAL_COUNTING_CREDIT0
+LATEST_AUDIT_MODE=WITHIN_SESSION_ADVERSARIAL_REDERIVATION_NOT_EXTERNAL
+NEXT_RESEARCH_CARD_ID=M3-T11-144
+CURRENT_ATTACK=SynchronizedMovingLiftSupportWithCoefficientHeightControl
+PHYSICAL_143_RECEIVER=On R=rn+s,Ai=ai*n+bi, Qi=alphai*n²+betai*n+gammai; Delta=8(rbi-sai)². Xi²-alphai Wi²=Delta with Xi=2alphai*n+betai,Wi=2Yi; SAME integer n and signed139 sum/positivity/originalpacket required.
+PHYSICAL_143_POLYNOMIAL=All real linear minus lifts force Ai/R constant. No nonconstant real projective line in unsigned LIFTED cover; projected lines with nonlinear lifts NOT excluded.
+PHYSICAL_143_AP=If every sufficiently large member of an AP passes all minus-square tests, integer sqrt second differences tend0 then vanish; square-polynomial identities force constant projective A. Sparse infinitely many n NOT excluded.
+PHYSICAL_143_NO_COUNT=No fixed-line sparse estimate, coefficient-uniform bound, justified family cover or summation. No global powersaving/density/finiteness implied;142 barecover OmegaB and originalmasks retained.
+PHYSICAL_143_VERIFICATION=5831abstractaffinepackets/23324evaluations,2symbolicidentities,1000retained142mod3checks PASS;positivephysicalendpointsenumerated0. Within-session audit NOTexternal.
+NEXT_LEGAL_ACTION=Read143card/audit/replay then139/141/142asneeded. Prove sparse synchronized physical lift support with justified coefficient-height/family-cover/multiplicity control, or direct139nonlocal count. Do not count independent Pell equations or infer global sparsity from AP/no-line firewall.
+TI_RESEARCH_STATUS=PARKED_BY_EXPLICIT_USER_REQUEST / RESULTS_RETAINED
+TI_RESUME_POLICY=Do not automatically resume TI during ordinary stage37mainbatch.
+T11_120_STATUS=RETRACTED_PHYSICAL_ADAPTER
+GLOBAL_COUNTING_CREDIT=0
+GLOBAL_FIXED_POWER_SAVING=false
+PRIMARY_GATE_CLOSED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+STARTUP=MAIN/INDEX current143 -> standalone143card/audit/script/json -> ROUTE/LEDGER current143;139/141/142 only as needed. No fullhistoryreread.
+LOWER_OPERATIONAL_POINTERS=Historical and superseded operationally; all prior mathematical results retain audited scope.
+
+
+# M3-T11-143 — Synchronized quadratic-square lift on affine plus families
+
+
+STATUS=PROVED_EXACT_AFFINE_LIFT_RECEIVER_AND_FULL_AP_NO_GO
+AUDIT_MODE=WITHIN_SESSION_ADVERSARIAL_REDERIVATION_NOT_EXTERNAL
+GLOBAL_COUNTING_CREDIT=0
+PRIMARY_GATE_STATUS=OPEN
+TI=PARKED
+NEXT=M3-T11-144 SynchronizedMovingLiftSupportWithCoefficientHeightControl
+
+
+Authority: current MAIN / INDEX / RESULT-LEDGER / active ROUTE all point to142. Read142 and its audit; use139 signed integral lift,138 physical height,141 content-complete cover. Ledger semantic check distinguishes this from M3-LIN-NEG-001 (historical Master relation/genus-one ansatz) and rational-surface domination no-go. Neither is reopened. No full-history reread.
+
+
+## 1. Exact synchronized nonlocal receiver
+
+
+On a fixed integer affine candidate family write R(n)=r*n+s and A_i(n)=a_i*n+b_i. Restrict to R>0 and the original physical height/packet mask. Define
+ alpha_i=2*r^2-a_i^2,
+ beta_i=4*r*s-2*a_i*b_i,
+ gamma_i=2*s^2-b_i^2,
+ Q_i(n)=alpha_i*n^2+beta_i*n+gamma_i.
+The139 unsigned minus lift requires integer Y_i with Y_i^2=Q_i(n). Its discriminant is exactly
+ Delta_i=beta_i^2-4*alpha_i*gamma_i=8*(r*b_i-s*a_i)^2.
+If alpha_i!=0 this is equivalent to
+ X_i^2-alpha_i*W_i^2=Delta_i,
+ X_i=2*alpha_i*n+beta_i, W_i=2*Y_i.
+Conversely impose W_i even, X_i=beta_i mod2*alpha_i, and THE SAME integer n=(X_i-beta_i)/(2*alpha_i) for all i; these recover precisely the three original integer-square tests. This is a synchronized generalized Pell-type receiver, not three independent densities. If alpha_i is a positive square the equation factors over Q and can be treated by exact divisor pairs; if negative it is a definite norm equation. alpha_i=0 retains the original linear equation Y_i^2=beta_i*n+gamma_i rather than dividing by zero. For integer r!=0, alpha_i=0 is impossible because a_i^2=2r^2 has no nonzero integer solution.
+
+
+For the full139 lift keep signed Y_i and impose
+ sum_i A_i(n)*Y_i=-R(n)^2,
+ e_i=(A_i+Y_i)/2>0,
+ primitive plus/content/canonical/original T11 orientation and cyclic coefficient masks.
+The equations alone do not certify those original masks. The Pell receiver does not replace them and does not yield a global count.
+
+
+142's second coordinate gives alpha=542,beta=-36,gamma=-9,Delta=20808=8*51^2, hence X=1084*n-36,W=2Y and X^2-542W^2=20808. The retained mod3 certificate already makes its prescribed AP empty. This rewrite is not new credit for excluding142, nor a new leading-character sieve.
+
+
+## 2. Exact polynomial-lift obstruction
+
+
+For r!=0 and one coordinate, Q_i(n) can be a square polynomial over R only if its discriminant vanishes, hence r*b_i=s*a_i. Conversely this proportionality gives Q_i=(2-(a_i/r)^2)*R^2; it is a real polynomial square precisely when the scalar is nonnegative. All three real linear minus lifts therefore force every A_i proportional to R, so [A_1:A_2:A_3] is constant wherever R!=0.
+Equivalent geometry: the real projective cover A_i^2+Y_i^2=2R^2 for all i has no nonconstant real projective line. For each i, the coefficient vectors (A_i,Y_i) have Gram matrix 2*(r,s)^T*(r,s) and therefore rank<=1; both coordinates are proportional to R. This uses the unsigned square cover already, not the signed sum. It is a lift-line theorem, NOT a theorem that the projected plus variety contains no lines. A projected line can lift nonlinearly; no such exclusion is claimed.
+If R is a positive constant, nonconstant linear A_i eventually violates Q_i>=0; the polynomial-square identity also forces each A_i constant. Radial families can satisfy unsigned squares and still fail signed sum/positivity; they are not newly found physical endpoints.
+
+
+## 3. No entire unbounded AP of moving affine candidates passes the minus lift
+
+
+Suppose on n=n0+h*k (h>0), ALL sufficiently large integer k have Q_i(n) integer squares for every i and R>0. For each coordinate let z_k=sqrt(Q_i(n0+h*k))>=0, an integer. A nonzero quadratic with positive leading coefficient has expansion z_k=c*k+d+O(1/k); its second differences tend to0. A degree-one positive polynomial has second differences tending to0 as well. Thus integer second differences are exactly0 eventually, so z_k is eventually linear in k. Infinitely many equalities then force the polynomial Q_i(n0+h*k) to equal that linear square identically. Constant or zero Q causes no exception; a negative leading term cannot have an unbounded nonnegative tail. By section2, all A_i/R are constant (or the constant-R family itself is constant).
+Therefore no projectively moving integer affine family can pass the complete minus-square tests on an entire unbounded AP tail. This strengthens the polynomial ansatz firewall to integer square roots that were not assumed affine beforehand.
+
+
+IMPORTANT LIMIT: infinitely many sparse n may still survive nonsquare quadratics. Excluding a complete AP does NOT prove zero density, sublinear support, a fixed power saving, bounded occupancy, or finiteness. No uniform Pell estimate or sum over moving affine coefficients is proved. Arbitrary points can be placed on arbitrary affine lines, so this theorem is not an automatic decomposition/count of the physical population. The primary receiver still requires A_1,1(B)<<B^(1/3-eta) on exact physical measure; no exponent gain is promoted.
+
+
+## Verification and adversarial audit
+
+
+Two symbolic identities vanish: Delta_i=8*(r*b_i-s*a_i)^2 and the Pell residual equals4*alpha_i*(Q_i-Y_i^2). Exact integer replay:5831 abstract affine coefficient packets /23324 evaluations;142's1000 AP members retain the mod3 failure. A radial unsigned boundary test verifies that unsigned lifting is not the signed physical converse. No positive physical endpoints enumerated.
+Within-session audit checked alpha=0, constant R, zero/constant/linear quadratic cases, negative radicands, nonsquare positive leading terms, eventual integer second differences, square-polynomial implication, signed branch retention, projected-versus-lifted lines, and missing original packet masks. This is not external audit. Finite replay validates algebra only; the AP obstruction is proved by the argument above.
+
+
+## Handoff
+
+
+144 must confront sparse synchronized integral lifts and moving coefficients with exact R/content/packet masks. A count of fixed affine families needs a justified cover of realized support, multiplicity control, coefficient-height bounds and a summable estimate before any credit. Do not infer global sparsity from the full-AP no-go or count independent Pell equations. Alternatively return to the full139 signed lift with a genuinely nonlocal support theorem.142 bare-cover Omega(B) obstruction,141 necessity,140 properness,138 eight-fiber adapter,120 retraction and TI parking remain in force. GLOBAL_FIXED_POWER_SAVING=false; PRIMARY_GATE_CLOSED=false; P_OVER_M3_LIMIT_PROVED=false; PERFECT_CUBOID_NONEXISTENCE_CREDIT=false.
+
+
+
+
+PRIOR ROUTE HISTORY — retained scopes follow
+
+
+CURRENT AUTHORITY CONTROL — M3-T11-142 AUDITED / BARE HERON COVER LINEAR SUPPORT NO-GO
+PRIMARY_GATE=M3-T11-GATE-001
+PRIMARY_GATE_STATUS=OPEN
+ACTIVE_ROUTE=K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE
+ACTIVE_ROUTE_DOC_ID=1_O0DDPJxK1DT6wV2cXm3UqaMcZc7YLFZgKpfQ7dXlaE
+ACTIVE_RESEARCH_CARD=M3-T11-142
+ACTIVE_RESEARCH_CARD_FILE_ID=1BEizGatIdA7i3thTOlhX_Q3Db96J-wze
+LATEST_RESEARCH_CARD=M3-T11-142
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-142
+LATEST_AUDIT_FILE_ID=1b6ZBrN1U5sO8ucjZIxgwgEmQg6vPD-6t
+LATEST_VERIFICATION_SCRIPT_FILE_ID=18m6YJgodo4w5i6MV6OwDkMHv9Du2OEtM
+LATEST_VERIFICATION_JSON_FILE_ID=1UuqNF9hKLricD0t4XP6sFiuZzrpLNH2n
+LATEST_SYMBOLIC_REPLAY_FILE_ID=18BWsocVsrv364m-X2JCnsaUk3RGYOvFf
+LATEST_CARD_STATUS=PROVED_LINEAR_HEIGHT_NONPHYSICAL_FAMILY_NO_GO_FOR_BARE_HERON_COVER / WITHIN_SESSION_AUDIT_PASS / GLOBAL_COUNTING_CREDIT0
+LATEST_AUDIT_MODE=WITHIN_SESSION_ADVERSARIAL_REDERIVATION_NOT_EXTERNAL
+NEXT_RESEARCH_CARD_ID=M3-T11-143
+CURRENT_ATTACK=JointSignedLiftHeronRealizedSupportBeyondBareCover
+NEXT_LEGAL_ACTION=Read142counterfamily/audit/replay and141/139. BareHeron/smallzeta/twocolor coverhasOmegaBsupportevenHc1,zeta1=9;cannotcountitforrequiredsaving. NeedFULL139signedminus-square/monic/originalT11packetjointnonlocalcountonexactR. FamilyNOTphysical/NOTverifiedoriginalpacket. Do notiterateleadingcharacters.
+INTERIOR_130_PHYSICAL_OCCUPANCY=EMPTY on finite-u nondegenerate branch at every odd split fresh p^lambda||m_i with0<c_p<2lambda.
+INTERIOR_130_PROOF=k=2lambda-c_p,n=2lambda+c_p;vp(S)=-k,vp(A)=n. g=p^(4lambda)f has coefficientvaluations(0,0,n,4lambda),linearreductionX-u. Uniqueunitanti-rootV hasvp(V-u)=vp(V²+1)=k<2lambda,contradicting originalphysicalrootline.
+INTERIOR_130_SCOPE=Actual cubic rootV, NOTquartic theta orphysicalz identification. Applies independently ofN square/S4/characterselectors; no resultat2/content/extremes/u=infinity.
+INTERIOR_130_VERIFICATION=200 abstractallocations and26 nested129AP localimpostors PASS; physicalendpointcount0. Localcubic splits/residualsquare/genus3lift can hold butphysicalnormrootlinefails.
+INTERIOR_106_107_48_STATUS=Conditionalalgebraic/residuallocalidentities RETAINED; strictinteriorphysicaloccupancy EMPTY by130. Interiorphysicalcharacterdispersion superseded.
+EXTREME_130_ROUTER=All surviving fresh c_p in{0,2lambda};Q_S andC_u squareonfreshsupport,Q_S*C_u=M_rel². Routingonly,no countingcredit; neitherextremetailproved.
+EXTREME_131_DENOMINATOR=cp0,L2lambda,vp(A)=L,vp(S)=-L; uniqueunitV congruent+u modp^L andnormrootlineautomatic. Pole-split/Legendre045 receiverretained; no deeperunit-root sieve.
+EXTREME_131_GAUSSIAN=cpL,vp(A)=2L,S/S-u units; targetednormrootline IFF2S congruentu modp^L,thenV congruent-u modp^L. Pole-scaledcubicY(Y²+2/A0),split IFFchi(-2/A0)=+1; allsimplelifts,noadditionalcubicprecisiongain.
+EXTREME_131_SQUARE_N=IfNu square,A0 square,Gaussianfreshp mustbe1mod8; p5mod8 forcedD. IfNu=c²,e=vp(c):D lambda=e;G e even,lambda=e/2,p1mod8. Assignmentonly,no endpointcount.
+EXTREME_131_COUPLED_INTEGER=H_G=2bs-at; M_G²|H_G;gcd(abt,M_G)=1; H_G!=0 sinceQ(u/2,u)=u²(112+145u²+u4)/16>0 contradictsrealphysicalY²=-A Q. Thus|H_G|>=M_G² on samepacket; exactheight/countadapterOPEN.
+EXTREME_131_NOVELTY_FIREWALL=042 norm saturation,043 GaussianPhiStarresidualempty,045 denominatorLegendre retainedNOTnew. G-characterrestatesdiscriminantsquare; notsecondindependentdensity.120 remainsretracted.
+EXTREME_131_VERIFICATION=800D cases/272G congruencecases/40G polecases PASS,3symbolicidentitieszero; physicalendpointcount0. SyntheticlocalS=u/2 samples globallyimpossibleoverR,NOTphysicalorallplaceglobalimpostors.
+EXTREME_131_SCOPE=Oddsplitfreshoutsidecontent,finite nonzerou,nondegenerate. FullGaussian-core/global lift andRcountnotproved. Denominatorzero-pole-discriminantboundary retained. Largefreshu=infinity exclusionalready035,notnew.
+S4_129_STATUS=RETAINED explicitS4 squareN family,poleclassc0/xi0 and allplace separate nonpolelocalpersistence. Notphysicalpoints;130 addsmissingoriginalrootlineobstructiononinterior.
+S4_128_STATUS=RETAINED exactgammaexclusion4real,two-real scalarquotientfirewall.
+S4_123_STATUS=RETAINED beta=Nm-nalpha,gamma=alpha(aN-balpha),xi=beta/gamma; original[Nn beta],Cl(K_u)[2] andactualdenominatorn retained.
+THETA_FULL_PHYSICAL_GLOBAL_R_AND_EXACT_HEIGHT_GATE=OPEN_RETAINED
+PHI_122_STATUS=JOINT_DENOMINATOR_SUPPORT_RECEIVER_RETIRED
+T11_120_STATUS=RETRACTED_PHYSICAL_ADAPTER; quarticrootlock/extremephiallocations/fourthpowertailsNOTreinstatedby130
+BACKWARD_REAUDIT_117_119=PASS_WITH_RETAINED_SCOPE_LIMITS
+STARTUP=MAIN/INDEX current142control ->142card/audit/replay ->activeROUTE/LEDGER latest142 ->141allocation/139signedlift/138heightasneeded. OlderCARD-INDEXspreadsheetrowsandhistoricalpointerslowerauthority;usecurrentcontrol/standalone142. No fullhistoryreread.
+PRIMARY_RECEIVER=P(B)<=B^o(1) A_1,1(B); sufficient A_1,1(B)<<B^(1/3-eta) forfixedeta>0 onexactphysicalmeasure.
+TI_RESEARCH_STATUS=PARKED_BY_EXPLICIT_USER_REQUEST / RESULTS_RETAINED
+TI_RESUME_POLICY=Do not automatically resume TI during ordinary stage37mainbatch.
+GLOBAL_COUNTING_CREDIT=0
+GLOBAL_FIXED_POWER_SAVING=false
+PRIMARY_GATE_CLOSED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+COUPLED_132_HEIGHT=|H|<=17t sqrt(N)<=17Lvee sqrt(2Lprod)(B/Hc)^5/Rrel; contentconstants retained,forwardnecessarywindowONLY.
+COUPLED_132_NORMALIZED=j=H/MG²!=0;|j|<=17t MD sqrt(Nstar);MG cancels,pointwisesizeexclusionretired.
+COUPLED_132_PULLBACK=a²D[4b²H+N(bs+at)]=Nt product(aBi+bAi);onG min(vpH,4lambda)=min(vpWplus,4lambda).H depth2lambda iff originalV+u rootline,NOTextraindependentdensity.
+COUPLED_132_SCOPE=H/j retainedasdependentcoordinates; jointglobalcountOPEN.500rationalsplitenlargement/300localG PASS,physicalendpointcount0,symboliczero.
+PHYSICAL_133_SIGNED_ADAPTER=v_i=2sum(x_j*y_j)-4x_i*y_i;d_i=(S-v_i)/2=2x_i*y_i. L_i+/-²=1+/-d_i,all6nonzero.
+PHYSICAL_133_NORM_SQUARE=On finiteu branch physicalN_u=a²+b²=c² NECESSARY. ProductsLplus²=(2+S+Su)²/(4A),Lminus²=(2-S+Su)²/(4A),A=1+u². Atleastonenumeratornonzero,soA square. Splitcubic alone insufficient.
+PHYSICAL_133_GAUSSIAN_ROUTER=EveryfreshGprime p1mod8;freshp5mod8 forcedD. Previouslyconditional131 squareN clause nowunconditionalPHYSICAL byglobalNsquare. Targethalfangle andpolecriterion areone restriction,nottwofilters.
+PHYSICAL_133_EXACT_LIFT=Sixsquares AND signed sumLplus*Lminus=-1 ANDpositive x_i=(Lplus+Lminus)/2. Atmost64branches perorderedv. PrimitiveR0=lcmDen(x_i);originalcontent/orientation/coefficients/cyclicpacketfilters retained.
+PHYSICAL_133_VERIFICATION=160finitefield/180splitlocalG/500rationalsplitenlargement/277zero-edgeboundary PASS;7symboliczero;physicalendpointcount0. Within-sessionauditNOTexternal.
+PHYSICAL_133_SCOPE=SquareNconic notendpoints oruniformsupportcount.129squareN S4/localpersistence RETAINED nonphysical;123Cl2 retained. GlobalcountOPEN.
+PHYSICAL_134_DENOMINATOR=Den(d_i)=D_i² exactly, d_i=(S-v_i)/2;D_i physicalhypotenuseNOTanti-rootB_i. R=lcmD_i,h_i=R/D_i,tau=gcdD_i=productD_i/R²,c_i=D_i/tau.
+PHYSICAL_134_FRESH_D_ONLY=Atodd splitfresh p^lambda all3D_i depthlambda,all3d_i depth-2lambda. Targetv_i unitforcesvpS=-2lambda,c_p=0. Q_S=Mrel²,C_u=1,M_D=Mrel,M_G=1. FreshGaussianextremeEMPTY includingp1mod8;noGtailresearch.
+PHYSICAL_134_G_SCOPE=131Glocalclassification/133p1mod8necessity RETAINED algebraicenlargement;Goccupancyfails originalequal-tauphysicalhypotenuses. No claimat2/content/infinity.130interiorempty retainedwithshorterdenominatorproof.
+PHYSICAL_134_SIGNED_ELIMINANT=Product8(1+sum epsilon_i delta_i)=T(v),delta_i²=1-d_i². Signedsumautomaticaftersixsquares/surface;uniquepositive directionlift onnondegenerateopenmask.133atmost64 bound sharpened,NOTnewcountsaving.
+PHYSICAL_134_FOUR_SQUARES=OnA=1+u² squareandnonzerofactors,1+/-d_1 and1+/-d_2 squares implyboththirdvalues via133productidentities. Sufficientsquaretestset,NOTgenericindependence/density.
+PHYSICAL_134_HEIGHT=IntrinsicR=sqrt(lcmDen(d_i))<=B;fixedpacketD_i=tau*c_i andR=Hc*tau. DenS/Denvi divideR². Originalorientation/coefficients/cyclicmasks andoneendpointonecountretained.
+PHYSICAL_134_VERIFICATION=1331eliminant/307unitcircledenominator/1000off-spheretorus/307zero-edgeboundary/144oldGlocalimpostor PASS;3symboliczero;physicalendpointcount0;withinsessionauditNOTexternal.
+PHYSICAL_134_OPEN=RemainingD-onlymovingS/activeMrel support. Fixed-u/fixed-tau multiplicitydoesNOTcountmoving support;globalcredit0/gateOPEN.129squareNresidualpersistence/123Cl2 retained,120retractionretained.
+PHYSICAL_135_SINGULAR_EMPTY=Finite rational nonzerou,x=-1/8:045/046 splittingrequiresw²=u²+2;133 requiresk²=1+u². (w+u,w-u,2k) givespositive rationalrighttrianglearea1;Fermatdescentcontradiction. NOphysicalpoints,allcontentpackets/allR.
+PHYSICAL_135_SCOPE=Exactsetexclusion,notdensity ornewgenericcount. Doesnotusefreshprimeallocation,soemptyrelativefresh/content/2 packetsincluded onfiniteu chart. No newu=infinity orx27/40 theorem.
+PHYSICAL_135_HISTORY=080-089 oldx=-1/8 one-twelfthretirementretainedandstrengthenedtofinite-uEMPTY. Oldconic/Gaussian/sigma/D necessaryalgebraretainedbutphysicalcountreceiversvacuous. No resumptionofthesetailcounts.
+PHYSICAL_135_VERIFICATION=19759singularconic/factorizations,6596squareNconic,6596coprimality,4005descentalgebra PASS;WL{0,0,1};physicalendpointsenumerated0. Proofisinfinite descent,notfinitescreen;withinsessionauditNOTexternal.
+PHYSICAL_135_OPEN=GenericD-onlysquareN/four-square/exactRmovingsupportOPEN;fixedfiberBO1cannotcountit. Canonicalone-twelfth/primarybudgetunchanged;globalcredit0;TIparked;120retracted.
+PHYSICAL_136_FRESH_SQUARES=Onoriginalodd splitfreshD packet, q=p^(2lambda),s0=qS,a0=A/q units. TargetV=u modq;scaledpole rootsYj,Yk have sum s0/product4u s0/a0. Physicalhalf-angle alpha,beta unitsgivealpha²+beta²=s0/2,alpha²beta²=u s0/a0 modq.
+PHYSICAL_136_NEW_RECEIVER=x=a0s0/(16u)=(s0/(4alpha beta))² modq; x-1=((alpha²-beta²)/(2alpha beta))² modq. CRT x=X²,x-1=Z² modMrel²,Xunit,Zpossiblynonunit. Necessaryresiduesonly,NOTglobalQ squares.
+PHYSICAL_136_STRICTNESS=Old045 productLegendre isweaker:p13,x6 givesold9squarebutx nonsquare. Newnoncollision count(p-5)/4 versusold(p-3)/2. p5freshforcesx1collision;highercollisionprecisionNOTclaimed.
+PHYSICAL_136_NO_POWER=Forp>=13 nonsingularmassconstant~1/4;naiveCRTsubpoweronly. Do notmultiplyold/newscreen orrepeatoldcollisionevenvaluationasnewcredit. Four-square/globalwitness liftand exactRmovingsupportstillOPEN.
+PHYSICAL_136_SCOPE=Finite nonzerou,actualsignedanti-roots,originalfreshhypotenuses/targetunit. No claimat2/content/newinfinity,physicalconverse,globalx squaresornewcounttheorem.135emptycarrier/134D-only/120retraction retained.
+PHYSICAL_136_VERIFICATION=18823localcoverresidues/14completefinitefieldcounts PASS;WL{0,0};physicalendpointsenumerated0. Within-sessionauditNOTexternal;globalcredit0/gateOPEN/TIparked.
+PHYSICAL_137_TRUNCATED_RECEIVER=T=alpha/beta unit,T²+1 unit square,x=F(T)=(T²+1)²/(4T²) modp^(2lambda). EquivalenttoexistentialleadingDsquarewitnesses withsum s0/2/productu s0/a0 whena0square andu²=-1. NOTphysicalconverse/globalT.
+PHYSICAL_137_COLLISION=x1modp forcesT²1then2square. p5mod8freshmustv_p(x-1)=0,includingdeepcollisionexcluded. p1mod8collisionlocallypossible;nohigherprecisiongain.
+PHYSICAL_137_FRESH_FIVE=5doesnotdivideMrel:136p5onlycollision plus137collisionforbidden. Independentintegeredgeunit-square sum mod5contradictionagrees. DoesNOTimply5notdividingR/content/all-samecore;finite-u freshscopeonly.
+PHYSICAL_137_COUNTS=NoncollisionFimage(p-9)/8 forp1mod8,(p-5)/8 forp5mod8;collisionallowediffp1mod8. p13 old136classes4,10 narrowto10. Allnoncollisionxliftsremainallowedbyunitderivative;positiveconstantmass~1/8 forp>=13.
+PHYSICAL_137_STOP_LOCAL=136pendingleadingwitnessselectorRESOLVED;CRTlocalmasssubpoweronly,fixedprime5exclusionnotexponentgain. Next138 mustbenonlocal/exacthigherorderphysicallift+Rsupport,notrenamedcharacterfilters/globalCRTconic.
+PHYSICAL_137_VERIFICATION=1896truncatedcoverxchecks/154parameterwitnesses/14completefieldimagecounts PASS;WL{0,0,0};physicalendpointsenumerated0;withinsessionauditNOTexternal. Globalcredit0/gateOPEN/TIparked;135/134/120scopesretained.
+PHYSICAL_138_PRIMITIVE_PLUS=A_i=e_i+f_i;allodd/nonzero,gcdtriple1,gcd(A_i,R)=h_i. No projectioncontentloss.
+PHYSICAL_138_HEIGHT=Hplus=maxabsAi;R/5<=Hplus<=sqrt2R uniformlyalloriginalcontentpackets. Actualphysicalmeasure pushforward.
+PHYSICAL_138_GLOBAL_RATIOS=t1=A2/A3,t2=A3/A1,t3=A1/A2;product1,eachheight<=Hplus. CoupledFrickeidentity;NOTglobalized137CRT T. PriorGaussianFrickeretainedNOTnew.
+PHYSICAL_138_EIGHT_FIBER=Atfixedprojectivepluspoint,r=(A1/A3,A2/A3,1),K=(A3/R)^2;H_r(K)degree<=8,H_r(0)=1 always.134positiveinversegivesatmost8canonicalphysicalpreimagesonitsfiniteu/nondegenerateopenmask.
+PHYSICAL_138_SUPPORT=Aplus(B)<=E_pkt(B)<=8Aplus(B),samecanonicalphysicalR<=B population. Allsign/square/content/positivity/exactR masksrequired;ambientP2box/rootcountsNOTequivalent.
+PHYSICAL_138_VERIFICATION=1000scale/1000coupledratio/1488signedzeroedgeboundary PASS;WL{8,1,0,0};positiveendpointsenumerated0;withinsessionauditNOTexternal.
+PHYSICAL_138_OPEN=RealizedmovingprojectivesupportpowerboundOPEN;uniform8fiberandheightadapterNOTfixedpowersaving. Primaryandhardone-twelfthbudgetsunchanged,globalcredit0/gateOPEN/TIparked/120retracted.
+PHYSICAL_139_INTEGER_COVER=Z=R²;Q_i=A_i²(2Z-A_i²);D=Z4+sumQ_i²-2Z²sumQ_i-2sumQiQj;P=D²-64Z²productQ_i monicdegree8. Physicalsignedminuslift D=-8Zproduct(A_i Bminus_i).
+PHYSICAL_139_HERON=F0=sumA_i²,Fi=F0-2A_i²;C_A=-productFj;R² dividesC_A bysignedlift. RationalroottheoremaloneonlyR² dividesC_A². NecessaryNOTconverse.
+PHYSICAL_139_EXACT_LIFT=Bminus_i²=2R²-A_i²,sumA_i Bminus_i=-R²,positive(e_i=(A_i+Bminus_i)/2),primitiveA andalloriginalpacket/canonicalmasks. P=0/divisorsaloneinsufficient.
+PHYSICAL_139_FRESH=Atp^lambda||m_i,targetFi depth2lambda,allotherFj units;mi²|Fi,zeta_i=Fi/mi²,gcd(zeta_i,Mrel)=1. |zeta_i|<=4(B/mi)²;(R/Mrel)²|F0productzeta_i. DependentoldrootlinepullbackNOindependentfilter.
+PHYSICAL_139_ZERO=GenericpolynomialzeroexampleRETAINED;physicalzeroCbranchSUPERSEDED_BY140 parityEMPTY,includingMrel1.139monic/signeddivisor/exactliftRETAINED.
+PHYSICAL_139_VERIFICATION=2000generic/1488signedzeroedgeboundary/77abstractp²factor/1zeroHeronfalseconverse PASS;WL{8,1,0,0}. Positiveendpointsenumerated0;withinsessionauditNOTexternal.
+PHYSICAL_139_OPEN=Jointmovingplus/divisor/content/exactRsupportOPEN;fixedAfibersalreadyconsumed. No newfixedpowersaving,primaryandhardone-twelfthbudgetsunchanged,globalcredit0/gateOPEN/TIparked.
+PHYSICAL_140_PARITY=AllprimitivephysicalA_i odd;F0=3mod8,Fi=1mod8,C_A=5mod8 nonzero.139physicalzeroHeron/Mrel1carrierRETIRED;notallMrel1endpoints.
+PHYSICAL_140_FULL_FACTOR=PositivephysicaldirectionsS!=0andallvi!=0by134surface. R²|F0 wouldforcequotient3/S0;R²|Fi wouldforcequotient1/vi0. ThusnoFjabsorbswholeR²,butR²|productFjretained.
+PHYSICAL_140_SCOPE=Allprimitivepositiveendpoints/signedfacewitnesses/allcontents/charts;zeroedgeboundariesexcluded. Propergcd(R²,Fj)NOTuniformRpowerseparation.
+PHYSICAL_140_NONCONTENT=Rnc removesFULLRprimepowerssupportedbyHc. Eachp^lambdaRnc uniquelycolorsoneFjwithp2lambda|Fj;pairwisecoprimen0..3,productRnc,nj²|Fj. Includesnonrelativefreshsupport;noautomaticGaussiancoreidentification.
+PHYSICAL_140_SINGLE_COLOR=Hc1/RncR needsatleasttwonontrivialfactorcolors;singlecolorfullRbranchEMPTY. Generalcontentscannotinheritthiswithoutadapter. Orientationpullbackdependent,NOindependentdensity.
+PHYSICAL_140_VERIFICATION=8000oddparity/4281punitfactor/1681surface/1488signedzeroedgeboundary PASS;all1488boundarysaturationshowspositivityessential;WL{0,0};positiveendpointsenumerated0;withinsessionNOTexternalaudit.
+PHYSICAL_140_OPEN=ProperfactorjointrealizedsupportcountandquantitativecontentuniformseparationOPEN;globalcredit0/gateOPEN/TIparked/120retracted,budgetsunchanged.
+PHYSICAL_141_PAIR_CONTENT=gcd(F0,Fi,R²)|hi² andgcd(Fj,Fk,R²)|hi² forcomplementaryj,k. Any3FfactorstripleGCD1;allFodd/nonzero.
+PHYSICAL_141_FULL_TAU=Atp^lambdaR,kappa=vpHc,maxFdepth>=2(lambda-kappa);canonicalmaxdepth/tiebreakassignsFULLremainingp^(lambda-kappa). Pairwisecoprimeq0..3,producttau=R/Hc,qj²|Fj,includingcontentpowers.
+PHYSICAL_141_RECEIVER=zeta_j=Fj/qj²!=0;zeta0positive3mod8,other1mod8;Hc²|productzeta. |zeta0|<=6Hc²(tau/q0)²,others<=4Hc²(tau/qi)². ExactR=Hc*tau retained.
+PHYSICAL_141_LARGE=Someqj>=tau1/4,actualHeronformhasinteger squareddivisor>=tau1/2 withquotient<=6Hc²tau3/2. Entiretau/nofreshescape NECESSARYeventONLY,notcounttheorem.
+PHYSICAL_141_HISTORY=140Rncrouterretainedandsubsumedoutsidecontent;139freshmi|qi,unit/poleconditionsnotimportedatcontent. q0NOTautomaticallyGaussianG0.140R²fullfactorEMPTYnottransferredtotauwhenHc>1.
+PHYSICAL_141_VERIFICATION=3931tripleGCD/9606abstractdivisorcovers(8346content,1905contentwithtau)/1488signedboundary PASS;WL4zeros;positiveendpointsenumerated0;withinsessionNOTexternalaudit.
+PHYSICAL_141_OPEN=Realizedmovingplus/fulltau/contentuniformsquaredivisor countOPEN;noindependentdensity/hiddenHcconstant/fixedpowersaving. Globalcredit0/gateOPEN/TIparked/120retracted,budgetsunchanged.
+PHYSICAL_142_FAMILY=n=241+8670k,R=17n,A=(6n+5,6n+3,3n+4);primitiveoddHc1,physicalheightwindow. HeronF=(81n²+120n+50,9n²,9n²+48n+32,63n²+72n+18).
+PHYSICAL_142_COVER=Canonicalq=(17,n,1,1),producttauR;allqj²|Fj,zeta1=9;R²|productFj butnosinglefullfactor;twocolorswithsecondaryfixed17. Passes141baredivisor/parity/content/heightand140properness.
+PHYSICAL_142_NONPHYSICAL=Minus-square2R²-A2²=2mod3 forEVERYfamilymember. NooriginalT11packet/freshrootdestination/fullmonicsignedliftverified;NOTendpoints.
+PHYSICAL_142_NO_GO=BareenlargedHeronprojectivesupport>=max(0,1+floor((B/17-241)/8670))=OmegaB evenfixedHc1/zeta1=9. NoBalpha alpha<1 boundonTHISenlargement. NOTphysicallowerbound/NOToriginalpacketno-go.
+PHYSICAL_142_HISTORY=141contentcompleteNECESSITYretained,140zero/propernessretained,139signedintegercoverretained,138eightfiberretained. Barecover/smallzeta/twocolorcountaloneINSUFFICIENT;jointphysicalliftrequired.
+PHYSICAL_142_VERIFICATION=1000APimpostors PASS;symbolicFpolynomials/289divisibility/17unitsagree;positiveendpointsenumerated0;withinsessionNOTexternalaudit.
+PHYSICAL_142_OPEN=Fullsignedlift/originalpacket realizedsupportcountOPEN;globalcredit0/gateOPEN/TIparked/120retracted,budgetsunchanged. Mod3countercertificateNOTnewcharactersievecredit.
+LOWER_OPERATIONAL_POINTERS=Historical and superseded by this current control; mathematical statements retain their audited scope.
+
+
+CURRENT AUTHORITY CONTROL — USER REQUEST: T11 PRIMARY RESTORED / TI PARKED
+PRIMARY_GATE=M3-T11-GATE-001
+PRIMARY_GATE_STATUS=OPEN
+ACTIVE_ROUTE=K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE
+ACTIVE_ROUTE_DOC_ID=1_O0DDPJxK1DT6wV2cXm3UqaMcZc7YLFZgKpfQ7dXlaE
+ACTIVE_RESEARCH_CARD=M3-T11-121
+ACTIVE_RESEARCH_CARD_FILE_ID=1pXnDlsgQ5lLpEmUeKXTpH43iGh6w4yqM
+LATEST_RESEARCH_CARD=M3-T11-121
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-121
+LATEST_AUDIT_FILE_ID=1YCWtFnvoy5vC66omOuJadIccrF9YpJay
+LATEST_VERIFICATION_SCRIPT_FILE_ID=1ZIHJatZJLdnyxn88D2TUlFO8ORpAbgmx
+LATEST_CARD_STATUS=PROVED_EXACT_STRUCTURE / WITHIN_SESSION_HOSTILE_AUDIT_PASS / NO_NEW_COUNTING_CREDIT
+NEXT_RESEARCH_CARD_ID=M3-T11-122
+NEXT_T11_RESEARCH_CARD_ID=M3-T11-122
+LATEST_CHRONOLOGICALLY_ADDED_CARD=M3-PESCH-TI-005 / PARKED_BRANCH
+T11_121_RESEARCH_STATUS=ACTIVE_PRIMARY_RESEARCH / RETAINED_PROVED_EXACT_STRUCTURE
+T11_120_STATUS=RETRACTED_PHYSICAL_ADAPTER
+CORRECTION_DOC_ID_120=1Nu8yyS9qeeO2KInGVD4iSASUrQDazpXR
+BACKWARD_REAUDIT_117_119=PASS_WITH_RETAINED_SCOPE_LIMITS
+BACKWARD_REAUDIT_DOC_ID=1sFWmflzAbQv3H-7xsrFnrNx4Rd3GTrYz
+PROVISIONAL_FRONTIER_CARD=NONE
+PROVISIONAL_FRONTIER_AUDIT_STATUS=NOT_APPLICABLE
+CURRENT_ATTACK=T11SamePhysicalJointMovingPhiParameterTwistDenominator
+NEXT_LEGAL_ACTION=Continue from audited121 toward122: seek same-R<=B control of moving(r,s), signed integer-L delta and actual z=S/2 denominator b jointly. Preserve [z-vartheta]=[delta Q0 b]. Cover residual shells outside119 windows. If this only repeats036 or the consumed norm tuple, record no-go and pursue T11 nonlocal S4/theta!=0.
+STARTUP=MAIN top control -> active T11 ROUTE latest control ->121 card/audit -> targeted RESULT-LEDGER/CARD-INDEX. Known full history need not be reread.
+PRIMARY_RECEIVER=P(B)<=B^o(1) A_1,1(B); sufficient A_1,1(B)<<B^(1/3-eta) for fixed eta>0 on exact physical measure.
+PHI_121_NEW_COUNTING_CREDIT=false
+TI_RESEARCH_STATUS=PARKED_BY_EXPLICIT_USER_REQUEST / RESULTS_RETAINED
+TI_ROUTE_FILE_ID=198IsZ3zb1FRRbnO3BLiyqCJglDFw_4AU
+TI_LATEST_RESEARCH_CARD=M3-PESCH-TI-005
+TI_LATEST_RESEARCH_CARD_FILE_ID=1Le8Ljo-NMPpPJ9UCzx38m1FrEqnWYPG2
+TI_LATEST_AUDIT_FILE_ID=19WVrkNMOA564BZIgtBTu71lAWYb_BlFU
+TI_NEXT_RESERVED_CARD_ID=M3-PESCH-TI-006
+TI_RESUME_POLICY=Preserve001-005 and their scoped proofs/replay files. Do not automatically resume TI or replace T11 during ordinary stage37mainbatch; reconsider if user requests or a concrete proved T11-relevant result justifies it.
+M3_PESCH_TI_1072_AGGREGATE_STATUS=HOLD
+M3_PESCH_TI_WEIGHTED_HARD_LOCUS_SAVING_PROVED=false
+GOAL_UNCHANGED=P(B)/M3(B)->0 on exact primitive canonical physical R<=B.
+GLOBAL_FIXED_POWER_SAVING=false
+PRIMARY_GATE_CLOSED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+CHANGE_KIND=Research priority and continuation pointers only; no new mathematical result, no withdrawal of TI proofs, no route-speed superiority theorem.
+HISTORICAL_MAIN_RECORD_BELOW=All lower continuation pointers are superseded by this control; audited mathematical statements retain their scope.
+
+
+# K16-C3-M3 — ROUTE: TRIVIAL-SPLIT CYCLE
+
+
+## Route card
+
+
+CANONICAL_ROUTE:
+Stage14 trivial-split endpoint cycle.
+
+
+CURRENT_STATUS:
+LIVE / PRIMARY THEOREM GATE OPEN.
+
+
+CURRENT_GATE:
+M3-T11-GATE-001 = TrivialSplitCyclicDirectionOneThird.
+
+
+GOAL_CONNECTION:
+Stage14-t27 gives an exact endpoint compression to one split partition:
+N_{1,1}(B)=3P(B).
+
+
+Stage14-t22 gives uniform fixed-direction physical multiplicity B^o(1).
+
+
+Therefore if A_{1,1}(B) denotes active reduced trivial-split directions carrying an actual physical completion, then
+
+
+P(B) <= B^o(1) A_{1,1}(B).
+
+
+A sufficient fixed-power theorem for the M3 target is
+
+
+A_{1,1}(B) << B^(1/3-delta)
+
+
+for some fixed delta>0.
+
+
+This is substantially stronger than the historical Stage14 target A_{1,1}<<B^(1/2-delta_old), but it avoids every nontrivial split partition and works on the exact endpoint fiber.
+
+
+## 1. Exact trivial-split compression
+
+
+For a Stage14 raw edge with shared side s and integral space diagonal R, put
+
+
+g=gcd(R,s),
+D=R/g,
+C=s/g.
+
+
+Let
+
+
+h=(D-C,D+C) in {1,2},
+
+
+(D-C)/h=alpha*r^2,
+(D+C)/h=beta*u^2,
+
+
+with alpha,beta squarefree coprime.
+
+
+Stage14-t20 gives the missing-face squareclass
+
+
+kappa=alpha*beta.
+
+
+For an M3 endpoint the missing third face is integral, so
+
+
+kappa=1.
+
+
+Positivity and squarefreeness force exactly
+
+
+alpha=beta=1.
+
+
+Conversely (alpha,beta)=(1,1) is exactly the trivial missing-face class.
+
+
+Every endpoint contributes three raw edges, hence
+
+
+boxed:
+N_{1,1}(B)=3P(B).
+
+
+This is Card M3-T11-001.
+
+
+## 2. Primitive Pythagorean direction form
+
+
+On the trivial split,
+
+
+D-C=h*r^2,
+D+C=h*u^2,
+
+
+(r,u)=1,
+u>r,
+
+
+with h=1 for r,u both odd and h=2 otherwise.
+
+
+Therefore
+
+
+D=h/2*(r^2+u^2),
+C=h/2*(u^2-r^2),
+L=h*r*u,
+
+
+and
+
+
+C^2+L^2=D^2.
+
+
+Thus every endpoint raw edge projects to one primitive Pythagorean reduced direction.
+
+
+Let A_{1,1}(B) be the number of such reduced directions carrying at least one actual Stage14 physical completion of height <=B.
+
+
+Stage14-t22 proves uniformly in the reduced direction:
+
+
+physical completions <= B^o(1).
+
+
+Hence
+
+
+boxed:
+P(B) <= B^o(1) A_{1,1}(B).
+
+
+For the M3 denominator M3(B)>>B^(1/3), a robust sufficient target is
+
+
+boxed:
+A_{1,1}(B) << B^(1/3-delta)
+
+
+for any fixed delta>0.
+
+
+Do not replace this by A_{1,1}=o(B^(1/3)) unless the o-bound is strong enough to absorb the B^o multiplicity.
+
+
+## 3. Torsion branch is subpolynomial on the trivial split
+
+
+Stage14-t23 shows that a physical quotient point can be torsion only with exact order 8.
+
+
+Its split packets are
+
+
+alpha=1,
+beta=core(m^4+6m^2n^2+n^4),
+
+
+or
+
+
+alpha=2,
+beta=core(m^4+n^4).
+
+
+On the trivial split alpha=beta=1, only the first packet remains and satisfies
+
+
+w^2=m^4+6m^2n^2+n^4.
+
+
+This is one fixed smooth genus-one binary-quartic family.
+
+
+The uniform fixed-kernel bounded-height argument already used in Stage14-t24 gives B^o(1) possibilities at physical polynomial height.
+
+
+Therefore the trivial-split torsion-active directions contribute only
+
+
+B^o(1).
+
+
+At polynomial exponent scale the M3 endpoint problem may be restricted to the positive-rank / non-torsion trivial-split branch.
+
+
+Card:
+M3-T11-002.
+
+
+## 4. Historical non-torsion cover
+
+
+For a reduced direction (D,C), Stage14-t24/t25 writes the physical Kummer ratio in lowest terms as
+
+
+z=-(p/q)^2,
+p>q>0,
+(p,q)=1.
+
+
+The rank cover is
+
+
+W^2
+=
+(4D^2-2C^2)p^2q^2
+-
+C^2(p^4+q^4).
+
+
+Equivalent exact norm identities are
+
+
+W^2+C^2(p^2+q^2)^2=(2Dpq)^2,
+
+
+W^2+C^2(p^2-q^2)^2
+=
+4(D^2-C^2)p^2q^2.
+
+
+Stage14-t30 reconstructs
+
+
+S=p^2+q^2,
+
+
+X=D*(p^2-q^2)/S,
+Q=2Dpq/S,
+
+
+so
+
+
+X^2+Q^2=D^2.
+
+
+For actual physical height <=B it also proves
+
+
+S<=2B.
+
+
+## 5. Four-linear cover and the retained second physical square
+
+
+On the trivial split Stage14-t28 reparametrizes
+
+
+D=epsilon/2*(a^2+b^2),
+C=epsilon*a*b,
+
+
+and writes W=epsilon*Z.
+
+
+Define
+
+
+g1=b*p-a*q,
+g2=a*q+b*p,
+g3=b*q-a*p,
+g4=b*q+a*p.
+
+
+The rank cover is exactly
+
+
+Z^2=g1*g2*g3*g4.
+
+
+This is a useful cover condition but not by itself an actual endpoint count.
+
+
+The remaining integral face condition can be written explicitly.
+
+
+From the t30 reconstruction,
+
+
+Y=W/S.
+
+
+The other face satisfies
+
+
+P^2=C^2+X^2=D^2-Y^2.
+
+
+Therefore every actual endpoint cover point additionally satisfies
+
+
+boxed:
+S2^2
+=
+(a^2+b^2)^2*(p^2+q^2)^2
+-
+4Z^2,
+
+
+where
+
+
+S2=2P*(p^2+q^2)/epsilon
+
+
+is integral on an actual physical point after the frozen Stage14 reconstruction.
+
+
+Equivalently, with
+
+
+K=(a^2+b^2)(p^2+q^2),
+
+
+boxed:
+(K-2Z)(K+2Z)=S2^2.
+
+
+This is an exact re-expression of the already-known full physical lift / genus-five triple gate, not a new independent probability and not a new saving by itself.
+
+
+Card:
+M3-T11-003.
+
+
+## 6. Endpoint triangle-content theorem
+
+
+Let a primitive endpoint have physical edges
+
+
+e1,e2,e3
+
+
+and integral space diagonal R.
+
+
+For each edge define its space-triangle content
+
+
+h_i=gcd(R,e_i).
+
+
+Because
+
+
+R^2=e1^2+e2^2+e3^2,
+
+
+the h_i are pairwise coprime.
+
+
+Indeed, a prime dividing two h_i divides R and two physical edges; the equation then forces it to divide the third edge, contradicting primitive physical gcd 1.
+
+
+For edge e_i the opposite face diagonal f_jk satisfies
+
+
+e_i^2+f_jk^2=R^2,
+
+
+so h_i is also the exact content of that physical Pythagorean space triangle.
+
+
+Now consider the raw edge formed by the two integral faces sharing e_i.
+Its raw-edge cross-gcd is
+
+
+c_i
+=
+gcd(f_ij,e_k)*gcd(f_ik,e_j).
+
+
+Each gcd is the content of the corresponding space triangle, hence
+
+
+boxed:
+c_1=h_2*h_3,
+c_2=h_1*h_3,
+c_3=h_1*h_2.
+
+
+Thus the three cross-gcd labels are not independent.
+
+
+In particular
+
+
+boxed:
+c_1*c_2*c_3=(h_1*h_2*h_3)^2,
+
+
+and
+
+
+gcd(c_1,c_2)=h_3,
+gcd(c_1,c_3)=h_2,
+gcd(c_2,c_3)=h_1.
+
+
+This is the endpoint triangle compatibility hidden by one-edge stratification.
+
+
+## 7. Common residual tau and exact recovery of the cross-gcd labels
+
+
+For the trivial-split reduced direction attached to edge e_i put
+
+
+D_i=R/h_i,
+C_i=e_i/h_i.
+
+
+Since the h_i are pairwise coprime, their product divides R.
+Define
+
+
+tau=R/(h_1*h_2*h_3).
+
+
+Then exactly
+
+
+D_1=h_2*h_3*tau=c_1*tau,
+D_2=h_1*h_3*tau=c_2*tau,
+D_3=h_1*h_2*tau=c_3*tau.
+
+
+Prime by prime,
+
+
+boxed:
+tau=gcd(D_1,D_2,D_3).
+
+
+Therefore
+
+
+boxed:
+c_i=D_i/tau.
+
+
+The Master/Stage14 cross-gcd is thus exactly the part of the corresponding trivial-split direction hypotenuse left after removing the common residual gcd of all three endpoint directions.
+
+
+Card:
+M3-T11-004.
+
+
+## 8. Cyclic cover-norm theorem
+
+
+The t30 variables have an endpoint-specific meaning stronger than their historical existential use.
+
+
+For raw direction i, t30 gives the rational Pythagorean triangle
+
+
+X/D_i=(p^2-q^2)/(p^2+q^2),
+Q/D_i=2pq/(p^2+q^2).
+
+
+Choose X to be the normalized physical edge e_j/h_i for one of the other edges j.
+
+
+The physical triangle
+
+
+(e_j, f_{ik}, R)
+
+
+has content h_j and primitive hypotenuse
+
+
+D_j=R/h_j.
+
+
+Let
+
+
+kappa(p,q)=gcd(p^2-q^2,2pq,p^2+q^2) in {1,2}.
+
+
+The primitive hypotenuse of the t30 rational triangle is
+
+
+(p^2+q^2)/kappa(p,q).
+
+
+Because it is the same physical primitive space triangle,
+
+
+boxed:
+(p^2+q^2)/kappa(p,q)=D_j.
+
+
+Equivalently,
+
+
+boxed:
+p^2+q^2=kappa(p,q)*D_j.
+
+
+Moreover the unique Euclid parameters (p,q) are exactly the trivial-split Euclid parameters of direction j, up to the finite parity/orientation convention.
+
+
+Hence an actual endpoint does not give
+
+
+direction -> arbitrary existential cover witness.
+
+
+It gives a cyclic system of three trivial-split directions:
+
+
+direction 1
+ -> Euclid pair of direction 2
+ -> Euclid pair of direction 3
+ -> Euclid pair of direction 1,
+
+
+after choosing the three directed raw incidences cyclically.
+
+
+This cyclic reuse was not part of the one-direction existential projection in the historical t27--t32 counting receiver.
+
+
+It is an exact adapter, not yet a counting theorem.
+
+
+Card:
+M3-T11-005.
+
+
+## 9. Relation to the Stage14 Gaussian norm skeleton
+
+
+Stage14-t31/t32 descends one direction and one cover witness into Gaussian cofactors U,V.
+
+
+Its exact norm skeleton is
+
+
+N(U)=m,
+N(V)=k*delta,
+k|epsilon*m,
+
+
+with the physical hyperbolic cutoff
+
+
+epsilon*ell*m*delta/2 <= B
+
+
+on the relevant large-prime branch.
+
+
+Historically V was an existential cover coordinate and the hard step was projecting back to the set of active directions.
+
+
+On an actual M3 endpoint, the cyclic cover-norm theorem says that the cover Euclid pair before the Gaussian descent is the Euclid pair of another trivial-split direction.
+
+
+Thus the existential V-coordinate is not disposable noise on the endpoint subset:
+it carries the next direction in the 3-cycle.
+
+
+This suggests a cyclic incidence / trace-cube receiver rather than a one-way active-direction projection.
+
+
+The existing tH squareclass/autocorrelation infrastructure may carry such a theorem if one is proved, but no existing Stage14 theorem supplies the required cyclic power saving.
+
+
+Do not multiply three edge savings as independent.
+
+
+## 9A. Cyclic t30/t31/t37 saturation adapter
+
+
+The endpoint cycle removes a slack variable from the historical Gaussian norm skeleton.
+
+
+First, every reduced space triangle has primitive hypotenuse
+
+
+D_i=R/h_i.
+
+
+A primitive Pythagorean hypotenuse is odd. Since h_1,h_2,h_3 are pairwise coprime, this implies
+
+
+boxed:
+R is odd,
+
+
+and every h_i and D_i is odd.
+
+
+Now orient one cyclic incidence i -> j and let k be the remaining index. The t30 cover Euclid pair (p_i,q_i) satisfies
+
+
+p_i^2+q_i^2=kappa_i*D_j,
+
+
+where kappa_i in {1,2} is the usual primitive-Euclid parity content.
+
+
+The exact t30 reduced denominator is
+
+
+delta_i
+=
+(p_i^2+q_i^2)
+/ gcd(p_i^2+q_i^2,2D_i).
+
+
+Using
+
+
+D_i=h_j*h_k*tau,
+D_j=h_i*h_k*tau,
+
+
+gives
+
+
+gcd(D_i,D_j)=h_k*tau.
+
+
+Because D_i,D_j are odd, for both kappa_i=1 and kappa_i=2,
+
+
+gcd(kappa_i*D_j,2D_i)
+=
+kappa_i*h_k*tau.
+
+
+Therefore
+
+
+boxed:
+delta_i=h_i.
+
+
+But h_i=gcd(R,e_i) is also exactly the physical Stage14 scale g_i on raw direction i. Hence
+
+
+boxed:
+delta_i=g_i=h_i,
+
+
+and the historical divisibility delta_i | g_i is saturated on every actual endpoint.
+
+
+Equivalently,
+
+
+boxed:
+delta_i*D_i=R.
+
+
+Thus the t31 physical hyperbolic inequality becomes an exact endpoint product, not merely an upper-bound slack condition.
+
+
+### Visible / invisible canonical-prime classification
+
+
+Let ell_i be an odd canonical direction prime with ell_i|D_i.
+
+
+On the endpoint cycle the t31 visible branch is exactly
+
+
+ell_i | (p_i^2+q_i^2),
+
+
+hence, since ell_i is odd,
+
+
+ell_i visible
+iff ell_i|D_j
+iff ell_i|gcd(D_i,D_j)
+iff
+
+
+boxed:
+ell_i | h_k*tau.
+
+
+If ell_i is invisible, then ell_i|D_i but ell_i does not divide D_j. Therefore its support lies in the nonshared content factor:
+
+
+boxed:
+ell_i invisible
+=> ell_i|h_j
+and ell_i does not divide h_k*tau.
+
+
+So the historical visible/invisible Gaussian split is an endpoint cyclic factor allocation:
+shared h_k*tau versus neighboring content h_j.
+
+
+### t37 parameter collapse on the visible branch
+
+
+Retain the t31 notation
+
+
+a_i^2+b_i^2=ell_i*m_i,
+
+
+and let epsilon_i in {1,2} be the trivial-split parity factor, so
+
+
+D_i=(epsilon_i/2)*ell_i*m_i.
+
+
+The cover Euclid pair is the trivial-split Euclid pair of direction j. Hence
+
+
+p_i^2+q_i^2
+=
+(2/epsilon_j)*D_j.
+
+
+On the visible branch write
+
+
+p_i^2+q_i^2=ell_i*n_i.
+
+
+Then
+
+
+m_i
+=
+2*h_j*h_k*tau/(epsilon_i*ell_i),
+
+
+n_i
+=
+2*h_i*h_k*tau/(epsilon_j*ell_i),
+
+
+and therefore
+
+
+n_i/m_i
+=
+(epsilon_i/epsilon_j)*(h_i/h_j).
+
+
+Stage14-t37 writes the same ratio as
+
+
+n_i/m_i
+=
+epsilon_i*delta_i / mathfrak_h_i,
+
+
+where mathfrak_h_i is its historical second divisor parameter. Substituting delta_i=h_i gives the exact identification
+
+
+boxed:
+mathfrak_h_i=epsilon_j*h_j.
+
+
+Let
+
+
+g_ij=gcd(epsilon_i,epsilon_j*h_j) in {1,2}.
+
+
+The t37 common core mathfrak_t_i is therefore
+
+
+boxed:
+mathfrak_t_i
+=
+[2*g_ij/(epsilon_i*epsilon_j)]
+*
+[h_k*tau/ell_i].
+
+
+Thus the old t37 packet parameters are not independent on the endpoint subset:
+
+
+delta_i = current physical content h_i,
+mathfrak_h_i = next physical content h_j up to parity,
+mathfrak_t_i = shared opposite factor h_k*tau after removal of ell_i up to parity.
+
+
+This is the exact Stage14 norm-skeleton adapter needed by the current cyclic route.
+
+
+### Counting boundary
+
+
+If h_j>H, the same large physical content is simultaneously
+
+
+- delta_j on edge j -> k;
+- mathfrak_h_i/epsilon_j on edge i -> j.
+
+
+The existing one-edge t36/t37 estimates can each supply at most a square-root-in-H type gain in their own fibers. They may not be multiplied without a same-measure two-edge correlation theorem.
+
+
+At H=B^(1/6-o(1)), one such square-root saving is not enough for the M3 B^(1/3) numerator target. The exact remaining large-content theorem is therefore a two-edge cyclic correlation theorem that recovers a further fixed-power gain from the simultaneous delta / mathfrak_h occurrence.
+
+
+For the large-residual branch, tau enters every shared factor h_k*tau and hence every visible common core after removal of the relevant ell_i. Again the three appearances are coupled and cannot be charged independently.
+
+
+Flags:
+
+
+CYCLIC_ENDPOINT_SPACE_DIAGONAL_ODD=true
+CYCLIC_ENDPOINT_T30_DENOMINATOR_EQUALS_SCALE=true
+CYCLIC_ENDPOINT_HYPERBOLIC_SLACK_ZERO=true
+CYCLIC_VISIBLE_PRIME_SUPPORT_EQUALS_SHARED_HK_TAU=true
+CYCLIC_INVISIBLE_PRIME_SUPPORT_IN_NEIGHBOR_CONTENT=true
+CYCLIC_T37_H_PARAMETER_EQUALS_NEXT_CONTENT=true
+CYCLIC_T37_COMMON_CORE_EQUALS_OPPOSITE_SHARED_FACTOR_OVER_ELL=true
+TWO_EDGE_COMMON_CONTENT_SAVINGS_INDEPENDENT=false
+THREE_DIRECTION_TAU_SAVINGS_INDEPENDENT=false
+
+
+Card:
+M3-T11-006.
+
+
+## 10. Large-factor dichotomy at the M3 exponent scale
+
+
+The generic endpoint ceiling gives
+
+
+P(R<=B^(2/3-eta))
+<<
+B^(1/3-eta/2+o(1)),
+
+
+so this small-R subfamily is already M3-negligible.
+
+
+On the complementary range
+
+
+R>B^(2/3-eta),
+
+
+use
+
+
+R=h_1*h_2*h_3*tau.
+
+
+Therefore at least one of
+
+
+h_1,h_2,h_3,tau
+
+
+exceeds
+
+
+H=B^(1/6-eta/4).
+
+
+This yields two structurally different branches.
+
+
+### Large-content branch
+
+
+If h_i>H, then the same divisor h_i appears simultaneously in two cross-gcd labels:
+
+
+h_i | c_j,
+h_i | c_k.
+
+
+A one-edge 1/H tail is only borderline at H~B^(1/6).
+The possible gain must use the two-edge same-modulus incidence, not charge the same divisor twice as independent probabilities.
+
+
+### Large-residual branch
+
+
+If tau>H, then
+
+
+tau | D_1,D_2,D_3.
+
+
+All three reduced trivial-split hypotenuses share the same large divisor.
+
+
+Again the saving must be proved on the same endpoint/cycle measure.
+
+
+This branch split is exact and covers every large-R endpoint.
+
+
+## 11. New minimal theorem gate
+
+
+The primary M3 receiver is now:
+
+
+TrivialSplitCyclicDirectionOneThird.
+
+
+Any one of the following is sufficient:
+
+
+A. Direct active-direction theorem:
+A_{1,1}^{rank}(B)
+<<
+B^(1/3-delta)
+for some fixed delta>0.
+
+
+B. Direct cyclic endpoint theorem:
+P(B)
+<<
+B^(1/3-delta).
+
+
+C. Large-factor cyclic theorem:
+after the small-R disposal above, prove fixed-power savings on both
+
+
+1. the two-edge common-content branch h_i>H;
+2. the three-direction common-residual branch tau>H,
+
+
+strong enough at H=B^(1/6-o(1)) to give o(B^(1/3)).
+
+
+The old raw-edge large-c tail M3-XG-GATE-002 remains a useful secondary subgate, but it is no longer the primary receiver because it controls only one edge label and does not use the exact trivial-split cycle.
+
+
+## 12. Do-not-repeat
+
+
+- Do not attack all split partitions; endpoint is exactly (1,1).
+- Do not use the historical t-route target T=o(B^(1/2)) as sufficient for M3; M3 requires o(B^(1/3)).
+- Do not count the t28 four-linear cover alone as a perfect-cuboid count.
+- Do not treat the explicit second square as independent from the historical full physical lift.
+- Do not treat c_1,c_2,c_3 as independent; their product is a square and their pairwise gcds recover the h_i.
+- Do not multiply two large-content edge savings without a same-measure theorem.
+- Do not identify Stage14's later internal cross-root variable H with h_i, c_i, or tau without an exact adapter.
+- Do not discard the cross-gcd route; it is now supporting structure inside the cyclic endpoint route.
+
+
+
+
+
+
+## 13. Post-cycle audit: duplicate-factor collapse, split support, and Möbius collision normal form
+
+
+### 13.1 Large-content duplicate-occurrence collapse
+
+
+For a primitive endpoint with edges e_i and opposite face diagonal f_jk, let
+
+
+h_i = gcd(R,e_i).
+
+
+From e_i^2 + f_jk^2 = R^2 one has exactly
+
+
+h_i = gcd(R,e_i) = gcd(f_jk,e_i) = gcd(R,f_jk).
+
+
+If the opposite face is primitively reduced as
+
+
+e_j=g_jk*U_i,
+e_k=g_jk*V_i,
+f_jk=g_jk*W_i,
+
+
+then gcd(g_jk,e_i)=1 and therefore
+
+
+h_i = gcd(W_i,e_i).
+
+
+Hence the appearances of h_i in the two neighboring cross-gcd labels c_j and c_k are not two independent endpoint restrictions. They are two presentations of one physical gcd.
+
+
+TWO_EDGE_COMMON_CONTENT_DUPLICATE_OCCURRENCE=true
+TWO_EDGE_COMMON_CONTENT_EXTRA_INDEPENDENT_SAVING=false
+
+
+### 13.2 Large-residual valuation floor and split-prime support
+
+
+Retain
+
+
+D_1=h_2*h_3*tau,
+D_2=h_1*h_3*tau,
+D_3=h_1*h_2*tau,
+
+
+with pairwise coprime h_1,h_2,h_3.
+
+
+Prime by prime,
+
+
+v_p(tau)=min_i v_p(D_i).
+
+
+If p^a exactly divides tau and p^b exactly divides one h_s, then
+
+
+v_p(D_s)=a,
+
+
+while the other two D-values have valuation a+b. If p divides no h_i, all three D_i have valuation a.
+
+
+Thus tau is the common valuation floor of the three primitive direction hypotenuses, not three independent divisor events.
+
+
+Every D_i is an odd primitive Pythagorean hypotenuse. Since the h_i are pairwise coprime, every odd prime divisor p of the endpoint space diagonal R survives in at least two of the D_i. Therefore
+
+
+p | R  =>  p == 1 (mod 4).
+
+
+Since R is odd on the cyclic endpoint locus, all prime divisors of R are split in Q(i). In particular the odd prime support of h_i, tau, c_i and D_i is contained in p == 1 (mod 4).
+
+
+CYCLIC_TAU_COMMON_VALUATION_FLOOR=true
+CYCLIC_TAU_THREE_APPEARANCES_INDEPENDENT=false
+CYCLIC_ENDPOINT_SPACE_DIAGONAL_SPLIT_PRIME_SUPPORTED=true
+
+
+This split-prime support alone gives no fixed-power counting saving and is not a closure theorem.
+
+
+### 13.3 Cyclic self-correspondence composition hold
+
+
+The second-lift self-correspondence parameter t in
+
+
+T^2 =
+[(a^2+b^2)t + ab(1-t^2)]
+/
+[(a^2+b^2)t - ab(1-t^2)]
+
+
+has not been proved to equal the Euclid slope of the next direction in the endpoint 1->2->3->1 cycle.
+
+
+Therefore composing this self-map three times as a cyclic endpoint fixed-point equation is not authorized.
+
+
+CYCLIC_SELF_CORRESPONDENCE_NEXT_DIRECTION_ADAPTER_PROVED=false
+CYCLIC_THREEFOLD_SELF_MAP_ROUTE_STATUS=HOLD
+
+
+### 13.4 Pythagorean Möbius collision normal form for the second squareclass
+
+
+On an off-diagonal t28/t30 directed state define
+
+
+rho =
+[2ab(p^2+q^2)]
+/
+[(a^2+b^2)(p^2-q^2)].
+
+
+Using
+
+
+C/D=2ab/(a^2+b^2),
+X/D=(p^2-q^2)/(p^2+q^2),
+
+
+one gets exactly
+
+
+rho=C/X.
+
+
+The second quartic satisfies
+
+
+[H]=[1+rho^2]
+
+
+in Q^x/Q^x2.
+
+
+For two states rho and sigma, equality of H-squareclasses is equivalent to
+
+
+(1+rho^2)(1+sigma^2) being a rational square.
+
+
+The identity
+
+
+(1-rho*sigma)^2 + (rho+sigma)^2
+=
+(1+rho^2)(1+sigma^2)
+
+
+shows that, away from rho*sigma=1, a collision is equivalent to
+
+
+lambda=(rho+sigma)/(1-rho*sigma)
+
+
+satisfying
+
+
+1+lambda^2 in Q^x2.
+
+
+Equivalently,
+
+
+sigma=(lambda-rho)/(1+lambda*rho),
+
+
+where lambda is a rational Pythagorean slope. The map
+
+
+M_lambda(x)=(lambda-x)/(1+lambda*x)
+
+
+is an involution because its representing matrix squares to (1+lambda^2) times the identity.
+
+
+The exceptional branch rho*sigma=1 is an automatic collision and is treated separately.
+
+
+M3_SECOND_SQUARECLASS_EDGE_RATIO_NORMAL_FORM=true
+M3_H_COLLISION_PYTHAGOREAN_MOBIUS_INVOLUTION=true
+M3_H_COLLISION_RECIPROCAL_EXCEPTION=true
+M3_H_MOBIUS_COLLISION_GLOBALIZED=false
+
+
+The next exact subproblem is to bound or classify fixed-lambda first-cover collision fibers on the exact physical measure.
+
+
+NEXT_ATTACK=CyclicTripleSpinDoubleLiftPrincipalIncidenceOneTwelfth
+
+
+
+
+
+
+## 14. Möbius collision height split and fixed-ratio anti-concentration
+
+
+### 14.1 Fixed edge-ratio multiplicity is subpolynomial
+
+
+On a physical t28/t30 first-cover state normalize by the reduced space-triangle hypotenuse D and write
+
+
+c=C/D,
+x=X/D,
+y=Y/D.
+
+
+The trivial-split direction and t30 cover give rational square complements
+
+
+1-c^2 = square,
+1-x^2 = square,
+
+
+while the first-cover physical relation gives
+
+
+c^2+x^2+y^2=1.
+
+
+Fix the edge ratio
+
+
+rho=c/x=C/X.
+
+
+Writing x=t gives the three simultaneous square conditions
+
+
+u^2=1-t^2,
+v^2=1-rho^2*t^2,
+w^2=1-(1+rho^2)*t^2.
+
+
+For rho not in {0,+1,-1}, every such state maps to the smooth genus-one quotient
+
+
+E_rho:
+z^2=(1-t^2)(1-rho^2*t^2).
+
+
+It has the rational point t=0 and four rational branch points +/-1,+/-1/rho, hence full rational 2-torsion.
+
+
+The physical branch rho=0 is absent because C>0.
+
+
+For rho=1, use instead the smooth quotient
+
+
+z^2=(1-t^2)(1-2*t^2),
+
+
+which has rational 2-torsion. The rho=-1 branch is physically redundant under positivity/orientation and can be handled identically if retained.
+
+
+The model height and every physical t-point height are polynomial in B because rho and t are ratios of physical/reduced coordinates of height at most B^O(1). Therefore the same Dujella uniform bounded-height theorem already used in Stage14-t22 applies.
+
+
+After t is fixed, c=rho*t determines the reduced direction and the t30 cover slope up to finite orientation choices; Stage14-t22 controls all primitive physical lifts over that direction by B^o(1).
+
+
+Hence uniformly in every physical rational rho,
+
+
+boxed:
+m_rho(B)
+:=
+#{s in H_F(B): C(s)/X(s)=rho}
+<= B^o(1).
+
+
+M3_H_FIXED_EDGE_RATIO_MULTIPLICITY=BO1
+
+
+Since H_F(B) injects into the Stage14 physical raw-edge host, the retained Stage14 square-root theorem gives
+
+
+|H_F(B)| <= B^(1/2+o(1)).
+
+
+Consequently the ratio collision energy satisfies
+
+
+sum_rho m_rho(B)^2
+<=
+B^(1/2+o(1)).
+
+
+In particular the reciprocal Möbius branch rho*sigma=1 contributes at most B^(1/2+o(1)) by Cauchy-Schwarz, and is therefore o(B^(2/3)).
+
+
+M3_H_RECIPROCAL_COLLISION_BRANCH_NEGLIGIBLE=true
+
+
+### 14.2 Primitive Pythagorean matrix for every collision
+
+
+For any H-squareclass collision pair rho,sigma define the unique projective direction
+
+
+[A:B]
+=
+[1-rho*sigma : rho+sigma].
+
+
+The collision identity gives
+
+
+A^2+B^2=N^2
+
+
+after primitive integral scaling, for a primitive Pythagorean direction (A,B,N). The reciprocal branch is the degenerate projective direction A=0.
+
+
+For A nonzero, lambda=B/A and the Möbius relation is
+
+
+sigma=(B-A*rho)/(A+B*rho).
+
+
+Let v=(C0,X0)^T be the primitive integer vector representing rho=C0/X0. Put
+
+
+M_(A,B)
+=
+[[-A,B],
+ [ B,A]].
+
+
+Then the primitive vector v' representing sigma is obtained from
+
+
+M_(A,B) v = d v',
+
+
+where
+
+
+d=gcd(B*X0-A*C0, A*X0+B*C0).
+
+
+The exact matrix identity is
+
+
+M_(A,B)^2=N^2 I.
+
+
+Applying M_(A,B) again gives
+
+
+M_(A,B) v'
+=
+(N^2/d) v.
+
+
+Since v and v' are primitive,
+
+
+boxed:
+d*d'=N^2,
+
+
+where
+
+
+d'=gcd(M_(A,B)v')=N^2/d.
+
+
+Thus every collision direction has a two-sided similarity-content factorization. In particular
+
+
+max(d,d') >= N.
+
+
+The same relation is Gaussian:
+
+
+(B*X0-A*C0) + i(A*X0+B*C0)
+=
+-(A-iB)(C0-iX0).
+
+
+If (A,B,N) is parametrized by coprime opposite-parity u>v,
+
+
+A=u^2-v^2,
+B=2uv,
+N=u^2+v^2,
+
+
+then A-iB=(u-iv)^2. Hence fixed-direction collision is Gaussian-square multiplication followed by conjugation and primitive reduction.
+
+
+All odd prime divisors of N are 1 mod 4. For p^k|d, the primitive input vector lies on the unique kernel/root line of M_(A,B) modulo p^k; the reverse statement holds for d'.
+
+
+M3_H_MOBIUS_SIMILARITY_CONTENT_FACTORIZATION=true
+M3_H_MOBIUS_GAUSSIAN_SQUARE_ACTION=true
+
+
+### 14.3 Small collision-direction hypotenuse is negligible
+
+
+For a fixed primitive Pythagorean direction (A,B,N), the induced Möbius map is a bijection of P^1(Q). Therefore
+
+
+I_(A,B)(B)
+=
+sum_rho m_rho(B) m_{M_(A,B)rho}(B)
+<=
+(max_rho m_rho(B)) * |H_F(B)|
+<=
+B^(1/2+o(1)).
+
+
+The number of primitive Pythagorean directions with N<=L is O(L), by the standard coprime Euclid parametrization u^2+v^2<=L.
+
+
+Hence
+
+
+boxed:
+Q_H^{N<=L}(B)
+<=
+B^(1/2+o(1)) L.
+
+
+Taking
+
+
+L=B^(1/6-eta)
+
+
+for any fixed eta>0 yields
+
+
+Q_H^{N<=L}(B)
+<=
+B^(2/3-eta+o(1))
+=
+o(B^(2/3)).
+
+
+Thus the second-squareclass energy gate is reduced to collision directions with
+
+
+N>B^(1/6-o(1)).
+
+
+For every such collision, after choosing the orientation with the larger similarity content,
+
+
+d>=N>B^(1/6-o(1)).
+
+
+This is an exact large-factor reduction on the same collision pair; no independence is used.
+
+
+M3_H_SMALL_MOBIUS_DIRECTION_BRANCH_NEGLIGIBLE=true
+M3_H_LARGE_DIRECTION_FORCES_LARGE_SIMILARITY_CONTENT=true
+
+
+### 14.4 New minimal supporting gate
+
+
+The remaining second-squareclass-energy problem is the large-similarity-content tail:
+
+
+PythagoreanMobiusLargeSimilarityContentTail.
+
+
+It is sufficient to prove, on the exact first-cover physical measure, that the total ordered collision pairs whose unique primitive Möbius direction has N>B^(1/6-eta) and whose charged orientation has d>=N are o(B^(2/3)).
+
+
+The congruence M_(A,B)v == 0 mod d is a genuine root-line restriction, but no ambient lattice density may be multiplied into the Stage14 square-root count without a same-measure theorem.
+
+
+Do not reopen fixed-lambda B^o(1): fixed lambda still allows all rho values and has only the B^(1/2+o(1)) bound above.
+
+
+M3_H_LARGE_SIMILARITY_CONTENT_TAIL_PROVED=false
+NEXT_ATTACK=CyclicTripleSpinDoubleLiftPrincipalIncidenceOneTwelfth
+
+
+
+
+
+
+## 15. Correction of the similarity-content tail and cyclic threshold amplification
+
+
+### 15.1 Exact bilinear-gcd formulas for a Möbius collision pair
+
+
+Let
+
+
+v=(C,X),
+v'=(C',X')
+
+
+be primitive positive integer ratio vectors for two first-cover states, and put
+
+
+S=C^2+X^2,
+S'=C'^2+X'^2.
+
+
+Assume they have equal H-squareclass, so
+
+
+S*S'=Q^2
+
+
+for an integer Q.
+
+
+Define the bilinear forms
+
+
+L=XX'-CC',
+K=CX'+C'X,
+
+
+and
+
+
+g=gcd(L,K).
+
+
+Then
+
+
+L^2+K^2=S*S'=Q^2,
+
+
+so the primitive collision direction is exactly
+
+
+A=L/g,
+B=K/g,
+N=Q/g,
+
+
+with A^2+B^2=N^2.
+
+
+For
+
+
+M=[[-A,B],[B,A]],
+
+
+direct multiplication gives the exact identities
+
+
+M v
+=
+(S/g) v',
+
+
+M v'
+=
+(S'/g) v.
+
+
+Therefore the similarity contents introduced in Section 14 are not new independent divisibility variables. They are exactly
+
+
+boxed:
+d=S/g,
+d'=S'/g,
+
+
+and
+
+
+boxed:
+N=sqrt(S*S')/g.
+
+
+Consequently
+
+
+d*d'=N^2
+
+
+is automatic, and after orienting the pair so that S>=S',
+
+
+d>=N
+
+
+is merely the inequality
+
+
+S/g >= sqrt(S*S')/g.
+
+
+Thus the proposed large-similarity-content tail does not define an additional arithmetic thinning condition beyond the collision itself.
+
+
+The congruence
+
+
+M v == 0 mod d
+
+
+is exact but tautological after fixing the collision partner v': it is the divisibility statement encoded by
+
+
+M v = d v'.
+
+
+Hence it must not be recharged as an independent root-line saving.
+
+
+M3_H_SIMILARITY_CONTENT_EQUALS_NORM_OVER_BILINEAR_GCD=true
+M3_H_LARGE_SIMILARITY_CONTENT_INDEPENDENT_SAVING=false
+PYTHAGOREAN_MOBIUS_LARGE_SIMILARITY_CONTENT_TAIL_STATUS=RETRACTED_AS_NEW_GATE
+
+
+The small-direction result of Section 14.3 remains valid because it used only:
+1. the fixed-rho B^o(1) multiplicity,
+2. the Stage14 B^(1/2+o(1)) host bound,
+3. the O(L) count of primitive Pythagorean directions N<=L.
+
+
+It did not use any independent saving from d.
+
+
+Thus
+
+
+M3_H_SMALL_MOBIUS_DIRECTION_BRANCH_NEGLIGIBLE=true
+
+
+remains retained, while the unresolved H-energy branch is simply
+
+
+N>B^(1/6-o(1))
+
+
+with no extra d-density available for free.
+
+
+### 15.2 Gaussian product interpretation
+
+
+Let
+
+
+z=X+iC,
+z'=X'+iC'.
+
+
+Then
+
+
+z*z'=L+iK.
+
+
+Since L=gA, K=gB and A^2+B^2=N^2, the primitive Gaussian integer A+iB is a unit times a square:
+
+
+A+iB = unit * eta^2,
+
+
+with N(eta)=N.
+
+
+Therefore every collision pair has the exact factorization
+
+
+boxed:
+z*z' = g * unit * eta^2.
+
+
+This is the intrinsic Gaussian form of the H-squareclass collision.
+
+
+The rational content g is the full common content of the Gaussian product z*z'. Primewise, it records opposite-orientation overlap between the primitive Gaussian factors of z and z'; the primitive square eta^2 records the residual same-orientation part.
+
+
+This is structurally the same two-channel Gaussian orientation mechanism seen in the Stage14/15 common-core analyses, but no global counting saving is imported from those different measures.
+
+
+M3_H_COLLISION_GAUSSIAN_PRODUCT_SQUARE=true
+M3_H_COLLISION_TWO_CHANNEL_ORIENTATION_STRUCTURE=true
+M3_H_COLLISION_TWO_CHANNEL_GLOBAL_COUNT_PROVED=false
+
+
+### 15.3 Cross-gcd cycle amplifies the residual-tau threshold
+
+
+Return to the primary cyclic endpoint structure
+
+
+c1=h2*h3,
+c2=h1*h3,
+c3=h1*h2,
+
+
+R=h1*h2*h3*tau.
+
+
+Exactly,
+
+
+boxed:
+c1*c2*c3=(R/tau)^2.
+
+
+Fix a threshold C>=1.
+
+
+If all three cyclic raw-edge cross-gcd labels satisfy
+
+
+c_i<=C,
+
+
+then
+
+
+(R/tau)^2
+=
+c1*c2*c3
+<=
+C^3,
+
+
+hence
+
+
+boxed:
+tau >= R/C^(3/2).
+
+
+Now restrict to the already-retained large-R branch
+
+
+R>B^(2/3-eta).
+
+
+Choose
+
+
+C=B^(1/6+xi),
+
+
+with fixed eta,xi>0. Then every endpoint not lying in a large-cross-gcd branch satisfies
+
+
+boxed:
+tau
+>
+B^(5/12-eta-(3/2)xi).
+
+
+Thus the combination of the existing same-measure raw-edge tail gate with the cyclic product identity has a stronger consequence than the original four-factor pigeonhole threshold B^(1/6-o(1)):
+
+
+after controlling
+
+
+max_i c_i > B^(1/6+xi),
+
+
+the only cyclic residual branch has
+
+
+tau > B^(5/12-o(1)).
+
+
+This is an exact conditional reduction.
+
+
+M3_CYCLIC_CROSSGCD_PRODUCT_AMPLIFICATION=true
+M3_CYCLIC_RESIDUAL_TAU_THRESHOLD_AFTER_XG_TAIL=5/12
+
+
+### 15.4 Current coupled gate
+
+
+The primary route is therefore best organized as a coupled two-step gate:
+
+
+Step A:
+close the existing same-measure Stage14 r

@@ -1,0 +1,298 @@
+﻿Stage37-PAIR-PREFLIGHT-001 — occupied-pair weighted thin-base reduction and no-independent-mechanism
+
+
+STATUS: ONE_SHOT_PAIR_PREFLIGHT_COMPLETE / EXACT_WEIGHTED_THIN_BASE_REDUCTION_PROVED / PAIR_NOT_IDENTICAL_TO_LOCAL_BUT_NO_INDEPENDENT_CURRENT_MECHANISM / RETURN_TO_HOLD / GLOBAL_CREDIT=0 / M3_T11_230_NOT_ISSUED
+
+
+AUTHORITY AND SCOPE
+Current operational authority remains M3-T11-229.
+Latest mathematical construction remains M3-T11-228.
+Latest delta research remains Stage37-NEW-INPUT-DELTA-AUDIT-229F.
+Latest strategy audit is Stage37-ROUTE-PORTFOLIO-AUDIT-229F-R4, which authorized exactly one nonproduction PAIR occupied-image independence preflight.
+
+
+This card consumes that one-shot preflight.
+It does not issue M3-T11-230 and does not alter any proved counting credit.
+
+
+1. Exact pair measure
+
+
+Let M3(B) denote the exact primitive canonical M3 population at physical height R<=B.
+
+
+For every occupied physical pair (X,D), define
+    mu_B(X,D)
+      = #{E in M3(B): E maps to (X,D)}.
+
+
+Let
+    W_B = {(X,D): mu_B(X,D)>0}.
+
+
+By M3-XD-001, fixed-(X,D) multiplicity is uniformly B^o(1). Therefore
+    1 <= mu_B(X,D) <= B^o(1)                    (PAIR.1)
+uniformly on W_B.
+
+
+Hence
+    |W_B| <= M3(B) <= B^o(1)|W_B|.              (PAIR.2)
+
+
+The endpoint predicate is exactly
+    X^2 + D^2 is an integer square.
+It depends only on the pair.
+
+
+Define
+    E_B = {(X,D) in W_B: X^2+D^2 is a square}.
+
+
+Then the endpoint count satisfies
+    |E_B| <= P(B) <= B^o(1)|E_B|.               (PAIR.3)
+
+
+Thus the occupied-pair measure and the exact M3 object measure are subpower-equivalent for fixed-power density questions.
+
+
+RESULT_PAIR_OBJECT_PAIR_MEASURE_SUBPOWER_EQUIVALENCE=PROVED_EXACT.
+
+
+2. Exact reduction to the w=D/X thin base
+
+
+On the positive physical open X>0, define
+    w=D/X.
+
+
+For each rational w, define the occupied-pair weight
+    n_B(w)
+      = #{(X,D) in W_B: D/X=w}.
+
+
+Then exactly
+    |W_B| = sum_w n_B(w).                        (PAIR.4)
+
+
+M3-BASE-001 proves that
+    X^2+D^2 is a square
+iff
+    w belongs to the degree-two Pythagorean thin image
+        T_Pyth = {2 tau/(1-tau^2): tau in Q}
+on the nondegenerate physical open.
+
+
+Therefore
+    |E_B|
+      = sum_{w in T_Pyth} n_B(w).                (PAIR.5)
+
+
+Consequently M3-PAIR-GATE-001 is exactly equivalent to the weighted thin-base target:
+find fixed delta>0 such that
+    sum_{w in T_Pyth} n_B(w)
+      <= B^(-delta+o(1)) sum_w n_B(w).           (PAIR.6)
+
+
+This is the exact occupied-image formulation. No ambient pair set appears.
+
+
+RESULT_PAIR_GATE_EQUALS_WEIGHTED_OCCUPIED_W_THIN_BASE_DEFICIT=PROVED_EXACT.
+
+
+3. Relation to the exact M3 object pushforward
+
+
+Define the M3 object weight on w by
+    m_B(w)
+      = sum_{(X,D) in W_B, D/X=w} mu_B(X,D).
+
+
+From (PAIR.1),
+    n_B(w) <= m_B(w) <= B^o(1)n_B(w)             (PAIR.7)
+uniformly in w.
+
+
+Hence a fixed-power deficit on occupied pairs and a fixed-power deficit for the same thin set under the exact M3 w-pushforward are equivalent up to B^o(1).
+
+
+But this does NOT identify PAIR with M3-LOCAL-GATE-001.
+
+
+M3-LOCAL-GATE-001 asks for same-M3 contraction under arbitrarily large fixed finite sets of inert-prime residue constraints
+    [X:D]_p in Omega_p.
+
+
+PAIR asks directly for a global thin-image deficit for the exact rational ratio w.
+
+
+LOCAL is a sufficient route to P/M3->0 if its contraction theorem is proved.
+PAIR is a different sufficient receiver.
+Neither exact gate statement implies the other as stated.
+
+
+RESULT_PAIR_LOCAL_IDENTICAL=false.
+RESULT_PAIR_LOCAL_RELATED=true.
+
+
+4. Three possible proof mechanisms and their status
+
+
+4.1 Finite-prime expansion / large sieve
+
+
+The exact local condition for an inert prime p is the M3-LOCAL-001 half-set
+    [X:D]_p in Omega_p.
+
+
+Any attempt to prove (PAIR.6) by showing that the occupied w-support expands across many fixed inert-prime residue classes requires precisely a same-M3 or subpower-equivalent occupied-pair residue distribution theorem.
+
+
+Because of (PAIR.7), such a theorem is the same missing distribution interface already isolated by M3-LOCAL-GATE-001 / M3-T11-225, up to the harmless B^o multiplicity change.
+
+
+Therefore finite-prime PAIR expansion is not an independent current mechanism.
+
+
+PAIR_FINITE_PRIME_BRANCH=REDUCES_TO_LOCAL_DISTRIBUTION_INTERFACE.
+
+
+4.2 Ambient rational-pair / ambient Pythagorean density
+
+
+One may compare the Pythagorean thin image with all rational or primitive integer pairs of bounded height. That does not control (PAIR.6), because n_B(w) is the realized occupied M3 image measure and can be highly nonuniform.
+
+
+M3-PAIR-GATE-001 explicitly forbids replacing W_B by all ambient primitive pairs.
+M3-BASE-001 also warns that pointwise thinness on the w-base does not imply a uniform moving-mass bound.
+
+
+Recent generic thin-set theorems in projective/affine space count ambient rational points of bounded height in a thin set. They do not bound an arbitrary arithmetic weight n_B(w) concentrated on an occupied image unless a distribution/height adapter for that weight is supplied.
+
+
+Thus:
+PAIR_AMBIENT_DENSITY_BRANCH=INVALID_FOR_REQUIRED_MEASURE.
+
+
+4.3 Fixed-w fiber counting
+
+
+M3-BASE-001 identifies each fixed nonzero rational w fiber with a genus-5 V4 cover.
+This gives pointwise geometric finiteness, but no uniform summable bound for the moving collection of occupied w.
+
+
+The retained history already contains the firewall:
+Faltings or fixed-fiber arguments do not control the total moving thin-base mass.
+Related fixed-fiber B^o results elsewhere in T11 are for different scoped packet/fibration variables and do not furnish a global uniform bound for n_B(w).
+
+
+Thus:
+PAIR_FIXED_W_BRANCH=NONUNIFORM_MOVING_SUPPORT_PROBLEM.
+
+
+5. Current-literature check
+
+
+Current 2025–2026 thin-set results materially improve ambient bounded-height counting, including:
+- Buggenhout–Cluckers–Santens–Vermeulen, arXiv:2506.13471, projective/affine type-II thin-set bounds;
+- Chan–Loughran–Rome, arXiv:2602.05705, thin sets in weighted projective stacks;
+- Bonolis–Pierce–Woo, arXiv:2603.23334, survey and current uniformity frontier.
+
+
+These do not supply a theorem for the realized weight n_B(w), nor a theorem forcing the exact occupied M3 image to be sufficiently spread in w.
+
+
+Therefore no current external theorem found turns (PAIR.6) into a proved fixed-power deficit.
+
+
+RESULT_PAIR_CURRENT_THEOREM_MATCH=NONE.
+
+
+6. One-shot independence verdict
+
+
+The preflight question from 229F-R4 was:
+Does PAIR admit a genuinely image-side expansion/incidence mechanism independent of LOCAL and ambient density?
+
+
+Answer with the current arsenal:
+NO.
+
+
+More precisely:
+- PAIR is mathematically distinct from LOCAL;
+- its exact independent formulation is the weighted thin-base inequality (PAIR.6);
+- the known finite-prime route re-enters the LOCAL distribution gate;
+- the ambient route violates the exact occupied-image measure;
+- the fixed-w route has the old moving-support nonuniformity;
+- no current theorem matches the weighted occupied support directly.
+
+
+This is not a theorem that no future PAIR method can exist.
+It is a scoped no-independent-current-mechanism result.
+
+
+PAIR_ONE_SHOT_PREFLIGHT_RESULT=STOP.
+PAIR_GATE_STATUS_AFTER_PREFLIGHT=HOLD_PENDING_GENUINELY_NEW_WEIGHTED_OCCUPIED_IMAGE_THEOREM.
+PAIR_AUTOMATIC_EXTENSION_ALLOWED=false.
+
+
+7. Reopen condition
+
+
+PAIR may reopen only if a genuinely new input provides at least one of:
+
+
+(A) Weighted occupied-image expansion:
+a theorem stated directly for n_B(w) or W_B under exact R<=B giving a fixed-power deficit on T_Pyth.
+
+
+(B) Exact same-measure incidence:
+an incidence/expansion theorem on the actual Master-Hit occupied pair image that does not require first proving M3-LOCAL-GATE-001.
+
+
+(C) Uniform moving-w fiber theorem:
+a summable uniform bound for the realized fixed-w M3 fibers strong enough to prove (PAIR.6).
+
+
+Generic ambient P^1/P^2 thin-set counts are not a reopen trigger.
+
+
+8. Strategy consequence
+
+
+The 229F-R4 instruction was to return immediately to HOLD if PAIR reduced to LOCAL, ambient density, or unquantified moving support.
+
+
+That STOP condition has been met.
+
+
+Therefore:
+    NEXT_INTERNAL_PAIR_WORK=NONE.
+    RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_GENUINELY_NEW_THEOREM_INPUT.
+    A=THEOREM_WATCH.
+    LOCAL=THEOREM_WATCH.
+    FIB=THEOREM_WATCH_ONLY.
+    CROSS_GCD=HOLD_STRONG.
+    TQ=HOLD_STRONG.
+    GEOMETRY_229F=PARK_THEOREM_TARGET.
+    DEN=NEW_IDEA_ONLY.
+    TI=PARKED.
+
+
+Do not start another internal identity chain automatically.
+
+
+9. Final state
+
+
+M3-T11-229 remains latest operational authority.
+M3-T11-228 remains latest mathematical construction.
+229F remains latest post-229 delta research.
+Stage37-PAIR-PREFLIGHT-001 is the latest strategy/preflight result.
+
+
+M3_T11_230_ISSUED=false.
+GLOBAL_COUNTING_CREDIT=0.
+M3_T11_GATE_001=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+NO_PERFECT_CUBOID_EXISTENCE_OR_NONEXISTENCE_CONCLUSION=true.

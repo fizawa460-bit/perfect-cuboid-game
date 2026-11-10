@@ -1,0 +1,111 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229BF — charged-once joint t-G primitive lattice bound and fixed-outer genus-five fibers
+
+
+STATUS: POST_229BE_PRIMITIVE_LATTICE_PERIMETER_REMOVAL_PROVED / JOINT_SHARED_t_AND_RAW_ODD_G_CRT_LATTICE_PROVED / LARGE_K_FIXED_OUTER_FIBER_POWER_SAVING_PROVED_SCOPED / FIXED_OUTER_TWO_FACE_SQUARE_GENUS_FIVE_PROVED / ONE_PER_OUTER_FLOOR_UNRESOLVED / GLOBAL_COUNTING_CREDIT=0 / NO_GLOBAL_REOPEN
+TYPE: EXACT PRIMITIVE-LATTICE COUNT / JOINT NORM-ROOT AND CONTENT-ROOT CRT / FIXED-OUTER LARGE-RADICAL TAIL / EXPLICIT GENUS-FIVE AND GENUS-THREE QUOTIENT GEOMETRY / M3 MEASURE FIREWALL
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229BE
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 15v0_q-F_LV4XTMJ2yfILhGbgT1MzIGYgWkQ4rH_Bf4E
+
+
+1. Exact scope and objective
+Retain229BD and229BE: a positive primitive TWO-selector physical point corresponds bijectively to ordered primitive Pythagorean triples (X,Y,q),(E,Z,H), with
+  q=r²+s², {X,Y}={2rs,r²-s²},
+  E²+Z²=H²,
+  t=gcd(q,Z), R=qH/t<=B,
+  G_*=gcd(EH,XY), K_*=sf(G_*).
+Here r>s>0 are coprime and opposite parity, and the order of the two legs X,Y is retained. For this card FIX the outer primitive triple (E,Z,H), with H<=B.
+The substantive new count below imposes large K_* and t|q on ONE AND THE SAME rank-two primitive inner Euclid lattice. It is not the 229BC outer raw-G sieve multiplied by229BE. All extra Stage37 host/face/chamber/canonical/selector conditions remain postfilters; no global M3 count is asserted.
+
+
+2. Primitive points in an arbitrary planar lattice: no perimeter term
+Lemma 229BF-PL.
+Let Lambda be any full-rank sublattice of Z² of determinant/index M>=1, and Q>=0. Then
+  #{v=(r,s) in Lambda : gcd(r,s)=1, r²+s²<=Q}
+      << 1+Q/M                                                (229BF.1)
+with an ABSOLUTE implied constant, uniformly in Lambda.
+Proof. Write L=sqrt(Q). If Lambda has no nonzero point of length <=L, the count is zero. Otherwise let v be a shortest nonzero lattice vector, length lambda<=L. Because v is primitive INSIDE Lambda, extend it to a Z-basis (v,w) of Lambda. Every lattice point has a unique representation a*v+b*w. The determinant relation and the norm bound give
+  |b|*M=|det(v,a*v+b*w)|<=lambda*L,
+so |b|<=lambda*L/M.
+For b=0, at most two vectors a*v can be primitive in Z²: if v itself is ambient-primitive, only a=+1 or -1 qualify; otherwise none. For each nonzero b, the possible points lie on a line spaced by lambda; the disk has chord length <=2L, hence at most 1+2L/lambda values of a. Therefore
+  N <= 2+2*(lambda*L/M)*(1+2L/lambda)
+    <= 2+2L²/M+4L²/M
+    << 1+Q/M,
+since lambda<=L. This proves the lemma. Importantly a generic lattice-point count has a perimeter term O(L/lambda); ambient primitivity kills the long sequence of multiples along the shortest lattice vector.
+RESULT_229BF_UNIFORM_PRIMITIVE_LATTICE_NO_PERIMETER=PROVED_EXACT.
+
+
+3. Joint t and odd G root lines form one index-tD lattice
+Write D=(G_*)_odd, the full odd part of the cross-gcd. Since G_*|EH and G_*|XY,
+  D|EH, D|XY.                                           (229BF.2)
+Also t|q and gcd(t,D)=1 by229BD. The inner Euclid identities give
+  XY=2rs(r-s)(r+s), q=r²+s².                        (229BF.3)
+Every p|t is 1 modulo4. Because gcd(r,s)=1, the norm congruence q=0 mod p^k forces s invertible mod p and selects one line
+  r=rho_p*s mod p^k, rho_p²=-1 mod p^k.
+There are two roots per odd split prime power. After CRT, at most 2^omega(t) norm lines mod t.
+For each odd prime power p^k||D, p^k|XY. The four factors r,s,r-s,r+s are pairwise coprime at p for coprime (r,s), because p is odd. Thus the entire p^k divides EXACTLY ONE factor and selects one of the four primitive linear root lines
+  r=0, s=0, r=s, r=-s (mod p^k).                    (229BF.4)
+After CRT, at most 4^omega(D) content-line assignments mod D.
+Since gcd(t,D)=1, each choice of norm and content line defines ONE full-rank lattice Lambda(t,D,root-data) subset Z² of index/determinant EXACTLY tD. It is ONE joint congruence condition, not two probabilistic sieves.
+RESULT_229BF_JOINT_t_D_CRT_DETERMINANT=tD_PROVED_EXACT.
+
+
+4. Fixed outer large-K fiber bound
+Fix B>=2, outer (E,Z,H) with H<=B, and threshold T>=2. Let
+  N_outer(B;T):=#{ordered primitive inner triples (X,Y,q):
+       qH/gcd(q,Z)<=B, sf(gcd(EH,XY))>T}.
+Set t=gcd(q,Z) and D=(gcd(EH,XY))_odd. Then t|Z, D|EH, gcd(t,D)=1 and
+  q<=Bt/H.                                                (229BF.5)
+The squarefree-kernel convention gives
+  K_*=sf(G_*)=2^eps2*sf(D), eps2 in {0,1}.
+Consequently K_*>T implies sf(D)>T/2 and hence D>T/2.
+For each divisor choice t|Z, D|EH with D>T/2 and each of the at most 2^omega(t)*4^omega(D) joint CRT line assignments, apply (229BF.1) to the index-tD lattice in the Euclid disc Q=Bt/H:
+  # primitive Euclid pairs per assignment
+       << 1+(Bt/H)/(tD)
+       = 1+B/(HD).                                       (229BF.6)
+There are at most two orientations of ordered legs (X,Y). Sum the possibilities over the divisors of the FIXED outer integers Z and EH:
+  N_outer(B;T)
+    << [sum_{t|Z}2^omega(t)]
+       [sum_{D|EH, D>T/2}4^omega(D)]
+          (1+B/(H D_min))
+    <<_epsilon B^epsilon(1+B/(HT)),                     (229BF.7)
+uniformly for B>=2, T>=2, since Z<=H<=B, EH<=B², each divisor/root-allocation sum is B^o(1), and D>T/2. Here the bound is interpreted with an eps-dependent constant; no separate sqrt(B/H) boundary survives.
+RESULT_229BF_FIXED_OUTER_LARGE_K_JOINT_COUNT=PROVED_SCOPED:
+  N_outer(B;T) <<_eps B^eps (1+B/(H T)).
+In the range T >= B/H the estimate is only B^o(1) per outer triple, whereas229BE allowed as large as B/H; for intermediate T there is a genuine relative 1/T area gain. The residual ONE-PER-OUTER floor is not globally summable below B^(1/3) using current outer-support information.
+This is a different fixed-outer conditional upper bound from229BC's fixed-(G,h) OUTER count; neither may be multiplied as independent savings. Stage37 masks can only shrink N_outer, but the estimate alone does NOT imply their radical-tail gate.
+
+
+5. Exact genus-five fixed-outer two-face-square fiber
+For fixed positive outer primitive triple (E,Z,H), H²=E²+Z², take the same primitive inner Euclid coordinates. To impose BOTH remaining physical face-square conditions,
+  U²=e²+x², V²=e²+y²,
+after substituting e=qE/t, x=ZX/t, y=ZY/t and clearing t², one obtains the simultaneous homogeneous quartics
+  W_1²=F_1(r,s):=E²(r²+s²)²+4Z²r²s²,
+  W_2²=F_2(r,s):=E²(r²+s²)²+Z²(r²-s²)²,          (229BF.8)
+with W_1=tU,W_2=tV (possibly swap W_1,W_2 for ordered X/Y). Conversely at primitive integer r,s, if F_i is a rational square then it is an integer square, and t divides its integer square root because both Eq and ZX,ZY are divisible by t. Thus the two quartic square tests are exactly the remaining integer face-square tests on the same physical point, with the original R=qH/t<=B height and all M3 additional masks retained.
+Each quartic has four distinct complex roots in P¹:
+  F_1(r,s)=[(E²r²+(H+Z)²s²)(E²r²+(H-Z)²s²)]/E²;
+  F_2(r,s)=H²(r⁴+s⁴)+2(E²-Z²)r²s².
+For F_1, H>Z>0 makes both quadratic factors nondegenerate with distinct root pairs. For F_2, the discriminant as a quadratic in (r/s)² is -16E²Z² nonzero; its leading and constant coefficients are H² nonzero.
+The two branch divisors are disjoint: a common zero would imply (2rs)²=(r²-s²)², hence (r²+s²)²=2(2rs)². Plugging into F_1=0 gives (2E²+Z²)(2rs)²=0, impossible for a projective (r:s) over C with E,Z>0.
+The normalization of the biquadratic cover of P¹ defined by (229BF.8) is therefore a connected smooth (Z/2)^2-cover with eight distinct simple branch points. Riemann-Hurwitz:
+  2g-2=4*(-2)+8*2=8, so g=5.                 (229BF.9)
+Its three index-two quotient curves have equations w²=F_1, w²=F_2 and w²=F_1F_2, and genera 1,1,3 respectively. The pullbacks of holomorphic differentials on these three quotients span all five character eigenspaces (dimensions 1+1+3), giving an isogeny over Q between the genus-five Jacobian and the product of the two genus-one Jacobians and the genus-three Jacobian. This is a STRUCTURAL isogeny only; it supplies no rank, rational-point, height-uniformity or counting theorem.
+RESULT_229BF_FIXED_OUTER_GENUS_FIVE_V4_AND_ELLIPTIC_ELLIPTIC_GENUS3_QUOTIENT=PROVED_EXACT.
+The genus-five fiber is the full additional TWO-face lift after the two-selector surface; it is not evidence that all its rational points satisfy the integral primitive/canonical physical conditions. Genus-five finiteness for each fixed outer triple does NOT imply a uniform B^o count across moving E,Z,H, and is not a new theorem species closing Stage35/Stage37.
+
+
+6. New blocker and method accounting
+229BF supplies an exact joint primitive (t,D) lattice WITHOUT a perimeter term and a separate exact genus-five fixed-outer model for the two remaining square selectors. Its current quantitative ceiling after summing all eligible outer triples remains the O(B^{1+o(1)}) one-per-outer floor; the extra physical masks are essential. The 229BE diagonal two-selector counterfamily remains a valid warning that the unmasked large-radical tail is too large; this card neither retracts nor claims it satisfies genus-five face-square lifts.
+NEXT CONTRACT: either (A) show a selector-aware global bound on occupied outer triples strong enough to sum the one-per-outer term and B/(HT) term, preserving exact physical R=qH/t, or (B) count primitive inner Euclid points satisfying BOTH quartic square tests (229BF.8) uniformly over the moving outer primitive E,Z,H, with K_*>B^(1/3-delta), using the charged-once index-tD lattice. Any imported theorem MUST use the same physical measure and maintain all masks. Do not multiply229BC raw-G root-line savings with229BF's joint-lattice factor, do not charge229BB Pell completion again, and do not infer a global saving from genus-five geometry alone.
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED. PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0. P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Closure, HOLD flags, old credit, and INTEGRATED_AUDIT_186_229O scope unchanged. Independent hostile audit of229BF NOT RUN.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

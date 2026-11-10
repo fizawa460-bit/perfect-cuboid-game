@@ -1,0 +1,33 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229GZ
+TITLE: Rigorous all22 determinant-bad third-prime congruence sieve r≡1(mod24) under original split r≡1(mod8); complete balanced necessary-source false-positive audit for r²|H.
+RESEARCH_CARD=1xDevwvGd1JcrjYlj2m7jdsa_ue1S0PsgQ4BNFdKahXY; REPRO_CERT=1KclxJtmzplM6-0BywHTelgQgnloaTNU81c_D5T1cUh4; PREV=229GY SOURCE_ROW671; NEW_SOURCE_ROW672.
+STATUS=PROVED_ALL22_GY_DETERMINANT_BAD_THIRD_PRIME_r_REQUIRES_LEGENDRE_3_OVER_r_EQ_PLUS1 / PROVED_FOR_ALL_r_EQ17MOD24_UNIFORM_FIXED_p_r_AT_MOST44_q_WITH_ZERO_DET_EXCEPTIONS / EXACT_FINITE_BALANCED_P_LE2000_37716_PRIME_TRIPLES_452592_NORM_SQUARE_DIVISIBILITY_TESTS_8_MATRIX_HITS_4_DISTINCT_PQR_ALL_FIRST_DISCRIMINANTS_NONSQUARE / REFUTED_NORM_r2_DIVISIBILITY_ALONE_IMPOSSIBLE / NO_GLOBAL_COUNT_SAVING / CREDIT0.
+GOVERNANCE operational M3-T11-229, construction M3-T11-228, M3-T11-230 NOT ISSUED, Gate M3-T11-GATE-001 OPEN, GlobalCredit0, production HOLD, formal ROUTE_SWITCH NONE, closure unchanged. GitHub not used.
+
+
+1. STARTUP AND COMPLETE-HISTORY TARGETED LOOP/STRATEGY AUDIT.
+MAIN current229GY -> native CARD-INDEX AI-00-CONTRACT row671 -> LEDGER latestGY -> active lightweight ROUTE -> GY research card + certificate -> NEG latestGY. Historical full native CARD-INDEX AI10 and Y2:Y671 searched LATTICE, PRIME_SIEVE, SQUAREFULL, BAD_PRIME, DET, RESULTANT, ONE_SIGN, GAUSSIAN_NORM, FIXED_R, BALANCED_PRIME_SUPPORT, COUNTING_HEIGHT, Kcross, Gres, COLLISION; related old lattice AZ517 BA518 BE522 CM556, GF652 GH654 GR664, GU667 GV668 GW669 GX670 GY671. Last >5 without global o(Q); alternatives (A) naive independent random lattice prime occupancy (not proven, prohibited); (B) arithmetic obstruction on GY determinant-bad r and hostile exact check of whether r²|H could ever occur; EXECUTED B, no formal route change. Prior GW product nonsquare does NOT exclude one-sign physical roots.
+
+
+2. THEOREM GZ.1 — ALL22 DET BAD r REQUIRE (3/r)=+1, ZERO BAD r≡17 mod24.
+Recall GY all22 determinant absolute values among:
+ D1=|a²−3b²|, D2=|b²−3a²|,
+ D3=|(a²−4ab+b²)(a²+4ab+b²)|,
+with a²+b²=p², a odd, b nonzero even, |a|,|b|<p<r, r odd rational split prime r≡1 mod8.
+If r|D1, 3≡(a/b)² mod r; if r|D2, 3≡(b/a)² mod r. If r|D3, x=a/b mod r satisfies x²±4x+1=0 whose discriminant 12=4*3 must be a quadratic residue. Therefore r dividing ANY GY matrix determinant forces Legendre symbol (3/r)=+1. For primes r>3 with r≡1 mod8, the only residue classes mod24 are r≡1 and17; quadratic reciprocity gives (3/r)=+1 iff r≡1 mod24, and (3/r)=−1 iff r≡17 mod24. Thus ALL r≡17 mod24 are determinant-GOOD SIMULTANEOUSLY for all22 GY matrices, for every first p<r, no exceptions. Consequently the GY uniform at-most44 q per fixed(p,r) theorem holds for ALL third split r≡17 mod24, not merely r outside an unspecified finite determinant exceptional set. The <=8 exceptional r per p may occur only r≡1 mod24, not all split r.
+This is a universal modular obstruction to MATRIX DEGENERACY, NOT to physical points themselves, NOT an o(Q) occupancy theorem. For r≡1 mod24 determinant may still be nonzero; residue class is necessary not sufficient for badness.
+
+
+3. EXACT HOSTILE SIEVE AUDIT: r²|H DOES OCCUR FOR BALANCED THREE DISTINCT SPLIT PRIMES.
+To test the temptation to declare GY Gaussian prime-square necessary support empty, exhaustively enumerated ALL rational primes p≡q≡r≡1 mod8 with 17≤p≤2000 and p<q<r≤2p. For each p=u²+v² with u>0,v positive even, a=u²−v²,b=2uv; similarly c,d for q. 68 eligible first primes, 37,716 ordered balanced split prime triples. Evaluated the three all22 Gaussian matrix families G(U,V) with U,V=(a,b), G with (a²−b²,2ab), and S with (p²,4ab), both signs ± and c,d swap, for 12 integer norms per triple, exact modulo r², 452,592 total tests. Found EXACTLY EIGHT sign/swap hits, representing FOUR DISTINCT ordered prime triples, all in S family; NO G family hit. Every triple has genuine distinct p,q,r≡1mod8, p<q<r≤2p:
+  (p,q,r)=(281,313,337), a,b,c,d=(-231,160,25,312), S sign+, H/r²=21025812721;
+  (857,1201,1249), (a,b,c,d)=(825,232,49,1200), S sign−, H/r²=955932336001;
+  (953,1201,1249), (a,b,c,d)=(-615,728,49,1200), S sign+, H/r²=3482912052481;
+  (1049,1361,1801), (a,b,c,d)=(-999,320,561,1240), S sign+, H/r²=418166556721.
+The swap duplicates the same H because the S norm has symmetric coefficient structure, so four actual distinct pqr, not eight physical solutions. For each triple the ORIGINAL source FJ first discriminant is NOT a rational square for each of the three S keys 000.022.110:0, 002.020.110:0, 002.020.110:1; hence NONE is an original signed rational Y solution. Exact test used rational SymPy discriminant, not floating point. All four r≡1 mod24, but this does not show they are determinant-bad; indeed r²|H can occur in determinant-good cases. These are explicit false positives of using r²|H as a sufficient original physical test.
+FINITE-SCOPE FIREWALL: p≤2000, r≤2p only, no general zero G family theorem, no asymptotic saving. This check is a hostile counterexample to an attractive false shortcut, not a new proof that the original perfect cuboid has or lacks solutions.
+
+
+4. DIFFERENCE FROM PAST AND NEXT.
+GY gave fixed(p,r) good-lattice at-most44 q and <=8 bad r per p. GZ proves a new uniform r mod24 arithmetic class with zero determinant-bad exceptions for ALL22; explicitly demonstrates nonempty r²|H support and first-discriminant failure, so the next analytic proof MUST combine both constraints rather than merely prime-square sieve. Does not improve unrestricted same-P ∑_{p~Q}N_p(B)=o(Q), and 330 generic source classes remain open.
+NEXT: attempt a simultaneous large-sieve/geometry-of-numbers occupancy theorem for moving p,r~Q, original first discriminant square + ONE signed Y norm r² + q prime and p<q<r, separately r≡17mod24 (always determinant-good) vs r≡1mod24 (<=8 determinant-bad r per p), with original HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/229EX masks. Quantify actual occupied first p, not just O(1) q per p,r. If no true saving, independently hostile-audit FJ/FO/GG original necessary-source and compare high-cofactor Kcross/Gres under formal route audit. Do not repeat finite cutoff increases or use prime-density independence. Authority, credit, gate, closure unchanged.

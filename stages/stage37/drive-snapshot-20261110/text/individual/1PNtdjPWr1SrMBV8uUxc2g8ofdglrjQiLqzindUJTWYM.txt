@@ -1,0 +1,116 @@
+﻿M3-T11-173 — R502 elliptic simultaneous-square endpoint lift and high-content raw-mask obstruction
+CARD_ID=M3-T11-173
+STATUS=PROVED_EXACT_CARRIER_ADAPTER_AND_RAW_MASK_OBSTRUCTION
+PRIMARY_GATE=OPEN / GLOBAL_COUNTING_CREDIT=0
+Authority: fresh Drive MAIN, INDEX through172, short RESULT-LEDGER, active ROUTE control,172 and the original R502 certificate.171's small-Sigma disposal and endpoint residual are retained.
+
+
+1. What is new and what is reused
+Original Stage25 R502 already proves that the third-face exceptions lie on a squarefree genus-seven curve and are finite. This finiteness is REUSED, not rediscovered progress.156 and172 prove accumulating RAW carrier obstructions, without claiming an accumulating endpoint family.
+This card derives an explicit degree-four quotient of that exception curve to a genus-one quartic, with an exact two-shifted-square rational lift. It gives a rational point inside the physical quotient chamber that fails the lift. Separately it proves that a natural high-content raw mask still retains the156 carrier and its172 moment obstruction.
+No endpoint upper saving, new negligible endpoint sector, or global closure is claimed.
+
+
+2. Exact R502 third-face polynomial
+Use the reduced rational parameter t=m/n in the fixed cone 7/2<t<4, and the original homogeneous R502 edges A,B0,C0. The normalized polynomials are
+a(t)=(t^4-1)(t^4-81),
+b(t)=4t(t^2-3)(t^4+2t^2+9),
+c(t)=16t^2(t^4-9).
+The third-face condition is exactly
+y^2=P(t)=a(t)^2+b(t)^2,
+P(t)=t^16+16t^14-196t^12+112t^10+5926t^8
+     +1008t^6-15876t^4+11664t^2+6561.             (173.1)
+This P and its genus-seven squarefreeness are retained from the original R502 source. Primitive division by g does not change rational-square status. Since the primitive edges are integral, a rational third-face diagonal is an integer.
+
+
+3. New elliptic quotient and exact rational lift
+For t!=0 set
+u=t^2+9/t^2, w=y/t^4.
+Pair reciprocal powers in P/t^8:
+t^8+6561/t^8=u^4-36u^2+162,
+t^6+729/t^6=u^3-27u,
+t^4+81/t^4=u^2-18.
+Thus the exact quotient is
+E: w^2=Q(u),
+Q(u)=u^4+16u^3-232u^2-320u+9616.                 (173.2)
+This is a genus-one quartic: gcd(Q,Q') modulo5 is the nonzero constant2, so Q is squarefree over Q. It has the rational point (u,w)=(6,64); calling it genus one does not assert an effective rational-point classification or a rank calculation.
+The generic quotient degree is four: t solves t^4-u t^2+9=0, with conjugate values t,-t,3/t,-3/t. The maps t->-t and t->3/t, y->81y/t^8, leave (u,w) invariant.
+
+
+Crucially the rational parameter lift is EXACTLY
+u+6=alpha^2 and u-6=beta^2, alpha,beta in Q.       (173.3)
+Forward, alpha=t+3/t and beta=t-3/t.
+Conversely (173.3) gives alpha^2-beta^2=12, so t=(alpha+beta)/2 is nonzero rational and 3/t=(alpha-beta)/2. Then u=t^2+9/t^2. Given (u,w) on E, define y=w t^4 to recover (173.1). This proves sufficiency as well as necessity on the finite nonzero chart.
+For the positive cone choose alpha>0,beta>0. The chamber is
+2545/196<u<265/16,                              (173.4)
+because t->t^2+9/t^2 is strictly increasing for t>sqrt(3). The positive root t=(sqrt(u+6)+sqrt(u-6))/2 then lies in (7/2,4).
+Therefore physical R502 endpoint parameters correspond precisely to rational (u,w) on E satisfying both shifted-square conditions and this chamber, up to the sign of the face diagonal.
+
+
+The chamber alone is insufficient, even after solving E:
+(u,w)=(16,276) is rational and Q(16)=76176=276^2.
+It lies strictly between2545/196 and265/16, but u+6=22 and u-6=10 are nonsquares in Q. It has a positive real parameter in the cone and no rational parameter. This is an explicit elliptic-quotient impostor, not a physical cuboid.
+Do not count all rational points of E as R502 endpoints; both shifted-square selectors must be retained. Do not multiply their marginal densities.
+
+
+4. Endpoint scope and already-known finiteness
+The source genus-seven curve has only finitely many rational points by its retained Faltings argument. The exact quotient lift above neither removes that requirement nor strengthens it to an effective classification. Hence R502 contributes only finitely many primitive canonical endpoints at all heights, and so contributes O(1) to any171 endpoint residual. This is a source-to-residual scope adapter, not a new finiteness theorem.
+In particular the156 accumulating raw family cannot itself certify an accumulating endpoint obstruction. For each fixed s>0, its endpoint-masked moment is bounded by a constant depending on that finite exceptional set. The raw lower bound from172 cannot be transferred to an endpoint-only moment.
+Finiteness for this one fixed polynomial supplies no uniform bound over moving families and no bound for the entire large-c endpoint branch.
+
+
+5. New high-content raw-mask obstruction
+For a primitive space-integral raw object with edges e_A,e_B,e_C and integral faces sharing e_C, define
+h_A=gcd(R,e_A), h_B=gcd(R,e_B), h_C=gcd(R,e_C),
+H_raw=h_A h_B h_C.
+XG-007's two physical space-triangle contents are precisely h_B and h_A: in an integral Pythagorean triple the gcd of its legs equals the gcd of either leg with its hypotenuse. Hence
+c_raw=h_A h_B, and H_raw>=c_raw.                  (173.5)
+This uses only the two integral faces and the space diagonal. It does not assume the third face or a four-Gaussian-core decomposition.
+
+
+On the156 carrier with R<=B and c_raw>=kappa sqrt(B),
+H_raw>=kappa sqrt(B).
+For every fixed delta>0, all these edges eventually satisfy
+H_raw>B^(1/3-delta).                             (173.6)
+Therefore for fixed s>0 the masked raw moment
+sum_{e in E(B), H_raw>B^(1/3-delta)} c_raw(e)^s
+>=const_s B^(1/4+s/2).                           (173.7)
+The uncapped square-root-budget obstruction of172 survives this high-content raw mask unchanged.
+
+
+On an actual endpoint, H_raw is171's H and Sigma=H*mu with mu>=1, so H>B^(1/3-delta) implies Sigma>B^(1/3-delta). The high-H part is a subset of the endpoint residual, not the whole residual. A raw high-H envelope for that part still includes the156 carrier.
+Sigma itself is not defined on arbitrary raw objects through171's endpoint four-core decomposition. Do not pretend (173.6) puts the raw carrier in the actual Sigma population. It only shows why a content-size proxy cannot remove the raw obstruction. The third-face/lift mask matters.
+
+
+6. Verification and dedupe
+Fresh CARD-INDEX search covered R502, high-content raw masks, fixed quotient, third-face square, and genus-seven carriers. The source already contains P and finiteness. No retrieved card states (173.2)-(173.4), the chamber impostor, or (173.7). Novelty is relative to these retrieved materials, not a literature-wide claim.
+Exact integer arithmetic checked9511 coprime pairs with n<=250 and7/2<m/n<4. With U=m^4+9n^4, V=m^2 n^2:
+U^4+16U^3V-232U^2V^2-320UV^3+9616V^4=A^2+B0^2,
+U+6V=(m^2+3n^2)^2, U-6V=(m^2-3n^2)^2.
+It also checked the actual primitive normalization, c_raw=h_A h_B and H_raw>=c_raw. All passed.
+Polynomial Euclidean arithmetic modulo5 gave gcd(Q,Q')=2. Direct exact arithmetic checked Q(6)=4096, Q(-6)=1024, Q(16)=76176 and the chamber bounds.
+Finite replay supports the symbolic proofs; it does not prove asymptotic distribution or enumerate perfect endpoints. Within-session review only; no independent audit.
+
+
+7. Handoff
+LATEST_RESEARCH_CARD=M3-T11-173 / NEXT_CANDIDATE=M3-T11-174
+NEXT_ATTACK=EndpointReducedQuotientFiberPreflight
+Stop extending or classifying the fixed R502 curve as a global tail attack: its endpoint finiteness was already known.174 should investigate endpoint-specific fibers of the canonical q_min=R/c_max=h_min*tau, keeping171's residual and actual physical height, to see whether a proved uniform fiber bound can dispose of an extreme-c sector. A fixed-q theorem is not assumed. If no new bound is found, record the precise moving-content cost rather than declaring a quotient reparameterization to be progress.
+Branch(B) occupied support remains OPEN;171 small-Sigma sector and170 fixed-pair fiber stay accepted.172 raw moment obstruction remains valid in its raw scope.
+NEW_GLOBAL_ENDPOINT_UPPER_SAVING=false
+NEW_NEGLIGIBLE_ENDPOINT_SECTOR=false
+R502_ENDPOINT_FINITE=REUSED_FROM_SOURCE
+NEW_EXACT_ELLIPTIC_SIMULTANEOUS_SQUARE_ADAPTER=true
+NEW_HIGH_CONTENT_RAW_MASK_OBSTRUCTION=true
+P_OVER_M3_LIMIT_PROVED=false
+TI=PARKED /120=RETRACTED /147-149=FROZEN
+
+
+Drive dependency IDs:
+Original R502 certificate:1uxSIaPHC6Xgg8c4iazY2wPz1MLdfIMFb
+156 canonical markdown:1A8E7wd31A8gHg5fM4zi9ZRpSX4ukV6wr
+XG-007: CARD-INDEX canonical row; CROSS-GCD route double-space section
+XG-008 canonical markdown:1f2JV0_1PXBnJHMXcHovKZudL5ixZpsqS
+171:1cIVglf5RjsFKYBdzy5suR1JSTpKs35bp-8Ga5Pb4-u4
+172:18-pHnywlh8sDQLcAGtMxd6MR6pRlwXPDXvimc2Pa71Q
+CROSS-GCD route:1hRZvWUMvITpvzj8E6AI8hFnOc0PTmB1yO6RvvB6rhUg

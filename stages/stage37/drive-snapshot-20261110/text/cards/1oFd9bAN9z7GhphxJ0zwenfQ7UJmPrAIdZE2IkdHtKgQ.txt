@@ -1,0 +1,102 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229BY — pair-sum norm receivers and hard13 reduction
+STATUS: POST_229BX_PAIR_SUM_NORM_RECEIVERS / THREE_FIXED_VALUE_B_O1_FIBERS / THREE_FIXED_RADICAL_B_O1_FIBERS / LOW_RADICAL_SECTOR_DISPOSAL / HARD13_REDUCTION / EXACT_SQUARE_PRODUCT_SUPPORT_TRIANGLE / NO_GLOBAL_COUNTING_PROMOTION / GLOBAL_CREDIT=0 / NO_REOPEN
+CORRECTION NOTICE — superseded by 229BZ: Section 5's inference that rad(H_A)rad(H_B)rad(H_C) is a square / has no common radical atom is RETRACTED. Sections 2–4, fixed radical fibers, and the hard13 low-sector reduction remain valid. The corrected radical structure is the 229BZ four-atom decomposition with common atom tau.
+CARD_DOC_ID=1oFd9bAN9z7GhphxJ0zwenfQ7UJmPrAIdZE2IkdHtKgQ
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229BX
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope and retained notation
+Use exactly the current positive primitive Stage37 physical endpoint population with all selectors and R<=B:
+x^2+y^2=z^2, e^2+z^2=R^2, e^2+x^2=U^2, e^2+y^2=V^2, gcd(e,x,y)=1.
+Retain the 229BU/229BX positive outer gaps A=R-U, Bv=R-V, C=R-z and D=R-A-Bv-C>0, with
+D^2=2(ABv+AC+BvC),   R=A+Bv+C+D.
+Retain 229BV hard10 and 229BX exact square-overlap conductor/desaturated-cone structure. No existing mask, gate, authority, credit, closure or HOLD state is relaxed.
+
+
+2. Parity and three exact pair-sum norm receivers
+229BX parity gives R odd and exactly two of A,Bv,C even, hence A+Bv+C is odd. Therefore D=R-(A+Bv+C) is even. Put d=D/2>0.
+Dividing the cone identity by 2 gives
+ABv+AC+BvC=2d^2.                                                   (BY.1)
+Define the three positive pair-sum products
+H_A=(A+Bv)(A+C),
+H_B=(A+Bv)(Bv+C),
+H_C=(A+C)(Bv+C).
+Using (BY.1), exactly
+H_A=A^2+2d^2,   H_B=Bv^2+2d^2,   H_C=C^2+2d^2.                    (BY.2)
+Since D>0 implies A+Bv+C<R, every pair sum is <R, so
+0<H_A,H_B,H_C<R^2<=B^2.                                           (BY.3)
+RESULT_229BY_THREE_PAIR_SUM_PRODUCTS_ARE_X2_PLUS_2Y2_NORMS=PROVED_EXACT.
+
+
+3. Uniform fixed-value physical fiber bound
+Fix n=H_A. The representation n=A^2+2d^2 is a norm equation in Z[sqrt(-2)]. This ring is norm-Euclidean: after dividing in Q(sqrt(-2)), rounding both coefficients leaves norm at most 1/4+2/4=3/4<1. Hence it is a UFD.
+For n=product p^{v_p(n)}, the number of element divisors of n in Z[sqrt(-2)] is at most a constant times product_p(v_p(n)+1)^2 <= O(tau(n)^2). Thus the number of positive integer representations n=A^2+2d^2 is O(tau(n)^2).
+For each such (A,d), write s=A+Bv and t=A+C. Then st=n. There are at most tau(n) ordered positive factor choices for s, with t=n/s, and Bv=s-A, C=t-A are forced. Positivity and the physical chamber only delete candidates. Finally D=2d and 229BU reconstruction gives at most one labelled physical endpoint from (A,Bv,C,D).
+Therefore
+# {physical P:R<=B, H_A(P)=n} << tau(n)^3 = B^o(1),             (BY.4)
+uniformly for n<=B^2. The same argument applies cyclically to H_B and H_C.
+RESULT_229BY_FIXED_HA_HB_HC_PHYSICAL_FIBERS_ARE_B_O1=PROVED.
+
+
+4. Uniform fixed-radical fibers and low-sector disposal
+Let k_A=rad(H_A), k_B=rad(H_B), k_C=rad(H_C). For fixed squarefree k, 229BQ's uniform prescribed-prime-support lemma gives only B^o(1) integers n<=B^2 with rad(n)=k. Combining with (BY.4),
+# {physical P:R<=B, k_A(P)=k}=B^o(1),
+and cyclically for k_B,k_C. No independence between these three receivers is asserted.
+RESULT_229BY_FIXED_PAIR_SUM_PRODUCT_RADICAL_FIBERS_ARE_B_O1=PROVED.
+
+
+5. Exact square-product support triangle
+Multiplying the three pair-sum products gives the exact square
+H_A H_B H_C = ((A+Bv)(A+C)(Bv+C))^2.                              (BY.5)
+Hence k_A k_B k_C is a square. No prime can occur in all three squarefree kernels. Put
+v_AB=gcd(k_A,k_B),  v_AC=gcd(k_A,k_C),  v_BC=gcd(k_B,k_C).
+Then v_AB,v_AC,v_BC are pairwise coprime squarefree and exactly
+k_A=v_AB v_AC,   k_B=v_AB v_BC,   k_C=v_AC v_BC.                 (BY.6)
+This is a deterministic support triangle, not three independent radical conditions. If v_(1)<=v_(2)<=v_(3) are the ordered atoms, the simultaneous inequalities k_A,k_B,k_C>T are equivalent to
+v_(1)v_(2)>T.                                                     (BY.7)
+RESULT_229BY_PAIR_SUM_NORM_RADICAL_SUPPORT_TRIANGLE=PROVED_EXACT.
+
+
+6. Hard13 reduction
+Retain 229BV k10, the minimum of the seven physical-length radicals and the three outer-pair-product radicals. Define
+k13(P)=min(k10(P),k_A(P),k_B(P),k_C(P)).
+For fixed squarefree k, the fiber k13(P)=k is contained in the union of the fixed-k10 fiber and the three fixed-k_A/k_B/k_C fibers, hence is B^o(1). Therefore uniformly for 1<=T<=B,
+# {physical P:R<=B, k13(P)<=T} << T B^o(1).                       (BY.8)
+With T=B^(1/3-delta), fixed 0<delta<1/3,
+# {P:R<=B, k13<=T}=O(B^(1/3-delta+o(1)))=o(B^(1/3)).             (BY.9)
+Define S_B^hard13(delta) from the original current large-sf(G0) source by requiring all retained hard10 conditions and, additionally,
+k_A,k_B,k_C > B^(1/3-delta).
+Then the current preferred large-radical source satisfies
+|S_B(delta)| = |S_B^hard13(delta)| + O(B^(1/3-delta+o(1))).       (BY.10)
+Thus the one-third gate is equivalent, up to an already-proved negligible sector, to counting the exact hard13 source. The hard13 estimate itself is NOT proved.
+RESULT_229BY_LOW_PAIR_SUM_NORM_RADICAL_SECTOR_DISPOSED=PROVED_SCOPED.
+RESULT_229BY_HARD13_REDUCTION=PROVED_SCOPED.
+
+
+7. Interaction with 229BX and firewall
+The new H_A,H_B,H_C receivers come from the same exact outer-gap cone as 229BX. They may be intersected with the 229BX desaturated weighted cone and 229BW four-atom hard10 interface, but they are not independent sieve events and must not be multiplied as density factors.
+On hard13, the new support triangle (BY.6) has no common atom and satisfies v_(1)v_(2)>T. This is a complementary exact support constraint to 229BW's chi*u_(1)*u_(2)>T. No quantitative endpoint saving from combining those two triangle inequalities has yet been proved.
+Do not infer a global count from x^2+2y^2 representation sparsity alone: the fixed-value theorem is already fully charged in the low-radical sector and as a finite-fiber receiver. High-radical occupied support remains the blocker.
+CURRENT_PREFERRED_SUPPORT_INTERFACE=229BX_DESATURATED_WEIGHTED_CONE_INTERSECT_229BY_HARD13_PAIR_SUM_NORM_SUPPORT_TRIANGLE.
+CURRENT_SCOPED_BLOCKER=NO_SELECTOR_AWARE_COUNTING_SAVING_ON_HARD13_LARGE_SF_G0_PHYSICAL_SOURCE.
+REFINED_BLOCKER=NO_ONE_THIRD_COUNT_FOR_SELECTOR_CONDITIONED_DESATURATED_WEIGHTED_CONE_WITH_SIMULTANEOUS_OUTER_GAP_AND_PAIR_SUM_NORM_SUPPORT_TRIANGLES.
+NEXT_RESEARCH_INPUT_CONTRACT=Count the unchanged physical source on hard13 using actual 229BX weighted-cone/height/selectors together with (BY.6)-(BY.7), or the complementary 229BW unique-atom branch, or retained rho/sigma occupied support. Do not multiply the two support triangles independently or replace realized supports by arbitrary squarefree atoms.
+
+
+8. Verification
+All identities (BY.1)-(BY.6) were rederived directly from the retained 229BU cone and 229BX parity. The fixed-value proof uses only the explicit norm-Euclidean division in Z[sqrt(-2)], divisor counting, and 229BU injective reconstruction.
+Sanity replay over all parity-compatible positive cone triples with 1<=A,Bv,C<100 found 3984 triples; (BY.1)-(BY.5) passed in every case. Observed fixed-H_A multiplicities were below the stated divisor bound. This replay is a lemma fixture, not evidence for perfect-cuboid endpoint sparsity.
+No external theorem beyond retained229BQ support counting is invoked. Independent hostile audit229BY NOT RUN.
+
+
+9. State
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED; PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+No perfect-cuboid existence/nonexistence conclusion or new global endpoint exponent is claimed.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

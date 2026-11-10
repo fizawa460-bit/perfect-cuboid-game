@@ -1,0 +1,294 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229BJ — exact two-color local mass cancellation and color-entropy exponent firewall
+
+
+STATUS: POST_229BI_COLORED_LOCAL_MASS_AUDIT_COMPLETE / PROVED_EXACT_8_OR_16_Fp_POINTS_PER_HILBERT_COLOR / PROVED_24_OR_48_Fp_POINTS_ON_FULL_NODE_LOCUS / PROVED_FIXED_COLOR_LOCAL_MASS_EQUALITY / PROVED_SUM_OVER_ALL_COLORINGS_RECOVERS_UNCOLORED_MASS_EXACTLY / PROVED_ONE_COLOR_PER_PRIME_MAXIMAL_FILTER_ONLY_SUBPOWER / COLOR_ONLY_FIXED_POWER_UPGRADE_NO_GO / SELECTOR_HEIGHT_GLOBAL_CORRELATION_STILL_REQUIRED / NO_COUNTING_PROMOTION / GLOBAL_CREDIT=0 / NO_GLOBAL_REOPEN
+TYPE: POST-229BI EXACT FINITE-FIELD NODE-COLOR COUNT / SQUAREFREE-MODULUS CRT MASS IDENTITY / COLOR-ENTROPY EXPONENT FIREWALL / THEOREM-CONTRACT SHARPENING
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229BI
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1l4Lr2RpmndI6yZFf9m6LhUXQ7fdkWLH3ZmFcKGAraSY
+
+
+1. Scope
+229BI sharpened the current radical center Z0 into two exact 16-node colors:
+  Z0∩Z1 <-> C-=a c21,
+  Z0∩Z2 <-> C+=b c12,
+with unique prime-by-prime color allocation for every odd squarefree k|G0.
+
+
+The unresolved question is whether this two-color refinement, by itself or together with a rule that restricts allowed color patterns, improves the local modulus exponent beyond the229AH codimension-two scale.
+
+
+This card answers that question exactly at the finite-field and squarefree-CRT level.
+
+
+The conclusion is negative but stronger than the qualitative229BI firewall:
+- each of the three Hilbert colors has exactly the same local cardinality;
+- summing all color patterns recovers the uncolored radical-center local mass exactly;
+- even the unrealistically strongest color-only rule, allowing at most one color pattern for the entire modulus, yields only the factor 2^{-omega(k)}=k^{-o(1)}, never a fixed power k^{-eta} uniformly.
+
+
+Therefore any successful continuation must obtain its fixed-power saving from global selector/height/support correlation, not from the number of local node colors.
+
+
+2. Six node blocks and split/unrestricted type
+Retain229BI's six 8-node geometric blocks
+  N_ex, N_ey, N_eR, N_xy, N_xR, N_yR,
+which are the six triple-branch lifts making the 48 A1 nodes of X_pc.
+
+
+Retain229AD/229AH bucket identification:
+  N_ex <-> b,
+  N_ey <-> a,
+  N_eR <-> h,
+  N_xy <-> d0,
+  N_xR <-> c21,
+  N_yR <-> c12.                                  (229BJ.1)
+
+
+Retain229AD:
+  h,c12,c21 have odd support only at primes p==1 mod4,
+while
+  d0,a,b
+are not subject to that split-prime restriction.
+
+
+The finite-field reason is exact:
+- N_ex,N_ey,N_xy are defined over F_p for every odd p and each has exactly8 F_p points;
+- N_eR,N_xR,N_yR require a nonzero solution to s^2=-t^2, hence each has 8 F_p points if p==1 mod4 and no F_p point if p==3 mod4.
+
+
+Thus for every good odd prime p:
+  #N_ex(F_p)=#N_ey(F_p)=#N_xy(F_p)=8,            (229BJ.2)
+and
+  #N_eR(F_p)=#N_xR(F_p)=#N_yR(F_p)
+    = 8 if p==1 mod4,
+    = 0 if p==3 mod4.                             (229BJ.3)
+
+
+This is compatible with229AH's exact current-center count 32 split /16 inert.
+
+
+RESULT_229BJ_SIX_NODE_BLOCK_Fp_COUNTS=PROVED_EXACT.
+
+
+3. Exact F_p size of each Hilbert color
+Define the three229BI pairwise-intersection colors
+  K_- := Z0∩Z1 = N_ey ∪ N_xR <-> C-=a c21,
+  K_+ := Z0∩Z2 = N_ex ∪ N_yR <-> C+=b c12,
+  K_0 := Z1∩Z2 = N_eR ∪ N_xy <-> C0=h d0.       (229BJ.4)
+
+
+Each color is the disjoint union of exactly:
+- one unrestricted 8-node block;
+- one split-only 8-node block.
+
+
+Therefore for every good odd p and every sigma in {0,+,-},
+  #K_sigma(F_p)
+    =16 if p==1 mod4,
+    = 8 if p==3 mod4.                             (229BJ.5)
+
+
+In particular the three colors have IDENTICAL local cardinality at every good odd prime.
+
+
+RESULT_229BJ_THREE_HILBERT_COLORS_LOCAL_CARDINALITIES_EQUAL=PROVED_EXACT.
+
+
+4. Recover all three 32-node centers and the full 48-node locus
+Each radical center Zi is the disjoint union of the two colors incident to vertex i in the229BI triangle. Hence
+  #Zi(F_p)
+    =32 if p==1 mod4,
+    =16 if p==3 mod4,                             (229BJ.6)
+for i=0,1,2.
+
+
+This rederives229AH for Z0 and proves the same exact count for the two symmetric centers.
+
+
+The full singular locus is the disjoint union of all six 8-node blocks. Therefore
+  #Sing(X_pc)(F_p)
+    =48 if p==1 mod4,
+    =24 if p==3 mod4.                             (229BJ.7)
+
+
+Equivalently
+  sum_i #Zi(F_p) = 2 #Sing(X_pc)(F_p),            (229BJ.8)
+because every node belongs to exactly two of the three radical centers, as proved in229BI.
+
+
+RESULT_229BJ_ALL_THREE_CENTER_COUNTS=32_SPLIT_16_INERT_EXACT.
+RESULT_229BJ_FULL_NODE_LOCUS_COUNT=48_SPLIT_24_INERT_EXACT.
+
+
+5. Fixed-color squarefree-modulus CRT mass
+Let k be an odd squarefree modulus composed only of good primes.
+
+
+For each p|k, a Z0-color choice is
+  chi(p) in {-,+},
+meaning reduction modulo p is required to lie in K_- or K_+.
+
+
+Let
+  c(p):=#K_-(F_p)=#K_+(F_p)
+so
+  c(p)=16 for p==1 mod4,
+  c(p)=8  for p==3 mod4.                          (229BJ.9)
+
+
+For a fixed complete color pattern
+  chi:{p:p|k}->{-,+},
+Chinese remainder gives the exact number of local colored residue tuples
+  M_col(k;chi)
+    = product_{p|k} c(p).                         (229BJ.10)
+
+
+Crucially this number is independent of chi.
+
+
+The uncolored Z0 condition has local residue mass
+  M_uncol(k)
+    = product_{p|k} #Z0(F_p)
+    = product_{p|k} 2c(p)
+    = 2^{omega(k)} product_{p|k} c(p).            (229BJ.11)
+
+
+The 2^{omega(k)} different color patterns are disjoint prime-by-prime and exhaust the uncolored Z0 condition. Hence EXACTLY
+  sum_chi M_col(k;chi)
+    = M_uncol(k).                                 (229BJ.12)
+
+
+RESULT_229BJ_COLOR_SUM_RECOVERS_UNCOLORED_LOCAL_MASS_EXACTLY=PROVED.
+
+
+This is stronger than saying the color split fails to change codimension: before any global arithmetic/height restriction is imposed, the two-color decomposition is an exact partition with no local mass loss whatsoever.
+
+
+6. Strongest possible color-only filter is still subpower
+Suppose, counterfactually in favor of the method, that some color rule retains only
+  A(k)
+complete color patterns out of all 2^{omega(k)} patterns.
+
+
+If the rule changes nothing else in the local residue classes, its exact local mass relative to the uncolored center is
+  A(k)/2^{omega(k)}.                              (229BJ.13)
+
+
+The strongest nonempty color-only restriction is A(k)=1, which gives
+  2^{-omega(k)}.                                 (229BJ.14)
+
+
+But for squarefree k,
+  2^{omega(k)} = k^{o(1)}
+uniformly in the standard divisor-bound sense: for every fixed epsilon>0,
+  2^{omega(k)} <<_epsilon k^epsilon.             (229BJ.15)
+
+
+Therefore
+  2^{-omega(k)} = k^{-o(1)},                     (229BJ.16)
+and in particular there is no fixed eta>0 for which a one-pattern-per-modulus color rule universally supplies
+  << k^{-eta}
+relative saving.
+
+
+Thus a codimension-two incidence scale
+  k^{-2+o(1)}
+cannot be upgraded by color selection alone to
+  k^{-2-eta}
+for any fixed eta>0.
+
+
+RESULT_229BJ_COLOR_ONLY_FIXED_POWER_MODULUS_GAIN=IMPOSSIBLE_BY_SUBPOWER_ENTROPY.
+
+
+This subsumes the finite-character warning of229AI in the specific exact229BI nodal-color model: even an idealized perfect color selector is only subpower unless it also changes which primes/moduli/physical points are globally realizable.
+
+
+7. Consequence for the one-third gate
+Retain229P/229AI:
+ordinary codimension-two squarefree-modulus behavior is quantitatively below the one-third divisor-union requirement.
+
+
+229BJ now rules out a broad attempted repair:
+  codimension-two local sieve
+  + exact229BI two-color decomposition
+  + any rule that merely keeps a subset of color assignments
+cannot create the missing fixed modulus exponent.
+
+
+A successful theorem must do something genuinely stronger, for example:
+(A) prove that only a fixed-power sparse subset of MODULI k occurs on physical X_pc points of height R<=B;
+(B) prove cancellation/dispersion in the actual point count across color patterns, not just discard finitely many local states;
+(C) couple the C-/C+ allocations to exact R-height or selector equations in a way that gives a fixed-power occupancy loss;
+(D) replace divisor-union summation by a global bilinear/large-sieve mechanism whose saving is not bounded by the color entropy 2^{omega(k)};
+(E) remove the229BF one-per-outer floor by a global occupied-outer theorem.
+
+
+CURRENT_PREFERRED_EXTERNAL_THEOREM_CONTRACT:
+SELECTOR_CONDITIONED_TWO_COLOR_SQUAREFREE_MODULUS_NODAL_SIEVE WITH GLOBAL OCCUPANCY SAVING, where the required saving must act on realized moduli/support or physical point distribution, not only on the two local color labels.
+
+
+8. Firewalls
+DO NOT:
+- claim a factor 1/2 per prime is a fixed power of k;
+- multiply the two colors as independent conditions;
+- count one color pattern and forget the 2^{omega(k)} possible patterns without an exact global rule selecting it;
+- infer endpoint sparsity from #K_sigma(F_p)=8 or16;
+- infer that all CRT residue tuples lift to physical rational/integral endpoints;
+- alter authority/credit/gate/closure from this local-mass theorem.
+
+
+229BJ is a method theorem and exact local-geometry refinement, not an endpoint count.
+
+
+9. State
+No perfect-cuboid existence/nonexistence conclusion is claimed.
+No new endpoint population exponent is claimed.
+No global counting credit is assigned.
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+Independent hostile audit of229BJ NOT RUN.
+
+
+10. Dependencies and verification scope
+Load-bearing internal inputs:
+-229AD: six pairwise-coprime physical content buckets and split-only h,c12,c21;
+-229AH: exact current radical-center four-branch geometry and 16/32 F_p count;
+-229AI: inert-support localization and finite-character exponent firewall;
+-229BI: three 32-node centers, three 16-node Hilbert colors, exact node incidence triangle;
+-229P: one-third divisor-union exponent budget.
+
+
+The new finite-field color counts and squarefree CRT mass identity are direct deductions from these exact internal statements. No new external theorem is invoked.
+
+
+No physical perfect-cuboid endpoint enumeration is used.
+
+
+
+
+FINAL_READBACK_RECEIPT: PASS
+READBACK_CONFIRMED:
+- 229BJ card body and CARD_DOC_ID.
+- CARD-INDEX row527 contains229BJ with working card hyperlink; 案内 latest/current-operation/start-reading pointers all advance to229BJ.
+- RESULT-LEDGER latest change record is229BJ.
+- MAIN latest CURRENT AUTHORITY OVERRIDE is229BJ with PREVIOUS_POST_229_DELTA=229BI.
+- active ROUTE now contains POST-229BJ after POST-229BI with the exact local-mass/color-entropy firewall and current blocker.
+- 229BJ parent folder is M3-Research-Cards, parent id 1PTFrohNcPTyhLT-b51IT3VUy-tikkxLz.
+CONCURRENCY_CHECK: no229BK row found in CARD-INDEX at final readback.
+AUTHORITY_CREDIT_GATE_CLOSURE_CHECK: OPERATIONAL_AUTHORITY=M3-T11-229 unchanged; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged; M3-T11-230 NOT_ISSUED; PRIMARY_GATE OPEN; GLOBAL_COUNTING_CREDIT=0; production HOLD; P_OVER_M3_LIMIT_PROVED=false; existing closure and integrated-audit186-229O scope unchanged.
+MATHEMATICAL_RESULT_CHECK: every229BI Hilbert color has16/8 F_p points in split/inert cases; fixed color patterns have equal CRT local mass; summing all2^omega(k) patterns exactly recovers the uncolored radical-center mass; even one-pattern-only selection yields only2^-omega(k)=k^-o(1), so local color entropy cannot supply a fixed modulus exponent.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

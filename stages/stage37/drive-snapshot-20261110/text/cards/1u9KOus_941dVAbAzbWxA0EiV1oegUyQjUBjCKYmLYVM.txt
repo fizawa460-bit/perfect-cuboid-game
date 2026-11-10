@@ -1,0 +1,349 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229P — codimension-two geometric-sieve ceiling and selector-lift necessity
+
+
+STATUS: POST_229O_GEOMETRIC_SIEVE_PREFLIGHT_COMPLETE / PROVED_EXACT_RANK6_QUADRIC_EMBEDDING / PROVED_BHB_2020_LARGE_PRIME_SUBTAIL_APPLICABILITY / PROVED_AMBIENT_EXPONENT_NO_GO / PROVED_BASE_ONLY_CODIM2_DIVISOR_UNION_CEILING / SELECTOR_OR_SUPPORT_LIFT_REQUIRED / NO_REOPEN / GLOBAL_CREDIT=0
+TYPE: POST-229O GEOMETRIC-SIEVE THEOREM CONTRACT / EXACT PHYSICAL AMBIENT ADAPTER / METHOD-BUDGET NO-GO
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229O
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+
+
+1. Scope
+
+
+229O reduced the current preferred whole-endpoint gate to
+
+
+  K_*(E)=sf(gcd(eR,xy)),
+
+
+and asks, for some fixed δ>0,
+
+
+  #{primitive positive physical endpoints R<=B :
+      K_*(E)>B^(1/3-δ)}
+    = o(B^(1/3)).                                  (229P.1)
+
+
+This card tests a tempting theorem species that was not yet quantitatively closed by 229O: geometric/Ekedahl sieve on a quadric or on the fixed 4A1 toric base.
+
+
+The outcome is twofold.
+
+
+First, there is an exact rank-6 quadric enlargement on which the Browning–Heath-Brown geometric sieve is genuinely applicable to the large-prime common-divisor subtail. The resulting ambient exponent is nevertheless far too large for Stage37.
+
+
+Second, even granting an ideal squarefree-modulus codimension-two estimate on the 229F/229K base, the ordinary divisor-union mechanism misses the B^(1/3) target. Thus merely obtaining a nonsplit analogue of a standard codimension-two geometric sieve on the BASE would not by itself close (229P.1). A future sieve must use the selector lift / twist-support compression / another genuinely stronger same-physical mechanism.
+
+
+No endpoint exponent is improved here.
+
+
+2. Exact rank-6 quadric containing every physical endpoint
+
+
+Use the positive physical endpoint variables
+
+
+  e,x,y,U,V,R
+
+
+with
+
+
+  e^2+x^2=U^2,
+  e^2+y^2=V^2,
+  e^2+x^2+y^2=R^2.                                (229P.2)
+
+
+Define
+
+
+  Q1=e^2+x^2-U^2,
+  Q2=e^2+y^2-V^2,
+  Q3=e^2+x^2+y^2-R^2,
+
+
+and take their fixed sum
+
+
+  Q=Q1+Q2+Q3
+   =3e^2+2x^2+2y^2-U^2-V^2-R^2.                  (229P.3)
+
+
+The diagonal quadratic form Q has six nonzero diagonal coefficients, hence
+
+
+  rank(Q)=6.                                       (229P.4)
+
+
+Every physical endpoint satisfies Q=0.
+
+
+There is no height loss. From (229P.2),
+
+
+  U^2=R^2-y^2,
+  V^2=R^2-x^2,
+
+
+so on the positive chamber
+
+
+  0<e,x,y,U,V<=R.
+
+
+Therefore the exact physical cutoff R<=B implies
+
+
+  ||(e,x,y,U,V,R)||_∞ <= B.                       (229P.5)
+
+
+Also any common divisor of all six coordinates divides e,x,y, so the retained primitive condition gcd(e,x,y)=1 makes the six-coordinate vector primitive. Browning–Heath-Brown counts all integral vectors anyway, so primitiveness is not needed for the upper-bound inclusion.
+
+
+RESULT_229P_RANK6_PHYSICAL_QUADRIC_EMBEDDING=PROVED_EXACT.
+RESULT_229P_PHYSICAL_HEIGHT_TO_AMBIENT_SUP_HEIGHT=NO_POWER_LOSS.
+
+
+3. Exact codimension check for F1=eR and F2=xy
+
+
+Set
+
+
+  F1=eR,
+  F2=xy.                                           (229P.6)
+
+
+Then the current 229O common divisor is exactly
+
+
+  gcd(F1,F2)=gcd(eR,xy).
+
+
+Consider
+
+
+  Z={Q=F1=F2=0} subset P^5.
+
+
+The equations eR=0 and xy=0 split into four codimension-two coordinate linear spaces:
+
+
+  L_ex : e=x=0,
+  L_ey : e=y=0,
+  L_Rx : R=x=0,
+  L_Ry : R=y=0.
+
+
+On these four spaces the restriction of Q is respectively
+
+
+  2y^2-U^2-V^2-R^2,
+  2x^2-U^2-V^2-R^2,
+  3e^2+2y^2-U^2-V^2,
+  3e^2+2x^2-U^2-V^2.                              (229P.7)
+
+
+None is the zero polynomial. Hence Q cuts each P^3 component by one genuine equation, so every component of Z has dimension at most 2. Therefore
+
+
+  codim_{P^5}(Z) >= 3.                             (229P.8)
+
+
+Together with rank(Q)=6, this verifies the hypotheses of Browning–Heath-Brown, Theorem 1.2, for Q,F1,F2.
+
+
+RESULT_229P_BHB_HYPOTHESES=PROVED_EXACT_FOR_RANK6_ENLARGEMENT.
+
+
+4. Browning–Heath-Brown controls a large-prime subtail, but at the wrong scale
+
+
+For a quadratic form in n+1 variables with n=5, Browning–Heath-Brown gives, for the number N(B,M) of integral points on Q=0 for which F1,F2 have a common prime divisor p>M,
+
+
+  N(B,M)
+   << B^(4+ε)/(M log M) + B^(4-1/5+ε)
+    = B^(4+ε)/(M log M) + B^(19/5+ε).             (229P.9)
+
+
+All positive physical endpoints in the corresponding large-prime event are a subset of these ambient points by Sections 2–3.
+
+
+At the Stage37 radical threshold
+
+
+  M=B^(1/3-δ),
+
+
+(229P.9) is only
+
+
+  << B^(11/3+δ+ε)/(log B) + B^(19/5+ε),           (229P.10)
+
+
+which is enormously above the required o(B^(1/3)) scale.
+
+
+Moreover the theorem only catches the event that gcd(eR,xy) has one prime divisor p>M. The current tail K_*>M can also occur when K_* is a product of many primes all <=M. Therefore the direct theorem does not even cover the entire radical tail before the exponent issue is considered.
+
+
+RESULT_229P_BHB_LARGE_PRIME_SUBTAIL_MATCH=APPLICABLE_BUT_TOO_WEAK.
+RESULT_229P_BHB_DIRECT_STAGE37_MATCH=NO_GO.
+NO_GO_REASON_1=ambient rank6 quadric population has B^4 scale.
+NO_GO_REASON_2=the theorem detects one large common prime, not a large smooth squarefree kernel.
+
+
+This is a theorem-contract no-go, not an impossibility theorem for a new sieve acting directly on the physical endpoint locus.
+
+
+5. Base-only codimension-two divisor-union ceiling
+
+
+The previous failure might suggest transferring a Huang-style or other effective codimension-two geometric sieve directly to the fixed nonsplit 4A1 toric base X0 of 229F/229J/229K, where the exact physical height is R and the retained anticanonical dense-torus base count is B^(1+o(1)) up to polylogarithmic factors.
+
+
+Grant a theorem stronger than what is currently available: for every relevant squarefree modulus m, uniformly through the required range,
+
+
+  N_m(B)
+   := #{base points H<=B : m|eR and m|xy}
+   << B^(1+o(1))/m^σ.                             (229P.11)
+
+
+For a pure codimension-two local-density model one expects σ=2.
+
+
+Let
+
+
+  Y=B^(1/3-δ).
+
+
+If K_*=sf(gcd(eR,xy))>Y, then the squarefree integer m=K_* itself satisfies m>Y and m|eR, m|xy. Hence the direct divisor-union estimate gives
+
+
+  # {base points : K_*>Y}
+    <= sum_{m>Y} N_m(B)
+    << B^(1+o(1)) sum_{m>Y} m^(-σ)
+    << B^(1+o(1)) Y^(-(σ-1))                      (229P.12)
+
+
+for σ>1.
+
+
+To beat B^(1/3), (229P.12) requires
+
+
+  1-(σ-1)(1/3-δ) < 1/3,
+
+
+equivalently
+
+
+  σ > 1 + 2/(1-3δ).                               (229P.13)
+
+
+In particular:
+
+
+- σ=2 gives only B^(2/3+δ+o(1));
+- σ=3 gives only B^(1/3+2δ+o(1));
+- for every fixed δ>0, the required decay is strictly stronger than cubic in m.
+
+
+Thus even an ideal composite-modulus version of ordinary codimension-two base equidistribution, with m^(-2) density and perfect uniformity, cannot close the current one-third radical gate through a direct divisor-union argument.
+
+
+RESULT_229P_BASE_CODIM2_DIVISOR_UNION_CEILING=PROVED_CONDITIONAL_METHOD_BUDGET.
+RESULT_229P_REQUIRED_MODULUS_DECAY_SIGMA_GT_1_PLUS_2_OVER_1_MINUS_3DELTA=PROVED.
+RESULT_229P_PURE_BASE_SIGMA2_INSUFFICIENT=true.
+
+
+The word “ceiling” here is method-specific. It does not rule out cancellation, a Selberg/large-sieve mechanism that uses more than the union bound, a support-count theorem, or a theorem operating on the selector cover rather than on the base.
+
+
+6. Consequence for the Stage37 theorem watch
+
+
+229P sharpens the current restart contract.
+
+
+A new nonsplit toric geometric sieve with only the ordinary codimension-two strength of the base is not enough by itself. Likewise the available rank>=5 quadric sieve is not enough after the exact rank-6 ambient embedding.
+
+
+A useful new input must exploit information beyond the base common-divisor incidence. Sufficient forms include:
+
+
+(A) SELECTOR-CONDITIONED MODULUS DECAY:
+a same-physical theorem for the lifted endpoint/selector population with effective squarefree-modulus decay strong enough to beat (229P.13), or an equivalent estimate after summing moduli;
+
+
+(B) DIRECT TWIST/RADICAL SUPPORT:
+a theorem counting the actually realized K_*=sf(gcd(eR,xy)) or canonical twist classes directly with o(B^(1/3)) support, using 229L's uniform fixed-twist B^o(1) fiber;
+
+
+(C) STRONGER SUFFICIENT BRANCH:
+a theorem on one retained stronger branch, such as the 229M raw content tails, which independently meets the same B^(1/3) budget on the exact physical endpoint measure.
+
+
+Do not next spend a production card on:
+- another generic rank>=5 quadric geometric-sieve embedding;
+- a nonsplit base sieve whose only gain is ordinary codimension-two m^(-2) local density;
+- a large-prime-only gcd theorem without a smooth-radical treatment;
+- multiplying base/local selector densities as independent probabilities.
+
+
+The preferred gate remains exactly
+
+
+  PHYSICAL_JOINT_RADICAL_GCD_ONE_THIRD_QUOTIENT_FREE:
+
+
+  #{primitive positive physical endpoints R<=B :
+      sf(gcd(eR,xy))>B^(1/3-δ)}
+    = o(B^(1/3))                                  (229P.14)
+
+
+for some fixed δ>0.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+
+
+7. Sources checked
+
+
+Internal:
+- Stage37-NEW-INPUT-DELTA-AUDIT-229O;
+- Stage37-NEW-INPUT-DELTA-AUDIT-229N;
+- Stage37-NEW-INPUT-DELTA-AUDIT-229M;
+- Stage37-NEW-INPUT-DELTA-AUDIT-229K;
+- Stage37-NEW-INPUT-DELTA-AUDIT-229F;
+- M3-T11-228;
+- current MAIN / RESULT-LEDGER / CARD-INDEX / active ROUTE.
+
+
+External theorem rematch:
+- Tim Browning and Roger Heath-Brown, “The geometric sieve for quadrics,” arXiv:2003.09593, especially Theorem 1.2.
+- Tim Santens, “Manin's conjecture for integral points on toric varieties,” Proc. London Math. Soc. 133 (2026), e70203, used only as retained 229K context for the nonsplit toric base and bounded-height scale.
+
+
+AUDIT SCOPE
+
+
+This card gives an exact rank-6 ambient adapter and two scoped method-budget no-go results. It does not prove a new endpoint saving, does not retract 229O or earlier cards, and does not give a perfect-cuboid existence/nonexistence conclusion. Its substantive effect is to rule out two tempting generic sieve continuations at the current exponent budget and to require future sieve input to be selector-aware, support-level, or otherwise stronger than base codimension-two density.
+
+
+FINAL_READBACK_RECEIPT: PASS.
+Card parent=M3-Research-Cards confirmed. Card body contains the rank-6 physical quadric adapter, codim>=3 check for Q=eR=xy=0, Browning–Heath-Brown n=5 large-prime bound/no-go, the base-only divisor-union sigma threshold sigma>1+2/(1-3delta), and the selector/support-level restart contract. MAIN contains CURRENT AUTHORITY OVERRIDE=229P and unchanged preferred radical-gcd gate. RESULT-LEDGER contains the 229P change record and card pointer. Active ROUTE contains the POST-229P geometric-sieve preflight block and selector/support-level theorem requirement. CARD-INDEX row481 and 案内 latest/read-order point to 229P. M3-T11-230 remains unissued; PRIMARY_GATE OPEN; production HOLD; GLOBAL_COUNTING_CREDIT=0. Integrated audit186–229O remains valid within its stated scope and is not silently extended to 229P.

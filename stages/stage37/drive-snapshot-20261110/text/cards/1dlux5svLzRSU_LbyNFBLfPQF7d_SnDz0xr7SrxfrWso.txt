@@ -1,0 +1,442 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229BM — symmetric central packet-square completion and hard-remainder off-diagonal localization
+
+
+STATUS: POST_229BL_SYMMETRIC_CENTRAL_PACKET_SQUARE_COMPLETION / PROVED_THREE_CHART_RAW_CONTENT_GCD_MATCHINGS / PROVED_FULL_TWELVE_CENTRAL_LINEAR_PACKET_TIMES_SQUARE_NORMAL_FORMS / PROVED_TWO_NEW_SYMMETRIC_CENTRAL_K4_GCD_GRAPHS / PROVED_HARD_REMAINDER_EDGE_PRODUCT_SANDWICH / PROVED_HARD_REMAINDER_OFF_DIAGONAL_PACKET_FACTOR_LOCALIZATION / NO_COUNTING_PROMOTION / GLOBAL_CREDIT=0 / NO_GLOBAL_REOPEN
+
+
+TYPE: POST-229BL SYMMETRIC 229AU/229AV COMPLETION / THREE-MACRO RAW-PACKET CENTRAL NORMALIZATION / HARD-REMAINDER OFF-DIAGONAL DIVISOR INTERFACE
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229BL
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1dlux5svLzRSU_LbyNFBLfPQF7d_SnDz0xr7SrxfrWso
+
+
+1. Scope
+
+
+229BL completed the three positive central-gap divisor charts
+  lambda_e(2e+lambda_e)=2(R-U)(R-V),
+  lambda_y(2y+lambda_y)=2(R-z)(R-V),
+  lambda_x(2x+lambda_x)=2(R-z)(R-U),
+and localized the unresolved population, at an o(B^(1/3)) same-physical cost, to the sector where all three outer-gap pair products exceed T=B^(1/3-eta).
+
+
+229AU and 229AV had previously proved an exact raw-packet-times-square normalization and complete central K4 odd-gcd graph only for the e-base central chart. The y-base and x-base central charts did not yet exist at that point.
+
+
+This card proves that the 229AU/229AV normalization is permutation-invariant and therefore extends exactly to the two new 229BL charts. It then combines that full symmetric normalization with the 229BL hard remainder. The result is a stronger theorem interface: the six low central divisor factors on the hard remainder are not merely constrained by one fixed squareclass product; each factor individually is a finite 2-adic bit times an exact raw-content gcd packet times a square, and the paired factors are quantitatively off diagonal.
+
+
+No global endpoint count follows from this structural refinement alone.
+
+
+2. Uniform three-chart notation
+
+
+For j=0,1,2 define edge triples, adjacent face diagonals, macro legs, macro hypotenuse products and contents by
+
+
+j=0:
+  q0=e, r0=x, s0=y,
+  A0=U, B0=V,
+  L0=eR, T0=xy, P0=UV,
+  G0=gcd(eR,xy).
+
+
+j=1:
+  q1=y, r1=x, s1=e,
+  A1=z, B1=V,
+  L1=yR, T1=ex, P1=zV,
+  G1=gcd(yR,ex).
+
+
+j=2:
+  q2=x, r2=y, s2=e,
+  A2=z, B2=U,
+  L2=xR, T2=ey, P2=zU,
+  G2=gcd(xR,ey).
+
+
+Then, exactly,
+  L_j^2+T_j^2=P_j^2,
+and 229BI gives
+  G0=C+ C-,
+  G1=C- C0,
+  G2=C+ C0,
+with C0,C+,C- pairwise coprime and G0G1G2 a square.
+
+
+For each j define four positive central linear forms
+  lambda_j := A_j+B_j-R-q_j,
+  Sigma_j  := q_j+A_j+B_j+R,
+  M_j      := q_j+A_j+B_j-R,
+  N_j      := R+A_j+B_j-q_j.                       (229BM.1)
+
+
+Thus
+  lambda_0=lambda_e, M_0=e+U+V-R,
+  lambda_1=lambda_y, M_1=y+z+V-R,
+  lambda_2=lambda_x, M_2=x+z+U-R.
+
+
+The exact identities are
+  lambda_j Sigma_j = 2(P_j-L_j),                   (229BM.2)
+  M_j N_j           = 2(P_j+L_j),                 (229BM.3)
+  lambda_j M_j      = 2(R-A_j)(R-B_j),            (229BM.4)
+  M_j-lambda_j      = 2q_j.                       (229BM.5)
+
+
+The first two are the minus/plus gap factorizations of the three macro Pythagorean triples. The third is the symmetric 229AQ/229BL central divisor chart.
+
+
+RESULT_229BM_THREE_FOUR_FORM_CENTRAL_RECTANGLES=PROVED_EXACT.
+
+
+3. Common-gcd nuisance for all three charts
+
+
+Set
+  d_j := gcd(r_j,s_j).
+Then
+  d_0=gcd(x,y)=d0,
+  d_1=gcd(x,e)=b,
+  d_2=gcd(y,e)=a.                                  (229BM.6)
+
+
+The primitive physical edge triple gives
+  gcd(q_j,d_j)=1.
+Also if a prime divided d_j and R, then from
+  R^2=q_j^2+r_j^2+s_j^2
+it would divide q_j, a contradiction. Hence
+  gcd(q_j R,d_j)=1.                                (229BM.7)
+
+
+Let an odd prime power p^m divide both lambda_j and Sigma_j. From their sum and difference,
+  p^m | A_j+B_j,
+  p^m | R+q_j.
+Therefore
+  p^m | A_j^2-B_j^2 = r_j^2-s_j^2,
+  p^m | R^2-q_j^2   = r_j^2+s_j^2.
+Since p is odd,
+  p^m | r_j^2 and p^m | s_j^2,
+so
+  gcd_odd(lambda_j,Sigma_j) | d_j^2.              (229BM.8)
+
+
+The same proof using
+  M_j+N_j=2(A_j+B_j),
+  N_j-M_j=2(R-q_j)
+gives
+  gcd_odd(M_j,N_j) | d_j^2.                       (229BM.9)
+
+
+By (229BM.7), both common-gcd nuisances are coprime to the macro leg L_j=q_jR.
+
+
+For j=0 these are retained 229AS facts. For j=1,2 they are the new exact symmetric completions.
+
+
+RESULT_229BM_THREE_CHART_COMMON_GCD_NUISANCE_FIREWALL=PROVED_EXACT.
+
+
+4. Exact raw-content gcd matchings in every chart
+
+
+Define odd gcd packets
+  Q_j^- := gcd_odd(L_j,lambda_j),
+  Q_j^+ := gcd_odd(L_j,Sigma_j),
+  P_j^- := gcd_odd(L_j,M_j),
+  P_j^+ := gcd_odd(L_j,N_j).                       (229BM.10)
+
+
+Because the common gcds in (229BM.8)-(229BM.9) are coprime to L_j,
+  gcd(Q_j^-,Q_j^+)=1,
+  gcd(P_j^-,P_j^+)=1.                              (229BM.11)
+
+
+Using (229BM.2),
+  gcd(L_j,P_j-L_j)=gcd(L_j,P_j)=G_j
+for the integral macro Pythagorean triple. Therefore
+  Q_j^- Q_j^+ = (G_j)_odd.                         (229BM.12)
+
+
+Similarly, using (229BM.3),
+  P_j^- P_j^+ = (G_j)_odd.                         (229BM.13)
+
+
+Hence every macro content G_j has two exact coprime raw-content matchings by positive O(B)-height central linear forms.
+
+
+For j=0 this is retained 229AS. Equations (229BM.12)-(229BM.13) for j=1,2 are new symmetric exact matchings.
+
+
+RESULT_229BM_THREE_MACRO_EXACT_COPRIME_RAW_G_MATCHINGS=PROVED_EXACT.
+
+
+5. Individual packet-times-square normal forms
+
+
+Let O(n) denote the odd part of n.
+
+
+From the macro Pythagorean gap/content lemma applied to (229BM.2),
+  O(lambda_j) O(Sigma_j)
+is (G_j)_odd times a square.
+Together with (229BM.12),
+  [O(lambda_j)/Q_j^-] [O(Sigma_j)/Q_j^+]
+is a square. Let h_Q,j be the common squarefree kernel of these two quotients. Any prime dividing h_Q,j divides both lambda_j and Sigma_j, so by (229BM.8)
+  h_Q,j | rad(d_j).                                (229BM.14)
+
+
+Likewise (229BM.3) and (229BM.13) give a squarefree h_P,j with
+  h_P,j | rad(d_j).                                (229BM.15)
+
+
+To compare the two nuisances, split the exact raw packets by the q_j and R sides:
+  A_j^-:=gcd_odd(q_j,lambda_j),
+  A_j^+:=gcd_odd(q_j,Sigma_j),
+  C_j^-:=gcd_odd(R,lambda_j),
+  C_j^+:=gcd_odd(R,Sigma_j).
+
+
+The same additive rectangle used in 229AS gives the checkerboard
+  Q_j^-=A_j^- C_j^-,
+  Q_j^+=A_j^+ C_j^+,
+  P_j^-=A_j^- C_j^+,
+  P_j^+=A_j^+ C_j^-.                              (229BM.16)
+
+
+The q-side product A_j^-A_j^+ is the odd product of the two q_j-side physical content buckets; the R-side product C_j^-C_j^+ is the odd product of the two R-side content buckets. This is the 229AD six-bucket decomposition under the edge permutation (q_j,r_j,s_j).
+
+
+On the other hand, by the physical Pythagorean gap lemma,
+  sf_odd((R-A_j)(R-B_j))
+is exactly the squarefree kernel of those two R-side content buckets. Therefore (229BM.4) and (229BM.16) give
+  sf(h_Q,j h_P,j)=1.
+Both h_Q,j and h_P,j are squarefree, so
+  h_Q,j=h_P,j=:h_j.                                (229BM.17)
+
+
+If an odd prime p divided h_j, then p would divide both lambda_j and M_j. By (229BM.5), p|q_j. But h_j|rad(d_j), contradicting gcd(q_j,d_j)=1. Hence
+  h_j=1.                                          (229BM.18)
+
+
+Consequently there exist positive integers
+  u_j^-,u_j^+,v_j^-,v_j^+
+such that, exactly,
+  O(lambda_j)=Q_j^- (u_j^-)^2,
+  O(Sigma_j) =Q_j^+ (u_j^+)^2,
+  O(M_j)     =P_j^- (v_j^-)^2,
+  O(N_j)     =P_j^+ (v_j^+)^2.                    (229BM.19)
+
+
+For j=0 this is retained 229AU. For j=1,2 these are eight new symmetric central packet-square normal forms.
+
+
+In particular,
+  gcd_odd(lambda_j,Sigma_j)
+and
+  gcd_odd(M_j,N_j)
+are exact odd squares for every j.
+
+
+RESULT_229BM_FULL_TWELVE_CENTRAL_LINEAR_PACKET_TIMES_SQUARE_NORMAL_FORMS=PROVED_EXACT.
+RESULT_229BM_TWO_NEW_SYMMETRIC_CENTRAL_K4_GCD_GRAPHS=PROVED_EXACT.
+
+
+6. Finite 2-adic normalization
+
+
+For each of the twelve forms in (229BM.19), absorb the even valuation modulo 2 into one bit. Thus there are
+  eta in {1,2}
+and positive integer square roots such that, for example,
+  lambda_j = eta_lambda,j Q_j^- a_j^2,
+  M_j      = eta_M,j      P_j^- b_j^2,             (229BM.20)
+and analogously for Sigma_j,N_j.
+
+
+Therefore the only non-square information in each central form is:
+- one exact odd raw-content gcd packet;
+- one finite 2-adic bit.
+
+
+This is the symmetric extension of 229AV's e-base packet-times-square normal form.
+
+
+RESULT_229BM_FULL_SYMMETRIC_FINITE_2ADIC_PACKET_SQUARE_NORMALIZATION=PROVED_EXACT.
+
+
+7. Hard-remainder edge-product sandwich
+
+
+Let T>=1. On the 229BL hard remainder require
+  (R-U)(R-V)>T,
+  (R-z)(R-V)>T,
+  (R-z)(R-U)>T.                                   (229BM.21)
+
+
+For the generic j-chart,
+  r_j^2=(R-B_j)(R+B_j),
+  s_j^2=(R-A_j)(R+A_j).
+Hence
+  (R-A_j)(R-B_j)
+    = (r_j s_j)^2 / ((R+A_j)(R+B_j)).              (229BM.22)
+
+
+Since R<A_j+R<2R and R<B_j+R<2R,
+  (r_j s_j)^2/(4R^2)
+    < (R-A_j)(R-B_j)
+    < (r_j s_j)^2/R^2.                             (229BM.23)
+
+
+Thus (229BM.21) forces
+  xy>R sqrt(T),
+  ex>R sqrt(T),
+  ey>R sqrt(T).                                    (229BM.24)
+
+
+Consequently
+  min(e,x,y)>sqrt(T),                              (229BM.25)
+at least two of e,x,y satisfy
+  edge > R^(1/2) T^(1/4),                          (229BM.26)
+and
+  exy > R^(3/2) T^(3/4).                           (229BM.27)
+
+
+At the current threshold T=B^(1/3-eta),
+  min(e,x,y)>B^(1/6-eta/2),
+and at least two physical edges exceed
+  R^(1/2) B^(1/12-eta/4).
+
+
+These are exact same-physical consequences of the already-retained hard remainder, not a new population estimate.
+
+
+RESULT_229BM_HARD_REMAINDER_THREE_EDGE_PRODUCTS_LARGE=PROVED_EXACT.
+RESULT_229BM_HARD_REMAINDER_EDGE_LOWER_BOUNDS=PROVED_EXACT.
+
+
+8. Off-diagonal central divisor factors
+
+
+On each chart,
+  M_j-lambda_j=2q_j.
+By (229BM.25),
+  M_j-lambda_j > 2 sqrt(T),                        (229BM.28)
+and by (229BM.26), at least two of the three factor-pair differences satisfy
+  M_j-lambda_j > 2 R^(1/2) T^(1/4).               (229BM.29)
+
+
+If
+  C_j:=R-A_j,
+  D_j:=R-B_j,
+then
+  lambda_j M_j=2 C_j D_j.
+Using M_j=lambda_j+2q_j and q_j>sqrt(T),
+  lambda_j(lambda_j+2sqrt(T)) < 2 C_j D_j.
+Therefore the positive divisor lambda_j lies in the strict truncated range
+  lambda_j < sqrt(T+2C_jD_j)-sqrt(T).              (229BM.30)
+
+
+Combining (229BM.20) with the divisor chart gives the packet-square form
+  eta_lambda,j eta_M,j Q_j^- P_j^- (a_j b_j)^2
+    =2 C_jD_j
+    >2T,                                           (229BM.31)
+with the checkerboard packet overlap (229BM.16) and the global 229BI content triangle among G0,G1,G2.
+
+
+Thus the hard remainder is confined to three simultaneous off-diagonal packet-square factor pairs, not merely to six arbitrary linear forms whose total product has fixed squareclass 2.
+
+
+RESULT_229BM_HARD_REMAINDER_OFF_DIAGONAL_PACKET_SQUARE_FACTOR_LOCALIZATION=PROVED_EXACT.
+
+
+9. Refined theorem interface
+
+
+REFINED_CURRENT_INTERNAL_INTERFACE:
+THREE_CENTRAL_PACKET_SQUARE_OFF_DIAGONAL_OCCUPANCY.
+
+
+Count exact positive primitive Stage37 physical endpoints with:
+- exact R<=B height and all current selectors;
+- current large K_*=sf(G0) gate;
+- all three outer pair products satisfying (229BM.21) at T=B^(1/3-eta);
+- the six low central factors lambda_j,M_j in the individual packet-square normal forms (229BM.20);
+- exact checkerboard packet overlap (229BM.16);
+- exact 229BI C0/C+/C- macro-content triangle;
+- the quantitative off-diagonal separation (229BM.28)-(229BM.30).
+
+
+This strictly refines the 229BL fixed-squareclass-only representation. It does not by itself supply the required global count.
+
+
+Parallel retained routes remain:
+(A) 229BF one-per-outer floor removal;
+(B) 229AX realized support count;
+(C) 229BJ realized-modulus/selector-height saving;
+(D) 229AR direct W0 tail.
+
+
+CURRENT_BLOCKER remains:
+NO_GLOBAL_COUNT_FOR_THE_THREE_CENTRAL_GAP_LOW_HEIGHT_FIXED_SQUARECLASS_IMAGE_ON_THE_HARD_THREE_PAIR_REMAINDER_AT_ONE_THIRD_BUDGET.
+
+
+The new packet-square/off-diagonal interface is a stronger internal representation of that same unresolved blocker, not a closure theorem.
+
+
+10. Firewalls
+
+
+DO NOT:
+- multiply the three G_j macro restrictions as independent local sieve events; 229BI proves their exact packet-triangle dependence;
+- charge the twelve packet-square normal forms as twelve independent density conditions;
+- replace physical endpoints by arbitrary packet-square tuples;
+- promote the edge-product lower bounds or off-diagonal divisor truncation to endpoint sparsity without a same-physical counting theorem;
+- infer a global tail estimate from (229BM.31) alone;
+- alter operational authority, mathematical-construction credit, primary gate, closure, production HOLD, or P/M3 status from this structural result.
+
+
+11. State
+
+
+No perfect-cuboid existence/nonexistence conclusion is claimed.
+No new global endpoint exponent is claimed.
+No global counting credit is assigned.
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+Independent hostile audit of 229BM NOT RUN.
+
+
+12. Dependencies and verification scope
+
+
+Load-bearing retained inputs:
+- 229AD six pairwise-coprime physical content buckets;
+- 229AQ/229AS/229AU/229AV e-base central packet-square algebra;
+- 229BI three symmetric macro Pythagorean triples and exact G0/G1/G2 content triangle;
+- 229BK 2-adic macro-gap parity closure;
+- 229BL two new symmetric central divisor charts and hard-remainder localization.
+
+
+The new j=1,j=2 packet-square normalizations are direct edge-permutation deductions from the same exact integer identities, with the nuisance bucket changing from d0 to b and a respectively. The edge-product sandwich is a direct consequence of the physical Pythagorean gap factorizations. No external theorem is invoked.
+
+
+No physical perfect-cuboid endpoint enumeration is used.
+
+
+FINAL_READBACK_RECEIPT: PASS — card / INDEX row530 / guide / LEDGER current+change / MAIN current+override / active ROUTE POST-229BM all connector-readback verified
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true

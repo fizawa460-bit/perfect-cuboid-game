@@ -1,0 +1,420 @@
+﻿SCOPE CORRECTION BY M3-T11-171
+The fixed-pair theorem and removal of C^(1/2) loss are retained. Bare support o(B^(1/3)) alone does not absorb a B^o(1) fiber factor. Use a fixed power margin or an explicit occupancy-weighted/envelope condition. Details and countermodel are in171 section7.
+
+
+M3-T11-170 — Opposite-face genus-one compression removes the moving-content fiber
+
+
+CARD_ID: M3-T11-170
+CANONICAL_CARD_KEY: M3-T11-170
+STATUS: PROVED_EXACT_FIXED_PAIR_BO1_UPGRADE / OPPOSITE_FACE_GENUS1_COMPRESSION / GLOBAL_COUNTING_CREDIT=0
+GLOBAL_OPERATION: ACTIVE_T11_RESEARCH_WITH_SCOPED_DECOMPOSITION
+PRIMARY_GATE: M3-T11-GATE-001, OPEN
+GLOBAL_COUNTING_CREDIT: 0
+AUDIT_MODE: WITHIN_SESSION_DEDUCTIVE_FROM_RETAINED_010_168_169
+
+
+1. Current authority and decision
+
+
+Current MAIN, CARD-INDEX, RESULT-LEDGER, active ROUTE and M3-T11-169 were read first. The needed retained cards M3-T11-004/006/007/010/168/169 were checked only where needed.
+
+
+Card169 isolated one remaining polynomial factor in the fixed-(r,tau) endpoint fiber: the moving content h_i of length O(r/sqrt(tau)). This card proves that this interval loss is not intrinsic. A second physical face, together with the already-fixed selected space triangle, puts the residual motion on exactly the same full-rational-2-torsion genus-one family already used in retained M3-T11-010. The reduced denominator of one normalized edge then recovers h_i uniquely.
+
+
+Result: on the live branch r<tau, the fixed-(r,tau) exact endpoint multiplicity is B^o(1), improving M3-T11-168 equation (168.13), which had the weaker C^(1/2)B^o bound.
+
+
+2. Selected primitive space triangle
+
+
+Fix an exact primitive canonical endpoint and the canonical face i selected by the global maximum Euclid root r. Write, as in 168,
+
+
+h_i=gcd(R,e_i),
+u_i=e_i/h_i,
+v_i=f_jk/h_i,
+D_i=R/h_i=c_i*tau,
+
+
+so
+
+
+u_i^2+v_i^2=D_i^2,
+
+
+where f_jk^2=e_j^2+e_k^2 and {i,j,k}={1,2,3}.
+
+
+Fix (r,tau).
+
+
+As in 168, after fixing the bounded face/sign/parity choice, the companion Euclid root s satisfies
+
+
+s^2 == -r^2 mod tau.
+
+
+Therefore the number of possible positive s<=r is
+
+
+(1+r/tau) B^o(1).                                  (170.1)
+
+
+Once s and the finite parity/orientation data are fixed, the primitive space triangle (u_i,v_i,D_i) is fixed. Hence
+
+
+rho := v_i/D_i = f_jk/R
+
+
+is fixed, with
+
+
+0<rho<1.
+
+
+Also c_i=D_i/tau is fixed. Since c_i=h_j*h_k and h_j,h_k are coprime, the ordered choice (h_j,h_k) costs only
+
+
+d(c_i)=B^o(1).                                      (170.2)
+
+
+3. Exact opposite-face genus-one point
+
+
+For one of the two opposite-face edges, say e_k, define
+
+
+x := e_k/f_jk.
+
+
+Every physical endpoint satisfies
+
+
+1-x^2
+=
+(f_jk^2-e_k^2)/f_jk^2
+=
+e_j^2/f_jk^2,
+
+
+so 1-x^2 is a rational square.
+
+
+Also
+
+
+rho*x
+=
+(f_jk/R)*(e_k/f_jk)
+=
+e_k/R.
+
+
+Therefore
+
+
+1-rho^2*x^2
+=
+1-(e_k/R)^2
+=
+f_ij^2/R^2,
+
+
+which is also a rational square.
+
+
+Consequently every endpoint maps to the rational genus-one over-cover
+
+
+z^2=(1-x^2)(1-rho^2*x^2).                          (170.3)
+
+
+This is exactly the same one-parameter full-rational-2-torsion family used in retained M3-T11-010.
+
+
+Because 0<rho<1, the four branch points are distinct; there is no rho=0 or rho=1 degeneration on the positive selected space-triangle locus.
+
+
+The rational height is physical:
+rho=v_i/D_i has numerator and denominator <=B,
+x=e_k/f_jk has numerator and denominator <=B.
+
+
+Hence the same uniform bounded-height rational-2-torsion theorem already retained and used in M3-T11-010 applies to (170.3), uniformly in the present physical rho. The number of rational x of physical height <=B^O(1) is therefore
+
+
+B^o(1).                                             (170.4)
+
+
+Only the rational-point count from retained010 is used here. Its first-cover lift adapter is not imported.
+
+
+4. One genus-one point recovers the residual content h_i
+
+
+For a fixed rational point x, put
+
+
+t := rho*x = e_k/R.
+
+
+Reduce t to lowest terms. Since by definition
+
+
+h_k=gcd(R,e_k),
+
+
+the reduced denominator of t is exactly
+
+
+den(t)=R/h_k=D_k.                                   (170.5)
+
+
+By the endpoint content identities,
+
+
+D_k=c_k*tau
+   =h_i*h_j*tau.
+
+
+At this stage h_j and tau are already fixed by Sections 2 and the fixed pair (r,tau). Therefore
+
+
+h_i = den(t)/(h_j*tau).                             (170.6)
+
+
+Thus one rational genus-one point determines the formerly-moving content h_i uniquely whenever the divisibility and positivity filters required by a physical endpoint hold.
+
+
+Once h_i is fixed,
+
+
+R=h_i*D_i
+
+
+is fixed,
+e_i=h_i*u_i is fixed,
+e_k=t*R is fixed,
+and e_j is fixed up to sign by
+
+
+e_j^2=f_jk^2-e_k^2,
+
+
+with f_jk=h_i*v_i.
+
+
+The positive canonical endpoint therefore has only O(1) reconstructions from the fixed packet and x. All remaining face-integrality, primitivity and canonical-order conditions are post-filters.
+
+
+5. Upgraded fixed-(r,tau) fiber theorem
+
+
+Combining (170.1), (170.2), (170.4) and the O(1) reconstruction gives
+
+
+m_(r,tau)(B)
+:=
+#{exact primitive canonical endpoints at R<=B
+  with canonical global max Euclid root r
+  and common residual tau}
+
+
+<=
+(1+r/tau) B^o(1).                                  (170.7)
+
+
+This strictly improves the retained M3-T11-168 bound
+
+
+m_(r,tau)
+<=
+(1+r/tau)(1+r/sqrt(tau)) B^o(1).
+
+
+On the current live small-c branch, retained168 already gives r<tau for fixed small eta,xi with eta+(5/2)xi<1/4. Hence
+
+
+m_(r,tau)(B) <= B^o(1).                             (170.8)
+
+
+The C^(1/2)=B^(1/12+xi/2) pair-fiber loss in 168/169 is removed.
+
+
+M3-T11-168 is not retracted: its theorem remains correct; (170.7)-(170.8) are a stronger successor bound.
+
+
+6. Consequence for the support bridge of M3-T11-169
+
+
+Let P_rt(B;C) be the occupied (r,tau) support and A_ht(B;C) the active labeled content-tau support defined in169.
+
+
+Retained017 gives
+
+
+deg_A <= B^o(1).
+
+
+The new theorem gives on the live branch
+
+
+deg_P <= B^o(1).
+
+
+Therefore the two occupied supports are power-equivalent:
+
+
+|P_rt(B;C)| <= B^o(1)|A_ht(B;C)|,                  (170.9)
+
+
+|A_ht(B;C)| <= B^o(1)|P_rt(B;C)|.                  (170.10)
+
+
+In particular,
+
+
+#E_sc(B;C)
+<=
+B^o(1)|P_rt(B;C)|.                                 (170.11)
+
+
+Thus a rigorously sufficient raw occupied-support target, with the retained subpolynomial fiber factor absorbed, is
+
+
+|P_rt(B;C)|<<B^(1/3-delta), fixed delta>0.           (170.12 corrected by171)
+
+
+There is no longer an extra C^(1/2) payment for routing through (r,tau).
+
+
+Equivalently, the weighted support W_rt of169 remains a valid upper-bound device but is no longer the minimal receiver; its r/sqrt(tau) weight was an artifact of stopping before the opposite-face genus-one compression.
+
+
+7. Relation to the retained fixed-content active-tau route
+
+
+The 169 firewall is sharpened as follows.
+
+
+M3-T11-015 through019 still do NOT by themselves prove an occupied-support deficit. Their triple-spin selector remains a fixed-content/coefficient arithmetic selector and the active-tau theorem is still open.
+
+
+However, if a future theorem proves a fixed-content active-tau support bound, passing between that support and occupied (r,tau) support now costs only B^o(1), not C^(1/2).
+
+
+For example, the old sufficient hypothetical bound
+
+
+A_tau(B;h1,h2,h3) << B^(1/12-delta0)
+
+
+would still give directly
+
+
+#E_sc
+<=
+C^(3/2) B^(1/12-delta0+o(1)),
+
+
+and the pair-support route now reproduces the same power exponent rather than the weaker C^2 bound recorded in169.
+
+
+So the two live formulations are now losslessly interchangeable at power scale:
+
+
+- fixed-content active-tau support;
+- occupied canonical (r,tau) support.
+
+
+Neither support deficit is proved here.
+
+
+8. Why the genus-one compression is not double charging
+
+
+The new saving is not obtained by multiplying the two appearances of h_i from M3-T11-006/007.
+
+
+The data used are:
+
+
+- the selected space triangle fixes rho=f_jk/R;
+- the actual opposite face gives 1-x^2 square;
+- the actual adjacent face gives 1-rho^2 x^2 square;
+- their product places x on one retained010 genus-one curve;
+- the reduced denominator of t=rho*x recovers the single physical content h_i exactly.
+
+
+Thus one physical h_i is charged once through one rational-point coordinate. The duplicate cyclic appearances of h_i remain uncharged.
+
+
+No root-line density modulo h_i^2 is used.
+
+
+9. Audit and scope
+
+
+The algebraic identities in Sections 3-4 are direct physical equalities:
+x=e_k/f_jk,
+rho=f_jk/R,
+rho*x=e_k/R,
+den(e_k/R)=R/gcd(R,e_k)=D_k=h_i*h_j*tau.
+
+
+The genus-one model (170.3) is literally the retained M3-T11-010 family z^2=(1-x^2)(1-rho^2*x^2), with physical 0<rho<1 and polynomial physical height. The uniform B^o rational-point input is therefore not a new external theorem import.
+
+
+CARD-INDEX searches for “opposite face ratio”, “e_k/f_jk”, “selected space triangle”, “fixed max root”, “residual content denominator”, “den(t)=D_k” and “genus-one opposite face” found no prior card stating this adapter.
+
+
+No physical perfect endpoint was enumerated and no finite example is asserted. The proof is deductive from retained exact identities plus retained010 bounded-height counting. Audit is within-session, not an independent hostile audit.
+
+
+10. Handoff
+
+
+LATEST_RESEARCH_CARD=M3-T11-170
+NEXT_CANDIDATE=M3-T11-171
+CURRENT_ATTACK=OccupiedRTauSupportOrFixedContentActiveTauOrThresholdCrossGcdTail
+
+
+Current global core remains two gates:
+
+
+(A) c_max>C=B^(1/6+xi):
+threshold-specific large-c raw-edge/cross-gcd tail, OPEN.
+M3-T11-156 uniform raw 1/C firewall remains in force.
+
+
+(B) c_max<=C on retained R>B^(2/3-eta):
+occupied canonical pairs (r,tau) satisfy
+gcd(r,tau)=1,
+tau>B^(5/12-o(1)),
+r^2>B^(7/12-o(1)),
+r^2*tau>B^(1-o(1)),
+and now each fixed pair has only B^o(1) physical endpoints.
+
+
+Hence branch(B) reduces to the occupied support cardinality
+|P_rt(B;C)|,
+with sufficient target |P_rt|<<B^(1/3-delta), fixed delta>0; alternatively an explicit fiber envelope times |P_rt| must be o(B^(1/3)).
+
+
+Equivalent power-scale route: bound active labeled content-tau support via the retained015-019 selector. The former moving-h_i C^(1/2) transfer loss is gone.
+
+
+Next research should attack the occupied support itself, preferably by translating the canonical (r,tau) pair into the retained active-tau/triple-spin selector without introducing a new polynomial packet count. If no support theorem emerges, return to branch(A) threshold-specific large-c tail.
+
+
+NEW_FIXED_PAIR_BO1=true
+MOVING_HI_FIBER_LOSS_REMOVED=true
+PAIR_AND_CONTENT_SUPPORT_POWER_EQUIVALENT=true
+NEW_GLOBAL_ENDPOINT_BOUND=false
+P_OVER_M3_LIMIT_PROVED=false
+GLOBAL_COUNTING_CREDIT=0
+TI=PARKED
+120=RETRACTED
+147-149=FROZEN

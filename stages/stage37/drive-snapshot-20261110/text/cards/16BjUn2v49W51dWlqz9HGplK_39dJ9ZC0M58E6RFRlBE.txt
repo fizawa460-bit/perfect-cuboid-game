@@ -1,0 +1,57 @@
+﻿STAGE37 229HI-A29 EXACT CERTIFICATE — FJ330 key 000.001.010:0 all-height dyadic angle valuation; Gaussian prime-square modular census
+CARD=https://docs.google.com/document/d/1-YWZYUKOZs53IQNKmWDQMB2U2rXYIwbGLgI3_UVYvRI/edit
+MATHEMATICAL PROOF: For a,c,h odd, p,q,r rational primes 1mod8, all b,d,w divisible by8. The exact A28 signed Gaussian key biform is F=(t²+4tX+(2−t²)X²)Y²+2X(t²+2tX−1)Y+t²(1+X²).
+After exact expansion F=t²−2XY+t²(X²+Y²−X²Y²+2XY)+4tXY(X+Y)+2X²Y².
+Put T=v2(t),U=v2(X),V=v2(Y)≥3. The remainder has valuation >min(2T,1+U+V); cancellation implies 2T=1+U+V, so T≥4. With exact equality, F/2^(2T) has leading t0²−X0Y0 and all residual terms divisible64. Thus t0²≡X0Y0 (mod64), and X0Y0≡1mod8. This proves T=3 impossible for this original necessary key in all positive rational third directions; not for all 330 keys.
+EXPLICIT OFF-REAL-WEDGE PRIME COUNTERCHECKS: p=17: 17²=15²+8², t=8/15<1 and v2(b)=3; p=41: 41²=9²+40², t=40/9>sqrt2 and v2(b)=3. A28's empty real wedge 1≤t≤sqrt2 covers neither, so these are outside previous A28 source-empty angle.
+EXACT EXECUTABLE REPLAY (Python3 standard library; no web/packages; this test only evaluates modular NECESSARY superpopulation, NOT full F=0/physical):
+# Python 3 standard library; exact finite Gaussian prime direction + modular necessary census.
+from math import isqrt
+from itertools import combinations
+def primes(lo,hi):
+    tab=bytearray(b'\x01')*(hi+1)
+    tab[0:2]=b'\x00\x00'
+    for d in range(2,isqrt(hi)+1):
+        if tab[d]: tab[d*d:hi+1:d]=b'\x00'*(((hi-d*d)//d)+1)
+    return [p for p in range(max(2,lo),hi+1) if tab[p] and p%8==1]
+def primitive_p2(p):
+    for v in range(2,isqrt(p)+1,2):
+        u2=p-v*v; u=isqrt(max(u2,0))
+        if u*u==u2 and u%2:
+            a=abs(u*u-v*v); b=2*u*v
+            assert a*a+b*b==p*p and a%2 and b%8==0
+            return a,b
+    raise AssertionError(p)
+def val2(k):
+    assert k>0
+    return (k&-k).bit_length()-1
+def census(Q):
+    entries=[(p,*primitive_p2(p)) for p in primes(Q,2*Q)]
+    n=len(entries); eql=mod8=mod64=0
+    for (_,a,b),(_,c,d),(_,h,w) in combinations(entries,3):
+        T,U,V=map(val2,(b,d,w))
+        if 2*T!=1+U+V: continue
+        eql+=1
+        t0=((b>>T)*pow(a,-1,64))%64
+        x0=((d>>U)*pow(c,-1,64))%64
+        y0=((w>>V)*pow(h,-1,64))%64
+        delta=(t0*t0-x0*y0)%64
+        if delta%8==0: mod8+=1
+        if delta==0: mod64+=1
+    return (Q,n,n*(n-1)*(n-2)//6,eql,mod8,mod64)
+for Q in (200,500,1000,3000):
+    print(*census(Q))
+for Q in (1000,10000,50000):
+    vals=[val2(primitive_p2(p)[1]) for p in primes(Q,2*Q)]
+    print("first_p",Q,len(vals),sum(x==3 for x in vals),sum(x>=4 for x in vals))
+
+
+EXECUTED RESULTS (replayed locally):
+200 7 35 5 0 0
+500 17 680 55 8 1
+1000 31 4495 472 110 14
+3000 85 98770 10554 2731 321
+first_p 1000 31 11 20
+first_p 10000 261 136 125
+first_p 50000 1127 570 557
+HOSTILE FIREWALL: A24 finite p,q<=8192 no distinct third norm-square root relative to classifier; this finite modular survivor table is NOT new physical count. Prior FR p5mod8, GO existential t,X,Y in8Z2, A11->A12 global16 retraction, DT/DU independent local-density no-go preserved. No claim of global prime density, source classifier hostile audit not performed, no authority/gate/credit/closure change.

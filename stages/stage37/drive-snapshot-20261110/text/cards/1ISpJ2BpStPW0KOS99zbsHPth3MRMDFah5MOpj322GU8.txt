@@ -1,0 +1,417 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229CT — exact norm-S gcd triangle and full-J K^(2/3) marked-gcd compression
+STATUS: POST_229CS_FULL_J_NORM_S_GCD_CROSSWALK / EXACT_LAMBDA_PAIR_RECOVERY / THREE_GCD_TRIANGLE / FULL_J_K_TWO_THIRDS_CANONICAL_MARK / BALANCED_MARK_IS_EXACT_B_STATE_COMPONENT / GLOBAL_CREDIT=0 / NO_REOPEN
+CARD_DOC_ID=1ISpJ2BpStPW0KOS99zbsHPth3MRMDFah5MOpj322GU8
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229CS
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope
+
+
+Work on the exact current S_B^hard13(delta) positive primitive Stage37 source, R<=B.
+
+
+Retain
+A=R-U,
+Bv=R-V,
+C=R-z,
+S=A+Bv+C=R-2d,
+
+
+s=A+Bv=S-C,
+t=A+C=S-Bv,
+u=Bv+C=S-A,
+
+
+and the 229BY norm receivers
+
+
+H_A=s t=A^2+2d^2,
+H_B=s u=Bv^2+2d^2,
+H_C=t u=C^2+2d^2,                                           (CT.1)
+
+
+with
+0<H_A,H_B,H_C<S^2<R^2<=B^2
+and uniform B^o(1) fixed-value physical fibers.
+
+
+Retain 229CF/229CO
+
+
+lambda_U=gcd(A,S),
+lambda_V=gcd(Bv,S),
+lambda_z=gcd(C,S),                                           (CT.2)
+
+
+the lambda_i pairwise coprime odd integers, and
+
+
+L_J=lambda_U lambda_V lambda_z,
+J=rad_odd(L_J).                                              (CT.3)
+
+
+Retain the 229CP four-state decomposition and the 229CS balanced marks
+M_A^2=D_VD_z,
+M_B^2=D_UD_z,
+M_C^2=D_UD_V.
+
+
+2. Exact norm-S gcd crosswalk
+
+
+Because
+H_A=(S-C)(S-Bv),
+
+
+we have
+H_A == Bv*C mod S.                                           (CT.4A)
+
+
+Hence
+
+
+gcd(H_A,S)=gcd(Bv*C,S).                                      (CT.5A)
+
+
+Now gcd(Bv,S)=lambda_V and gcd(C,S)=lambda_z.
+The two gcds are coprime by the retained pairwise-coprimality of the lambda colors.
+Therefore, prime-power by prime-power,
+
+
+gcd(Bv*C,S)=lambda_V lambda_z.                               (CT.6A)
+
+
+Thus exactly
+
+
+C_A:=gcd(H_A,S)=lambda_V lambda_z.                           (CT.7A)
+
+
+Cyclically,
+
+
+C_B:=gcd(H_B,S)=lambda_U lambda_z,                           (CT.7B)
+C_C:=gcd(H_C,S)=lambda_U lambda_V.                           (CT.7C)
+
+
+RESULT_229CT_NORM_S_GCDS_RECOVER_THE_EXACT_TWO_COLOR_FULL_LAMBDA_BLOCKS=PROVED_EXACT.
+
+
+This identity is full-valuation and is not restricted to the balanced B-state.
+
+
+3. Exact three-gcd triangle
+
+
+Since the lambda colors are pairwise coprime,
+
+
+gcd(C_A,C_B)=lambda_z,                                       (CT.8A)
+gcd(C_A,C_C)=lambda_V,                                       (CT.8B)
+gcd(C_B,C_C)=lambda_U.                                       (CT.8C)
+
+
+Also
+
+
+gcd(C_A,C_B,C_C)=1,                                         (CT.9)
+lcm(C_A,C_B,C_C)=L_J,                                       (CT.10)
+C_A C_B C_C=L_J^2.                                          (CT.11)
+
+
+Taking odd radicals,
+
+
+rad(C_A) rad(C_B) rad(C_C)=J^2.                              (CT.12)
+
+
+RESULT_229CT_THREE_NORM_S_GCDS_FORM_AN_EXACT_PAIRWISE_GCD_TRIANGLE=PROVED_EXACT.
+RESULT_229CT_PRODUCT_OF_THREE_NORM_S_GCDS_EQUALS_LJ_SQUARED=PROVED_EXACT.
+
+
+Thus the full lambda triple can be recovered from the three low-height norm-S gcd receivers, without returning to the three outer gaps separately.
+
+
+4. Full-J K^(2/3) canonical marked-gcd compression
+
+
+From (CT.12),
+
+
+max(rad(C_A),rad(C_B),rad(C_C)) >= J^(2/3).                  (CT.13)
+
+
+Therefore for every K>=1,
+
+
+J>K
+implies that at least one orientation i in {A,B,C} satisfies
+
+
+rad(C_i)>K^(2/3),
+C_i=gcd(H_i,S),
+C_i<=S<B.                                                     (CT.14)
+
+
+Choose a deterministic maximizing orientation i_J with tie order A<B<C and define
+
+
+H_J:=H_{i_J},
+C_J:=C_{i_J}.                                                (CT.15)
+
+
+Then on J>K,
+
+
+rad(C_J)>K^(2/3),                                            (CT.16)
+C_J|H_J,
+C_J|S,
+C_J<=S<B,
+H_J<B^2.                                                     (CT.17)
+
+
+For each fixed marked pair (h,c),
+
+
+{P:(H_J,C_J)=(h,c)}
+is contained in the union of the three fixed-H_i fibers.
+Therefore uniformly
+
+
+#{P:R<=B,(H_J,C_J)=(h,c)}=B^o(1).                            (CT.18)
+
+
+RESULT_229CT_FULL_J_LARGE_HAS_CANONICAL_NORM_S_GCD_ORIENTATION_AT_K_TWO_THIRDS=PROVED_EXACT.
+RESULT_229CT_CANONICAL_FULL_J_MARKED_NORM_GCD_HAS_B_O_FIXED_PAIR_FIBER=PROVED.
+
+
+This K^(2/3) compression now applies to the full J branch, not only to the balanced B-state.
+
+
+5. Balanced 229CS mark is exactly the B-state component of the low-height gcd
+
+
+Work in the A orientation.
+By 229CS,
+
+
+M_A^2=D_VD_z,
+
+
+where D_V and D_z are the full balanced B-state prime-power subblocks of lambda_V and lambda_z.
+
+
+Since
+C_A=lambda_V lambda_z,
+
+
+the B-state component of C_A is exactly
+
+
+(C_A)_B=D_VD_z=M_A^2.                                       (CT.19A)
+
+
+Likewise
+
+
+(C_B)_B=M_B^2,                                               (CT.19B)
+(C_C)_B=M_C^2.                                               (CT.19C)
+
+
+The B-state supports are disjoint from the R/P/S supports, so each is a unitary component:
+
+
+M_A^2 || C_A,
+M_B^2 || C_B,
+M_C^2 || C_C.                                                (CT.20)
+
+
+RESULT_229CT_229CS_BALANCED_SQUARE_MARK_IS_EXACTLY_THE_B_STATE_COMPONENT_OF_THE_NORM_S_GCD=PROVED_EXACT.
+
+
+Thus 229CS is not a separate receiver species: it is the balanced square submark inside the new low-height full-J gcd triangle.
+
+
+In particular, on a balanced-dominant orientation the same mark satisfies simultaneously
+
+
+M_i^2 || C_i,
+M_i^2 || H_i,
+M_i^2 || S.                                                  (CT.21)
+
+
+6. Desaturated quotient triangle
+
+
+Define
+
+
+N_A:=H_A/C_A,
+N_B:=H_B/C_B,
+N_C:=H_C/C_C.                                                (CT.22)
+
+
+Since C_i is the full gcd with S,
+
+
+gcd(N_A,S/C_A)=1,
+gcd(N_B,S/C_B)=1,
+gcd(N_C,S/C_C)=1.                                            (CT.23)
+
+
+Also
+
+
+H_A H_B H_C=(s t u)^2=Pi^2,                                 (CT.24)
+
+
+while (CT.11) gives C_A C_B C_C=L_J^2.
+Therefore
+
+
+N_A N_B N_C=(Pi/L_J)^2.                                     (CT.25)
+
+
+RESULT_229CT_DESATURATED_THREE_NORM_QUOTIENT_PRODUCT_IS_AN_EXACT_SQUARE=PROVED_EXACT.
+RESULT_229CT_EACH_DESATURATED_NORM_QUOTIENT_IS_COPRIME_TO_ITS_S_QUOTIENT=PROVED_EXACT.
+
+
+Firewall:
+(CT.25) is only an exact square-product identity. Do NOT infer a three-atom radical triangle from it. The 229BZ correction of the old 229BY Section 5 radical inference remains fully in force.
+
+
+7. One-scalar marked companion
+
+
+Define
+
+
+Z_J:=H_J C_J.                                                (CT.26)
+
+
+Then
+
+
+0<Z_J<B^3.                                                   (CT.27)
+
+
+For fixed z, there are only tau(z)=B^o(1) possible divisor choices h=H_J with c=z/h.
+For each fixed h, the retained 229BY fixed-H fibers are B^o(1).
+Hence
+
+
+#{P:R<=B,Z_J(P)=z}=B^o(1).                                   (CT.28)
+
+
+Moreover C_J|H_J, so
+
+
+C_J^2 | Z_J,                                                 (CT.29)
+
+
+and J>K implies
+
+
+rad(C_J)>K^(2/3).                                            (CT.30)
+
+
+RESULT_229CT_CANONICAL_FULL_J_GCD_PRODUCT_SCALAR_HAS_B3_HEIGHT_B_O_FIXED_FIBER_AND_LARGE_SQUARE_DIVISOR=PROVED.
+
+
+This scalar is only a compact pushforward. Its large square divisor is not assigned an independent density.
+
+
+8. Quantitative status and method firewall
+
+
+No one-third endpoint count is proved here.
+
+
+The new gain is exact theorem routing:
+
+
+- full J, not merely balanced J, is visible through three low-height norm-S gcds;
+- the full lambda triple is recoverable from their pairwise gcds;
+- J>K gives one canonical marked gcd C_J<B with radical >K^(2/3);
+- the 229CS balanced square mark is the exact B-state component of that same gcd.
+
+
+Do not:
+- infer fixed-power sparsity from C_J<B and rad(C_J)>K^(2/3) alone;
+- infer sparsity from the scalar lower bound Z_J>C_J^2;
+- treat C_J|H_J and C_J|S as independent divisibility probabilities;
+- use the square-product quotient identity (CT.25) to revive the retracted 229BY radical-triangle claim;
+- discard the CP four-state labels when a proof needs to distinguish R/P/B/S excess behavior.
+
+
+A quantitative closure still requires an occupied-image theorem for the realized marked pairs (H_J,C_J), or a state-aware refinement:
+- B-state: use the stronger 229CS square mark M_i^2||C_i,H_i,S;
+- R-state: retain 229CN rho lift;
+- P-state: retain 229CP cubic Pi-excess;
+- S-state: retain 229CP cubic S-excess.
+
+
+9. Updated theorem interface
+
+
+Preferred full-J target:
+
+
+J_NORM_S_GCD_TRIANGLE_OCCUPANCY:
+
+
+count the realized canonical image
+
+
+(H_J,C_J)
+
+
+on the exact hard13 source, with
+
+
+C_J=gcd(H_J,S),
+rad(C_J)>K^(2/3),
+C_J<=S<B,
+H_J<B^2,
+sf(G0)>T,
+
+
+using the exact pairwise-gcd reconstruction (CT.8) when multi-orientation information is needed.
+
+
+For the balanced subbranch, retain 229CS as the stronger internal refinement because
+M_i^2 is the exact B-state square component of C_i.
+
+
+10. State
+
+
+CURRENT_BLOCKER remains
+NO_SELECTOR_AWARE_OR_OCCUPIED_SUPPORT_SAVING_FOR_THE_229CC_SIX_BUCKET_COVER_ON_THE_EXACT_HARD13_PHYSICAL_SOURCE.
+
+
+REFINED_BLOCKER=
+NO_ONE_THIRD_COUNT_FOR_LARGE_eta_OR_TAU_FULL_GCD_SQUARE_MODULI_OR_J_NORM_S_GCD_TRIANGLE_OCCUPANCY_WITH_BALANCED_MARKED_NORM_SUBBLOCK_OR_MATCHED_DISJOINT_M_U_M_V_M_z.
+
+
+J_NORM_S_GCD_TRIANGLE_OCCUPANCY=OPEN.
+J_BALANCED_MARKED_NORM_OCCUPANCY remains OPEN as the B-state refinement via 229CS.
+J_BALANCED_MARKED_RESIDUAL_CORE_OCCUPANCY remains valid secondary via 229CR.
+J_RHO_QUOTIENT_LIFT remains valid on R state.
+J_S_EXCESS_ABOVE_B_ONE_THIRD remains EMPTY_BY_229CP.
+KERNEL_BIAS_BRIDGE remains OPEN.
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+No perfect-cuboid existence/nonexistence conclusion and no new global endpoint exponent are claimed.
+INDEPENDENT_HOSTILE_AUDIT_229CT=NOT_RUN.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

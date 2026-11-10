@@ -1,0 +1,68 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229HI-A1
+2026-10-10 JST. Additive research audit after canonical 229HI; no authority/route switch or count credit.
+STATUS=PROVED_EXACT_ROOT_FACTOR_TAUTOLOGY / SCOPED_NEGATIVE_METHOD / MOD_GAUSSIAN_FORBIDDEN_ROOT_SCAN_0_OF_414 / PHYSICAL_MEAN_OPEN / GLOBAL_CREDIT0
+PARENT_CURRENT=Stage37-NEW-INPUT-DELTA-AUDIT-229HI; PARENT_CARD=1g3wlFLzGTOncKICKKeKABdSTARCDxsgtpjRXc4n1pVU; PARENT_CERT=1P8LdtObaD36UR2B1rvrvaLeIOTGeIaKQ8pv5RWejOSw; THIS_CARD_ID=1UTbw-iAPQhBvxFcBdl2fAGhNRJWs_IdJ1XBpGRzg6tM; INDEX_NEXT_ROW=682.
+AUTHORITY=M3-T11-229; CONSTRUCTION=M3-T11-228; 230 NOT_ISSUED; Gate M3-T11-GATE-001 OPEN; GLOBAL_CREDIT=0; PRODUCTION HOLD; FORMAL_ROUTE_SWITCH NONE; closure unchanged. FJ/FS/FW/HB and independent HI hostile audits HOLD/NOT_RUN.
+
+
+1. Startup and semantic loop audit
+At launch MAIN/AI00/INDEX physical681/LEDGER/active lightweight ROUTE/NEG/FASTPATH all have current229HI. Historical source A2:Y681 (680 records) searched via bounded all-record queries 'SATURATED', 'CONTENT', 'NORM_PRODUCT', 'ONE_PER_OUTER', 'PRIMITIVE_ROOT', 'RATIONAL_FACTOR'; relevant 229GW (row669) gives S=(A-C)^2+B^2, N+N-=16A^2 S but warns NOT to infer both-sign physical exclusions. 229HE (row677) says first discriminant is ALREADY square modulo selected r^2 and forbids independent same-r local-density debit. 229GX/FO/HH/HI contain necessary norm-resultant or root-height gates; HH/HI exclusions are already credited as scoped only, not recredited. NEG contains 229DT local-character/outer-floor failures, 229DU nonindependence of local savings. Similar synonyms have been investigated historically; targeted lexical all-record scan does not constitute full independent semantic proof audit. Latest5 HD/HE/HF/HG/HH have actual HH improvement; including HI, 5 outputs HE/HF/HG/HH/HI also have HH/HI improvement; strategy-stagnation pivot not triggered. Different actual test below executed.
+
+
+2. Universal exact primitive-factor theorem
+Original specialized f0(Y)=A0 Y^2+B0 Y+C0 in Z[Y], actual g=gcd(A0,B0,C0)>0, f=f0/g primitive and nonzero. Let Y=W/T be ONE actual rational physical root, gcd(T,W)=1, T*W!=0 and T^2+W^2=r^2 with r a distinct positive prime. Because (TY-W) is primitive and divides f in Q[Y], Gauss' lemma gives
+f(Y)=(TY-W)(uY+v)
+with integers u,v, gcd(u,v)=1 (up to an overall sign). Then
+A=Tu, B=Tv-Wu, C=-Wv.
+First discriminant Δ0=B0^2-4A0C0 satisfies
+Δ0/g^2=B^2-4AC=(Tv+Wu)^2.
+For S0=(A0-C0)^2+B0^2,
+S0/g^2=(A-C)^2+B^2=(Tu+Wv)^2+(Tv-Wu)^2=(T^2+W^2)(u^2+v^2)=r^2(u^2+v^2).
+Equivalently (A-C)+iB=(T-iW)(u+iv) in Z[i]. Thus once the genuine primitive rational physical root is imposed, BOTH proposed 'first discriminant square' and 'saturated Gaussian norm product' identities hold automatically. They supply ZERO further filtration or independent saving beyond root-existence and third norm constraints. This is a logical non-gain, NOT a claim that the original biform has a physical root, nor that the complementary norm u^2+v^2 is square. The actual first-discriminant square remains a nontrivial condition BEFORE assuming the rational physical root. The congruence r^2 | S0/g^2 is likewise only necessary and already follows from the same root, and must not be multiply charged.
+
+
+Explicit obstruction-to-false-claim example: T=8,W=15,r=17,u=3,v=4 gives f=(8Y-15)(3Y+4)=24Y^2-13Y-60, g=1, Δ=5929=77^2, S=7225=17^2*25=85^2. This is an algebraic toy, NOT a genuine FJ(p,q,r) original cuboid candidate. Therefore a blanket contradiction based only on simultaneous two identities is invalid.
+
+
+3. Distinct attempted gate: Gaussian forbidden-third-root signature
+Reconstructed all13 macro codes,138 triples and 414 signed forms (same F source grammar as parent HI certificate) without importing cached F. Tested for each source F(t,X,Y) the two norm-prime formal reductions t=i and X=i over Q(i), where i^2=-1. A robust special exclusion sufficient in regular unit specializations would be F(i,X,Y)=lambda(X)(Y^2+1), lambda !=0, with quadratic leading coefficient nonzero (likewise F(t,i,Y)); this would force each projective root to Y=+/-i, hence the physical primitive third norm to have the *same* tested prime divisor, contradicting distinct r. The exact full414 scan found ZERO such signatures at either p or q norm. This does NOT rule out other nontrivial residue-root, content, exceptional leading coefficient, mod prime-power, signed-selector or global arithmetic obstacles; regular unit specialization caveats apply. No 150-class removal, count debit, or new global exclusion.
+
+
+Exact reproducibility script (Python3 + sympy):
+import sympy as s,itertools,collections
+t,X,Y=s.symbols('t X Y')
+codes=[k for k in itertools.product((-1,0,1),repeat=3) if any(k) and next(w for w in k if w)==-1]
+def macro(k):
+ i,j,h=k
+ return s.expand((i*t+j*X+h*Y-i*j*h*t*X*Y)**2*(1+t*t if i==0 else 1)*(1+X*X if j==0 else 1)*(1+Y*Y if h==0 else 1))
+mac={k:macro(k) for k in codes}
+triples=[tr for tr in itertools.combinations(codes,3) if all(sum(k[j]==0 for k in tr)<=1 for j in range(3))]
+hits=[]
+for tr in triples:
+ for hyp in range(3):
+  key='.'.join(''.join(str(w+1) for w in k) for k in tr)+':'+str(hyp)
+  F=s.expand(sum((1 if j!=hyp else -1)*mac[k] for j,k in enumerate(tr)))
+  for loc,var in [('p',t),('q',X)]:
+   f=s.Poly(s.expand(F.subs(var,s.I)),Y)
+   if f.degree()==2 and f.nth(2)!=0 and s.expand(f.nth(1))==0 and s.expand(f.nth(0)-f.nth(2))==0:
+    hits.append((key,loc))
+assert len(codes)==13 and len(triples)==138 and len(hits)==0
+print({'source_forms':len(triples)*3,'forbidden_signatures':len(hits)})
+Expected: {'source_forms':414,'forbidden_signatures':0}. Executed isolated local replay, codes13/triples138/hits0. No independent external hostile audit.
+
+
+4. Actual specialized content spot-check, NOT a cutoff theorem
+For first norm (a,b)=(8,15), p=17 and second norm(c,d)=(9,40), q=41, with primitive orientation and p<q, direct exact specialization of three residual150 keys showed:
+000.001.020:1 => [A0,B0,C0]=[523343,-729120,34225], g=1, first Δ non-square.
+000.002.020:0 => [451584,712320,34225], g=1, first Δ non-square.
+001.010.100:0 => [-76032,611520,633600], g=192, first Δ non-square.
+This specifically demonstrates that specialized integer g need NOT equal the generic symbolic polynomial content (1 or2), and that blindly cancelling generic content may invalidate future local divisibility. It does NOT prove anything for all p,q or the full residual150, and no finite cutoff is used as count saving.
+
+
+5. Scope, barrier, NEXT
+Residual generic balanced source labels remain EXACTLY150=94 square norm+6 linear norm+50 quartic norm=102 FS+48 FW. Prior HH72/HI108 balanced-empty retained; original ordered-source global-empty108, low-p72 as before. No new physical o(Q) bound or o(B^(1/3)) final claim; FJ original-source completeness, repeated powers/omega>=4, and selected high-Gres filters remain unresolved. The old HW/HX/GX/GW Gaussian norm identities and HE local-discriminant redundancy are not new mathematical theorems here; the strictly useful new audit is their EXACT root-factor logical redundancy for NEXT, concrete polynomial-content countercheck, and separate entire414 formal forbidden-root failure.
+
+
+NEXT=On exact residual150 SOURCE KEYS from HI portable certificate, evaluate genuine specialized g on primitive signed prime norm pairs and search additional prime-ideal divisibility / root-height forcing after content normalization that are NOT identities implied by already imposing the same rational root. Focus on the primewise Gaussian factor (T-iW)(u+iv), the location of the norm-prime square in the Z[i] factorization and whether original *first two* source constraints force two independent nontrivial coordinate divisors; account for exceptional p|c or q|a and exceptional content, and test against 229GW/HH/HI/HE negative audits. A successful result must reduce actually OCCUPIED balanced prime pairs to o(Q), paying outer floor with ALL original signed HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/EX masks; otherwise test signed EX shared-prime medium interval or OFF-G0 with formal route-audit contract. Do not retry the square-discriminant/saturated S tautology, this all414 simplest forbidden-root signature, finite prime scans as proofs or independent same-r local-density multipliers. Formal route switch requires separate independent audit.
+POSTWRITE DRIVE READBACK RECEIPT — 2026-10-10 JST
+RESEARCH_CARD exact body/next readback PASS; physical parent Stage37 M3-Research-Cards verified. CARD-INDEX physical row682 exact ID/card link/NEW status readback PASS, previous row681 preserved, formula Y682 computed, AI-00 live681 last682, AI-10 row682 generated, source-capacity OK. RESULT-LEDGER, active lightweight ROUTE, NEGATIVE-REGISTER, FASTPATH first current229HI-A1 and aligned row/card/NEXT readback PASS. MAIN current229HI-A1 header, prior229HI preserved, authority/credit/gate unchanged; postwrite readback PASS. No independent hostile proof audit. A1 exact primitive-factor identity proof and local script are stored in this card; external original-source and FS/FW hostile audits remain HOLD. GitHub not accessed.

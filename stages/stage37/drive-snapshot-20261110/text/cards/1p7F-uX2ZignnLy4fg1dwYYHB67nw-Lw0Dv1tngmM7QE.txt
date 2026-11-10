@@ -1,0 +1,258 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229F — coefficient-free physical 4A1 selector base and exact-height correction
+
+
+STATUS: POST_229E_DELTA_RESEARCH_COMPLETE / PROVED_PACKET_COEFFICIENTS_PROJECTIVELY_TRIVIAL / PROVED_SELECTOR_BASE_EQUALS_FIXED_PHYSICAL_4A1_SURFACE / PROVED_EXACT_PHYSICAL_SUP_HEIGHT / CORRECTED_229E_MOVING_COEFFICIENT_BLOCKER / NO_CURRENT_THIN_COVER_COUNT / PRODUCTION_HOLD_RETAINED / GLOBAL_CREDIT=0
+
+
+AUTHORITY AND SCOPE
+Current Stage37 operational authority remains M3-T11-229.
+Latest mathematical construction remains M3-T11-228.
+Latest prior post-229 delta research is 229E.
+M3-T11-230 remains unissued.
+TI remains parked.
+Independent hostile audit186–229 remains NOT RUN.
+
+
+1. Packet coefficients are projectively trivial
+
+
+229E fixed a,b,g,d,h and wrote G=g/h. The two endpoint-selector equations were
+    b^2 c^2 + a^2 f^2 = h^2 Q^2,
+    d^2 Q^2 + G^2 a^2 b^2 t^2 = s^2.              (229F.1)
+
+
+On every nondegenerate physical packet define the rational projective linear change
+    X=(d/h)bc,
+    Y=(d/h)af,
+    Z=dQ,
+    T=Gab t,
+    S=s.                                           (229F.2)
+
+
+Then (229F.1) becomes the coefficient-free fixed surface
+    X^2+Y^2=Z^2,
+    Z^2+T^2=S^2.                                  (229F.3)
+
+
+Thus every fixed-content selector surface in 229E is Q-isomorphic to the same projective complete intersection X0 subset P^4. The moving coefficients a,b,g,d,h do not produce a moving isomorphism class of selector base.
+
+
+RESULT_229F_SELECTOR_BASE_COEFFICIENT_MOTION=PROJECTIVELY_TRIVIAL.
+
+
+This corrects one stated reason in 229E for rejecting fixed-surface counting. The remaining obstruction is not coefficient motion of the selector base.
+
+
+2. The projective normalization is exactly the physical point
+
+
+On the physical chart t=1, 229D gives
+    x=dbc,
+    y=daf,
+    z=dq=dhQ,
+    e=gab=hGab,
+    R=hs.
+
+
+Multiplying the coordinate vector in (229F.2) by the common projective scalar h gives
+    [hX:hY:hZ:hT:hS]
+      =[x:y:z:e:R].                               (229F.4)
+
+
+Therefore the coefficient-free surface X0 is not merely abstractly isomorphic to the selector surface: under the packet adapter it is exactly the physical projective point
+    [x:y:z:e:R]
+with
+    x^2+y^2=z^2,
+    z^2+e^2=R^2.                                  (229F.5)
+
+
+Because the physical cuboid is primitive,
+    gcd(e,x,y)=1,
+hence the five-coordinate vector [x:y:z:e:R] is already primitive over Z.
+
+
+On the positive physical locus,
+    0<x,y,e,z<R,
+so the standard projective sup-height is exactly
+    H_inf([x:y:z:e:R])=R.                         (229F.6)
+
+
+Consequently
+    R<=B
+is exactly the usual primitive projective sup-height cutoff on X0(Q) restricted to the positive physical chamber.
+
+
+RESULT_229F_EXACT_PHYSICAL_PROJECTIVE_HEIGHT_ADAPTER=PROVED.
+RESULT_229F_MOVING_HEIGHT_FIREWALL_ON_SELECTOR_BASE=REMOVED.
+
+
+3. Exact singularity type
+
+
+The normalized fixed surface
+    X0: X^2+Y^2-Z^2=0,
+        Z^2+T^2-S^2=0
+is a degree-4 complete intersection of two quadrics.
+
+
+Its geometric singular points are exactly
+    [0:0:0:1:1],
+    [0:0:0:1:-1],
+    [1:i:0:0:0],
+    [1:-i:0:0:0].
+
+
+At either first pair, work in an affine chart around S=+/-T and eliminate S from the second equation. The remaining tangent cone is
+    X^2+Y^2-Z^2,
+a nondegenerate rank-3 quadratic form.
+
+
+At either conjugate pair, eliminate one of X,Y using the first equation. The remaining tangent cone is
+    Z^2+T^2-S^2,
+again rank 3.
+
+
+Hence all four singularities are ordinary double points of type A1.
+
+
+RESULT_229F_SELECTOR_BASE_TYPE=GEOMETRIC_4A1_QUARTIC_DEL_PEZZO.
+
+
+The normalized Q-model has two rational nodes and one conjugate pair over Q(i). Therefore split-toric hypotheses must not be assumed without checking the Q-form, even though the geometric 4A1 type is toric in the split classification.
+
+
+4. Reversal of the counting viewpoint
+
+
+The exact M3 two-face host originally conditions the face squares
+    e^2+x^2=n1_phys^2,
+    e^2+y^2=n2_phys^2.
+
+
+After 229F, one may reverse the order:
+- base = fixed 4A1 surface X0 of primitive positive physical chains
+      x^2+y^2=z^2,
+      z^2+e^2=R^2,
+  with exact height H_inf=R;
+- endpoint/perfect-cuboid locus = impose the two remaining degree-two square lifts
+      U^2=e^2+x^2,
+      V^2=e^2+y^2.                                (229F.7)
+
+
+Thus the full endpoint locus is a simultaneous double-cover thin locus over one fixed exact-height 4A1 base.
+
+
+This is the substantive new adapter produced by 229F.
+
+
+5. Existing theorem audit
+
+
+The recent toric-height literature strengthens the relevance of this formulation but does not close Stage37.
+
+
+Bongiorno, “Multi-height analysis of rational points of toric varieties” (JTNB 2026) studies multi-height distributions on smooth proper split toric varieties using universal torsors.
+Santens, “Manin's conjecture for integral points on toric varieties” (PLMS 2026) proves an integral-point Manin framework for toric varieties.
+Huang's toric equidistribution/geometric sieve machinery gives effective thin-set removal on suitable toric measures.
+
+
+None is currently a direct theorem for the exact set (229F.7):
+- X0 is singular and its displayed Q-form is not automatically covered by split hypotheses;
+- the target is the intersection of two quadratic covers, not ambient base counting;
+- Stage37 needs an absolute count strong enough versus M3(B)>>B^(1/3), or the centered same-measure receiver;
+- qualitative density zero or logarithmic thin-set saving relative to an ambient ~B polylog count is not enough.
+
+
+The 2025 projective thin-set theorem of Buggenhout–Cluckers–Santens–Vermeulen is for projective space / affine polynomial covers and does not directly give a height-preserving count for this singular 4A1 base with the two simultaneous covers.
+
+
+RESULT_229F_CURRENT_TORIC_THINSET_BLACKBOX=NO_DIRECT_CLOSURE.
+
+
+6. Correction to 229E
+
+
+229E remains valid in its exact four-cycle, 2-adic and singular/rational geometry claims.
+
+
+The following 229E rationale is superseded:
+    “the coefficients a,b,g,d,h move with B”
+as a blocker for the selector base itself.
+
+
+Correct replacement:
+    the packet coefficient motion is removed by (229F.2), and the physical height is exact by (229F.4)-(229F.6).
+    The unsolved interface is quantitative counting of the two remaining square covers (229F.7) on this fixed base, with primitive/canonical restrictions.
+
+
+No credit is retracted or added because 229E assigned no global saving.
+
+
+7. Restart-contract audit
+
+
+A / R1-TF:
+229F materially improves the adapter: both selectors can now be regarded on a fixed physical base with exact height. However no centered covariance theorem or empirical-product principal term is supplied.
+A_REOPEN=false.
+
+
+GEOMETRY:
+The moving-coefficient and physical-height objection for the selector base is removed. Nevertheless no theorem currently bounds the simultaneous double-cover locus strongly enough.
+GEOMETRY_REOPEN=false.
+
+
+LOCAL:
+No arbitrary-prime same-M3 contraction theorem.
+LOCAL_REOPEN=false.
+
+
+FIB:
+No M3-weighted moving-base second moment.
+FIB_REOPEN=false.
+
+
+PAIR:
+No occupied-image fixed-power deficit beyond the reformulation.
+PAIR_REOPEN=false.
+
+
+DEN:
+No M3 lower-bound improvement.
+DEN_REOPEN=false.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+
+
+8. Sharpened future theorem contract
+
+
+229F reduces the relevant new theorem input to a cleaner fixed-variety statement.
+
+
+A sufficient new theorem species would be either:
+(A) a quantitative thin-cover theorem on the fixed geometric-4A1 surface X0 with exact sup-height, for the simultaneous covers
+      U^2=e^2+x^2,
+      V^2=e^2+y^2,
+    giving an absolute endpoint bound o(B^(1/3)) or another bound sufficient against the certified M3 denominator;
+(B) a same-height centered correlation theorem for those two square selectors on the occupied M3 subset of X0;
+(C) a universal-torsor parameterization of X0 plus the two covers with a summable determinant/sieve estimate preserving primitive physical multiplicity.
+
+
+This is narrower than the 229E contract: moving packet coefficients are no longer part of the requested theorem.
+
+
+9. Final state
+
+
+M3-T11-229 remains latest operational T11 card.
+M3-T11-228 remains latest mathematical construction card.
+229F is the latest post-229 delta research card.
+
+
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_GENUINELY_NEW_THEOREM_INPUT.
+M3_T11_230_ISSUED=false.
+GLOBAL_COUNTING_CREDIT=0.
+M3_T11_GATE_001=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+NO_PERFECT_CUBOID_EXISTENCE_OR_NONEXISTENCE_CONCLUSION=true.

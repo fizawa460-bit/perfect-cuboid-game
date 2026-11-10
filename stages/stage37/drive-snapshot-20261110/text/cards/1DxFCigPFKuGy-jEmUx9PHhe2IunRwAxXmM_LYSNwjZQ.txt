@@ -1,0 +1,155 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229DC — anisotropy-to-six-bucket prime incidence and ramified-three valuation
+
+
+STATUS: POST_229DB_NEW_EXACT_ANISOTROPY_SUPPORT_CROSSWALK / ETA_TAU_ORTHOGONAL_TO_N_AN / J_ONLY_RAMIFIED_THREE / M_OVERLAP_ONLY_PRIMES_ONE_MOD_THREE / EXACT_RADICAL_OVERLAP_FACTORIZATION / NO_ENDPOINT_COUNT / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+CARD_DOC_ID=1DxFCigPFKuGy-jEmUx9PHhe2IunRwAxXmM_LYSNwjZQ
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229DB
+OPERATIONAL_AUTHORITY=M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228
+M3-T11-230=NOT_ISSUED
+PRIMARY_GATE=M3-T11-GATE-001 OPEN
+GLOBAL_COUNTING_CREDIT=0
+P_OVER_M3_LIMIT_PROVED=false
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT
+
+
+1. Scope and exact input
+
+
+Use precisely the original positive primitive Stage37 physical endpoint source, all square/selector, positivity/primitivity and R<=B constraints, the primary sf(G0)>T0=B^(1/3-delta) gate, and the 229CZ/229DA/229DB two-scale HARD13 auxiliary Z=B^(1/3-delta/2). Do not change the authority or the 229DB weight13 six-bucket cover.
+
+
+Let A=R-U, Bv=R-V, C=R-z be positive primitive gaps, gcd(A,Bv,C)=1, exactly two even, with
+  ABv+AC+BvC=2d^2, S=A+Bv+C, Omega=ABvC,
+  s=A+Bv, t=A+C, u=Bv+C, Pi=stu,
+  N_an=S^2-6d^2=A^2+Bv^2+C^2-ABv-AC-BvC>0.  (DC.1)
+Retain 229CC's pairwise-coprime odd squarefree buckets
+  eta=rad(Q), tau, J, M_U, M_V, M_z,
+  K_cross=rad_odd(Omega*Pi)=eta*tau*J*M_U*M_V*M_z. (DC.2)
+Here the odd eta-primes divide exactly two gaps; tau-primes divide exactly two of s,t,u; and J=rad_odd(gcd(Omega,S))=rad_odd(gcd(Pi,S)).
+229CW has already established gcd(N_an,J/gcd(J,3))=1; the broader eta/tau/M prime-incidence and the precise ramified-3 overlap are the NEW statements below.
+
+
+2. Exact disjointness with eta and tau
+
+
+If an odd p|eta, then p divides exactly two of A,Bv,C and not the third. By symmetry A=Bv=0,C!=0 (mod p). Equation (DC.1) yields
+  N_an == C^2 != 0 (mod p).                            (DC.3)
+So gcd(N_an,eta)=1.
+
+
+If an odd p|tau, the corrected 229BZ pair-sum support analysis gives p dividing exactly two of s,t,u and p not dividing ABC. For instance p|s,t means Bv=C=-A (mod p), A!=0, hence
+  N_an == 4 A^2 !=0 (mod p).                           (DC.4)
+So gcd(N_an,tau)=1 and
+  gcd(N_an,eta*tau)=1.                                 (DC.5)
+
+
+RESULT_229DC_ANISOTROPY_COPRIME_TO_ETA_TAU=PROVED_EXACT.
+
+
+3. Complete odd-prime overlap classification
+
+
+Let p be any odd prime dividing both N_an and K_cross, so p|Omega*Pi.
+
+
+CASE I: p|Omega.
+Because gcd(A,Bv,C)=1, p divides either one or two gaps. The two-gap case is impossible by (DC.3). Hence by symmetry A=0 and Bv,C units modulo p, and
+  N_an == Bv^2-Bv*C+C^2 (mod p).                   (DC.6)
+For p>3, the ratio Bv/C must solve x^2-x+1=0. Such a root has order six (x^3=-1, x!= -1), so p==1 mod 3.
+For p=3, (DC.6) vanishes if and only if Bv+C=0, i.e. S=0 since A=0; then 3|J.
+
+
+CASE II: p does not divide Omega but p|Pi.
+Because gcd(s,t,u)=1, p divides exactly one or exactly two pair sums. If p divides two, p|tau and (DC.4) contradicts p|N_an. If p divides exactly one, say s=A+Bv=0, then A,Bv,C are units and Bv=-A modulo p. Hence
+  N_an == C^2+3A^2 (mod p).                         (DC.7)
+For p>3, a root of x^2=-3 exists only when p==1 mod3 (equivalently (-3/p)=1 for odd p>3). For p=3, N_an==C^2 !=0, impossible.
+
+
+Therefore any prime p dividing gcd(N_an,K_cross) is:
+  p=3 AND p|J,
+  OR p>3, p==1 mod3, and p divides one of M_U,M_V,M_z.
+The latter M localization follows because p cannot belong to eta,tau by (DC.5), and cannot belong to J for p>3 by the retained 229CW result.
+
+
+Equivalently the common odd support excludes EVERY p==2 mod3, even though the 229CW Eisenstein-norm condition alone merely required EVEN valuation for such primes in N_an.
+
+
+RESULT_229DC_NAN_KCROSS_OVERLAP_ONLY_3J_OR_SPLIT_M=PROVED_EXACT.
+
+
+4. Exact 3-adic valuation and common-radical factorization
+
+
+Since N_an=S^2-6d^2, modulo 3
+  3|N_an iff 3|S.                                    (DC.8)
+If 3|J then 3|S and gcd(L_J,d)=1 by retained 229CF/229CW, so 3 does NOT divide d. Consequently S^2 is divisible by 9 but 6d^2 is divisible by 3 exactly once, proving
+  3|J => v_3(N_an)=1.                               (DC.9)
+The converse only holds with the K_cross overlap condition: 3 may divide N_an without dividing J, and no such reverse implication is asserted.
+
+
+Because 3|N_an and 3|K_cross implies 3|S and 3|Omega*Pi, 229CW's exact gcd(Omega,S)=gcd(Pi,S)=L_J identity places 3 in J. The six buckets are pairwise coprime. Combining the classification gives the EXACT squarefree-support identity
+  gcd(N_an,K_cross)
+    = gcd(N_an,M_U*M_V*M_z) * gcd(3,J).             (DC.10)
+
+
+Moreover every prime of gcd(N_an,M_U*M_V*M_z) satisfies p==1 mod3; in particular that factor is coprime to 3. (All factors on the right are squarefree, and J is pairwise coprime to the M_i.)
+
+
+Let M_split:=product of primes p==1 mod3 occurring in M_U*M_V*M_z. Then equivalently
+  gcd(N_an,K_cross)
+    = gcd(N_an,M_split) * gcd(3,J).                (DC.11)
+
+
+RESULT_229DC_EXACT_ANISOTROPY_J_RAMIFIED3_VALUATION=PROVED_EXACT.
+RESULT_229DC_EXACT_NAN_KCROSS_M_BUCKET_SPLIT_FACTOR=PROVED_EXACT.
+
+
+5. Consequence for the research route, without counting promotion
+
+
+This is a NEW exact support-correlation firewall between 229CW N_an and 229DB's six-bucket system. Specifically:
+  (i) an eta-large or tau-large branch is automatically coprime to N_an;
+  (ii) the J-large branch can overlap N_an only at ramified 3, and that overlap has exactly v3(N_an)=1;
+  (iii) all other shared primes N_an with K_cross are carried exclusively by the three matched M_i buckets, and each has congruence class 1 mod3.
+
+
+The previously established fixed-N_an physical fiber B^o(1), small-N_an sector o(B^(1/3)), and weighted-six-bucket cover of 229DB are unchanged. These coprimality statements do NOT yield a saving for the count of actually occupied N_an or six-bucket values. No independence is assumed, no local-density factors are multiplied, and 229CW's real/imaginary norms cannot be independently charged.
+
+
+CURRENT_PREFERRED_SUPPORT_INTERFACE=TWO_SCALE_HARD13_229DB_WEIGHT13_SIX_BUCKET_COVER_WITH_229DC_NAN_PRIME_INCIDENCE_FIREWALL / PARALLEL_SELECTOR_AWARE_WHOLE_G0_229AR / 229CT_PRIMARY_J_ONLY / 229BF_CONDITIONAL_TWO_TERM_OUTER_ROUTE.
+
+
+CURRENT_BLOCKER=NO_SELECTOR_AWARE_OCCUPIED_SUPPORT_COUNT_AT_ONE_THIRD_FOR_229DB_SIX_BUCKETS_OR_229DC_SPLIT_M_WITH_NAN_CORRELATION_ON_EXACT_PHYSICAL_SOURCE.
+
+
+REFINED_BLOCKER=NO_THEOREM_USING_gcd(NAN,ETA_TAU)=1_AND_gcd(NAN,KCROSS)=gcd(NAN,M_PRODUCT)*gcd(3,J)_TO_BOUND_OCCUPIED_VALUES_BELOW_B_ONE_THIRD.
+
+
+NEXT_RESEARCH_INPUT_CONTRACT: On exact R<=B primitive positive physical two-scale HARD13 (sf(G0)>T0, k13>Z, N_an>Z, three 229BL pair-products>Z), prioritize the selector-aware 229DB six-bucket occupied count at 4^(-1/13)Z^(3/13), with 229CT primary J branch; use 229DC as a support firewall when trying an anisotropy-N_an and matched-M_i joint occupied-image theorem. Pursue whole G0 via 229AR in parallel. Do not infer an independent sieve from N_an orthogonality. Keep 229DA tau/K_cross optional, 229BF conditional on BOTH outer-count and reciprocal-height weighted mass improvements, and retain 229BY Section5 retraction.
+
+
+6. Verification and guardrails
+
+
+Derivation of (DC.1)-(DC.11) is an exact odd-prime case split on gaps and pair sums and the retained 229CW/229CC common-gcd identities. No external theorems or new physical endpoint counting were used.
+
+
+Finite cone sanity replay (NOT actual Stage37 physical endpoints): all 1950 labelled A,Bv,C<=75 with gcd(A,Bv,C)=1, exactly two even, integral positive d satisfying ABv+AC+BvC=2d^2. PASS for gcd(N_an,eta*tau)=1, for all common N_an/K_cross primes classified into 3|J or p==1 mod3 outside eta/tau/J, and for 3|J => v3(N_an)=1. Overlap prime incidences checked: 888, consisting of 720 incidences p=3 in J and 168 incidences p==1 mod3 outside eta/tau/J. Failures=0. A separate six-bucket reconstruction on all 621 primitive parity-compatible cone fixtures A,Bv,C<=52 with integral d and 229BX odd pair-gcd-square conditions checked the full exact identity (DC.10), as well as gcd(N_an,eta*tau)=1, with zero failures. These fixtures only validate the necessary cone-level arithmetic and are not density evidence.
+INDEPENDENT_HOSTILE_AUDIT_229DC=NOT_RUN.
+
+
+7. State
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority / credit / gate / closure / HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

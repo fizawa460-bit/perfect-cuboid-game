@@ -1,0 +1,2719 @@
+﻿Stage37229HI exact portable certificate
+DRIVE_READBACK_AND_REPLAY_RECEIPT: native card and certificate exact textRun equality PASS; Drive-extracted audit.py executed in isolated folder, output bytes equal saved audit.json, both SHA256 MATCH. MAIN/INDEX source681+AI00 live680+AI10 row681+AI20 guard681/LEDGER/active lightweight ROUTE/NEG/FASTPATH current229HI synchronized, identical NEXT/card/cert IDs, old HH history preserved. Source row680 unchanged; row681 values/formulas/native validation/format verified, only newK URI changes. MAIN6 and LEDGER16 native rich links preserved (serialized richLink fields18/48). Both new docs parented Stage37 research-cards folder. Formatting mirrors existing fixed-width source row; native rendered fit not independently inspected. Symbolic/storage proof verification only, independent HI hostile audit NOT_RUN; inherited FJ/FS/FW/HB HOLD and all authority/credit/gate/closure states unchanged.
+Native card=1g3wlFLzGTOncKICKKeKABdSTARCDxsgtpjRXc4n1pVU; source row681; source HH certificate=1ri1CpQY9ZbgFuyCZTTe8_fyHpzA8yxqg0nuXbChiVvo.
+Python3.10+, SymPy; extract audit.py and run it in an isolated folder. It writes audit.json beside itself; compare exact bytes/SHA with saved JSON. HH72 immutable input keys are embedded and were matched to native HH Drive JSON; no HH orbit rerun.
+SHA256 audit.py=df454433e1dcc0662f1b2a4a2617a3be9c077d6880116ee6c9f3800935874131
+SHA256 audit.json=c38e45469473033a7103e25f2f022fbfeb98e1092f27cda336a11632902ccfaf
+AUTHORITY=M3-T11-229; CONSTRUCTION=M3-T11-228;230 NOT_ISSUED; Gate M3-T11-GATE-001 OPEN; GLOBAL_CREDIT0; PRODUCTION HOLD; FORMAL_ROUTE_SWITCH NONE; closure unchanged. Independent HI hostile audit NOT_RUN; inherited FJ/FS/FW/HB hostile HOLD unchanged.
+FILE_BEGIN audit.py
+CONTENT_BEGIN
+import sympy as s,json,itertools,collections
+from pathlib import Path
+t,X,Y,a,b,c,d,z=s.symbols('t X Y a b c d z');V=(t,X,Y)
+# Exact source generator; no imported cached biforms and no HH orbit rerun.
+codes=[k for k in itertools.product((-1,0,1),repeat=3) if any(k) and next(w for w in k if w)==-1]
+def macro(k):
+ i,j,k=k
+ return s.expand((i*t+j*X+k*Y-i*j*k*t*X*Y)**2*(1+t*t if i==0 else 1)*(1+X*X if j==0 else 1)*(1+Y*Y if k==0 else 1))
+triples=[tr for tr in itertools.combinations(codes,3) if all(sum(k[j]==0 for k in tr)<=1 for j in range(3))]
+raw=[]
+for tr in triples:
+ for hyp in range(3):
+  key='.'.join(''.join(str(w+1) for w in k) for k in tr)+':'+str(hyp)
+  F=s.expand(sum((1 if i!=hyp else -1)*macro(k) for i,k in enumerate(tr)))
+  D=s.factor(s.discriminant(F,X));degree=sum(int(s.degree(w,Y)) for w,e in s.factor_list(D)[1] if e%2 and s.degree(w,Y)>0)
+  raw.append({'key':key,'F':str(F),'discdeg':degree})
+assert len(codes)==13 and len(triples)==138 and len(raw)==414
+assert sum(v['discdeg']>=3 for v in raw)==330
+hh_keys=['000.001.020:0', '000.001.020:2', '000.001.022:0', '000.001.022:2', '000.002.010:0', '000.002.010:1', '000.002.011:0', '000.002.011:1', '000.002.012:0', '000.002.012:1', '000.002.100:0', '000.002.100:1', '000.002.101:0', '000.002.101:1', '000.002.102:0', '000.002.102:1', '000.010.022:0', '000.010.022:2', '000.011.020:0', '000.011.020:2', '000.012.022:0', '000.012.022:2', '000.020.021:0', '000.020.021:1', '000.020.100:0', '000.020.100:1', '000.020.102:0', '000.020.102:1', '000.020.110:0', '000.020.110:1', '000.021.022:0', '000.021.022:2', '000.022.101:0', '000.022.101:1', '000.022.110:0', '000.022.110:1', '001.002.020:1', '001.002.020:2', '001.002.022:1', '001.002.022:2', '002.010.020:0', '002.010.020:2', '002.011.022:0', '002.011.022:2', '002.012.020:0', '002.012.020:2', '002.020.021:0', '002.020.021:1', '002.020.101:0', '002.020.101:1', '002.020.110:0', '002.020.110:1', '002.021.022:0', '002.021.022:2', '002.022.100:0', '002.022.100:1', '002.022.102:0', '002.022.102:1', '002.022.110:0', '002.022.110:1', '010.020.022:1', '010.020.022:2', '011.020.022:1', '011.020.022:2', '012.020.022:1', '012.020.022:2', '020.022.100:0', '020.022.100:1', '020.022.101:0', '020.022.101:1', '020.022.102:0', '020.022.102:1']
+old={'inequalities':{k:None for k in hh_keys}}
+assert len(hh_keys)==72
+remaining=[v for v in raw if v['discdeg']>=3 and v['key'] not in hh_keys]
+assert len(remaining)==258
+data=[]; content_counts=collections.Counter(); valuation_counts={0:collections.Counter(),1:collections.Counter()}
+for v in remaining:
+ F=s.sympify(v['F']);f=s.Poly(s.expand(a*a*c*c*F.subs({t:b/a,X:d/c})),Y)
+ co=[s.factor(f.nth(i)) for i in (2,1,0)];g=s.gcd(s.gcd(co[0],co[1]),co[2]);content_counts[str(g)]+=1;co=[s.cancel(w/g) for w in co]
+ for j,N,var in [(0,a*a+b*b,b),(1,c*c+d*d,d)]:
+  val=[]
+  for w in co:
+   n=0
+   while w!=0 and s.rem(w,N,var)==0:w=s.cancel(w/N);n+=1
+   val.append(n if w else 'infty')
+  valuation_counts[j][str(val)]+=1
+ data.append({'key':v['key'],'polynomial_content':str(g),'coefficients':[str(w) for w in co]})
+records={v['key']:v for v in raw};base=[]
+for v in data:
+ A,B,C=[s.sympify(w) for w in v['coefficients']]
+ for j,N,var in [(0,a*a+b*b,b),(1,c*c+d*d,d)]:
+  # One vanishing endpoint, other endpoint + middle norm square zero
+  for which,E,D in [('C',C,A),('A',A,C)]:
+   if s.rem(E,N,var)!=0 or s.rem(D*D+B*B,N,var)!=0:continue
+   R=s.factor(s.resultant(s.rem(B,N,var),N,var))
+   expected=4*a**4*(c*c+d*d)**2 if j==0 else 4*c**4*(a*a+b*b)**2
+   assert s.expand(R-expected)==0
+   # recorded exact resultant certifies a unit at tested norm prime
+   base.append({'key':v['key'],'norm_index':j,'endpoint':which,'endpoint_quotient':str(s.factor(E/N)),'B_resultant':str(R)})
+print('base',len(base),collections.Counter(x['B_resultant'] for x in base))
+constraints=collections.defaultdict(set); checks=0
+for v in base:
+ key=v['key']; tr=tuple(tuple(int(w)-1 for w in k) for k in key.split(':')[0].split('.'));hyp=int(key.split(':')[1]);F=s.sympify(records[key]['F'])
+ for perm in itertools.permutations(range(3)):
+  new=[]
+  for i,k in enumerate(tr):
+   k=tuple(k[j] for j in perm)
+   if next(w for w in k if w)!=-1:k=tuple(-w for w in k)
+   new.append((k,i==hyp))
+  new.sort(); nk='.'.join(''.join(str(w+1) for w in k) for k,h in new)+':'+str(next(i for i,v in enumerate(new) if v[1]))
+  assert s.expand(F.subs({V[i]:V[perm.index(i)] for i in range(3)},simultaneous=True)-s.sympify(records[nk]['F']))==0
+  assert records[nk]['discdeg']>=3
+  constraints[nk].add((perm.index(2),perm.index(v['norm_index'])))
+  checks+=1
+keys=set(constraints);print('orbit',len(keys),'oldOverlap',len(keys & set(old['inequalities'])),'inequalities',collections.Counter(x for v in constraints.values() for x in v))
+patterns={};sectors=collections.Counter()
+for k in sorted(keys):
+ F=s.sympify(records[k]['F']);DX=s.factor(s.discriminant(F,X)); pulled=s.factor(s.together(DX.subs(t,2*z/(1-z*z))).as_numer_denom()[0]);pat=sorted(int(s.degree(w,Y)) for w,e in s.factor_list(pulled)[1] if e%2 and s.degree(w,Y)>0);patterns[k]=pat
+ A0,B0,C0=[s.Poly(F,Y).nth(i) for i in (2,1,0)]
+ S=s.factor((A0-C0)**2+B0**2)
+ deg=sum(int(s.degree(w,X)) for w,e in s.factor_list(S)[1] if e%2 and s.degree(w,X)>0 and s.expand(w-(1+X*X))!=0)
+ assert deg in (0,2,4)
+ sectors[{0:'square',2:'linear',4:'quartic'}[deg]]+=1
+ assert pat in ([1,1,1],[1,2],[1,1,1,1],[1,1,2],[2,2], [4])
+out={'stage':'229HI','base48':base,'new_exact_permutation_checks':checks,'inequalities':{k:[list(v) for v in sorted(constraints[k])] for k in sorted(keys)},'old72_overlap':sorted(keys & set(old['inequalities'])),'patterns':patterns,'norm_sectors':dict(sectors),'globally_empty':[k for k,v in constraints.items() if any(i<j for i,j in v)],'survivors':[k for k,v in constraints.items() if all(i>j for i,j in v)]}
+assert len(base)==48 and checks==288 and len(keys)==108 and not (keys & set(hh_keys))
+assert len(out['globally_empty'])==72 and len(out['survivors'])==36
+assert sectors=={'square':72,'linear':24,'quartic':12}
+assert sum(pat==[4] for pat in patterns.values())==36
+residual=[v for v in remaining if v['key'] not in keys];assert len(residual)==150
+rpatterns={};rsectors=collections.Counter()
+for v in residual:
+ F=s.sympify(v['F']);D=s.factor(s.discriminant(F,X));num=s.fraction(s.factor(s.together(D.subs(t,2*z/(1-z*z)))))[0]
+ pat=sorted(int(s.degree(w,Y)) for w,e in s.factor_list(num)[1] if e%2 and s.degree(w,Y)>0);rpatterns[v['key']]=pat
+ A0,B0,C0=[s.Poly(F,Y).nth(i) for i in (2,1,0)];S=s.factor((A0-C0)**2+B0**2)
+ deg=sum(int(s.degree(w,X)) for w,e in s.factor_list(S)[1] if e%2 and s.degree(w,X)>0 and s.expand(w-(1+X*X))!=0)
+ rsectors[{0:'square',2:'linear',4:'quartic'}[deg]]+=1
+assert rsectors=={'square':94,'linear':6,'quartic':50}
+assert sum(v==[4] for v in rpatterns.values())==48
+out.update({'source_count':414,'incoming_complement':258,'polynomial_content_counts':dict(content_counts),'incoming_valuation_counts':{str(k):dict(v) for k,v in valuation_counts.items()},'retained_HH72_keys':hh_keys,'new_FS72_FW36':True,'new_balanced_empty108':True,'new_survivor_low_p_count':'B^(1/4+o(1)) via retained FS/FW physical count; not additive new credit','remaining150_keys':sorted(v['key'] for v in residual),'remaining150_patterns':rpatterns,'remaining150_sectors':dict(rsectors),'remaining150_FS_FW':[102,48],'cumulative_global_empty108':True,'cumulative_balanced_empty180':True,'global_credit':0,'formal_route_switch':False,'independent_hostile_audit':'NOT_RUN; FJ/FS/FW/HB HOLD unchanged'})
+Path(__file__).with_suffix('.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+print('patterns',collections.Counter(tuple(v) for v in patterns.values()),'sectors',sectors,'empty',len(out['globally_empty']),'survive',len(out['survivors']))
+CONTENT_END
+FILE_END audit.py
+FILE_BEGIN audit.json
+CONTENT_BEGIN
+{
+  "base48": [
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "b**2",
+      "key": "000.001.010:0",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "b**2",
+      "key": "000.001.010:1",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "A",
+      "endpoint_quotient": "b**2",
+      "key": "000.001.010:2",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "b**2",
+      "key": "000.001.012:0",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "b**2",
+      "key": "000.001.012:1",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "A",
+      "endpoint_quotient": "b**2",
+      "key": "000.001.012:2",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "d**2",
+      "key": "000.001.100:0",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "d**2",
+      "key": "000.001.100:1",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "A",
+      "endpoint_quotient": "d**2",
+      "key": "000.001.100:2",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "d**2",
+      "key": "000.001.102:0",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "d**2",
+      "key": "000.001.102:1",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "A",
+      "endpoint_quotient": "d**2",
+      "key": "000.001.102:2",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "b**2",
+      "key": "001.002.010:0",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "b**2",
+      "key": "001.002.010:1",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "A",
+      "endpoint_quotient": "b**2",
+      "key": "001.002.010:2",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "b**2",
+      "key": "001.002.012:0",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "b**2",
+      "key": "001.002.012:1",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "A",
+      "endpoint_quotient": "b**2",
+      "key": "001.002.012:2",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "d**2",
+      "key": "001.002.100:0",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "d**2",
+      "key": "001.002.100:1",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "A",
+      "endpoint_quotient": "d**2",
+      "key": "001.002.100:2",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "d**2",
+      "key": "001.002.102:0",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "d**2",
+      "key": "001.002.102:1",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "A",
+      "endpoint_quotient": "d**2",
+      "key": "001.002.102:2",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "A",
+      "endpoint_quotient": "b**2",
+      "key": "010.020.021:0",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "b**2",
+      "key": "010.020.021:1",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "b**2",
+      "key": "010.020.021:2",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "A",
+      "endpoint_quotient": "b**2",
+      "key": "010.021.022:0",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "b**2",
+      "key": "010.021.022:1",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "b**2",
+      "key": "010.021.022:2",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "A",
+      "endpoint_quotient": "b**2",
+      "key": "012.020.021:0",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "b**2",
+      "key": "012.020.021:1",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "b**2",
+      "key": "012.020.021:2",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "A",
+      "endpoint_quotient": "b**2",
+      "key": "012.021.022:0",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "b**2",
+      "key": "012.021.022:1",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*c**4*(a**2 + b**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "b**2",
+      "key": "012.021.022:2",
+      "norm_index": 1
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "d**2",
+      "key": "020.021.100:0",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "d**2",
+      "key": "020.021.100:1",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "A",
+      "endpoint_quotient": "d**2",
+      "key": "020.021.100:2",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "d**2",
+      "key": "020.021.102:0",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "d**2",
+      "key": "020.021.102:1",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "A",
+      "endpoint_quotient": "d**2",
+      "key": "020.021.102:2",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "d**2",
+      "key": "021.022.100:0",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "d**2",
+      "key": "021.022.100:1",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "A",
+      "endpoint_quotient": "d**2",
+      "key": "021.022.100:2",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "d**2",
+      "key": "021.022.102:0",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "C",
+      "endpoint_quotient": "d**2",
+      "key": "021.022.102:1",
+      "norm_index": 0
+    },
+    {
+      "B_resultant": "4*a**4*(c**2 + d**2)**2",
+      "endpoint": "A",
+      "endpoint_quotient": "d**2",
+      "key": "021.022.102:2",
+      "norm_index": 0
+    }
+  ],
+  "cumulative_balanced_empty180": true,
+  "cumulative_global_empty108": true,
+  "formal_route_switch": false,
+  "global_credit": 0,
+  "globally_empty": [
+    "000.001.010:0",
+    "000.001.100:0",
+    "000.010.100:0",
+    "000.001.010:1",
+    "000.001.010:2",
+    "000.001.100:1",
+    "000.010.100:1",
+    "000.001.100:2",
+    "000.010.100:2",
+    "000.010.021:0",
+    "000.021.100:0",
+    "000.012.100:0",
+    "000.010.021:1",
+    "000.021.100:2",
+    "000.012.100:2",
+    "000.010.021:2",
+    "000.021.100:1",
+    "000.012.100:1",
+    "001.010.020:1",
+    "001.022.100:2",
+    "010.022.100:2",
+    "001.010.020:2",
+    "001.022.100:1",
+    "010.022.100:1",
+    "001.010.020:0",
+    "001.022.100:0",
+    "010.022.100:0",
+    "001.002.012:0",
+    "010.020.021:0",
+    "001.002.102:0",
+    "010.020.102:0",
+    "021.022.100:2",
+    "012.022.100:2",
+    "001.002.012:1",
+    "010.020.021:1",
+    "001.002.102:1",
+    "010.020.102:1",
+    "021.022.100:1",
+    "012.022.100:1",
+    "001.002.012:2",
+    "010.020.021:2",
+    "001.002.102:2",
+    "010.020.102:2",
+    "021.022.100:0",
+    "012.022.100:0",
+    "001.012.022:0",
+    "001.020.102:0",
+    "002.010.102:1",
+    "001.012.022:1",
+    "001.020.102:2",
+    "002.010.102:2",
+    "001.012.022:2",
+    "001.020.102:1",
+    "002.010.102:0",
+    "002.012.021:2",
+    "002.021.102:1",
+    "012.020.102:0",
+    "002.012.021:0",
+    "002.021.102:0",
+    "012.020.102:1",
+    "002.012.021:1",
+    "002.021.102:2",
+    "012.020.102:2",
+    "012.021.022:0",
+    "012.021.022:1",
+    "020.021.102:2",
+    "002.012.102:2",
+    "020.021.102:1",
+    "002.012.102:1",
+    "012.021.022:2",
+    "020.021.102:0",
+    "002.012.102:0"
+  ],
+  "incoming_complement": 258,
+  "incoming_valuation_counts": {
+    "0": {
+      "[0, 'infty', 0]": 6,
+      "[0, 0, 0]": 224,
+      "[0, 0, 1]": 16,
+      "[0, 1, 0]": 4,
+      "[1, 0, 0]": 8
+    },
+    "1": {
+      "[0, 'infty', 0]": 6,
+      "[0, 0, 0]": 224,
+      "[0, 0, 1]": 16,
+      "[0, 1, 0]": 4,
+      "[1, 0, 0]": 8
+    }
+  },
+  "independent_hostile_audit": "NOT_RUN; FJ/FS/FW/HB HOLD unchanged",
+  "inequalities": {
+    "000.001.010:0": [
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "000.001.010:1": [
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "000.001.010:2": [
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "000.001.012:0": [
+      [
+        2,
+        1
+      ]
+    ],
+    "000.001.012:1": [
+      [
+        2,
+        1
+      ]
+    ],
+    "000.001.012:2": [
+      [
+        2,
+        1
+      ]
+    ],
+    "000.001.100:0": [
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "000.001.100:1": [
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "000.001.100:2": [
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "000.001.102:0": [
+      [
+        2,
+        0
+      ]
+    ],
+    "000.001.102:1": [
+      [
+        2,
+        0
+      ]
+    ],
+    "000.001.102:2": [
+      [
+        2,
+        0
+      ]
+    ],
+    "000.010.021:0": [
+      [
+        1,
+        2
+      ]
+    ],
+    "000.010.021:1": [
+      [
+        1,
+        2
+      ]
+    ],
+    "000.010.021:2": [
+      [
+        1,
+        2
+      ]
+    ],
+    "000.010.100:0": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "000.010.100:1": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "000.010.100:2": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "000.010.102:0": [
+      [
+        1,
+        0
+      ]
+    ],
+    "000.010.102:1": [
+      [
+        1,
+        0
+      ]
+    ],
+    "000.010.102:2": [
+      [
+        1,
+        0
+      ]
+    ],
+    "000.012.100:0": [
+      [
+        0,
+        1
+      ]
+    ],
+    "000.012.100:1": [
+      [
+        0,
+        1
+      ]
+    ],
+    "000.012.100:2": [
+      [
+        0,
+        1
+      ]
+    ],
+    "000.021.100:0": [
+      [
+        0,
+        2
+      ]
+    ],
+    "000.021.100:1": [
+      [
+        0,
+        2
+      ]
+    ],
+    "000.021.100:2": [
+      [
+        0,
+        2
+      ]
+    ],
+    "001.002.010:0": [
+      [
+        2,
+        1
+      ]
+    ],
+    "001.002.010:1": [
+      [
+        2,
+        1
+      ]
+    ],
+    "001.002.010:2": [
+      [
+        2,
+        1
+      ]
+    ],
+    "001.002.012:0": [
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "001.002.012:1": [
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "001.002.012:2": [
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "001.002.100:0": [
+      [
+        2,
+        0
+      ]
+    ],
+    "001.002.100:1": [
+      [
+        2,
+        0
+      ]
+    ],
+    "001.002.100:2": [
+      [
+        2,
+        0
+      ]
+    ],
+    "001.002.102:0": [
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "001.002.102:1": [
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "001.002.102:2": [
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "001.010.020:0": [
+      [
+        1,
+        2
+      ]
+    ],
+    "001.010.020:1": [
+      [
+        1,
+        2
+      ]
+    ],
+    "001.010.020:2": [
+      [
+        1,
+        2
+      ]
+    ],
+    "001.012.022:0": [
+      [
+        1,
+        2
+      ]
+    ],
+    "001.012.022:1": [
+      [
+        1,
+        2
+      ]
+    ],
+    "001.012.022:2": [
+      [
+        1,
+        2
+      ]
+    ],
+    "001.020.102:0": [
+      [
+        0,
+        2
+      ]
+    ],
+    "001.020.102:1": [
+      [
+        0,
+        2
+      ]
+    ],
+    "001.020.102:2": [
+      [
+        0,
+        2
+      ]
+    ],
+    "001.022.100:0": [
+      [
+        0,
+        2
+      ]
+    ],
+    "001.022.100:1": [
+      [
+        0,
+        2
+      ]
+    ],
+    "001.022.100:2": [
+      [
+        0,
+        2
+      ]
+    ],
+    "002.010.102:0": [
+      [
+        0,
+        1
+      ]
+    ],
+    "002.010.102:1": [
+      [
+        0,
+        1
+      ]
+    ],
+    "002.010.102:2": [
+      [
+        0,
+        1
+      ]
+    ],
+    "002.012.021:0": [
+      [
+        1,
+        2
+      ]
+    ],
+    "002.012.021:1": [
+      [
+        1,
+        2
+      ]
+    ],
+    "002.012.021:2": [
+      [
+        1,
+        2
+      ]
+    ],
+    "002.012.100:0": [
+      [
+        1,
+        0
+      ]
+    ],
+    "002.012.100:1": [
+      [
+        1,
+        0
+      ]
+    ],
+    "002.012.100:2": [
+      [
+        1,
+        0
+      ]
+    ],
+    "002.012.102:0": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "002.012.102:1": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "002.012.102:2": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "002.021.102:0": [
+      [
+        0,
+        2
+      ]
+    ],
+    "002.021.102:1": [
+      [
+        0,
+        2
+      ]
+    ],
+    "002.021.102:2": [
+      [
+        0,
+        2
+      ]
+    ],
+    "010.020.021:0": [
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "010.020.021:1": [
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "010.020.021:2": [
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "010.020.100:0": [
+      [
+        1,
+        0
+      ]
+    ],
+    "010.020.100:1": [
+      [
+        1,
+        0
+      ]
+    ],
+    "010.020.100:2": [
+      [
+        1,
+        0
+      ]
+    ],
+    "010.020.102:0": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "010.020.102:1": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "010.020.102:2": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "010.021.022:0": [
+      [
+        2,
+        1
+      ]
+    ],
+    "010.021.022:1": [
+      [
+        2,
+        1
+      ]
+    ],
+    "010.021.022:2": [
+      [
+        2,
+        1
+      ]
+    ],
+    "010.022.100:0": [
+      [
+        0,
+        1
+      ]
+    ],
+    "010.022.100:1": [
+      [
+        0,
+        1
+      ]
+    ],
+    "010.022.100:2": [
+      [
+        0,
+        1
+      ]
+    ],
+    "012.020.021:0": [
+      [
+        2,
+        1
+      ]
+    ],
+    "012.020.021:1": [
+      [
+        2,
+        1
+      ]
+    ],
+    "012.020.021:2": [
+      [
+        2,
+        1
+      ]
+    ],
+    "012.020.102:0": [
+      [
+        0,
+        1
+      ]
+    ],
+    "012.020.102:1": [
+      [
+        0,
+        1
+      ]
+    ],
+    "012.020.102:2": [
+      [
+        0,
+        1
+      ]
+    ],
+    "012.021.022:0": [
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "012.021.022:1": [
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "012.021.022:2": [
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "012.022.100:0": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "012.022.100:1": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "012.022.100:2": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "012.022.102:0": [
+      [
+        1,
+        0
+      ]
+    ],
+    "012.022.102:1": [
+      [
+        1,
+        0
+      ]
+    ],
+    "012.022.102:2": [
+      [
+        1,
+        0
+      ]
+    ],
+    "020.021.100:0": [
+      [
+        2,
+        0
+      ]
+    ],
+    "020.021.100:1": [
+      [
+        2,
+        0
+      ]
+    ],
+    "020.021.100:2": [
+      [
+        2,
+        0
+      ]
+    ],
+    "020.021.102:0": [
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "020.021.102:1": [
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "020.021.102:2": [
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "021.022.100:0": [
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "021.022.100:1": [
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "021.022.100:2": [
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "021.022.102:0": [
+      [
+        2,
+        0
+      ]
+    ],
+    "021.022.102:1": [
+      [
+        2,
+        0
+      ]
+    ],
+    "021.022.102:2": [
+      [
+        2,
+        0
+      ]
+    ]
+  },
+  "new_FS72_FW36": true,
+  "new_balanced_empty108": true,
+  "new_exact_permutation_checks": 288,
+  "new_survivor_low_p_count": "B^(1/4+o(1)) via retained FS/FW physical count; not additive new credit",
+  "norm_sectors": {
+    "linear": 24,
+    "quartic": 12,
+    "square": 72
+  },
+  "old72_overlap": [],
+  "patterns": {
+    "000.001.010:0": [
+      4
+    ],
+    "000.001.010:1": [
+      4
+    ],
+    "000.001.010:2": [
+      4
+    ],
+    "000.001.012:0": [
+      4
+    ],
+    "000.001.012:1": [
+      4
+    ],
+    "000.001.012:2": [
+      4
+    ],
+    "000.001.100:0": [
+      1,
+      1,
+      2
+    ],
+    "000.001.100:1": [
+      1,
+      1,
+      2
+    ],
+    "000.001.100:2": [
+      1,
+      2
+    ],
+    "000.001.102:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.001.102:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.001.102:2": [
+      1,
+      1,
+      1
+    ],
+    "000.010.021:0": [
+      4
+    ],
+    "000.010.021:1": [
+      4
+    ],
+    "000.010.021:2": [
+      4
+    ],
+    "000.010.100:0": [
+      2,
+      2
+    ],
+    "000.010.100:1": [
+      2,
+      2
+    ],
+    "000.010.100:2": [
+      2,
+      2
+    ],
+    "000.010.102:0": [
+      2,
+      2
+    ],
+    "000.010.102:1": [
+      2,
+      2
+    ],
+    "000.010.102:2": [
+      2,
+      2
+    ],
+    "000.012.100:0": [
+      2,
+      2
+    ],
+    "000.012.100:1": [
+      2,
+      2
+    ],
+    "000.012.100:2": [
+      2,
+      2
+    ],
+    "000.021.100:0": [
+      1,
+      1,
+      2
+    ],
+    "000.021.100:1": [
+      1,
+      1,
+      2
+    ],
+    "000.021.100:2": [
+      1,
+      1,
+      2
+    ],
+    "001.002.010:0": [
+      4
+    ],
+    "001.002.010:1": [
+      4
+    ],
+    "001.002.010:2": [
+      4
+    ],
+    "001.002.012:0": [
+      4
+    ],
+    "001.002.012:1": [
+      4
+    ],
+    "001.002.012:2": [
+      4
+    ],
+    "001.002.100:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "001.002.100:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "001.002.100:2": [
+      1,
+      1,
+      1
+    ],
+    "001.002.102:0": [
+      1,
+      1,
+      2
+    ],
+    "001.002.102:1": [
+      1,
+      1,
+      2
+    ],
+    "001.002.102:2": [
+      1,
+      2
+    ],
+    "001.010.020:0": [
+      4
+    ],
+    "001.010.020:1": [
+      4
+    ],
+    "001.010.020:2": [
+      4
+    ],
+    "001.012.022:0": [
+      4
+    ],
+    "001.012.022:1": [
+      4
+    ],
+    "001.012.022:2": [
+      4
+    ],
+    "001.020.102:0": [
+      1,
+      1,
+      2
+    ],
+    "001.020.102:1": [
+      1,
+      1,
+      2
+    ],
+    "001.020.102:2": [
+      1,
+      1,
+      2
+    ],
+    "001.022.100:0": [
+      1,
+      1,
+      2
+    ],
+    "001.022.100:1": [
+      1,
+      1,
+      2
+    ],
+    "001.022.100:2": [
+      1,
+      1,
+      2
+    ],
+    "002.010.102:0": [
+      2,
+      2
+    ],
+    "002.010.102:1": [
+      2,
+      2
+    ],
+    "002.010.102:2": [
+      2,
+      2
+    ],
+    "002.012.021:0": [
+      4
+    ],
+    "002.012.021:1": [
+      4
+    ],
+    "002.012.021:2": [
+      4
+    ],
+    "002.012.100:0": [
+      2,
+      2
+    ],
+    "002.012.100:1": [
+      2,
+      2
+    ],
+    "002.012.100:2": [
+      2,
+      2
+    ],
+    "002.012.102:0": [
+      2,
+      2
+    ],
+    "002.012.102:1": [
+      2,
+      2
+    ],
+    "002.012.102:2": [
+      2,
+      2
+    ],
+    "002.021.102:0": [
+      1,
+      1,
+      2
+    ],
+    "002.021.102:1": [
+      1,
+      1,
+      2
+    ],
+    "002.021.102:2": [
+      1,
+      1,
+      2
+    ],
+    "010.020.021:0": [
+      4
+    ],
+    "010.020.021:1": [
+      4
+    ],
+    "010.020.021:2": [
+      4
+    ],
+    "010.020.100:0": [
+      2,
+      2
+    ],
+    "010.020.100:1": [
+      2,
+      2
+    ],
+    "010.020.100:2": [
+      2,
+      2
+    ],
+    "010.020.102:0": [
+      2,
+      2
+    ],
+    "010.020.102:1": [
+      2,
+      2
+    ],
+    "010.020.102:2": [
+      2,
+      2
+    ],
+    "010.021.022:0": [
+      4
+    ],
+    "010.021.022:1": [
+      4
+    ],
+    "010.021.022:2": [
+      4
+    ],
+    "010.022.100:0": [
+      2,
+      2
+    ],
+    "010.022.100:1": [
+      2,
+      2
+    ],
+    "010.022.100:2": [
+      2,
+      2
+    ],
+    "012.020.021:0": [
+      4
+    ],
+    "012.020.021:1": [
+      4
+    ],
+    "012.020.021:2": [
+      4
+    ],
+    "012.020.102:0": [
+      2,
+      2
+    ],
+    "012.020.102:1": [
+      2,
+      2
+    ],
+    "012.020.102:2": [
+      2,
+      2
+    ],
+    "012.021.022:0": [
+      4
+    ],
+    "012.021.022:1": [
+      4
+    ],
+    "012.021.022:2": [
+      4
+    ],
+    "012.022.100:0": [
+      2,
+      2
+    ],
+    "012.022.100:1": [
+      2,
+      2
+    ],
+    "012.022.100:2": [
+      2,
+      2
+    ],
+    "012.022.102:0": [
+      2,
+      2
+    ],
+    "012.022.102:1": [
+      2,
+      2
+    ],
+    "012.022.102:2": [
+      2,
+      2
+    ],
+    "020.021.100:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "020.021.100:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "020.021.100:2": [
+      1,
+      1,
+      1
+    ],
+    "020.021.102:0": [
+      1,
+      1,
+      2
+    ],
+    "020.021.102:1": [
+      1,
+      1,
+      2
+    ],
+    "020.021.102:2": [
+      1,
+      2
+    ],
+    "021.022.100:0": [
+      1,
+      1,
+      2
+    ],
+    "021.022.100:1": [
+      1,
+      1,
+      2
+    ],
+    "021.022.100:2": [
+      1,
+      2
+    ],
+    "021.022.102:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "021.022.102:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "021.022.102:2": [
+      1,
+      1,
+      1
+    ]
+  },
+  "polynomial_content_counts": {
+    "1": 210,
+    "2": 48
+  },
+  "remaining150_FS_FW": [
+    102,
+    48
+  ],
+  "remaining150_keys": [
+    "000.001.020:1",
+    "000.001.022:1",
+    "000.002.010:2",
+    "000.002.011:2",
+    "000.002.012:2",
+    "000.002.020:0",
+    "000.002.020:1",
+    "000.002.020:2",
+    "000.002.021:0",
+    "000.002.021:1",
+    "000.002.021:2",
+    "000.002.022:0",
+    "000.002.022:1",
+    "000.002.022:2",
+    "000.002.100:2",
+    "000.002.101:2",
+    "000.002.102:2",
+    "000.010.022:1",
+    "000.011.020:1",
+    "000.011.102:0",
+    "000.011.102:1",
+    "000.011.102:2",
+    "000.012.020:0",
+    "000.012.020:1",
+    "000.012.020:2",
+    "000.012.021:0",
+    "000.012.021:1",
+    "000.012.021:2",
+    "000.012.022:1",
+    "000.012.101:0",
+    "000.012.101:1",
+    "000.012.101:2",
+    "000.012.102:0",
+    "000.012.102:1",
+    "000.012.102:2",
+    "000.020.021:2",
+    "000.020.022:0",
+    "000.020.022:1",
+    "000.020.022:2",
+    "000.020.100:2",
+    "000.020.102:2",
+    "000.020.110:2",
+    "000.021.022:1",
+    "000.021.102:0",
+    "000.021.102:1",
+    "000.021.102:2",
+    "000.021.110:0",
+    "000.021.110:1",
+    "000.021.110:2",
+    "000.022.101:2",
+    "000.022.102:0",
+    "000.022.102:1",
+    "000.022.102:2",
+    "000.022.110:2",
+    "001.002.020:0",
+    "001.002.022:0",
+    "001.010.022:0",
+    "001.010.022:1",
+    "001.010.022:2",
+    "001.010.100:0",
+    "001.010.100:1",
+    "001.010.100:2",
+    "001.012.020:0",
+    "001.012.020:1",
+    "001.012.020:2",
+    "001.012.102:0",
+    "001.012.102:1",
+    "001.012.102:2",
+    "001.020.022:0",
+    "001.020.022:1",
+    "001.020.022:2",
+    "001.020.100:0",
+    "001.020.100:1",
+    "001.020.100:2",
+    "001.020.110:0",
+    "001.020.110:1",
+    "001.020.110:2",
+    "001.022.102:0",
+    "001.022.102:1",
+    "001.022.102:2",
+    "001.022.110:0",
+    "001.022.110:1",
+    "001.022.110:2",
+    "002.010.020:1",
+    "002.010.021:0",
+    "002.010.021:1",
+    "002.010.021:2",
+    "002.010.022:0",
+    "002.010.022:1",
+    "002.010.022:2",
+    "002.010.100:0",
+    "002.010.100:1",
+    "002.010.100:2",
+    "002.010.101:0",
+    "002.010.101:1",
+    "002.010.101:2",
+    "002.011.022:1",
+    "002.011.100:0",
+    "002.011.100:1",
+    "002.011.100:2",
+    "002.012.020:1",
+    "002.020.021:2",
+    "002.020.022:0",
+    "002.020.022:1",
+    "002.020.022:2",
+    "002.020.100:0",
+    "002.020.100:1",
+    "002.020.100:2",
+    "002.020.101:2",
+    "002.020.110:2",
+    "002.021.022:1",
+    "002.021.100:0",
+    "002.021.100:1",
+    "002.021.100:2",
+    "002.021.110:0",
+    "002.021.110:1",
+    "002.021.110:2",
+    "002.022.100:2",
+    "002.022.102:2",
+    "002.022.110:2",
+    "010.020.022:0",
+    "010.021.102:0",
+    "010.021.102:1",
+    "010.021.102:2",
+    "010.022.101:0",
+    "010.022.101:1",
+    "010.022.101:2",
+    "010.022.102:0",
+    "010.022.102:1",
+    "010.022.102:2",
+    "011.020.022:0",
+    "011.020.100:0",
+    "011.020.100:1",
+    "011.020.100:2",
+    "011.022.102:0",
+    "011.022.102:1",
+    "011.022.102:2",
+    "012.020.022:0",
+    "012.020.100:0",
+    "012.020.100:1",
+    "012.020.100:2",
+    "012.020.101:0",
+    "012.020.101:1",
+    "012.020.101:2",
+    "012.021.100:0",
+    "012.021.100:1",
+    "012.021.100:2",
+    "020.022.100:2",
+    "020.022.101:2",
+    "020.022.102:2"
+  ],
+  "remaining150_patterns": {
+    "000.001.020:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.001.022:1": [
+      1,
+      1,
+      2
+    ],
+    "000.002.010:2": [
+      2,
+      2
+    ],
+    "000.002.011:2": [
+      2,
+      2
+    ],
+    "000.002.012:2": [
+      2,
+      2
+    ],
+    "000.002.020:0": [
+      1,
+      1,
+      1
+    ],
+    "000.002.020:1": [
+      1,
+      1,
+      1
+    ],
+    "000.002.020:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.002.021:0": [
+      1,
+      1,
+      1
+    ],
+    "000.002.021:1": [
+      1,
+      1,
+      1
+    ],
+    "000.002.021:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.002.022:0": [
+      1,
+      1,
+      1
+    ],
+    "000.002.022:1": [
+      1,
+      1,
+      1
+    ],
+    "000.002.022:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.002.100:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.002.101:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.002.102:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.010.022:1": [
+      2,
+      2
+    ],
+    "000.011.020:1": [
+      2,
+      2
+    ],
+    "000.011.102:0": [
+      2,
+      2
+    ],
+    "000.011.102:1": [
+      2,
+      2
+    ],
+    "000.011.102:2": [
+      2,
+      2
+    ],
+    "000.012.020:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.012.020:1": [
+      2,
+      2
+    ],
+    "000.012.020:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.012.021:0": [
+      4
+    ],
+    "000.012.021:1": [
+      4
+    ],
+    "000.012.021:2": [
+      4
+    ],
+    "000.012.022:1": [
+      2,
+      2
+    ],
+    "000.012.101:0": [
+      4
+    ],
+    "000.012.101:1": [
+      4
+    ],
+    "000.012.101:2": [
+      4
+    ],
+    "000.012.102:0": [
+      2,
+      2
+    ],
+    "000.012.102:1": [
+      2,
+      2
+    ],
+    "000.012.102:2": [
+      2,
+      2
+    ],
+    "000.020.021:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.020.022:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.020.022:1": [
+      1,
+      1,
+      1
+    ],
+    "000.020.022:2": [
+      1,
+      1,
+      1
+    ],
+    "000.020.100:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.020.102:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.020.110:2": [
+      2,
+      2
+    ],
+    "000.021.022:1": [
+      1,
+      1,
+      2
+    ],
+    "000.021.102:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.021.102:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.021.102:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.021.110:0": [
+      4
+    ],
+    "000.021.110:1": [
+      4
+    ],
+    "000.021.110:2": [
+      4
+    ],
+    "000.022.101:2": [
+      1,
+      1,
+      2
+    ],
+    "000.022.102:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.022.102:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.022.102:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.022.110:2": [
+      2,
+      2
+    ],
+    "001.002.020:0": [
+      1,
+      1,
+      2
+    ],
+    "001.002.022:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "001.010.022:0": [
+      4
+    ],
+    "001.010.022:1": [
+      4
+    ],
+    "001.010.022:2": [
+      4
+    ],
+    "001.010.100:0": [
+      4
+    ],
+    "001.010.100:1": [
+      4
+    ],
+    "001.010.100:2": [
+      4
+    ],
+    "001.012.020:0": [
+      4
+    ],
+    "001.012.020:1": [
+      4
+    ],
+    "001.012.020:2": [
+      4
+    ],
+    "001.012.102:0": [
+      4
+    ],
+    "001.012.102:1": [
+      4
+    ],
+    "001.012.102:2": [
+      4
+    ],
+    "001.020.022:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "001.020.022:1": [
+      1,
+      1,
+      1
+    ],
+    "001.020.022:2": [
+      1,
+      1,
+      1
+    ],
+    "001.020.100:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "001.020.100:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "001.020.100:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "001.020.110:0": [
+      4
+    ],
+    "001.020.110:1": [
+      4
+    ],
+    "001.020.110:2": [
+      4
+    ],
+    "001.022.102:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "001.022.102:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "001.022.102:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "001.022.110:0": [
+      4
+    ],
+    "001.022.110:1": [
+      4
+    ],
+    "001.022.110:2": [
+      4
+    ],
+    "002.010.020:1": [
+      2,
+      2
+    ],
+    "002.010.021:0": [
+      4
+    ],
+    "002.010.021:1": [
+      4
+    ],
+    "002.010.021:2": [
+      4
+    ],
+    "002.010.022:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "002.010.022:1": [
+      2,
+      2
+    ],
+    "002.010.022:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "002.010.100:0": [
+      2,
+      2
+    ],
+    "002.010.100:1": [
+      2,
+      2
+    ],
+    "002.010.100:2": [
+      2,
+      2
+    ],
+    "002.010.101:0": [
+      4
+    ],
+    "002.010.101:1": [
+      4
+    ],
+    "002.010.101:2": [
+      4
+    ],
+    "002.011.022:1": [
+      2,
+      2
+    ],
+    "002.011.100:0": [
+      2,
+      2
+    ],
+    "002.011.100:1": [
+      2,
+      2
+    ],
+    "002.011.100:2": [
+      2,
+      2
+    ],
+    "002.012.020:1": [
+      2,
+      2
+    ],
+    "002.020.021:2": [
+      1,
+      1,
+      2
+    ],
+    "002.020.022:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "002.020.022:1": [
+      1,
+      1,
+      1
+    ],
+    "002.020.022:2": [
+      1,
+      1,
+      1
+    ],
+    "002.020.100:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "002.020.100:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "002.020.100:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "002.020.101:2": [
+      1,
+      1,
+      2
+    ],
+    "002.020.110:2": [
+      2,
+      2
+    ],
+    "002.021.022:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "002.021.100:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "002.021.100:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "002.021.100:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "002.021.110:0": [
+      4
+    ],
+    "002.021.110:1": [
+      4
+    ],
+    "002.021.110:2": [
+      4
+    ],
+    "002.022.100:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "002.022.102:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "002.022.110:2": [
+      2,
+      2
+    ],
+    "010.020.022:0": [
+      2,
+      2
+    ],
+    "010.021.102:0": [
+      4
+    ],
+    "010.021.102:1": [
+      4
+    ],
+    "010.021.102:2": [
+      4
+    ],
+    "010.022.101:0": [
+      4
+    ],
+    "010.022.101:1": [
+      4
+    ],
+    "010.022.101:2": [
+      4
+    ],
+    "010.022.102:0": [
+      2,
+      2
+    ],
+    "010.022.102:1": [
+      2,
+      2
+    ],
+    "010.022.102:2": [
+      2,
+      2
+    ],
+    "011.020.022:0": [
+      2,
+      2
+    ],
+    "011.020.100:0": [
+      2,
+      2
+    ],
+    "011.020.100:1": [
+      2,
+      2
+    ],
+    "011.020.100:2": [
+      2,
+      2
+    ],
+    "011.022.102:0": [
+      2,
+      2
+    ],
+    "011.022.102:1": [
+      2,
+      2
+    ],
+    "011.022.102:2": [
+      2,
+      2
+    ],
+    "012.020.022:0": [
+      2,
+      2
+    ],
+    "012.020.100:0": [
+      2,
+      2
+    ],
+    "012.020.100:1": [
+      2,
+      2
+    ],
+    "012.020.100:2": [
+      2,
+      2
+    ],
+    "012.020.101:0": [
+      4
+    ],
+    "012.020.101:1": [
+      4
+    ],
+    "012.020.101:2": [
+      4
+    ],
+    "012.021.100:0": [
+      4
+    ],
+    "012.021.100:1": [
+      4
+    ],
+    "012.021.100:2": [
+      4
+    ],
+    "020.022.100:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "020.022.101:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "020.022.102:2": [
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "remaining150_sectors": {
+    "linear": 6,
+    "quartic": 50,
+    "square": 94
+  },
+  "retained_HH72_keys": [
+    "000.001.020:0",
+    "000.001.020:2",
+    "000.001.022:0",
+    "000.001.022:2",
+    "000.002.010:0",
+    "000.002.010:1",
+    "000.002.011:0",
+    "000.002.011:1",
+    "000.002.012:0",
+    "000.002.012:1",
+    "000.002.100:0",
+    "000.002.100:1",
+    "000.002.101:0",
+    "000.002.101:1",
+    "000.002.102:0",
+    "000.002.102:1",
+    "000.010.022:0",
+    "000.010.022:2",
+    "000.011.020:0",
+    "000.011.020:2",
+    "000.012.022:0",
+    "000.012.022:2",
+    "000.020.021:0",
+    "000.020.021:1",
+    "000.020.100:0",
+    "000.020.100:1",
+    "000.020.102:0",
+    "000.020.102:1",
+    "000.020.110:0",
+    "000.020.110:1",
+    "000.021.022:0",
+    "000.021.022:2",
+    "000.022.101:0",
+    "000.022.101:1",
+    "000.022.110:0",
+    "000.022.110:1",
+    "001.002.020:1",
+    "001.002.020:2",
+    "001.002.022:1",
+    "001.002.022:2",
+    "002.010.020:0",
+    "002.010.020:2",
+    "002.011.022:0",
+    "002.011.022:2",
+    "002.012.020:0",
+    "002.012.020:2",
+    "002.020.021:0",
+    "002.020.021:1",
+    "002.020.101:0",
+    "002.020.101:1",
+    "002.020.110:0",
+    "002.020.110:1",
+    "002.021.022:0",
+    "002.021.022:2",
+    "002.022.100:0",
+    "002.022.100:1",
+    "002.022.102:0",
+    "002.022.102:1",
+    "002.022.110:0",
+    "002.022.110:1",
+    "010.020.022:1",
+    "010.020.022:2",
+    "011.020.022:1",
+    "011.020.022:2",
+    "012.020.022:1",
+    "012.020.022:2",
+    "020.022.100:0",
+    "020.022.100:1",
+    "020.022.101:0",
+    "020.022.101:1",
+    "020.022.102:0",
+    "020.022.102:1"
+  ],
+  "source_count": 414,
+  "stage": "229HI",
+  "survivors": [
+    "000.001.012:0",
+    "000.001.102:0",
+    "000.010.102:0",
+    "000.001.012:1",
+    "000.001.102:1",
+    "000.010.102:1",
+    "000.001.012:2",
+    "000.001.102:2",
+    "000.010.102:2",
+    "001.002.010:0",
+    "001.002.100:0",
+    "010.020.100:0",
+    "001.002.010:1",
+    "001.002.100:1",
+    "010.020.100:1",
+    "001.002.010:2",
+    "001.002.100:2",
+    "010.020.100:2",
+    "010.021.022:0",
+    "020.021.100:2",
+    "002.012.100:2",
+    "010.021.022:1",
+    "020.021.100:1",
+    "002.012.100:1",
+    "010.021.022:2",
+    "020.021.100:0",
+    "002.012.100:0",
+    "012.020.021:0",
+    "021.022.102:2",
+    "012.022.102:2",
+    "012.020.021:1",
+    "021.022.102:1",
+    "012.022.102:1",
+    "012.020.021:2",
+    "021.022.102:0",
+    "012.022.102:0"
+  ]
+}
+CONTENT_END
+FILE_END audit.json
+NEXT=On the exact residual150 key table (94 square-norm,6 linear-norm,50 quartic-norm;102 FS+48 FW), compute the ACTUAL specialized integer content g=gcd(A0,B0,C0) and retain the primitive ONE signed physical factor f/g=(TY-W)(uY+v), gcd(T,W)=gcd(u,v)=1, T²+W²=r². Test simultaneous FIRST discriminant square and saturated Gaussian norm S0/g²=r²(u²+v²), retaining p<q<r, positivity/primitivity and ALL HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/EX masks. Derive a genuinely occupied prime-pair/cofactor estimate o(Q), paying the outer floor, or prove further source-specific obstruction from the TWO linked primitive factors. Do not repeat the now exhausted one-endpoint norm identities, HH72/HI108 symmetries, generic rank bounds, norm-product nonsquare or finite-cutoff/local-density proxies as physical savings. New all-height small-p counts use old FS/FW without additive recredit. Full FJ/FS/FW physical source/height hostile audits and repeated powers/omega>=4 remain separate; EX shared-prime interval, OFF-G0 and q(-,-) remain alternatives. Formal route switch requires existing independent audit.

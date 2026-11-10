@@ -1,0 +1,333 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229AJ — dual physical GCD and smooth-inert four-gap packetization
+
+
+STATUS: POST_229AI_SMOOTH_INERT_PACKETIZATION_COMPLETE / PROVED_DUAL_GSTAR_EQUALS_GCD_UV_xy / PROVED_EXACT_FOUR_GAP_INERT_PACKETIZATION / PROVED_SMOOTH_INERT_RADICAL_FOUR_PACKET_RECEIVER / PROVED_LINEAR_GAP_SQUARE_DIVISOR_NOT_INDEPENDENT / NO_COUNTING_PROMOTION / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229AI SAME-PHYSICAL SUPPORT ADAPTER / SMOOTH-RADICAL COMPLETION / PYTHAGOREAN GAP PACKETIZATION / METHOD FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229AI
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1tMg7HlpaZjk-fOHFDlZhGhZ4sPV7tgMPzm-_WFhqHEE
+
+
+1. Scope
+
+
+229AI isolated the entire odd inert-prime part of the preferred radical:
+  rad_3(K_*) = rad_3(ab) = rad_3(UV),
+but its prime-only receiver controlled only the single-large-inert-prime subtail. The remaining explicit gap was the smooth inert radical: rad_3(UV) can be large while every individual inert prime is below the large-prime cutoff.
+
+
+This card completes that structural reduction. It proves two exact facts:
+(1) the full physical GCD itself has a dual selector-diagonal form G_*=gcd(UV,xy);
+(2) the whole smooth inert radical splits uniquely into four pairwise-coprime packets carried by the four linear physical gaps R±x and R±y.
+
+
+It then gives a finite four-packet receiver for the smooth inert tail and proves why a generic “large square divisor of a linear gap” sieve is not an independent saving on this physical locus.
+
+
+No external theorem is used. No endpoint power saving is claimed.
+
+
+2. Retained exact physical factorization
+
+
+Retain 229D/229AD/229AI:
+  e = g a b,
+  x = d0 b c,
+  y = d0 a f,
+  z = d0 q,
+  q^2 = (bc)^2 + (af)^2,
+with (bc,af,q) primitive, and
+  (ga,d0 c,n1),
+  (gb,d0 f,n2)
+primitive Pythagorean triples. Hence
+  U = b n1,
+  V = a n2.
+
+
+Also retain
+  c12 = gcd(U,y) = gcd(n1,f),
+  c21 = gcd(V,x) = gcd(n2,c),
+and
+  G_* = gcd(eR,xy) = a b c12 c21,
+  K_* = sf(G_*).
+
+
+The six buckets h,d0,a,b,c12,c21 are pairwise coprime, and every odd prime dividing c12 or c21 is 1 mod4. Every odd prime dividing n1 or n2 is also 1 mod4 because n1,n2 are primitive Pythagorean hypotenuses.
+
+
+3. Dual exact physical GCD
+
+
+From the retained formulas,
+  UV = a b n1 n2,
+  xy = a b d0^2 c f.
+
+
+The primitive face triples give
+  gcd(n1,d0 c)=1,
+  gcd(n2,d0 f)=1.
+Also gcd(c,f)=1.
+
+
+Therefore
+  gcd(n1 n2,d0^2 c f)
+   = gcd(n1,f) gcd(n2,c)
+   = c12 c21.
+
+
+Consequently
+  gcd(UV,xy)
+   = a b gcd(n1 n2,d0^2 c f)
+   = a b c12 c21
+   = G_*.
+
+
+Thus
+  G_* = gcd(eR,xy) = gcd(UV,xy),                 (229AJ.1)
+  K_* = sf(gcd(UV,xy)).                          (229AJ.2)
+
+
+RESULT_229AJ_DUAL_GSTAR_EQUALS_GCD_UV_xy=PROVED_EXACT.
+
+
+This is an exact same-physical adapter, not a new GCD-height bound. The preferred quotient-free gate remains the 229O form; (229AJ.1) is an additional equivalent physical representation.
+
+
+4. Exact inert prime-power allocation into four linear gaps
+
+
+For an integer n, let n_(3) denote the largest divisor of n supported on odd primes p==3 mod4.
+
+
+Fix an odd inert p==3 mod4 with p^k||b. By229AI, n1 has no inert odd prime factors, so
+  v_p(U)=v_p(b)=k.
+By the exact factorization of y and the pairwise coprimalities,
+  p does not divide y.
+By229AI every odd prime divisor of R is split, so
+  p does not divide R.
+
+
+Using
+  (R-y)(R+y)=U^2,
+we have
+  v_p(R-y)+v_p(R+y)=2k.
+Moreover
+  gcd(R-y,R+y) divides 2R,
+and p does not divide 2R. Hence exactly one of R-y and R+y has p-adic valuation 2k, and the other has valuation 0.
+
+
+Define uniquely
+  b_- = product over p^k||b, p==3 mod4, v_p(R-y)=2k of p^k,
+  b_+ = product over p^k||b, p==3 mod4, v_p(R+y)=2k of p^k.
+Then
+  b_(3)=b_- b_+,
+  gcd(b_-,b_+)=1,
+  b_-^2 | R-y,
+  b_+^2 | R+y.                                  (229AJ.3)
+
+
+The same argument with
+  (R-x)(R+x)=V^2
+and p^k||a gives unique coprime packets a_-,a_+ such that
+  a_(3)=a_- a_+,
+  a_-^2 | R-x,
+  a_+^2 | R+x.                                  (229AJ.4)
+
+
+Because gcd(a,b)=1, all four packets
+  a_-, a_+, b_-, b_+
+are pairwise coprime.
+
+
+Set
+  A_- = rad(a_-), A_+ = rad(a_+),
+  B_- = rad(b_-), B_+ = rad(b_+).
+Then, using229AI rad_3(K_*)=rad_3(ab),
+  rad_3(K_*) = A_- A_+ B_- B_+.                 (229AJ.5)
+
+
+RESULT_229AJ_INERT_PRIME_POWER_GAP_ALLOCATION=PROVED_EXACT.
+RESULT_229AJ_FOUR_INERT_PACKETS_PAIRWISE_COPRIME=PROVED_EXACT.
+RESULT_229AJ_RAD3_KSTAR_FOUR_PACKET_PRODUCT=PROVED_EXACT.
+
+
+5. Euclid-parameter meaning of the four packets
+
+
+The space triangle (U,y,R) has content c12. Write
+  U=c12 U0, y=c12 y0, R=c12 R0
+with (U0,y0,R0) primitive.
+
+
+If U0 is even, write
+  U0=2mn, y0=m^2-n^2, R0=m^2+n^2.
+Then
+  R-y = 2 c12 n^2,
+  R+y = 2 c12 m^2.                               (229AJ.6)
+
+
+If U0 is odd, write
+  U0=m^2-n^2, y0=2mn, R0=m^2+n^2.
+Then
+  R-y = c12 (m-n)^2,
+  R+y = c12 (m+n)^2.                             (229AJ.7)
+
+
+Thus the b_- and b_+ inert packets are exactly carried by two coprime Euclid square-root components of the physical space triangle, with c12 contributing no odd inert prime.
+
+
+Likewise, for the primitive quotient of (V,x,R) by its content c21, the a_- and a_+ packets are carried by the two Euclid square-root components of R-x and R+x.
+
+
+RESULT_229AJ_INERT_PACKETS_ARE_PHYSICAL_EUCLID_ROOT_PACKETS=PROVED_EXACT.
+
+
+This is consistent with the retained Pythagorean gap-squareclass machinery, but it is the first current adapter that packages the entire smooth inert radical, rather than one inert prime at a time, into finitely many physical root packets.
+
+
+6. Smooth-inert radical receiver
+
+
+For any threshold T>=1, (229AJ.5) implies
+  rad_3(K_*) > T
+  =>
+  max(A_-,A_+,B_-,B_+) > T^(1/4).                (229AJ.8)
+
+
+Therefore, defining the exact same-physical packet counts
+  N_{a,-}(B;M)=#{positive primitive physical endpoints R<=B : A_->M},
+  N_{a,+}(B;M)=#{positive primitive physical endpoints R<=B : A_+>M},
+  N_{b,-}(B;M)=#{positive primitive physical endpoints R<=B : B_->M},
+  N_{b,+}(B;M)=#{positive primitive physical endpoints R<=B : B_+>M},
+we obtain
+  #{R<=B endpoints : rad_3(K_*)>T}
+   <= N_{a,-}(B;T^(1/4))
+    + N_{a,+}(B;T^(1/4))
+    + N_{b,-}(B;T^(1/4))
+    + N_{b,+}(B;T^(1/4)).                         (229AJ.9)
+
+
+At the 229AI one-third inert threshold
+  T=B^(1/3-delta),
+the packet threshold is exactly
+  M=B^(1/12-delta/4).                             (229AJ.10)
+
+
+Hence the entire large-or-smooth inert radical subtail would be closed at o(B^(1/3)) by the single finite receiver
+  sum over the four packets N_packet(B; B^(1/12-delta/4))
+    = o(B^(1/3)).                                 (229AJ.11)
+
+
+Unlike the 229AI prime-only sum, (229AJ.11) covers the case in which every inert prime is individually small but their squarefree product is large.
+
+
+RESULT_229AJ_SMOOTH_INERT_FOUR_PACKET_RECEIVER=PROVED_EXACT.
+
+
+This is an inert-side receiver only. It does not control a large split part of K_* and therefore does not close the current whole-population preferred gate.
+
+
+7. Generic linear-gap square-divisor sieve is not an independent saving
+
+
+Equations (229AJ.6)-(229AJ.7), and their x-analogues, show that on every physical endpoint each of
+  R-y, R+y, R-x, R+x
+is already equal to its Pythagorean content times a square, or twice its content times a square.
+
+
+Therefore the mere event
+  “there exists a large squarefree m with m^2 dividing one of R±x,R±y”
+is not a rare ambient condition on the physical selector locus. Large square divisors of these gaps are structurally built into the Euclid parameterization.
+
+
+Consequently one may not convert (229AJ.11) into a power saving by applying a generic large-square-divisor or codimension argument to the four gap values alone. A valid quantitative theorem must retain the realized physical packet identity: the relevant inert square-root factor must be the a- or b-content packet coupled simultaneously to the nested face/space Pythagorean structure and exact R-height.
+
+
+This is the same-measure anti-loop point missing from a naive smooth-radical treatment.
+
+
+RESULT_229AJ_GENERIC_LINEAR_GAP_SQUARE_DIVISOR_ROUTE=HOLD_INSUFFICIENT_WITHOUT_PACKET_COUPLING.
+RESULT_229AJ_SMOOTH_INERT_STRUCTURAL_GAP_CLOSED_BUT_COUNT_OPEN=PROVED_METHOD_FIREWALL.
+
+
+8. Operational consequence
+
+
+No counting promotion follows from229AJ.
+
+
+CURRENT_PREFERRED_GATE remains:
+  #{positive primitive physical endpoints R<=B :
+      sf(gcd(eR,xy)) > B^(1/3-delta)}
+    = o(B^(1/3))
+for some fixed delta>0.
+
+
+Equivalent retained exact representation:
+  K_* = sf(gcd(UV,xy)).
+
+
+INERT_LEG_SUPPORT_SUBGATE remains OPEN, but its smooth-radical structural receiver is sharpened from a prime-by-prime formulation to the finite four-packet receiver (229AJ.11).
+
+
+CM_PAIR_DEPENDENCE_SUBGATE remains CLOSED_FOR_ONE_THIRD_BUDGET by229AB.
+CM_PAIR_INDEPENDENT_BRANCH remains OPEN.
+CM_INDEPENDENT_PAIR_GENERIC_RANK_STATISTICS_ROUTE remains HOLD by229AC.
+SELECTOR_COVER_CODIMENSION_ONLY_GEOMETRIC_SIEVE_ROUTE remains HOLD by229AH.
+CORRECTED_CANONICAL_PACKET_STATE remains229AG.
+
+
+NEXT_USEFUL_INPUT:
+(A) a same-physical count for the four realized Euclid-root packets in (229AJ.11), preserving their identification with a,b and exact R-height;
+(B) a joint theorem coupling those inert packets to the split c12,c21 packets with a genuine polynomial saving;
+(C) direct realized K_* or moving-twist support counting at o(B^(1/3));
+(D) a global cancellation/dispersion theorem across the four physical buckets a,b,c12,c21.
+
+
+DO_NOT_REPEAT:
+- do not replace the four realized packet counts by generic large-square-divisor sparsity on R±x,R±y;
+- do not count the four packets as independent local conditions;
+- do not infer a fixed-power saving from the quarter-threshold alone;
+- do not reopen codimension-only selector-cover sieve after229AH;
+- do not reopen generic rank/Selmer routes barred by229AC.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_OPERATION=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+INTEGRATED_AUDIT_186_229O_SCOPE=UNCHANGED_NOT_EXTENDED_TO_229P_THROUGH_229AJ.
+
+
+9. Dependencies and verification scope
+
+
+Internal load-bearing inputs:
+-229D nested primitive Pythagorean factorization and primitive face triples;
+-229AD six-bucket factorization and G_*=ab c12 c21;
+-229O quotient-free preferred GCD gate;
+-229AI odd-R split-only theorem and rad_3(K_*)=rad_3(ab)=rad_3(UV);
+-current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+No external theorem is newly invoked. The new statements are exact consequences of the retained physical factorization and elementary primitive Pythagorean parameterization.
+
+
+Independent hostile audit of229AJ has not been run. Existing authority, credit, gate, closure and integrated-audit scope are unchanged.
+
+
+FINAL_READBACK_RECEIPT: PASS
+READBACK_CONFIRMED: 229AJ card body / CARD-INDEX row501 and 案内 current routing / RESULT-LEDGER 229AJ change record / MAIN POST-229AJ current authority override / active ROUTE POST-229AJ block.
+DRIVE_LOCATION_CONFIRMED: M3-Research-Cards folder.
+AUTHORITY_CREDIT_GATE_CLOSURE_CHECK: unchanged except latest post-229 delta pointer advanced to229AJ; M3-T11-229 operational authority, M3-T11-228 latest mathematical construction, PRIMARY_GATE OPEN, GLOBAL_COUNTING_CREDIT=0, M3-T11-230 unissued, integrated audit186-229O scope unchanged.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

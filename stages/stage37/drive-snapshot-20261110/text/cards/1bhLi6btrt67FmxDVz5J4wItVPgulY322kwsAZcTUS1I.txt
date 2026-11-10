@@ -1,0 +1,316 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229BD — exact double-primitive-triple gluing and scale elimination
+
+
+STATUS: POST_229BC_DOUBLE_PRIMITIVE_TRIPLE_GLUE_PROVED / EXACT_INVERSE_BIJECTION_FOR_TWO_SQUARE_SELECTORS / MOVING_h_AND_d0_ELIMINATED_AS_INDEPENDENT_COORDINATES / PROVED_CROSS_GCD_2x2_MATRIX / PROVED_GSTAR_EQUALS_GCD_EH_XY / EXACT_PHYSICAL_HEIGHT_TRANSFER / SHARED_t_CONGRUENCE_ROUTER / NO_COUNTING_PROMOTION / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_GLOBAL_REOPEN
+
+
+TYPE: POST-229BC EXACT PHYSICAL REPARAMETERIZATION / NESTED PRIMITIVE PYTHAGOREAN GLUING / CONTENT-SCALE ELIMINATION / RADICAL SUPPORT CROSSWALK / COUNTING-MEASURE FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229BC
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1bhLi6btrt67FmxDVz5J4wItVPgulY322kwsAZcTUS1I
+
+
+1. Exact scope
+
+
+Define P_square(B) to consist of positive primitive integer physical quadruples
+  (e,x,y,R), gcd(e,x,y)=1, R<=B,
+  x^2+y^2=z^2,
+  e^2+z^2=R^2,
+with the two positive square roots z,R.
+
+
+This is only the two-square-selector ambient receiver used by229D/229BC. Any further M3 host requirement (retained edge/face Pythagorean conditions, chamber, direction, canonical selector, sign or ordering) must be imposed as an explicit postfilter. No claim that arbitrary such quadruples are full M3 endpoints is made.
+
+
+2. The two uniquely determined primitive triples
+
+
+Let
+  d0=gcd(x,y),
+  X=x/d0, Y=y/d0, q=z/d0.
+Then
+  X^2+Y^2=q^2, gcd(X,Y)=1.
+
+
+Let
+  h=gcd(e,z),
+  E=e/h, Z=z/h, H=R/h.
+Then
+  E^2+Z^2=H^2, gcd(E,Z)=1.
+
+
+The two ordered primitive triples
+  (X,Y,q) and (E,Z,H)
+are uniquely determined by the physical point.
+
+
+Retain229D: h=gcd(g,q) in the nested content notation and gcd(h,d0)=1.
+
+
+3. Deterministic shared gcd t and exact elimination of the moving scales
+
+
+Because the same z has two expressions,
+  d0 q = h Z.                                    (229BD.1)
+
+
+Since gcd(h,d0)=1, there is a unique positive integer t such that
+  q=h t, Z=d0 t.                                 (229BD.2)
+
+
+Moreover gcd(q,Z)=t*gcd(h,d0)=t, so
+  t = gcd(q,Z),                                   (229BD.3)
+  h = q/t,
+  d0= Z/t.                                       (229BD.4)
+
+
+Thus the previously moving scale h is NOT a freely chosen auxiliary modulus once the two primitive triples have been chosen. It is exactly the quotient of the inner primitive hypotenuse by its gcd with the outer primitive leg. The missing-face common scale d0 is the complementary quotient of that same gcd.
+
+
+The relations do not assert gcd(h,t)=1 or gcd(d0,t)=1; these need not hold. The certified statement is gcd(h,d0)=1.
+
+
+RESULT_229BD_EXACT_SHARED_GCD_AND_SCALE_ELIMINATION=PROVED_EXACT.
+
+
+4. Exact positive reconstruction and inverse
+
+
+Conversely take any two ordered primitive positive Pythagorean triples
+  (X,Y,q): X^2+Y^2=q^2, gcd(X,Y)=1,
+  (E,Z,H): E^2+Z^2=H^2, gcd(E,Z)=1.
+Set
+  t=gcd(q,Z),
+  h=q/t,
+  d0=Z/t.
+
+
+Since gcd(h,d0)=1, reconstruct
+  e=h E=(q/t)E,
+  x=d0 X=(Z/t)X,
+  y=d0 Y=(Z/t)Y,
+  z=d0 q=h Z,
+  R=h H=(q/t)H.                                  (229BD.5)
+
+
+Both selector identities hold:
+  x^2+y^2 = d0^2 q^2=z^2,
+  e^2+z^2 = h^2 (E^2+Z^2)=h^2 H^2=R^2.
+
+
+Primitivity:
+  gcd(x,y)=d0.
+Since h|q and gcd(q,X Y)=1, gcd(h,X Y)=1.
+Since d0|Z and gcd(Z,E H)=1, gcd(d0,E H)=1.
+Together with gcd(h,d0)=1, this gives
+  gcd(e,d0)=gcd(hE,d0)=1,
+hence gcd(e,x,y)=1.
+
+
+The inverse extraction in section 2 recovers exactly the original two ordered primitive triples, because the reconstructed scales are the exact pairwise contents.
+
+
+Thus (229BD.5) is a bijection between:
+  (i) ordered pairs of positive primitive Pythagorean triples; and
+  (ii) positive primitive physical quadruples satisfying the two square selectors,
+with the exact cutoff on both sides
+  R=(q H)/gcd(q,Z) <= B.                           (229BD.6)
+
+
+Any further M3 masks are carried over by substitution in (229BD.5). There is no enlargement or unspecified fiber when those masks are retained.
+
+
+RESULT_229BD_TWO_PRIMITIVE_TRIPLES_TO_TWO_SELECTOR_PHYSICAL_BIJECTION=PROVED_EXACT.
+RESULT_229BD_EXACT_PHYSICAL_HEIGHT=qH_OVER_GCD_qZ.
+
+
+5. Primitive cross-gcd 2x2 incidence matrix
+
+
+Because h is coprime to XY and d0 is coprime to EH, all four basic physical cross-gcds lose their external scales exactly:
+  gcd(e,x)=gcd(E,X),
+  gcd(e,y)=gcd(E,Y),
+  gcd(R,x)=gcd(H,X),
+  gcd(R,y)=gcd(H,Y).                              (229BD.7)
+
+
+Define
+  J_EX=gcd(E,X),
+  J_EY=gcd(E,Y),
+  J_HX=gcd(H,X),
+  J_HY=gcd(H,Y).
+
+
+These four positive integers are pairwise coprime:
+  gcd(E,H)=1 in the outer primitive triple;
+  gcd(X,Y)=1 in the inner primitive triple;
+therefore a prime cannot appear in more than one of the four intersections.
+
+
+The full odd edge-content and space-content buckets are
+  A=O(J_EX J_EY),
+  C=O(J_HX J_HY),                                 (229BD.8)
+where O denotes odd part. The preexisting229AD/AS bucket labels may be identified with these products (up to the harmless X/Y label convention).
+
+
+6. Exact quotient-free radical invariant
+
+
+Retain229O:
+  G_* = gcd(eR,xy).
+
+
+Substitute (229BD.5):
+  eR=h^2 E H,
+  xy=d0^2 X Y.
+
+
+By the coprimalities established above,
+  gcd(h,d0 X Y)=1,
+  gcd(d0,h E H)=1.
+Consequently the positive integer gcd satisfies the exact equality
+  G_* = gcd(E H, X Y).                             (229BD.9)
+
+
+Since gcd(E,H)=gcd(X,Y)=1, it also factorizes as
+  G_* = J_EX J_EY J_HX J_HY,                       (229BD.10)
+with the four factors pairwise coprime.
+
+
+Therefore
+  (G_*)_odd=A C,
+  K_* = sf(gcd(EH,XY)),                            (229BD.11)
+with no h, d0 or t factor in the quotient-free radical receiver.
+
+
+Furthermore:
+  gcd(t,G_*)=1,
+  gcd(h,G_*)=1,
+  gcd(d0,G_*)=1,                                  (229BD.12)
+because t,h divide the inner hypotenuse q, which is coprime to XY, while d0 divides the outer leg Z, which is coprime to EH.
+
+
+RESULT_229BD_CROSS_GCD_MATRIX_AND_GSTAR_CROSSWALK=PROVED_EXACT.
+
+
+7. Exact physical tail expressed on two primitive triples
+
+
+For every fixed delta>0, the preferred Stage37 counting gate is exactly equivalent to
+  # { ordered pairs ((X,Y,q),(E,Z,H)) of primitive positive Pythagorean triples:
+       qH/gcd(q,Z) <= B;
+       the further exact current Stage37 physical host/selector masks hold under (229BD.5);
+       sf(gcd(EH,XY)) > B^(1/3-delta) }
+    = o(B^(1/3)).                                  (229BD.13)
+
+
+This equivalence has multiplicity ONE on ordered primitive-triple pairs and exactly preserves the original physical height and all retained masks. It is a theorem-facing support adapter, not a proof of the tail estimate.
+
+
+The new perspective cleanly separates:
+  radical receiver: gcd(EH,XY), independent of t;
+  physical height: qH/t;
+  glue: t=gcd(q,Z).
+
+
+8. Primitive Euclid-pair router for the shared t
+
+
+Write the inner primitive triple with coprime opposite-parity r>s:
+  q=r^2+s^2,
+  {X,Y}={2rs, r^2-s^2}.
+
+
+Write the outer primitive triple with coprime opposite-parity m>n:
+  H=m^2+n^2,
+  {E,Z}={2mn, m^2-n^2},
+with the chosen ordered placements retained.
+
+
+Then
+  t=gcd(r^2+s^2, Z(m,n)),                         (229BD.14)
+  R=(r^2+s^2)(m^2+n^2)/t.                          (229BD.15)
+
+
+Since t|q, all odd primes dividing t are 1 mod4, and t is odd. For each p^k||t,
+  r^2+s^2 == 0 mod p^k,
+with gcd(rs,p)=1, giving r==rho_p s mod p^k, rho_p^2==-1.
+
+
+The same p^k divides the chosen outer leg Z:
+- if Z=m^2-n^2, then m==+n or -n mod p^k (after a sign orientation);
+- if Z=2mn, then the whole odd prime power lies in m or in n because gcd(m,n)=1.
+
+
+These are exact necessary simultaneous congruence conditions, with at most subpower sign/allocation decorations in the physical B-height range. They are not independent sieve events and must NOT be multiplied as probabilities.
+
+
+RESULT_229BD_SHARED_t_COUPLED_PRIMITIVE_EUCLID_RECEIVER=PROVED_EXACT.
+
+
+9. Quantitative and Arsenal accounting
+
+
+The 229BC fixed-(G,h) theorem remains valid and unchanged:
+  N_{G,h}(B) << B^o(1)(1+B/(hG)).
+
+
+229BD does not sum it, does not prove distributional decay for t, and does not eliminate the complexity of the moving support by itself.
+
+
+What has changed is the exact source measure for future theorem matching:
+the triple (G,h,(m,n)) can be replaced, without multiplicity loss, by a pair of primitive Euclid packets linked by t=gcd(q,Z), provided every current physical mask is carried forward.
+
+
+Promising next theorem inputs:
+(A) a same-measure count of primitive Euclid-parameter pairs with the joint t congruence, exact product height (229BD.15), and large sf(gcd(EH,XY));
+(B) an exact divisor switch using t|q and t|Z, with gcd(t,G_*)=1, which does not recharge the already consumed raw G-modulus of229BC;
+(C) a quantitative decomposition into t-large / t-small (equivalently h-small / h-large) sectors with a certified global weighted support bound;
+(D) use the four coprime primitive cross-gcd components in (229BD.10) to match an existing Arsenal large-content theorem at the exact pair-of-triples measure.
+
+
+AR-009 / S36-PW07 are retained only as structural routers on the shared physical support, not independent density gains.
+229BB uniform Pell root completion remains charged once if used, never alongside an incompatible re-count of the same physical fibers.
+
+
+10. State and firewalls
+
+
+No existence or nonexistence conclusion for a perfect cuboid is claimed.
+No global population exponent improvement is claimed.
+Do not drop the additional M3 host/selector masks when passing to all primitive-triple pairs.
+Do not sum over t as if t were an independent free variable; it is the exact gcd(q,Z).
+Do not assume gcd(h,t)=1.
+Do not multiply the 229BC raw-G outer root-line density with the new t-lines without a joint same-measure theorem.
+Do not turn a bijection into a density saving.
+Do not reopen PAIR/LOCAL/A/FIB/TQ/CM/collision or other closed routes absent their explicit restart hypotheses.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=EXACT_DOUBLE_PRIMITIVE_PAIR_THEOREM_INTERFACE_ONLY.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_OPERATION=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+INTEGRATED_AUDIT_186_229O_SCOPE_UNCHANGED=true.
+
+
+11. Writeback and next chat
+
+
+This card is a new exact post-229 structural adapter. It supersedes neither the existing authority nor the 229BC fixed-(G,h) counting result.
+
+
+Current next operation:
+  investigate the t-divisor switch and a joint (G,t) theorem on exact two-primitive-triple pair measure under R=qH/t<=B, including all physical masks.
+
+
+Existing authority/credit/gate/closure/HOLD flags are unchanged.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

@@ -1,0 +1,267 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229Z — norm-twenty-five fixed genus-twenty-three selector closure
+
+
+STATUS: POST_229Y_NORM25_FIXED_SELECTOR_CLOSED / PROVED_NORM25_EXACT_CM_X_MAP / PROVED_NORM25_BASE_NORM_TO_FIXED_SMOOTH_GENUS23_CURVE / FALTINGS_GIVES_FINITE_NORM25_PARAMETER_AND_TWIST_SUPPORT / PROVED_NORM25_DEPENDENT_ENDPOINT_COUNT_Bo1 / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229Y ODD-NORM FIXED BASE-SELECTOR AUDIT / EXACT CM ADDITION FORMULA / FIXED HYPERELLIPTIC RECEIVER / SUBGATE CLOSURE
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229Y
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+
+
+1. Scope
+
+
+229W proved for EVERY odd Gaussian norm that a dependent physical point admits a rational preimage
+  Q in E_d(Q),
+with
+  P=[alpha]Q,
+  r=X(Q)/d=epsilon*t^2,  epsilon in {+1,-1},
+and that the remaining task for a fixed odd alpha is only its fixed base-selector curve.
+
+
+229Y closed norm17. The next unresolved primitive odd norm is25. The only primitive nonzero coordinate solutions a^2+b^2=25 are associates/conjugates of 3+4i. This card treats alpha=3+4i and closes the entire norm25 dependence branch at B^{o(1)}.
+
+
+No global Stage37 gate is closed.
+
+
+2. Exact norm25 CM x-map
+
+
+Work on
+  E_d: Y^2=X^3-d^2 X,
+with normalized coordinate
+  r=X(Q)/d.
+
+
+For alpha=3+4i, exact multiplication on the normalized j=1728 model gives
+
+
+  X([3+4i]Q)/d
+    = r * H_25(r)^2,                              (229Z.1)
+
+
+with
+  H_25(r)=(3-4i) A(r)/B(r),                      (229Z.2)
+
+
+where
+
+
+  A(r)
+   = r^12 +(-46-28i)r^10 +(59+12i)r^8
+     +(12-184i)r^6 +(-89+248i)r^4
+     +(2-44i)r^2 -3-4i,                          (229Z.3)
+
+
+  B(r)
+   =25r^12 +(170+140i)r^10 +(-725-1100i)r^8
+     +(700+600i)r^6 +(-225+200i)r^4
+     +(250-100i)r^2 -3+4i.                       (229Z.4)
+
+
+The identity was obtained from [3]Q+[4i]Q using exact group-law formulas on Y^2=X^3-X after normalization.
+
+
+All primitive norm25 slopes are associates/conjugates of 3+4i. Unit multiplication changes normalized x only by a sign and conjugation conjugates coefficients, so the physical norm-square condition below is the same for the full norm25 packet.
+
+
+RESULT_229Z_NORM25_EXACT_CM_X_MAP=PROVED_EXACT.
+
+
+3. Physical base selector becomes one fixed curve
+
+
+Retain 229W:
+  r=epsilon*t^2,   t in Q^*,
+and choose eta in {1,i} with eta^2=epsilon.
+
+
+From (229Z.1),
+  p=plus/minus eta*t*H_25(r)
+is a Gaussian square root of X(P)/d on the physical branch. Therefore
+  N(p)=t^2 N(H_25(r)).                            (229Z.5)
+
+
+Since
+  N(3-4i)=25=5^2
+is already a rational square, the physical 229J base condition
+  N(p) in Q^{*2}
+is equivalent to
+  N(A(r))/N(B(r)) in Q^{*2}.                     (229Z.6)
+
+
+Exact conjugate multiplication gives
+
+
+  A_25(r):=N(A(r))
+   = r^24 -92r^22 +3018r^20 -6076r^18
+     +12647r^16 -8696r^14 +31724r^12
+     -93720r^10 +85215r^8 -20780r^6
+     +490r^4 +340r^2 +25,                        (229Z.7)
+
+
+  B_25(r):=N(B(r))
+   =625r^24 +8500r^22 +12250r^20 -519500r^18
+     +2130375r^16 -2343000r^14 +793100r^12
+     -217400r^10 +316175r^8 -151900r^6
+     +75450r^4 -2300r^2 +25.                     (229Z.8)
+
+
+Thus every physical norm25 dependent endpoint maps to the fixed hyperelliptic curve
+
+
+  C_25:
+  U^2=A_25(r) B_25(r).                            (229Z.9)
+
+
+Both factors are even in r, so the sign epsilon creates no separate receiver.
+
+
+RESULT_229Z_NORM25_BASE_SELECTOR_TO_FIXED_CURVE=PROVED_EXACT.
+
+
+4. C_25 is smooth of genus 23
+
+
+Exact polynomial arithmetic gives
+
+
+  Disc(A_25)=2^552 * 5^22 !=0,
+  Disc(B_25)=2^552 * 5^114 !=0,
+  Res(A_25,B_25)=2^588 * 5^48 !=0.               (229Z.10)
+
+
+Therefore A_25 and B_25 are individually squarefree and coprime. Their product is squarefree of degree48.
+
+
+Hence the smooth projective model of C_25 has genus
+  g=(48-2)/2=23.                                  (229Z.11)
+
+
+RESULT_229Z_NORM25_FIXED_CURVE_SMOOTH=PROVED_EXACT.
+RESULT_229Z_NORM25_FIXED_CURVE_GENUS=23.
+
+
+5. Faltings closes norm25 support and count
+
+
+Retain the Faltings input already accepted in 229U/229W/229X/229Y: a smooth projective curve of genus greater than1 over Q has finitely many Q-rational points.
+
+
+Since C_25 has genus23,
+  C_25(Q)
+is finite. Hence only finitely many rational r occur in physical norm25 dependence.
+
+
+For Q=(dr,y_Q) in E_d(Q),
+  (y_Q/d)^2=d*r*(r^2-1),
+so
+  [d]=[r(r^2-1)]
+in Q^*/Q^{*2}.                                    (229Z.12)
+
+
+Each surviving rational r fixes at most one canonical positive squarefree twist d. Thus norm25 dependence realizes only finitely many canonical d.
+
+
+Retain 229L: for every fixed canonical d, the number of positive physical endpoints with R_phys<=B mapping to E_d is uniformly B^{o(1)}.
+
+
+The associate/conjugate norm25 packet is finite. Consequently
+
+
+  #{positive physical endpoints R_phys<=B
+      in CM dependence with N(alpha)=25}
+    =B^{o(1)}
+    =o(B^{1/3}).                                  (229Z.13)
+
+
+RESULT_229Z_NORM25_RATIONAL_r_SUPPORT=FINITE_BY_FALTINGS.
+RESULT_229Z_NORM25_REALIZED_TWIST_SUPPORT=FINITE.
+RESULT_229Z_NORM25_DEPENDENT_ENDPOINT_COUNT=B^{o(1)}.
+RESULT_229Z_NORM25_BRANCH=CLOSED_FOR_STAGE37_ONE_THIRD_BUDGET.
+
+
+6. Updated CM dependence status
+
+
+- norm2: physically empty by229S;
+- norm5: B^{o(1)}, closed by229U;
+- norm10: B^{o(1)}, closed by229X;
+- all odd norms: preimages rationalized by229W;
+- norm13: B^{o(1)}, closed by229W;
+- norm17: B^{o(1)}, closed by229Y;
+- norm25: B^{o(1)}, closed by229Z;
+- next unresolved primitive odd norm:29;
+- remaining even norms >10: parity-aware bounded-image analysis remains open.
+
+
+This is subgate counting credit only. It does not change the preferred whole-population radical-gcd gate.
+
+
+7. Global route status
+
+
+CURRENT_PREFERRED_GATE remains
+  #{positive primitive physical endpoints R_phys<=B:
+      sf(gcd(e R_phys, x y))>B^(1/3-delta)}
+    =o(B^(1/3))
+for some fixed delta>0.
+
+
+GAUSSIAN_TWIST_RADICAL_GCD remains CONDITIONAL_RESERVE/THEOREM_WATCH.
+
+
+Useful next inputs:
+(A) a UNIFORM theorem for all remaining bounded odd CM slopes, preferred over indefinite fixed-norm iteration;
+(B) norm29 fixed base-selector audit if no uniform argument is obtained;
+(C) remaining even-norm parity analysis;
+(D) direct same-physical radical-support theorem, still the preferred whole-population input.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+PRIMARY_GATE_STATUS=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+
+
+8. Verification scope
+
+
+Within-session exact symbolic verification:
+- the normalized [3+4i] x-map equals r times the exact square in (229Z.1)-(229Z.4);
+- exact conjugate norms give A_25 and B_25 in (229Z.7)-(229Z.8);
+- Disc(A_25)=2^552*5^22;
+- Disc(B_25)=2^552*5^114;
+- Res(A_25,B_25)=2^588*5^48;
+- therefore the degree-48 branch polynomial is squarefree and C_25 has genus23.
+
+
+This is not an independent hostile audit. Integrated audit186–229O remains unchanged in scope and is not silently extended to229P–Z.
+
+
+9. Sources checked
+
+
+Internal:
+- Stage37-NEW-INPUT-DELTA-AUDIT-229Y;
+- 229W all-odd rationalization and fixed-selector pattern;
+- 229L fixed-d B^{o(1)} fiber;
+- 229J physical Gaussian base selector;
+- current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+External theorem:
+- no new theorem species. Faltings is reused through the already accepted earlier Stage37 input.
+
+
+FINAL_READBACK_RECEIPT: PENDING_WRITEBACK.

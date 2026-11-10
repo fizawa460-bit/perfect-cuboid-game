@@ -1,0 +1,100 @@
+{
+  "schema": "STAGE37_GOOGLE_DRIVE_SOURCE_MIRROR_COMPLETE_V1",
+  "prepared_at": "2026-11-10",
+  "status": "CONTENT_MIRROR_COMPLETED_ON_UNMERGED_DRAFT_PR_1867",
+  "github_branch": "stage37-drive-authoritative-source-sync-20261110",
+  "source_authority": "Google Drive native Stage37 source as of 2026-10-12 for management state",
+  "parent_drive_folder": "https://drive.google.com/drive/folders/1k517ClZPSIFbPi2jKROLJrYilt4XYe1p",
+  "file_count": 1138,
+  "folder_scopes": [
+    {
+      "name": "stage37root",
+      "files": 5,
+      "inventory": "stages/stage37/drive-snapshot-20261110/stage37root/INVENTORY.json",
+      "storage": "stages/stage37/drive-snapshot-20261110/stage37root/batch-000-part-*.json",
+      "readback": "PASS_5_FULL_TEXT"
+    },
+    {
+      "name": "cards",
+      "files": 447,
+      "inventory": "stages/stage37/drive-snapshot-20261110/cards/INVENTORY.json",
+      "storage": "stages/stage37/drive-snapshot-20261110/cards/slice-*.json",
+      "readback": "PASS_447_IDS; 4_MIRRORED_SEPARATELY; 3_SOURCE_EMPTY"
+    },
+    {
+      "name": "audit",
+      "files": 169,
+      "inventory": "stages/stage37/drive-snapshot-20261110/audit/INVENTORY.json",
+      "storage": "stages/stage37/drive-snapshot-20261110/audit/batch-*.json, slice-*.json",
+      "readback": "PASS_169_IDS_AND_CONTENT"
+    },
+    {
+      "name": "individual",
+      "files": 457,
+      "inventory": "stages/stage37/drive-snapshot-20261110/individual/INVENTORY.json",
+      "storage": "stages/stage37/drive-snapshot-20261110/individual/slice-*.json",
+      "readback": "PASS_457_IDS_AND_CONTENT"
+    },
+    {
+      "name": "legacy",
+      "files": 5,
+      "inventory": "stages/stage37/drive-snapshot-20261110/legacy/INVENTORY.json",
+      "storage": "stages/stage37/drive-snapshot-20261110/legacy/doc-*, sheet-2",
+      "readback": "PASS_ARCHIVE_PARTS_18_OF_18"
+    },
+    {
+      "name": "legacy_moved",
+      "files": 55,
+      "inventory": "stages/stage37/drive-snapshot-20261110/legacy_moved/INVENTORY.json",
+      "storage": "stages/stage37/drive-snapshot-20261110/legacy_moved/slice-*.json",
+      "readback": "PASS_55_IDS_AND_CONTENT"
+    }
+  ],
+  "source_empty_documents": [
+    {
+      "scope": "cards",
+      "ordinal": 94,
+      "note": "See cards inventory for exact Drive ID; native Docs source-empty independently verified by Google Docs API",
+      "drive_id": "1qKVqK_VHHDNz6-PxKH3vrzhvlXe0uPjEZDkMs7tT6Ms",
+      "source_record_classification": "SOURCE_EMPTY_DO_NOT_INVENT_PROOF",
+      "storage": "stages/stage37/drive-snapshot-20261110/cards/slice-80-95.json"
+    },
+    {
+      "scope": "cards",
+      "ordinal": 95,
+      "note": "See cards inventory for exact Drive ID; native Docs source-empty independently verified by Google Docs API",
+      "drive_id": "1eL9jH0hTVAcn1C38vWMbjGpqrYeZzkTL7VqIAFzIKtE",
+      "source_record_classification": "SOURCE_EMPTY_DO_NOT_INVENT_PROOF",
+      "storage": "stages/stage37/drive-snapshot-20261110/cards/slice-80-95.json"
+    },
+    {
+      "scope": "cards",
+      "ordinal": 305,
+      "drive_id": "1oB5QfXcPydvW3GIe4LUD2hDBtaDUZ0xjac3RQbRuD-0",
+      "note": "Drive connector returned empty native document",
+      "source_record_classification": "SOURCE_EMPTY_DO_NOT_INVENT_PROOF",
+      "storage": "stages/stage37/drive-snapshot-20261110/cards/slice-304-319.json"
+    }
+  ],
+  "source_copied_separately": {
+    "current_result_ledger": "stages/stage37/drive-snapshot-20261110/current-docs/RESULT-LEDGER/",
+    "current_negative_register": "stages/stage37/drive-snapshot-20261110/current-docs/NEGATIVE-REGISTER/",
+    "current_index_sheet_export": "stages/stage37/drive-snapshot-20261110/current-index/",
+    "legacy_large_route": "stages/stage37/drive-snapshot-20261110/historical-large/LEGACY-ROUTE-TRIVIAL-SPLIT-CYCLE/"
+  },
+  "current_state": "stages/stage37/MAIN-STATE.json",
+  "latest_card": "Stage37-NEW-INPUT-DELTA-AUDIT-229HI-A47",
+  "stage37_closed": false,
+  "primary_gate": "M3-T11-GATE-001",
+  "primary_gate_closed": false,
+  "global_counting_credit": 0,
+  "external_math_audit_required_for_sync": false,
+  "mathematical_claims_promoted_by_sync": false,
+  "format_caveats": [
+    "Google Docs text is transferred as readable text, not source-byte-identical native Google Docs binaries/formatting.",
+    "Card-index Google Sheets workbooks are exported as XLSX and may differ in native-only formulas, derived cells and visual presentation.",
+    "Three native Google Docs were empty at source; not fabricated as text.",
+    "Historical ROUTE and legacy documents remain history-only, not current research authority."
+  ],
+  "live_native_spreadsheet_issue": "CARD-INDEX AI-10 derived semantic recall contains preexisting #REF! / HOLD; canonical カード一覧 row728 is the source."
+}

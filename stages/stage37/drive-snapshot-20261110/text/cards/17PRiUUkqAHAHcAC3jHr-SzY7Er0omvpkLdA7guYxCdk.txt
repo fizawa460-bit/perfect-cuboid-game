@@ -1,0 +1,59 @@
+﻿STAGE37-NEW-INPUT-DELTA-AUDIT-229HI-A40
+TITLE: ALL-HEIGHT TRUE-PHYSICAL MACROSCOPIC POSITIVE-ANGLE EXCLUSION FOR VALID HI150 KEY 000.011.102:0; EXACT FIRST-PAIR SUPPORT QUANTIFICATION
+DATE=2026-10-12 JST; PREVIOUS=A39; CANONICAL_CARD_INDEX_NEW_ROW=721; CARD_ID=17PRiUUkqAHAHcAC3jHr-SzY7Er0omvpkLdA7guYxCdk.
+STATUS=PROVED_SCOPED_ALL_HEIGHT_SOURCE_CONDITIONED_PHYSICAL_ZERO_ON_TWO_ANGULAR_WEDGES / MACROSCOPIC_FIRST_PAIR_SUPPORT_REMOVED / NOT_AN_UNRESTRICTED_oQ_COUNT / GLOBAL_CREDIT0.
+AUTHORITY: M3-T11-229 operational; M3-T11-228 last construction; M3-T11-230 NOT ISSUED; primary gate M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; production HOLD; potential130/unaccounted128 unchanged; closure unchanged; external FJ/FO hostile audit NOT RUN; GitHub NOT USED; formal ROUTE_SWITCH NONE.
+
+
+1. SOURCE AND PHYSICAL SCOPE
+Keep exactly canonical 414/HI remaining150/FJ330 signed j=000.011.102:0, validated in A37, not invalid A36 or old HI-empty A28-A35. For an ORIGINAL positive primitive SAME-P full-four-square point with squarefree R=pqr and 5<=p<q<r rational split primes, write primitive positive Gaussian prime-square legs p²=a²+b², q²=c²+d², r²=h²+w², a,c,h odd and b,d,w positive divisible by4. Let t=b/a>0, X=d/c>0, Y=w/h>0. Retained necessary signed source f(t,X,Y)=0 where
+  f = t(X+t)Y²+(tX²-2X-t)Y+tX(tX-1).
+All original HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/K-null/EX, positivity, primitivity, R<=B remain same-P filters; no sufficiency of the signed source equation is asserted.
+Set u=tX=bd/(ac)>0. Then exactly
+  f = (t²+u)Y² + ((u(u-2)-t²)/t)Y + u(u-1).       (A40.1)
+This is a positive-leading quadratic on Y>0.
+
+
+2. NEW EXACT ZERO PHYSICAL WEDGES FOR ALL p,q,r HEIGHTS
+THEOREM A40.1: No positive Y can satisfy this genuine j-source whenever
+  (W1) u>=2; OR
+  (W2) t>=1 AND u>=3/2.
+Equivalently no original assigned physical point exists if bd>=2ac OR [b>=a AND 2bd>=3ac]. These are exact, all-height, no prime cutoff, no third-root-height assumption, and they include balanced moving p,q,r~Q (unlike A39 r>=pq²/4 high tail). The zero count is for this ONE validated signed source-conditioned physical subpopulation only; not whole original P, not all HI150.
+PROOF W1: Write f=AY²+BY+C with A=t²+u, B=X(u-2)-t and C=u(u-1). If u>=2, A>0,C>=2. If B>=0, f>0 for Y>0. If B<0, 0<-B=t-X(u-2)<=t, whereas 4AC>=8(t²+2)>t²>=B². Thus discriminant B²-4AC<0; no real root.
+PROOF W2: W1 already handles u>=2. For 3/2<=u<2 and t>=1, A=t²+u>=t²+3/2, C=u(u-1)>=3/4, and B=-(t+u(2-u)/t)<0. Since u(2-u)<=3/4 on [3/2,2], B²<=(t+3/(4t))²=t²+3/2+9/(16t²)<=t²+33/16. But 4AC>=3(t²+3/2)=3t²+9/2; as t>=1 this strictly exceeds the prior bound. Hence D<0 and no positive Y.
+UNIFORM SHARPNESS OF W1 AS A REAL PRODUCT-ONLY RULE: For any fixed 1<u<2 choose t>0 small and X=u/t. Then B=(u(u-2)-t²)/t<0, C=u(u-1)>0 and t² D tends to u²(u-2)²>0. Thus two positive REAL Y exist for sufficiently small t, so the threshold u=2 cannot be lowered as a universal product-only real-positivity exclusion. This does NOT assert rational Gaussian-prime triples exist at those angles.
+
+
+3. EXECUTED EXACT DYADIC ANGULAR SUPPORT TEST — NOT AN ACTUAL PHYSICAL COUNT
+Independent integer enumeration of all rational primes 8192<=p<q<16384 with p,q≡1(mod4), each represented uniquely by p=u0²+v0², u0>v0>0, and p²=(u0²-v0²)²+(2u0v0)². There are 432 split primes and 93096 ordered first pairs. For the specific j key, W1 excludes 32672 first pairs; W2 excludes 30119 (overlap retained); their UNION excludes EXACTLY 36124 distinct first pairs, leaving 56972 without this particular real-sign exclusion (36124/93096=38.8% rounded). Independent proof of all-height zero uses the inequalities, NOT this cutoff; these numbers measure FIRST-PAIR PRIME-ANGLE SUPPORT ONLY, NOT actually occupied primitive P. Indeed A37 already proves zero rational Y for ALL p<q<=300000, including the ENTIRE finite displayed shell, so none of this finite zero is separately recredited as novel physical exclusion.
+Reproducible Python3 shell checker (sympy primerange):
+from math import isqrt
+from sympy import primerange
+P=[]
+for prime in primerange(8192,16384):
+    if prime%4!=1:continue
+    for u0 in range(1,isqrt(prime)+1):
+        vv=prime-u0*u0
+        v0=isqrt(vv)
+        if vv>0 and v0*v0==vv and u0>v0:
+            P.append((prime,u0*u0-v0*v0,2*u0*v0));break
+assert len(P)==432
+n1=n2=both=0
+for i,(p,a,b) in enumerate(P):
+    for q,c,d in P[i+1:]:
+        w1=(b*d>=2*a*c)
+        w2=(b>=a and 2*b*d>=3*a*c)
+        n1+=w1;n2+=w2;both+=(w1 and w2)
+assert (n1,n2,n1+n2-both)==(32672,30119,36124)
+assert len(P)*(len(P)-1)//2==93096
+print("PASS",n1,n2,n1+n2-both,"remaining",93096-(n1+n2-both))
+END CHECK.
+
+
+4. FULL-HISTORY LOOP / NEGATIVE AND STRATEGY AUDIT
+Screened all 719 earlier native CARD-INDEX source records rows2:720, not merely last5, across signed valid-source angle, positive-cone, norm-divisor, dyadic FIRST-PAIR, real root, physical GOOD(p,r), and related failures/HOLD/retractions. Exact valid j appears only A37 row718, A38 row719, A39 row720; none previously gave its all-height TWO real-angle zero wedges. A28-A35 rows709:716 angle methods used DIFFERENT j000.001.010:0 already HI681 globally empty; no reuse/credit. A36 row717 j000.001.011:0 noncanonical RETRACTED; A11 row692 RETRACTED by A12. A37 q<=300000 integer-D-square finite ZERO supersedes any finite angular counts in its overlap; A38/GX670/HC675 old r|M and A39 r<pq²/4 and <=2 candidates are different exact filters. Earlier A2 aspect exclusions concern different keys; 229GT row666 small rational PRIME GAP physical sieve is different; 229HA row673 determinant-bad r physical o(Q) relies on GG.1; NEG DT/DU/GW/GZ block independent density products; Wminus 229AR row509 scalar threshold same-P without occupied-image theorem.
+Latest five A35-A39 still do NOT improve unrestricted count #P(B)=o(B^(1/3)) or occupied GOOD(p,r)=o(Q). Explicit portfolio: finite q extension REJECT as loop; local independent sieve REJECT by NEG; 229AR Wminus PREFLIGHT finds O(B²)-height scalar with NO proved occupied-value/fiber count, so not a qualifying route-switch gain (formal switch NONE); selected and EXECUTED exact positive-angle analysis of the single truly live j, yielding genuine all-height zero on macroscopic angular sectors. But 56972/93096 unrestricted source-support complement in the example and asymptotic O(Q²/log²Q) first-pair envelope remain too large, and no actual density transfer follows from 38.8%. The new mathematical claim is source-conditioned REAL angular exclusion, not a full averaged-physical counting theorem. Other149 HI / other FJ330 / omega>=4 / repeated exponents open.
+
+
+5. NEXT PROOF INPUT
+On this same legal j, characterize the remaining exact positive-root-angle region (especially 0<u<3/2 and t<1 with 3/2<=u<2) together with the original integer discriminant square D, the primitive signed third r²=h²+w², and A39 r|M/4 at R<=B, then PROVE occupied moving outer GOOD(p,r)=o(Q) or fixed-power original physical #P bound. Try a true SAME-P averaged bilinear/signed-discriminant estimate, not extrapolation of the 36124/93096 finite first-pair percentage and not more narrow arbitrary sectors. If no quantitative occupancy theorem, advance the established 229AR/high-Gres/Kcross alternative through its prescribed INDEPENDENT route-switch preflight, without changing formal route prematurely. Authority/credit/gate/closure/HOLD remain unchanged.

@@ -1,0 +1,76 @@
+﻿STAGE37-A24 NATIVE EXACT C++ REPLAY CERTIFICATE — 2026-10-12 JST
+SOURCE STATUS: independently executed in this batch using g++ -O3 -std=c++17; NOT external hostile proof audit.
+Compile first section as a24_fo.cpp, second section as a24_even.cpp. Binary arguments integer endpoints inclusive.
+./a24_fo 5 1193 -> split_primes=95 pairs=4465 templates=1848510 parity_eligible_roots=169712 square_norm_occurrences=142880 square_norm_not_p_q_pq=0 DISTINCT_THIRD_R_GT_Q=0
+./a24_fo 5 8192 -> split_primes=509 pairs=129286 templates=53524404 parity_eligible_roots=4912948 square_norm_occurrences=4137152 square_norm_not_p_q_pq=0 prime_norm_occurrences=2585720 DISTINCT_THIRD_R_GT_Q=0 occupied_first_prime_pairs=0
+./a24_fo 4096 8192 -> split_primes=233 pairs=27028 templates=11189592 parity_eligible_roots=1027064 square_norm_occurrences=864896 square_norm_not_p_q_pq=0 DISTINCT_THIRD_R_GT_Q=0
+./a24_even 4096 8192 -> eligible_primes=115 triples=246905 exact_even_leg_3sets=70614830 pythagorean_3sets=0 occupied_R=0
+All arithmetic checks exact for tested height. FJ/FO source necessity inherited, independent hostile completeness HOLD, no asymptotic inference.
+
+
+===== BEGIN FILE a24_fo.cpp =====
+#include <bits/stdc++.h>
+using namespace std;using i128=__int128_t;using u64=uint64_t;
+struct Z{long long a,b;};Z mul(Z x,Z y){return {x.a*y.a-x.b*y.b,x.a*y.b+x.b*y.a};}
+struct C{long long A,B,D;};
+C coeff(Z pq,int j){long long c=pq.a,d=pq.b;if(j==1)return {d*d,0,d*d};return {d*d,(j==0?-2LL:2LL)*c*d,c*c};}
+long long sq128(i128 x){if(x<0)return -1;long double t=sqrtl((long double)x);long long y=(long long)t;while((i128)y*y>x)--y;while((i128)(y+1)*(y+1)<=x)++y;return y;}
+u64 mmul(u64 a,u64 b,u64 m){return (u64)((__uint128_t)a*b%m);}u64 power(u64 a,u64 n,u64 m){u64 r=1;for(;n;n>>=1,a=mmul(a,a,m))if(n&1)r=mmul(r,a,m);return r;}
+bool prime(u64 n){if(n<2)return false;for(u64 p:{2ULL,3ULL,5ULL,7ULL,11ULL,13ULL,17ULL,19ULL,23ULL,29ULL,31ULL,37ULL}){if(n%p==0)return n==p;}u64 d=n-1,s=0;while(!(d&1)){d>>=1;s++;}for(u64 a:{2ULL,325ULL,9375ULL,28178ULL,450775ULL,9780504ULL,1795265022ULL}){if(a%n==0)continue;u64 x=power(a%n,d,n);if(x==1||x==n-1)continue;bool ok=false;for(u64 j=1;j<s;j++){x=mmul(x,x,n);if(x==n-1){ok=true;break;}}if(!ok)return false;}return true;}
+vector<array<int,3>> codes;vector<array<int,3>> tri;
+void prepare(){for(int a=0;a<3;a++)for(int b=0;b<3;b++)for(int c=0;c<3;c++){array<int,3> x={a,b,c},y={2-a,2-b,2-c};if(x==array<int,3>{1,1,1})continue;if(x<y)codes.push_back(x);}for(int a=0;a<13;a++)for(int b=a+1;b<13;b++)for(int c=b+1;c<13;c++){bool valid=true;for(int k=0;k<3;k++)if((codes[a][k]==1)+(codes[b][k]==1)+(codes[c][k]==1)>1)valid=false;if(valid)tri.push_back({a,b,c});}if(codes.size()!=13||tri.size()!=138)throw 1;}
+int main(int argc,char**argv){int lo=stoi(argv[1]),hi=stoi(argv[2]);vector<int> sieve(hi+1,1);sieve[0]=sieve[1]=0;for(int i=2;i*i<=hi;i++)if(sieve[i])for(int j=i*i;j<=hi;j+=i)sieve[j]=0;vector<int> P;vector<Z> H;for(int p=lo;p<=hi;p++)if(sieve[p]&&p%4==1){int a=0,b=0;for(int v=2;v*v<p;v+=2){int u=(int)sqrt((double)(p-v*v));while((long long)(u+1)*(u+1)<=p-v*v)++u;while((long long)u*u>p-v*v)--u;if((long long)u*u+v*v==p && u%2){a=u;b=v;break;}}if(!a){cerr<<"bad sum2 "<<p;return 1;}P.push_back(p);H.push_back({(long long)a*a-b*b,2LL*a*b});}
+prepare();unsigned long long templates=0,nonzero=0,roots=0,normsq=0,normsqOthers=0,primes=0,exterior=0,primepairs=0,finite=0;set<u64> normSpecial;vector<tuple<int,int,u64,int,int,int>> ex;int N=P.size();
+for(int i=0;i<N;i++)for(int j=i+1;j<N;j++){
+Z f[3]={{H[i].a,-H[i].b},{P[i],0},H[i]};Z g[3]={{H[j].a,-H[j].b},{P[j],0},H[j]};
+C cc[13];for(int k=0;k<13;k++){const auto& t=codes[k];cc[k]=coeff(mul(f[t[0]],g[t[1]]),t[2]);}
+bool pairHit=false; int this_p=0,this_q=0,this_pq=0,this_other=0;
+for(auto z:tri)for(int hyp=0;hyp<3;hyp++){
+int idx[3]={z[0],z[1],z[2]};C u=cc[idx[(hyp+1)%3]],v=cc[idx[(hyp+2)%3]],w=cc[idx[hyp]];
+long long A=u.A+v.A-w.A,B=u.B+v.B-w.B,D=u.D+v.D-w.D;templates++;
+if(A==0&&B==0&&D==0){cerr<<"IDENTICAL_ZERO i="<<P[i]<<" j="<<P[j]<<"\n";return 2;}
+vector<pair<long long,long long>> rts;
+if(A){i128 disc=(i128)B*B-4*(i128)A*D;if(disc>=0){long long s=sq128(disc);if((i128)s*s==disc){for(int sg:{-1,1}){i128 num=-(i128)B+sg*(i128)s;long long den=2*A;if(num>LLONG_MAX||num<LLONG_MIN)throw 4;long long T=(long long)num,W=den;if(T&&W && ((T>0)==(W>0))){T=llabs(T);W=llabs(W);long long h=gcd(T,W);T/=h;W/=h;if(T%2&&W%4==0)rts.push_back({T,W});}}}}}
+else if(B){long long T=-D,W=B;if(T&&W && ((T>0)==(W>0))){T=llabs(T);W=llabs(W);long long h=gcd(T,W);T/=h;W/=h;if(T%2&&W%4==0)rts.push_back({T,W});}}
+for(auto [T,W]:rts){roots++;i128 n=(i128)T*T+(i128)W*W;long long r=sq128(n);if((i128)r*r!=n)continue;normsq++;normSpecial.insert((u64)r); if(r==P[i])this_p++;else if(r==P[j])this_q++;else if(r==(long long)P[i]*P[j])this_pq++;else this_other++;
+if(r!=P[i] && r!=P[j] && r!=(long long)P[i]*P[j]){normsqOthers++;if(ex.size()<20)ex.emplace_back(P[i],P[j],r,z[0],z[1],z[2]);}
+if(prime(r)){primes++;if(r>P[j] && r!=P[i]){exterior++;pairHit=true;if(ex.size()<20)ex.emplace_back(P[i],P[j],r,z[0],z[1],z[2]);}}
+}
+}
+if(this_p!=10||this_q!=10||this_pq!=12||this_other!=0){cerr<<"PROFILE_FAIL p="<<P[i]<<" q="<<P[j]<<" counts="<<this_p<<","<<this_q<<","<<this_pq<<","<<this_other<<"\n";return 7;} if(pairHit)primepairs++;
+}
+cout<<"interval="<<lo<<".."<<hi<<" split_primes="<<N<<" pairs="<<N*(N-1)/2<<" templates="<<templates<<" parity_eligible_roots="<<roots<<" square_norm_occurrences="<<normsq<<" square_norm_not_p_q_pq="<<normsqOthers<<" prime_norm_occurrences="<<primes<<" DISTINCT_THIRD_R_GT_Q="<<exterior<<" occupied_first_prime_pairs="<<primepairs<<"\n";
+for(auto [p,q,r,a,b,c]:ex)cout<<"possible p="<<p<<" q="<<q<<" r="<<r<<" codes="<<a<<","<<b<<","<<c<<"\n";
+}
+===== END FILE a24_fo.cpp =====
+
+
+===== BEGIN FILE a24_even.cpp =====
+#include <bits/stdc++.h>
+using namespace std;
+using i128=__int128_t;
+struct Z{long long a,b;};
+Z mul(Z x,Z y){return {x.a*y.a-x.b*y.b,x.a*y.b+x.b*y.a};}
+int main(int argc,char**argv){int lo=stoi(argv[1]), hi=stoi(argv[2]);vector<int> isp(hi+1,1);isp[0]=isp[1]=0;for(int i=2;i*i<=hi;i++)if(isp[i])for(int j=i*i;j<=hi;j+=i)isp[j]=0;
+vector<int> P;vector<Z> H;for(int p=lo;p<=hi;p++)if(isp[p]&&p%8==1){int a=0,b=0;for(int v=2;v*v<p;v+=2){int u=(int)sqrt((double)(p-v*v));while((long long)(u+1)*(u+1)<=(long long)p-v*v)++u;while((long long)u*u>(long long)p-v*v)--u;if((long long)u*u+v*v==p && u%2){a=u;b=v;break;}}if(!a){cerr<<"bad sum2 "<<p<<"\n";return 1;} P.push_back(p);H.push_back({(long long)a*a-b*b,2LL*a*b});}
+unsigned long long count=0, checked=0, any=0, nonzero=0, anyOuter=0, boundsCheck=0;int n=P.size();
+for(int i=0;i<n;i++)for(int j=i+1;j<n;j++)for(int k=j+1;k<n;k++){
+long long R=(long long)P[i]*P[j]*P[k];
+Z forms[3][3]={{{P[i],0},H[i],{H[i].a,-H[i].b}},{{P[j],0},H[j],{H[j].a,-H[j].b}},{{P[k],0},H[k],{H[k].a,-H[k].b}}};
+vector<long long> evens;evens.reserve(26);
+for(int u=0;u<3;u++)for(int v=0;v<3;v++)for(int w=0;w<3;w++) {Z z=mul(mul(forms[0][u],forms[1][v]),forms[2][w]);if((i128)z.a*z.a+(i128)z.b*z.b!=(i128)R*R){cerr<<"bad Gaussian norm";return 2;}if(z.b){long long s=llabs(z.b); if(s%4 || s>=R){cerr<<"bad parity";return 3;}evens.push_back(s);}}
+sort(evens.begin(),evens.end());evens.erase(unique(evens.begin(),evens.end()),evens.end());if(evens.size()!=13){cerr<<"bad size "<<R<<" "<<evens.size()<<"\n";return 4;}
+bool found=false;
+for(int a=0;a<13;a++)for(int b=a+1;b<13;b++)for(int c=b+1;c<13;c++){
+checked++;
+i128 x=(i128)evens[a]*evens[a]+(i128)evens[b]*evens[b],y=(i128)evens[c]*evens[c];
+if(x==y){found=true;any++; if(any<=20)cerr<<"witness R="<<R<<" legs="<<evens[a]<<","<<evens[b]<<","<<evens[c]<<"\n";}
+}
+count++;if(found){nonzero++;}
+}
+cout<<"Q_LO="<<lo<<" Q_HI="<<hi<<" eligible_primes="<<n<<" triples="<<count<<" exact_even_leg_3sets="<<checked<<" pythagorean_3sets="<<any<<" occupied_R="<<nonzero<<"\n";
+return 0;}
+===== END FILE a24_even.cpp =====
+
+
+CERTIFICATE FIREWALL: First source uses floating sqrt only to seed integer-corrected isqrt loops: all square equality checks exact integer and no cutoff on r. FJ/FO original classifier sufficiency/completeness is inherited and hostile audit HOLD; no proof that diagonal32 persists beyond tested p,q. Finite first-pair q<=8192 does not imply any uniform o(Q) moving-pair bound.

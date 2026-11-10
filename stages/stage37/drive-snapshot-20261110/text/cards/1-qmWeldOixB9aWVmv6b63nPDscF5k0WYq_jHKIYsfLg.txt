@@ -1,0 +1,57 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229EP
+ADAPTIVE HIGH-DISTINCT-PRIME CONDUCTOR SUPPRESSION ON ACTUAL MEDIUM-EDGE FOUR-SQUARE POINTS
+STATUS=PROVED_UNCONDITIONAL_TRUE_FULL_PHYSICAL_ADAPTIVE_LARGE_OMEGA_Q_POWER_SAVING / SQUAREFREE_DOMINANT_MEDIUM_EDGE_HIGH_SUPPORT_PACKET / GLOBAL_COUNTING_CREDIT=0
+CARD_DOC_ID=1-qmWeldOixB9aWVmv6b63nPDscF5k0WYq_jHKIYsfLg
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229EO
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED; PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT; INDEPENDENT_HOSTILE_AUDIT_229EP=NOT_RUN; 229EG/EL independent hostile audits NOT_RUN.
+1. CURRENT AUTHORITY / EXACT SOURCE / DEDUPE
+MAIN first current override229EO, CARD-INDEX カード一覧 row610, RESULT-LEDGER first229EO, active ROUTE first229EO and research-card229EO aligned before research. NEG recent229EO and earlier229EN plus historical229DW/DX,229DT-A1 matching scope considered. Original positive primitive full four-square points P=(e,x,y,U,V,z,R) satisfy e²+x²=U², e²+y²=V², x²+y²=z², e²+x²+y²=R², gcd(e,x,y)=1, R<=B, original chamber, high sf(G0)>B^(1/3-delta), high Kcross/rad(Sd), q_Uzq_Vz/Gres K-null, six ordinary primitive face/space hypotenuses and both macro primitive legs high when counting the Stage37 high population. G0=gcd(eR,xy), q=q_Uz*q_Vz is ODD and divides both e and G0 by retained229DS. 229EN already proved fixed labeled edge E full physical all-height fiber F(E)<=d8(E); 229EO just proved compressed squarepart-edge d24 fiber and removed large composite square part of q; 229DW large REPEATED p^n in q;229DX q large with bounded squarefree kernel. None of these counts the present many DISTINCT q-primes event; no independent local prime density allowed. Scoped CARD-INDEX searches 'high omega','large omega','many distinct prime','omega(q_Uz','prime support cardinality','squarefree conductor many' did not surface a previous same q-prime-complexity physically counted packet. Older smooth Rankin229BQ applies to a different scalar and is not miscredited here.
+2. THEOREM EP.1 — WEIGHTED GLOBAL PRIME-SUPPORT LARGE DEVIATION FOR THE SAME ACTUAL FIXED-EDGE PHYSICAL FIBERS
+Let omega(n) denote the NUMBER of distinct rational prime factors. For every B sufficiently large, every 1<=E<=B^(1/2), every fixed theta>0 and k=ceil(theta logB/loglogB), set
+ N_B(E;k)=#{original full four-square positive primitive P:R<=B, e<=E, omega(q)>=k}, q=q_Uz*q_Vz.
+Retained229DS has q|e. Therefore omega(q)<=omega(e), so the SAME original P can be counted only once in its SINGLE ACTUAL edge value e. Retained229EN gives F(e)<=d8(e)<=C_epsilon e^epsilon for every fixed epsilon>0, uniformly over all heights. Thus
+ N_B(E;k) <= C_epsilon E^epsilon #{1<=n<=E:omega(n)>=k}.
+For any n with omega(n)>=k, at least one squarefree product d of k DISTINCT prime factors divides n. Counting such d, n ONCE for every d only in an upper bound, gives
+ #{n<=E:omega(n)>=k}
+ <= sum_{p1<...<pk<=E} floor(E/(p1...pk))
+ <= E/k! (sum_{p<=E}1/p)^k
+ <= E/k! (C loglog(3B))^k,                    (EP.1)
+using standard Mertens reciprocal-prime bound sum_{p<=E}1/p<=loglog E+O(1) and E<=B^1/2. A reference for this external CLASSICAL theorem: https://www.math.ksu.edu/~cochrane/m706/m706s20/m706s20notes.pdf Section11.5, Thm11.5.1. No equidistribution, local square-selector independence, or #q divisor multiplicity bound enters.
+For k=ceil(theta logB/loglogB), Stirling k!>=(k/e)^k gives
+ log[(C loglog(3B))^k/k!]
+ <=-theta logB + O_theta(logB*logloglog B/loglog B)
+ =(-theta+o_theta(1))logB.                   (EP.2)
+The o-term is UNIFORM when theta ranges over a fixed compact interval [eta,1/6+eta] for any fixed eta>0. Thus for E<=B^alpha, with 0<alpha<=1/2 and fixed theta>0,
+  N_B(B^alpha;k) <=B^(alpha-theta+o(1)),     (EP.3)
+for the ORIGINAL full physical endpoints. More precisely from E^epsilon choose epsilon>0 arbitrarily small; the notation holds as an asymptotic theorem, no historical B^o fixed-q fiber necessary.
+3. THEOREM EP.2 — ADAPTIVE MEDIUM-EDGE LARGE-omega(q) ORIGINAL PHYSICAL PACKET
+Fix 0<eta<1/12 and define L_B=log B/loglog B. For e<=B^(1/2), put
+  k_B(e)=ceil( eta*L_B + max(0,log(e/B^(1/3)))/loglog B ).
+Define the ACTUAL ORIGINAL PHYSICAL packet
+  W_B(eta)={P: R<=B, e<=B^(1/2), omega(q_Uz*q_Vz)>=k_B(e)}.
+Then
+  #W_B(eta) <<_eta B^(1/3-eta/2)=o(B^(1/3))             (EP.4)
+for sufficiently large B.
+PROOF: Partition the ACTUAL edge e into dyadic E_j<=e<2E_j, E_j=2^j, at most O(log B) bands, truncate the last to sqrt B. The monotone threshold k_B(e)>=k_j=ceil((eta+max(0,log(E_j)/logB-1/3))*L_B). Then every eligible P has omega(q)<=omega(e) and is among edge integers e<2E_j with omega(e)>=k_j. Uniform EP.1/2 bounds each band by
+  (2E_j)^(1+epsilon) B^(-theta_j+o(1)),
+  theta_j=eta+max(0,log(E_j)/logB-1/3),   eta<=theta_j<=eta+1/6.
+For low E_j<=B^(1/3), (log(2E_j))/logB-theta_j<=1/3-eta+O(1/logB); for high E_j, exactly the same bound, because theta_j cancels the excess log E_j/logB above1/3. Uniform o(1) from EP.2 plus choosing epsilon<eta/8 and O(logB) bands yields #W_B(eta)<<B^(1/3-eta/2). This is a deterministic count of original ACTUAL four-square primitive endpoints; restricting to any subset of Stage37 high filters does not increase it.
+A simpler fixed window: e<=B^(1/2) and omega(q)>=ceil((1/6+eta)L_B) is contained in W_B(eta), and also has #<<B^(1/3-eta/2). Near e≈B^(1/3), the adaptive gate only requires omega(q)>≈eta L_B; thus the adaptive packet is strictly broader as a DEFINED set than the fixed e<=sqrtB gate. No nonempty physical examples in the new slices are asserted.
+4. EXACT CONNECTION TO THE PREVIOUS SQUAREFREE-DOMINANT q NEXT
+EO removed true original points with compressed r_min<=Z_r and in particular medium-edge s(q)>=e/Z_r. EP targets the complementary possibility where q has many DIFFERENT prime factors yet squarepart s(q) may be small or1 (squarefree q). Since q|e exact229DS, the proof uses the full original e itself with true original F(e), NOT counting independently at each p, and charges the entire packet ONCE. This is NOT a statement that generic squarefree q support is sparse; only extreme omega(q) >=(eta+max(0,log(e/B^1/3)/logB))*logB/loglogB is disposed. Generic omega(q)=O(loglog B) and one/few large squarefree primes remain fully unbounded. For surviving e<=sqrtB original high points one now has BOTH
+  s(q)<e/Z_r    [after EO for points with e outside EO]
+  AND omega(q)<k_B(e)    [after EP].
+Those are precise remaining-source restrictions, not additional independent density factors. Moreover the full high original source still requires sf(G0)>B^(1/3-delta), q/Gres K-null and high Kcross/rad(Sd), so a large sf(G0) might be carried by Gres rather than q.
+5. PORTFOLIO STRATEGY CHECK AND DIFFERENT TESTED METHOD
+Recent 229EI/EJ/EK/EL/EM/EN/EO improved various conditional macro-core, raw/primitive edge and compressed squarepart packets; none supplied a global #H_B^high=o(B^1/3). Tried A: sum EN fixed E,q restricted only by squarefree q>=D via sum_{q>=D}1/q; harmonic union is at least order E*log(E/D) as a naive upper-bound mechanism and cannot meet B^1/3 for medium E≈B^1/2. No claim of a lower bound on actual points. Tried B: EO squarepart-root yields no gain on q nearly squarefree. EXECUTED distinct method C: instead of q-size, count number of DISTINCT q-primes via omega(q)<=omega(e), elementary k-fold squarefree divisor union, Mertens reciprocal-prime sum and Stirling, with the retained actual primitive fixed e d8 fiber. Establishes true B-power saving in a newly selected q high-omega physical packet, including squarefree q, on the ORIGINAL height, independent of229EG and without selector independence. This is a legitimate scoped counting gain, not a new necessary identity or refashioned DW repeated p-power / DX small kernel packet. Neither EP nor older packets is promoted to global credit; no formal route switch.
+6. CURRENT RECEIVER, AUTHORITY FIREWALL, NEXT
+Set H_B^EP,rem = exact Stage37 original positive primitive full-four-square high229DP population with all SIX ordinary face/space primitive hypotenuses high and BOTH macro legs high, high sf(G0), high Kcross/rad(Sd), q_Uzq_Vz/Gres K-null, R<=B/chamber; remove ONCE previously counted EN raw small-edge packet, EO compressed-edge packet, retained EL conditional G0*K>=S_L packet, and ADDITIONALLY W_B(eta), charging union and not multiplying occurrence frequencies. Then
+ #S_B(delta)<=B^(1/3)exp(-Lambda)+O_sigma(B^(1/3-sigma/2))
+ +O(B^(1/3)exp(-cLambda)) [retained EL CONDITIONAL on unaudited229EG]
+ +O_kappa(B^(1/3)/(1+logB)^kappa) [EN UNCONDITIONAL]
+ +O_kappa(B^(1/3)/(1+logB)^kappa) [EO UNCONDITIONAL]
+ +O_eta(B^(1/3-eta/2)) [EP UNCONDITIONAL]
+ +#H_B^EP,rem.
+Every remaining e<=sqrtB point obeys r_min>Z_r, min(e,x,y)>Z_EN, s(q)<e/Z_r, omega(q)<k_B(e), and (conditional on retained229EG/EL) G0*K<S_L=B^(5/3)exp(L logB/loglogB), alongside all original high selector masks. For e>sqrtB EP does not apply; compare retained229AR Wminus. WHOLE HIGH STILL OPEN; GLOBAL_COUNTING_CREDIT=0; GATE OPEN; old authority/gate/closure/production unaffected.
+NEXT_PRIMARY: prove a true selector-aware occupied same-x dyadic count for ORIGINAL medium edge e<=sqrtB with q mostly exponent-one, omega(q)<k_B(e) and s(q)<e/Z_r, while sf(G0)>B^(1/3-delta) and q/Gres K-null, high Kcross/rad(Sd), all six ordinary and both macro high, R<=B; require a new correlation/dispersion theorem, not more unweighted q divisor unions. For high G0 with G0*K<S_L test occupied macro Euclid-root correlation, and e>sqrtB test229AR Wminus, no formal route switch. Independent hostile audit229EG needed before promotion of any EL conditional estimate.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

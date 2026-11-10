@@ -1,0 +1,5709 @@
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
+```
+### Next research item
+The next high-value task is to attack the support-poor / small-core cell first, because it avoids requiring a full same-M3 growing-prime equidistribution theorem and may admit an exact reconstruction/counting argument from the already available Gaussian square form.
+Concretely:
+```text
+NEXT_ITEM=OneFactorLowCycleGaussianReconstruction
+```
+The first subproblem is to express `P_-+iQ_-=epsilon*kappa*z^2` back in the physical four-gcd / face-divisor variables while keeping `omega(A_sf)+omega(B_sf)` bounded, then determine whether fixing `(h,kappa-orientation,cycle-pattern)` leaves only divisor-many or genuinely one-dimensional source freedom under `R<=B`.
+---
+# SECTION96 — physical minus-root modulus and quartic Gaussian root lines
+## 2026-09-26
+## Status: exact algebra proved below; global density consequence still open
+Section95 left the support-poor / small-core cell at
+```text
+P_- + i Q_- = epsilon * kappa * (u+iv)^2,
+Norm(kappa)=h,
+```
+with `(P_-,Q_-)=1`.
+This section finds a second modulus which is not the Gaussian common core `h`.
+It comes directly from the physical odd edge.
+Let the two primitive Euclid source pairs be
+```text
+(a,b), (m,n),
+U1=a^2-b^2,
+U2=m^2-n^2,
+g=gcd(U1,U2),
+X=U1*U2/g.
+```
+Define
+```text
+A_-=am-bn,
+B_-=an-bm,
+g_-=gcd(A_-,B_-),
+P_-=A_-/g_-,
+Q_-=B_-/g_-.
+```
+Thus `gcd(P_-,Q_-)=1`.
+## 96.1 Cross gcd divides both odd Euclid legs
+The elementary identities
+```text
+a*A_- + b*B_- = m*U1,
+b*A_- + a*B_- = n*U1,
+```
+and `gcd(m,n)=1` imply
+```text
+g_- | U1.
+```
+Likewise
+```text
+m*A_- - n*B_- = a*U2,
+n*A_- - m*B_- = b*U2,
+```
+and `gcd(a,b)=1` imply
+```text
+g_- | U2.
+```
+Hence
+### Theorem 96-A — MinusCrossGcdDividesMasterGcd
+```text
+g_- | gcd(U1,U2)=g.
+```
+This is exact and uses only primitive Euclid source pairs.
+Put
+```text
+D1=U1/g_-,
+D2=U2/g_-.
+```
+Then
+```text
+m*D1 = a*P_- + b*Q_-,
+n*D1 = b*P_- + a*Q_-,
+```
+and
+```text
+a*D2 = m*P_- - n*Q_-,
+b*D2 = n*P_- - m*Q_-.
+```
+## 96.2 A physical modulus dividing P_-^2-Q_-^2
+From the first pair,
+```text
+D1 | a(P_-^2-Q_-^2),
+D1 | b(P_-^2-Q_-^2).
+```
+Since `gcd(a,b)=1`,
+```text
+D1 | P_-^2-Q_-^2.
+```
+The second pair similarly gives
+```text
+D2 | P_-^2-Q_-^2.
+```
+Now
+```text
+gcd(D1,D2)=g/g_-,
+```
+so
+```text
+lcm(D1,D2)
+ = U1*U2/(g*g_-)
+ = X/g_-.
+```
+Define the physical minus-root modulus
+```text
+C_- := X/g_-.
+```
+Therefore
+### Theorem 96-B — PhysicalMinusRootModulus
+```text
+C_- | P_-^2-Q_-^2.
+```
+Because `X,g_-` are odd, `C_-` is odd.
+Moreover
+```text
+gcd(C_-,P_-*Q_-)=1.
+```
+Indeed if a prime dividing `C_-` divided one of `P_-,Q_-`, the congruence
+`P_-^2 == Q_-^2 mod p` would force it to divide both, contradicting
+`gcd(P_-,Q_-)=1`.
+Consequently, for every prime power `p^k || C_-`,
+```text
+P_- == +Q_- mod p^k
+```
+or
+```text
+P_- == -Q_- mod p^k.
+```
+The whole primitive pair therefore lies on at most
+```text
+2^omega(C_-)
+```
+CRT projective root lines modulo `C_-`.
+This is an exact ±1-root analogue of the Stage14 primitive root-line mechanism.
+No Stage14 population theorem has been imported.
+## 96.3 The physical modulus is coprime to the Gaussian core
+On the one-factor locus,
+```text
+P_-^2+Q_-^2 = h*r0^2.
+```
+For any odd prime `p|C_-`, Theorem96-B gives
+`P_-^2==Q_-^2 mod p`, while neither coordinate is zero modulo `p`.
+Thus
+```text
+P_-^2+Q_-^2 == 2Q_-^2 != 0 mod p.
+```
+Hence
+### Theorem 96-C — MinusModulusCoreCoprimality
+```text
+gcd(C_-,h*r0)=1.
+```
+In particular
+```text
+gcd(C_-,h)=1.
+```
+This is important because it removes all primes of the root modulus from the
+discriminant of the Gaussian quartic below.
+## 96.4 Push the root condition through the Gaussian square
+Fix one Gaussian orientation
+```text
+kappa=c+i*d,
+c^2+d^2=h.
+```
+Absorb the finite unit `epsilon` into the orientation and write
+```text
+P_-+iQ_- = kappa*(u+iv)^2.
+```
+Then
+```text
+P_-^2-Q_-^2
+ = Re(kappa^2*(u+iv)^4).
+```
+Define the homogeneous binary quartic
+```text
+F_kappa(u,v)
+ := Re(kappa^2*(u+iv)^4).
+```
+Explicitly,
+```text
+F_kappa(u,v)
+ = (c^2-d^2)(u^4-6u^2v^2+v^4)
+   - 8cd*uv*(u^2-v^2).
+```
+Theorem96-B becomes
+```text
+C_- | F_kappa(u,v).
+```
+For `t=u/v`, the quartic factors as
+```text
+F_kappa(t,1)
+=
+((c-d)t^2-2(c+d)t-(c-d))
+*
+((c+d)t^2+2(c-d)t-(c+d)).
+```
+A symbolic exact calculation gives
+```text
+Disc_t(F_kappa(t,1))
+ = 2^14 * (c^2+d^2)^6
+ = 2^14 * h^6.
+```
+This discriminant identity was independently checked with Wolfram Language.
+By Theorem96-C, every prime dividing `C_-` is odd and coprime to `h`.
+Therefore the quartic has no multiple projective root modulo any prime
+dividing `C_-`.
+Hensel lifting is consequently unique root-by-root at all powers
+`p^k || C_-`.
+### Theorem 96-D — GaussianQuarticRootLinePacket
+For fixed `kappa`, the primitive Gaussian square parameter `(u:v)`
+attached to a one-factor point lies on at most
+```text
+4^omega(C_-)
+```
+projective root classes modulo `C_-`.
+Equivalently,
+```text
+# admissible projective roots mod C_- <= 4^omega(C_-)=C_-^{o(1)}.
+```
+No bad-prime correction is needed beyond the already separated prime 2,
+because the full quartic discriminant is supported only on `2h` and
+`gcd(C_-,2h)=1`.
+## 96.5 Primitive lattice spacing after fixing an orientation
+The representation
+`P_-+iQ_-=kappa(u+iv)^2` with `gcd(P_-,Q_-)=1`
+forces
+```text
+gcd(u,v)=1.
+```
+Indeed a common divisor of `u,v` would contribute its square to both
+`P_-` and `Q_-`.
+Thus every projective root class in Theorem96-D is a primitive lattice
+root line modulo `C_-`.
+The same determinant-spacing argument as the abstract Stage14 root-line
+lemma now applies after this exact adapter:
+two distinct primitive pairs `(u,v),(u',v')` on one root line satisfy
+```text
+C_- | u*v' - u'*v.
+```
+If the determinant is nonzero, its absolute value is at least `C_-`;
+if it is zero, primitivity leaves only the same projective primitive pair
+(up to the fixed sign convention).
+Hence in a dyadic box
+```text
+|u| ~ U0,
+|v| ~ V0,
+```
+one root class contains
+```text
+O(1 + U0*V0/C_-)
+```
+primitive pairs.
+After summing the at most `4^omega(C_-)` classes,
+```text
+#(u,v)
+ << C_-^{o(1)} * (1 + U0*V0/C_-).
+```
+This is a genuine modulus-spacing gain, conditional only on the outer
+data fixing `C_-` and the Gaussian orientation.
+## 96.6 Physical height cancellation in the root-line cost
+Since
+```text
+Norm(P_-+iQ_-)
+ = h*(u^2+v^2)^2,
+```
+we have
+```text
+r0=u^2+v^2.
+```
+Also Section89 gives
+```text
+L_- = g_-^2*r0^2.
+```
+If `x^2=L_-`, then
+```text
+x = g_-(u^2+v^2).
+```
+Under physical `R<=B`, both adjacent face diagonals are at most `B`,
+hence
+```text
+L_- < P*Q <= B^2
+```
+and therefore
+```text
+x<=B.
+```
+Thus
+```text
+u^2+v^2 <= B/g_-.
+```
+Since
+```text
+C_-*g_-=X,
+```
+the area/modulus term in a square box of natural radius satisfies formally
+```text
+(U0*V0)/C_-
+ <= O((B/g_-)/C_-)
+ = O(B/X).
+```
+Therefore the conditional root-line count has the particularly clean scale
+```text
+#(u,v)
+ << B^o(1) * (1+B/X)
+```
+after `C_-` and one Gaussian orientation are fixed.
+This is not yet a whole-M3 count: the outer choices of `X,g_-,h,kappa`
+and the Master-Hit / third-face condition still have to be charged exactly.
+## 96.7 Reconstruction after fixing the Gaussian square data
+The linear identities in 96.1 show that, once
+```text
+g_-,
+P_-,
+Q_-,
+D1
+```
+are fixed,
+```text
+m=(aP_-+bQ_-)/D1,
+n=(bP_-+aQ_-)/D1.
+```
+Symmetrically, fixing `D2,m,n,P_-,Q_-` reconstructs `a,b`.
+Also
+```text
+C_-=lcm(D1,D2).
+```
+For fixed `C_-`, the possible divisor allocations `D1,D2` are
+divisor-many, hence `B^o(1)); representing an odd leg
+`U=a^2-b^2=(a-b)(a+b)` by a primitive opposite-parity Euclid pair is
+again divisor-many.
+Therefore:
+### Theorem 96-E — FixedGaussianPacketReconstruction
+After fixing
+```text
+g_-,
+C_-,
+kappa orientation,
+(u,v),
+```
+the compatible Master source tuples have at most `B^o(1)` multiplicity
+before imposing the already-required Master third-face-square check.
+This is a reconstruction theorem, not an absolute counting theorem.
+## 96.8 Consequence for the 2x2 architecture
+The Section95 split should be refined.
+The most useful modulus on the low-cycle Gaussian side is not only the
+common norm core `h`.  There is an independent physical modulus
+```text
+C_-=X/g_-,
+```
+with
+```text
+gcd(C_-,h)=1.
+```
+The support-poor / small-core cell therefore has a new exact route:
+```text
+L_-=square
+  -> primitive Gaussian square
+  -> physical modulus C_-=X/g_-
+  -> quartic F_kappa(u,v)==0 mod C_-
+  -> <=4^omega(C_-) Hensel-stable projective root lines
+  -> primitive determinant spacing
+  -> divisor-many source reconstruction.
+```
+This is substantially sharper than the previous placeholder
+`OneFactorLowCycleGaussianReconstruction`.
+Define the next receiver
+### Receiver 96-R1 — OneFactorPhysicalMinusRootLineCount
+Prove that after the exact outer variables are charged on physical `M3(B)`,
+the root-line estimate
+```text
+B^o(1)*(1+B/X)
+```
+together with divisor-many reconstruction gives `o(M3(B))` on the
+support-poor / small-core cell.
+The remaining obstacle is now explicit:
+```text
+OUTER_X_GMINUS_H_DISTRIBUTION_ON_M3=false.
+```
+The inner Gaussian lift itself is no longer uncontrolled.
+## 96.9 Exact state after Section96
+```text
+GMINUS_DIVIDES_U1=true
+GMINUS_DIVIDES_U2=true
+GMINUS_DIVIDES_MASTER_G=true
+PHYSICAL_MINUS_ROOT_MODULUS_DEFINED=true
+C_MINUS_EQUALS_X_OVER_GMINUS=true
+C_MINUS_DIVIDES_PMINUS2_MINUS_QMINUS2=true
+GCD_C_MINUS_PMINUS_QMINUS=true
+GCD_C_MINUS_H=true
+GAUSSIAN_QUARTIC_DISCRIMINANT_EQUALS_2POW14_H6=true
+GAUSSIAN_QUARTIC_ROOTS_HENSEL_STABLE_ON_C_MINUS=true
+GAUSSIAN_QUARTIC_PROJECTIVE_ROOT_COUNT_LE_4POWOMEGA=true
+PRIMITIVE_GAUSSIAN_ROOT_LINE_SPACING=true
+FIXED_GAUSSIAN_PACKET_RECONSTRUCTION_BO1=true
+ONE_FACTOR_PHYSICAL_MINUS_ROOT_LINE_COUNT=false
+OUTER_X_GMINUS_H_DISTRIBUTION_ON_M3=false
+M3_CANONICAL_MINUS_FACTOR_THINNESS=false
+P_OVER_M3_LIMIT_PROVED=false
+```
+### Next research item
+```text
+NEXT_ITEM=OuterMinusModulusDistributionOrDualConstraint
+```
+Two candidate attacks are now concrete:
+1. show that the large-`C_-` region already gives a same-M3 saving after
+   summing the root-line bound over the legal outer packets; or
+2. combine `C_-|F_kappa(u,v)` with the Master third-face square condition
+   to obtain a second transverse congruence/root-line, analogous to the
+   dual-primitive-root-line saturation mechanism from late Stage14.
+No density-zero claim is made in Section96.
+---
+# SECTION97 — canonical physical recovery of g_- and odd-edge anti-concentration
+## 2026-09-26
+## Status: exact pointwise identities plus a rigorous M3-negligibility corollary
+Section96 introduced
+```text
+C_-=X/g_-.
+```
+This section shows that both `g_-` and `C_-` can be recovered from the
+physical one-factor data, and that fixing the physical odd edge already has
+only divisor-many multiplicity.
+## 97.1 The physical odd edge is the lcm of the two odd Euclid legs
+Recall
+```text
+X=U1*U2/g,
+g=gcd(U1,U2).
+```
+Therefore, pointwise,
+### Theorem 97-A — OddEdgeIsSourceLegLCM
+```text
+X=lcm(U1,U2).
+```
+In particular
+```text
+U1|X,
+U2|X.
+```
+This gives an elementary multiplicity bound for a fixed physical odd edge.
+For a fixed odd integer `X`, the ordered pair `(U1,U2)` has at most
+```text
+tau(X)^2
+```
+possibilities.
+For each odd `U`, a primitive opposite-parity Euclid representation
+```text
+U=a^2-b^2=(a-b)(a+b)
+```
+is determined by a divisor factorization of `U`, hence has at most
+`tau(U)=X^{o(1)}` possibilities.
+Thus:
+### Theorem 97-B — FixedOddEdgeMasterMultiplicity
+For every fixed odd edge `X<=B`,
+```text
+#{primitive Master source tuples producing odd edge X}
+ <= X^{o(1)}
+ <= B^{o(1)}.
+```
+The physical canonical projection and the Master swap contribute only a
+fixed multiplicity.
+Consequently the same bound holds a fortiori for the subset satisfying the
+third-face / M3 condition.
+## 97.2 Odd-edge anti-concentration on exact physical M3
+Let
+```text
+M3_X(B)
+ := #{E in M3(B): unique odd edge of E equals X}.
+```
+Then uniformly for `X<=B`,
+```text
+M3_X(B)<=B^{o(1)}.
+```
+Since the certified global lower bound is
+```text
+M3(B) >> B^(1/3),
+```
+for every fixed `epsilon>0`,
+```text
+sum_{X <= B^(1/3-epsilon)} M3_X(B)
+ <= B^(1/3-epsilon+o(1))
+ = o(M3(B)).
+```
+Hence:
+### Theorem 97-C — SmallOddEdgeRegionNegligible
+For every fixed `epsilon>0`, the exact physical M3 population with
+```text
+X <= B^(1/3-epsilon)
+```
+has relative density zero in `M3(B)`.
+Equivalently, after deleting an `o(M3(B))` exceptional population, one may
+work in the region
+```text
+X >= B^(1/3-epsilon).
+```
+This is a same-measure statement; no parameter-space equidistribution is
+used.
+## 97.3 g_- is the physical gcd of X and sqrt(L_-)
+On the one-factor locus write
+```text
+x^2=L_-.
+```
+Section96 gives
+```text
+x=g_-*r0,
+X=g_-*C_-,
+gcd(C_-,r0)=1.
+```
+Therefore
+### Theorem 97-D — PhysicalRecoveryOfMinusCrossGcd
+```text
+g_- = gcd(X,x)
+    = gcd(X,sqrt(L_-)).
+```
+Consequently
+```text
+C_-
+ = X/gcd(X,sqrt(L_-)),
+```
+and
+```text
+r0
+ = sqrt(L_-)/gcd(X,sqrt(L_-)).
+```
+Thus the Section96 modulus is canonical on the physical one-factor locus.
+It does not depend on choosing a Master representation after the physical
+brick and the square root of `L_-` are fixed.
+Since
+```text
+r0=u^2+v^2,
+```
+we also obtain the physical reconstruction
+```text
+sqrt(L_-)/gcd(X,sqrt(L_-))
+ = u^2+v^2.
+```
+## 97.4 Consequence for Section96 root-line spacing
+Section97-C allows the Section96 conditional estimate
+```text
+#(u,v) << B^o(1)*(1+B/X)
+```
+to be restricted, after an M3-negligible deletion, to
+```text
+1+B/X
+ <= 1+B^(2/3+epsilon).
+```
+This does not by itself close the density problem; the bound is still too
+large as a standalone absolute count.
+Its value is structural:
+1. the troublesome tiny-`X` packets are now rigorously negligible on the
+   exact physical M3 measure;
+2. the modulus `C_-` is a canonical physical cofactor of `X`;
+3. all remaining failure of the root-line route lies in the distribution
+   of the canonical pair
+   `(X, sqrt(L_-))`, not in source-coordinate multiplicity.
+The revised outer receiver can therefore be stated physically.
+### Receiver 97-R1 — PhysicalOddEdgeMinusSquareGcdDistribution
+Control on exact `M3(B)` the distribution of
+```text
+d_-(E):=gcd(X(E),sqrt(L_-(E)))
+```
+on the one-factor locus, equivalently the modulus
+```text
+C_-(E)=X(E)/d_-(E).
+```
+A theorem showing that the region where `C_-` is too small is
+M3-negligible would combine immediately with Section96 root-line spacing.
+## 97.5 Important negative check on the proposed dual constraint
+A first attempt to use the Master third-face square modulo primes of
+`C_-` does not automatically produce an independent quadratic-character
+filter.
+Indeed a prime dividing `D1=U1/g_-` already divides `U1`, so
+```text
+M=(V1*U2)^2+(U1*V2)^2
+  == (V1*U2)^2 mod p,
+```
+and similarly on the `D2` side.
+Thus the Master-square condition is locally a square for a tautological
+reason at first order on these same primes.
+Therefore the proposed Section96 candidate
+```text
+C_- root line + Master square
+```
+does not yet supply two independent mod-`p` character bits.
+Any genuine dual constraint must use higher prime-power information,
+a different modulus, or a transverse global/fibration coordinate.
+This rules out a tempting but false shortcut.
+## 97.6 Exact state after Section97
+```text
+ODD_EDGE_EQUALS_LCM_U1_U2=true
+FIXED_ODD_EDGE_MASTER_MULTIPLICITY_BO1=true
+FIXED_ODD_EDGE_M3_MULTIPLICITY_BO1=true
+SMALL_ODD_EDGE_REGION_M3_NEGLIGIBLE=true
+GMINUS_EQUALS_GCD_X_SQRT_LMINUS=true
+C_MINUS_CANONICAL_PHYSICAL=true
+FIRST_ORDER_MASTER_SQUARE_TRANSVERSE_AT_C_MINUS=false
+PHYSICAL_ODD_EDGE_MINUS_SQUARE_GCD_DISTRIBUTION=false
+ONE_FACTOR_PHYSICAL_MINUS_ROOT_LINE_COUNT=false
+M3_CANONICAL_MINUS_FACTOR_THINNESS=false
+P_OVER_M3_LIMIT_PROVED=false
+```
+### Next research item
+```text
+NEXT_ITEM=LargeGminusSmallCminusOrHigherPowerTransverseConstraint
+```
+The cleanest next split is now physical:
+```text
+C_- large  -> Section96 root-line spacing,
+C_- small  -> g_-=gcd(X,sqrt(L_-)) large.
+```
+The remaining question is whether a large common divisor between the odd
+edge `X` and the canonical square root `sqrt(L_-)` can itself be shown
+to occupy an M3-negligible subset, or whether its prime-power structure
+forces a stronger congruence on the Gaussian / third-face data.
+---
+# SECTION98 — four-cross-gcd coordinates and the small-C_- genus-one fibers
+## 2026-09-26
+## Status: exact algebra through the smooth genus-one reduction
+Let
+```text
+x=a-b, y=a+b, s=m-n, t=m+n.
+```
+Then `x,y,s,t` are positive odd integers,
+`gcd(x,y)=gcd(s,t)=1), and
+```text
+U1=x*y,
+U2=s*t.
+```
+Define four cross gcds
+```text
+alpha=gcd(y,t),
+beta =gcd(x,s),
+gamma=gcd(y,s),
+delta=gcd(x,t).
+```
+They are pairwise coprime.
+For
+```text
+A_-=am-bn,
+B_-=an-bm,
+```
+we have
+```text
+A_- - B_-=y*s,
+A_- + B_-=x*t.
+```
+Since `g_-=gcd(A_-,B_-)` is odd,
+### Theorem 98-A — MinusCrossGcdLinearFactorization
+```text
+g_-=alpha*beta.
+```
+For the plus pair
+```text
+A_+=am+bn,
+B_+=an+bm,
+```
+we have
+```text
+A_+ - B_+=x*s,
+A_+ + B_+=y*t,
+```
+hence
+### Theorem 98-B — PlusCrossGcdLinearFactorization
+```text
+g_+=gamma*delta.
+```
+Also
+```text
+g=gcd(U1,U2)
+ =alpha*beta*gamma*delta
+ =g_-*g_+.
+```
+Thus `g_-` is exactly the matched-sign cross core and `g_+` the
+opposite-sign cross core.
+Peel the four cross gcds:
+```text
+x=beta*delta*x0,
+y=alpha*gamma*y0,
+s=beta*gamma*s0,
+t=alpha*delta*t0.
+```
+Then
+```text
+R:=U1/g=x0*y0,
+S:=U2/g=s0*t0,
+gcd(R,S)=1.
+```
+Since `X=g*R*S`,
+### Theorem 98-C — ExactMinusModulusPacketProduct
+```text
+C_-=X/g_-
+   =gamma*delta*R*S
+   =gamma*delta*x0*y0*s0*t0.
+```
+Therefore, for fixed `C_-=c`, the ordered residual packet
+```text
+(gamma,delta,x0,y0,s0,t0)
+```
+has at most
+```text
+tau_6(c)=c^{o(1)}
+```
+possibilities.  All exact coprimality requirements only reduce this count.
+## 98.1 M3 inside one fixed residual packet
+The primitive even legs are
+```text
+V1=(y^2-x^2)/2,
+V2=(t^2-s^2)/2.
+```
+Because
+```text
+Y=V1*S,
+Z=R*V2,
+```
+we obtain
+```text
+2Y
+ = S*(alpha^2*gamma^2*y0^2
+      -beta^2*delta^2*x0^2),
+2Z
+ = R*(alpha^2*delta^2*t0^2
+      -beta^2*gamma^2*s0^2).
+```
+For fixed residual data put
+```text
+A=S*gamma^2*y0^2,
+B=S*delta^2*x0^2,
+C=R*delta^2*t0^2,
+D=R*gamma^2*s0^2.
+```
+Then
+```text
+2Y=A*alpha^2-B*beta^2,
+2Z=C*alpha^2-D*beta^2.
+```
+The M3 condition `Y^2+Z^2=T^2` becomes, for
+```text
+lambda=alpha/beta,
+w=2T/beta^2,
+```
+the even quartic
+```text
+w^2
+ =(A*lambda^2-B)^2
+ +(C*lambda^2-D)^2
+ =A0*lambda^4+B0*lambda^2+C0,
+```
+where
+```text
+A0=A^2+C^2,
+B0=-2*(A*B+C*D),
+C0=B^2+D^2.
+```
+Thus fixing `C_-) and one residual factor packet leaves a single
+genus-one candidate fiber in the moving ratio `lambda=alpha/beta`.
+## 98.2 Smoothness
+For `f(z)=A0*z^4+B0*z^2+C0`,
+```text
+Disc(f)
+ =16*A0*C0*(B0^2-4*A0*C0)^2,
+```
+and
+```text
+B0^2-4*A0*C0
+ =-4*(A*D-B*C)^2.
+```
+Now `A*D=B*C` is equivalent to
+```text
+gamma^2*y0*s0=delta^2*x0*t0,
+```
+hence to
+```text
+y*s=x*t.
+```
+But
+```text
+2B_-=x*t-y*s.
+```
+Therefore degeneracy forces `B_-=an-bm=0`.
+Primitive positivity then gives `a/b=m/n`, hence
+`(a,b)=(m,n)`, so the two physical even edges coincide.
+That is excluded by the strict canonical edge ordering.
+### Theorem 98-D — FixedResidualM3QuarticSmooth
+Every primitive canonical physical M3 point lies on a smooth genus-one
+even quartic after its residual packet is fixed.
+The quartic discriminant identity was checked independently by symbolic
+calculation.
+## 98.3 Rational 2-torsion structure
+The four branch points of
+```text
+w^2=A0*lambda^4+B0*lambda^2+C0
+```
+occur in opposite pairs
+```text
+{r,-r}, {s,-s}.
+```
+The unordered partition into these two opposite pairs is Galois-stable.
+Hence the Jacobian has a nonzero rational 2-torsion point.
+So every occupied residual packet is a genus-one torsor whose Jacobian
+belongs to the same rational-2-torsion species used by the Section39
+bounded-height argument.
+Exact status:
+```text
+FOUR_CROSS_GCD_COORDINATES=true
+GMINUS_EQUALS_ALPHA_BETA=true
+GPLUS_EQUALS_GAMMA_DELTA=true
+MASTER_G_EQUALS_GMINUS_GPLUS=true
+C_MINUS_RESIDUAL_PACKET_PRODUCT=true
+FIXED_C_MINUS_PACKET_COUNT_DIVISOR_MANY=true
+FIXED_RESIDUAL_M3_EVEN_QUARTIC=true
+FIXED_RESIDUAL_M3_QUARTIC_SMOOTH=true
+FIXED_RESIDUAL_JACOBIAN_RATIONAL_2TORSION=true
+```
+## 98.4 Uniform bounded-height count on one residual packet
+For physical height `R_phys<=B`, the adjacent face diagonals satisfy
+```text
+W1*S<=B,
+W2*R<=B.
+```
+Hence
+```text
+a,b,m,n <= B^(1/2),
+alpha,beta <= 2*B^(1/2).
+```
+Because `gcd(alpha,beta)=1`, the rational coordinate
+```text
+lambda=alpha/beta
+```
+has height at most `2*B^(1/2)`.
+For a residual packet with `C_-<=B`, all six packet variables divide the
+product `C_-`, so the quartic coefficients `A0,B0,C0` have polynomial
+height `B^{O(1)}`.  The physical third-face diagonal is at most `B`, so
+the corresponding `w=2T/beta^2` also has polynomial height.
+A binary quartic genus-one model has a Jacobian Weierstrass model whose
+invariants are polynomial expressions in the quartic coefficients.  For an
+occupied fiber, choosing one rational point identifies the torsor with its
+Jacobian; standard fixed-degree height comparison gives
+```text
+elliptic model height = O(log B),
+mapped x-height        = B^{O(1)}.
+```
+This is the only external height-adapter input in this section.  It is the
+same species of polynomial-height conversion already used in Section39,
+not an equidistribution assumption.
+By Section98.3 the Jacobian has rational 2-torsion.  Therefore the Dujella
+uniform bounded-height theorem imported in Section39 applies uniformly.
+### Theorem 98-E — FixedResidualPacketM3Multiplicity
+For every occupied fixed residual packet,
+```text
+#{physical M3 points in the packet with R_phys<=B}
+ <= exp(O(log B/log log B))
+ = B^{o(1)}.
+```
+The implied constant is uniform over the packets.
+The map from a physical point to `lambda=alpha/beta` is injective inside
+a fixed residual packet, because `alpha,beta` are positive coprime
+integers and the four peeled-factor formulas then recover
+`x,y,s,t`.
+## 98.5 Small-C_- region is negligible on exact M3
+For fixed `c=C_-`, Section98-C gives at most
+```text
+tau_6(c)=c^{o(1)}
+```
+residual packets, and Section98-E gives `B^{o(1)}` physical M3 points per
+packet.
+Therefore, uniformly for `1<=Y<=B`,
+```text
+#{E in M3(B): C_-(E)<=Y}
+ <= sum_{c<=Y} tau_6(c)*B^{o(1)}
+ <= Y^{1+o(1)}*B^{o(1)}.
+```
+Using the certified lower bound
+```text
+M3(B) >> B^(1/3),
+```
+we obtain:
+### Theorem 98-F — SmallPhysicalMinusModulusNegligible
+For every fixed `epsilon>0`,
+```text
+#{E in M3(B):
+    L_-(E) is square,
+    C_-(E)<=B^(1/3-epsilon)}
+ = o(M3(B)).
+```
+Thus the small-`C_-` / large-`g_-` branch from Section97 is closed up to
+the natural `B^(1/3)` threshold.
+No ambient parameter density or independence heuristic is used.
+## 98.6 Revised surviving region
+Combining Sections97 and 98, after deleting an `o(M3(B))` subset, every
+one-factor survivor satisfies, for any fixed `epsilon>0`,
+```text
+X    >= B^(1/3-epsilon),
+C_-  >= B^(1/3-epsilon).
+```
+Since
+```text
+X=g_-*C_-,
+```
+the remaining problem is entirely the large-`C_-` side where the
+Section96 Gaussian quartic root-line spacing is strongest.
+The previous receiver
+```text
+LargeGminusSmallCminusOrHigherPowerTransverseConstraint
+```
+is therefore superseded.
+### Receiver 98-R1 — LargeCminusRootLineGlobalSummation
+Sum the Section96 estimate
+```text
+#(u,v)
+ << C_-^{o(1)}*(1+U0*V0/C_-)
+ << B^{o(1)}*(1+B/X)
+```
+over the exact residual packets in the region
+```text
+C_- >= B^(1/3-epsilon),
+X   >= B^(1/3-epsilon),
+```
+without paying for `C_-` as a completely free integer.
+The key remaining question is whether the packet factorization
+```text
+C_-=gamma*delta*R*S
+```
+and the quartic root-line condition can be summed together so that the
+modulus saving survives the moving-`C_-` summation.
+## 98.7 Exact state after Section98
+```text
+FOUR_CROSS_GCD_COORDINATES=true
+GMINUS_EQUALS_ALPHA_BETA=true
+GPLUS_EQUALS_GAMMA_DELTA=true
+MASTER_G_EQUALS_GMINUS_GPLUS=true
+C_MINUS_RESIDUAL_PACKET_PRODUCT=true
+FIXED_C_MINUS_PACKET_COUNT_DIVISOR_MANY=true
+FIXED_RESIDUAL_M3_EVEN_QUARTIC=true
+FIXED_RESIDUAL_M3_QUARTIC_SMOOTH=true
+FIXED_RESIDUAL_JACOBIAN_RATIONAL_2TORSION=true
+FIXED_RESIDUAL_PACKET_M3_MULTIPLICITY_BO1=true
+SMALL_C_MINUS_REGION_M3_NEGLIGIBLE=true
+ONE_FACTOR_PHYSICAL_MINUS_ROOT_LINE_COUNT=false
+M3_CANONICAL_MINUS_FACTOR_THINNESS=false
+P_OVER_M3_LIMIT_PROVED=false
+```
+### Next research item
+```text
+NEXT_ITEM=LargeCminusRootLineGlobalSummation
+```
+---
+# SECTION99 — correction of the C_- root-line and the genuine square-kernel modulus
+## 2026-09-27
+## Status: exact correction + exact new local receiver; no global density closure yet
+Section98 remains valid, including the small-C_- negligibility theorem.
+However, the proposed Section96/98 large-C_- root-line route needs a correction:
+the congruence modulo C_- is not an independent sieve condition.
+## 99.1 Exact residual formulas for the primitive minus/plus Gaussian pairs
+Use the Section98 coordinates
+```text
+x=beta*delta*x0,
+y=alpha*gamma*y0,
+s=beta*gamma*s0,
+t=alpha*delta*t0,
+```
+with
+```text
+g_-=alpha*beta,
+g_+=gamma*delta,
+C_-=gamma*delta*x0*y0*s0*t0.
+```
+From
+```text
+A_-=am-bn=(y*s+x*t)/2,
+B_-=an-bm=(x*t-y*s)/2,
+```
+we get, after dividing by g_-,
+```text
+P_-=(gamma^2*y0*s0+delta^2*x0*t0)/2,
+Q_-=(delta^2*x0*t0-gamma^2*y0*s0)/2.
+```
+Therefore P_- and Q_- depend only on the residual packet
+```text
+(gamma,delta,x0,y0,s0,t0)
+```
+and are completely independent of alpha,beta.
+Similarly,
+```text
+P_+=(beta^2*x0*s0+alpha^2*y0*t0)/2,
+Q_+=(alpha^2*y0*t0-beta^2*x0*s0)/2.
+```
+Hence
+### Theorem 99-A — ExactResidualNormFormulas
+```text
+N_-
+ =P_-^2+Q_-^2
+ =(gamma^4*y0^2*s0^2+delta^4*x0^2*t0^2)/2,
+```
+while
+```text
+N_+
+ =P_+^2+Q_+^2
+ =(beta^4*x0^2*s0^2+alpha^4*y0^2*t0^2)/2.
+```
+Thus N_- is a residual-packet invariant and all alpha,beta motion sits in N_+.
+The identities above were independently checked symbolically.
+## 99.2 Correction: the C_- divisibility is tautological
+From the explicit P_-,Q_- formulas,
+```text
+P_-^2-Q_-^2
+ = gamma^2*delta^2*x0*y0*s0*t0.
+```
+Using
+```text
+g_+=gamma*delta,
+C_-=gamma*delta*x0*y0*s0*t0,
+```
+we obtain
+### Theorem 99-B — MinusDifferenceProductIdentity
+```text
+P_-^2-Q_-^2 = g_+*C_-.
+```
+Therefore the Section96 statement
+```text
+C_- | P_-^2-Q_-^2
+```
+is correct but automatic after the four-cross-gcd decomposition.
+Consequently the derived quartic condition modulo C_- is not an independent
+local bit and must not be credited as a large-C_- sieve saving.
+The following Section96 flags are therefore structural identities only, not
+independent counting weapons:
+```text
+C_MINUS_DIVIDES_PMINUS2_MINUS_QMINUS2=true
+GAUSSIAN_QUARTIC_ROOTS_HENSEL_STABLE_ON_C_MINUS=true
+```
+but
+```text
+C_MINUS_ROOT_LINE_INDEPENDENT_SIEVE=false.
+```
+Accordingly,
+```text
+LargeCminusRootLineGlobalSummation
+```
+is superseded as the primary receiver.
+The Section98 theorem
+```text
+SMALL_C_MINUS_REGION_M3_NEGLIGIBLE=true
+```
+does not use this false independence and remains valid.
+## 99.3 The genuine modulus: the squarefree kernel of N_-
+Let
+```text
+K_- := sqf(N_-)
+```
+denote the squarefree kernel, i.e. the product of primes occurring to odd
+valuation in N_-.
+Since (P_-,Q_-)=1 and N_-=P_-^2+Q_-^2 is odd, every prime dividing N_-
+is congruent to 1 mod 4.  Hence K_- is an odd squarefree product of
+1 mod 4 primes.
+Write
+```text
+N_-=K_-*r^2.
+```
+Recall
+```text
+h=gcd(N_-,N_+)
+```
+and
+```text
+L_-=g_-^2*(N_-/h).
+```
+Because g_-^2 is already a square,
+```text
+L_- is square
+<=> N_-/h is square.
+```
+Prime-by-prime valuation parity gives the exact reformulation:
+### Theorem 99-C — OneFactorSquareKernelAbsorption
+On the one-factor locus,
+```text
+h=K_-*s^2
+```
+for some integer s dividing r.
+Equivalently,
+```text
+sqf(h)=sqf(N_-)=K_-.
+```
+In particular,
+```text
+K_- | h | N_+.
+```
+This is the genuine moving common-core condition hidden inside
+L_-=square.
+## 99.4 K_- is coprime to the residual physical modulus C_-
+Section96 already implies gcd(C_-,N_-)=1; it is also immediate from
+Theorem99-A/99-B because every prime of C_- divides exactly one of the two
+coprime odd quantities
+```text
+gamma^2*y0*s0,
+delta^2*x0*t0.
+```
+Thus
+### Theorem 99-D — SquareKernelMinusModulusCoprimality
+```text
+gcd(K_-,C_-)=1.
+```
+In particular all coefficients
+```text
+x0*s0,
+y0*t0
+```
+are units modulo K_-.
+## 99.5 Genuine quartic root lines in alpha/beta
+Set
+```text
+E=x0*s0,
+F=y0*t0.
+```
+The necessary condition K_-|N_+ becomes
+```text
+beta^4*E^2 + alpha^4*F^2 == 0 mod K_-.
+```
+On a one-factor point, gcd(alpha,beta,K_-)=1:
+if a prime p|K_- divided alpha, the congruence above would force
+p|beta*E, impossible because gcd(alpha,beta)=1 and p is coprime to E.
+The same argument applies to beta.
+Hence for every p|K_-,
+```text
+(lambda)^4 == -E^2/F^2 mod p,
+lambda=alpha/beta.
+```
+The polynomial
+```text
+F^2*T^4+E^2
+```
+has derivative 4*F^2*T^3, which is nonzero at every admissible root modulo
+p.  Thus all roots are simple.
+There are at most four roots modulo each p and therefore at most
+```text
+4^omega(K_-)=K_-^{o(1)}
+```
+projective root classes modulo K_-.
+### Theorem 99-E — GenuineSquareKernelRootLines
+For a fixed residual packet, every one-factor point has (alpha:beta) on at
+most
+```text
+4^omega(K_-)
+```
+primitive projective root lines modulo K_-.
+Unlike the C_- condition, this is not automatic from the packet
+factorization: it is exactly the first parity content of the one-factor
+condition.
+For a dyadic box
+```text
+alpha~A0,
+beta~B0,
+```
+the primitive determinant-spacing lemma gives
+```text
+#(alpha,beta)
+ << K_-^{o(1)}*(1+A0*B0/K_-).
+```
+Since
+```text
+alpha*beta=g_-=X/C_- <= B/C_-,
+```
+we get the conditional bound
+```text
+#(alpha,beta)
+ << B^{o(1)}*(1+B/(C_-*K_-)).
+```
+This is the correct root-line scale replacing Section96-R1.
+## 99.6 Cross-routing interpretation of K_-
+Recall
+```text
+h
+ = gcd(W1,V2)*gcd(W2,V1).
+```
+The two factors are coprime: a common odd prime would divide both W1 and V1
+(or both W2 and V2), contradicting primitivity of the corresponding
+Pythagorean triple.
+Since K_- is squarefree and K_-|h, there is a unique coprime splitting
+```text
+K_-=K_1*K_2,
+```
+with
+```text
+K_1 | gcd(W1,V2),
+K_2 | gcd(W2,V1).
+```
+For each prime q|K_1, q divides exactly one of m,n and also
+```text
+a^2+b^2 == 0 mod q.
+```
+Thus q==1 mod4 and the primitive source pair (a:b) lies on one of the two
+Gaussian root lines
+```text
+a == +/- i_q*b mod q.
+```
+Similarly, each q|K_2 divides exactly one of a,b and puts (m:n) on one of
+the two root lines
+```text
+m == +/- i_q*n mod q.
+```
+Therefore K_- simultaneously creates:
+1. coordinate divisibility on one Euclid source pair; and
+2. a Gaussian root-line congruence on the transverse source pair.
+This is the exact large-sieve geometry that should replace the tautological
+C_- root line.
+## 99.7 Revised architecture
+The surviving one-factor problem is now:
+```text
+residual packet
+  -> fixed N_-
+  -> K_-=sqf(N_-)
+  -> one-factor forces sqf(h)=K_-
+  -> K_-|N_+(alpha,beta)
+  -> genuine quartic root lines mod K_-
+  -> equivalent cross-routing through
+       gcd(W1,V2) and gcd(W2,V1).
+```
+Section98 already disposes of
+```text
+C_- <= B^(1/3-epsilon).
+```
+For the remaining region
+```text
+C_- >= B^(1/3-epsilon),
+```
+the meaningful second axis is now K_-, not C_- itself.
+Define the new split:
+```text
+K_- large:
+    exploit K_- cross-routing / quartic root-line cancellation;
+K_- small:
+    exploit the exact Gaussian reconstruction
+    N_-=K_-*r^2
+    and count residual packets from the small squarefree core.
+```
+This is a corrected version of the old
+residue-rich / Gaussian-core-small architecture, now in coordinates that
+are exact on the Section98 residual packets.
+## 99.8 Exact state after Section99
+```text
+PMINUS_QMINUS_RESIDUAL_ONLY=true
+NMINUS_RESIDUAL_PACKET_INVARIANT=true
+NPLUS_ALPHA_BETA_MOVING=true
+PMINUS2_MINUS_QMINUS2_EQUALS_GPLUS_CMINUS=true
+C_MINUS_ROOT_LINE_INDEPENDENT_SIEVE=false
+K_MINUS_SQUAREFREE_KERNEL_DEFINED=true
+ONE_FACTOR_IFF_H_EQUALS_KMINUS_TIMES_SQUARE=true
+K_MINUS_DIVIDES_H=true
+K_MINUS_DIVIDES_NPLUS=true
+GCD_K_MINUS_C_MINUS=true
+GENUINE_K_MINUS_QUARTIC_ROOT_LINES=true
+K_MINUS_CROSS_ROUTING=true
+SMALL_C_MINUS_REGION_M3_NEGLIGIBLE=true
+K_MINUS_LARGE_SAME_M3_SIEVE=false
+K_MINUS_SMALL_GAUSSIAN_PACKET_COUNT=false
+M3_CANONICAL_MINUS_FACTOR_THINNESS=false
+P_OVER_M3_LIMIT_PROVED=false
+```
+### Next research item
+```text
+NEXT_ITEM=KminusLargeSmallDichotomy
+```
+The next task is to quantify both sides without assuming ordinary
+squarefree-kernel statistics on M3:
+1. large K_-: use the exact cross-routing congruence lattice on both source
+   pairs and retain the physical M3 condition;
+2. small K_-: use
+   N_-=K_-*r^2
+   to Gaussian-reconstruct the residual packet and determine the remaining
+   source freedom under R<=B.
+---
+# SECTION100 — primitive norm rectangle and fixed-N_- anti-concentration
+## 2026-09-27
+## Status: exact coordinate compression + new exact physical anti-concentration theorem
+Section99 identified the genuine one-factor modulus as the squarefree kernel
+of N_-.  This section compresses the four-cross-gcd coordinates back into
+the Section90 face-divisor coordinates and obtains a cleaner two-norm model.
+Let
+```text
+A0=P-Y,
+C0=Q-Z.
+```
+Write
+```text
+d0=gcd(A0,C0),
+A0=d0*a,
+C0=d0*c,
+gcd(a,c)=1.
+```
+Section90 defines
+```text
+k = X^2/(d0*a*c).
+```
+In the Section98 cross-gcd coordinates one has exactly
+```text
+d0 = beta^2*x0*s0,
+a  = delta^2*x0*t0,
+c  = gamma^2*y0*s0,
+k  = alpha^2*y0*t0.
+```
+In particular
+```text
+gcd(a,c)=1,
+gcd(d0,k)=1.
+```
+## 100.1 Exact physical rectangle
+Because
+```text
+(P-Y)(P+Y)=X^2,
+(Q-Z)(Q+Z)=X^2,
+```
+we obtain
+```text
+P-Y=d0*a,
+Q-Z=d0*c,
+Q+Z=a*k,
+P+Y=c*k.
+```
+Hence
+### Theorem 100-A — PrimitiveNormRectangle
+```text
+P=(d0*a+c*k)/2,
+Y=(c*k-d0*a)/2,
+Q=(d0*c+a*k)/2,
+Z=(a*k-d0*c)/2.
+```
+Moreover
+```text
+X^2=a*c*d0*k.
+```
+Thus the physical odd edge is exactly the geometric mean of the four
+positive odd rectangle factors.
+The cross-gcd grid is
+```text
+gcd(a,d0)=x0,
+gcd(a,k)=t0,
+gcd(c,d0)=s0,
+gcd(c,k)=y0.
+```
+Also
+```text
+gcd(a*c,d0*k)=R*S=x0*y0*s0*t0,
+```
+and
+```text
+(a*c)/(R*S)=g_+^2,
+(d0*k)/(R*S)=g_-^2.
+```
+So the square identity X^2=a*c*d0*k is the compressed form of the
+four-cross-gcd squareclass allocation.
+## 100.2 The two primitive Gaussian norms
+Define
+```text
+N_-=(a^2+c^2)/2,
+N_+=(d0^2+k^2)/2.
+```
+Then the Section99 formulas become exactly
+### Theorem 100-B — TwoPrimitiveNormDictionary
+```text
+N_- = P_-^2+Q_-^2,
+N_+ = P_+^2+Q_+^2.
+```
+The terminal product identities simplify to
+```text
+PQ-YZ = d0*k*N_-,
+PQ+YZ = a*c*N_+.
+```
+The physical third-face diagonal D satisfies
+```text
+D^2=Y^2+Z^2
+   =N_-*N_+ - X^2.
+```
+Therefore the physical space-length square is
+### Theorem 100-C — ExactPhysicalHeightProduct
+```text
+R_phys^2
+ =X^2+Y^2+Z^2
+ =N_-*N_+.
+```
+Hence the exact physical cutoff is simply
+```text
+N_-*N_+ <= B^2.
+```
+This is an exact same-measure height statement, not a parameter-box
+replacement.
+## 100.3 One-factor condition in the norm rectangle
+Let
+```text
+h=gcd(N_-,N_+).
+```
+Since
+```text
+d0*k=(R*S)*g_-^2,
+a*c =(R*S)*g_+^2,
+```
+the physical gcd is
+```text
+G=gcd(PQ,YZ)=R*S*h.
+```
+Consequently
+```text
+L_-=g_-^2*(N_-/h),
+L_+=g_+^2*(N_+/h).
+```
+Thus
+```text
+L_- square
+<=> N_-/h square,
+```
+and Section99-C becomes
+```text
+sqf(h)=sqf(N_-)=K_-.
+```
+The one-factor problem is therefore exactly:
+> two primitive odd sum-of-two-squares norms N_-,N_+ under the product
+> height N_-N_+<=B^2, with the squarefree kernel of N_- completely absorbed
+> into gcd(N_-,N_+), together with the physical M3 equation
+> D^2=N_-N_+-X^2 and the squareclass gluing X^2=a*c*d0*k.
+This is the current minimal arithmetic receiver.
+## 100.4 Fixed N_- has only divisor-many first pairs
+Fix an odd integer n=N_-.
+The equation
+```text
+a^2+c^2=2n,
+gcd(a,c)=1,
+a,c odd
+```
+has at most
+```text
+r_2(2n) <= n^{o(1)}
+```
+ordered solutions.
+Thus fixing N_- leaves only divisor-many choices of the primitive first
+pair (a,c).
+## 100.5 Squareclass allocation for d0,k
+For fixed coprime odd a,c, put
+```text
+sigma=sqf(a*c).
+```
+The condition
+```text
+a*c*d0*k=X^2,
+gcd(d0,k)=1
+```
+forces
+```text
+sqf(d0*k)=sigma.
+```
+Choose a coprime orientation
+```text
+sigma=sigma_d*sigma_k.
+```
+There are at most
+```text
+2^omega(sigma)=B^{o(1)}
+```
+such orientations, and then
+```text
+d0=sigma_d*u^2,
+k =sigma_k*v^2,
+gcd(u,v)=1.
+```
+## 100.6 M3 becomes a smooth even quartic in u/v
+Substitute the previous forms into
+```text
+4D^2
+ =(c*k-d0*a)^2+(a*k-d0*c)^2.
+```
+For
+```text
+lambda=u/v
+```
+this becomes
+```text
+w^2
+ = sigma_d^2*(a^2+c^2)*lambda^4
+   -4*a*c*sigma_d*sigma_k*lambda^2
+   +sigma_k^2*(a^2+c^2),
+```
+after harmless scaling of w.
+Its quartic discriminant is nonzero whenever a!=c.  Indeed the relevant
+quadratic-in-lambda^2 discriminant is
+```text
+-4*sigma_d^2*sigma_k^2*(a^2-c^2)^2.
+```
+The canonical physical setting has a!=c, so every such fiber is smooth.
+The quartic is even in lambda, hence its Jacobian has a nonzero rational
+2-torsion point.
+The coefficients have polynomial height under R_phys<=B, and the rational
+coordinate lambda=u/v has polynomial height because
+```text
+d0*a,
+d0*c,
+k*a,
+k*c <= 2B.
+```
+Therefore the same Dujella/Bombieri-Zannier bounded-height theorem used in
+Sections39 and 98 applies uniformly.
+### Theorem 100-D — FixedFirstNormM3Multiplicity
+For every fixed N_-=n,
+```text
+#{E in M3(B): N_-(E)=n}
+ <= B^{o(1)}
+```
+uniformly in n<=B^2.
+Proof structure:
+```text
+fixed n
+ -> n^{o(1)} choices of (a,c)
+ -> B^{o(1)} squareclass orientations of d0,k
+ -> one smooth rational-2-torsion genus-one fiber
+ -> B^{o(1)} bounded-height rational points.
+```
+The same argument is symmetric in the two norm pairs and gives
+```text
+#{E in M3(B): N_+(E)=n}
+ <= B^{o(1)}.
+```
+## 100.7 New same-M3 anti-concentration consequences
+Using
+```text
+M3(B) >> B^(1/3),
+```
+Theorem100-D implies that for every fixed epsilon>0,
+```text
+#{E in M3(B): N_-(E)<=B^(1/3-epsilon)}
+ =o(M3(B)),
+```
+and symmetrically
+```text
+#{E in M3(B): N_+(E)<=B^(1/3-epsilon)}
+ =o(M3(B)).
+```
+Thus, after deleting an M3-negligible population,
+```text
+N_- >= B^(1/3-epsilon),
+N_+ >= B^(1/3-epsilon).
+```
+Combined with
+```text
+N_-*N_+<=B^2,
+```
+each surviving norm also satisfies
+```text
+N_-,N_+ <= B^(5/3+epsilon).
+```
+This is a third exact anti-concentration coordinate, after the rational
+t-fiber and the physical odd edge.
+## 100.8 What this does not yet close
+The norm rectangle does not by itself prove one-factor thinness.
+The remaining Class-3 statement has become more precise:
+### Receiver 100-R1 — SameM3PrimitiveNormSquareKernelIncidence
+On the exact physical M3 population in the product-height region
+```text
+N_-*N_+<=B^2,
+N_-,N_+>=B^(1/3-epsilon),
+```
+prove that
+```text
+sqf(gcd(N_-,N_+))=sqf(N_-)
+```
+occurs with relative frequency o(1).
+Equivalently, with
+```text
+K_-=sqf(N_-),
+```
+prove same-M3 decay for the requirement
+```text
+K_- | N_+
+```
+together with the exact parity condition
+```text
+gcd(N_-,N_+)/K_- is a square.
+```
+The external bounded-height results used above control one fixed genus-one
+fiber, but they do not supply this moving-norm congruence cancellation
+across the polynomially many occupied fibers.
+That is the remaining local-to-global wall in its current smallest form.
+## 100.9 Exact state after Section100
+```text
+PRIMITIVE_NORM_RECTANGLE=true
+X2_EQUALS_A_C_D0_K=true
+NMINUS_EQUALS_A2_PLUS_C2_OVER2=true
+NPLUS_EQUALS_D02_PLUS_K2_OVER2=true
+PHYSICAL_HEIGHT_SQUARED_EQUALS_NMINUS_NPLUS=true
+PHYSICAL_HEIGHT_PRODUCT_CUTOFF_EXACT=true
+ONE_FACTOR_SQUAREKERNEL_NORM_GCD_FORM=true
+FIXED_NMINUS_M3_MULTIPLICITY_BO1=true
+FIXED_NPLUS_M3_MULTIPLICITY_BO1=true
+SMALL_NMINUS_REGION_M3_NEGLIGIBLE=true
+SMALL_NPLUS_REGION_M3_NEGLIGIBLE=true
+SAME_M3_PRIMITIVE_NORM_SQUAREKERNEL_INCIDENCE=false
+M3_CANONICAL_MINUS_FACTOR_THINNESS=false
+P_OVER_M3_LIMIT_PROVED=false
+```
+### Next research item
+```text
+NEXT_ITEM=PrimitiveNormSquareKernelIncidence
+```
+The next attack should work directly in the norm rectangle rather than
+returning to the tautological C_- modulus.
+---
+# SECTION101 — dual prime-power Gaussian root packets at the common core h
+## 2026-09-27
+## Status: exact local/lattice theorem + negative global summation result
+Section100 reduced the one-factor condition to two primitive odd Gaussian norms
+```text
+N_-=(a^2+c^2)/2,
+N_+=(d0^2+k^2)/2,
+gcd(a,c)=gcd(d0,k)=1,
+```
+with
+```text
+h=gcd(N_-,N_+),
+N_-=h*u^2
+```
+on the one-factor locus.
+This section records the full prime-power congruence geometry carried by h.
+## 101.1 Every prime power of h gives two root lines on each primitive pair
+Let p^e||h.
+Because p divides N_- and gcd(a,c)=1, neither a nor c is divisible by p.
+Thus c is invertible modulo p^e and
+```text
+(a/c)^2 == -1 mod p^e.
+```
+Likewise, neither d0 nor k is divisible by p and
+```text
+(d0/k)^2 == -1 mod p^e.
+```
+Every prime divisor of h is therefore 1 mod 4.
+For p==1 mod4, the two roots of T^2+1 modulo p are simple, so Hensel
+lifting gives exactly two roots modulo every p^e.
+By CRT:
+### Theorem 101-A — DualGaussianRootPacket
+For fixed h, the primitive projective pair (a:c) lies on exactly
+```text
+2^omega(h)
+```
+possible Gaussian root lines modulo h, and independently (d0:k) lies on
+at most
+```text
+2^omega(h)
+```
+root lines modulo h.
+Hence the pair of projective ratios lies in at most
+```text
+4^omega(h)=h^{o(1)}
+```
+dual root packets modulo h.
+This uses the full prime powers in h, not merely rad(h).
+## 101.2 Lattice determinant
+Fix one root rho modulo h for the first pair:
+```text
+a == rho*c mod h.
+```
+The corresponding rank-2 lattice in Z^2 has determinant h.
+Therefore in a box
+```text
+|a|<=A,
+|c|<=C
+```
+the number of primitive points on that root line is
+```text
+O(1+A*C/h).
+```
+The same holds for the second pair.
+Thus, for dyadic boxes with areas
+```text
+Area_- ~ A*C,
+Area_+ ~ D*K,
+```
+### Theorem 101-B — DualRootPacketLatticeBound
+The number of primitive norm rectangles satisfying h|N_- and h|N_+ in one
+fixed pair of Gaussian root classes is
+```text
+O((1+Area_-/h)*(1+Area_+/h)).
+```
+After summing over all root packets,
+```text
+# rectangles
+ << h^{o(1)}
+    (1+Area_-/h)
+    (1+Area_+/h).
+```
+This is an exact geometry-of-numbers bound.
+## 101.3 Specialization to the one-factor locus
+On the one-factor locus,
+```text
+N_-=h*u^2.
+```
+So the first primitive Gaussian pair is not merely on a root line; it is a
+Gaussian square packet over a norm-h orientation.
+Equivalently there is a Gaussian integer kappa of norm h and a primitive
+Gaussian integer z such that
+```text
+a+i*c = epsilon*kappa*z^2.
+```
+The number of possible orientations kappa for fixed h is
+```text
+2^omega(h)=h^{o(1)}.
+```
+If N_-<=Y, then
+```text
+Norm(z)<=sqrt(Y/h).
+```
+Hence the total number of primitive first pairs on the one-factor locus
+with fixed h and N_-<=Y is
+```text
+<< h^{o(1)}*sqrt(Y/h).
+```
+This square-root saving is stronger than the raw lattice-line count on the
+first side.
+## 101.4 Why the dual lattice theorem still does not close M3 thinness
+The exact product-height cutoff is
+```text
+N_-*N_+<=B^2.
+```
+For fixed h and first Gaussian square parameter z, the second norm satisfies
+```text
+N_+<=B^2/N_-.
+```
+The root-line condition modulo h gives the ambient second-pair estimate
+```text
+#(d0,k)
+ << h^{o(1)}*(1+B^2/(h*N_-)).
+```
+Since N_-=h*u^2,
+```text
+#(d0,k)
+ << h^{o(1)}*(1+B^2/(h^2*u^2)).
+```
+Summing this ambient estimate over all primitive Gaussian z does not produce
+an absolute count below the known M3 denominator scale B^(1/3).
+The large family of moving h values destroys the gain.
+Thus:
+### Negative Result 101-C — DualRootPacketAloneInsufficient
+The exact prime-power dual root-line geometry at h, even combined with the
+Gaussian-square reconstruction of the first norm, is not by itself enough
+to prove
+```text
+M3CanonicalMinusFactorThinness.
+```
+A further use of the already-imposed M3 equation
+```text
+D^2=N_-*N_+-X^2
+```
+or a genuine same-M3 distribution theorem across the moving norm fibers is
+still required.
+This rules out a second tempting shortcut:
+```text
+"large h + determinant h^2 automatically gives density zero."
+```
+It does not.
+## 101.5 Correct target after the failed raw-lattice summation
+The useful exact structure now consists of three simultaneous facts:
+```text
+(1) N_-=h*u^2,
+(2) both primitive Gaussian pairs lie on root lines mod h,
+(3) D^2=N_-*N_+-X^2 and X^2=a*c*d0*k.
+```
+The next theorem must exploit (3) together with (1)-(2), not only count
+root lines in the ambient rectangle.
+A natural formulation is:
+### Receiver 101-R1 — M3ConditionedDualGaussianIncidence
+For the smooth genus-one M3 fibers from Section100, prove a uniform
+congruence-counting estimate for rational points whose second Gaussian pair
+lies in a prescribed root class modulo a moving divisor h of the first
+norm.
+Equivalently, prove a same-M3 large-sieve statement on the family of
+Section100 even quartics with moduli h that are themselves common Gaussian
+norm cores.
+This is now a substantially narrower target than full seven-squareclass
+equidistribution, but it is still a genuine moving-family theorem.
+## 101.6 Exact state after Section101
+```text
+H_FULL_PRIME_POWER_ROOT_LINES=true
+DUAL_GAUSSIAN_ROOT_PACKET_COUNT_4POWOMEGA=true
+DUAL_ROOT_PACKET_LATTICE_DETERMINANT_H2=true
+ONE_FACTOR_FIRST_GAUSSIAN_SQUARE_RECONSTRUCTION=true
+RAW_DUAL_ROOT_PACKET_GLOBAL_SUMMATION_SUFFICIENT=false
+M3_CONDITIONED_DUAL_GAUSSIAN_INCIDENCE=false
+M3_CANONICAL_MINUS_FACTOR_THINNESS=false
+P_OVER_M3_LIMIT_PROVED=false
+```
+### Next research item
+```text
+NEXT_ITEM=M3ConditionedDualGaussianIncidence
+```
+---
+# SECTION102 — the physical M3 Gaussian root line modulo h^2
+## 2026-09-27
+## Status: exact physical congruence theorem + reconstruction bound; global moving-h distribution still open
+Section101 used the common Gaussian core
+```text
+h=gcd(N_-,N_+)
+```
+on the two primitive norm pairs.  The M3 equation itself gives a third,
+stronger root line directly in physical coordinates.
+Recall
+```text
+N_-=(a^2+c^2)/2,
+N_+=(d0^2+k^2)/2,
+R_phys^2=N_-*N_+,
+D^2=Y^2+Z^2,
+X^2=a*c*d0*k,
+```
+so
+```text
+D^2+X^2=N_-*N_+.
+```
+## 102.1 h is coprime to the physical odd edge X
+Use the Master dictionary
+```text
+h=gcd(W1,V2)*gcd(W2,V1).
+```
+Let p divide gcd(W1,V2).
+Since (U1,V1,W1) is a primitive Pythagorean triple,
+```text
+gcd(W1,U1)=1.
+```
+Since (U2,V2,W2) is primitive,
+```text
+gcd(V2,U2)=1.
+```
+Hence p divides neither U1 nor U2.
+The same argument applies to every prime dividing gcd(W2,V1).
+Because
+```text
+X=U1*U2/gcd(U1,U2),
+```
+we obtain:
+### Theorem 102-A — CommonCoreOddEdgeCoprimality
+```text
+gcd(h,X)=1.
+```
+This is exact and pointwise.
+## 102.2 The M3 pair (D:X) is a Gaussian root line modulo h^2
+Since
+```text
+h|N_-,
+h|N_+,
+```
+we have
+```text
+h^2 | N_-*N_+.
+```
+Using
+```text
+D^2+X^2=N_-*N_+,
+```
+gives
+```text
+D^2+X^2 == 0 mod h^2.
+```
+By Theorem102-A, X is a unit modulo h^2.  Therefore
+```text
+(D/X)^2 == -1 mod h^2.
+```
+Every prime divisor of h is 1 mod4, so T^2+1 has exactly two Hensel-stable
+roots at each prime power.
+Hence:
+### Theorem 102-B — PhysicalM3RootLineModuloH2
+For fixed h, every one-factor M3 point has
+```text
+D == rho*X mod h^2
+```
+for one of exactly
+```text
+2^omega(h)=h^{o(1)}
+```
+Gaussian roots rho of -1 modulo h^2.
+Thus the already-imposed M3 condition creates a genuinely physical
+projective root-line packet of modulus h^2.
+This is stronger in modulus than the source-side root lines modulo h from
+Section101.
+## 102.3 Geometry of the physical root lattice
+Fix one rho with
+```text
+rho^2 == -1 mod h^2.
+```
+The lattice
+```text
+Lambda_{h,rho}
+ ={(X,D) in Z^2:
+   D==rho*X mod h^2}
+```
+has determinant h^2.
+Moreover every nonzero lattice vector satisfies
+```text
+h^2 | X^2+D^2.
+```
+Hence its Euclidean norm is at least h.
+For the physical disk
+```text
+0<X<=B,
+0<D<=B,
+```
+standard planar lattice counting gives
+```text
+#(Lambda_{h,rho} intersect disk_B)
+ << 1+B/h+B^2/h^2.
+```
+After summing over the root packets:
+### Theorem 102-C — PhysicalRootLineAmbientCount
+For fixed h,
+```text
+#{(X,D):
+   0<X,D<=B,
+   gcd(X,h)=1,
+   h^2|X^2+D^2}
+ << h^{o(1)}
+    (1+B/h+B^2/h^2).
+```
+This is an ambient physical-coordinate bound, not yet an M3 relative bound.
+## 102.4 Fixed (X,D) has divisor-many brick multiplicity
+Fix positive integers X,D.
+Any compatible Euler brick must have
+```text
+Y^2+Z^2=D^2.
+```
+The number of positive integer representations of a fixed D as a
+Pythagorean hypotenuse is bounded by a divisor function:
+```text
+#{(Y,Z):Y^2+Z^2=D^2}
+ <= D^{o(1)}.
+```
+For each such pair, the adjacent-face conditions
+```text
+X^2+Y^2=P^2,
+X^2+Z^2=Q^2
+```
+are deterministic checks.
+After imposing primitive/canonical conventions only fewer points remain.
+Therefore:
+### Theorem 102-D — FixedPhysicalXDMultiplicity
+Uniformly for X,D<=B,
+```text
+#{E in M3(B):
+   odd edge X(E)=X,
+   opposite face diagonal D(E)=D}
+ <= B^{o(1)}.
+```
+Thus the moving-h problem can be formulated entirely on the physical
+(X,D) plane.
+## 102.5 Exact physical reformulation of the remaining wall
+Combining Theorems102-B and 102-D, every one-factor M3 point determines a
+triple
+```text
+(h,X,D)
+```
+such that
+```text
+h^2 | X^2+D^2,
+gcd(h,X)=1,
+D/X is a Gaussian root mod h^2,
+```
+and each fixed (X,D) supports only B^{o(1)} bricks.
+Therefore the current one-factor thinness problem is equivalent, up to
+B^{o(1)} multiplicity, to controlling on the occupied physical M3 image
+the moving square divisor
+```text
+h^2 | X^2+D^2.
+```
+The key point is that h is not an arbitrary divisor:
+it is exactly
+```text
+h=gcd(N_-,N_+)
+```
+and on the one-factor locus
+```text
+sqf(h)=sqf(N_-).
+```
+## 102.6 Negative result: ambient physical lattice summation is still too weak
+If one ignores M3 occupancy and sums Theorem102-C over h, the resulting
+bound is still far above the certified denominator scale
+```text
+M3(B)>>B^(1/3).
+```
+In particular, the determinant h^2 does not by itself compensate for the
+polynomially many possible moving h values.
+Therefore:
+### Negative Result 102-E — AmbientPhysicalRootLineInsufficient
+The physical congruence
+```text
+D^2 == -X^2 mod h^2
+```
+is a genuine M3-conditioned transverse constraint, but ambient lattice
+counting on the (X,D) plane alone does not prove one-factor density zero.
+The unresolved statement is now explicitly a same-M3 distribution theorem
+for the moving common core h.
+## 102.7 New minimal receiver
+### Receiver 102-R1 — PhysicalM3MovingCommonCoreSieve
+Prove on exact primitive canonical M3(B) that the subset for which
+```text
+h(E)^2 | X(E)^2+D(E)^2,
+gcd(h(E),X(E))=1,
+sqf(h(E))=sqf(N_-(E))
+```
+has relative frequency o(1), where h(E)=gcd(N_-(E),N_+(E)).
+Equivalent formulations are:
+1. same-M3 cancellation across the Gaussian root classes
+   `D/X mod h^2`;
+2. a square-divisor sieve for `X^2+D^2` restricted to the exact M3 image;
+3. a congruence-counting theorem on the Section100 genus-one family with
+   moving modulus h^2.
+This is strictly narrower than the original seven-squareclass
+local-to-global problem.
+## 102.8 Exact state after Section102
+```text
+GCD_H_X_EQUALS_ONE=true
+H2_DIVIDES_X2_PLUS_D2=true
+PHYSICAL_D_OVER_X_GAUSSIAN_ROOT_MOD_H2=true
+PHYSICAL_ROOT_LINE_MODULUS_H2=true
+FIXED_X_D_M3_MULTIPLICITY_BO1=true
+AMBIENT_PHYSICAL_ROOT_LINE_SUMMATION_SUFFICIENT=false
+PHYSICAL_M3_MOVING_COMMON_CORE_SIEVE=false
+M3_CANONICAL_MINUS_FACTOR_THINNESS=false
+P_OVER_M3_LIMIT_PROVED=false
+```
+### Next research item
+```text
+NEXT_ITEM=PhysicalM3MovingCommonCoreSieve
+```
+The next attack should search for an already available same-measure
+congruence theorem on the K_c / Section32 odd-edge divisor model that can
+see the physical pair (X,D) modulo a moving square modulus h^2.
+---
+# SECTION103 — physical recovery of h, four-corner routing, and Stage14 crosswalk
+## 2026-09-27
+## Status: exact physical dictionary + exact routing; direct Reuss transfer blocked by split-product eliminant
+Section102 left the moving common core
+```text
+h=gcd(N_-,N_+)
+```
+as the live modulus.  This section shows that h is already a canonical
+physical cross-gcd and identifies the exact endpoint/root-line packet it
+creates.
+## 103.1 Exact physical recovery of the two coprime pieces of h
+Use the unique-odd-edge Master notation
+```text
+X=U1*U2/g,
+Y=V1*U2/g,
+Z=U1*V2/g,
+P=W1*U2/g,
+Q=U1*W2/g,
+g=gcd(U1,U2).
+```
+Write
+```text
+U1=g*a,
+U2=g*b,
+gcd(a,b)=1.
+```
+Then
+```text
+Y=V1*b,
+Z=a*V2,
+P=W1*b,
+Q=a*W2.
+```
+Primitivity of the two Pythagorean triples gives
+```text
+gcd(V1,a)=1,
+gcd(W2,b)=1,
+gcd(W1,a)=1,
+gcd(V2,b)=1.
+```
+Hence
+```text
+gcd(Y,Q)=gcd(V1,W2),
+gcd(Z,P)=gcd(V2,W1).
+```
+Define
+```text
+d_phys:=gcd(Y,Q),
+p_phys:=gcd(Z,P).
+```
+The Section89/86 common core is therefore
+### Theorem 103-A — PhysicalCrossCoreRecovery
+```text
+h=d_phys*p_phys.
+```
+Moreover
+```text
+gcd(d_phys,p_phys)=1.
+```
+Indeed a common odd prime would divide both legs/hypotenuses inside one
+primitive Pythagorean face, impossible.
+Thus h is not a hidden source-coordinate modulus.  It is recovered directly
+from the physical Euler brick by
+```text
+h=gcd(Y,Q)*gcd(Z,P).
+```
+## 103.2 Canonical routing of every prime power of h
+Let p^e||h.
+Because the two factors in Theorem103-A are coprime, the full prime power
+p^e belongs to exactly one of the two physical cross gcds.
+Therefore exactly one of the following holds:
+```text
+Type Y:
+  p^e | Y,
+  p^e | Q,
+  p does not divide Z*P;
+Type Z:
+  p^e | Z,
+  p^e | P,
+  p does not divide Y*Q.
+```
+Equivalently, with
+```text
+h_Y:=gcd(h,Y)=gcd(h,Q),
+h_Z:=gcd(h,Z)=gcd(h,P),
+```
+we have
+### Theorem 103-B — PhysicalPrimePowerRouting
+```text
+h=h_Y*h_Z,
+gcd(h_Y,h_Z)=1,
+h_Y | gcd(Y,Q),
+h_Z | gcd(Z,P),
+```
+and every prime power of h is routed wholly to one side.
+In fact Theorem103-A gives equality:
+```text
+h_Y=gcd(Y,Q),
+h_Z=gcd(Z,P).
+```
+after the fixed labeling of Y,Z/P,Q.
+## 103.3 The same routing from the Gaussian root orientations
+In Section100 coordinates,
+```text
+N_-=(a^2+c^2)/2,
+N_+=(d0^2+k^2)/2.
+```
+For p^e||h choose roots of -1 modulo p^e and write
+```text
+a/c  == epsilon*i_p mod p^e,
+d0/k == delta*i_p mod p^e,
+epsilon,delta in {+1,-1}.
+```
+Using
+```text
+2Y=c*k-d0*a,
+2Z=a*k-d0*c,
+```
+one gets:
+```text
+epsilon=delta
+  => p^e|Z and p does not divide Y;
+epsilon=-delta
+  => p^e|Y and p does not divide Z.
+```
+Thus the Gaussian orientation packet and the physical cross-gcd routing are
+the same local datum.
+This gives an exact interpretation of the local orientation entropy:
+the apparently independent 4 choices per prime are precisely the choice of
+which physical cross edge receives the common-core prime power together
+with the local square-root sign.
+## 103.4 Endpoint square-modulus consequences
+Suppose p^e|h_Y.  Then p^e|Y and gcd(p,X)=1.
+Since
+```text
+P^2-X^2=Y^2,
+```
+we have
+```text
+P^2 == X^2 mod p^(2e).
+```
+Thus
+```text
+P/X
+```
+is a square root of +1 modulo p^(2e).
+Similarly, if p^e|h_Z then
+```text
+Q^2 == X^2 mod p^(2e).
+```
+Consequently:
+### Theorem 103-C — CrossCoreEndpointRootPacket
+For every common-core packet,
+```text
+P/X is a root of +1 modulo h_Y^2,
+Q/X is a root of +1 modulo h_Z^2,
+D/X is a root of -1 modulo h^2.
+```
+All three statements are Hensel-stable at every odd prime power.
+This is a fully physical triple-root packet:
+```text
+Gaussian/source side:
+  roots of -1 mod h;
+endpoint adjacent-face side:
+  roots of +1 mod h_Y^2 and h_Z^2;
+M3 opposite-face side:
+  root of -1 mod h^2.
+```
+No modulus is to be charged twice; these are correlated images of the same
+common core h.
+## 103.5 Normalized physical eliminant
+Write
+```text
+Y=d*y,
+Q=d*q,
+Z=p*z,
+P=p*r,
+```
+where
+```text
+d=gcd(Y,Q),
+p=gcd(Z,P),
+gcd(p,d)=1,
+h=p*d.
+```
+The two adjacent-face identities are
+```text
+p^2*r^2-X^2=d^2*y^2,
+d^2*q^2-X^2=p^2*z^2.
+```
+Subtracting gives
+```text
+p^2*(r^2+z^2)
+ =
+d^2*(q^2+y^2).
+```
+Because gcd(p,d)=1, there is an integer M such that
+```text
+r^2+z^2=d^2*M,
+q^2+y^2=p^2*M.
+```
+Also
+```text
+R_phys^2=h^2*M.
+```
+The reciprocal completion can be written as the two split products
+```text
+(p*r-d*y)(p*r+d*y)=X^2,
+(d*q-p*z)(d*q+p*z)=X^2.
+```
+Therefore
+### Theorem 103-D — PhysicalSplitProductEliminant
+After fixing the physical common-core split (p,d), the exact completion
+satisfies
+```text
+(p*r-d*y)(p*r+d*y)
+ =
+(d*q-p*z)(d*q+p*z)
+ =
+X^2.
+```
+This is the current exact eliminant between the correlated root-line blocks.
+## 103.6 Crosswalk to the late Stage14 obstruction
+The late Stage14 q10 packet consists of:
+1. a primitive Gaussian root line with local root t^2=-1 over a moving
+   common core;
+2. a primitive endpoint root line with local root t^2=+1 over the same
+   already-charged core;
+3. an exact reciprocal physical completion;
+4. only subpolynomial orientation entropy.
+Theorems103-B/C show that the present M3 common-core packet is of exactly
+that arithmetic species.
+The Stage14 literature radar identifies Reuss's determinant-sensitive
+bilinear/trilinear point-count theorem as the first deterministic transfer
+test only if the reciprocal completion reduces to an irreducible bilinear
+or trilinear eliminant with a genuinely large coefficient determinant.
+Theorem103-D shows that the first M3 eliminant is instead a split product
+equality.
+Hence:
+### Negative Result 103-E — DirectReussTransferNotYetAvailable
+The present physical common-core packet does not yet satisfy the required
+Reuss bridge merely from Theorem103-D.
+The split equality has the same diagonal/proportional danger recorded in
+Stage14-X3:
+```text
+fixed-value fibers may be divisor-small,
+while the equal-value incidence can still carry a large diagonal family.
+```
+Therefore one must retain the physical cross-role locks and M3 completion
+before claiming any determinant saving.
+The Stage14 q10/X3 results are thus relevant methodology and obstruction
+certificates, not a theorem that can be cross-promoted to M3 closure.
+## 103.7 Current best exact formulation
+The moving-core problem can now be stated without source coordinates.
+For a primitive canonical M3 brick define
+```text
+d=gcd(Y,Q),
+p=gcd(Z,P),
+h=p*d.
+```
+A one-factor survivor must satisfy the Section99 square-kernel parity and
+the correlated physical packet
+```text
+d | Y,Q,
+p | Z,P,
+P^2 == X^2 mod d^2,
+Q^2 == X^2 mod p^2,
+D^2 == -X^2 mod h^2,
+(p*r-d*y)(p*r+d*y)
+ =
+(d*q-p*z)(d*q+p*z)
+ =
+X^2.
+```
+This is considerably narrower than an unrestricted moving-modulus
+equidistribution problem.
+### Receiver 103-R1 — PhysicalCrossCoreReciprocalIncidence
+Prove a fixed-power saving for the exact physical incidence above after
+all of the following are retained simultaneously:
+```text
+primitive/canonical M3,
+physical R<=B,
+coprime split h=p*d,
+Gaussian root orientations,
+endpoint +/- root orientations,
+both split-product equalities,
+square-kernel parity from Section99.
+```
+A valid proof may use a determinant-sensitive bilinear/trilinear theorem
+only after deriving a non-split eliminant with a determinant not already
+paid for by the common-core spacing.
+## 103.8 Exact state after Section103
+```text
+H_PHYSICAL_RECOVERY_EQUALS_GCD_Y_Q_TIMES_GCD_Z_P=true
+H_COPRIME_PHYSICAL_SPLIT=true
+COMMON_CORE_PRIME_POWER_ROUTES_TO_EXACTLY_ONE_EVEN_EDGE=true
+ENDPOINT_PLUSONE_ROOTS_MOD_SPLIT_CORE_SQUARED=true
+M3_MINUSONE_ROOT_MOD_H_SQUARED=true
+PHYSICAL_SPLIT_PRODUCT_ELIMINANT=true
+STAGE14_Q10_ARITHMETIC_SPECIES_CROSSWALK=true
+DIRECT_REUSS_TRANSFER_AVAILABLE=false
+PHYSICAL_CROSSCORE_RECIPROCAL_INCIDENCE_POWER_SAVING=false
+M3_CANONICAL_MINUS_FACTOR_THINNESS=false
+P_OVER_M3_LIMIT_PROVED=false
+```
+### Next research item
+```text
+NEXT_ITEM=CrossCoreNonSplitEliminantOrDiagonalExclusion
+```
+The smallest next task is exactly the Stage14-q10 handoff specialized to
+the simpler M3 physical variables:
+1. classify the proportional/diagonal solutions of Theorem103-D under the
+   full physical masks;
+2. if that branch is negligible or impossible, derive the off-diagonal
+   non-split eliminant and test Reuss immediately;
+3. otherwise freeze the surviving diagonal family as the new exact
+   obstruction rather than hiding it inside a generic large-sieve target.
+---
+# SECTION104 — matched Gaussian square extraction in the physical (X,D) plane
+## 2026-09-27
+## Status: exact Gaussian factor extraction + new fixed-D anti-concentration; no global density closure yet
+Section103 identified the physical common core
+```text
+h=gcd(Y,Q)*gcd(Z,P)
+```
+and proved
+```text
+gcd(h,X)=1,
+h^2 | X^2+D^2.
+```
+This section extracts the full Gaussian square carried by h and records a
+new exact M3 anti-concentration coordinate.
+## 104.1 Correction about the raw split-product proportional branch
+The raw identity
+```text
+A*B=C*E,
+A=P-Y,
+B=P+Y,
+C=Q-Z,
+E=Q+Z
+```
+is equivalently the rank-one condition
+```text
+(A,C) is proportional to (E,B).
+```
+Therefore this proportionality is not an exceptional diagonal branch: it
+is the entire bilinear variety.
+Hence one must not claim that proportionality alone forces a=c or Y=Z.
+The only immediate degeneration is the stronger same-orientation equality
+A=C and B=E, which indeed gives the already-excluded symmetric case.
+This correction confirms that the raw bilinear determinant
+`A*B-C*E` cannot by itself supply a Reuss saving.
+## 104.2 Gaussian square extraction from h^2 | X^2+D^2
+Let
+```text
+Z_phys := X+iD.
+```
+For every p^e||h, p==1 mod4 and p does not divide X*D.
+Factor in Z[i]
+```text
+p=pi_p*conj(pi_p).
+```
+Because p does not divide both X and D, the two conjugate Gaussian primes
+cannot both divide Z_phys.
+Since
+```text
+p^(2e) | Norm(Z_phys),
+```
+exactly one of pi_p or conj(pi_p) divides Z_phys to exponent at least 2e.
+Choose the oriented Gaussian factor
+```text
+kappa_h
+ = product_{p^e||h} Pi_p^e,
+```
+where Pi_p is the unique conjugate orientation occurring in Z_phys.
+Then
+```text
+Norm(kappa_h)=h
+```
+and
+```text
+kappa_h^2 | Z_phys
+```
+in Z[i].
+Therefore:
+### Theorem 104-A — PhysicalMatchedGaussianSquareExtraction
+There exists a Gaussian integer zeta such that
+```text
+X+iD = epsilon*kappa_h^2*zeta,
+Norm(kappa_h)=h,
+```
+with epsilon a Gaussian unit.
+Moreover
+```text
+Norm(zeta)
+ = (X^2+D^2)/h^2
+ = (N_-/h)*(N_+/h).
+```
+On the one-factor locus, writing
+```text
+N_-/h=u^2,
+N_+/h=v,
+gcd(u,v)=1,
+```
+gives
+```text
+Norm(zeta)=u^2*v.
+```
+Thus the moving common core h is literally a matched Gaussian square factor
+of the physical terminal pair (X,D).
+## 104.3 Fixed (h,J) has subpolynomial physical multiplicity
+Define
+```text
+J := (X^2+D^2)/h^2.
+```
+Fix h and J.
+The number of Gaussian orientations kappa_h of norm h is
+```text
+<=2^omega(h)=B^{o(1)}.
+```
+The number of Gaussian integers zeta of norm J is
+```text
+r_2(J)=J^{o(1)}.
+```
+Therefore the number of physical pairs (X,D) satisfying
+```text
+X+iD=epsilon*kappa_h^2*zeta
+```
+is B^{o(1)}.
+By Section102-D, each fixed (X,D) supports at most B^{o(1)} primitive
+canonical M3 bricks.
+Hence:
+### Theorem 104-B — FixedMatchedCoreQuotientMultiplicity
+For every fixed pair (h,J),
+```text
+#{E in M3(B):
+   h(E)=h,
+   (X(E)^2+D(E)^2)/h^2=J}
+ <= B^{o(1)}.
+```
+On the one-factor locus J additionally has the coprime factorization
+```text
+J=u^2*v.
+```
+This is the physical analogue of the matched-common-core reconstruction
+pattern seen in late Stage14.
+It does not by itself compress the total number of moving (h,J) pairs
+enough to prove density zero.
+## 104.4 Fixed opposite-face diagonal D has subpolynomial M3 multiplicity
+Fix D.
+First solve
+```text
+Y^2+Z^2=D^2.
+```
+The number of positive integer representations is bounded by a divisor
+function:
+```text
+#{(Y,Z):Y^2+Z^2=D^2}
+ <= D^{o(1)}.
+```
+Now fix one such Y.
+The adjacent-face equation
+```text
+X^2+Y^2=P^2
+```
+is equivalent to
+```text
+(P-X)(P+X)=Y^2.
+```
+Thus the number of positive integer pairs (X,P) is bounded by
+```text
+tau(Y^2)=D^{o(1)}.
+```
+The second adjacent-face condition
+```text
+X^2+Z^2=Q^2
+```
+only removes candidates.
+Primitive/canonical conventions again only reduce the count.
+Therefore:
+### Theorem 104-C — FixedOppositeFaceDiagonalMultiplicity
+Uniformly for D<=B,
+```text
+#{E in M3(B): D(E)=D}
+ <= B^{o(1)}.
+```
+This is independent of the one-factor condition.
+## 104.5 Small-D region is M3-negligible
+Using
+```text
+M3(B)>>B^(1/3),
+```
+Theorem104-C implies that for every fixed epsilon>0,
+```text
+#{E in M3(B):
+   D(E)<=B^(1/3-epsilon)}
+ =o(M3(B)).
+```
+Hence, after deleting an M3-negligible population, every surviving
+one-factor point simultaneously satisfies the previously proved lower
+bounds
+```text
+X    >= B^(1/3-epsilon),
+D    >= B^(1/3-epsilon),
+N_-  >= B^(1/3-epsilon),
+N_+  >= B^(1/3-epsilon),
+C_-  >= B^(1/3-epsilon).
+```
+These are exact physical anti-concentration statements, not heuristic size
+assumptions.
+## 104.6 Why the matched (h,J) compression is still insufficient
+The exact physical height gives
+```text
+h^2*J=X^2+D^2<=B^2.
+```
+Fixed (h,J) fibers are B^{o(1)}, but the ambient number of integer pairs
+```text
+(h,J): h^2*J<=B^2
+```
+is still polynomially too large compared with the certified denominator
+scale B^(1/3).
+Thus:
+### Negative Result 104-D — MatchedCorePairCountAloneInsufficient
+The Gaussian extraction
+```text
+X+iD=epsilon*kappa_h^2*zeta
+```
+and the fixed-(h,J) B^{o(1)} multiplicity do not by themselves prove
+one-factor thinness.
+A further correlation between
+```text
+J=u^2*v
+```
+and the physical face-completion data is required.
+## 104.7 Revised exact obstruction
+The current survivor packet can now be written as
+```text
+X+iD=epsilon*kappa_h^2*zeta,
+Norm(kappa_h)=h,
+Norm(zeta)=u^2*v,
+N_-=h*u^2,
+N_+=h*v,
+gcd(u,v)=1,
+h=gcd(Y,Q)*gcd(Z,P),
+```
+together with the two adjacent-face square conditions producing P,Q.
+This makes the remaining obstruction a matched Gaussian-square /
+reciprocal-completion incidence, rather than a generic moving-modulus
+problem.
+### Receiver 104-R1 — MatchedGaussianSquareReciprocalCompletion
+Prove a fixed-power saving for the number of physical M3 completions of
+```text
+X+iD=epsilon*kappa^2*zeta
+```
+when
+```text
+Norm(kappa)=h,
+Norm(zeta)=u^2*v,
+gcd(u,v)=1,
+```
+and the exact adjacent-face square conditions and Section99 square-kernel
+parity are retained.
+The raw rank-one equation A*B=C*E is not sufficient; the saving must come
+from the reciprocal completion beyond that identity.
+## 104.8 Exact state after Section104
+```text
+RAW_SPLIT_PRODUCT_PROPORTIONALITY_IS_NOT_EXCEPTIONAL=true
+PHYSICAL_MATCHED_GAUSSIAN_SQUARE_EXTRACTION=true
+FIXED_H_J_M3_MULTIPLICITY_BO1=true
+FIXED_D_M3_MULTIPLICITY_BO1=true
+SMALL_D_REGION_M3_NEGLIGIBLE=true
+MATCHED_CORE_PAIR_COUNT_ALONE_SUFFICIENT=false
+MATCHED_GAUSSIAN_SQUARE_RECIPROCAL_COMPLETION=false
+M3_CANONICAL_MINUS_FACTOR_THINNESS=false
+P_OVER_M3_LIMIT_PROVED=false
+```
+### Next research item
+```text
+NEXT_ITEM=MatchedGaussianSquareReciprocalCompletion
+```
+The next proof task is to insert the adjacent-face conditions directly into
+```text
+X+iD=epsilon*kappa_h^2*zeta
+```
+and determine whether the remaining completion becomes:
+1. an irreducible bilinear/trilinear incidence with determinant carrying a
+   fresh fixed power of h; or
+2. a genuinely new low-dimensional curve family whose fixed-fiber
+   multiplicity can be bounded uniformly.
+---
+# SECTION105 — canonical physical Gaussian squareclass equality
+## 2026-09-27
+## Status: exact equivalence for the one-factor receiver + rational/integer square reformulations
+Section104 extracted the moving common core as a Gaussian square factor of
+the physical pair X+iD.  This section gives a different and sharper
+reformulation: the one-factor condition itself is exactly equality of two
+canonical physical Gaussian squareclasses.
+Use the Section100 odd norm-rectangle coordinates
+```text
+A=(a+i*c)/(1+i),
+B=(d0+i*k)/(1+i).
+```
+Because a,c,d0,k are odd and the two coordinate pairs are primitive,
+```text
+A,B in Z[i]
+```
+are primitive Gaussian integers and
+```text
+Norm(A)=N_-,
+Norm(B)=N_+.
+```
+## 105.1 Physical Gaussian product identities
+Direct multiplication gives
+```text
+A*B = Q+iY,
+A*conj(B) = P-iZ,
+conj(A)*B = P+iZ.
+```
+Indeed
+```text
+(a+i c)(d0+i k)
+ =2i*(Q+iY),
+```
+while
+```text
+(a+i c)(d0-i k)
+ =2*(P-iZ),
+```
+and the factors of 2 are exactly cancelled by the
+`(1+i)` denominators.
+Thus the two physical terminal Gaussian integers
+```text
+Q+iY,
+P+iZ
+```
+are the two mixed products obtained by conjugating the first primitive norm
+factor.
+## 105.2 Gaussian gcd decomposition of the physical common core
+Define Gaussian gcds, up to units,
+```text
+eta   = gcd_Z[i](A,B),
+theta = gcd_Z[i](A,conj(B)).
+```
+Because A and B are primitive, for each rational prime dividing both norms
+exactly one Gaussian orientation divides A, and the B orientation is either
+the same or conjugate.
+Hence the rational prime powers split uniquely between eta and theta.
+Let
+```text
+p=gcd(P,Z),
+d=gcd(Q,Y).
+```
+Using the product identities in 105.1:
+- common Gaussian orientation between A and B produces a square Gaussian
+  factor in P+iZ but no rational common factor in Q+iY;
+- opposite Gaussian orientation produces a rational common factor in Q+iY.
+Prime-by-prime one obtains:
+### Theorem 105-A — GaussianGcdPhysicalCrossCoreDictionary
+```text
+Norm(eta)=p=gcd(P,Z),
+Norm(theta)=d=gcd(Q,Y),
+p*d=h=gcd(N_-,N_+).
+```
+The norms p,d are coprime.
+Thus Section103's physical split of h is exactly the norm split of the two
+Gaussian gcds.
+## 105.3 Remove the common Gaussian core
+Write
+```text
+A=epsilon*eta*theta*A0,
+B=epsilon'*eta*conj(theta)*B0,
+```
+where all units are absorbed into epsilon,epsilon'.
+Then
+```text
+Norm(A0)=N_-/h,
+Norm(B0)=N_+/h,
+gcd(Norm(A0),Norm(B0))=1.
+```
+The physical products become, up to Gaussian units,
+```text
+(Q+iY)/d
+ = eta^2*A0*B0,
+```
+and
+```text
+(P+iZ)/p
+ = conj(theta)^2*conj(A0)*B0.
+```
+Therefore
+```text
+[p*(Q+iY)]/[d*(P+iZ)]
+ =
+ square * [A0/conj(A0)].
+```
+## 105.4 Primitive Gaussian phase-square lemma
+Let Z0 be a primitive Gaussian integer of odd norm.
+Then
+### Lemma 105-B — PrimitiveGaussianPhaseSquare
+```text
+Z0/conj(Z0) in Q(i)^{*2}
+iff
+Norm(Z0) in Z^2.
+```
+Proof:
+factor Z0 in the UFD Z[i].
+Primitivity means that for every split rational prime, at most one member
+of a conjugate prime pair occurs in Z0.
+The valuation of
+```text
+Z0/conj(Z0)
+```
+at a Gaussian prime is therefore plus or minus the corresponding valuation
+of Z0.  The ratio is a square in Q(i) iff every such valuation is even.
+That is equivalent to every rational-prime exponent in Norm(Z0) being even,
+i.e. Norm(Z0) being an integer square.
+The unit quotient is also a square because for a Gaussian unit epsilon,
+```text
+epsilon/conj(epsilon)=epsilon^2.
+```
+## 105.5 Canonical physical Gaussian-square criterion
+Apply Lemma105-B to A0.
+Since
+```text
+Norm(A0)=N_-/h,
+```
+and
+```text
+L_- square
+iff
+N_-/h square,
+```
+we obtain:
+### Theorem 105-C — PhysicalGaussianSquareclassEquality
+For every primitive canonical physical M3 brick,
+```text
+L_- is an integer square
+```
+iff
+```text
+Xi(E)
+ :=
+ p*(Q+iY) / [d*(P+iZ)]
+```
+is a square in Q(i), where
+```text
+p=gcd(P,Z),
+d=gcd(Q,Y).
+```
+Equivalently,
+```text
+[(Q+iY)/d]
+ =
+[(P+iZ)/p]
+```
+in
+```text
+Q(i)^* / Q(i)^{*2}.
+```
+This is a fully canonical physical statement.
+No Master tuple, Euclid source pair, or hidden Gaussian orientation appears
+in the criterion.
+It is exactly equivalent to the current one-factor receiver, not merely a
+necessary condition.
+## 105.6 Rational half-angle square criterion
+Put
+```text
+T:=X^2+Y^2+Z^2=N_-*N_+,
+S:=P*Q+Y*Z.
+```
+Because
+```text
+P^2+Z^2=Q^2+Y^2=T,
+```
+we have
+```text
+Xi
+ =
+ (p/d) *
+ [(S+i*(Y*P-Q*Z))/T].
+```
+Its norm is
+```text
+Norm(Xi)=(p/d)^2.
+```
+For a rational complex number x+i y of positive square norm r^2,
+```text
+x+i y in Q(i)^{*2}
+```
+iff
+```text
+(r+x)/2 in Q^2
+```
+(equivalently `(r-x)/2 in Q^2`).
+Therefore Theorem105-C gives:
+### Theorem 105-D — CanonicalPhysicalRationalSquareReceiver
+```text
+L_- square
+```
+iff
+```text
+Psi(E)
+ :=
+ p*(T+P*Q+Y*Z)/(2*d*T)
+```
+is a rational square.
+This criterion is again completely physical.
+## 105.7 Exact factor check in norm-rectangle coordinates
+Section100 gives
+```text
+P*Q+Y*Z=a*c*N_+,
+T=N_-*N_+.
+```
+Hence
+```text
+T+(P*Q+Y*Z)
+ = N_+*(N_-+a*c)
+ = N_+*(a+c)^2/2.
+```
+Since
+```text
+h=p*d,
+```
+we get
+```text
+Psi(E)
+ = (a+c)^2 /
+   [4*d^2*(N_-/h)].
+```
+Thus Psi is a rational square exactly when N_-/h is an integer square,
+independently confirming Theorem105-D.
+Similarly,
+```text
+T-(P*Q+Y*Z)
+ =N_+*(a-c)^2/2,
+```
+so the plus/minus half-angle versions are equivalent away from the already
+excluded a=c degeneration.
+## 105.8 Single integer square-sieve receiver
+Because multiplication by a rational square does not change whether a
+rational number is a square, Theorem105-D is equivalent to an integer
+square condition.
+Multiplying Psi by
+```text
+(2*d*T)^2
+```
+gives
+```text
+2*p*d*T*(T+P*Q+Y*Z).
+```
+Since p*d=h:
+### Theorem 105-E — PhysicalIntegerSquareSieveReceiver
+```text
+L_- square
+```
+iff the positive integer
+```text
+S_-(E)
+ :=
+ 2*h*T*(T+P*Q+Y*Z)
+```
+is an integer square.
+Equivalently one may use the minus version
+```text
+2*h*T*(T-P*Q-Y*Z).
+```
+In Section100 coordinates,
+```text
+S_-(E)
+ =
+ [N_+*(a+c)]^2 * [h*N_-].
+```
+Hence its squarefree kernel is exactly the squarefree kernel of h*N_-.
+Because h|N_-,
+```text
+h*N_- square
+iff
+N_-/h square.
+```
+Thus Theorem105-E is exact, not a relaxation.
+This is the simplest current form for a possible Heath-Brown-style square
+sieve on exact M3: one positive physical integer sequence, with no Gaussian
+denominators.
+## 105.9 Finite sanity check: the Euler brick (44,117,240)
+Take the canonical labeling
+```text
+X=117,
+Y=44,
+Z=240,
+P=125,
+Q=267,
+D=244.
+```
+Then
+```text
+d=gcd(Y,Q)=1,
+p=gcd(Z,P)=5,
+h=5.
+```
+The Section100 coordinates are
+```text
+d0=gcd(P-Y,Q-Z)=27,
+a=3,
+c=1,
+k=169.
+```
+Therefore
+```text
+N_-=5,
+N_+=14645,
+N_-/h=1.
+```
+Indeed
+```text
+L_-=1521=39^2.
+```
+This brick is a one-factor survivor but not a perfect cuboid.
+For the new rational receiver,
+```text
+Psi(E)
+ =
+ 5*(T+P*Q+Y*Z)/(2*T)
+ =4,
+```
+so the criterion detects the survivor exactly.
+This is only a consistency check, not theorem evidence.
+## 105.10 Literature transfer diagnostic
+Theorem105-E puts the remaining problem into the formal shape required by a
+square sieve:
+```text
+count E in exact M3(B)
+such that
+S_-(E) is a square.
+```
+Heath-Brown's square sieve and modern explicit quadratic large-sieve
+inequalities can control squares in a weighted integer sequence once one has
+suitable quadratic-character cancellation for that sequence.
+Likewise quadratic large-sieve inequalities over number fields can detect
+the Gaussian squareclass version in Theorem105-C.
+However, none of those off-the-shelf inequalities supplies the missing
+input automatically here.  The weight sequence is the exact primitive
+canonical M3 population, and
+```text
+S_-(E)
+```
+contains the moving physical gcd
+```text
+h=gcd(Y,Q)*gcd(Z,P).
+```
+Thus the required character sums are still of same-M3 type:
+```text
+sum_{E in M3(B)} chi(S_-(E)),
+```
+or the Gaussian-Hecke analogue.
+No theorem located so far proves the needed uniform cancellation with the
+M3 condition, physical height, primitivity, canonical counting, and moving
+gcd all retained.
+The benefit of Theorem105-E is therefore reduction of the target, not
+closure: the unresolved local-to-global theorem is now a single scalar
+square-sieve problem rather than a multi-squareclass packet.
+## 105.11 Exact state after Section105
+```text
+PHYSICAL_GAUSSIAN_PRODUCT_IDENTITIES=true
+GAUSSIAN_GCD_PHYSICAL_CROSSCORE_DICTIONARY=true
+PRIMITIVE_GAUSSIAN_PHASE_SQUARE_LEMMA=true
+ONE_FACTOR_IFF_PHYSICAL_GAUSSIAN_RATIO_SQUARE=true
+ONE_FACTOR_IFF_CANONICAL_RATIONAL_FUNCTION_SQUARE=true
+ONE_FACTOR_IFF_SINGLE_PHYSICAL_INTEGER_SQUARE=true
+OFF_THE_SHELF_QUADRATIC_LARGE_SIEVE_CLOSES_M3=false
+SAME_M3_SINGLE_SEQUENCE_CHARACTER_CANCELLATION=false
+M3_CANONICAL_MINUS_FACTOR_THINNESS=false
+P_OVER_M3_LIMIT_PROVED=false
+```
+### Next research item
+```text
+NEXT_ITEM=SingleSequenceM3SquareSieve
+```
+The next attack should use
+```text
+S_-(E)=2*h*T*(T+P*Q+Y*Z)
+```
+as the sole square-sieve receiver and determine whether Section32's exact
+odd-edge divisor coordinates make the character sums
+```text
+sum_{E in M3(B)} (S_-(E)/ell)
+```
+factor or reduce to the already-proved Section6 conditional character sums
+without losing the exact physical M3 weight.
+---
+# SECTION106 — minimal physical square receiver and exact local factor law
+## 2026-09-27
+## Status: exact receiver compression + rigorous one-factor local marginal; same-M3 transfer still open
+Section105 reduced one-factor thinness to a single physical square sequence.
+This section compresses that sequence further and derives the exact local
+finite-field law for the individual minus factor.
+## 106.1 Minimal physical integer square receiver
+Recall
+```text
+G=gcd(PQ,YZ),
+L_-=(PQ-YZ)/G.
+```
+Therefore
+```text
+G*(PQ-YZ)=G^2*L_-.
+```
+Hence:
+### Theorem 106-A — MinimalPhysicalMinusSquareReceiver
+```text
+L_- is an integer square
+```
+iff
+```text
+F_-(E):=G*(PQ-YZ)
+```
+is an integer square.
+Thus Section105's larger integer
+```text
+S_-(E)=2*h*T*(T+PQ+YZ)
+```
+has the same squareclass but is not the minimal square-sieve receiver.
+The preferred scalar receiver is now
+```text
+F_-(E)=gcd(PQ,YZ)*(PQ-YZ).
+```
+Equivalently one may retain the normalized coprime factor itself
+```text
+L_-=(PQ-YZ)/gcd(PQ,YZ),
+```
+but F_- avoids denominators.
+## 106.2 Section32 half-angle factorization
+Use the exact odd-edge divisor coordinates
+```text
+u=(P-Y)/X,
+v=(Q-Z)/X.
+```
+Then
+```text
+P/X=(u+u^{-1})/2,
+Y/X=(u^{-1}-u)/2,
+Q/X=(v+v^{-1})/2,
+Z/X=(v^{-1}-v)/2.
+```
+Direct expansion gives
+### Theorem 106-B — HalfAngleTerminalFactorization
+```text
+PQ-YZ
+ = X^2*(u^2+v^2)/(2uv),
+```
+and
+```text
+PQ+YZ
+ = X^2*(1+u^2*v^2)/(2uv).
+```
+Therefore the Section32 space numerator
+```text
+S(u,v)
+ =(u^2+v^2)*(1+u^2*v^2)
+```
+is exactly the product of the two canonical terminal factors before their
+common squareclass normalization.
+Define
+```text
+A_-(u,v):=u^2+v^2,
+A_+(u,v):=1+u^2*v^2.
+```
+The current one-factor problem is the global/physical version of selecting
+the minus factor A_- after the common gcd has been removed.
+## 106.3 Euler local polynomial
+The Euler / third-face condition in the same coordinates is
+```text
+E(u,v)
+ =v^2*(1-u^2)^2
+  +u^2*(1-v^2)^2
+```
+or equivalently
+```text
+E(u,v)
+ =u^2+v^2-4u^2v^2+u^4v^2+u^2v^4.
+```
+For a good odd prime p, work on the nonzero affine torus
+```text
+(u,v) in (F_p^*)^2
+```
+and remove the O(p) exceptional locus where any relevant factor vanishes.
+The local Euler condition is
+```text
+chi_p(E)=+1.
+```
+## 106.4 Character sum for the individual minus factor
+We need the conditional mean of
+```text
+chi_p(A_-)
+```
+on the Euler-square locus.
+Using
+```text
+1_{chi(E)=+1}
+ =(1+chi(E))/2
+```
+away from E=0, the numerator bias is controlled by
+```text
+sum chi(A_-)
+```
+and
+```text
+sum chi(A_-*E).
+```
+The first is O(p) after summing one quadratic character in one variable.
+For the second, fix v.
+As a polynomial in u,
+```text
+A_-(u,v)*E(u,v)
+```
+has degree 6.
+Its exact u-discriminant is
+```text
+-2^14
+ *v^22
+ *(v-1)^4*(v+1)^4
+ *(v^2-2v-1)^2
+ *(v^2+2v-1)^2.
+```
+Hence for all but O(1) values of v the degree-6 polynomial is squarefree
+and is not a square in F_p[u].
+For every such v the Weil bound gives
+```text
+|sum_u chi_p(A_-*E)|
+ <=5*sqrt(p).
+```
+The exceptional v-slices contribute only O(p).
+Therefore
+### Theorem 106-C — OneFactorLocalMarginal
+For every good odd prime p,
+```text
+sum_{u,v in (F_p^*)^2}
+  1_{E nonzero square}
+  *chi_p(u^2+v^2)
+ =O(p^(3/2)).
+```
+The number of Euler-square points is
+```text
+p^2/2+O(p^(3/2)).
+```
+Consequently
+```text
+Pr(
+  chi_p(u^2+v^2)=+1
+  |
+  E(u,v) nonzero square
+ )
+ =
+ 1/2+O(p^(-1/2)).
+```
+This is the correct local marginal for the canonical minus factor.
+It is not a consequence of the old product-character law alone.
+## 106.5 The plus factor has the same marginal
+The involution
+```text
+u -> 1/u
+```
+satisfies exactly
+```text
+u^4*E(1/u,v)=E(u,v),
+```
+and
+```text
+u^2*A_-(1/u,v)=A_+(u,v).
+```
+The prefactors are squares on F_p^*.
+Hence the same conditional law holds for the plus factor:
+### Theorem 106-D — PlusFactorLocalMarginal
+```text
+Pr(
+  chi_p(1+u^2v^2)=+1
+  |
+  E(u,v) nonzero square
+ )
+ =
+ 1/2+O(p^(-1/2)).
+```
+## 106.6 Joint two-factor local law
+Section6 already proves, in the same good-prime parameter measure, the
+conditional product-character law
+```text
+Pr(
+ chi_p(A_-*A_+)=+1
+ |
+ E square
+)
+=
+1/2+O(p^(-1/2)).
+```
+Equivalently, the conditional expectation of
+```text
+chi_p(A_-)*chi_p(A_+)
+```
+is O(p^(-1/2)).
+Sections106-C and 106-D give the two marginal expectations
+O(p^(-1/2)).
+For two {+1,-1}-valued variables X,Y,
+```text
+P(X=e1,Y=e2)
+ =1/4*
+  [1
+   +e1 E(X)
+   +e2 E(Y)
+   +e1 e2 E(XY)].
+```
+Therefore:
+### Theorem 106-E — LocalTerminalFactorPairUniformity
+On the good-prime Euler-square parameter measure,
+```text
+Pr(
+ chi_p(A_-)=epsilon_-,
+ chi_p(A_+)=epsilon_+
+ |
+ E square
+)
+ =
+1/4+O(p^(-1/2))
+```
+uniformly for
+```text
+epsilon_-,epsilon_+ in {+1,-1}.
+```
+Thus the two terminal factors are locally asymptotically unbiased and
+pairwise independent at good odd primes, after conditioning on the Euler
+square.
+This is strictly more tailored to the current one-factor receiver than the
+old Section6 product law.
+## 106.7 Fixed finite prime-set consequence in parameter residue measure
+For any fixed finite set of good odd primes
+```text
+S={p_1,...,p_r},
+```
+CRT gives the corresponding complete residue-space law:
+```text
+Pr(
+ chi_p(A_-)=+1
+ for every p in S
+ |
+ E square at every p in S
+)
+ =
+2^(-r)*
+prod_{p in S}(1+O(p^(-1/2))).
+```
+The same statement holds jointly for prescribed plus/minus factor signs.
+This is an exact fixed-finite-prime local/parameter theorem.
+It is not yet a theorem on physical M3(B).
+## 106.8 Why Section6 still does not close the current receiver
+The important distinction is now explicit.
+Section6 and Theorem106-E control residue classes of
+```text
+u^2+v^2
+```
+and
+```text
+1+u^2v^2
+```
+in the complete local Master/half-angle parameter measure conditioned on
+the Euler polynomial being a square.
+The physical one-factor condition is instead
+```text
+L_-=(PQ-YZ)/gcd(PQ,YZ)
+```
+being a global integer square.
+At primes not dividing the moving common gcd, the local one-factor bit is
+exactly the A_- character from Theorem106-C.
+At primes dividing the common gcd, valuation parity and the h/K_- routing
+from Sections99-105 matter.
+Therefore the remaining global theorem must transfer the fixed-prime local
+bias
+```text
+1/2+O(p^(-1/2))
+```
+to the exact primitive canonical M3 population while simultaneously
+controlling the moving common-gcd strata.
+No currently imported theorem performs that transfer.
+## 106.9 Revised minimal global receiver
+The current local-to-global target can now be stated in a very small form.
+### Receiver 106-R1 — SameM3MinusFactorCharacterTransfer
+For a growing set of good odd primes p not absorbed by the moving common
+gcd, prove on exact physical M3(B) that
+```text
+chi_p(
+  (PQ-YZ)/gcd(PQ,YZ)
+)
+```
+has average o(1), uniformly enough to run a square sieve.
+Equivalently, using the integral receiver,
+```text
+chi_p(F_-(E))
+```
+should exhibit the same cancellation after the appropriate zero/gcd strata
+are separated.
+A fixed finite-prime version would already be a genuine same-M3
+equidistribution theorem.
+A growing-prime version with summable errors would prove
+M3CanonicalMinusFactorThinness.
+## 106.10 Exact state after Section106
+```text
+MINIMAL_PHYSICAL_INTEGER_RECEIVER_FMINUS=true
+HALFANGLE_TERMINAL_TWO_FACTOR_DICTIONARY=true
+ONE_FACTOR_LOCAL_MINUS_MARGINAL_HALF=true
+ONE_FACTOR_LOCAL_PLUS_MARGINAL_HALF=true
+LOCAL_TERMINAL_FACTOR_PAIR_UNIFORM_QUARTERS=true
+FIXED_FINITE_PRIME_PARAMETER_CRT=true
+SAME_M3_MINUS_FACTOR_CHARACTER_TRANSFER=false
+GROWING_PRIME_M3_SQUARE_SIEVE=false
+M3_CANONICAL_MINUS_FACTOR_THINNESS=false
+P_OVER_M3_LIMIT_PROVED=false
+```
+### Next research item
+```text
+NEXT_ITEM=SameM3MinusFactorCharacterTransfer
+```
+The next step should not recompute local character sums again.
+It should use one of the exact physical decompositions already available:
+1. the Section32 odd-edge divisor one-object/one-count coordinates; or
+2. the Section100 norm rectangle,
+and prove a fixed-prime physical congruence count with an explicit error
+term for the A_- / F_- character.
+Only after such a fixed-prime same-M3 theorem is obtained should the prime
+cutoff be allowed to grow.
+---
+# SECTION107 — theorem audit for the fixed-prime transfer wall
+## 2026-09-27
+## Status: literature applicability audit; no new closure theorem
+Section106 isolates the remaining task as a fixed-prime same-M3 character
+transfer for the individual terminal factor.
+The relevant theorem families were re-audited against this exact target.
+## 107.1 Uniform elliptic-fiber point counts do not give congruence transfer
+Dujella's uniform bounded-height theorem for elliptic curves with rational
+prime-order torsion, and the earlier Bombieri--Zannier line of results,
+control the total number of rational points on one elliptic curve/fiber.
+They are exactly the right input for Sections39, 98 and 100 fixed-fiber
+anti-concentration.
+They do not provide a theorem of the form
+```text
+sum_{P in E_t(Q), H(P)<=B}
+  chi_p(f_t(P))
+ = o(#points)
+```
+uniformly across a moving family of t.
+Therefore they do not imply SameM3MinusFactorCharacterTransfer.
+## 107.2 Toric adelic equidistribution remains ambient
+Huang's equidistribution/geometric-sieve theorem for smooth projective split
+toric varieties gives:
+- effective counting in adelic neighbourhoods;
+- explicit dependence on finite adelic level;
+- geometric/Ekedahl sieve consequences for infinitely many local conditions.
+This remains the strongest off-the-shelf modulus-uniform distribution
+technology near the old toric host.
+However the present population is already the degree-2 Euler/K3 lift:
+```text
+toric host point
+ -> Euler-square lift
+ -> physical primitive canonical M3 point.
+```
+Theorem106-C is conditional on the Euler-square locus, not ambient toric
+measure.
+No theorem located in this audit promotes Huang's ambient equidistribution
+to the conditional exact M3 measure with the required relative error.
+Thus the standing firewall remains valid:
+```text
+TORIC_ADELIC_EQUIDISTRIBUTION_AVAILABLE=true
+TORIC_TO_EXACT_M3_CONDITIONAL_TRANSFER=false
+```
+## 107.3 Integral/elliptic large-sieve results are also fiber-local
+Results combining repulsion, heights and the large sieve for integral or
+rational points on elliptic curves give strong uniform point-count bounds
+for individual curves and some families.
+Their large sieve is used to bound the number of points themselves.
+It is not a ready-made congruence equidistribution theorem for the exact
+M3-weighted sequence across the moving K3 family.
+Hence they do not fill Receiver106-R1 directly.
+## 107.4 Denominator-scale check from the standard Euler-brick family
+The classical Saunderson construction starts from a primitive Pythagorean
+triple (u,v,w) and produces an Euler brick with edge coordinates of total
+degree 3 in (u,v,w).
+After writing the primitive Pythagorean triple in Euclid parameters
+(m,n), the resulting Euler-brick edges have total degree 6 in (m,n).
+Therefore a two-parameter box of Euclid parameters of size H naturally
+produces bricks of height H^6 and contains H^2 parameter pairs.
+The corresponding family-count scale is therefore
+```text
+B^(2/6)=B^(1/3).
+```
+This matches the exponent of the currently certified global lower corridor
+```text
+M3(B)>>B^(1/3).
+```
+This observation does not prove that B^(1/3) is the true order of M3(B).
+It only shows that the standard two-parameter degree-6 family does not
+offer an immediate route to a stronger denominator such as B^(1/2).
+Thus the present Class-3 difficulty cannot be bypassed merely by replacing
+the denominator lower bound with an obvious stronger Saunderson-family
+count.
+## 107.5 Consequence for strategy
+The local side is now complete enough for the one-factor receiver:
+```text
+good-prime minus marginal = 1/2+O(p^-1/2),
+good-prime plus marginal  = 1/2+O(p^-1/2),
+joint pair law            = 1/4+O(p^-1/2).
+```
+The fixed-fiber side is also strong:
+```text
+fixed t      -> B^o(1),
+fixed X      -> B^o(1),
+fixed D      -> B^o(1),
+fixed N_-    -> B^o(1),
+fixed N_+    -> B^o(1),
+fixed (h,J)  -> B^o(1).
+```
+What is missing is genuinely between these two regimes:
+> distribution across polynomially many moving fibers under exact M3
+> conditioning.
+No audited external theorem removes that step.
+Therefore the next research should stop searching for another local law or
+another fixed-fiber theorem and instead build an explicit physical
+fixed-prime counting statement.
+## 107.6 Exact next target
+### Receiver 107-R1 — FixedPrimePhysicalM3Count
+For one fixed good odd prime p and sign epsilon in {+1,-1}, prove
+```text
+#{E in M3(B):
+   p does not divide the relevant common-gcd stratum,
+   chi_p(L_-(E))=epsilon}
+ =
+(1/2+O(p^-1/2))*M3_good,p(B)
+ + error_p(B),
+```
+with
+```text
+error_p(B)=o(M3(B))
+```
+for fixed p.
+An equivalent weighted character form is
+```text
+sum_{E in M3_good,p(B)}
+  chi_p(L_-(E))
+ =o(M3(B)).
+```
+Even one such fixed-prime theorem would be a genuine new same-M3
+equidistribution result.
+The first proof attempt should use the Section32 one-object/one-count
+odd-edge divisor coordinates because they preserve the physical height
+exactly and already expose the finite-field polynomials E(u,v), A_-(u,v).
+## 107.7 Exact state after Section107
+```text
+ONE_FACTOR_LOCAL_THEORY_SUFFICIENT_FOR_SIEVE_INPUT=true
+UNIFORM_FIXED_FIBER_POINT_COUNTS_AVAILABLE=true
+TORIC_AMBIENT_ADELIC_EQUIDISTRIBUTION_AVAILABLE=true
+TORIC_TO_EXACT_M3_CONDITIONAL_TRANSFER=false
+OFF_THE_SHELF_FIXED_PRIME_M3_CHARACTER_THEOREM_FOUND=false
+SAUNDERSON_STANDARD_FAMILY_SCALE_B_ONE_THIRD=true
+FIXED_PRIME_PHYSICAL_M3_COUNT=false
+SAME_M3_MINUS_FACTOR_CHARACTER_TRANSFER=false
+M3_CANONICAL_MINUS_FACTOR_THINNESS=false
+P_OVER_M3_LIMIT_PROVED=false
+```
+### Next research item
+```text
+NEXT_ITEM=FixedPrimePhysicalM3Count
+```
+The next calculation should write the Section32 exact physical count as a
+sum over the odd edge X and divisor coordinates A,C, then insert the fixed
+character chi_p(A_-) before the Euler-square indicator.
+The key question is whether, after fixing X and the exact physical height
+window, the divisor sums can be completed modulo p with an error that is
+uniform enough to sum over X.
+---
+# SECTION108 — correction of the Section106 marginal and common-divisor-sliced transfer
+## 2026-09-27
+## Status: exact squareclass correction + exact divisor-convolution reduction; no same-M3 closure yet
+Section106 correctly computed the finite-field marginal of the raw half-angle
+factor
+```text
+A_-(u,v)=u^2+v^2,
+```
+but its interpretation as the local squareclass of the normalized canonical
+factor L_- was too strong.
+The moving common Gaussian core contributes a nontrivial twist.
+This section records the exact correction and the resulting analytic
+reduction.
+## 108.1 Exact common twist between raw and normalized terminal factors
+Use Section100 coordinates
+```text
+P-Y=d0*a,
+Q-Z=d0*c,
+Q+Z=a*k,
+P+Y=c*k,
+```
+with
+```text
+N_-=(a^2+c^2)/2,
+N_+=(d0^2+k^2)/2,
+h=gcd(N_-,N_+).
+```
+The Section32 half-angle coordinates are
+```text
+u=(P-Y)/X=d0*a/X,
+v=(Q-Z)/X=d0*c/X.
+```
+Hence
+```text
+A_-(u,v)
+ =u^2+v^2
+ =2*d0^2*N_-/X^2.
+```
+Section89/100 gives
+```text
+L_-=g_-^2*(N_-/h).
+```
+Therefore
+```text
+A_-/L_-
+ =
+2*h * (d0/(X*g_-))^2.
+```
+Thus in Q^*/Q^{*2},
+### Theorem 108-A — CommonTwistMinusFactor
+```text
+[A_-]=[2*h*L_-].
+```
+Similarly,
+```text
+u*v=d0/k,
+```
+so
+```text
+A_+(u,v)
+ :=1+u^2v^2
+ =(d0^2+k^2)/k^2
+ =2*N_+/k^2.
+```
+Since
+```text
+L_+=g_+^2*(N_+/h),
+```
+we obtain
+### Theorem 108-B — CommonTwistPlusFactor
+```text
+[A_+]=[2*h*L_+].
+```
+The same moving squareclass 2h twists both terminal factors.
+## 108.2 Why the old product law survives
+Multiplying Theorems108-A/B,
+```text
+[A_-*A_+]
+ =
+[(2h)^2*L_-*L_+]
+ =
+[L_-*L_+].
+```
+Hence the common twist cancels in the product squareclass.
+This explains retrospectively why the old Section6 character law for
+```text
+(u^2+v^2)(1+u^2v^2)
+```
+is genuinely adapted to the terminal PRODUCT / space condition, while an
+individual marginal of A_- is not automatically a marginal of L_-.
+Thus:
+```text
+SECTION6_PRODUCT_INTERPRETATION_VALID=true,
+SECTION106_RAW_MINUS_MARGINAL_VALID=true,
+SECTION106_RAW_PLUS_MARGINAL_VALID=true,
+SECTION106_RAW_PAIR_UNIFORMITY_VALID=true,
+```
+but
+```text
+SECTION106_RAW_MINUS_EQUALS_NORMALIZED_LMINUS_LOCAL_BIT=false.
+```
+Theorem106-C remains a correct theorem about A_-.
+Only its normalization interpretation is superseded.
+## 108.3 Fixed-prime relation on the good stratum
+Let ell be a good odd prime with
+```text
+ell does not divide 2*X*h.
+```
+Then all rational square factors in Theorem108-A are ell-adic units and
+```text
+chi_ell(L_-)
+ =
+chi_ell(A_-)*chi_ell(2h).
+```
+Equivalently,
+```text
+chi_ell(L_-)
+ =
+chi_ell(2)*chi_ell(A_-)*chi_ell(h).
+```
+Thus even away from primes dividing the common core, the value of h modulo
+ell remains in the normalized one-factor character.
+The obstruction is not merely the bad-divisibility stratum ell|h.
+## 108.4 Finite sanity check on the standard brick
+For the Euler brick
+```text
+(X,Y,Z)=(117,44,240)
+```
+with the corresponding labeling
+```text
+P=125,
+Q=267,
+h=5,
+L_-=1521,
+```
+take ell=7.
+Since L_- is a square,
+```text
+chi_7(L_-)=+1.
+```
+But
+```text
+u=(P-Y)/X=81/117=9/13,
+v=(Q-Z)/X=27/117=3/13,
+```
+and
+```text
+chi_7(u^2+v^2)=-1.
+```
+Also
+```text
+chi_7(2h)=chi_7(10)=-1.
+```
+Therefore
+```text
+chi_7(A_-)
+ =
+chi_7(2h)*chi_7(L_-)
+ =-1,
+```
+exactly as Theorem108-A predicts.
+This is a consistency check only.
+## 108.5 Divisor convolution for the moving twist
+Fix an odd prime ell and let
+```text
+chi=chi_ell
+```
+be the quadratic Dirichlet character modulo ell.
+Define the multiplicative function
+```text
+lambda_ell := mu * chi
+```
+under Dirichlet convolution.
+Then for every positive integer n,
+```text
+chi(n)
+ =
+sum_{d|n} lambda_ell(d).
+```
+Hence on the good stratum ell∤h,
+```text
+chi(h)
+ =
+sum_{d|h} lambda_ell(d).
+```
+Since
+```text
+h=gcd(N_-,N_+),
+```
+the condition d|h is exactly
+```text
+d|N_-
+and
+d|N_+.
+```
+Therefore:
+### Theorem 108-C — CommonDivisorSliceExpansion
+On the stratum ell∤2Xh,
+```text
+chi_ell(L_-)
+ =
+chi_ell(2)
+ *
+sum_{d|N_-, d|N_+}
+ lambda_ell(d)
+ *
+chi_ell(A_-).
+```
+Consequently the exact physical character sum satisfies
+```text
+sum_{E in M3_good,ell(B)}
+ chi_ell(L_-(E))
+ =
+chi_ell(2)
+ *
+sum_{d>=1}
+ lambda_ell(d)
+ *
+C_d(B;ell),
+```
+where
+```text
+C_d(B;ell)
+ :=
+sum_{E in M3_good,ell(B),
+    d|N_-(E),
+    d|N_+(E)}
+ chi_ell(A_-(E)).
+```
+This is an exact re-expression of the moving-gcd twist.
+## 108.6 Support of the convolution coefficient
+For a prime q != ell,
+```text
+lambda_ell(q^e)
+ =
+chi(q)^e-chi(q)^(e-1)
+ =
+chi(q)^(e-1)*(chi(q)-1).
+```
+Hence:
+if
+```text
+chi_ell(q)=+1,
+```
+then
+```text
+lambda_ell(q^e)=0
+```
+for every e>=1.
+If
+```text
+chi_ell(q)=-1,
+```
+then
+```text
+lambda_ell(q^e)= +/- 2.
+```
+At q=ell,
+```text
+lambda_ell(ell)=-1,
+lambda_ell(ell^e)=0  for e>=2.
+```
+Therefore, away from the separated ell|h stratum, the common-divisor
+expansion is supported only on integers whose prime factors are quadratic
+NONRESIDUES modulo ell.
+### Theorem 108-D — NonresidueSupportedCommonDivisorExpansion
+The normalized one-factor character at ell is a weighted sum of raw
+A_- characters over common-norm-divisor slices d, and all nontrivial
+prime factors of d are forced into the nonresidue class modulo ell.
+This is the exact point where the earlier Eulerian residue-graph
+architecture re-enters the current physical norm-rectangle route.
+## 108.7 Exact unification with the old Eulerian graph viewpoint
+Sections91-95 encoded one-factor necessary conditions by a bipartite graph
+of quadratic nonresidue relations between prime supports.
+Theorem108-D gives a new interpretation:
+the graph is not an independent auxiliary obstruction.
+It is the support structure of the Möbius/Dirichlet convolution required to
+remove the moving common twist h from the raw local factor A_-.
+Thus the two formerly separate routes
+```text
+Eulerian moving-prime sieve
+```
+and
+```text
+physical norm-rectangle character transfer
+```
+are the same analytic problem viewed from opposite sides.
+The current exact bridge is
+```text
+raw local A_- cancellation
+ + common-divisor slice expansion
+ -> normalized L_- character.
+```
+## 108.8 Structural obstruction to a per-X proof
+In the exact Section32 count, once X is fixed the allowed A,C are divisors
+of X^2.
+Thus the residue support modulo ell on a fixed X-fiber may contain only a
+very sparse set of classes; no uniform complete-residue character
+cancellation can hold fiber-by-fiber in X.
+This is consistent with Section97:
+```text
+fixed X contributes only B^{o(1)} points,
+```
+but there are polynomially many occupied X values.
+Therefore a proof of Receiver107-R1 must average across moving X (or an
+equivalent moving norm/fiber coordinate).  It cannot be obtained by proving
+a uniform cancellation theorem separately for every fixed X.
+This rules out the naive plan
+```text
+fix X
+ -> complete divisor set A,C mod ell
+ -> apply Section106 Weil bound.
+```
+The divisor set is not a complete residue box.
+## 108.9 Finite exact diagnostic
+The Section32 one-object/one-count enumerator was extended with the
+one-factor predicate.
+It reproduces the already-certified checkpoint
+```text
+M3(10^6)=219.
+```
+Among those 219 physical bricks,
+```text
+8
+```
+satisfy L_-=square.
+A further local scratch run gives
+```text
+M3(2*10^6)=298,
+one-factor survivors=10.
+```
+The second line is a finite computational diagnostic from the present
+research session, not a hostile-audited theorem or asymptotic claim.
+The finite survivor fraction is therefore visibly small in this range, but
+no trend is promoted to proof.
+## 108.10 Corrected next receiver
+The fixed-prime problem should now be formulated with the common-divisor
+slices.
+### Receiver 108-R1 — CommonDivisorSlicedM3CharacterTransfer
+For fixed good ell, prove a summable estimate for
+```text
+C_d(B;ell)
+ =
+sum_{E in M3(B),
+    d|N_-(E),
+    d|N_+(E)}
+ chi_ell(A_-(E))
+```
+uniformly over the nonresidue-supported d that occur in Theorem108-C,
+with enough control to sum against
+```text
+lambda_ell(d).
+```
+The physical masks must remain:
+```text
+primitive,
+canonical,
+R<=B,
+Euler third-face square,
+one object one count.
+```
+A successful theorem would combine:
+1. the Section106 Weil cancellation on the raw A_- bit;
+2. the Section101/102 root-line geometry forced by d|N_-,N_+;
+3. the nonresidue support of lambda_ell(d);
+4. averaging over the genuinely moving X / norm fibers.
+This is more precise than Receiver107-R1 and explicitly includes the
+moving-gcd normalization.
+## 108.11 Exact state after Section108
+```text
+RAW_TERMINAL_FACTOR_LOCAL_MARGINALS_VALID=true
+RAW_AND_NORMALIZED_TERMINAL_FACTORS_HAVE_COMMON_TWIST_2H=true
+SECTION106_NORMALIZED_MINUS_INTERPRETATION_SUPERSEDED=true
+PRODUCT_TERMINAL_LOCAL_LAW_UNAFFECTED=true
+COMMON_DIVISOR_SLICE_EXPANSION=true
+CONVOLUTION_SUPPORT_ONLY_ON_ELL_NONRESIDUE_PRIMES=true
+EULERIAN_GRAPH_NORM_RECTANGLE_UNIFIED=true
+PER_X_COMPLETE_RESIDUE_STRATEGY_INVALID=true
+COMMON_DIVISOR_SLICED_M3_CHARACTER_TRANSFER=false
+SAME_M3_MINUS_FACTOR_CHARACTER_TRANSFER=false
+M3_CANONICAL_MINUS_FACTOR_THINNESS=false
+P_OVER_M3_LIMIT_PROVED=false
+```
+### Next research item
+```text
+NEXT_ITEM=CommonDivisorSlicedM3CharacterTransfer
+```
+The next proof attempt should split the d-sum into ranges and use the exact
+physical root-line condition
+```text
+d^2 | X^2+D^2
+```
+for d|h together with Section100's genus-one fiber structure, instead of
+trying to complete sparse divisor sets at fixed X.
+---
+# SECTION109 — product-route re-evaluation and exact divisor-coordinate terminal character
+## 2026-09-27
+## Status: strategic correction + exact product-character formula + finite counterexample to the u=1 shortcut
+Section108 shows that the normalized one-factor character carries a moving
+common twist 2h.  This changes the strategic comparison between the
+one-factor route and the original terminal-product route.
+The one-factor route remains valuable for structural reconstruction and
+absolute counting, but it is not automatically the cleaner route for a
+local square sieve.
+## 109.1 The terminal product has no moving-gcd twist
+Let
+```text
+T:=X^2+Y^2+Z^2.
+```
+Perfect endpoint means
+```text
+T is an integer square.
+```
+Section32 gives
+```text
+R_phys^2=T
+ =X^2*
+  (u^2+v^2)*(1+u^2v^2)/(4u^2v^2).
+```
+Therefore, in Q^*/Q^{*2},
+### Theorem 109-A — TerminalProductRawSquareclass
+```text
+[T]
+ =
+[(u^2+v^2)*(1+u^2v^2)].
+```
+The common twist from Section108 appears twice and cancels:
+```text
+[A_-*A_+]
+ =[L_-*L_+].
+```
+Thus the old Section6 product-character law is exactly aligned with the
+physical terminal square sequence T.
+No moving gcd h needs to be normalized away.
+## 109.2 Integral Section32 formula for the terminal character
+Use the exact divisor coordinates
+```text
+A=P-Y,
+C=Q-Z,
+A,C|X^2,
+0<A<C<X.
+```
+Section32 proves
+```text
+4*A^2*C^2*T
+ =
+(A^2+C^2)*(X^4+A^2*C^2).
+```
+Hence for every odd prime ell with
+```text
+ell does not divide A*C,
+```
+the square denominator disappears in the Legendre symbol:
+### Theorem 109-B — ExactDivisorCoordinateTerminalCharacter
+```text
+chi_ell(T)
+ =
+chi_ell(
+ (A^2+C^2)*(X^4+A^2*C^2)
+).
+```
+The Euler/M3 condition in the same coordinates is
+```text
+C^2*(X^2-A^2)^2
++
+A^2*(X^2-C^2)^2
+ = square.
+```
+Therefore the fixed-prime product-transfer problem has an entirely integral
+form on the exact one-object/one-count physical coordinates:
+```text
+sum_{X odd}
+sum_{A<C<X, A,C|X^2}
+ primitive_mask
+ height_mask
+ Euler_square_mask
+ *
+ chi_ell(
+  (A^2+C^2)*(X^4+A^2*C^2)
+ ).
+```
+There is no hidden normalization factor analogous to h.
+## 109.3 Exact comparison of the two analytic routes
+The current situation is:
+### Route OF — one-factor
+Target:
+```text
+L_- square.
+```
+Advantage:
+- larger necessary-condition set;
+- Gaussian reconstruction;
+- root-line/common-core structure;
+- fixed-norm/fixed-core anti-concentration.
+Disadvantage:
+```text
+[A_-]=[2hL_-]
+```
+so individual local characters require the moving common core h.
+### Route TP — terminal product
+Target:
+```text
+T square.
+```
+Advantage:
+- exactly the perfect endpoint predicate on M3;
+- local observable is polynomial/rational before primitive gcd
+  normalization;
+- Section6 product-character theorem applies to the correct raw
+  squareclass;
+- no h-convolution is required.
+Disadvantage:
+- this is the original Class-3 same-M3 transfer wall;
+- no weaker one-factor overcount is available.
+Hence:
+### Strategic conclusion 109-C
+For local/large-sieve work, Route TP is currently cleaner.
+For absolute counting, Gaussian reconstruction and structural exclusions,
+Route OF remains useful.
+The two routes should be kept in parallel rather than forcing the
+one-factor route to carry the entire local-to-global transfer.
+## 109.4 The u=1 finite shortcut is false
+On the one-factor locus write
+```text
+N_-=h*u^2.
+```
+In the finite census through B=2*10^6, all observed one-factor survivors
+had u=1.
+This suggested the possible shortcut
+```text
+N_-=h.
+```
+The exact Section32 enumerator was pushed to B=5*10^6.
+A counterexample occurs with
+```text
+X=1,792,317,
+Y=2,974,356,
+Z=1,532,960,
+```
+with adjacent face diagonals
+```text
+P=3,472,635,
+Q=2,358,467,
+```
+and opposite-face diagonal
+```text
+D=3,346,156.
+```
+Its Section100 coordinates are
+```text
+d0=7437,
+a=67,
+c=111,
+k=58081.
+```
+Hence
+```text
+N_-=8405=5*41^2,
+N_+=1,714,355,765,
+h=5.
+```
+Therefore
+```text
+u=41>1.
+```
+Also
+```text
+L_-=97,634,161
+```
+is an integer square.
+Thus:
+### Negative Result 109-D — NminusEqualsHNotUniversal
+The implication
+```text
+L_- square
+ => N_-=h
+```
+is false.
+The general Gaussian-square quotient u must be retained.
+This finite counterexample prevents an invalid simplification of the
+one-factor route.
+## 109.5 Finite one-factor census extension
+The same exact Section32 enumerator gives
+```text
+B=5*10^6:
+M3(B)=480,
+one-factor survivors=15.
+```
+Among these 15:
+```text
+14 have u=1,
+1 has u=41.
+```
+This is only a finite diagnostic.
+No asymptotic claim is made.
+It does suggest that the u=1 branch is numerically prominent at moderate
+height, but it is not exhaustive.
+## 109.6 Exact fixed-prime target for the product route
+Define
+```text
+S_ell(B)
+ :=
+sum_{E in M3(B)}
+ chi_ell(T(E)),
+```
+with the usual convention that chi_ell(T)=0 when ell|T.
+A fixed-prime same-M3 theorem would be
+### Receiver 109-R1 — FixedPrimeTerminalProductTransfer
+For every fixed good odd prime ell,
+```text
+S_ell(B)=o(M3(B)).
+```
+More quantitatively, the expected local main term from Section6 is
+```text
+Pr(
+ chi_ell(T)=+1
+ |
+ Euler condition
+)
+ =
+1/2+O(ell^-1/2)
+```
+on the complete local parameter measure.
+A modulus-uniform version would feed directly into a square sieve on T and
+therefore attack P(B)/M3(B) without the h-convolution.
+## 109.7 Why fixed-X completion still fails on the product route
+The simplification in Theorem109-B does not remove the sparse-divisor issue.
+For fixed X, the allowed A,C are divisors of X^2.
+Their residue classes modulo ell can occupy an arbitrarily sparse
+multiplicative subset.
+Therefore the local Weil sum from Section6 still cannot be applied
+fiber-by-fiber in X.
+The transfer must average across moving X or use an equivalent global
+universal-torsor / divisor-convolution coordinate system.
+Thus both routes share the same fundamental global barrier:
+```text
+complete local residue cancellation
+  -> exact sparse physical M3 population.
+```
+The difference is that Route TP no longer has the additional moving-gcd
+normalization.
+## 109.8 Updated research priority
+For the next global analytic attempt, prioritize:
+### Primary
+```text
+FixedPrimeTerminalProductTransfer
+```
+using Theorem109-B in exact Section32 coordinates.
+### Secondary
+```text
+CommonDivisorSlicedM3CharacterTransfer
+```
+for the one-factor route, because it may still yield stronger absolute
+structure or a fallback upper bound.
+No existing theorem credit is revoked from Sections89-105; only the
+analytic priority is changed.
+## 109.9 Exact state after Section109
+```text
+TERMINAL_PRODUCT_HAS_NO_MOVING_GCD_TWIST=true
+TERMINAL_PRODUCT_DIVISOR_COORDINATE_CHARACTER_EXACT=true
+ONE_FACTOR_LOCAL_ROUTE_HAS_COMMON_TWIST_2H=true
+NMINUS_EQUALS_H_UNIVERSAL=false
+FINITE_U_GREATER_THAN_ONE_COUNTEREXAMPLE=true
+FIXED_PRIME_TERMINAL_PRODUCT_TRANSFER=false
+COMMON_DIVISOR_SLICED_M3_CHARACTER_TRANSFER=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
+```
+### Next research item
+```text
+NEXT_ITEM=FixedPrimeTerminalProductTransfer
+```
+The next proof attempt should rewrite the exact Section32 divisor sum through
+```text
+A=d*a^2,
+X/A=d*b^2,
+C=e*c^2,
+X^2/C=e*f^2,
+```
+with
+```text
+gcd(a,b)=gcd(c,f)=gcd(d,e)=1,
+d*a*b=e*c*f=X,
+```
+so that the sparse divisor sets are replaced by primitive Pythagorean-face
+variables before testing any global character-sum or large-sieve theorem.
+---
+# SECTION110 — exact four-variable primitive-face model for M3 and terminal square
+## 2026-09-27
+## Status: exact one-object/one-count reparametrization of the Section32 divisor model
+Section109 proposed replacing the sparse divisor variables A,C|X^2 by the
+primitive Pythagorean-face variables hidden inside each divisor.
+This section carries that replacement out exactly.
+## 110.1 One primitive face
+For the first face write
+```text
+A=d*a^2,
+X^2/A=d*b^2,
+```
+with
+```text
+a<b,
+gcd(a,b)=1,
+a,b odd.
+```
+Then
+```text
+X=d*a*b,
+Y=d*(b^2-a^2)/2,
+P=d*(a^2+b^2)/2.
+```
+Similarly the second face has
+```text
+C=e*c^2,
+X^2/C=e*f^2,
+```
+with
+```text
+c<f,
+gcd(c,f)=1,
+c,f odd,
+```
+and
+```text
+X=e*c*f,
+Z=e*(f^2-c^2)/2,
+Q=e*(c^2+f^2)/2.
+```
+The Section32 primitivity condition is exactly
+```text
+gcd(d,e)=1.
+```
+## 110.2 The face scales are uniquely determined by four primitive variables
+Since
+```text
+d*a*b=e*c*f
+```
+and gcd(d,e)=1, put
+```text
+g:=gcd(a*b,c*f).
+```
+Then the reduced ratio is unique:
+### Theorem 110-A — UniqueFaceScaleRecovery
+```text
+d=(c*f)/g,
+e=(a*b)/g.
+```
+Consequently
+```text
+X=a*b*c*f/g.
+```
+Thus d,e are not extra free variables.
+A primitive physical Euler-brick candidate is encoded by four positive odd
+integers
+```text
+(a,b,c,f)
+```
+satisfying
+```text
+gcd(a,b)=1,
+gcd(c,f)=1,
+a<b,
+c<f,
+```
+with the scales reconstructed by Theorem110-A.
+## 110.3 Canonical face ordering becomes one bilinear inequality
+Section32 uses A<C to remove the Y/Z face swap.
+Substituting
+```text
+A=(c*f/g)*a^2,
+C=(a*b/g)*c^2
+```
+gives
+```text
+A<C
+iff
+a*f<b*c.
+```
+Hence the one-object/one-count orientation is simply
+```text
+a*f<b*c.
+```
+No divisor comparison remains.
+## 110.4 Exact four-variable physical coordinates
+Let
+```text
+g=gcd(ab,cf).
+```
+Then
+### Theorem 110-B — FourVariablePhysicalDictionary
+```text
+X=abcf/g,
+Y=cf*(b^2-a^2)/(2g),
+Z=ab*(f^2-c^2)/(2g),
+P=cf*(a^2+b^2)/(2g),
+Q=ab*(c^2+f^2)/(2g).
+```
+Every primitive canonical Euler-brick candidate occurs exactly once under
+```text
+a<b,
+c<f,
+af<bc.
+```
+This is the Section32 one-object/one-count model with the divisor variables
+fully resolved.
+## 110.5 Exact M3 square polynomial
+Define
+```text
+E4(a,b,c,f)
+ :=
+c^2*f^2*(b^2-a^2)^2
++
+a^2*b^2*(f^2-c^2)^2.
+```
+Using Theorem110-B,
+```text
+4*g^2*(Y^2+Z^2)=E4.
+```
+Therefore:
+### Theorem 110-C — FourVariableM3Predicate
+The physical candidate is in M3 iff
+```text
+E4(a,b,c,f)
+```
+is an integer square.
+If
+```text
+E4=W^2,
+```
+then
+```text
+W=2*g*D.
+```
+Thus the Euler/M3 square predicate is independent of any additional moving
+gcd normalization.
+## 110.6 Exact terminal/space square polynomial
+Define
+```text
+H4(a,b,c,f)
+ :=
+(a^2*f^2+b^2*c^2)
+*
+(a^2*c^2+b^2*f^2).
+```
+The half-angle identity gives
+```text
+4*g^2*T=H4,
+```
+where
+```text
+T=X^2+Y^2+Z^2.
+```
+Hence:
+### Theorem 110-D — FourVariableTerminalPredicate
+On M3,
+```text
+perfect endpoint
+iff
+H4(a,b,c,f) is an integer square.
+```
+The exact physical height cutoff R_phys<=B becomes
+```text
+H4(a,b,c,f)<=4*g^2*B^2.
+```
+Thus both relevant square predicates are polynomial in the same four
+primitive variables.
+## 110.7 Exact square-difference identity
+A direct expansion gives
+### Theorem 110-E — DoubleSquareDifferenceIdentity
+```text
+H4-E4=(2*a*b*c*f)^2.
+```
+Equivalently,
+```text
+4*g^2*T-(2*g*D)^2
+ =(2*a*b*c*f)^2.
+```
+Dividing by 4g^2 recovers the physical identity
+```text
+T-D^2=X^2.
+```
+The importance of Theorem110-E is not the identity itself, which is
+physically expected, but the fact that the entire Class-3 problem is now
+written as the polynomial double-square problem
+```text
+E4 = square,
+H4 = square,
+H4-E4 = an explicit square
+```
+on four primitive variables.
+## 110.8 Exact local character in the four-variable model
+For a good odd prime ell away from the coordinate-zero locus,
+```text
+chi_ell(T)
+ =
+chi_ell(H4).
+```
+Since
+```text
+u=a/b,
+v=c/f,
+```
+we have
+```text
+H4/(b^4*f^4)
+ =
+(u^2+v^2)*(1+u^2v^2).
+```
+Therefore the Section6 conditional product-character law is exactly the
+finite-field law for H4 on the E4-square locus.
+No common-core twist appears.
+## 110.9 Third Pythagorean triple interpretation of the M3 condition
+Define
+```text
+U3:=c*f*(b^2-a^2),
+V3:=a*b*(f^2-c^2).
+```
+Then
+```text
+E4=U3^2+V3^2.
+```
+Thus M3 is exactly the requirement that
+```text
+(U3,V3,W)
+```
+form an integral Pythagorean triple, with
+```text
+W=2*g*D.
+```
+The two adjacent faces are already Pythagorean by construction, so the
+Euler-brick condition is literally the compatibility condition that these
+two primitive-face variables generate a third Pythagorean triple.
+This opens a second exact route:
+```text
+do not leave 1_{E4=square} as a square indicator;
+Euclid-parameterize the third triple as well.
+```
+Whether that produces a useful multiplicative torsor rather than simply
+repackaging the K3 wall remains to be tested.
+## 110.10 Fixed product anti-concentration
+Put
+```text
+n:=a*b*c*f.
+```
+For fixed n, the number of ordered positive quadruples (a,b,c,f) with
+product n is at most
+```text
+tau_4(n)=n^{o(1)}.
+```
+The coprimality, ordering, M3 and canonical masks only reduce this number.
+Hence:
+### Theorem 110-F — FixedPrimitiveFaceProductMultiplicity
+Uniformly for n occurring below physical height B,
+```text
+#{E in M3(B): a*b*c*f=n}
+ <=B^{o(1)}.
+```
+Also
+```text
+g<=sqrt(n),
+X=n/g<=B
+```
+imply
+```text
+n<=B^2.
+```
+This is another exact anti-concentration coordinate, although its natural
+range B^2 is too large for it alone to solve the density problem.
+## 110.11 Exact counting formulation
+The exact M3 population can now be written as
+```text
+M3(B)
+ =
+#{
+ (a,b,c,f):
+ a,b,c,f positive odd,
+ gcd(a,b)=gcd(c,f)=1,
+ a<b,
+ c<f,
+ af<bc,
+ E4(a,b,c,f) is square,
+ H4(a,b,c,f)
+   <=4*gcd(ab,cf)^2*B^2
+ }.
+```
+Perfect endpoints are exactly the same set with the extra condition
+```text
+H4(a,b,c,f) is square.
+```
+This is currently the cleanest exact global character-sum model.
+## 110.12 Revised fixed-prime receiver
+### Receiver 110-R1 — FourVariableConditionalCharacterTransfer
+For each fixed good odd prime ell, prove
+```text
+sum_{primitive canonical quadruples,
+    E4 square,
+    physical height<=B}
+ chi_ell(H4)
+ =
+o(M3(B)).
+```
+The local complete-residue analogue is already Section6 and has
+O(ell^-1/2) bias.
+The remaining issue is entirely global:
+```text
+primitive lattice + gcd-dependent height + exact E4-square population
+```
+must inherit enough of that local cancellation.
+### Alternative Receiver 110-R2 — ThirdTripleTorsorTransfer
+Euclid-parameterize
+```text
+U3^2+V3^2=W^2
+```
+and determine whether the resulting all-three-faces torsor has a
+multiplicative structure on which a standard large sieve or geometry-of-
+numbers theorem applies with the physical height retained.
+## 110.13 Exact state after Section110
+```text
+FOUR_VARIABLE_PRIMITIVE_FACE_MODEL=true
+FACE_SCALES_UNIQUELY_RECOVERED=true
+CANONICAL_FACE_ORDER_EQUALS_AF_LT_BC=true
+M3_IFF_E4_SQUARE=true
+PERFECT_ENDPOINT_IFF_H4_SQUARE_ON_M3=true
+PHYSICAL_HEIGHT_EQUALS_H4_OVER_4G2=true
+H4_MINUS_E4_EQUALS_4A2B2C2F2=true
+THIRD_PYTHAGOREAN_TRIPLE_MODEL=true
+FIXED_FACE_PRODUCT_MULTIPLICITY_BO1=true
+FOUR_VARIABLE_CONDITIONAL_CHARACTER_TRANSFER=false
+THIRD_TRIPLE_TORSOR_TRANSFER=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
+```
+### Next research item
+```text
+NEXT_ITEM=ThirdTripleTorsorTransfer
+```
+The next calculation should parameterize the primitive reduction of
+```text
+U3=c*f*(b^2-a^2),
+V3=a*b*(f^2-c^2)
+```
+as a third Euclid triple, keeping track of its exact common gcd and 2-adic
+orientation, and test whether the compatibility equations reduce to
+bilinear/multiplicative relations with genuinely fewer free dimensions.
+---
+# SECTION111 — cross-gcd resolution of the four-variable model
+## 2026-09-27
+## Status: exact unification of Sections100/108/110; third-triple parametrization gives no automatic dimension drop
+Section110 gives the exact primitive-face variables
+```text
+(a,b,c,f),
+gcd(a,b)=gcd(c,f)=1.
+```
+This section resolves their cross gcds and shows that the earlier primitive
+norm rectangle appears canonically inside the four-variable model.
+## 111.1 Four cross gcds
+Define
+```text
+r:=gcd(a,c),
+s:=gcd(a,f),
+t:=gcd(b,c),
+u:=gcd(b,f).
+```
+Because gcd(a,b)=gcd(c,f)=1, the four integers
+```text
+r,s,t,u
+```
+are pairwise coprime.
+Write
+```text
+a=r*s*a0,
+b=t*u*b0,
+c=r*t*c0,
+f=s*u*f0.
+```
+The residual variables are coprime to all cross factors in the evident
+opposite positions, and
+```text
+gcd(a0*b0,c0*f0)=1.
+```
+Moreover
+### Theorem 111-A — CrossGcdProduct
+```text
+gcd(a*b,c*f)=r*s*t*u.
+```
+Thus the Section110 quantity
+```text
+g=gcd(ab,cf)
+```
+is exactly
+```text
+g=r*s*t*u.
+```
+## 111.2 Face scales become the residual products
+Section110 gives
+```text
+d=cf/g,
+e=ab/g.
+```
+Substituting the cross-gcd resolution yields
+### Theorem 111-B — ResidualFaceScales
+```text
+d=c0*f0,
+e=a0*b0.
+```
+Hence the two face scales are precisely the parts not shared across the two
+primitive face pairs.
+## 111.3 Raw terminal factors
+Define the two odd integers
+```text
+M_-:=(a^2*f^2+b^2*c^2)/2,
+M_+:=(a^2*c^2+b^2*f^2)/2.
+```
+They are integral because all four variables are odd.
+Using the cross-gcd factorization,
+```text
+a*f = r*u*s^2*a0*f0,
+b*c = r*u*t^2*b0*c0,
+```
+so
+```text
+M_-
+ =(r*u)^2
+  *[(s^2*a0*f0)^2+(t^2*b0*c0)^2]/2.
+```
+Likewise
+```text
+a*c = s*t*r^2*a0*c0,
+b*f = s*t*u^2*b0*f0,
+```
+so
+```text
+M_+
+ =(s*t)^2
+  *[(r^2*a0*c0)^2+(u^2*b0*f0)^2]/2.
+```
+Define
+```text
+N_-:=((s^2*a0*f0)^2+(t^2*b0*c0)^2)/2,
+N_+:=((r^2*a0*c0)^2+(u^2*b0*f0)^2)/2.
+```
+Then:
+### Theorem 111-C — RawToPrimitiveNormFactorization
+```text
+M_-=(r*u)^2*N_-,
+M_+=(s*t)^2*N_+.
+```
+These N_-,N_+ are exactly the primitive norm factors of Section100 after
+renaming coordinates.
+## 111.4 Exact recovery of the common core h
+Because r,s,t,u are pairwise coprime, the square multipliers
+```text
+(r*u)^2,
+(s*t)^2
+```
+are coprime.
+Moreover every prime dividing r*u divides exactly one coordinate inside the
+first primitive norm pair defining N_+ and not the other, so it cannot divide
+N_+; symmetrically s*t is coprime to N_-.
+Therefore:
+### Theorem 111-D — RawTerminalGcdEqualsCommonCore
+```text
+gcd(M_-,M_+)
+ =gcd(N_-,N_+)
+ =h.
+```
+Thus the moving common core h is already visible directly in the two raw
+four-variable terminal factors.
+No Master coordinates are required.
+## 111.5 Terminal height and one-factor conditions
+Since
+```text
+H4=4*M_-*M_+
+```
+and
+```text
+g=r*s*t*u,
+```
+Theorem111-C gives
+```text
+H4
+ =4*g^2*N_-*N_+.
+```
+Hence the Section110 height identity
+```text
+4*g^2*T=H4
+```
+becomes exactly
+```text
+T=N_-*N_+.
+```
+This independently recovers Section100-C.
+Similarly, because M_-/h differs from N_-/h by a square,
+### Theorem 111-E — RawOneFactorCriterion
+```text
+L_- square
+iff
+M_-/h square,
+```
+where
+```text
+h=gcd(M_-,M_+).
+```
+Likewise
+```text
+L_+ square
+iff
+M_+/h square.
+```
+Thus the complete terminal factorization is visible from the raw four-
+variable polynomials alone.
+## 111.6 Transparent explanation of the Section108 twist
+The raw half-angle minus factor is
+```text
+A_-=u_half^2+v_half^2
+```
+with
+```text
+u_half=a/b,
+v_half=c/f.
+```
+Therefore
+```text
+A_-
+ =(a^2*f^2+b^2*c^2)/(b^2*f^2)
+ =2*M_-/(b^2*f^2).
+```
+Hence
+```text
+[A_-]=[2*M_-]
+       =[2*h*(M_-/h)]
+       =[2*h*L_-].
+```
+This recovers Theorem108-A without any hidden-coordinate calculation.
+Similarly
+```text
+[A_+]=[2*M_+]=[2*h*L_+].
+```
+So the common twist 2h is structurally unavoidable for each individual raw
+factor and structurally cancels in their product.
+## 111.7 Product route in primitive norms
+For every good odd prime ell away from zeros,
+```text
+chi_ell(H4)
+ =chi_ell(M_-*M_+)
+ =chi_ell(N_-*N_+),
+```
+because all omitted multipliers are squares.
+Thus the terminal-product route can be stated equivalently as character
+cancellation for the product of the two primitive Gaussian norms.
+The perfect endpoint condition is
+```text
+M_-*M_+ square
+```
+or equivalently
+```text
+N_-*N_+ square.
+```
+Since h=gcd(N_-,N_+), this is equivalent to both
+```text
+N_-/h square,
+N_+/h square.
+```
+The product route and the two-factor route are therefore not different
+arithmetic conditions; they differ only in which squareclass normalization
+is used analytically.
+## 111.8 Third-face triple and 2-adic orientation
+Recall
+```text
+U3=c*f*(b^2-a^2),
+V3=a*b*(f^2-c^2).
+```
+Let
+```text
+q3:=gcd(U3,V3).
+```
+Since
+```text
+U3=2*g*Y,
+V3=2*g*Z,
+```
+we have
+### Theorem 111-F — ThirdTripleScale
+```text
+q3=2*g*gcd(Y,Z).
+```
+If E4 is square, then
+```text
+(U3/q3, V3/q3, sqrt(E4)/q3)
+```
+is a primitive Pythagorean triple.
+Because a,b,c,f are odd,
+```text
+v2(b^2-a^2)>=3,
+v2(f^2-c^2)>=3.
+```
+For the primitive reduction to have one odd and one even leg, necessarily
+### Theorem 111-G — ThirdFace2AdicMismatch
+```text
+v2(b^2-a^2)
+ !=
+v2(f^2-c^2).
+```
+This is an exact M3 mask in the four-variable coordinates.
+## 111.9 Euclid-parametrizing the third triple
+After dividing by q3, there are unique coprime opposite-parity integers
+```text
+m>n>0
+```
+such that, according to which residual leg is even,
+```text
+U3/q3=m^2-n^2,
+V3/q3=2mn,
+```
+or the two legs are swapped.
+Substitution gives two compatibility equations between
+```text
+(a,b,c,f)
+```
+and
+```text
+(m,n,q3).
+```
+Eliminating q3 leaves exactly the ratio equation encoding
+```text
+Y/Z
+```
+as the Euclid slope of the third face.
+Therefore:
+### Negative Result 111-H — RawThirdTripleParametrizationDoesNotLowerDimension
+Simply Euclid-parametrizing the third Pythagorean face does not by itself
+reduce the dimension or remove the M3 wall.
+It is an exact reparametrization of the already-imposed condition
+```text
+E4 square.
+```
+Any gain from the third-triple route would require an additional step:
+for example, a gcd allocation producing a nontrivial bilinear/trilinear
+torsor or a counting theorem adapted to the resulting compatibility
+relations.
+Thus ThirdTripleTorsorTransfer remains open but is not automatically better
+than Receiver110-R1.
+## 111.10 Strategic consequence
+The current cleanest exact architecture is now:
+```text
+four primitive face variables
+ -> raw norms M_-,M_+
+ -> cross-gcd square factors
+ -> primitive norms N_-,N_+
+ -> h=gcd(M_-,M_+)=gcd(N_-,N_+)
+ -> exact height T=N_-N_+.
+```
+For local transfer:
+```text
+product character:
+  chi(H4)=chi(N_-N_+)
+  no moving-gcd twist;
+individual one-factor character:
+  chi(L_-)
+  requires normalization by h.
+```
+This confirms the Section109 priority:
+use the product route for the first global fixed-prime transfer theorem,
+while retaining the one-factor route for structural/absolute estimates.
+## 111.11 Exact state after Section111
+```text
+FOUR_VARIABLE_CROSS_GCD_RESOLUTION=true
+RAW_TERMINAL_FACTORS_MMINUS_MPLUS=true
+MMINUS_EQUALS_SQUARE_TIMES_NMINUS=true
+MPLUS_EQUALS_SQUARE_TIMES_NPLUS=true
+GCD_MMINUS_MPLUS_EQUALS_H=true
+SECTION108_COMMON_TWIST_REDERIVED=true
+THIRD_FACE_2ADIC_MISMATCH=true
+RAW_THIRD_TRIPLE_PARAMETRIZATION_LOWERS_DIMENSION=false
+FIXED_PRIME_TERMINAL_PRODUCT_TRANSFER=false
+FOUR_VARIABLE_CONDITIONAL_CHARACTER_TRANSFER=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
+```
+### Next research item
+```text
+NEXT_ITEM=GlobalProductCharacterViaCrossGcdStrata
+```
+The next analytic attempt should stratify by the four pairwise-coprime cross
+gcds r,s,t,u and test whether, after fixing their dyadic sizes, the residual
+variables a0,b0,c0,f0 range in sufficiently regular boxes for a completion
+modulo a fixed ell.
+Unlike fixed-X divisor sets, these residual variables are not restricted to
+divisors of one fixed integer; this is the first coordinate system in which
+standard lattice/character-sum completion may plausibly apply without
+changing the exact physical height.
+---
+# SECTION112 — simultaneous square-sieve route in the ambient four-variable model
+## 2026-09-27
+## Status: exact mixed local sums + literature applicability check; global physical incomplete-sum estimate open
+Sections110-111 show that the exact perfect-endpoint population is the
+simultaneous-square locus
+```text
+E4(a,b,c,f) is square,
+H4(a,b,c,f) is square,
+```
+inside the primitive/canonical physical region.
+This suggests a different analytic route:
+> avoid conditioning on the exact M3/K3 population first; instead apply
+> square-sieve machinery simultaneously to E4 and H4 in the ambient
+> four-variable lattice.
+If successful, this would bypass the missing same-M3 equidistribution
+theorem.
+## 112.1 Ratio coordinates remove two redundant scales modulo p
+For a good odd prime p and nonzero b,f set
+```text
+u=a/b,
+v=c/f.
+```
+Then exactly
+```text
+E4=b^4*f^4*E(u,v),
+H4=b^4*f^4*H(u,v),
+```
+where
+```text
+E(u,v)
+ =v^2*(1-u^2)^2
+  +u^2*(1-v^2)^2,
+```
+and
+```text
+H(u,v)
+ =(u^2+v^2)*(1+u^2*v^2).
+```
+Therefore all quadratic characters of E4 and H4 depend only on (u,v).
+The complete four-variable character sums are simply (p-1)^2 times the
+corresponding two-variable sums.
+## 112.2 Complete local sums for E, H and EH
+For fixed v, the u-discriminants are:
+```text
+Disc_u(H)
+ =
+16*(v-1)^4*v^4*(v+1)^4*(1+v^2)^4.
+```
+For E:
+```text
+Disc_u(E)
+ =
+16*(v-1)^4*v^4*(v+1)^4
+*(v^2-2v-1)^2
+*(v^2+2v-1)^2.
+```
+For the product E*H:
+```text
+Disc_u(E*H)
+ =
+2^24
+*(v-1)^8*v^40*(v+1)^8*(1+v^2)^4
+*(v^2-2v-1)^2
+*(v^2+2v-1)^2.
+```
+Thus, outside O(1) exceptional v-values, each relevant polynomial is
+squarefree and non-square.
+Weil's bound on each good v-slice gives O(sqrt(p)) cancellation, and the
+exceptional slices contribute O(p).
+Hence:
+### Theorem 112-A — CompleteTwoVariableMixedCharacterBounds
+For every good odd prime p,
+```text
+sum_{u,v in (F_p^*)^2} chi_p(E(u,v))
+ =O(p^(3/2)),
+```
+```text
+sum_{u,v in (F_p^*)^2} chi_p(H(u,v))
+ =O(p^(3/2)),
+```
+and
+```text
+sum_{u,v in (F_p^*)^2} chi_p(E(u,v)H(u,v))
+ =O(p^(3/2)).
+```
+The implied constants are absolute.
+Multiplying by the free nonzero choices of b,f gives:
+### Theorem 112-B — CompleteFourVariableMixedCharacterBounds
+```text
+sum_{a,b,c,f in (F_p^*)}
+ chi_p(E4)
+ =O(p^(7/2)),
+```
+```text
+sum chi_p(H4)
+ =O(p^(7/2)),
+```
+and
+```text
+sum chi_p(E4*H4)
+ =O(p^(7/2)).
+```
+Thus the ambient four-variable family has square-root-quality saving
+relative to its p^4 volume for all three nontrivial squareclass moments.
+## 112.3 Local joint squareclass law without conditioning
+For two {+1,-1}-valued quadratic characters away from the zero divisors,
+Theorems112-A/B imply
+```text
+Pr(
+ chi_p(E4)=epsilon_1,
+ chi_p(H4)=epsilon_2
+)
+ =
+1/4+O(p^-1/2)
+```
+uniformly in epsilon_1,epsilon_2.
+Therefore the simultaneous-square problem has the correct local
+independence input before any exact global square condition is imposed.
+This is stronger for a double square sieve than merely knowing the
+conditional law of H4 on the E4-square residue locus.
+## 112.4 Why a simultaneous square sieve is analytically attractive
+The former Route TP was
+```text
+first restrict to E4 = integer square,
+then show H4 is rarely an integer square.
+```
+That requires same-M3/K3 equidistribution.
+The simultaneous route instead counts directly
+```text
+#{ambient physical quadruples:
+  E4 square,
+  H4 square}.
+```
+A two-stage square sieve expands this count into ambient sums of the form
+```text
+sum w(a,b,c,f)
+ chi_m(E4)
+ chi_n(H4),
+```
+for squarefree moduli m,n built from sieve primes.
+For coprime m,n, CRT separates the complete local analysis into the
+single-modulus character sums supplied by Theorem112-B.
+Thus the missing input moves from
+```text
+equidistribution of rational points on a K3 surface
+```
+to
+```text
+incomplete character-sum bounds over the exact physical four-variable
+region.
+```
+This is a genuine simplification in the type of theorem required.
+## 112.5 Physical dyadic boxes
+Let a,b,c,f lie in dyadic ranges
+```text
+a~A,
+b~B1,
+c~C,
+f~F,
+```
+with
+```text
+A<=B1,
+C<=F.
+```
+Let
+```text
+G~gcd(ab,cf).
+```
+The exact physical height is
+```text
+sqrt(H4)/(2g)<=B_phys.
+```
+In a dyadic box,
+```text
+sqrt(H4)
+asymp
+max(A*F,B1*C)
+*
+max(A*C,B1*F).
+```
+Hence every occupied physical box satisfies
+### Theorem 112-C — DyadicPhysicalProductConstraint
+```text
+max(AF,B1*C)
+*
+max(A*C,B1*F)
+ ll G*B_phys.
+```
+In particular,
+```text
+A*B1*C*F
+ ll G*B_phys.
+```
+Since
+```text
+G<=sqrt(A*B1*C*F),
+```
+this recovers the global bound
+```text
+A*B1*C*F ll B_phys^2.
+```
+The dyadic form is the correct region for incomplete-sum analysis.
+## 112.6 Literature applicability: Bonolis--Browning
+Bonolis and Browning prove uniform rational-point bounds for smooth
+hyperelliptic fibrations of the form
+```text
+Y^2=X^n+X*f(U1,U2)+g(U1,U2),
+```
+with n>=3 odd, using a variant of the square sieve and q-van der Corput
+differencing.
+Their methodology is highly relevant because it retains an exact global
+square condition while estimating ambient weighted character sums.
+However their theorem does not apply directly here.
+For fixed (a,c,f), the equation E4=W^2 becomes, with x=b^2,
+```text
+W^2
+ =
+c^2*f^2*x^2
++
+a^2*(c^4+f^4-4c^2*f^2)*x
++
+a^4*c^2*f^2.
+```
+Thus the natural x-degree is 2, while in b it is an even quartic.
+The Bonolis--Browning main theorem assumes odd n>=3; their paper explicitly
+notes that the parity restriction comes from an oscillatory-sum estimate
+which may fail for even n.
+Therefore:
+### Negative Result 112-D — BonolisBrowningNotDirectlyApplicable
+The published hyperelliptic-fibration theorem cannot be cited as an
+off-the-shelf bound for the M3 surface E4=W^2.
+Its square-sieve architecture is reusable, but the crucial incomplete
+oscillatory sums must be re-proved for the present even-quartic / two-square
+geometry.
+## 112.7 Conic-in-b^2 structure
+For fixed a,c,f and x=b^2,
+```text
+E4=W^2
+```
+is a conic in (x,W).
+Its x-discriminant is
+```text
+a^4
+*(c-f)^2*(c+f)^2
+*(c^2-2cf-f^2)
+*(c^2+2cf-f^2).
+```
+The conic has the rational point
+```text
+x=0,
+W=a^2*c*f.
+```
+The genus-one nature of the physical fiber enters only when the extra
+condition
+```text
+x=b^2
+```
+is imposed.
+This gives a useful conceptual decomposition:
+```text
+M3 square condition
+ =
+rational conic
++
+one additional square-coordinate condition.
+```
+It explains both why fixed fibers are elliptic and why a two-layer square
+sieve is a natural analytic model.
+## 112.8 What a successful double square sieve would need to prove
+Let R(B) be the exact primitive/canonical four-variable physical region.
+Define
+```text
+P_end(B)
+ =
+#{x in R(B):
+ E4(x) square,
+ H4(x) square}.
+```
+A direct endpoint proof would follow from
+```text
+P_end(B)=o(B^(1/3)),
+```
+because the certified denominator gives
+```text
+M3(B)>>B^(1/3).
+```
+Theorem112-B supplies the complete local cancellation.
+The unresolved estimate is an incomplete version in each dyadic physical
+box, uniformly in the cross-gcd strata and in squarefree moduli generated by
+the sieve.
+The needed theorem is therefore:
+### Receiver 112-R1 — PhysicalDoubleSquareSieve
+Prove a bound for
+```text
+sum_{(a,b,c,f) in physical dyadic box}
+ chi_m(E4)
+ chi_n(H4)
+```
+which combines:
+1. square-root-quality complete sums from Theorem112-B;
+2. completion or q-van der Corput saving in short/anisotropic boxes;
+3. the exact gcd-dependent physical constraint from Theorem112-C;
+4. primitive/canonical masks via Mobius inversion;
+5. enough uniformity in m,n to optimize a two-stage square sieve.
+The quantitative target is strong:
+```text
+endpoint upper bound < B^(1/3-o(1)).
+```
+A weaker power saving that remains above B^(1/3) would not yet prove the
+density theorem, but could still be combined with one-factor or
+anti-concentration inputs.
+## 112.9 Strategic comparison after the theorem audit
+Three analytic routes now remain:
+### A. Same-M3 fixed-prime transfer
+Needs distribution of exact K3/M3 rational points.
+No suitable general theorem is known.
+### B. One-factor common-divisor convolution
+Uses stronger structural information but carries the moving h-normalization.
+### C. Ambient simultaneous double square sieve
+Avoids K3 equidistribution and moving h, at the cost of requiring stronger
+absolute incomplete character-sum estimates.
+Among these, Route C is the first route whose local complete sums and exact
+ambient parameter region are both fully explicit.
+Therefore it should now receive the main analytic effort.
+## 112.10 Exact state after Section112
+```text
+COMPLETE_E4_CHARACTER_SUM_O_P_7_OVER_2=true
+COMPLETE_H4_CHARACTER_SUM_O_P_7_OVER_2=true
+COMPLETE_E4H4_CHARACTER_SUM_O_P_7_OVER_2=true
+LOCAL_E4_H4_SQUARECLASSES_UNIFORM_QUARTERS=true
+DYADIC_PHYSICAL_PRODUCT_CONSTRAINT=true
+E4_CONIC_IN_B2=true
+BONOLIS_BROWNING_DIRECT_APPLICATION=false
+PHYSICAL_DOUBLE_SQUARE_SIEVE=false
+ENDPOINT_ABSOLUTE_BOUND_BELOW_B_ONE_THIRD=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
+```
+### Next research item
+```text
+NEXT_ITEM=PhysicalDoubleSquareSieveBoxEstimate
+```
+The next calculation should derive an explicit incomplete completion bound
+for one dyadic box and one squarefree modulus, first without coprimality
+masks, and determine the best exponent obtainable by elementary completion.
+If that exponent cannot cross the B^(1/3) threshold, the failure should be
+recorded quantitatively before attempting q-van der Corput differencing.
+---
+# SECTION113 — explicit Fourier transform and the elementary double-sieve exponent ceiling
+## 2026-09-27
+## Status: exact prime-modulus Fourier decomposition + quantitative negative result for elementary completion
+Section112 left the simultaneous square-sieve route at the incomplete four-variable character sums.
+The special ratio structure of E4 and H4 makes their additive Fourier transforms explicit.
+## 113.1 Prime-modulus Fourier reduction
+Let F(u,v) denote any one of E(u,v), H(u,v), or E(u,v)H(u,v).
+For a good odd prime p define
+S_p(alpha,beta,gamma,delta;F)
+ = sum_{a,b,c,f in F_p^*}
+   chi_p(F(a/b,c/f))
+   e_p(alpha*a+beta*b+gamma*c+delta*f).
+Substitute a=u*b and c=v*f. Then
+S_p
+ = sum_{u,v in F_p^*}
+   chi_p(F(u,v))
+   B_p(alpha*u+beta)
+   B_p(gamma*v+delta),
+where
+B_p(L)=sum_{x in F_p^*} e_p(Lx)
+      =-1+p*1_{L=0}.
+Thus the full four-dimensional Fourier transform reduces exactly to the two-dimensional character sum plus at most two line restrictions and one point restriction.
+## 113.2 Fourier hierarchy
+Expanding
+B_p(L1)B_p(L2)
+ =1-p*1_{L1=0}-p*1_{L2=0}+p^2*1_{L1=L2=0},
+and using the Section112 Weil bounds gives:
+### Theorem 113-A — ExplicitPrimeFourierBounds
+Uniformly in the additive frequency:
+1. Zero frequency gives S_p=O(p^(7/2)).
+2. If exactly one variable pair (alpha,beta) or (gamma,delta) vanishes identically, while the other pair produces a genuine affine restriction, then S_p=O(p^(5/2)).
+3. For generic nonzero frequency, where both affine restrictions are proper, S_p=O(p^2).
+The O(p^2) generic bound is genuine four-dimensional square-root cancellation.
+The same hierarchy holds for F=E, H and EH away from the finite bad-prime set.
+## 113.3 Incomplete rectangular box bound
+Let I_a,I_b,I_c,I_f be intervals of lengths A,B1,C,F and put V=A*B1*C*F.
+Fourier completion modulo p, together with the standard L1 bound for an interval Fourier transform, gives:
+### Theorem 113-B — PrimeIncompleteBoxCharacterBound
+For any of chi_p(E4), chi_p(H4), chi_p(E4H4),
+|sum_box chi_p(...)|
+ << V*p^(-1/2)
+    +p^(1/2)*(A*B1+C*F)*(log p)^2
+    +p^2*(log p)^4.
+The first term is the zero Fourier mode; the middle terms are the one-pair-degenerate modes; the last term is the generic dual contribution.
+## 113.4 Squarefree composite moduli
+For squarefree q supported on good primes, CRT multiplicativity gives, for every epsilon>0,
+### Theorem 113-C — SquarefreeIncompleteBoxCharacterBound
+|sum_box chi_q(...)|
+ << q^epsilon * [
+      V*q^(-1/2)
+      +q^(1/2)*(A*B1+C*F)
+      +q^2
+    ].
+The theorem applies separately to E4, H4 and to mixed characters obtained from disjoint squarefree moduli by CRT.
+Primitive/coprime masks can be inserted later by Mobius inversion; they do not improve the exponent ceiling below.
+## 113.5 Balanced-box test
+Consider the generic balanced physical box
+A~B1~C~F~R,
+g~1.
+Then V~R^4 and B_phys~R^4.
+A standard square sieve with primes of size P creates correlation moduli q~P^2.
+Theorem113-C gives the characteristic correlation scale
+R^4/P + R^2*P + P^4.
+The square-sieve diagonal term is also of size R^4/P.
+Balancing R^4/P with P^4 gives
+P~R^(4/5),
+and therefore
+### Theorem 113-D — ElementarySingleSquareCeiling
+best elementary-completion scale ~ R^(16/5).
+The middle term is then only R^(14/5).
+## 113.6 Simultaneous two-square sieve ceiling
+A symmetric two-square sieve for E4 square and H4 square uses two prime sets of comparable size P.
+The fully off-diagonal terms have composite modulus q~P^4.
+The generic incomplete Fourier term then contains q^2~P^8.
+The double-diagonal main term is R^4/P^2.
+Balancing
+R^4/P^2 = P^8
+gives
+P~R^(2/5),
+and endpoint scale
+R^(16/5).
+Partially diagonal terms do not improve this exponent.
+### Negative Result 113-E — ElementaryDoubleSquareSieveCeiling
+Even with the exact generic Fourier bound O(q^2), a standard two-stage square sieve plus elementary completion cannot beat
+R^(16/5+epsilon)
+in a balanced generic box.
+Since B_phys~R^4, this is
+B_phys^(4/5+epsilon).
+The required absolute endpoint bound for the current denominator strategy is o(B_phys^(1/3)).
+Therefore elementary completion misses the target by a very large exponent gap.
+## 113.7 Interpretation
+The failure is not caused by weak local complete sums.
+Generic additive Fourier modes already attain the natural four-dimensional square-root scale O(q^2).
+The obstruction is global: the sieve modulus needed to force integer squares must grow much faster than the side lengths of the physical parameter box.
+Thus merely improving complete finite-field character sums cannot close the problem.
+A successful ambient double-square method would require an additional structural mechanism such as:
+1. q-van der Corput differencing lowering the effective dual dimension;
+2. determinant/spacing information from gcd strata;
+3. a low-dimensional exceptional decomposition with much smaller effective volume;
+4. a relative argument against M3(B), rather than an absolute endpoint count.
+## 113.8 Consequence for Bonolis–Browning style methods
+Bonolis–Browning obtain extra saving beyond elementary completion by q-analogue van der Corput differencing and a nontrivial oscillatory-sum estimate.
+For the present family, such technology would be necessary even to improve substantially on B^(4/5).
+However the final B^(1/3) target is far beyond the gain produced by a single mild differencing step in analogous hyperelliptic-fibration problems.
+Thus the ambient double-square route remains useful as a secondary route and as a source of quantitative upper bounds, but should not presently replace the structural one-factor/norm-core route as the sole strategy.
+## 113.9 Revised priority
+Structural primary:
+return to the primitive norm/common-core architecture and seek a relative-to-M3 power saving, where only o(M3(B)) is required.
+Analytic secondary:
+develop q-van der Corput for the four-variable E4/H4 family only if it yields an explicit exponent materially below 4/5.
+## 113.10 Exact state after Section113
+EXPLICIT_FOURIER_REDUCTION_TO_RATIO_VARIABLES=true
+GENERIC_ADDITIVE_FOURIER_BOUND_O_P2=true
+ONE_PAIR_DEGENERATE_FOURIER_BOUND_O_P5_OVER2=true
+ZERO_FREQUENCY_BOUND_O_P7_OVER2=true
+SQUAREFREE_INCOMPLETE_BOX_BOUND=true
+ELEMENTARY_SINGLE_SQUARE_CEILING_R16_OVER5=true
+ELEMENTARY_DOUBLE_SQUARE_CEILING_R16_OVER5=true
+ELEMENTARY_DOUBLE_SQUARE_ENDPOINT_TARGET_SUFFICIENT=false
+PHYSICAL_DOUBLE_SQUARE_SIEVE=false
+M3_CANONICAL_MINUS_FACTOR_THINNESS=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
+### Next research item
+NEXT_ITEM=RelativeNormCorePowerSavingOrQVanDerCorput
+The structural branch should next test whether large/small h or K_- can be split at a B-dependent threshold so that one side is negligible by existing anti-concentration and the other gains directly from the h^2 physical root modulus.
+The analytic branch should proceed only if q-van der Corput gives a materially smaller exponent than 4/5.
+---
+# SECTION114 — top-down audit and anti-loop reset
+## 2026-09-27
+## Status: strategic audit; no new theorem credit
+## 114.1 M3 research goal
+M3 research is scoped only to the exact primitive canonical Euler-brick population M3(B).
+Primary goal:
+G1 = prove P(B)/M3(B) -> 0, where P(B) is the subset satisfying the additional endpoint/space-square condition.
+A sufficient weaker receiver remains:
+G2 = #{E in M3(B): L_-(E) square} = o(M3(B)).
+No broader nonexistence objective is part of the current M3 research scope.
+## 114.2 Loop diagnosis
+Sections89-113 produced real exact assets, but the same unresolved step repeatedly reappeared:
+local or fixed-fiber information -> exact moving physical M3 population.
+The coordinate sequence
+Eulerian graph -> Gaussian core -> C_- -> K_- -> h -> physical root lines -> Gaussian ratio -> half-angle factors -> four-variable E4/H4
+mostly changed the representation of the same transfer wall.
+The two persistent walls are:
+WALL-A = same-M3 moving-family transfer;
+WALL-B = an absolute endpoint bound strong enough to beat the certified M3(B) lower scale B^(1/3).
+Section113 quantifies WALL-B: elementary ambient double-square completion only reaches about B^(4/5), far from B^(1/3).
+Therefore deriving another equivalent local coordinate system without a new global mechanism is now an anti-loop violation.
+## 114.3 What the recent work genuinely added
+Reusable exact assets include:
+- canonical factors L_-,L_+;
+- primitive norms N_-,N_+ and h=gcd(N_-,N_+);
+- fixed-coordinate B^o(1) anti-concentration for several physical coordinates;
+- exact four-variable model E4,H4;
+- exact local finite-field character laws;
+- explicit Fourier bounds;
+- quantitative failure certificate for elementary double square sieve.
+These are an arsenal. They are not a reason to keep descending into equivalent coordinates.
+## 114.4 Two valid M3 routes
+Route D — relative density inside M3:
+prove G1 or G2. A valid next result must cross WALL-A, not merely add local congruences.
+Route A — absolute endpoint count inside the ambient exact model:
+bound P(B) strongly enough that P(B)=o(M3(B)). With only the certified denominator lower bound, an absolute estimate below B^(1/3) would suffice.
+## 114.5 Better question: image size, not another local sieve
+Existing anti-concentration results say that fixing many canonical coordinates gives only B^o(1) M3 points.
+Therefore a density proof can come from an IMAGE-SIZE theorem:
+if endpoint points occupy at most B^(1/3-epsilon) values of a canonical coordinate C(E),
+and each fixed C-fiber contributes B^o(1),
+then P(B)=o(M3(B)).
+This may be much easier than proving full same-M3 character equidistribution.
+Candidate coordinates already available:
+t, X, D, N_-, N_+, h, K_-, (h,J), and the physical split (p,d).
+## 114.6 Main anti-loop reset: use the FULL endpoint condition
+Recent work mostly exploited only one-factor information:
+N_-=h*u^2 while N_+/h remained unrestricted.
+At an endpoint BOTH factors are squares, so exact algebra gives
+N_-=h*u^2,
+N_+=h*v^2,
+with gcd(u,v)=1.
+This simultaneous-square symmetry has not been exploited top-down in the recent M3 work.
+It is strictly stronger than the one-factor receiver and is the first thing to test before returning to any local sieve.
+## 114.7 Preferred next audit
+For each canonical coordinate C(E), test only:
+Does the full endpoint condition force
+# {C(E): endpoint E, R<=B} <= B^(1/3-epsilon) ?
+If yes, combine with the existing fixed-fiber B^o(1) theorem and close G1.
+If no exact image-size mechanism appears, stop that coordinate immediately.
+Priority:
+1. common core h and squarefree kernel K_-;
+2. Gaussian quotient J=(X^2+D^2)/h^2;
+3. norm ratio N_-/N_+;
+4. original K3 fibration coordinate t.
+## 114.8 What to stop
+Do not spend primary effort on:
+- another equivalent Legendre-symbol graph;
+- another coordinate transform of L_-;
+- another fixed-fiber genus/rank computation;
+- elementary square-sieve completion;
+- raw ambient lattice counts for moving h;
+- third-triple parametrization without an image-size or dimension gain.
+All of these have already looped back to WALL-A or missed the exponent target.
+## 114.9 Revised current research item
+NEXT_ITEM=EndpointCanonicalImageSizeAudit
+First test the full endpoint norm system
+N_-=h*u^2,
+N_+=h*v^2,
+gcd(u,v)=1,
+together with
+T=N_-N_+=h^2*u^2*v^2.
+This is the strongest unused top-down information produced by the recent M3 algebra.
+---
+# SECTION115 — completed strategic audit: primary route reset
+## 2026-09-27
+## Status: audit complete; active-route decision
+## 115.1 Audit question
+Given the exact M3 goal P(B)/M3(B)->0, and the results through Section114, determine which current viewpoint has a credible closure path and which routes are looping.
+## 115.2 Existing canonical image-size audit
+The Section114 proposal was tested on the currently available canonical coordinates.
+### X and D
+Fixed X and fixed D fibers are B^o(1), but the endpoint condition does not force X or D into fewer than B^(1/3-epsilon) possible values by any known exact mechanism.
+Endpoint only adds X^2+D^2=R^2, i.e. a fourth Pythagorean relation.
+The ambient number of possible Pythagorean (X,D) pairs below height B is far too large for the certified M3(B)>>B^(1/3) denominator.
+### N_- and N_+
+Fixed N_- and fixed N_+ fibers are B^o(1).
+At endpoint
+N_-=h*u^2,
+N_+=h*v^2,
+gcd(u,v)=1,
+and h*u*v<=B.
+This does not by itself restrict either norm to B^(1/3-epsilon) possible values.
+### h and K_-
+The common core is highly structured, but endpoint does not force h into a sufficiently small image.
+The relation h*u*v<=B still allows polynomially many h-values.
+Likewise the squarefree-kernel information alone does not produce the required image-size bound.
+### (h,J)
+At endpoint
+J=(X^2+D^2)/h^2=(u*v)^2
+is a square.
+Fixed (h,J) has B^o(1) multiplicity, but the number of admissible pairs
+(h,w), J=w^2, h*w<=B
+is of order at least the ambient divisor-sum scale B^(1+o(1)), not B^(1/3-epsilon).
+Therefore fixed-(h,J) anti-concentration does not close the M3 ratio.
+### norm ratio N_-/N_+
+At endpoint
+N_-/N_+=(u/v)^2.
+This square-ratio condition still admits polynomially many coprime ratios under h*u*v<=B.
+No current image-size compression follows.
+### original fibration coordinate t
+Fixed t fibers are uniformly B^o(1), which is strong.
+But no full-endpoint identity currently confines endpoint points to only B^(1/3-epsilon) t-values.
+Using t again therefore returns directly to the already-known moving-base transfer wall.
+### Audit result 115-A
+None of the currently defined canonical coordinates gives an immediate image-size closure from the full endpoint equations alone.
+Thus EndpointCanonicalImageSizeAudit is complete with a negative result for the existing coordinate list.
+## 115.3 One-factor route audit
+The one-factor receiver
+L_- square
+remains a correct sufficient condition route.
+However the recent work shows that using it as the primary global strategy introduces extra normalization by the moving common core h.
+The raw local factor differs by the common twist 2h, and every attempted global average returns to the same-M3 moving-family transfer problem.
+Therefore:
+### Audit result 115-B
+The one-factor route remains an auxiliary structural tool, but it should no longer be the default primary route for global M3 closure.
+Its strongest retained uses are:
+- exact Gaussian reconstruction;
+- small-coordinate anti-concentration;
+- common-core/root-line structure;
+- possible decomposition of exceptional subfamilies.
+It should not receive further local-symbol refinements unless they directly yield a new global counting theorem.
+## 115.4 Ambient double-square route audit
+The four-variable E4/H4 model is exact and analytically clean.
+Complete character sums and Fourier transforms are strong.
+But Section113 proves that elementary completion plus a standard double square sieve reaches only about
+B^(4/5+epsilon),
+while an absolute numerator estimate below B^(1/3) is needed from the currently certified denominator alone.
+### Audit result 115-C
+The ambient double-square route is not a credible primary closure route without a genuinely stronger analytic mechanism such as major q-van der Corput or determinant-method input.
+It remains a secondary quantitative route only.
+## 115.5 The top-down viewpoint that survives the audit
+The most faithful formulation of the M3 goal is geometric:
+K_c = the Euler-brick/M3 K3 surface,
+S -> K_c = the degree-2 endpoint cover obtained by adjoining the space-diagonal square root.
+The numerator P(B) is the physical rational-point population on S.
+The denominator M3(B) is the corresponding population on K_c.
+This uses the full endpoint condition from the start and avoids weakening to one factor.
+Section37 already gives a genuine theorem in exactly this language:
+- on every integral degree-6 curve C in K_c, the restricted endpoint cover is non-split;
+- a fixed such curve contributes at most B^(1/6+o(1)) endpoint points;
+- hence any fixed finite collection of critical degree-6 curves is negligible against M3(B)>>B^(1/3).
+This is the only current route that has already converted the full endpoint cover geometry into a numerator exponent strictly smaller than the denominator exponent on a nontrivial class of subvarieties.
+### Audit result 115-D
+The primary viewpoint should move upward to terminal-cover geometry and accumulating-curve decomposition.
+## 115.6 New primary closure architecture
+Decompose the physical M3 population on K_c into:
+A. low-degree / accumulating curves;
+B. the Zariski-dense residual population.
+For A:
+use the endpoint double cover S->K_c and low-degree curve classification.
+Section37 already closes every fixed degree-6 curve at exponent 1/6.
+The next task is to determine whether all potentially B^(1/3)-scale accumulating curves can be classified into a controlled family, and whether the number of such curves of relevant height is small enough to preserve negligibility.
+For B:
+seek a generic rational-point upper bound or congruence theorem only on the residual population, after the accumulating curves are removed.
+This is potentially easier than forcing one same-M3 equidistribution theorem to handle both exceptional curves and generic K3 points.
+## 115.7 What is now frozen / deprioritized
+Primary work is stopped on:
+- new L_- coordinate transforms;
+- new Eulerian/Legendre graphs;
+- fixed h root-line counting without a new relative theorem;
+- fixed-fiber genus computations already covered by B^o(1) bounds;
+- elementary double square sieve;
+- canonical image-size tests on h,J,N_-/N_+,X,D,t unless a new independent structural theorem appears.
+These results remain available as auxiliary tools.
+## 115.8 Current single research question
+NEXT_ITEM=TerminalCoverAccumulatingCurveDecomposition
+Concrete questions:
+1. What low-degree curves on K_c can carry polynomially many M3 points under the physical height?
+2. Which of those curves are already classified by Testa-Stoll or by the existing K_c geometry?
+3. For each such curve family, what is the degree/genus of its pullback to S under the endpoint double cover?
+4. Can the total endpoint contribution of all accumulating curves be bounded by o(B^(1/3))?
+5. After removing them, which general rational-point counting theorem gives the strongest bound on the residual endpoint surface population?
+This is the current top-down route selected by the audit.
+## 115.9 Final audit state
+STRATEGIC_AUDIT_COMPLETE=true
+RECENT_COORDINATE_LOOP_CONFIRMED=true
+EXISTING_CANONICAL_IMAGE_SIZE_ROUTE_CLOSES=false
+ONE_FACTOR_PRIMARY_ROUTE=false
+AMBIENT_DOUBLE_SQUARE_PRIMARY_ROUTE=false
+TERMINAL_COVER_GEOMETRY_PRIMARY_ROUTE=true
+NEXT_ITEM=TerminalCoverAccumulatingCurveDecomposition
+P_OVER_M3_LIMIT_PROVED=false
+
+
+# END PRE-COMPACTION MAIN SNAPSHOT
+
+
+
+
+---
+
+
+# POST-COMPACTION PRE-ROUTE-BREADTH MAIN SNAPSHOT
+
+
+# K16-C3-M3-LOCAL-TO-GLOBAL — MAIN
+## Current research authority / active route
+> このファイルだけ読めば通常の M3 研究を再開できる状態を保つ。
+> 旧主ルート・詳細証明・negative result・監査前の MAIN 全文は K16-C3-M3-LOCAL-TO-GLOBAL-ARCHIVE に保存済み。
+---
+## 0. M3研究の現在のゴール
+対象は primitive canonical Euler brick の exact physical population M3(B)。
+必須条件:
+- primitive
+- canonical ordering
+- Euclidean height R<=B
+- one object = one count
+- 3 face diagonals integral
+endpoint subset を P(B) とする。
+現在の唯一の主ゴール:
+P(B)/M3(B) -> 0.
+完全直方体の非存在そのものは、現在の M3 研究のゴールに含めない。
+既知の certified denominator scale:
+M3(B) >> B^(1/3).
+したがって absolute endpoint count で閉じるなら
+P(B)=o(B^(1/3))
+で十分。ただし relative M3 argument なら absolute B^(1/3) barrier を直接越える必要はない。
+## 0.5 Research credit / routing firewall
+- 研究 credit は厳格に分離する。有限計算 ≠ global theorem、numerical / receiver / theorem / effectivity / endpoint credit は別物。
+- population、measure、field、quotient、model、height、multiplicity 等が変わるなら exact adapter 必須。
+- 同じ restriction/saving を二重に credit しない。独立性を勝手に仮定しない。
+- formal class / orbit / cohomology があるだけでは、必要な geometric object の存在証明にならない。
+- blocked route や有限範囲で hit=0 は impossibility ではない。
+- perfect-cuboid の existence/nonexistence は explicit audited full-endpoint certificate がない限り絶対に claim しない。
+- Stage-local controller はこの firewall を強化してよいが、弱めてはいけない。
+- 既存武器を探すときだけ repository-asset-discovery、route を広げる・park・reopen・exhausted 判定をするときだけ cycle-exploration-safety-protocol を開く。
+---
+## 1. Exact physical endpoint structure
+Canonical labeling:
+- X = unique odd edge
+- Y,Z = even edges
+- P^2=X^2+Y^2
+- Q^2=X^2+Z^2
+- D^2=Y^2+Z^2
+- R^2=X^2+Y^2+Z^2
+M3 conditionは D integer。
+endpoint conditionはさらに R integer。
+Exact terminal factorization:
+(PQ-YZ)(PQ+YZ)=X^2 R^2.
+G=gcd(PQ,YZ),
+L_-=(PQ-YZ)/G,
+L_+=(PQ+YZ)/G.
+L_-,L_+ は positive odd coprime。
+Endpoint iff
+L_- and L_+ are both integer squares.
+one-factor condition L_-=square は endpoint の canonical necessary conditionだが、監査後は primary global route ではない。
+---
+## 2. Primitive norm architecture — auxiliary load-bearing arsenal
+Exact primitive Gaussian/norm decomposition:
+T:=R^2=N_- N_+,
+h:=gcd(N_-,N_+).
+Endpoint では exact に
+N_-=h*u^2,
+N_+=h*v^2,
+gcd(u,v)=1,
+したがって
+R=h*u*v.
+one-factor では N_-/h square のみを要求する。
+Current retained physical consequences:
+- gcd(h,X)=1
+- h^2 | X^2+D^2
+- D/X is a Gaussian root of -1 mod h^2
+- fixed (X,D) physical multiplicity is B^o(1)
+これらは auxiliary structure として保持するが、moving-h root-line counting 単独では relative M3 closure を与えないことは監査済み。
+---
+## 3. Accepted anti-concentration arsenal
+以下は再証明しない。
+### 3.1 Fixed t fiber
+K_c の rational fibration coordinate t について、各 fixed occupied t-fiber は
+N_t(B)<=exp(O(log B/log log B))=B^o(1)
+uniformly。
+したがって occupied t-values は少なくとも
+B^(1/3-o(1))
+個必要。
+B^(1/3-epsilon) 個以下の t-fibers の集合は M3-negligible。
+### 3.2 Other fixed-coordinate fibers
+既存 exact results により fixed:
+- X
+- D
+- N_-
+- N_+
+- (h,J), J=(X^2+D^2)/h^2
+はいずれも relevant M3 fiber multiplicity B^o(1)。
+small-X, small-D, small-N_-, small-N_+, small-C_- については B^(1/3-epsilon) threshold 以下の領域が M3-negligible になる exact anti-concentration results を保持。
+これらは今後 accumulating-curve decomposition の補助武器として使用する。
+---
+## 4. Terminal cover geometry — current primary viewpoint
+K_c = Euler-brick / M3 K3 surface。
+S -> K_c = space-diagonal square rootを adjoining する endpoint degree-2 cover。
+P(B) は S 側の exact physical rational-point population、
+M3(B) は K_c 側の exact physical rational-point populationとして考える。
+この formulation は full endpoint condition を最初から使用し、one-factor normalization h を primary global variable にしない。
+### Existing load-bearing terminal-cover result
+既存 Section37 result:
+任意の integral degree-6 curve C subset K_c について、restricted endpoint cover
+pi^{-1}(C) -> C
+は generically split しない。
+Testa–Stoll の full endpoint surface S に integral degree-6 curves が存在しない結果から従う。
+そのため fixed degree-6 M3 curve C の endpoint lifts は
+O(B^(1/6+o(1)))
+以下。
+certified denominator M3(B)>>B^(1/3) と比較して、
+任意の fixed finite collection of degree-6 M3 curves
+は endpoint numerator 上で negligible。
+これは現在の arsenal の中で、full endpoint geometry から numerator exponent 1/6 < denominator exponent 1/3 を実際に得ている重要な result。
+---
+## 5. Strategic audit — completed
+STRATEGIC_AUDIT_COMPLETE=true.
+監査結論:
+### 5.1 Recent coordinate loop
+Sections89–113 では有用な exact algebra が多数得られたが、
+local / fixed-fiber information
+  -> exact moving physical M3 population
+という同じ transfer wall を別座標で繰り返し発見する傾向があった。
+新しい equivalent coordinate system を作るだけの研究は停止。
+### 5.2 Existing canonical image-size audit
+endpoint full conditionを使い、既存 coordinates
+X, D, N_-, N_+, h, K_-, (h,J), N_-/N_+, t
+を査定したが、現時点の exact identities だけでは endpoint image を B^(1/3-epsilon) values 以下へ押し込む mechanism は得られなかった。
+EXISTING_CANONICAL_IMAGE_SIZE_ROUTE_CLOSES=false.
+### 5.3 One-factor route
+L_-=square は正しい sufficient receiver。
+ただし raw local factor と normalized L_- の間に moving common twist 2h が入り、global character averaging は same-M3 moving-famil

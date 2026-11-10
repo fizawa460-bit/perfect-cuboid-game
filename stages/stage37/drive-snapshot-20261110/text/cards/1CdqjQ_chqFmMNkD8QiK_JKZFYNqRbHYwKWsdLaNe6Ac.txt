@@ -1,0 +1,43 @@
+﻿M3-T11-151/152 cross-audit
+
+
+VERDICT
+151: PASS on the stated all-endpoint arithmetic theorem and exact Gaussian receiver. This gives complete coverage/injection for the current T11 Gaussian route, but no aggregate counting saving.
+152: PASS on the stated specified-prime-alphabet counting theorem. The elementary weighted Rankin bound gives P_S(B) <= B^(1-1/A+o(1)) for |S| <= (log B)^A; A=4/3 gives B^(1/4+o(1)) = o(M3(B)).
+GLOBAL: NOT CLOSED. E_out remains completely unbounded at the required o(M3) scale. GLOBAL_COUNTING_CREDIT=0 and P_OVER_M3_LIMIT_PROVED=false remain correct.
+
+
+151 rederivation
+For every p^n || R, primitivity excludes inert p and at most one edge can be p-divisible. For p-unit edges, after Gaussian conjugation H_i = bar(pi)^(2n) G_i with N(G_i)=m^2, m=R/p^n. The exact identity
+sum H_i^2 + sum bar(H_i)^2 + 2R^2 = 0
+implies pi^2 | C for r=2 and v_pi(C)=2n for r=3. Since C != 0 and N(C) <= r^2 m^4, one obtains p <= 2m^2 for r=2 and p^n <= 3m^2 for r=3, hence p <= 3m^2 for every p|R. The prime-power-R exclusion follows. The relaxed support lower-bound witness R=5^k q is also valid, so 151 correctly records that the scalar marginal support is too large to close the counting problem.
+
+
+152 rederivation
+With z_i=H_i^2/R^2, the exact equation is
+z_1+z_1^-1+z_2+z_2^-1+z_3+z_3^-1=-2.
+The no-vanishing-subsum argument is complete for subset sizes 1 through 6 under positive nonzero edges and odd R. For one fixed split-prime alphabet S, the phase group has rank |S| and the three-phase inverse-pair embedding has rank 3|S|. The cited Amoroso-Viada multiplicative-group bound is applicable; the displayed constant 48^[5184(7+3|S|)] matches the published n=6 inhomogeneous bound. This deep theorem is not needed for the main growing-sector exponent.
+For the main estimate, #H(R)=4 product(2n+1), hence endpoint count is bounded by
+64 sum_{R<=B, supp(R) subset S} product(2n+1)^3.
+Rankin gives
+64 B^sigma product_{p in S} F(p^-sigma),
+F(x)=(1+23x+23x^2+x^3)/(1-x)^4.
+Ordering the primes of S gives sum p^-sigma = O(|S|^(1-sigma)); with |S| <= (log B)^A and sigma=1-1/A+o(1), the Euler-product cost is B^o(1). Therefore the stated exponent 1-1/A+o(1) is valid.
+
+
+Architecture clarification
+Do not summarize 151 as 'the whole counting bridge is finished'. The accurate split is:
+- coverage adapter: complete for the current Gaussian route (all original physical endpoints inject into the exact receiver);
+- counting/globalization: incomplete.
+152 proves the counting only on E_small, one specified growing prime alphabet. E_out is the remaining load-bearing problem.
+Thus the recent shorthand '151 = bridge, 152 = bridge-side counting' is acceptable only if 'bridge' means coverage adapter. It is not acceptable if 'bridge' means the full local-to-global counting theorem.
+
+
+Artifact audit
+Standalone M3-T11-151 research-card and audit are present.
+Standalone M3-T11-152 research-card and audit are present.
+Current Drive searches did not locate standalone verify151.py / verification151.json or verify152.py / verification152.json. Their replay claims therefore are not independently persistence-verified here. This does not invalidate the written proofs, but the missing artifacts must not be claimed as confirmed Drive files.
+
+
+Audit mode
+Cross-session proof rederivation plus external primary-source check of the Amoroso-Viada bound. Not a human/external independent audit. No authority flag is changed. Current authority remains M3-T11-152; next mathematical target remains M3-T11-153 E_out / summable support cover.

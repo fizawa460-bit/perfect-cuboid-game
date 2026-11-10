@@ -1,0 +1,271 @@
+﻿M3-T11-179 — Unit-median two-smallest fresh-relative product disposal and dual large-modulus residual
+
+
+CARD_ID: M3-T11-179
+CANONICAL_CARD_KEY: M3-T11-179
+STATUS: PROVED_K1_SMALL_TWO_FRESH_PRODUCT_ENDPOINT_SECTOR / PROVED_K1_TWO_LARGE_RELATIVE_FRESH_CORES / GLOBAL_COUNTING_CREDIT=0
+PRIMARY_GATE: M3-T11-GATE-001, OPEN
+GLOBAL_OPERATION: ACTIVE_T11_RESEARCH_WITH_SCOPED_DECOMPOSITION
+GLOBAL_COUNTING_CREDIT: 0
+AUDIT_MODE: WITHIN_SESSION_DEDUCTIVE_FROM_RETAINED_015_016_030_171_176_177_178
+
+
+1. Current authority and decision
+
+
+Fresh MAIN, CARD-INDEX, current short RESULT-LEDGER, active ROUTE and M3-T11-178 were read first. Retained M3-T11-015/016/017/026/029/030/032/033/171/176/177 were checked only where needed.
+
+
+Work on the exact K=1 subpopulation of the live small-c branch:
+c_max<=C=B^(1/6+xi),
+h_middle=1,
+R<=B,
+with large Sigma, large D_min, full Gaussian orientation, triple-spin, torus double-lift, M3-T11-176 denominator filters and all physical endpoint masks retained.
+
+
+After deterministic relabeling,
+(h_1,h_2,h_3)=(1,1,h), 1<=h<=C,
+and the content-prime support is
+S_h={p:p|h}.
+
+
+Write the three relative core norms as
+tau_i=m_i*n_i, i=1,2,3,                         (179.1)
+where m_i=tau_i^sharp is the fresh part supported outside S_h and n_i is S_h-supported. The m_i are pairwise coprime because the full relative norms tau_i are pairwise coprime.
+
+
+Sort the fresh relative norms
+m_(1)<=m_(2)<=m_(3),                              (179.2)
+breaking ties by the smallest original relative-core label.
+
+
+The new result is that the entire endpoint sector with small product of the two smallest fresh relative norms is negligible after paying the full K=1 content family. Therefore every surviving K=1 endpoint has TWO polynomially large relative fresh cores, not merely one.
+
+
+No global endpoint upper bound or closure of the primary gate is claimed.
+
+
+2. Fixed fresh-pair endpoint fiber
+
+
+Fix:
+- the K=1 content h;
+- two distinct relative-core labels a,b;
+- two positive fresh norms m_a,m_b.
+
+
+For each selected label k in {a,b}, the nonfresh factor n_k in (179.1) is supported on primes dividing h and is bounded by the physical polynomial height.
+
+
+The support-restricted integer lemma proved in M3-T11-177 gives uniformly for fixed h<=C:
+#{n<=B^A : rad(n)|h}=B^o(1)                    (179.3)
+for every fixed A.
+
+
+Hence the number of possible pairs (n_a,n_b), and therefore full norm pairs
+(tau_a,tau_b)=(m_a n_a,m_b n_b),                (179.4)
+is B^o(1).
+
+
+For every such full pair:
+- the coefficient norms are (h,h,1), so the Gaussian coefficient packet has B^o(1) choices;
+- primitive Gaussian cores G_a,G_b of norms tau_a,tau_b have B^o(1) choices by the sum-of-two-squares divisor bound;
+- retained M3-T11-016 gives B^o(1) endpoint-compatible choices for the third relative core G_j after the packet,G_a,G_b are fixed;
+- retained M3-T11-015 then gives only O(1) compatible all-same core G_0 after the three relative cores and packet are fixed.
+
+
+The M3-T11-016 degenerate phase pairs are physically empty exactly as in that retained theorem, so there is no exceptional polynomial family.
+
+
+Therefore, uniformly for fixed (h,a,b,m_a,m_b),
+#{exact primitive canonical K=1 endpoints with these data}
+<=B^o(1).                                           (179.5)
+
+
+All triple-spin, double-lift, face-integrality, exact M3-T11-176 denominator, primitivity and canonical-order conditions are retained or applied as post-filters. Equation (179.5) is a same-physical-measure fiber theorem.
+
+
+3. Summed small two-fresh-product sector
+
+
+Let
+M_2^fresh := m_(1)m_(2).                            (179.6)
+
+
+For a fixed h, the number of ordered positive integer pairs (u,v) with uv<=Y is
+sum_{u<=Y} floor(Y/u)
+<=Y(1+log Y)
+=Y B^o(1).                                          (179.7)
+
+
+The deterministic labels of the two smallest fresh cores cost at most three choices. Combining (179.5)-(179.7) and summing h<=C gives, uniformly for 1<=Y<=B^2,
+#E_K1,M2fresh<=Y(B;C)
+<=C*Y*B^o(1).                                       (179.8)
+
+
+No ambient root-line density is used. The third relative core is summed through the retained fixed-two-core elliptic fiber theorem, not through an unrestricted integer range.
+
+
+Choose a fixed epsilon_2>0 with xi+epsilon_2<1/6 and set
+Y=B^(1/6-xi-epsilon_2).                             (179.9)
+
+
+Then, since C=B^(1/6+xi),
+#E_K1,M2fresh<=Y
+<=B^(1/3-epsilon_2+o(1))
+=o(M3(B)).                                          (179.10)
+
+
+Thus the entire exact K=1 endpoint sector
+m_(1)m_(2)<=B^(1/6-xi-epsilon_2)                   (179.11)
+is negligible.
+
+
+4. Relation to M3-T11-178 and M3-T11-171
+
+
+Because
+M_rel=m_1m_2m_3
+and m_(3)>=1,
+M_rel<=Y implies m_(1)m_(2)<=Y.                     (179.12)
+
+
+Therefore for the same numerical cutoff, the small-M_rel sector disposed in M3-T11-178 is contained in the new sector (179.11). M3-T11-178 remains correct, but its small-M_rel disposal is superseded for the K=1 continuation by (179.10).
+
+
+M3-T11-171 is different. It controls
+Sigma=H*tau_(1)tau_(2)
+using the two smallest FULL relative norms. The present theorem controls the two smallest FRESH relative parts after all S_h-supported prime powers are summed at B^o(1) cost. It is therefore a fresh-conductor refinement, not a restatement of the small-Sigma sector.
+
+
+5. Two large relative fresh cores on the residual
+
+
+After removing (179.10), every remaining K=1 endpoint satisfies
+m_(1)m_(2)>Y.                                       (179.13)
+
+
+Since m_(1)<=m_(2)<=m_(3),
+m_(2)^2 >= m_(1)m_(2)>Y.                            (179.14)
+
+
+Hence
+m_(2),m_(3)
+>B^(1/12-xi/2-epsilon_2/2).                         (179.15)
+
+
+In particular, at least two distinct relative fresh cores carry polynomial size at this stronger scale.
+
+
+For each k in the two largest fresh-core labels, retained M3-T11-026 supplies the actual squared Gaussian ideal modulus
+mathfrak_M_k=(G_k^sharp)^2
+with
+N(mathfrak_M_k)=m_k^2.
+
+
+Therefore every surviving endpoint carries TWO distinct relative squared-modulus selectors satisfying
+N(mathfrak_M_k)
+>B^(1/6-xi-epsilon_2),                              (179.16)
+for k corresponding to m_(2) and m_(3).
+
+
+The two moduli are coprime because the fresh relative cores are pairwise coprime.
+
+
+This is a structural dual-large-conductor statement only. The two modulus conditions are correlated through the same endpoint and must not be multiplied as independent probabilities.
+
+
+6. Same-measure dual root-line formulation
+
+
+For each of the two large relative fresh cores, retained corrected M3-T11-029 gives its own distinct rational anti-root
+v_k=A_k/B_k
+and primitive oriented root line
+A_k == rho_k B_k mod m_k^2,
+rho_k^2 == -1 mod m_k^2,
+gcd(B_k,m_k)=1.                                     (179.17)
+
+
+The two anti-roots are distinct coordinates; the withdrawn common-v CRT claim from the old M3-T11-030 is not used.
+
+
+The M3-T11-032/033 product-cubic coefficient pair may package all three root lines algebraically, but its exact product-factorization addendum shows that this carries no independent density credit. Accordingly the live K=1 residual should be viewed as a TWO-coordinate correlated root-line/principal-incidence problem, with each of two moduli already at norm scale (179.16).
+
+
+Retain simultaneously:
+- exact M3-T11-176 two-unit denominator filters;
+- large Sigma and large D_min;
+- full triple-spin principal-square relation;
+- torus double-lift selector;
+- exact physical R<=B, positivity, primitivity and canonical ordering.
+
+
+7. What this changes in the live K=1 problem
+
+
+M3-T11-178 reduced the residual to one guaranteed large relative fresh core.
+
+
+M3-T11-179 strengthens this to two guaranteed large relative fresh cores. The current K=1 residual is therefore:
+
+
+UnitMedianDualLargeRelativeFreshPhysicalSupport.
+
+
+Quantitatively:
+m_(1)m_(2)>B^(1/6-xi-epsilon_2),                    (179.18)
+m_(2),m_(3)>B^(1/12-xi/2-epsilon_2/2),              (179.19)
+N(mathfrak_M_(2)),N(mathfrak_M_(3))
+>B^(1/6-xi-epsilon_2).                               (179.20)
+
+
+The useful next theorem must exploit a SAME-ENDPOINT correlation between these two large relative selectors and the principal/double-lift physical conditions. A product of two separate one-core density estimates is prohibited.
+
+
+8. Novelty and limits
+
+
+CARD-INDEX searches for two-smallest fresh, fresh pair product, fixed two fresh cores, small fresh pair and relative fresh pair found no prior card stating (179.5)-(179.10).
+
+
+M3-T11-016 supplied the fixed-two FULL core elliptic fiber, but did not sum moving fresh pairs or moving content. M3-T11-030 compressed S_content-supported factors for fixed packets, but did not omit the third relative core through M3-T11-016. M3-T11-171 summed two smallest FULL core norms with the physical content product, not fresh relative parts.
+
+
+No count is proved for the dual-large residual. No independence of the two squared moduli is asserted. The result is deductive from retained exact structure and retained uniform fixed-two-core counting; no physical endpoint enumeration and no independent hostile audit are claimed.
+
+
+NEW_K1_SMALL_TWO_FRESH_PRODUCT_ENDPOINT_SECTOR=true
+K1_SMALL_MREL_SECTOR_SUPERSEDED_BY_TWO_FRESH_PRODUCT=true
+K1_TWO_LARGE_RELATIVE_FRESH_CORES=true
+K1_DUAL_LARGE_RELATIVE_SQUARED_MODULI=true
+DUAL_MODULUS_INDEPENDENCE_CREDIT=false
+NEW_GLOBAL_ENDPOINT_BOUND=false
+PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+GLOBAL_COUNTING_CREDIT=0
+
+
+9. Drive-only handoff
+
+
+LATEST_RESEARCH_CARD=M3-T11-179
+NEXT_CANDIDATE=M3-T11-180
+CURRENT_ATTACK=UnitMedianDualLargeRelativeFreshPhysicalCorrelation
+
+
+180 should stay on the exact K=1 residual (179.18)-(179.20).
+
+
+Use the two deterministic large relative fresh-core labels simultaneously, but preserve their distinct anti-root coordinates. Combine:
+- the two M3-T11-026 squared Gaussian ideal incidences;
+- the two corrected M3-T11-029 primitive root lines;
+- M3-T11-019 Plucker eliminants or M3-T11-023/024 principal-incidence structure only if the same physical weights and quantifier order are preserved;
+- M3-T11-176 two-unit denominator filters;
+- large Sigma / large D_min;
+- full triple-spin and torus double-lift selectors.
+
+
+The next substantive target is a genuine two-core same-endpoint correlation/reconstruction theorem with a fixed power margin. Do not multiply two one-core local densities, do not resurrect the common-v CRT, do not charge the M3-T11-032/033 product coefficient pair independently, and do not replace the endpoint measure by an ambient pair of residue boxes.
+
+
+The separate threshold-specific large-c branch remains OPEN. K>1 low-median averaging remains OPEN. M3-T11-171/174 sector disposals, M3-T11-170 fixed-pair theorem and M3-T11-171 support quantifier corrections remain retained.

@@ -1,0 +1,6459 @@
+aw-edge tail
+
+
+E_{>C}^{raw}(B)
+<<
+B^(1/2+o(1))*C^(-1+o(1))
+
+
+at C=B^(1/6+xi).
+
+
+This makes all endpoints with some c_i>C negligible.
+
+
+Step B:
+on the complementary cyclic endpoint family, prove an o(B^(1/3)) bound under the much stronger common-residual condition
+
+
+tau>B^(5/12-o(1)),
+c_i<=B^(1/6+o(1)) for all i.
+
+
+Canonical name for Step B:
+
+
+CyclicHugeResidualTauAfterCrossGcdTail.
+
+
+No theorem closing Step B is proved here.
+
+
+The H-squareclass Möbius route remains a supporting route with the valid small-N disposal, but the large-similarity-content receiver is removed.
+
+
+NEXT_ATTACK=CyclicTripleSpinDoubleLiftPrincipalIncidenceOneTwelfth
+PARALLEL_GATE=Stage14CrossGcdStratifiedRawEdgeTail
+
+
+
+
+
+
+## 16. Huge-tau local invisibility and exact ancestry split
+
+
+### 16.1 Split-prime factors of tau are locally invisible to the face-square conditions
+
+
+Let p^a|tau. Since tau|R, one has p^a|R. Section 13.2 already proves every odd prime divisor of R satisfies p==1 mod 4.
+
+
+Fix i. From
+
+
+R^2=e_1^2+e_2^2+e_3^2
+
+
+one has modulo p^(2a)
+
+
+e_j^2+e_k^2
+=
+R^2-e_i^2
+==
+-e_i^2.
+
+
+Because p==1 mod 4, -1 is a square modulo p^(2a). Hence
+
+
+e_j^2+e_k^2
+
+
+is automatically a square modulo p^(2a).
+
+
+This holds for all three i simultaneously, independently of whether p also divides one of the h_i.
+
+
+Therefore a prime-power divisor of tau supplies no additional local rejection of the three face-square conditions once the space-diagonal congruence R^2=sum e_i^2 is imposed.
+
+
+Equivalently, the three local Gaussian root signs above p^a are root labels of an already-forced congruence, not three independent sieving events.
+
+
+M3_CYCLIC_TAU_SPLIT_PRIMES_FACE_LOCAL_INVISIBLE=true
+M3_CYCLIC_TAU_LOCAL_ORIENTATION_MULTIPLICITY_NOT_A_SAVING=true
+
+
+This explains why merely increasing tau does not strengthen the auxiliary local squareclass sieve.
+
+
+### 16.2 Fixed-tau combinatorial compression is not enough
+
+
+On the Step-B complement,
+
+
+c_i<=C
+
+
+and
+
+
+D_i=tau*c_i.
+
+
+For fixed tau, the number of candidate primitive Pythagorean directions with hypotenuse D=tau*c and c<=C is at most
+
+
+C*B^o(1),
+
+
+because each hypotenuse has only B^o(1) primitive sum-of-two-squares orientations.
+
+
+Thus one fixed tau fiber is thin at scale C=B^(1/6+o(1)).
+
+
+However tau itself ranges over a polynomial interval and split-prime support alone gives only logarithmic thinning. Summing the fixed-tau estimate over unrestricted tau does not approach the B^(1/3) target.
+
+
+FIXED_TAU_DIRECTION_FIBER_THIN=true
+FIXED_TAU_SUM_GLOBAL_POWER_SAVING=false
+
+
+### 16.3 Rough/smooth split of the huge-tau branch returns to historical Stage14 barriers
+
+
+Let Pplus(tau) be the largest prime factor of tau.
+
+
+Rough branch:
+if tau has a polynomially large split prime, then that prime divides every D_i and is visible in every cyclic direction for which it is used as the direction prime. In the super-sqrt regime the exact t31/t37 Gaussian cofactor descent applies after a canonical charging choice.
+
+
+But summation over the moving prime is precisely the historical t38 obstruction: the fixed-prime t37 saving is not summable with a fixed power over the full moving-prime family without a new prime-average/spin theorem.
+
+
+Smooth branch:
+if all prime factors of tau are below the chosen polynomial threshold, generic friable-value estimates do not make this branch power-saving. This is the same obstruction isolated already in Stage14-t27: smoothness of one or several Pythagorean columns cannot be discarded without retaining the physical cover condition.
+
+
+The cyclic condition that the same tau appears in all three directions does not create an additional local sieve saving because of 16.1.
+
+
+Therefore
+
+
+CyclicHugeResidualTauAfterCrossGcdTail
+
+
+is not a free new route. Its two natural arithmetic subbranches inherit the two historical hard walls:
+
+
+rough huge tau -> moving Gaussian-prime / t38-type averaging;
+smooth huge tau -> cover-conditioned friable / t27-type counting.
+
+
+M3_HUGE_TAU_ROUGH_BRANCH_ANCESTRY=STAGE14_T38_MOVING_PRIME
+M3_HUGE_TAU_SMOOTH_BRANCH_ANCESTRY=STAGE14_T27_COVER_CONDITIONED_FRIABLE
+M3_HUGE_TAU_CYCLIC_LOCAL_SIEVE_GAIN=false
+
+
+### 16.4 Correct next theorem target
+
+
+After Step A cross-gcd-tail closure, any genuine new proof for Step B must therefore exploit one of:
+
+
+1. a same-measure moving-prime average stronger than the fixed-ell t37 theorem;
+2. a cover-conditioned friable estimate on the exact cyclic endpoint measure;
+3. a genuinely global three-direction correlation that is not a product of local root labels.
+
+
+Canonical next target:
+
+
+CyclicHugeTauGlobalCorrelationBeyondLocalRootLabels.
+
+
+NEXT_ATTACK=CyclicTripleSpinDoubleLiftPrincipalIncidenceOneTwelfth
+
+
+
+
+
+
+## 17. Equal-tau four-core decomposition and triple-spin receiver
+
+
+### 17.1 Four-core orientation decomposition
+
+
+Work on the small-cross-gcd branch after Step A, so
+
+
+D_i=tau*c_i,
+
+
+with
+
+
+c_1=h_2*h_3,
+c_2=h_1*h_3,
+c_3=h_1*h_2.
+
+
+Choose for each primitive reduced space triangle a primitive Gaussian representative A_i with
+
+
+N(A_i)=D_i,
+
+
+and factor prime powers according to the rational norm decomposition
+
+
+A_i=B_i Z_i,
+
+
+where
+
+
+N(B_i)=c_i,
+N(Z_i)=tau.
+
+
+The factorization is taken with the same Gaussian orientation as A_i at every split prime; finite unit choices are harmless.
+
+
+The three Z_i are primitive Gaussian integers of the same odd norm tau.
+
+
+For every split rational prime power p^a||tau, compare the three choices of the Gaussian prime above p. There are four relative orientation classes:
+
+
+0: all three orientations agree;
+1: direction 1 is the unique different orientation;
+2: direction 2 is the unique different orientation;
+3: direction 3 is the unique different orientation.
+
+
+After a primary-prime convention, this gives pairwise coprime positive integers
+
+
+tau_0,tau_1,tau_2,tau_3
+
+
+with
+
+
+tau=tau_0*tau_1*tau_2*tau_3,
+
+
+and primitive Gaussian integers G_j with
+
+
+N(G_j)=tau_j,
+
+
+such that, up to bounded unit choices,
+
+
+boxed:
+Z_1=G_0*conj(G_1)*G_2*G_3,
+Z_2=G_0*G_1*conj(G_2)*G_3,
+Z_3=G_0*G_1*G_2*conj(G_3).
+
+
+This is the three-direction extension of the t37 same/opposite equal-norm decomposition.
+
+
+Put
+
+
+q_j=G_j/conj(G_j)
+
+
+and
+
+
+Q=q_0*q_1*q_2*q_3.
+
+
+Then exactly
+
+
+Z_1/conj(Z_1)=Q/q_1^2,
+Z_2/conj(Z_2)=Q/q_2^2,
+Z_3/conj(Z_3)=Q/q_3^2.
+
+
+M3_CYCLIC_EQUAL_TAU_FOUR_CORE_DECOMPOSITION=true
+
+
+### 17.2 Parity/coefficient absorption
+
+
+For each direction choose a fixed unit-phase coefficient epsilon_i so that
+
+
+C_i/D_i
+=
+Re(
+ epsilon_i * A_i/conj(A_i)
+).
+
+
+For the unique odd physical edge epsilon_i may be chosen with epsilon_i^2=+1; for an even leg it may be chosen with epsilon_i^2=-1. This is only the standard odd/even leg choice in a primitive Pythagorean triangle.
+
+
+Put
+
+
+beta_i=B_i/conj(B_i),
+
+
+and define
+
+
+r_i
+=
+conj(epsilon_i)*conj(beta_i)*q_i^2.
+
+
+Then r_i lies on the rational norm-one torus and
+
+
+boxed:
+C_i/D_i = Re(Q/r_i).
+
+
+Thus all dependence on the small c_i packet is frozen inside the three coefficients r_i; the all-same common core G_0 enters only through the single common phase Q.
+
+
+### 17.3 Exact quadratic for the common phase
+
+
+The endpoint sphere relation is
+
+
+(C_1/D_1)^2+(C_2/D_2)^2+(C_3/D_3)^2=1.
+
+
+Set
+
+
+A=r_1^2+r_2^2+r_3^2,
+U=Q^2.
+
+
+Since each r_i has norm one,
+
+
+boxed:
+conj(A)*U^2 + 2*U + A = 0.
+
+
+Therefore the all-same orientation phase is not free.
+
+
+A necessary condition for a norm-one rational solution U is
+
+
+boxed:
+|A|^2-1=s^2
+
+
+for some s in Q, and then
+
+
+U=(-1 +/- i*s)/conj(A).
+
+
+The actual endpoint additionally requires U to be a square in the rational norm-one torus, because U=Q^2.
+
+
+Once U and a torus square root Q are fixed,
+
+
+q_0
+=
+Q/(q_1*q_2*q_3).
+
+
+A rational norm-one phase q_0 determines a primitive Gaussian G_0 up to bounded unit/conjugation choices. Hence:
+
+
+boxed:
+for fixed (B_i,G_1,G_2,G_3), the all-same core G_0 has O(1) possibilities.
+
+
+M3_CYCLIC_ALL_SAME_CORE_NOT_FREE=true
+
+
+### 17.4 Pairwise trace factorization of the discriminant
+
+
+Let
+
+
+v_i=r_i^2.
+
+
+Because |v_i|=1,
+
+
+|A|^2-1
+=
+[(v_1+v_2)(v_1+v_3)(v_2+v_3)]/(v_1*v_2*v_3).
+
+
+Since v_i=r_i^2, define the rational pairwise traces
+
+
+lambda_ij
+=
+r_i/r_j+r_j/r_i
+=
+2*Re(r_i/r_j)
+in Q.
+
+
+Then the previous identity becomes exactly
+
+
+boxed:
+|A|^2-1
+=
+lambda_12*lambda_13*lambda_23.
+
+
+Therefore the first common-phase solvability condition is the triple-spin squareclass relation
+
+
+boxed:
+lambda_12*lambda_13*lambda_23 in Q^2.
+
+
+The second condition is the torus-square lift U=Q^2.
+
+
+This converts the huge-tau three-direction problem from three repeated local root labels into one global triple-spin correlation plus one torus-doubling condition.
+
+
+M3_CYCLIC_TRIPLE_SPIN_TRACE_PRODUCT_SQUARE=true
+M3_CYCLIC_COMMON_PHASE_TORUS_DOUBLE_LIFT_REQUIRED=true
+
+
+### 17.5 Content-triple counting budget
+
+
+On the small-cross-gcd branch
+
+
+c_i<=C.
+
+
+Since
+
+
+c_1*c_2*c_3=(h_1*h_2*h_3)^2,
+
+
+one has
+
+
+h_1*h_2*h_3<=C^(3/2).
+
+
+Hence the number of ordered positive content triples is bounded by
+
+
+sum_{n<=C^(3/2)} d_3(n)
+=
+C^(3/2+o(1)).
+
+
+The pairwise-coprime condition only decreases this count.
+
+
+For fixed (h_1,h_2,h_3), each c_i has only B^o(1) primitive Gaussian representations B_i, so the coefficient-packet multiplicity is B^o(1).
+
+
+Taking
+
+
+C=B^(1/6+xi)
+
+
+gives at most
+
+
+B^(1/4+(3/2)xi+o(1))
+
+
+content/coefficient packets.
+
+
+Therefore it is enough to prove a uniform active-relative-core bound
+
+
+boxed:
+N_rel(B;h_1,h_2,h_3,packet)
+<<
+B^(1/12-delta)
+
+
+for some fixed delta>0, with xi chosen sufficiently small relative to delta.
+
+
+Indeed this would give
+
+
+P(B)
+<<
+B^(1/3-delta+(3/2)xi+o(1))
+=
+o(B^(1/3)).
+
+
+This is substantially weaker than requiring B^o(1) endpoint multiplicity for a fixed content triple.
+
+
+### 17.6 New narrow theorem gate
+
+
+Canonical receiver:
+
+
+CyclicFixedContentTripleRelativeSpinOneTwelfth.
+
+
+Population:
+exact cyclic endpoint states on the Step-A complement, with one fixed labeled content triple and one fixed small c_i Gaussian coefficient packet.
+
+
+Required theorem:
+a fixed power bound strictly below B^(1/12) for the number of relative-core triples (G_1,G_2,G_3) satisfying
+
+
+1. the exact physical height;
+2. the triple-spin square relation
+   lambda_12*lambda_13*lambda_23 in Q^2;
+3. the torus-double-lift condition for U;
+4. the reconstruction/positivity conventions.
+
+
+No FI/Hecke/tH8 theorem is currently certified for this exact triple-spin measure. The tH8 dispersion architecture is relevant infrastructure only.
+
+
+NEXT_ATTACK=CyclicTripleSpinDoubleLiftPrincipalIncidenceOneTwelfth
+
+
+
+
+
+
+## 18. Fixed-two relative-core anti-concentration
+
+
+### 18.1 Rational torus coordinate
+
+
+Use the standard rational parameterization of the norm-one torus
+
+
+r(t)
+=
+(1-t^2+2*i*t)/(1+t^2).
+
+
+Fix two relative-core phases
+
+
+r_1=r(a),
+r_2=r(b),
+
+
+including the fixed small c_i coefficient and parity phases from Section 17.
+
+
+For the moving third relative core write
+
+
+r_3=r(t).
+
+
+The pairwise trace is exactly
+
+
+lambda_a(t)
+:=
+r(a)/r(t)+r(t)/r(a)
+=
+2*Q_a(t)/[(1+a^2)(1+t^2)],
+
+
+where
+
+
+Q_a(t)
+=
+(1-a^2)(1-t^2)+4*a*t.
+
+
+The projective roots of Q_a are
+
+
+t=(1+a)/(1-a),
+
+
+and
+
+
+t=(a-1)/(a+1),
+
+
+with the usual infinity interpretation at a=+/-1. They are rational and reciprocal under t -> -1/t.
+
+
+### 18.2 Exact degeneration classification
+
+
+For two fixed parameters a,b,
+
+
+boxed:
+Res_t(Q_a,Q_b)
+=
+-16*(a-b)^2*(a*b+1)^2.
+
+
+Hence the two quadratic branch pairs fail to be disjoint exactly when
+
+
+a=b
+
+
+or
+
+
+a*b=-1.
+
+
+These correspond to
+
+
+r_2=r_1
+
+
+or
+
+
+r_2=-r_1,
+
+
+respectively.
+
+
+The second case is immediately impossible for a positive physical endpoint because
+
+
+C_2/D_2
+=
+Re(Q/r_2)
+=
+-Re(Q/r_1)
+=
+-C_1/D_1.
+
+
+For r_2=r_1, the triple-spin condition becomes
+
+
+lambda_12*lambda_13*lambda_23
+=
+2*lambda_13^2.
+
+
+Since 2 is not a rational square, a rational square can occur only if
+
+
+lambda_13=0.
+
+
+Then r_3=+/- i*r_1. Put y=Q/r_1. The physical normalized legs satisfy
+
+
+x_1=x_2=Re(y),
+
+
+x_3=+/- Im(y).
+
+
+Since |y|=1, the endpoint sphere condition gives
+
+
+2*Re(y)^2+Im(y)^2=1,
+
+
+while
+
+
+Re(y)^2+Im(y)^2=1.
+
+
+Thus Re(y)=0, so x_1=x_2=0, contradicting positivity.
+
+
+Therefore every positive physical endpoint lies in the nondegenerate branch
+
+
+boxed:
+(a-b)*(a*b+1) != 0.
+
+
+M3_CYCLIC_TRIPLE_SPIN_DEGENERATE_PAIR_PHYSICALLY_EMPTY=true
+
+
+### 18.3 Genus-one fixed-two fiber
+
+
+On the nondegenerate branch lambda_12 is a fixed nonzero rational. The triple-spin square relation
+
+
+lambda_12*lambda_13*lambda_23 in Q^2
+
+
+is equivalent, after removing fixed rational factors and the square denominator (1+t^2)^2, to a quartic twist
+
+
+boxed:
+Y^2
+=
+d_{a,b}*Q_a(t)*Q_b(t)
+
+
+for a fixed nonzero rational d_{a,b}.
+
+
+Its four projective branch points are rational and distinct by Section 18.2. Hence this is a smooth genus-one curve whose Jacobian has full rational 2-torsion.
+
+
+If the physical fiber is nonempty, one physical reference point makes the twist an elliptic curve over Q.
+
+
+All coefficients have height B^O(1), and the physical torus parameter t has height B^O(1). Therefore the same uniform bounded-height theorem with rational prime-order torsion used in Stage14-t22/t36/t37 applies.
+
+
+Consequently, uniformly in the fixed content/coefficient packet and fixed relative cores G_1,G_2,
+
+
+boxed:
+#{G_3:
+    triple-spin square relation,
+    physical height <=B}
+<=
+B^o(1).
+
+
+The torus-double-lift requirement U=Q^2 and all physical reconstruction conditions are monotone post-filters, so the same bound holds for actual endpoint-compatible G_3.
+
+
+M3_CYCLIC_FIXED_TWO_RELATIVE_CORE_MULTIPLICITY=BO1
+
+
+### 18.4 What this does and does not close
+
+
+This removes one entire moving Gaussian core after two relative cores are fixed.
+
+
+It does not by itself prove the Section 17 target
+
+
+N_rel
+<<
+B^(1/12-delta),
+
+
+because the pair (G_1,G_2) still moves over a polynomial family.
+
+
+Thus the remaining fixed-content-triple problem is now a pair-incidence problem rather than a three-core point count.
+
+
+Canonical successor:
+
+
+CyclicRelativeCorePairIncidenceOneTwelfth.
+
+
+A sufficient theorem is a bound below B^(1/12) for the number of active ordered pairs (G_1,G_2) which admit a third core on the genus-one fiber above and satisfy the torus-double-lift / height reconstruction.
+
+
+NEXT_ATTACK=CyclicTripleSpinDoubleLiftPrincipalIncidenceOneTwelfth
+
+
+
+
+
+
+## 19. Fixed-content endpoint count equals active-tau count at power scale
+
+
+### 19.1 Fixed (h_1,h_2,h_3,tau) multiplicity
+
+
+Fix one labeled content triple
+
+
+(h_1,h_2,h_3)
+
+
+and one positive integer tau.
+
+
+Then the three primitive reduced space-triangle hypotenuses are fixed integers
+
+
+D_1=tau*h_2*h_3,
+D_2=tau*h_1*h_3,
+D_3=tau*h_1*h_2.
+
+
+For an odd primitive Pythagorean hypotenuse D, the number of primitive oriented Pythagorean triples with hypotenuse D is bounded by the sum-of-two-squares divisor count
+
+
+<=
+D^o(1).
+
+
+Therefore the total number of ordered direction triples
+
+
+(C_i,L_i,D_i), i=1,2,3,
+
+
+above fixed (h_1,h_2,h_3,tau) is
+
+
+B^o(1).
+
+
+All endpoint sphere compatibility, cyclic-cover reuse, positivity, parity, canonical ordering, and triple-spin conditions are post-filters. Hence
+
+
+boxed:
+#{endpoints with fixed (h_1,h_2,h_3,tau)}
+<=
+B^o(1).
+
+
+This elementary fixed-tau bound is stronger for multiplicity than the fixed-two relative-core genus-one estimate, although Section 18 remains useful for exposing the arithmetic condition that selects active tau values.
+
+
+M3_CYCLIC_FIXED_CONTENT_FIXED_TAU_MULTIPLICITY=BO1
+
+
+### 19.2 Active-tau receiver
+
+
+For a fixed labeled content triple define
+
+
+A_tau(B;h_1,h_2,h_3)
+
+
+to be the number of tau for which at least one exact positive cyclic endpoint of physical height <=B exists with those contents.
+
+
+Then
+
+
+boxed:
+P_{h_1,h_2,h_3}(B)
+<=
+B^o(1)*A_tau(B;h_1,h_2,h_3).
+
+
+Conversely every active tau contributes at least one endpoint, so active-tau count and endpoint count have the same power exponent for a fixed content triple.
+
+
+Thus the Section-17 one-twelfth target is equivalent at power scale to
+
+
+boxed:
+A_tau(B;h_1,h_2,h_3)
+<<
+B^(1/12-delta)
+
+
+uniformly on the Step-A complement.
+
+
+The arithmetic selector for an active tau is not merely split-prime support. Through Sections 17-18 it requires a prime-orientation allocation whose relative cores satisfy the triple-spin square condition and torus-double-lift condition.
+
+
+### 19.3 Minimal current gate
+
+
+Canonical receiver:
+
+
+CyclicFixedContentActiveTauOneTwelfth.
+
+
+This supersedes the pair-incidence wording as the minimal counting object. The pair-incidence and fixed-two genus-one results are retained as internal structure for attacking active-tau sparsity.
+
+
+Required theorem:
+for every Step-A content triple with c_i<=B^(1/6+xi),
+
+
+A_tau(B;h_1,h_2,h_3)
+<<
+B^(1/12-delta)
+
+
+for some fixed delta>0 uniformly, or an averaged version over content triples strong enough to beat the total C^(3/2+o(1)) outer budget.
+
+
+No such active-tau theorem is proved yet.
+
+
+NEXT_ATTACK=CyclicTripleSpinDoubleLiftPrincipalIncidenceOneTwelfth
+
+
+
+
+
+
+## 20. Six-bilinear cover for the active-tau selector
+
+
+### 20.1 Exact factorization of the pairwise traces
+
+
+Parameterize the three actual relative phases by
+
+
+r_i=r(t_i)
+=
+(1-t_i^2+2*i*t_i)/(1+t_i^2).
+
+
+For i<j define
+
+
+Q_ij
+=
+(1-t_i^2)(1-t_j^2)+4*t_i*t_j.
+
+
+Then
+
+
+lambda_ij
+=
+2*Q_ij/[(1+t_i^2)(1+t_j^2)].
+
+
+The numerator factors over Q exactly as
+
+
+boxed:
+Q_ij
+=
+L_ij^+ * L_ij^-,
+
+
+where
+
+
+L_ij^+
+=
+1+t_i-t_j+t_i*t_j,
+
+
+L_ij^-
+=
+1-t_i+t_j+t_i*t_j.
+
+
+Therefore
+
+
+lambda_12*lambda_13*lambda_23
+=
+8*Q_12*Q_13*Q_23
+/
+[(1+t_1^2)^2(1+t_2^2)^2(1+t_3^2)^2].
+
+
+The denominator is a rational square and 8=4*2. Hence the triple-spin square condition is exactly
+
+
+boxed:
+W^2
+=
+2*
+L_12^+*L_12^-*
+L_13^+*L_13^-*
+L_23^+*L_23^-.
+
+
+This is a six-bilinear cover on the three rational torus parameters.
+
+
+M3_CYCLIC_TRIPLE_SPIN_SIX_BILINEAR_COVER=true
+
+
+### 20.2 Zero-factor branches are physically empty
+
+
+If one factor L_ij^+ or L_ij^- vanishes then
+
+
+lambda_ij=0,
+
+
+equivalently
+
+
+r_j=+/- i*r_i.
+
+
+Put y=Q/r_i. Then the two corresponding normalized physical legs are, up to signs,
+
+
+Re(y)
+
+
+and
+
+
+Im(y).
+
+
+Since |y|=1, their squared sum is already 1. The endpoint sphere relation then forces the remaining normalized leg to vanish.
+
+
+Therefore no positive physical endpoint lies on any of the six branch hyperplanes:
+
+
+boxed:
+L_ij^+*L_ij^- != 0
+for every i<j.
+
+
+M3_CYCLIC_SIX_LINEAR_ZERO_BRANCH_PHYSICALLY_EMPTY=true
+
+
+### 20.3 Role in the active-tau gate
+
+
+The active-tau selector for fixed content/coefficient data is therefore a nondegenerate rational solution of the six-bilinear square cover above, together with the torus-double-lift and exact height/reconstruction conditions.
+
+
+Fixing any two torus parameters turns the six-bilinear cover into the smooth genus-one quartic of Section 18.
+
+
+Globally, however, this is still a moving three-variable square-value problem. No ambient square-sieve density may be transferred to the exact active-tau measure without a height/multiplicity adapter.
+
+
+The six-bilinear form is the canonical polynomial object for testing FI/Hecke/tH dispersion applicability to
+
+
+CyclicFixedContentActiveTauOneTwelfth.
+
+
+NEXT_ATTACK=CyclicTripleSpinDoubleLiftPrincipalIncidenceOneTwelfth
+
+
+
+
+
+
+## 21. Six-bilinear Plucker eliminants and determinant preflight
+
+
+### 21.1 Homogeneous bilinear factors
+
+
+Write the torus parameters from Section 20 in primitive homogeneous coordinates
+
+
+t_i=v_i/u_i,
+
+
+and put
+
+
+H_i=u_i^2+v_i^2.
+
+
+Define
+
+
+A_ij=u_i*u_j+v_i*v_j,
+B_ij=v_i*u_j-u_i*v_j,
+
+
+and
+
+
+F_ij^+=A_ij+B_ij,
+F_ij^-=A_ij-B_ij.
+
+
+Then
+
+
+F_ij^+
+=
+(u_i+v_i)u_j+(v_i-u_i)v_j,
+
+
+F_ij^-
+=
+(u_i-v_i)u_j+(u_i+v_i)v_j.
+
+
+The six-bilinear selector of Section 20 is equivalent, up to an overall rational square denominator, to
+
+
+W^2
+=
+2*
+F_12^+ F_12^-
+F_13^+ F_13^-
+F_23^+ F_23^-.
+
+
+For fixed i, the linear map
+
+
+(u_j,v_j)
+->
+(F_ij^+,F_ij^-)
+
+
+has coefficient matrix
+
+
+[[u_i+v_i, v_i-u_i],
+ [u_i-v_i, u_i+v_i]]
+
+
+and exact determinant
+
+
+boxed:
+2*H_i.
+
+
+Thus every pair of Stage37 bilinear factors sharing one torus core comes from an exact index-2H_i linear transform.
+
+
+### 21.2 Exact charged-once eliminants
+
+
+The six factors are not independent. Direct complex multiplication, or elementary expansion, gives
+
+
+boxed:
+F_12^+ F_13^+ + F_12^- F_13^-
+=
+H_1 (F_23^+ + F_23^-),
+
+
+and
+
+
+boxed:
+F_12^+ F_13^- - F_12^- F_13^+
+=
+-H_1 (F_23^+ - F_23^-).
+
+
+Cyclic permutations give the two analogous pairs with H_2 and H_3.
+
+
+Equivalently, once the two factor-pairs incident to one core are fixed, the third factor-pair is reconstructed rationally with denominator H_i.
+
+
+These are exact Plucker-type eliminants on the same six-bilinear square-cover measure. They are not obtained by multiplying local densities.
+
+
+M3_T11_SIX_BILINEAR_PLUCKER_ELIMINANTS=true
+M3_T11_SHARED_CORE_LINEAR_DETERMINANT=2H_i
+
+
+### 21.3 Card-router classification
+
+
+This structure matches the theorem species requested by the REOPEN_CONDITION of M3-A-GATE-001: a charged-once eliminant exists.
+
+
+It is structurally adjacent to M3-CROSSCORE-002, but it is not the same formula or the same charged measure:
+
+
+- M3-CROSSCORE-002 is the historical physical common-core reciprocal product eliminant;
+- the present identities live on the fixed-content active-tau triple-spin six-bilinear cover.
+
+
+Therefore no saving transfers automatically.
+
+
+The next preflight is:
+
+
+CyclicSixBilinearEliminantDeterminantNovelty.
+
+
+Required checks:
+
+
+1. express the exact physical-height region in the homogeneous (u_i,v_i) variables;
+2. identify whether the determinant factor H_i is genuinely uncharged or is already paid by the four-core/tau decomposition;
+3. prove B^o(1) pushforward multiplicity to the active-tau object;
+4. only if 2H_i is genuinely new, compare with determinant/lattice or separated bilinear theorem species;
+5. otherwise mark the eliminant as structural-only and return to the active-tau selector.
+
+
+No fixed-power saving is claimed here.
+
+
+NEXT_ATTACK=CyclicTripleSpinDoubleLiftPrincipalIncidenceOneTwelfth
+
+
+
+
+
+
+## 22. Determinant preflight verdict and tH8/tH9 reuse
+
+
+### 22.1 The determinant 2H_i is a coordinate Jacobian, not a new sieve modulus
+
+
+Retain the Section-21 matrix
+
+
+T_i
+=
+[[u_i+v_i, v_i-u_i],
+ [u_i-v_i, u_i+v_i]]
+
+
+sending
+
+
+(u_j,v_j)^T
+->
+(F_ij^+,F_ij^-)^T.
+
+
+Write
+
+
+a_i=u_i+v_i,
+b_i=v_i-u_i.
+
+
+Then
+
+
+T_i
+=
+[[a_i,b_i],
+ [-b_i,a_i]],
+
+
+so exactly
+
+
+det(T_i)
+=
+a_i^2+b_i^2
+=
+2(u_i^2+v_i^2)
+=
+2H_i.
+
+
+More strongly,
+
+
+boxed:
+T_i^T T_i = 2H_i I.
+
+
+Hence
+
+
+boxed:
+(F_ij^+)^2+(F_ij^-)^2
+=
+2H_i H_j.
+
+
+Let
+
+
+Lambda_i=T_i Z^2.
+
+
+Then Lambda_i has covolume 2H_i, and T_i is a bijection
+
+
+Z^2 cap R
+->
+Lambda_i cap T_i(R)
+
+
+for every region R in the (u_j,v_j)-plane.
+
+
+Since
+
+
+area(T_i(R))
+=
+2H_i * area(R),
+
+
+one has the exact covolume cancellation
+
+
+area(T_i(R))/covol(Lambda_i)
+=
+area(R).
+
+
+Therefore the index 2H_i gives no standalone density saving on the exact pushforward measure. It is precisely the Jacobian of the coordinate change.
+
+
+The same conclusion remains true after primitive and physical masks are transported through the injective map: image-lattice membership is the coordinate description of an existing primitive torus vector, not an additional arithmetic event.
+
+
+Thus the Section-21 determinant fails the SR-STR-166 novelty test.
+
+
+M3_T11_SHARED_CORE_DETERMINANT_COORDINATE_JACOBIAN=true
+M3_T11_SHARED_CORE_DETERMINANT_NEW_SAVING=false
+CYCLIC_SIX_BILINEAR_DETERMINANT_NOVELTY_STATUS=RED
+
+
+The Plucker eliminants remain exact and useful for reconstruction/correlation, but they receive zero direct counting credit.
+
+
+### 22.2 Raw one-variable quadratic large sieve is not certified
+
+
+For the homogenized square selector put
+
+
+P_x
+=
+2 *
+prod_{i<j}
+F_ij^+ F_ij^-,
+
+
+where x denotes one fixed-content relative-core packet.
+
+
+Modulo a good odd auxiliary prime l,
+
+
+chi_l(P_x)
+=
+chi_l(F_12^+F_12^-)
+chi_l(F_13^+F_13^-)
+chi_l(F_23^+F_23^-).
+
+
+This is a triangular interaction among the three moving cores.
+
+
+Fixing one core does not separate the remaining two coefficient families, and fixing two cores leaves the already-known quartic genus-one fiber in the third core.
+
+
+Therefore the raw selector does not satisfy the separated-coefficient hypothesis required by the Stage37/SR-STR-161 quadratic/Jacobi large-sieve route.
+
+
+M3_T11_RAW_ONE_VARIABLE_SEPARATION_PROVED=false
+M3_T11_RAW_QUADRATIC_LARGE_SIEVE_READY=false
+
+
+The fixed-two B^o(1) theorem M3-T11-016 remains the correct fiber-level replacement; it does not by itself bound the moving ordered-pair support.
+
+
+### 22.3 Exact tH8 external-auxiliary dispersion adapter
+
+
+Although the raw two-variable large-sieve shortcut fails, the six-bilinear detector fits the retained Stage14-tH8 external-auxiliary architecture exactly.
+
+
+Let L be a dyadic family of good split auxiliary primes and let varpi be the primary Gaussian prime above l=N(varpi).
+
+
+For an ambient fixed-content packet x define the integer detector P_x above, and bounded coefficients d_x.
+
+
+Then the exact trilinear square-sieve form is
+
+
+T
+=
+sum_{varpi in L}
+sum_x
+a_varpi d_x chi_{N(varpi)}(P_x).
+
+
+Thus the tH8 one-Cauchy identities apply without a new infrastructure stage:
+
+
+K_L(x,y)
+=
+sum_{varpi in L}
+chi_{N(varpi)}(P_x P_y).
+
+
+Define the rational squareclass
+
+
+sigma_x=[P_x].
+
+
+For every good auxiliary prime not dividing P_xP_y,
+
+
+chi_l(P_xP_y)
+=
+chi_{D(sigma_x sigma_y)}(l),
+
+
+where D(.) is the associated fundamental discriminant.
+
+
+Pullback by Gaussian norm gives the norm-induced quadratic Hecke character
+
+
+eta_D(z)
+=
+chi_D(Nz).
+
+
+Hence the tH9 Route-A quadratic-Hecke certificate is available for every nonprincipal cross-kernel.
+
+
+M3_T11_TH8_TRILINEAR_ADAPTER_EXACT=true
+M3_T11_ROUTE_A_HECKE_CROSS_KERNEL_READY=true
+
+
+### 22.4 The remaining analytic obstruction is principal squareclass incidence
+
+
+The Hecke conversion does not close the active-tau count.
+
+
+The principal cross-kernel is exactly
+
+
+sigma_x=sigma_y.
+
+
+Actual endpoint packets satisfy
+
+
+sigma_x=1,
+
+
+because the six-bilinear detector is a rational square after clearing the square denominator.
+
+
+Therefore the target family lies entirely in one principal squareclass fiber.
+
+
+Character cancellation handles only nonprincipal cross-kernels. It gives no cancellation on the endpoint target class itself.
+
+
+The retained tH9/tH10 infrastructure now identifies the correct next object:
+
+
+principal squareclass incidence / autocorrelation on the fixed-content active-tau packet family.
+
+
+The M3-specific extra input is M3-T11-016:
+for fixed first two relative cores and any fixed target squareclass, the third-core quartic fiber is B^o(1) by the same full-rational-2-torsion argument, with the physical endpoint selector as a post-filter.
+
+
+What remains is the off-pair principal collision incidence after summing over moving ordered pairs.
+
+
+Canonical next gate:
+
+
+CyclicSixBilinearPrincipalSquareclassPairIncidenceOneTwelfth.
+
+
+Required output:
+a same-measure bound strong enough to imply, uniformly for each fixed content/coefficient packet,
+
+
+#{active tau}
+<<
+B^(1/12-delta).
+
+
+No such global principal-incidence theorem is currently certified.
+
+
+NEXT_ATTACK=CyclicTripleSpinDoubleLiftPrincipalIncidenceOneTwelfth
+
+
+
+
+
+
+## 23. Torus double-lift is a genuine second selector inside the principal triple-spin fiber
+
+
+### 23.1 Exact torus-square criterion
+
+
+Let
+
+
+T(Q)={U=x+i*y in Q(i): x^2+y^2=1}.
+
+
+For U=x+i*y in T(Q),
+
+
+boxed:
+U is a square in T(Q)
+iff
+2*(1+x) is a rational square.
+
+
+Proof.
+If U=(a+i*b)^2 with a^2+b^2=1, then
+x=a^2-b^2=2a^2-1,
+so
+2(1+x)=(2a)^2.
+Conversely, if z^2=2(1+x), put a=z/2. If a is nonzero, put b=y/(2a); then
+a^2=(1+x)/2,
+b^2=(1-x)/2,
+a^2+b^2=1,
+and (a+i*b)^2=U.
+If a=0 then U=-1 and U=i^2.
+
+
+Thus the square condition on a rational norm-one phase has one exact rational-square selector.
+
+
+### 23.2 Application to the reconstructed common phase
+
+
+Retain the Section-17 notation
+
+
+A=X+i*Y
+=
+r_1^2+r_2^2+r_3^2,
+
+
+and assume the triple-spin condition
+
+
+s^2
+=
+|A|^2-1
+=
+X^2+Y^2-1.
+
+
+Put
+
+
+R_A=X^2+Y^2=1+s^2.
+
+
+The two solutions of
+
+
+conj(A) U^2+2U+A=0
+
+
+are
+
+
+U_+ = (-1+i*s)/conj(A),
+U_- = (-1-i*s)/conj(A).
+
+
+Since 1/conj(A)=A/R_A,
+
+
+Re(U_+)=(-X-s*Y)/R_A,
+Re(U_-)=(-X+s*Y)/R_A.
+
+
+Therefore the all-same Gaussian core can be reconstructed only if at least one of the two exact second selectors holds:
+
+
+boxed:
+Z_+^2
+=
+2*(R_A-X-s*Y)/R_A,
+
+
+or
+
+
+boxed:
+Z_-^2
+=
+2*(R_A-X+s*Y)/R_A.
+
+
+This is precisely the torus-doubling condition U=Q^2 which was retained but not used in the Section-20 six-bilinear square cover.
+
+
+M3_T11_TORUS_DOUBLE_LIFT_EXACT_SECOND_SELECTOR=true
+
+
+### 23.3 Branch product identity
+
+
+The two branch values satisfy
+
+
+boxed:
+E_+*E_-
+=
+4*(X-1)^2/R_A,
+
+
+where
+
+
+E_+=2*(R_A-X-sY)/R_A,
+E_-=2*(R_A-X+sY)/R_A.
+
+
+Indeed
+
+
+(R_A-X)^2-s^2Y^2
+=
+R_A*(X-1)^2
+
+
+using
+R_A=X^2+Y^2
+and
+s^2=R_A-1.
+
+
+Hence the two branch squareclasses differ exactly by the squareclass of R_A:
+
+
+[E_+]*[E_-]=[R_A]^{-1}.
+
+
+In particular, if R_A is nonsquare, at most one branch can pass the torus-square test.
+
+
+### 23.4 The second selector is algebraically independent of the triple-spin square selector
+
+
+Take positive rational torus parameters
+
+
+t_1=1,
+t_2=5,
+t_3=6,
+
+
+with
+
+
+r(t)=(1-t^2+2*i*t)/(1+t^2).
+
+
+The pairwise traces are
+
+
+lambda_12=10/13,
+lambda_13=24/37,
+lambda_23=960/481,
+
+
+so
+
+
+lambda_12*lambda_13*lambda_23
+=
+(480/481)^2.
+
+
+Thus the six-bilinear/triple-spin selector is satisfied.
+
+
+For this triple,
+
+
+A
+=
+114239/231361
+-
+i*306240/231361,
+
+
+s=480/481.
+
+
+The two torus-double-lift values are
+
+
+E_+
+=
+556516/196729
+=
+746^2/(13*37*409),
+
+
+E_-
+=
+98596/543049
+=
+314^2/(13*37*1129).
+
+
+Neither is a rational square.
+
+
+Therefore the torus double-lift is not implied algebraically by the triple-spin square condition.
+
+
+This example is an algebraic independence certificate on the rational torus; it is not asserted to be a physical endpoint.
+
+
+M3_T11_DOUBLE_LIFT_IMPLIED_BY_TRIPLE_SPIN=false
+
+
+### 23.5 Receiver refinement
+
+
+Actual endpoint packets must satisfy both:
+
+
+1. the six-bilinear/triple-spin principal square condition;
+2. one torus-double-lift branch E_+ or E_- being square;
+3. the exact physical height, norm reconstruction and positivity filters.
+
+
+Therefore the previous principal-squareclass pair-incidence receiver is a legitimate enlargement but is not the minimal endpoint selector.
+
+
+The narrower current theorem target is:
+
+
+CyclicTripleSpinDoubleLiftPrincipalIncidenceOneTwelfth.
+
+
+Required output:
+uniformly for each fixed Step-A content/coefficient packet,
+
+
+# {active tau satisfying both square covers and reconstruction}
+<<
+B^(1/12-delta)
+
+
+for some fixed delta>0.
+
+
+No independence probability is assumed between the two square selectors.
+No fixed-power saving is claimed merely from their algebraic independence.
+
+
+The first task is to identify whether the two-stage cover has a lower-dimensional reconstruction, a usable generic/exceptional decomposition, or a same-measure correlation theorem beyond the already-known fixed-two B^o(1) bound.
+
+
+NEXT_ATTACK=CyclicTripleSpinDoubleLiftPrincipalIncidenceOneTwelfth
+
+
+ROUTE_TRIVIAL_SPLIT_CYCLE_STATUS=LIVE_PRIMARY
+CURRENT_GATE=M3-T11-GATE-001
+P_OVER_M3_LIMIT_PROVED=fals
+
+
+## 24. Torus-trace spectral separation of the double-lift selector
+
+
+### 24.1 Exact two-variable normalization
+
+
+Retain the Section-17 notation
+r_i=kappa_i*q_i^2,
+A=r_1^2+r_2^2+r_3^2,
+Q=q_0*q_1*q_2*q_3,
+U=Q^2,
+with
+conj(A)*U^2+2*U+A=0.
+
+
+Normalize by
+s=r_2/r_1,
+t=r_3/r_1,
+C=q_0^2*q_1^2/(kappa_2*kappa_3).
+
+
+Substitution and division by the common norm-one phase gives the exact equation
+
+
+boxed:
+C^2*s^2*t^2
++(1+C^2)*(s^2+t^2)
++2*C*s*t
++1
+=0.
+
+
+Thus the absolute phase r_1 disappears from the double-lift equation. The remaining hard algebra is a two-variable torus incidence with parameter C.
+
+
+As a quadratic in t, the discriminant is
+
+
+boxed:
+Delta_t
+=
+-4*(1+C^2)*(1+s^2)*(1+C^2*s^2).
+
+
+For a rational norm-one phase z put
+
+
+Lambda(z)=z+z^(-1) in Q.
+
+
+Since 1+z^2=z*Lambda(z), the discriminant squareclass reduces to the rational selector
+
+
+boxed:
+-Lambda(C)*Lambda(s)*Lambda(C*s) in Q^2
+
+
+on every actual endpoint packet, after the already-retained nonzero/physical masks.
+
+
+This is the torus-trace autocorrelation normal form of the triple-spin plus torus-double-lift gate.
+
+
+### 24.2 Rational half-angle polynomial cover
+
+
+Write
+C=r(c),
+s=r(u),
+r(x)=(1-x^2+2*i*x)/(1+x^2).
+
+
+After removing a square denominator,
+
+
+boxed:
+W^2
+=
+-8
+*(c-1)*(c+1)
+*(u-1)*(u+1)
+*(c*u-c-u-1)
+*(c*u+c+u-1).
+
+
+The zero-factor branches are inherited degenerate trace branches and receive no physical endpoint credit.
+
+
+For fixed c the four branch points in u are
+
+
+1,
+-1,
+(c+1)/(c-1),
+(1-c)/(c+1),
+
+
+with cross-ratio
+
+
+boxed:
+lambda=-1/c^2.
+
+
+Hence the generic fixed-c fiber is a non-isotrivial Legendre-type genus-one family. This is structural only; no rank-rarity theorem is imported.
+
+
+### 24.3 Exact finite-field torus Fourier expansion
+
+
+Let p==1 mod 4 be a good split auxiliary prime and chi_p the quadratic character. On F_p^* define
+
+
+phi_p(z)=chi_p(z+z^(-1)).
+
+
+For a good packet, excluding primes dividing the rational trace detector, every endpoint satisfies
+
+
+boxed:
+K_p(C,s)
+=
+chi_p(-1)*phi_p(C)*phi_p(s)*phi_p(C*s)
+=
+1.
+
+
+Use normalized multiplicative Fourier transform
+
+
+hat(phi)(gamma)
+=
+(1/(p-1))*sum_{z in F_p^*} phi_p(z)*conj(gamma(z)).
+
+
+Then exactly
+
+
+K_p(C,s)
+=
+sum_{rho,sigma}
+W_p(rho,sigma)*rho(C)*sigma(s),
+
+
+where
+
+
+W_p(rho,sigma)
+=
+chi_p(-1)
+*sum_gamma
+hat(phi)(rho*gamma^(-1))
+hat(phi)(sigma*gamma^(-1))
+hat(phi)(gamma).
+
+
+Two-dimensional Parseval gives
+
+
+boxed:
+sum_{rho,sigma}|W_p(rho,sigma)|^2
+=
+(1/(p-1)^2)*sum_{C,s}|K_p(C,s)|^2
+<=1.
+
+
+Therefore the local spectral packet has bounded L2 energy despite having polynomially many formal character modes.
+
+
+### 24.4 Exact mu4-trivial corewise separation
+
+
+Because p==1 mod 4,
+
+
+phi_p(-z)=phi_p(z).
+
+
+Hence hat(phi)(gamma) can be nonzero only when gamma(-1)=1, i.e. only even character exponents occur. Therefore every rho and sigma in the support is even.
+
+
+Now
+
+
+C
+=
+q_0^2*q_1^2/(kappa_2*kappa_3),
+
+
+s
+=
+(kappa_2/kappa_1)*(q_2/q_1)^2.
+
+
+Thus every separated mode factors exactly as
+
+
+boxed:
+rho(C)*sigma(s)
+=
+fixed_packet_phase
+*
+rho^2(q_0)
+*
+(rho^2*sigma^(-2))(q_1)
+*
+sigma^2(q_2).
+
+
+Since rho and sigma have even exponents, the three Gaussian-core characters above have exponents divisible by 4. Hence they are exactly mu4-trivial in the Stage14-tH1/tH3 sense and require no extra (1+i)-conductor factor.
+
+
+The same oriented auxiliary Gaussian prime is a single shared modulus group across all three core characters. The three-coordinate extension of the tH3 lcm rule is lossless:
+the joint modulus contains that oriented prime ideal once, not three times.
+
+
+Consequently the raw one-variable separation failure of M3-T11-021 does not persist after this torus multiplicative Fourier transform.
+
+
+### 24.5 Analytic boundary
+
+
+This does NOT yet prove a fixed-power saving.
+
+
+The remaining theorem is a same-modulus three-core second-moment / Hecke-dispersion estimate on the exact fixed-content active-tau physical measure, with:
+
+
+1. G_0,G_1,G_2 primary Gaussian core variables retained;
+2. G_3 reconstructed through the Section-18/23 fiber with B^o(1) multiplicity or explicitly retained until that reconstruction is certified;
+3. one shared auxiliary oriented prime ideal;
+4. the bounded spectral energy sum|W_p|^2<=1;
+5. exact good-prime, coprimality, physical-height and positivity masks;
+6. no independent-modulus tensorization;
+7. no reuse of the Section-21 Jacobian determinant as a second saving.
+
+
+Canonical next gate:
+
+
+CyclicTorusTraceSharedModulusThreeCoreSecondMomentOneTwelfth.
+
+
+A successful same-measure theorem must still be audited through the tH4/tH6 exponent ledger and deliver enough saving to imply
+
+
+# active tau
+<<
+B^(1/12-delta)
+
+
+for fixed content/coefficient packet.
+
+
+Flags:
+
+
+M3_T11_TORUS_TRACE_TWO_VARIABLE_NORMAL_FORM=true
+M3_T11_TORUS_TRACE_POLYNOMIAL_COVER=true
+M3_T11_TORUS_TRACE_LOCAL_FOURIER_SEPARATION=true
+M3_T11_TORUS_TRACE_SPECTRAL_L2_BOUNDED=true
+M3_T11_TORUS_TRACE_CORE_CHARACTERS_MU4_TRIVIAL=true
+M3_T11_TORUS_TRACE_THREE_CORE_SHARED_MODULUS=true
+M3_T11_TORUS_TRACE_SAME_MEASURE_SECOND_MOMENT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+NEXT_ATTACK=CyclicTorusTraceSharedModulusThreeCoreSecondMomentOneTwelfth
+
+
+### 24.6 O(1) reconstruction of the omitted fourth core
+
+
+The three-core spectral packet does not lose a polynomial reconstruction fiber.
+
+
+Fix exact primary Gaussian cores G_0,G_1,G_2 and the fixed coefficient packet. Then q_0,q_1,q_2, hence r_1, C and s, are fixed.
+
+
+The Section-24.1 equation is quadratic in
+
+
+t=r_3/r_1:
+
+
+[C^2*s^2+(1+C^2)]*t^2
++2*C*s*t
++[(1+C^2)*s^2+1]
+=0.
+
+
+Therefore there are at most two values of t over Q(i). For each such t,
+
+
+r_3=r_1*t
+
+
+is fixed, and
+
+
+q_3^2=r_3/kappa_3
+
+
+has at most two norm-one torus square roots. A rational norm-one phase q_3 determines the primitive Gaussian slope G_3 up to bounded unit/conjugation conventions.
+
+
+Hence
+
+
+boxed:
+fixed (G_0,G_1,G_2, coefficient packet)
+has O(1) compatible primitive G_3.
+
+
+This is stronger than the B^o(1) fixed-two elliptic-fiber input needed earlier.
+
+
+Consequently the projection of the exact active-tau endpoint packet to the ordered primary triple
+
+
+(G_0,G_1,G_2)
+
+
+has O(1) multiplicity. The new same-modulus analytic receiver may therefore retain exactly these three Gaussian core coordinates without a hidden polynomial pushforward weight.
+
+
+M3_T11_THREE_CORE_TO_FOURTH_CORE_RECONSTRUCTION=O(1)
+M3_T11_THREE_CORE_PUSHFORWARD_FIXED_POWER_LOSS=false
+
+
+The analytic obstruction is now genuinely the same-modulus three-core residue/Hecke second moment, not a reconstruction-fiber problem.
+
+
+## 25. Exact paired-Gaussian common-core reduction of the torus-trace selector
+
+
+### 25.1 Collapse three moving cores to the existing tH paired packet
+
+
+Retain Section 24 and define exact primary Gaussian elements
+
+
+mathcal_U = G_0*G_1,
+mathcal_V = G_2*conj(G_1).
+
+
+Then
+
+
+N(mathcal_U)=tau_0*tau_1,
+N(mathcal_V)=tau_2*tau_1.
+
+
+Put
+
+
+h=tau_1,
+r=tau_0,
+delta=tau_2.
+
+
+Because tau_0,tau_1,tau_2,tau_3 are pairwise coprime,
+
+
+(h,r)=(h,delta)=(r,delta)=1,
+
+
+and
+
+
+h*r*delta
+=
+tau_0*tau_1*tau_2
+=
+tau/tau_3
+<=tau.
+
+
+For the fixed physical content triple,
+
+
+tau<=B/(h_1*h_2*h_3),
+
+
+so this is exactly a divisor-coupled hyperbola packet of the Stage14-tH2 form with g=1.
+
+
+Moreover
+
+
+q_0*q_1
+=
+mathcal_U/conj(mathcal_U),
+
+
+q_2/q_1
+=
+mathcal_V/conj(mathcal_V).
+
+
+Therefore the Section-24 normalized torus variables satisfy exactly
+
+
+boxed:
+C
+=
+(1/(kappa_2*kappa_3))
+*
+(mathcal_U/conj(mathcal_U))^2,
+
+
+boxed:
+s
+=
+(kappa_2/kappa_1)
+*
+(mathcal_V/conj(mathcal_V))^2.
+
+
+Thus the torus-trace spectral selector is not a genuinely new three-coordinate Gaussian character problem. It is an exact two-coordinate shared-modulus Gaussian packet with the fixed coefficient phases absorbed into bounded/frozen character factors.
+
+
+### 25.2 Exact inverse reconstruction of the three cores
+
+
+The map
+
+
+(G_0,G_1,G_2)
+->
+(mathcal_U,mathcal_V)
+
+
+has bounded fibers.
+
+
+Indeed
+
+
+gcd(N(mathcal_U),N(mathcal_V))
+=
+gcd(tau_0*tau_1,tau_2*tau_1)
+=
+tau_1.
+
+
+At every rational prime p|tau_1, primitivity and the primary convention put the G_1 orientation in mathcal_U and the conjugate G_1 orientation in mathcal_V. Hence the common rational norm support reconstructs G_1 up to bounded unit conventions.
+
+
+Then
+
+
+G_0=mathcal_U/G_1,
+G_2=mathcal_V/conj(G_1)
+
+
+are forced.
+
+
+Combined with Section 24.6, fixed (mathcal_U,mathcal_V) therefore has only O(1) compatible full four-core endpoint packets.
+
+
+boxed:
+exact endpoint packet
+<-O(1)->
+exact paired Gaussian packet (mathcal_U,mathcal_V).
+
+
+There is no polynomial pushforward multiplicity.
+
+
+### 25.3 Direct reuse of tH3--tH5
+
+
+The local Fourier modes of M3-T11-023 are mu4-trivial.
+
+
+On the paired coordinates they take the exact form
+
+
+rho(C)*sigma(s)
+=
+fixed_packet_phase
+*
+rho^2(mathcal_U/conj(mathcal_U))
+*
+sigma^2(mathcal_V/conj(mathcal_V)).
+
+
+Thus the existing tH3 shared-modulus rule applies directly with two coordinate characters. The same oriented auxiliary Gaussian prime ideal appears once in the joint modulus envelope.
+
+
+The tH4 bounded-spectral-energy transfer is legal because M3-T11-023 proves
+
+
+sum_{rho,sigma}|W_p(rho,sigma)|^2<=1.
+
+
+The tH5 exact-pair collision-energy theorem is also on the correct coefficient space: both exact Gaussian coordinates are retained, and the common norm factor is precisely h=tau_1.
+
+
+No new three-core roadworks theorem is needed.
+
+
+M3_T11_THREE_CORE_NEW_ROADWORK_REQUIRED=false
+M3_T11_TH3_TH5_PAIRED_GAUSSIAN_ADAPTER_EXACT=true
+
+
+### 25.4 What tH14 closes and what it does not
+
+
+Merged Stage14-tH14 closes the aggregate same-modulus residue-collision component for paired Gaussian packets and separates the exact-pair diagonal.
+
+
+That result can be reused here after the Section-25 exact adapter.
+
+
+However tH14 explicitly does NOT close distinct exact pairs carrying the same global rational squareclass of the selector. For the present route this principal class is
+
+
+boxed:
+[-Lambda(C)*Lambda(s)*Lambda(C*s)].
+
+
+Actual endpoints lie in its trivial squareclass.
+
+
+Therefore the remaining obstruction is no longer:
+
+
+- raw coefficient separation;
+- three-core projection multiplicity;
+- same-modulus residue collision.
+
+
+It is the global principal squareclass incidence on the exact paired-Gaussian hyperbola measure.
+
+
+Canonical next gate:
+
+
+CyclicTorusTracePairedGaussianPrincipalSquareclassOneTwelfth.
+
+
+Required output:
+
+
+for every fixed content/coefficient packet, prove enough principal-squareclass sparsity on
+
+
+N(mathcal_U)=h*r,
+N(mathcal_V)=h*delta,
+h*r*delta<=B/(h_1*h_2*h_3),
+
+
+with the exact primitive/coprime/physical masks, to imply
+
+
+# active tau << B^(1/12-delta_0)
+
+
+for some fixed delta_0>0.
+
+
+Do not infer this from tH14 residue cleanup alone.
+
+
+Flags:
+
+
+M3_T11_TORUS_TRACE_PAIRED_GAUSSIAN_REDUCTION=true
+M3_T11_TORUS_TRACE_PAIRED_COMMON_CORE_H=tau_1
+M3_T11_TORUS_TRACE_PAIRED_HYPERBOLA_EXACT=true
+M3_T11_TORUS_TRACE_PAIRED_PUSHFORWARD_MULTIPLICITY=O(1)
+M3_T11_TH3_TH4_TH5_DIRECTLY_REUSABLE=true
+M3_T11_TH14_RESIDUE_COMPONENT_REUSABLE=true
+M3_T11_GLOBAL_PRINCIPAL_SQUARECLASS_INCIDENCE_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+NEXT_ATTACK=CyclicTorusTracePairedGaussianPrincipalSquareclassOneTwelfth
+
+
+## 26. Principal torus-trace K3 barrier and direct arithmetic escape
+
+
+### 26.1 Fricke normal form
+
+
+For the Section-24 torus traces put
+
+
+x=Lambda(C),
+y=Lambda(s),
+z=Lambda(C*s).
+
+
+Because C and s lie on one split norm-one torus, their traces satisfy the exact Fricke identity
+
+
+boxed:
+x^2+y^2+z^2-x*y*z=4.
+
+
+The principal endpoint selector is
+
+
+-x*y*z in Q^2.
+
+
+Writing
+
+
+w^2=-x*y*z
+
+
+therefore gives simultaneously
+
+
+boxed:
+x^2+y^2+z^2+w^2=4.
+
+
+This is an exact trace normal form, but it does not lower the dimension of the moving paired-Gaussian family by itself.
+
+
+### 26.2 K3 geometry of the direct principal cover
+
+
+In primitive half-angle coordinates c=a/b and u=m/n, the principal selector is, after removing square denominators,
+
+
+W^2
+=
+-8
+(a-b)(a+b)(m-n)(m+n)
+(am-an-bm-bn)
+(am+an+bm-bn).
+
+
+On P1_(a:b) x P1_(m:n), the branch divisor consists of
+
+
+- two vertical (1,0) components a=+/-b;
+- two horizontal (0,1) components m=+/-n;
+- two (1,1) components.
+
+
+Its total class is
+
+
+(4,4)=-2*K_(P1xP1).
+
+
+The generic intersections are ordinary double points only; the canonical resolution of the double cover is therefore a K3 surface.
+
+
+Thus the principal squareclass receiver has the same geometric theorem species as the Stage14-t41/t42 off-fiber Kummer barrier: fixed one-variable genus-one fibers do not automatically globalize to a two-variable principal count.
+
+
+This is a structural classification, not a rational-point bound.
+
+
+### 26.3 Exponent firewall
+
+
+Let r(kappa) denote squareclass multiplicities on one fixed-content paired-Gaussian packet and
+
+
+A1=sum_kappa r(kappa)^2.
+
+
+The endpoint target is contained in the trivial class, so
+
+
+# active tau <= r(1) <= A1^(1/2).
+
+
+Therefore an energy proof sufficient for the fixed-content M3 target must reach
+
+
+boxed:
+A1 << B^(1/6-2*delta)
+
+
+in order to imply
+
+
+# active tau << B^(1/12-delta).
+
+
+The Stage14 generic principal-energy target
+
+
+A1 << H*B^o(1)
+
+
+is not by itself sufficient here unless one separately proves
+
+
+H << B^(1/6-2*delta+o(1))
+
+
+on the exact fixed-content M3 packet.
+
+
+No such ambient-H bound is currently certified.
+
+
+Hence the Stage14 Kummer machinery is GREEN_STRUCTURAL / AMBER_ANALYTIC for M3, not a direct closure theorem.
+
+
+### 26.4 Direct arithmetic escape: six factors collapse to two neighboring products
+
+
+Define
+
+
+A0=a^2-b^2,
+M0=m^2-n^2,
+X=A0*M0,
+Y=4*a*b*m*n.
+
+
+For the two mixed bilinear factors
+
+
+L5=am-an-bm-bn,
+L6=am+an+bm-bn,
+
+
+one has exactly
+
+
+boxed:
+L5*L6=X-Y.
+
+
+Hence the entire six-factor principal cover collapses to
+
+
+boxed:
+W^2=-8*X*(X-Y).
+
+
+This is a strictly simpler arithmetic representation of the same principal K3 selector.
+
+
+For primitive pairs gcd(a,b)=gcd(m,n)=1, define the odd cross-gcds
+
+
+d1=gcd_odd(A0,m*n),
+d2=gcd_odd(M0,a*b).
+
+
+Then
+
+
+boxed:
+gcd(d1,d2)=1,
+
+
+and
+
+
+boxed:
+gcd_odd(X,Y)=gcd_odd(X,X-Y)=d1*d2.
+
+
+Moreover
+
+
+d1
+=
+gcd_odd(A0,m)*gcd_odd(A0,n),
+
+
+d2
+=
+gcd_odd(M0,a)*gcd_odd(M0,b),
+
+
+and these four odd cross-gcd cells are pairwise coprime.
+
+
+Put
+
+
+d=d1*d2.
+
+
+After dividing X and X-Y by d, their odd parts are coprime. Since -8*X*(X-Y) is a square, every odd prime outside d occurs to even valuation in each cofactor separately.
+
+
+Equivalently:
+
+
+boxed:
+oddpart(X/d) is a square,
+
+
+boxed:
+oddpart((X-Y)/d) is a square.
+
+
+The remaining ambiguity is only sign and a finite 2-adic state.
+
+
+This is an exact charged-once cross-gcd/trivial-split reduction inside the principal torus-trace selector.
+
+
+### 26.5 New preflight
+
+
+The direct K3 route is therefore not the next preferred attack.
+
+
+The next arithmetic preflight is:
+
+
+CyclicTorusTracePrincipalCrossGcdTrivialSplit.
+
+
+It asks whether the four pairwise-coprime cross-gcd cells above, together with the two post-gcd square cofactors, produce a same-measure power saving on the exact paired-Gaussian hyperbola.
+
+
+Two branches must be audited:
+
+
+1. large d:
+   exploit a genuinely same-measure cross-gcd/root-line or CRT-lattice count;
+2. small d:
+   exploit the simultaneous near-square equations for X/d and (X-Y)/d without treating them as independent probabilities.
+
+
+No determinant density may be externally multiplied by an existing endpoint bound.
+
+
+Flags:
+
+
+M3_T11_TORUS_TRACE_FRICKE_IDENTITY=true
+M3_T11_TORUS_TRACE_PRINCIPAL_COVER_K3=true
+M3_T11_STAGE14_KUMMER_THEOREM_SPECIES_MATCH=true
+M3_T11_STAGE14_NEAR_LINEAR_ENERGY_DIRECTLY_SUFFICIENT=false
+M3_T11_PRINCIPAL_SIX_FACTOR_TWO_PRODUCT_COLLAPSE=true
+M3_T11_PRINCIPAL_ODD_CROSS_GCD_FOUR_CELL=true
+M3_T11_PRINCIPAL_POST_GCD_ODD_COFACTORS_SQUARE=true
+M3_T11_PRINCIPAL_CROSS_GCD_DIRECT_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+NEXT_ATTACK=CyclicTorusTracePrincipalCrossGcdTrivialSplit
+
+
+## 27. Fresh-tau squared-modulus common-core transfer
+
+
+Status: NEW EXACT SAME-MEASURE FOURIER/GAUSS ADAPTER / POWER SAVING OPEN.
+
+
+### 27.1 CRT aggregation of the fresh relative-core modulus
+
+
+Retain the equal-tau four-core decomposition and the endpoint congruence from the current M3-T11 route.
+
+
+Fix one relative core index i, with {i,j,k}={1,2,3}. Let G_{i,fresh} be the product of the oriented Gaussian prime powers pi^a||G_i whose rational primes do not divide c_1*c_2*c_3. Define the odd Gaussian ideal modulus
+
+
+mathfrak_M_i = product_{pi^a||G_{i,fresh}} pi^(2a) = G_{i,fresh}^2
+
+
+as an oriented ideal product.
+
+
+For every such pi^a, the endpoint relation gives
+
+
+q_0^4
+==
+-kappa_i^2*(kappa_j^2*q_j^4+kappa_k^2*q_k^4)/(q_j^4*q_k^4)
+mod pi^(2a).
+
+
+The four-core prime supports are disjoint, so q_0,q_j,q_k are units modulo every pi dividing mathfrak_M_i. CRT therefore gives the single exact congruence
+
+
+boxed:
+q_0^4
++kappa_i^2*kappa_k^2*q_j^(-4)
++kappa_i^2*kappa_j^2*q_k^(-4)
+==0 mod mathfrak_M_i.
+
+
+Put
+
+
+X=q_0^2,
+U=q_j^(-2),
+V=q_k^(-2),
+
+
+alpha=kappa_i^2*kappa_k^2,
+beta =kappa_i^2*kappa_j^2.
+
+
+Then the fresh-prime endpoint restriction is the diagonal quadratic incidence
+
+
+boxed:
+X^2+alpha*U^2+beta*V^2 == 0 mod mathfrak_M_i.
+
+
+This is an endpoint-derived restriction. It is not the 2H_i coordinate Jacobian and does not reuse M3-T11-020.
+
+
+The unit condition in the primewise derivation also gives
+
+
+boxed:
+gcd(mathfrak_M_i, lambda_jk)=1
+
+
+on this fresh branch.
+
+
+### 27.2 Same-measure residue pushforward
+
+
+For a fixed physical content/coefficient packet and fixed endogenous modulus mathfrak_M_i, define W_M(X,U,V) to be the exact pushforward weight of the original physical active-tau packet to the residue triple (X,U,V) modulo mathfrak_M_i.
+
+
+No ambient complete residue measure is substituted here. All primitive, canonical, physical-height, allocation, common-parent and reconstruction masks remain inside W_M.
+
+
+Let N=N(mathfrak_M_i), and let psi_M be a primitive additive character of O_K/mathfrak_M_i. Then the endpoint-congruence count on this fixed modulus packet is exactly
+
+
+S_M
+=
+sum_{X,U,V} W_M(X,U,V)
+1_{X^2+alpha U^2+beta V^2 ==0 mod mathfrak_M_i}
+
+
+=
+(1/N)
+sum_{h mod mathfrak_M_i}
+sum_{X,U,V}
+W_M(X,U,V)
+psi_M(h*(X^2+alpha U^2+beta V^2)).
+
+
+The h=0 term is the principal mode. It is not a new saving and may not be charged as an independent density factor.
+
+
+### 27.3 Finite Fourier completion and inverse-frequency kernel
+
+
+Define normalized three-variable Fourier coefficients
+
+
+c_M(b_X,b_U,b_V)
+=
+N^(-3)
+sum_{X,U,V}
+W_M(X,U,V)
+psi_M(-(b_X X+b_U U+b_V V)).
+
+
+Parseval gives the exact identity
+
+
+boxed:
+sum_b |c_M(b)|^2
+=
+N^(-3) sum_{X,U,V}|W_M(X,U,V)|^2.
+
+
+Hence Cauchy gives
+
+
+boxed:
+sum_b |c_M(b)|
+<=
+(sum_{X,U,V}|W_M(X,U,V)|^2)^(1/2).
+
+
+Therefore finite Fourier completion introduces no additional positive power of the endogenous modulus into the normalized coefficient L1 budget.
+
+
+For primitive nonzero h, and since 2,alpha,beta are units on the odd fresh branch, the complete quadratic Gauss sums satisfy
+
+
+G_M(h*gamma,b)
+=
+G_M(h*gamma,0)
+psi_M(-b^2/(4*h*gamma)),
+
+
+with square-root local magnitude.
+
+
+Consequently the completed primitive nonzero-frequency kernel has the exact inverse-frequency phase
+
+
+boxed:
+psi_M(
+-[b_X^2+alpha^(-1)b_U^2+beta^(-1)b_V^2]/(4h)
+).
+
+
+Thus the fresh squared-modulus endpoint restriction reaches the same analytic theorem species as the inverse-frequency / Kloosterman-fraction architecture of SR-STR-169.
+
+
+Nonprimitive h strata satisfy the usual conductor descent: the quadratic Gauss factor vanishes unless the common gcd ideal divides the corresponding Fourier frequency, and otherwise descends to the smaller primitive conductor. The divisor/conductor stratification is subpolynomial on the polynomial physical height range. This is bookkeeping only, not a fixed-power saving.
+
+
+### 27.4 Exact boundary of what is proved
+
+
+The new result proves the algebraic half of
+
+
+FreshTauSquaredModulusCommonCoreTransfer.
+
+
+It does NOT prove that the physical Fourier coefficient c_M(b_X,b_U,b_V) separates into theorem-compatible independent coefficient sequences.
+
+
+It does NOT prove that the correlated endogenous modulus, numerator/frequency ranges, common-parent allocations and exact physical masks satisfy a published inverse-fraction theorem.
+
+
+It does NOT permit the principal mode, root-class count, or N(mathfrak_M_i)^(-1) factor to be externally multiplied by an existing endpoint bound.
+
+
+The first missing adapter is therefore
+
+
+boxed:
+M3PhysicalSquaredModulusFourierCoefficientSeparationAndRangeAdapter.
+
+
+A sufficient completion must transform the exact nonzero-frequency same-measure sum above into B^o(1) bilinear/trilinear inverse-fraction forms with coefficient L1/L2 norms charged only to the original physical energy, preserving all masks and quantifier order, and giving enough fixed-power saving to imply
+
+
+# active tau << B^(1/12-delta)
+
+
+for some fixed delta>0 per fixed content/coefficient packet.
+
+
+### 27.5 Relation to SR-STR-169 and route verdict
+
+
+SR-STR-169 may be reused only for its already-proved algebraic infrastructure:
+finite Fourier completion, normalized coefficient-energy control, primitive quadratic Gauss completion, and conductor descent.
+
+
+Its analytic power-saving theorem gate remains external because the M3 physical coefficient has not yet been separated and range-matched.
+
+
+Therefore:
+
+
+M3_T11_FRESH_TAU_SQUARED_MODULUS_CRT=true
+M3_T11_FRESH_TAU_DIAGONAL_QUADRATIC_INCIDENCE=true
+M3_T11_FRESH_TAU_UNIT_LAMBDA_FILTER=true
+M3_T11_FRESH_TAU_SAME_MEASURE_RESIDUE_PUSHFORWARD=true
+M3_T11_FRESH_TAU_NORMALIZED_FOURIER_NO_MODULUS_LOSS=true
+M3_T11_FRESH_TAU_INVERSE_FREQUENCY_KERNEL=true
+M3_T11_FRESH_TAU_PHYSICAL_COEFFICIENT_SEPARATION_PROVED=false
+M3_T11_FRESH_TAU_INVERSE_FRACTION_RANGE_ADAPTER_PROVED=false
+M3_T11_FRESH_TAU_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+NEXT_ATTACK=M3PhysicalSquaredModulusFourierCoefficientSeparationAndRangeAdapter
+
+
+## 28. Fresh-part four-core dichotomy and separation firewall
+
+
+Status: NEW EXACT STRUCTURAL DICHOTOMY / STANDALONE RELAXED-HOST CLOSURE NOT CERTIFIED.
+
+
+### 28.1 Fresh part of tau
+
+
+Let tau^sharp be the divisor of tau supported on the odd split rational primes which do not divide the fixed content product c_1*c_2*c_3.
+
+
+The four-core orientation partition induces pairwise coprime factors
+
+
+tau^sharp
+=
+tau_0^sharp*tau_1^sharp*tau_2^sharp*tau_3^sharp,
+
+
+with corresponding oriented Gaussian fresh cores G_j^sharp of norms tau_j^sharp.
+
+
+Therefore
+
+
+max_j tau_j^sharp >= (tau^sharp)^(1/4).
+
+
+### 28.2 Relative-core branch: squared ideal modulus
+
+
+If the maximal fresh core is one of j=1,2,3, apply M3-T11-026 with i=j.
+
+
+The endpoint then carries the squared Gaussian ideal modulus
+
+
+mathfrak_M_j=(G_j^sharp)^2
+
+
+with
+
+
+boxed:
+N(mathfrak_M_j)=(tau_j^sharp)^2 >= (tau^sharp)^(1/2),
+
+
+and the exact diagonal quadratic incidence
+
+
+X^2+alpha U^2+beta V^2 ==0 mod mathfrak_M_j
+
+
+on the other three core phases.
+
+
+Thus every large fresh relative-core branch produces a genuinely polynomial squared-modulus restriction once tau^sharp is polynomially large.
+
+
+### 28.3 All-same branch: square divisor of the A numerator
+
+
+If instead the maximal fresh core is j=0, use the primewise valuation balance retained in the common-phase equation.
+
+
+For each fresh pi^a||G_0,
+
+
+v_pi(A)=2a
+
+
+in the normalized Gaussian numerator of
+
+
+A=r_1^2+r_2^2+r_3^2.
+
+
+Hence, after the fixed content/coefficient denominator normalization,
+
+
+boxed:
+(G_0^sharp)^2 divides Num_Gauss(A)
+
+
+as a Gaussian ideal square divisor.
+
+
+Consequently the all-same fresh branch carries a square divisor of norm
+
+
+boxed:
+N((G_0^sharp)^2)=(tau_0^sharp)^2 >= (tau^sharp)^(1/2).
+
+
+This is a different theorem species from the relative-core congruence. It is structurally adjacent to the same-measure square-divisor threshold architecture represented by SR-STR-170, but no such theorem is imported automatically.
+
+
+### 28.4 Exact fresh-part trichotomy
+
+
+For every fixed content/coefficient packet and every tau:
+
+
+1. large relative fresh core:
+   use FreshTauSquaredModulusCommonCoreTransfer;
+
+
+2. large all-same fresh core:
+   use the Gaussian numerator square-divisor event for A;
+
+
+3. small tau^sharp:
+   retain the cover-conditioned friable / restricted-support branch of Stage14-t27 ancestry.
+
+
+Thus a polynomially large fresh part can no longer avoid both a squared-modulus event and a square-divisor event.
+
+
+This is a structural routing theorem only. No probability or fixed-power saving is multiplied across the branches.
+
+
+### 28.5 Tempting four-core separation and why it is not yet the useful theorem
+
+
+Before imposing the endpoint selector, one may choose a relative core G_i as the modulus core and view the other three cores as residue variables.
+
+
+After fixing G_i and dyadic norm boxes for the other three cores, dropping pairwise-coprimality and positivity/reconstruction post-filters among those three cores gives a legal upper-bound enlargement. On that relaxed box the residue pushforward factorizes into a product of three one-core weights, so the normalized three-variable Fourier coefficient factorizes exactly into three one-variable Fourier coefficients.
+
+
+Therefore the raw algebraic coefficient-separation problem is GREEN on this relaxed four-core host.
+
+
+However this relaxation discards the previously retained triple-spin / torus-double-lift principal-incidence structure which made the fixed-content endpoint population thin. A natural 1/N(mathfrak_M_i) congruence-density estimate on the full relaxed four-core host is not known to approach the required B^(1/12-delta) active-tau bound, and in balanced large-core sectors it naturally lives at much larger power scale.
+
+
+Hence:
+
+
+boxed:
+relaxed four-core coefficient separation is not by itself an exponent-sufficient receiver.
+
+
+The useful theorem must retain enough of the principal-incidence / double-lift physical selector while exposing the inverse-frequency structure.
+
+
+### 28.6 Updated missing adapter
+
+
+The current useful gate is therefore more precise than bare Fourier separation:
+
+
+boxed:
+M3PrincipalIncidencePreservingSquaredModulusInverseFrequencyAdapter.
+
+
+It must simultaneously preserve
+
+
+- the fixed-content active-tau measure;
+- the triple-spin / torus-double-lift principal-incidence restriction, or an equivalent already-charged thinning mechanism;
+- the endogenous fresh squared modulus or the all-same square-divisor alternative;
+- the exact physical height and common-parent allocation;
+- coefficient L1/L2 norms;
+- quantifier order;
+
+
+and then produce a theorem-compatible inverse-fraction / square-divisor estimate strong enough for
+
+
+# active tau << B^(1/12-delta).
+
+
+Flags:
+
+
+M3_T11_FRESH_PART_FOUR_CORE_DICHOTOMY=true
+M3_T11_RELATIVE_FRESH_SQUARED_MODULUS_NORM_GE_SQRT_FRESH=true
+M3_T11_ALLSAME_FRESH_A_NUMERATOR_SQUARE_DIVISOR=true
+M3_T11_ALLSAME_FRESH_SQUARE_DIVISOR_NORM_GE_SQRT_FRESH=true
+M3_T11_SMALL_FRESH_BRANCH_ANCESTRY=STAGE14_T27
+M3_T11_RELAXED_FOUR_CORE_FOURIER_SEPARATION=true
+M3_T11_RELAXED_FOUR_CORE_RECEIVER_EXPONENT_SUFFICIENT=false
+M3_T11_PRINCIPAL_INCIDENCE_PRESERVING_TRANSFER_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+NEXT_ATTACK=M3PrincipalIncidencePreservingSquaredModulusInverseFrequencyAdapter
+
+
+## 29. Principal square-root coordinate and fixed-root elliptic compression
+
+
+Status: NEW EXACT PRINCIPAL-INCIDENCE-PRESERVING ADAPTER / FIXED-ROOT MULTIPLICITY B^o(1) / ROOT-SUPPORT DEFICIT OPEN.
+
+
+### 29.1 Relative fresh core directly inside the full double-lift equation
+
+
+Use the exact Section-24 variables
+
+
+s=r_2/r_1,
+t=r_3/r_1,
+C=q_0^2*q_1^2/(kappa_2*kappa_3).
+
+
+The full endpoint equation is
+
+
+C^2*s^2*t^2
++(1+C^2)*(s^2+t^2)
++2*C*s*t
++1=0.
+
+
+Write
+
+
+D=1+C^2+C^2*s^2,
+P=1+s^2+C^2*s^2.
+
+
+Then the equation is exactly
+
+
+boxed:
+D*t^2+2*C*s*t+P=0.
+
+
+Choose the relative fresh core G_3. Since
+
+
+t=(kappa_3/kappa_1)*(q_3/q_1)^2
+
+
+and every fresh prime of G_3 is absent from the fixed content packet and from G_1, for
+
+
+mathfrak_M_3=(G_3^sharp)^2
+
+
+one has
+
+
+boxed:
+t == 0 mod mathfrak_M_3.
+
+
+Therefore the full principal/double-lift equation itself gives
+
+
+boxed:
+P=1+s^2+C^2*s^2 ==0 mod mathfrak_M_3.
+
+
+This is stronger for the current receiver than the Section-27 three-variable diagonal quadratic congruence: it is a two-variable conic congruence on the same variables (C,s) that carry the principal torus-trace selector.
+
+
+Thus the algebraic part of
+
+
+M3PrincipalIncidencePreservingSquaredModulusInverseFrequencyAdapter
+
+
+is discharged.
+
+
+### 29.2 Exact principal square root
+
+
+Put
+
+
+K=-Lambda(C)*Lambda(s)*Lambda(C*s).
+
+
+With x=s and y=C*s one has the identity
+
+
+K
+=
+1
+-
+P*D/(C^2*s^2).
+
+
+Using
+
+
+P=-D*t^2-2*C*s*t
+
+
+gives
+
+
+C^2*s^2-D*P
+=
+(D*t+C*s)^2.
+
+
+Hence on every endpoint
+
+
+boxed:
+K
+=
+((D*t+C*s)/(C*s))^2.
+
+
+Define the distinguished principal square root
+
+
+boxed:
+z
+=
+1 + D*t/(C*s).
+
+
+Then
+
+
+boxed:
+z^2=K.
+
+
+Since K is a rational square on the endpoint locus, the displayed square root lies in Q.
+
+
+The same identities become
+
+
+boxed:
+z-1=D*t/(C*s),
+
+
+and
+
+
+boxed:
+P=-C*s*t*(z+1).
+
+
+### 29.3 Fresh squared Gaussian modulus descends to a rational square divisor
+
+
+Because C and s are units at every fresh prime of G_3 and D is integral in the corresponding local ring,
+
+
+v_pi(t)>=2a
+
+
+for pi^a||G_3^sharp implies
+
+
+v_pi(z-1)>=2a.
+
+
+But z-1 is rational. For a split rational prime p=pi*conj(pi), rational p-adic and pi-adic valuations agree. Therefore, writing z=A/B in lowest terms,
+
+
+boxed:
+(tau_3^sharp)^2 | (A-B).
+
+
+Equivalently,
+
+
+boxed:
+(tau_3^sharp)^2 | Num(z-1).
+
+
+This is now a rational square-divisor event on the principal-cover root itself, not an ambient residue-density heuristic.
+
+
+The odd fresh modulus is charged only to z-1. No independent saving may be charged from z+1.
+
+
+### 29.4 The exceptional value z=1 is impossible
+
+
+If z=1 then, since t,C,s are nonzero,
+
+
+D=1+C^2+C^2*s^2=0.
+
+
+Thus
+
+
+C^2*(1+s^2)=-1.
+
+
+Taking Gaussian norms and using N(C)=N(s)=1 gives
+
+
+N(1+s^2)=1.
+
+
+But
+
+
+1+s^2=s*Lambda(s),
+
+
+so
+
+
+Lambda(s)^2=1.
+
+
+Hence Lambda(s)=+1 or -1, and s would satisfy
+
+
+s^2-s+1=0
+
+
+or
+
+
+s^2+s+1=0.
+
+
+Both require sqrt(-3), which is not contained in Q(i). Contradiction.
+
+
+Therefore
+
+
+boxed:
+z != 1
+
+
+on the rational norm-one endpoint torus.
+
+
+If z=A/B is reduced, the square-divisor event yields the deterministic height lower bound
+
+
+boxed:
+H(z)>= (tau_3^sharp)^2/2.
+
+
+For fixed z, the number of possible square-divisor witnesses tau_3^sharp is B^o(1) on the polynomial physical-height range.
+
+
+### 29.5 Fixed-z fiber is a smooth elliptic cubic with rational 3-torsion
+
+
+Put
+
+
+x=Lambda(C),
+y=Lambda(s),
+w=Lambda(C*s).
+
+
+The Fricke identity is
+
+
+x^2+y^2+w^2-x*y*w=4,
+
+
+while the principal root gives
+
+
+x*y*w=-z^2.
+
+
+Eliminate w and set
+
+
+X=x^2,
+Y=y^2.
+
+
+Then every endpoint with fixed z lies on the plane cubic
+
+
+boxed:
+X*Y*(X+Y+z^2-4)+z^4=0.
+
+
+Its projective closure is
+
+
+X*Y*(X+Y+(z^2-4)T)+z^4*T^3=0.
+
+
+The singular parameter condition is exactly
+
+
+z^2 in {0,1,-8}.
+
+
+For the physical relative-fresh branch:
+
+
+- z=0 is a zero-trace branch and is physically excluded by the retained nondegenerate masks;
+- z^2=-8 has no rational z;
+- z=-1 is incompatible with any nontrivial odd fresh modulus because z==1 mod mathfrak_M_3 would force mathfrak_M_3|2;
+- z=1 is impossible by Section 29.4.
+
+
+Hence every nontrivial relative-fresh fixed-z fiber is a smooth genus-one curve.
+
+
+The rational points at infinity
+
+
+[1:0:0],
+[0:1:0],
+[1:-1:0]
+
+
+are present. At [1:0:0] the tangent is Y=0 and meets the cubic there with multiplicity three; similarly [0:1:0] is a rational flex. Choosing one flex as the elliptic origin gives a nontrivial rational 3-torsion point.
+
+
+All cubic coefficients and all physical endpoint point heights are B^O(1). Therefore the same repo-retained uniform bounded-height elliptic theorem with rational prime-order torsion used in Stage14-t22/t36/t37 gives
+
+
+boxed:
+for fixed z and fixed content/coefficient packet,
+# physical endpoint states <= B^o(1).
+
+
+The maps from (C,s) to (X,Y) and back have bounded algebraic multiplicity; the primitive Gaussian reconstruction and the remaining t/core reconstruction contribute only bounded/subpolynomial multiplicity already retained in M3-T11-024.
+
+
+### 29.6 New one-dimensional relative-fresh receiver
+
+
+The relative-fresh branch no longer needs to be treated as a two-variable principal K3 incidence for multiplicity purposes.
+
+
+At power scale,
+
+
+boxed:
+relative-fresh endpoint count
+<=
+B^o(1) * # realized principal-root labels z.
+
+
+Every realized z carries an actual square-divisor witness m=tau_i^sharp satisfying, after cyclic relabeling,
+
+
+boxed:
+m^2 | Num(z-1),
+
+
+with z!=1 and H(z)>=m^2/2.
+
+
+Thus the new minimal relative-fresh target is
+
+
+FreshRelativePrincipalRootSquareDivisorSupportOneTwelfth.
+
+
+A sufficient theorem is a same-physical-measure bound
+
+
+# {realized z in one fixed content/coefficient packet
+   with an actual fresh witness m and m^2|Num(z-1)}
+<<
+B^(1/12-delta)
+
+
+for some fixed delta>0.
+
+
+The witness multiplicity for fixed z is B^o(1), so event mass and witness first moment differ by at most B^o(1) on Boolean physical packets. This is structurally aligned with SR-STR-170 square-divisor threshold architecture, but the actual M3 realized-z measure is different and no fixed-power deficit theorem is imported.
+
+
+### 29.7 Firewall and current gate
+
+
+The old inverse-frequency route remains a valid alternate analytic representation, but it is no longer the narrowest algebraic receiver on the relative-fresh branch.
+
+
+Do not:
+
+
+- multiply the conic modulus density with principal-squareclass sparsity;
+- charge K==1 mod mathfrak_M as a separate local selector saving;
+- use both inverse-frequency and square-divisor-root savings independently;
+- replace the realized-z physical measure by all rational z of comparable height;
+- infer a fixed-power deficit from square-divisor witness multiplicity alone.
+
+
+Flags:
+
+
+M3_T11_PRINCIPAL_INCIDENCE_PRESERVING_CONIC_ADAPTER=true
+M3_T11_DISTINGUISHED_PRINCIPAL_ROOT_EXPLICIT=true
+M3_T11_RELATIVE_FRESH_RATIONAL_SQUARE_DIVISOR=true
+M3_T11_PRINCIPAL_ROOT_Z_ONE_IMPOSSIBLE=true
+M3_T11_FIXED_Z_FIBER_GENUS_ONE=true
+M3_T11_FIXED_Z_RATIONAL_3_TORSION=true
+M3_T11_FIXED_Z_PHYSICAL_MULTIPLICITY=BO1
+M3_T11_RELATIVE_FRESH_REDUCES_TO_Z_SUPPORT=true
+M3_T11_REALIZED_Z_SQUARE_DIVISOR_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+NEXT_ATTACK=FreshRelativePrincipalRootSquareDivisorSupportOneTwelfth
+
+
+## 30. Correction of M3-T11-028: anti-rational principal root and Gaussian root-line receiver
+
+
+Status: EXACT CORRECTION / ONE-DIMENSIONAL COMPRESSION RETAINED / PREVIOUS RATIONAL-SQUARE-DIVISOR CLAIM RETRACTED.
+
+
+### 30.1 Conjugation forces the distinguished root to be anti-rational
+
+
+Retain
+D=1+C^2+C^2*s^2,
+P=1+s^2+C^2*s^2,
+D*t^2+2*C*s*t+P=0,
+and
+z=1+D*t/(C*s).
+
+
+Because C,s,t lie on the rational norm-one torus,
+conj(C)=C^(-1), conj(s)=s^(-1), conj(t)=t^(-1).
+Moreover
+boxed:
+conj(D)=P/(C^2*s^2),
+conj(P)=D/(C^2*s^2).
+
+
+From the endpoint equation,
+P=-C*s*t*(z+1).
+Therefore
+conj(z)
+=
+1+conj(D)*conj(t)/(conj(C)*conj(s))
+=
+1+P/(C*s*t)
+=
+-z.
+
+
+Hence
+boxed:
+conj(z)=-z.
+Since z is in Q(i), there is a unique v in Q with
+boxed:
+z=i*v.
+
+
+Consequently the Section-29 statement "z in Q" is false except on the degenerate z=0 branch.
+The correct square relation is
+boxed:
+K=z^2=-v^2,
+where
+K=-Lambda(C)*Lambda(s)*Lambda(C*s).
+Equivalently,
+boxed:
+Lambda(C)*Lambda(s)*Lambda(C*s)=v^2.
+
+
+Thus the principal trace product is a positive rational square, while K itself is a negative rational square on the nondegenerate endpoint branch.
+
+
+### 30.2 Fresh relative core gives an oriented Gaussian root line, not m^2 | Num(z-1)
+
+
+Let m=tau_3^sharp and mathfrak_M_3=(G_3^sharp)^2 as in Section 29.
+The exact fresh congruence t==0 mod mathfrak_M_3 still gives
+z==1 mod mathfrak_M_3.
+With z=i*v this is
+boxed:
+i*v==1 mod mathfrak_M_3.
+
+
+Write v=A/B in lowest terms.
+Fresh primes are absent from the fixed content and from the other three cores, so gcd(B,m)=1.
+
+
+For every pi^a||G_3^sharp above the split rational prime p,
+i*v==1 mod pi^(2a)
+selects one of the two roots rho_p of -1 modulo p^(2a).
+After CRT there is an orientation-dependent root rho_m with
+boxed:
+rho_m^2==-1 mod m^2,
+and
+boxed:
+A==rho_m*B mod m^2.
+
+
+In particular,
+boxed:
+m^2 | A^2+B^2.
+
+
+This is the correct rational shadow of the fresh squared Gaussian modulus.
+
+
+RETRACTION:
+The former claim
+(tau_3^sharp)^2 | Num(z-1)
+is invalid because z is not rational.
+The derived lower bound H(z)>=m^2/2 is also invalid and is withdrawn.
+
+
+### 30.3 Fixed-v elliptic compression survives with corrected sign
+
+
+Put
+x=Lambda(C),
+y=Lambda(s),
+w=Lambda(C*s).
+Now
+x*y*w=v^2,
+and Fricke gives
+x^2+y^2+w^2-x*y*w=4.
+
+
+Set X=x^2 and Y=y^2.
+Eliminating w gives the corrected fixed-v cubic
+boxed:
+X*Y*(X+Y-v^2-4)+v^4=0.
+
+
+This is obtained from the Section-29 cubic by z^2=-v^2.
+The old singular condition z^2 in {0,1,-8} becomes
+v^2 in {0,-1,8}.
+For rational nonzero v, none of these occurs:
+v^2=-1 has no rational solution and v^2=8 has no rational solution.
+Hence every nondegenerate physical fixed-v fiber is smooth genus one.
+
+
+The same three rational points at infinity remain, and the flex argument is unchanged.
+Therefore the retained Stage14 bounded-height elliptic theorem with rational 3-torsion still gives
+boxed:
+fixed v + fixed content/coefficient packet
+=> B^o(1) physical endpoint states.
+
+
+Thus the important one-dimensional compression from M3-T11-028 survives.
+
+
+### 30.4 Denominator carrier and primitive root-line count
+
+
+Let T=tau_0*tau_1*tau_2.
+Using the paired Gaussian variables from Section 25,
+C is a fixed coefficient phase times (mathcal_U/conj(mathcal_U))^2 with N(mathcal_U)=tau_0*tau_1,
+s is a fixed coefficient phase times (mathcal_V/conj(mathcal_V))^2 with N(mathcal_V)=tau_1*tau_2,
+and C*s is a fixed coefficient phase times (G_0*G_2/conj(G_0*G_2))^2 with norm tau_0*tau_2.
+
+
+Therefore, after introducing one fixed packet denominator carrier K_pkt,
+the reduced denominators of the three rational traces divide
+K_pkt*(tau_0*tau_1)^2,
+K_pkt*(tau_1*tau_2)^2,
+K_pkt*(tau_0*tau_2)^2
+respectively.
+
+
+Since v^2 is their product and v=A/B is reduced, there is a fixed packet integer L_pkt, supported only on the fixed content/coefficient primes, such that
+boxed:
+B | L_pkt*T^2.
+
+
+Freshness gives
+boxed:
+gcd(m,L_pkt*T)=1.
+
+
+Also |v|<=2*sqrt(2), because each torus trace lies in [-2,2].
+
+
+For fixed T,m and packet, possible reduced denominators B are divisor-many.
+For each B|L_pkt*T^2, the oriented congruence
+A==rho_m*B mod m^2
+with |A|<=3B gives
+O(1+B/m^2)
+possible numerators.
+Hence
+boxed:
+# {rational v compatible with fixed T,m,packet}
+<=
+tau(L_pkt*T^2)
++
+O(sigma_1(L_pkt*T^2)/m^2)
+<=
+B^o(1)*(1+L_pkt*T^2/m^2).
+
+
+This is a genuine primitive root-line spacing bound.
+It is only a fixed-(T,m) support estimate; it does NOT control the moving occupancy of T and m across the exact active-tau measure.
+
+
+### 30.5 Correct current theorem gate
+
+
+The previous gate
+FreshRelativePrincipalRootSquareDivisorSupportOneTwelfth
+is superseded.
+
+
+The corrected one-dimensional relative-fresh gate is
+boxed:
+FreshRelativePrincipalAntiRootGaussianRootLineOneTwelfth.
+
+
+Required output:
+uniformly per fixed content/coefficient packet, prove
+# {realized v in Q carrying the actual fresh m and oriented root line
+   A==rho_m*B mod m^2}
+<< B^(1/12-delta)
+after summing the exact moving core-factor measure.
+
+
+AR-009 supplies the local primitive root-line lattice engine only.
+Stage15 root-line audits show the remaining obstruction clearly:
+moving-modulus occupancy / core-size distribution is not solved by pointwise root-line spacing.
+
+
+No independent square-divisor-threshold saving remains on this relative-fresh branch.
+
+
+Flags:
+M3_T11_028_RATIONAL_Z_CLAIM_RETRACTED=true
+M3_T11_028_Z_MINUS_ONE_SQUARE_DIVISOR_RETRACTED=true
+M3_T11_028_HEIGHT_LOWER_BOUND_RETRACTED=true
+M3_T11_PRINCIPAL_ANTIROOT_V_RATIONAL=true
+M3_T11_PRINCIPAL_K_NEGATIVE_SQUARE=true
+M3_T11_RELATIVE_FRESH_ORIENTED_GAUSSIAN_ROOT_LINE=true
+M3_T11_RELATIVE_FRESH_M2_DIVIDES_A2_PLUS_B2=true
+M3_T11_FIXED_V_FIBER_GENUS_ONE=true
+M3_T11_FIXED_V_RATIONAL_3_TORSION=true
+M3_T11_FIXED_V_PHYSICAL_MULTIPLICITY=BO1
+M3_T11_FIXED_T_M_ROOTLINE_SUPPORT_BOUND=true
+M3_T11_MOVING_ROOTLINE_OCCUPANCY_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+NEXT_ATTACK=FreshRelativePrincipalAntiRootGaussianRootLineOneTwelfth
+
+
+## 31. Three-relative-core CRT compression and pointwise root-line saturation
+
+
+Status: NEW EXACT STRENGTHENING / SAME-v CRT COMBINATION / POINTWISE ROOT-LINE ROUTE EXPONENT-INSUFFICIENT.
+
+
+### 31.1 One symmetric rational anti-root
+
+
+Retain M3-T11-029.
+The corrected principal coordinate is
+z=i*v,
+v in Q,
+with
+v^2=lambda_12*lambda_13*lambda_23.
+
+
+The right-hand side is symmetric in the three relative torus phases r_1,r_2,r_3.
+Therefore cyclic relabeling of the Section-30 derivation does not create three unrelated rational labels: each relative-core normalization uses the same principal magnitude v, up to the harmless sign v->-v and the corresponding root orientation.
+
+
+### 31.2 All three relative fresh cores charge the same rational v
+
+
+For i=1,2,3 let
+m_i=tau_i^sharp
+be the fresh part of the i-th relative core, and let
+mathfrak_M_i=(G_i^sharp)^2.
+
+
+Applying the M3-T11-029 conjugation-corrected derivation after cyclic relabeling gives, for the same reduced rational number
+v=A/B,
+one oriented congruence
+A == rho_i*B mod m_i^2,
+rho_i^2 == -1 mod m_i^2,
+for each nontrivial m_i.
+
+
+The fresh core supports are pairwise coprime. Hence CRT combines them exactly.
+
+
+Define
+M_rel=m_1*m_2*m_3
+=tau_1^sharp*tau_2^sharp*tau_3^sharp.
+
+
+Then there is one orientation-dependent root rho_rel such that
+boxed:
+A == rho_rel*B mod M_rel^2,
+boxed:
+rho_rel^2 == -1 mod M_rel^2.
+
+
+In particular,
+boxed:
+M_rel^2 | A^2+B^2.
+
+
+This is one charged Gaussian root-line modulus, not three independent savings.
+
+
+### 31.3 Relative-max branch upgrades the modulus scale
+
+
+Let
+tau^sharp=tau_0^sharp*tau_1^sharp*tau_2^sharp*tau_3^sharp.
+
+
+On the branch where the largest fresh core is relative, choose j in {1,2,3} with
+tau_j^sharp=max_k tau_k^sharp.
+Then
+tau_0^sharp <= tau_j^sharp <= M_rel.
+Therefore
+tau^sharp=tau_0^sharp*M_rel <= M_rel^2,
+and hence
+boxed:
+M_rel >= (tau^sharp)^(1/2).
+
+
+Thus the rational root-line modulus itself is
+boxed:
+M_rel^2 >= tau^sharp.
+
+
+This strictly strengthens the single-core estimate from M3-T11-029, where only one m_j >= (tau^sharp)^(1/4) was used.
+
+
+### 31.4 Denominator carrier and exact divisor-window consequence
+
+
+Let
+R_rel=tau_1*tau_2*tau_3
+be the full relative norm product.
+
+
+Each pairwise trace lambda_ij has reduced denominator dividing a fixed packet factor times
+(tau_i*tau_j)^2.
+Since
+v^2=lambda_12*lambda_13*lambda_23,
+there is a polynomially bounded fixed-packet integer L_pkt such that, for v=A/B reduced,
+boxed:
+B | L_pkt*R_rel^2.
+
+
+Freshness gives
+gcd(M_rel,L_pkt*(R_rel/M_rel))=1.
+
+
+Because |lambda_ij|<=2,
+|v|<=2*sqrt(2), so |A|<3B.
+Together with
+M_rel^2 | A^2+B^2
+this forces
+boxed:
+B >= M_rel/3.
+
+
+Therefore every realized relative-fresh endpoint carries an actual divisor
+B | L_pkt*R_rel^2
+in the window
+boxed:
+M_rel/3 <= B <= L_pkt*R_rel^2.
+
+
+This is an exact complementary-core divisor-window adapter.
+It is not, by itself, a fixed-power sparsity theorem.
+
+
+### 31.5 Fixed relative norm already has subpolynomial endpoint multiplicity
+
+
+Fix R_rel.
+
+
+The number of ordered factorizations
+R_rel=tau_1*tau_2*tau_3
+is R_rel^o(1).
+For each factor tau_i, the number of primary primitive Gaussian integers G_i of that norm is tau_i^o(1).
+Hence the number of exact relative triples (G_1,G_2,G_3) with product norm R_rel is
+boxed:
+R_rel^o(1).
+
+
+By Section 17.3 / the retained common-phase reconstruction, fixed
+(G_1,G_2,G_3, content/coefficient packet)
+admits only O(1) compatible G_0.
+Therefore
+boxed:
+fixed R_rel + fixed content/coefficient packet
+=> B^o(1) physical endpoint states.
+
+
+This is important for proof accounting: a further pointwise root-line count inside fixed R_rel cannot by itself reduce the moving support exponent.
+
+
+### 31.6 Pointwise CRT root-line saturation no-go
+
+
+For fixed R_rel and M_rel, summing the primitive root-line bound over the divisor-many possible denominators B|L_pkt*R_rel^2 gives at most
+B^o(1)*
+(1+L_pkt*(R_rel/M_rel)^2).
+
+
+When the nonfresh relative quotient R_rel/M_rel is subpolynomial, this is B^o(1); but fixed R_rel multiplicity was already B^o(1) before applying this bound.
+
+
+When R_rel/M_rel is polynomial, the root-line estimate is weaker and still does not control the number of moving R_rel values.
+
+
+Therefore the three-core CRT strengthening does NOT by itself prove
+# active tau << B^(1/12-delta).
+
+
+The remaining theorem is genuinely a moving-support / occupancy theorem across R_rel (or an equivalent moving core variable), not another fixed-modulus lattice refinement.
+
+
+FIREWALL:
+Do not create another card by combining one, two, or three relative root-line moduli pointwise.
+Do not multiply the three relative congruence savings.
+Do not treat the divisor window M_rel/3<=B|L_pkt*R_rel^2 as power-sparse without a same-measure divisor-window theorem.
+Do not use fixed-R_rel B^o(1) multiplicity as if it controlled the number of moving R_rel values.
+
+
+### 31.7 Updated relative-fresh gate
+
+
+The canonical relative-fresh gate is sharpened to
+
+
+boxed:
+FreshRelativeJointGaussianRootLineMovingSupportOneTwelfth.
+
+
+Required output:
+uniformly per fixed content/coefficient packet, prove a same-physical-measure bound
+# {moving relative support R_rel producing an actual endpoint
+   with the joint fresh root-line condition}
+<< B^(1/12-delta),
+or an equivalent occupancy/dispersion theorem of the same strength.
+
+
+Flags:
+M3_T11_RELATIVE_THREE_CORE_SAME_V_CRT=true
+M3_T11_RELATIVE_JOINT_FRESH_MODULUS=M_REL_SQUARED
+M3_T11_RELATIVE_MAX_BRANCH_MREL_GE_SQRT_TAUSHARP=true
+M3_T11_RELATIVE_DENOMINATOR_WINDOW=true
+M3_T11_FIXED_RREL_PHYSICAL_MULTIPLICITY=BO1
+M3_T11_POINTWISE_JOINT_ROOTLINE_EXPONENT_SUFFICIENT=false
+M3_T11_MOVING_RELATIVE_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+NEXT_ATTACK=FreshRelativeJointGaussianRootLineMovingSupportOneTwelfth
+
+
+## 32. Correction of M3-T11-030 and reduction to active relative-orientation support
+
+
+Status: EXACT CORRECTION / FALSE SAME-v CRT WITHDRAWN / FIXED-RREL SUPPORT REDUCTION RETAINED.
+
+
+### 32.1 M3-T11-030 same-v CRT claim is false
+
+
+Section 31 asserted that cyclic relabeling makes all three relative fresh cores act on one common rational anti-root v.
+That assertion is false.
+
+
+Retain the Section-24 variables
+F(C,s,t)
+=
+C^2*s^2*t^2
++(1+C^2)*(s^2+t^2)
++2*C*s*t
++1
+=0.
+
+
+For the G_3-targeted quadratic in t, M3-T11-029 gives
+boxed:
+v_3^2
+=
+Lambda(C)*Lambda(s)*Lambda(C*s).
+
+
+By symmetry, treating F as a quadratic in s gives the distinct anti-root
+boxed:
+v_2^2
+=
+Lambda(C)*Lambda(t)*Lambda(C*t).
+
+
+For the G_1-targeted branch, use the exact relabeling
+(C',s',t')
+=
+(C*s, t/s, 1/s),
+for which
+F(C',s',t')=F(C,s,t)/s^2.
+The corresponding anti-root is
+boxed:
+v_1^2
+=
+Lambda(C*s)*Lambda(t/s)*Lambda(C*t).
+
+
+In general these three rational squares are different.
+
+
+Indeed
+Lambda(C)*Lambda(s)*Lambda(C*s)
+-
+Lambda(s)*Lambda(t)*Lambda(t/s)
+is not identically zero on F=0; the earlier identification with the symmetric triple-spin magnitude was an unsupported step.
+
+
+Therefore there is no legal CRT combination
+m_1^2,m_2^2,m_3^2
+on one common rational coordinate.
+
+
+RETRACTION:
+M3_T11_RELATIVE_THREE_CORE_SAME_V_CRT=false.
+The Section-31 claims
+M_rel^2 | A^2+B^2
+for one common v
+and
+M_rel >= (tau^sharp)^(1/2)
+as a modulus on that common v
+are not current authority.
+
+
+### 32.2 Correct cyclic three-anti-root system
+
+
+Let m_i=tau_i^sharp for i=1,2,3.
+
+
+Each target core acts on its own anti-root:
+v_i=A_i/B_i in lowest terms,
+with
+boxed:
+A_i == rho_i*B_i mod m_i^2,
+boxed:
+rho_i^2 == -1 mod m_i^2.
+
+
+Equivalently,
+boxed:
+m_i^2 | A_i^2+B_i^2.
+
+
+The denominator carrier is complementary to the target core.
+
+
+Up to one fixed packet factor L_i,
+boxed:
+B_1 | L_1*(tau_0*tau_2*tau_3)^2,
+boxed:
+B_2 | L_2*(tau_0*tau_1*tau_3)^2,
+boxed:
+B_3 | L_3*(tau_0*tau_1*tau_2)^2.
+
+
+Thus every relative fresh core is tested against arithmetic determined by the other three cores.
+
+
+Because |v_i|<=2*sqrt(2)<3,
+m_i^2 | A_i^2+B_i^2
+only yields the safe pointwise size consequence
+boxed:
+B_i >= m_i/sqrt(10)
+(and hence B_i>=m_i/4).
+No stronger lower bound such as B_i>=m_i/3 is claimed.
+
+
+This cyclic complementary-core system is exact, but it is still a moving-incidence problem and gives no independent product of three local savings.
+
+
+### 32.3 The valid part of Section 31: fixed relative norm product
+
+
+Define
+boxed:
+R_rel=tau_1*tau_2*tau_3=tau/tau_0.
+
+
+Fix R_rel and one content/coefficient packet.
+
+
+The number of ordered factorizations
+R_rel=tau_1*tau_2*tau_3
+is R_rel^o(1).
+
+
+For fixed tau_i, the number of primary primitive Gaussian cores G_i with N(G_i)=tau_i is tau_i^o(1).
+
+
+Hence the number of exact relative triples
+(G_1,G_2,G_3)
+above fixed R_rel is
+boxed:
+R_rel^o(1).
+
+
+For each fixed relative triple, Section 17.3 reconstructs the all-same core G_0 with O(1) multiplicity after the fixed packet data.
+
+
+Therefore
+boxed:
+fixed R_rel + fixed content/coefficient packet
+=> B^o(1) physical endpoint states.
+
+
+This statement does not use the false same-v CRT step.
+
+
+### 32.4 Active tau and active R_rel have the same power exponent
+
+
+For one fixed content/coefficient packet let
+E_pkt(B)
+be the exact endpoint count,
+A_tau(B)
+the number of active tau values,
+and
+A_R(B)
+the number of active R_rel values.
+
+
+Section 19 gives
+A_tau(B) <= E_pkt(B) <= B^o(1)*A_tau(B).
+
+
+Section 32.3 gives
+A_R(B) <= E_pkt(B) <= B^o(1)*A_R(B).
+
+
+Therefore
+boxed:
+A_tau(B) <= B^o(1)*A_R(B),
+boxed:
+A_R(B) <= B^o(1)*A_tau(B).
+
+
+Hence active tau support and active relative-orientation support have exactly the same polynomial exponent.
+
+
+The fixed-content one-twelfth target is therefore equivalent at power scale to
+boxed:
+A_R(B)
+<<
+B^(1/12-delta)
+for some fixed delta>0.
+
+
+### 32.5 New minimal counting object
+
+
+R_rel has a direct orientation meaning:
+tau_0 is the common all-same Gaussian orientation core,
+while
+R_rel=tau/tau_0
+is the product of the three relative-orientation cores.
+Thus R_rel is the exact relative-orientation conductor of the equal-tau triple.
+
+
+This gives a cleaner minimal receiver:
+boxed:
+CyclicFixedContentActiveRelativeOrientationConductorOneTwelfth.
+
+
+The small-support branch is automatic:
+for any eta>0,
+# {active R_rel <= B^(1/12-eta)}
+<=
+B^(1/12-eta).
+
+
+Only the large relative-orientation-conductor branch requires new arithmetic.
+
+
+On that branch at least one relative core satisfies
+max(tau_1,tau_2,tau_3)
+>=
+R_rel^(1/3),
+but pointwise root-line spacing on that core is not by itself a moving-support theorem.
+
+
+### 32.6 Firewall and next attack
+
+
+Do not:
+- reuse the Section-31 common-v CRT claim;
+- multiply the three v_i root-line savings;
+- treat fixed-R_rel B^o(1) multiplicity as a power saving in the number of moving R_rel values;
+- open a new card merely for another pointwise root-line recombination.
+
+
+The correct next problem is now the large-support theorem
+boxed:
+CyclicLargeRelativeOrientationConductorSupportDeficit.
+
+
+A sufficient result is:
+uniformly per fixed content/coefficient packet,
+# {active R_rel > B^(1/12-eta)}
+<<
+B^(1/12-delta)
+for some delta>0 after choosing eta<delta.
+
+
+The cyclic three-anti-root system and the all-same square-divisor branch are supporting arithmetic for this moving-support theorem.
+
+
+Flags:
+M3_T11_030_SAME_V_CRT_RETRACTED=true
+M3_T11_THREE_DISTINCT_ANTIROOTS=true
+M3_T11_COMPLEMENTARY_CORE_DENOMINATOR_CARRIERS=true
+M3_T11_FIXED_RREL_PHYSICAL_MULTIPLICITY=BO1
+M3_T11_ACTIVE_TAU_RREL_POWER_EQUIVALENT=true
+M3_T11_RELATIVE_ORIENTATION_CONDUCTOR_RECEIVER=true
+M3_T11_LARGE_RREL_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+NEXT_ATTACK=CyclicLargeRelativeOrientationConductorSupportDeficit
+
+
+## 33. Fixed-content semigroup compression: nonfresh relative support is subpolynomial
+
+
+Status: NEW EXACT COUNTING LEMMA / CONTENT-SUPPORTED QUOTIENT REMOVED AT POWER SCALE.
+
+
+### 33.1 Setup
+
+
+Fix one Step-A content/coefficient packet.
+
+
+Let
+S_content
+=
+{ rational primes p : p | c_1*c_2*c_3 }.
+
+
+On the Step-A complement,
+c_i <= B^(1/6+xi),
+so
+c_1*c_2*c_3 <= B^(1/2+3*xi).
+
+
+Define the fresh relative conductor
+boxed:
+M_rel
+=
+tau_1^sharp*tau_2^sharp*tau_3^sharp,
+where tau_i^sharp is the part of tau_i supported on primes outside S_content.
+
+
+Write
+boxed:
+R_rel = M_rel*N_rel.
+Then every prime divisor of N_rel belongs to S_content.
+
+
+### 33.2 Uniform subpolynomial count of S_content-supported values
+
+
+Let k=|S_content|.
+
+
+Because the product of the distinct primes in S_content divides c_1*c_2*c_3,
+prod_{p in S_content} p
+<=
+B^(1/2+3*xi).
+
+
+If the primes are ordered p_1<...<p_k, then p_j>=j+1, hence
+prod p_j >= (k+1)!.
+Therefore
+boxed:
+k = O(log B / log log B)
+uniformly over Step-A content packets.
+
+
+Now let n<=B^K be any positive integer supported on S_content, where K is fixed.
+
+
+Choose
+L=ceil(log log B).
+
+
+For
+n=prod p^{e_p},
+write
+e_p=L*q_p+r_p,
+0<=r_p<L.
+
+
+Then
+n=a*b^L
+with
+a=prod p^{r_p},
+b=prod p^{q_p}.
+
+
+The number of possible residue exponent vectors (r_p) is at most
+L^k
+=
+exp(
+O(
+(log B/log log B)*log log log B
+)
+)
+=
+B^o(1).
+
+
+Also
+b^L<=B^K,
+so
+b<=B^(K/L)=B^o(1),
+and therefore the number of possible b is at most B^o(1).
+
+
+Hence uniformly over every fixed Step-A content packet,
+boxed:
+# {n<=B^K : all prime divisors of n lie in S_content}
+=
+B^o(1).
+
+
+This is an elementary support-semigroup bound; no external friable-number theorem is needed.
+
+
+### 33.3 Active R_rel support equals active fresh-relative support at power scale
+
+
+For every endpoint,
+R_rel=M_rel*N_rel,
+and N_rel is S_content-supported.
+
+
+By Section 33.2, for each fixed packet the number of possible N_rel values in the physical polynomial range is B^o(1).
+
+
+Therefore
+boxed:
+# active R_rel
+<=
+B^o(1) * # active M_rel.
+
+
+Conversely every active M_rel occurs inside at least one active R_rel, so
+boxed:
+# active M_rel
+<=
+# active R_rel.
+
+
+Thus
+boxed:
+active R_rel support
+and
+active M_rel support
+have the same polynomial exponent.
+
+
+Combined with Section 32,
+boxed:
+active tau support,
+active R_rel support,
+and active M_rel support
+all have the same polynomial exponent
+for one fixed content/coefficient packet.
+
+
+### 33.4 Stronger minimal receiver
+
+
+The fixed-content one-twelfth target is therefore equivalent at power scale to
+boxed:
+# {active fresh relative conductors M_rel}
+<<
+B^(1/12-delta).
+
+
+This removes the entire content-supported nonfresh quotient from the polynomial exponent budget.
+
+
+For any eta>0, the small fresh-relative branch is automatic:
+# {active M_rel <= B^(1/12-eta)}
+<=
+B^(1/12-eta).
+
+
+Hence only
+boxed:
+M_rel > B^(1/12-eta)
+requires a new theorem.
+
+
+On this large branch,
+max(m_1,m_2,m_3)
+>=
+M_rel^(1/3)
+>
+B^(1/36-eta/3).
+
+
+Therefore at least one corrected anti-root carries a genuine polynomial Gaussian root-line modulus
+m_i^2
+>
+B^(1/18-2*eta/3).
+
+
+This is not yet a moving-support saving, but it eliminates the previous small-fresh/content-supported branch from the fixed-packet power-scale problem.
+
+
+### 33.5 Relation to historical t27/t38 ancestry
+
+
+The earlier Section-16 warning that a globally smooth tau branch inherits Stage14-t27 remains correct for unrestricted tau.
+
+
+However after fixing the M3 content packet and projecting to the relative-orientation conductor, the portion supported only on content primes has only B^o(1) possible values by Section 33.2.
+
+
+Therefore it must not be reintroduced as a separate polynomial-size branch in the fixed-content active-support exponent budget.
+
+
+The remaining difficult branch is genuinely:
+large fresh relative conductor
++
+one of the three corrected complementary-core anti-root root lines
++
+same-physical-measure moving support.
+
+
+### 33.6 Updated gate
+
+
+Canonical current receiver:
+boxed:
+FreshRelativeConductorMovingRootLineSupportOneTwelfth.
+
+
+Required theorem:
+uniformly per fixed content/coefficient packet,
+# {active M_rel > B^(1/12-eta)
+   carrying the exact endpoint reconstruction and corrected cyclic anti-root conditions}
+<<
+B^(1/12-delta)
+for some fixed delta>eta>0.
+
+
+Flags:
+M3_T11_CONTENT_SUPPORTED_SEMIGROUP_VALUES=BO1
+M3_T11_ACTIVE_RREL_MREL_POWER_EQUIVALENT=true
+M3_T11_ACTIVE_TAU_MREL_POWER_EQUIVALENT=true
+M3_T11_SMALL_FRESH_RELATIVE_SUPPORT_AUTOMATIC=true
+M3_T11_LARGE_FRESH_RELATIVE_POLYNOMIAL_ROOTLINE_MODULUS=true
+M3_T11_FRESH_RELATIVE_MOVING_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+NEXT_ATTACK=FreshRelativeConductorMovingRootLineSupportOneTwelfth
+
+
+
+
+
+
+
+
+
+
+## 34. Anti-loop audit: the fourth symmetric anti-root is the existing triple-spin discriminant
+
+
+Status: EXACT IDENTITY / NO NEW CARD / NO NEW G0 ROOT-LINE.
+
+
+Retain the corrected Section-32 anti-roots
+v_3^2=Lambda(C)*Lambda(s)*Lambda(C*s),
+v_2^2=Lambda(C)*Lambda(t)*Lambda(C*t),
+v_1^2=Lambda(C*s)*Lambda(t/s)*Lambda(C*t).
+
+
+On the nondegenerate endpoint locus all three v_i are rational and the listed trace factors are nonzero. Multiplying gives
+
+
+(v_1*v_2*v_3)^2
+=
+[Lambda(C)*Lambda(C*s)*Lambda(C*t)]^2
+*Lambda(s)*Lambda(t)*Lambda(t/s).
+
+
+Therefore
+
+
+boxed:
+Lambda(s)*Lambda(t)*Lambda(t/s)
+is a rational square.
+
+
+This is not a new fourth principal-root theorem. It is exactly the symmetric triple-spin discriminant already present in Section 17.4, rewritten after the Section-32 correction.
+
+
+Moreover
+s=(kappa_2/kappa_1)*(q_2/q_1)^2,
+t=(kappa_3/kappa_1)*(q_3/q_1)^2,
+so this symmetric square depends on the relative cores q_1,q_2,q_3 and contains no q_0 variable directly. Consequently the identity by itself does not turn the all-same fresh core G_0 into a new oriented Gaussian root-line condition. The retained G_0 arithmetic remains the Section-28.3 Gaussian numerator square-divisor condition unless an additional same-measure adapter is proved.
+
+
+Semantic verdict:
+- no new card;
+- no restoration of same-v CRT;
+- no fourth independent root-line saving;
+- no change to the current gate FreshRelativeConductorMovingRootLineSupportOneTwelfth.
+
+
+Flags:
+M3_T11_FOURTH_SYMMETRIC_ANTIROOT_EQUALS_EXISTING_TRIPLE_SPIN=true
+M3_T11_FOURTH_ANTIROOT_NEW_CARD=false
+M3_T11_G0_ROOTLINE_FROM_SYMMETRIC_ANTIROOT_PROVED=false
+M3_T11_FRESH_RELATIVE_MOVING_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+NEXT_ATTACK=FreshRelativeConductorMovingRootLineSupportOneTwelfth
+
+
+## 35. Three-anti-root symmetric incidence surface
+
+
+Status: NEW EXACT SAME-MEASURE ADAPTER / FIXED-u GENUS-ONE DISCRIMINANT / GLOBAL MOVING-SUPPORT SAVING OPEN.
+
+
+Retain the corrected Section-32 anti-roots
+v_3^2=Lambda(C)*Lambda(s)*Lambda(C*s),
+v_2^2=Lambda(C)*Lambda(t)*Lambda(C*t),
+v_1^2=Lambda(C*s)*Lambda(t/s)*Lambda(C*t),
+with z_i=i*v_i and the endpoint surface
+F(C,s,t)=C^2*s^2*t^2+(1+C^2)(s^2+t^2)+2*C*s*t+1=0.
+
+
+Exact elimination of C,s,t from F and the three z_i definitions gives one symmetric relation among the three rational anti-roots.
+
+
+Put
+S=v_1+v_2+v_3,
+E=v_1*v_2+v_1*v_3+v_2*v_3,
+P=v_1*v_2*v_3.
+
+
+Then exactly
+boxed:
+(S*E+P)^2=S^2*P*(4*S-P).
+
+
+Equivalently, on S!=0 put
+r=P/S,
+y=(E+r)/S.
+Then
+boxed:
+y^2=r*(4-r).
+
+
+Hence the symmetric image is rationally parameterized by one new rational parameter u:
+boxed:
+r=4*u^2/(1+u^2),
+boxed:
+y=4*u/(1+u^2),
+with the projective endpoint u=infinity covering r=4.
+
+
+Therefore
+P=4*u^2*S/(1+u^2),
+E=4*u*S/(1+u^2)-4*u^2/(1+u^2),
+
+
+and v_1,v_2,v_3 are the three roots of
+x^3-S*x^2+E*x-P.
+
+
+This is not a common-v CRT. The three root-line congruences remain on distinct coordinates v_i.
+
+
+### 35.1 Split-cubic discriminant gives a fixed-u genus-one curve
+
+
+For the displayed cubic, exact discriminant simplification gives
+
+
+Delta
+=
+-16*u^4/(1+u^2)^3 * Q(S,u),
+
+
+where
+Q(S,u)
+=
+-4*S^2+S^4+48*S*u-16*S^3*u-16*u^2+44*S^2*u^2+S^4*u^2.
+
+
+Because actual endpoints have three rational roots v_i, Delta is a rational square. After removing square factors this gives
+
+
+boxed:
+Y^2=-(1+u^2)*Q(S,u).
+
+
+For fixed u the right side is a quartic in S. Its quartic discriminant is exactly
+
+
+boxed:
+-65536*u^2*(1+u^2)^2*(-2+25*u^2)^3.
+
+
+Therefore for every rational u!=0, the quartic is smooth: the other formal degeneration u^2=2/25 has no rational solution u.
+Thus every nondegenerate fixed-rational-u fiber is a smooth genus-one curve.
+
+
+This is a genuine new incidence presentation because it simultaneously retains all three corrected anti-root coordinates and their coordinate-specific root-line moduli on one exact low-degree surface.
+
+
+### 35.2 Firewall
+
+
+No global saving is claimed.
+
+
+The symmetric surface is rational after passing to (S,u); rationality alone gives no moving-support deficit.
+The fixed-u genus-one classification does not by itself imply a uniform B^o(1) point bound: no required uniform torsion/rank input has been proved for this family.
+Do not multiply the three m_i^2 root-line densities.
+Do not treat the cubic discriminant square as independent of the fact that v_1,v_2,v_3 are already rational.
+Do not replace the current fresh-conductor theorem gate by a fixed-u statement without a same-measure bound on the moving u-support.
+
+
+The current canonical gate remains
+FreshRelativeConductorMovingRootLineSupportOneTwelfth.
+
+
+The new supporting attack is:
+ThreeAntiRootSymmetricIncidenceMovingSupport.
+
+
+Flags:
+M3_T11_THREE_ANTIROOT_SYMMETRIC_INCIDENCE=true
+M3_T11_THREE_ANTIROOT_SYMMETRIC_SURFACE_RATIONAL=true
+M3_T11_THREE_ANTIROOT_FIXED_U_GENUS_ONE=true
+M3_T11_THREE_ANTIROOT_FIXED_U_UNIFORM_BO1_PROVED=false
+M3_T11_THREE_ANTIROOT_MOVING_U_SUPPORT_DEFICIT_PROVED=false
+M3_T11_FRESH_RELATIVE_MOVING_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=ThreeAntiRootSymmetricIncidenceMovingSupport
+NEXT_ATTACK=FreshRelativeConductorMovingRootLineSupportOneTwelfth
+
+
+## 36. Legal three-root CRT via the anti-root cubic
+
+
+Status: NEW EXACT JOINT-MODULUS ADAPTER / NOT THE RETRACTED COMMON-v CRT / PRIMITIVE-PAIR AUDIT OPEN.
+
+
+For i=1,2,3 write the corrected anti-root in lowest terms
+v_i=A_i/B_i,
+with
+A_i == rho_i*B_i mod m_i^2,
+rho_i^2 == -1 mod m_i^2,
+m_i=tau_i^sharp.
+
+
+The m_i are pairwise coprime. Define
+M_rel=m_1*m_2*m_3.
+
+
+Do not identify the v_i.
+Instead define the integer cubic
+boxed:
+F_v(X)=product_{i=1}^3 (B_i*X-A_i).
+
+
+By CRT there is a unique oriented class rho_rel modulo M_rel^2 satisfying
+rho_rel == rho_i mod m_i^2
+for all i.
+Then
+boxed:
+rho_rel^2 == -1 mod M_rel^2.
+
+
+For each i the i-th factor of F_v(rho_rel) vanishes modulo m_i^2, hence exactly
+boxed:
+F_v(rho_rel) == 0 mod M_rel^2.
+
+
+This is a legal CRT combination because the three distinct anti-roots are retained as three distinct linear factors. It does not assert v_1=v_2=v_3.
+
+
+Write
+D=B_1*B_2*B_3,
+T_1=A_1*B_2*B_3+A_2*B_1*B_3+A_3*B_1*B_2,
+T_2=A_1*A_2*B_3+A_1*A_3*B_2+A_2*A_3*B_1,
+T_3=A_1*A_2*A_3.
+
+
+Then
+F_v(X)=D*X^3-T_1*X^2+T_2*X-T_3.
+
+
+Using rho_rel^2==-1 and rho_rel^3==-rho_rel modulo M_rel^2 gives the exact joint root line
+boxed:
+(T_1-T_3)+(T_2-D)*rho_rel == 0 mod M_rel^2.
+
+
+Therefore the common integer coefficient pair
+boxed:
+X_sym=T_1-T_3,
+boxed:
+Y_sym=T_2-D
+satisfies
+boxed:
+M_rel^2 | X_sym^2+Y_sym^2.
+
+
+This restores a genuine joint M_rel^2 Gaussian root-line object after the Section-31 common-v retraction, but on the cubic coefficient pair rather than on one false common rational anti-root.
+
+
+In symmetric rational notation,
+T_1=D*S,
+T_2=D*E,
+T_3=D*P,
+so formally
+(X_sym,Y_sym)=D*(S-P,E-1),
+but D may share fresh primes and must not be divided modulo M_rel^2 without a valuation audit.
+
+
+### 36.1 Current arithmetic blocker
+
+
+To use AR-009 or any primitive Gaussian root-line count on (X_sym,Y_sym), one must control
+gcd(X_sym,Y_sym,M_rel).
+
+
+The exact joint divisibility above remains valid without primitivity, but a large common fresh content could absorb part or all of the apparent M_rel^2 modulus.
+
+
+The complementary denominator carriers make this nontrivial:
+B_i is coprime to m_i, but B_j for j!=i may carry primes from m_i.
+
+
+Therefore the next exact subproblem is primewise:
+for p^a||m_i, determine
+min(v_p(X_sym),v_p(Y_sym))
+from the corrected anti-root formulas and complementary denominator carriers.
+
+
+No root-line density or M_rel^{-2} saving may be charged before this content audit.
+
+
+Flags:
+M3_T11_DISTINCT_ANTIROOT_CUBIC_CRT=true
+M3_T11_CUBIC_COEFFICIENT_JOINT_ROOTLINE=true
+M3_T11_CUBIC_COEFFICIENT_MREL2_NORM_DIVISIBILITY=true
+M3_T11_CUBIC_COEFFICIENT_PRIMITIVE_AT_FRESH_PRIMES_PROVED=false
+M3_T11_CUBIC_COEFFICIENT_ROOTLINE_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=ThreeAntiRootCubicCoefficientFreshContentAudit
+NEXT_ATTACK=ThreeAntiRootCubicCoefficientFreshContentAudit
+
+
+## 37. Fresh-prime primitivity of the cubic coefficient root line
+
+
+Status: EXACT LOCAL VALUATION THEOREM / FULL M_rel^2 MODULUS SURVIVES / GLOBAL MOVING-SUPPORT SAVING OPEN.
+
+
+Retain Section 36:
+X_sym=T_1-T_3,
+Y_sym=T_2-D,
+X_sym+rho_rel*Y_sym ==0 mod M_rel^2,
+rho_rel^2==-1 mod M_rel^2.
+
+
+We now audit fresh content prime by prime.
+
+
+Fix p^a||m_1=tau_1^sharp and choose the oriented Gaussian prime pi above p contained in G_1^sharp.
+
+
+From the Section-24 variables,
+v_pi(C)=2a,
+v_pi(s)=-2a,
+v_pi(t)=-2a.
+
+
+Hence
+C*s,
+C*t,
+t/s
+are pi-adic units.
+
+
+The target anti-root is
+v_1^2
+=
+Lambda(C*s)*Lambda(t/s)*Lambda(C*t).
+
+
+M3-T11-029 gives
+A_1 == rho_1*B_1 mod p^(2a),
+with p not dividing B_1 and rho_1 a p-adic unit.
+Therefore p does not divide A_1 and v_1 is a p-adic unit.
+
+
+The retained fresh-unit filter from M3-T11-026/027 gives
+p not dividing Lambda(t/s).
+
+
+Each of
+Lambda(C*s), Lambda(C*t), Lambda(t/s)
+is pi-adically integral.
+Their product v_1^2 is a p-unit, and Lambda(t/s) is a p-unit.
+Therefore necessarily
+boxed:
+p does not divide Lambda(C*s)*Lambda(C*t).
+
+
+Now
+v_2^2=Lambda(C)*Lambda(t)*Lambda(C*t),
+v_3^2=Lambda(C)*Lambda(s)*Lambda(C*s).
+
+
+Because v_pi(C)=2a and v_pi(s)=v_pi(t)=-2a,
+boxed:
+v_pi(Lambda(C))
+=
+v_pi(Lambda(s))
+=
+v_pi(Lambda(t))
+=
+-2a.
+
+
+The remaining factors Lambda(C*t), Lambda(C*s) are p-units by the previous paragraph.
+Hence exactly
+boxed:
+v_p(v_2)=v_p(v_3)=-2a.
+
+
+Since v_j=A_j/B_j are reduced,
+boxed:
+v_p(B_2)=v_p(B_3)=2a,
+and
+p does not divide A_2*A_3.
+Also p does not divide A_1*B_1.
+
+
+Substitute these valuations into the Section-36 coefficients.
+
+
+Modulo p^(2a):
+T_1 == 0,
+D == 0,
+T_2 == A_2*A_3*B_1,
+T_3 == A_1*A_2*A_3.
+
+
+Therefore
+boxed:
+X_sym == -A_1*A_2*A_3 mod p^(2a),
+boxed:
+Y_sym == A_2*A_3*B_1 mod p^(2a).
+
+
+In particular
+boxed:
+p does not divide X_sym*Y_sym.
+
+
+By cyclic symmetry the same holds for every p|m_2 and every p|m_3.
+
+
+Thus
+boxed:
+gcd(X_sym,Y_sym,M_rel)=1.
+
+
+Consequently the Section-36 congruence is a primitive Gaussian root line modulo the full squared modulus M_rel^2:
+boxed:
+X_sym+rho_rel*Y_sym ==0 mod M_rel^2,
+boxed:
+rho_rel^2==-1 mod M_rel^2,
+boxed:
+gcd(X_sym,Y_sym,M_rel)=1.
+
+
+Equivalently
+boxed:
+M_rel^2 | X_sym^2+Y_sym^2
+with no fresh-prime content loss.
+
+
+This is the corrected legal replacement for the false Section-31 common-v joint root line.
+
+
+### 37.1 What is and is not closed
+
+
+The local primitive-modulus blocker from Section 36 is closed.
+
+
+AR-009 is now algebraically applicable to the common coefficient pair (X_sym,Y_sym) with modulus M_rel^2.
+
+
+However a global active-M_rel saving still requires an exact height/range and multiplicity adapter for this coefficient pair on the same physical packet measure.
+Do not multiply an ambient 1/M_rel^2 lattice density into an already-charged endpoint count.
+
+
+The next theorem-level task is therefore:
+ThreeAntiRootCubicCoefficientRootLineRangeAdapter.
+
+
+It must bound the physical coefficient-pair box/height and pushforward multiplicity strongly enough that the full primitive M_rel^2 root line yields a fixed-power deficit in moving M_rel support.
+
+
+Flags:
+M3_T11_CUBIC_COEFFICIENT_PRIMITIVE_AT_FRESH_PRIMES=true
+M3_T11_CUBIC_COEFFICIENT_FULL_MREL2_MODULUS_SURVIVES=true
+M3_T11_CUBIC_COEFFICIENT_AR009_ALGEBRAICALLY_APPLICABLE=true
+M3_T11_CUBIC_COEFFICIENT_RANGE_ADAPTER_PROVED=false
+M3_T11_FRESH_RELATIVE_MOVING_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=ThreeAntiRootCubicCoefficientRootLineRangeAdapter
+NEXT_ATTACK=ThreeAntiRootCubicCoefficientRootLineRangeAdapter
+
+
+
+
+## 38. No-double-charge correction for the cubic coefficient root line
+
+
+Status: EXACT FACTORIZATION / RANGE-ADAPTER ATTACK FROZEN AS INDEPENDENT SAVING / M3-T11-032 AND 033 RETAINED AS ALGEBRAIC ROUTERS.
+
+
+Retain
+F_v(X)=product_{i=1}^3(B_i*X-A_i)
+and
+F_v(X)=D*X^3-T_1*X^2+T_2*X-T_3.
+
+
+With
+X_sym=T_1-T_3,
+Y_sym=T_2-D,
+one has exactly
+boxed:
+X_sym+i*Y_sym=F_v(i)
+=product_{i=1}^3(i*B_i-A_i).
+
+
+Taking Gaussian norms gives
+boxed:
+X_sym^2+Y_sym^2
+=
+product_{i=1}^3(A_i^2+B_i^2).
+
+
+Therefore the full divisibility
+M_rel^2 | X_sym^2+Y_sym^2
+is exactly the Gaussian product packaging of the three already-known one-core norm divisibilities
+m_i^2 | A_i^2+B_i^2.
+
+
+The M3-T11-032/033 CRT and primitivity statements remain algebraically correct.
+What is retracted is the idea that an AR-009 count on the product coefficient pair can supply a new independent moving-support density saving merely after a range adapter.
+
+
+Any such charge would reuse the same three one-core root-line conditions through Gaussian multiplication.
+
+
+This is a direct realization of the pre-existing Section-31 firewall:
+do not multiply three relative root-line savings.
+
+
+Flags:
+M3_T11_CUBIC_COEFFICIENT_FACTORIZATION_AS_PRODUCT=true
+M3_T11_CUBIC_COEFFICIENT_NORM_IS_PRODUCT_OF_ONECORE_NORMS=true
+M3_T11_CUBIC_COEFFICIENT_AR009_INDEPENDENT_SAVING=false
+M3_T11_CUBIC_COEFFICIENT_RANGE_ADAPTER_ROUTE_FROZEN=true
+M3_T11_032_033_ALGEBRAIC_IDENTITIES_RETAINED=true
+P_OVER_M3_LIMIT_PROVED=false
+
+
+
+
+## 39. Symmetric-u fresh-conductor transfer versus scaled anti-root collision
+
+
+Status: NEW EXACT SAME-MEASURE ROUTER / MOVING-SUPPORT SAVING OPEN.
+
+
+Retain the M3-T11-031 symmetric quantities
+S=v_1+v_2+v_3,
+E=v_1*v_2+v_1*v_3+v_2*v_3,
+P=v_1*v_2*v_3.
+
+
+On the finite-u branch
+SE+P != 0,
+define
+boxed:
+u=P/(SE+P).
+
+
+This agrees with the Section-35 rational parameterization.
+
+
+### 39.1 Primewise valuation formula
+
+
+Fix p^a||m_1 and put
+q=p^(2a).
+
+
+By M3-T11-033,
+v_p(v_1)=0,
+v_p(v_2)=v_p(v_3)=-2a.
+
+
+Write in Q_p
+alpha=v_1,
+beta=q*v_2,
+gamma=q*v_3.
+Then alpha,beta,gamma are p-units.
+
+
+A direct substitution into u=P/(SE+P) gives exactly
+boxed:
+u
+=
+alpha*beta*gamma*q
+/
+[
+ beta*gamma*(beta+gamma)
+ +alpha*q*(beta^2+4*beta*gamma+gamma^2)
+ +alpha^2*q^2*(beta+gamma)
+].
+
+
+Now M3-T11-033 also gives
+m_1^2 | B_2,
+m_1^2 | B_3,
+and
+gcd(B_2/m_1^2,m_1)
+=
+gcd(B_3/m_1^2,m_1)
+=
+1.
+
+
+Define
+Bhat_2^(1)=B_2/m_1^2,
+Bhat_3^(1)=B_3/m_1^2,
+and the normalized collision numerator
+boxed:
+H_1
+=
+A_2*Bhat_3^(1)
++
+A_3*Bhat_2^(1).
+
+
+Equivalently,
+boxed:
+v_2+v_3
+=
+H_1
+/
+[
+m_1^2*Bhat_2^(1)*Bhat_3^(1)
+].
+
+
+For p^a||m_1 one has exactly
+v_p(beta+gamma)=v_p(H_1).
+
+
+Let e=v_p(H_1).
+
+
+If e<2a, the first term in the displayed denominator of u has valuation e, while every other term has valuation at least 2a. Hence
+boxed:
+v_p(u)=2a-e.
+
+
+If e>=2a, no positive p-adic numerator gain is claimed.
+
+
+Therefore, for u written in lowest terms,
+boxed:
+m_1^2/gcd(m_1^2,H_1)
+divides Num(u).
+
+
+Cyclically define
+H_2
+=
+A_1*(B_3/m_2^2)
++
+A_3*(B_1/m_2^2),
+
+
+H_3
+=
+A_1*(B_2/m_3^2)
++
+A_2*(B_1/m_3^2).
+
+
+Since m_1,m_2,m_3 are pairwise coprime,
+boxed:
+Q_u
+:=
+product_{i=1}^3
+[
+m_i^2/gcd(m_i^2,H_i)
+]
+divides Num(u).
+
+
+Define the complementary collision content
+boxed:
+C_u
+:=
+product_{i=1}^3 gcd(m_i^2,H_i).
+
+
+Then exactly
+boxed:
+Q_u*C_u=M_rel^2.
+
+
+Hence
+boxed:
+max(Q_u,C_u)>=M_rel.
+
+
+### 39.2 New same-measure dichotomy
+
+
+On the large fresh-conductor branch
+M_rel>B^(1/12-eta),
+every endpoint on the finite-u branch satisfies at least one of:
+
+
+A. u-transfer branch:
+Q_u>=M_rel,
+so Num(u) carries a divisor at least M_rel;
+
+
+B. scaled-collision branch:
+C_u>=M_rel,
+so a polynomial portion of the squared fresh conductor is absorbed by the three explicit normalized anti-root collision numerators H_i.
+
+
+This is not a density theorem by itself.
+
+
+Branch A still needs a same-measure height/support theorem for realized u.
+Branch B still needs a same-measure cross-gcd/collision theorem for gcd(m_i^2,H_i).
+
+
+The projective exceptional branch SE+P=0, corresponding to u=infinity in Section 35, is not included in the finite-u transfer and remains a separate lower-dimensional branch to audit.
+
+
+Semantic anti-loop verdict:
+this is not another pointwise root-line recombination.
+It uses the symmetric parameter u from M3-T11-031 and gives a new primewise conservation law that accounts exactly for where the fresh conductor goes:
+into Num(u) or into an explicit scaled collision cross-gcd.
+
+
+Flags:
+M3_T11_SYMMETRIC_U_FINITE_FORMULA=true
+M3_T11_SYMMETRIC_U_FRESH_TRANSFER=true
+M3_T11_SYMMETRIC_U_COLLISION_NUMERATORS=true
+M3_T11_SYMMETRIC_U_TRANSFER_COLLISION_PRODUCT=MREL2
+M3_T11_SYMMETRIC_U_MOVING_SUPPORT_DEFICIT_PROVED=false
+M3_T11_U_INFINITY_BRANCH_CLOSED=false
+M3_T11_FRESH_RELATIVE_MOVING_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=SymmetricUFreshTransferVsScaledAntiRootCollision
+NEXT_ATTACK=SymmetricUFreshTransferVsScaledAntiRootCollision
+
+
+
+
+## 40. Retraction of Section 39 finite-u transfer
+
+
+Status: RETRACTED.
+
+
+Section 39 used the inverse parameter
+u=P/(S*E+P).
+
+
+That inverse is missing one factor S.
+
+
+From
+r=P/S=4*u^2/(1+u^2)
+and
+y=(E+r)/S=4*u/(1+u^2),
+the correct inverse is
+boxed:
+u=P*S/(S*E+P).
+
+
+Indeed
+(P*S)/(S*E+P)=u,
+whereas
+P/(S*E+P)=u/S.
+
+
+Therefore the claimed Section-39 valuation transfer
+Q_u | Num(u)
+and the product law
+Q_u*C_u=M_rel^2
+as a fresh-conductor conservation statement are withdrawn.
+
+
+M3-T11-034 is RETRACTED.
+No theorem credit or endpoint credit was attached to it.
+
+
+Flags:
+M3_T11_034_RETRACTED=true
+M3_T11_SYMMETRIC_U_FRESH_TRANSFER=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+
+
+## 41. Correct symmetric common-u full fresh root line
+
+
+Status: NEW EXACT SAME-MEASURE ADAPTER / GENUINE COMMON RATIONAL ROOT LINE / MOVING SUPPORT OPEN.
+
+
+Retain M3-T11-031 and M3-T11-033.
+
+
+On the nondegenerate endpoint locus,
+P=v_1*v_2*v_3 !=0.
+The symmetric relation
+(S*E+P)^2=S^2*P*(4*S-P)
+then implies S!=0, because S=0 would force P=0.
+
+
+Define
+boxed:
+r=P/S.
+
+
+Since
+S=T_1/D,
+P=T_3/D,
+one has exactly
+boxed:
+r=T_3/T_1.
+
+
+### 41.1 Full fresh square in the reduced denominator of r
+
+
+For every p^a||m_1, M3-T11-033 gives:
+A_1,A_2,A_3,B_1 are p-units,
+while
+p^(2a) exactly divides the fresh part of both B_2 and B_3.
+
+
+Hence every term of
+T_1
+=
+A_1*B_2*B_3
++
+A_2*B_1*B_3
++
+A_3*B_1*B_2
+is divisible by p^(2a).
+
+
+Thus p^(2a)|T_1.
+
+
+Cyclically,
+boxed:
+M_rel^2 | T_1.
+
+
+Also
+T_3=A_1*A_2*A_3
+is coprime to M_rel.
+
+
+Therefore reducing r=T_3/T_1 cannot cancel any fresh prime, and
+boxed:
+M_rel^2 | Den(r).
+
+
+This is an exact full-conductor statement on one common rational symmetric coordinate.
+
+
+### 41.2 Pass from r to the genuine common-u Gaussian root line
+
+
+M3-T11-031 gives
+boxed:
+r=4*u^2/(1+u^2).
+
+
+On the large fresh branch M_rel>1, r cannot equal 4, because Den(r) is divisible by M_rel^2>1.
+Hence the projective u=infinity branch is absent there.
+
+
+Write the now-finite rational parameter in lowest terms
+boxed:
+u=A_u/B_u,
+gcd(A_u,B_u)=1.
+
+
+Then
+r=4*A_u^2/(A_u^2+B_u^2).
+
+
+Because
+gcd(A_u^2,A_u^2+B_u^2)=1,
+the reduction factor
+g_u
+=
+gcd(4*A_u^2,A_u^2+B_u^2)
+=
+gcd(4,A_u^2+B_u^2)
+belongs to {1,2}.
+
+
+Thus
+boxed:
+Den(r)
+=
+(A_u^2+B_u^2)/g_u.
+
+
+All m_i and M_rel are odd.
+Therefore
+boxed:
+M_rel^2 | A_u^2+B_u^2.
+
+
+Also gcd(B_u,M_rel)=1, since otherwise primitivity would force the same fresh prime into A_u.
+
+
+Hence there is a unique residue
+rho_u=A_u*B_u^(-1) mod M_rel^2
+with
+boxed:
+rho_u^2==-1 mod M_rel^2,
+and
+boxed:
+A_u==rho_u*B_u mod M_rel^2.
+
+
+This is a valid common rational root line on one actual symmetric parameter u.
+It is not the retracted Section-31 false common-v statement.
+
+
+### 41.3 Exact norm carrier and support consequence
+
+
+Since r=T_3/T_1,
+the reduced denominator is
+Den(r)=|T_1|/gcd(T_1,T_3).
+
+
+Therefore
+boxed:
+A_u^2+B_u^2
+=
+g_u*|T_1|/gcd(T_1,T_3),
+with g_u in {1,2}.
+
+
+In particular the Gaussian norm of the common-u pair divides 2*|T_1| and is polynomially bounded under the exact physical R<=B packet.
+
+
+For one fixed realized u,
+every compatible M_rel satisfies
+M_rel^2 | A_u^2+B_u^2.
+Hence the number of possible M_rel values over one fixed u is divisor-many:
+boxed:
+# {M_rel compatible with fixed u}
+=
+B^o(1)
+uniformly on the physical polynomial range.
+
+
+Therefore, per fixed content/coefficient packet,
+boxed:
+# active M_rel
+<=
+B^o(1) * # active realized u.
+
+
+A sufficient replacement target is now:
+boxed:
+# active realized u
+<<
+B^(1/12-delta).
+
+
+This does not yet prove the target.
+The common-u root-line is still a pointwise congruence, and no independent density factor may be multiplied without a same-measure counting theorem.
+
+
+The fixed-u genus-one quartic from M3-T11-031 remains available, but no required uniform moving-u point bound has yet been proved.
+
+
+Flags:
+M3_T11_034_RETRACTED=true
+M3_T11_COMMON_U_FULL_MREL2_ROOTLINE=true
+M3_T11_COMMON_U_INFINITY_EXCLUDED_ON_LARGE_FRESH=true
+M3_T11_FIXED_U_MREL_MULTIPLICITY=BO1
+M3_T11_ACTIVE_MREL_TO_ACTIVE_U_REDUCTION=true
+M3_T11_ACTIVE_U_SUPPORT_DEFICIT_PROVED=false
+M3_T11_FRESH_RELATIVE_MOVING_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=SymmetricCommonUFullFreshRootLineSupportOneTwelfth
+NEXT_ATTACK=SymmetricCommonUFullFreshRootLineSupportOneTwelfth
+
+
+
+
+## 42. Fixed-field cubic-torsion upgrade on the symmetric (S,u) incidence
+Status: PROVISIONAL EXACT/THEOREM ADAPTER / HOSTILE AUDIT REQUIRED BEFORE CANONICAL PROMOTION.
+
+
+Retain M3-T11-031 and M3-T11-035.  On the nondegenerate endpoint locus,
+S=v_1+v_2+v_3 != 0,
+and the exact split-cubic discriminant condition is
+Y^2=-(1+u^2) Q(S,u),
+where
+Q(S,u)
+=
+-4*S^2+S^4+48*S*u-16*S^3*u-16*u^2+44*S^2*u^2+S^4*u^2.
+The current common-u gate remains open; this section upgrades the previously-open fixed-fiber multiplicity only.
+
+
+### 42.1 Fixed-u Jacobian has 3-torsion over one fixed quadratic field
+For fixed rational nonzero u, view
+f_u(S)=-(1+u^2)Q(S,u)
+as a binary quartic.  With the standard invariants
+I=12ae-3bd+c^2,
+J=72ace+9bcd-27ad^2-27b^2e-2c^3,
+one obtains exactly
+I_u=16*(1+u^2)^3*(1+109*u^2),
+J_u=128*(1+u^2)^4*(-1+268*u^2+1727*u^4).
+
+
+Use the rationally isomorphic Jacobian model
+E_u: y^2=x^3-27*I_u*x-27*J_u.
+Its 3-division polynomial factors with the linear factor
+x+36*(1+u^2)^2.
+At
+x_u=-36*(1+u^2)^2
+one has exactly
+y_u^2
+=
+-6912*(1+u^2)^4*(25*u^2-2)^2
+=
+[48*sqrt(-3)*(1+u^2)^2*(25*u^2-2)]^2.
+Hence over the fixed number field
+K=Q(sqrt(-3))
+the point
+P_u=
+(
+ -36*(1+u^2)^2,
+ 48*sqrt(-3)*(1+u^2)^2*(25*u^2-2)
+)
+lies on E_u and is killed by the 3-division polynomial.
+
+
+For rational u, the exceptional equation u^2=2/25 has no solution in Q.  The rational u=0 branch is absent on the nondegenerate endpoint locus because P=v_1*v_2*v_3 is nonzero.  Thus y_u is nonzero and P_u has exact order 3 for every physical rational u under consideration.
+
+
+This removes the earlier objection that no uniform torsion input had been identified over Q: rational torsion over Q is unnecessary for the Dujella theorem, because the theorem is uniform over any one fixed number field K and the physical Q-rational image is a subset of E_u(K).
+
+
+### 42.2 Uniform fixed-u physical multiplicity candidate
+The quartic-to-Jacobian map is a fixed-degree binary-quartic covering map.  On the exact physical R<=B packet, the Gaussian-core coordinates have polynomial height; hence the corrected anti-roots v_i, their symmetric sum S, the common parameter u from M3-T11-035, the quartic coefficients, and the image point on E_u all have height B^O(1).
+
+
+Marta Dujella's uniform bounded-height theorem for elliptic curves over a fixed number field carrying a rational point of exact prime order therefore applies over K=Q(sqrt(-3)) with prime order 3.  It gives
+# {E_u(K) points of physical-induced height B^O(1)}
+=
+exp(O_K(log B/log log B))
+=
+B^o(1)
+uniformly in the realized rational u.
+
+
+Since physical quartic points are Q-rational, map into E_u(Q) subset E_u(K), and the covering degree is fixed, the candidate conclusion is
+boxed:
+fixed realized u + fixed content/coefficient packet
+=> B^o(1) physical endpoint states.
+
+
+This is a theorem-promotion boundary and is not made canonical in mainbatch without hostile audit.
+
+
+### 42.3 Symmetric fixed-S fiber has the same fixed-field torsion
+The same incidence is quartic in u when S is fixed.  Its u-discriminant factors exactly as
+1048576*S^2*(S^2-8)^3*(1+S^2)^6.
+Physical S is nonzero; S^2=8 has no rational solution.  Hence every physical fixed-rational-S fiber is smooth.
+
+
+For the corresponding binary quartic in u, the scaled Jacobian has a 3-division linear factor with
+x_S=-36*(S^2-2)^2,
+and at this x-coordinate
+y_S^2
+=
+-27648*(S^2-8)^2*(1+S^2)^4
+=
+[96*sqrt(-3)*(S^2-8)*(1+S^2)^2]^2.
+Therefore the fixed-S Jacobian also has an exact K-rational point of order 3, uniformly over the same fixed field K=Q(sqrt(-3)).
+
+
+Subject to the same polynomial-height adapter, this gives the second candidate conclusion
+boxed:
+fixed realized S + fixed content/coefficient packet
+=> B^o(1) physical endpoint states.
+
+
+### 42.4 Exact square-split addendum and anti-loop verdict
+From M3-T11-035,
+r=T_3/T_1=4*u^2/(1+u^2),
+so exactly
+boxed:
+u^2=T_3/(4*T_1-T_3).
+
+
+Writing u=A_u/B_u in lowest terms gives an exact common-squareclass split:
+there is an integer G such that, up to the common physical sign,
+T_3=G*A_u^2,
+4*T_1-T_3=G*B_u^2,
+4*T_1=G*(A_u^2+B_u^2).
+
+
+Moreover
+G=gcd(T_3,4*T_1-T_3)=gcd(T_3,4*T_1).
+If d=gcd(T_1,T_3), comparison with the already-proved
+A_u^2+B_u^2=g_u*|T_1|/d,
+g_u in {1,2},
+shows
+G=4*d/g_u
+up to the common sign.
+Thus this square-split is not a new independent density factor; it is a normalized restatement of the M3-T11-035 common-u norm carrier.  No second squareclass saving may be charged from it.
+
+
+### 42.5 What this changes and what remains open
+If hostile audit validates the binary-quartic invariant calculation, exact K-rational 3-torsion, Dujella applicability, and polynomial-height transfer, then the former flag
+M3_T11_THREE_ANTIROOT_FIXED_U_UNIFORM_BO1_PROVED=false
+may be promoted to true, and an additional fixed-S B^o(1) fiber theorem may be registered.
+
+
+This does NOT prove
+# active realized u << B^(1/12-delta).
+The moving-u support deficit remains the load-bearing missing theorem.  The common-u full M_rel^2 root line remains pointwise and cannot be multiplied by the new fixed-fiber B^o(1) statement as an independent density.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_FIXED_U_K_RATIONAL_3TORSION_CANDIDATE=true
+M3_T11_FIXED_S_K_RATIONAL_3TORSION_CANDIDATE=true
+M3_T11_FIXED_FIELD_FOR_TORSION=Q(sqrt(-3))
+M3_T11_FIXED_U_UNIFORM_BO1_CANDIDATE=true
+M3_T11_FIXED_S_UNIFORM_BO1_CANDIDATE=true
+M3_T11_COMMON_U_SQUARE_SPLIT_NEW_DENSITY=false
+M3_T11_ACTIVE_U_SUPPORT_DEFICIT_PROVED=false
+M3_T11_FRESH_RELATIVE_MOVING_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+AUDIT_REQUIRED_BEFORE_PROMOTION=true
+NEXT_REQUIRED_ACTION=stage37audit
+
+
+
+
+## 43. Hostile-audit promotion of M3-T11-036
+Status: CANONICAL / HOSTILE AUDIT PASS / FIXED-FIBER UNIFORMITY CLOSED.
+
+
+Independent stage37audit returned PASS for the complete M3-T11-036 promotion boundary:
+1. fixed-u binary-quartic invariants;
+2. exact order-3 torsion over K=Q(sqrt(-3));
+3. symmetric fixed-S version;
+4. Marta Dujella fixed-number-field theorem applicability;
+5. polynomial physical-height transfer through v_i -> S,u -> quartic -> Jacobian.
+
+
+Therefore the provisional conclusions from Section 42 are now canonical:
+boxed:
+fixed realized u + fixed content/coefficient packet
+=> B^o(1) physical endpoint states,
+and
+boxed:
+fixed realized S + fixed content/coefficient packet
+=> B^o(1) physical endpoint states.
+
+
+Canonical flags:
+M3_T11_FIXED_U_K_RATIONAL_3TORSION=true
+M3_T11_FIXED_S_K_RATIONAL_3TORSION=true
+M3_T11_FIXED_FIELD_FOR_TORSION=Q(sqrt(-3))
+M3_T11_FIXED_U_UNIFORM_BO1_PROVED=true
+M3_T11_FIXED_S_UNIFORM_BO1_PROVED=true
+M3_T11_036_HOSTILE_AUDIT=PASS
+
+
+No moving-support theorem is promoted:
+M3_T11_ACTIVE_U_SUPPORT_DEFICIT_PROVED=false
+M3_T11_FRESH_RELATIVE_MOVING_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false.
+
+
+The canonical gate remains
+SymmetricCommonUFullFreshRootLineSupportOneTwelfth.
+
+
+## 44. Restored scaled symmetric parameter w=u/S
+Status: NEW EXACT SAME-MEASURE ROUTER / FIXED-w ELLIPTIC FIBER CANDIDATE / MOVING SUPPORT OPEN.
+
+
+Section 39 was retracted only because its variable was misidentified as u.
+The rational expression used there was in fact
+boxed:
+w := P/(S*E+P) = u/S,
+using the correct inverse u=P*S/(S*E+P).
+Thus the primewise calculation of old Section 39 is algebraically valid for w.
+
+
+Since
+S=T_1/D,
+E=T_2/D,
+P=T_3/D,
+one also has the exact coefficient formula
+boxed:
+w = T_3*D/(T_1*T_2+T_3*D).
+
+
+### 44.1 Exact fresh-conductor transfer/collision law for w
+Fix p^a||m_1 and q=p^(2a).
+As in M3-T11-033 write
+v_1=alpha,
+v_2=beta/q,
+v_3=gamma/q,
+with alpha,beta,gamma p-units.
+Then exactly
+w
+=
+alpha*beta*gamma*q
+/
+[
+ beta*gamma*(beta+gamma)
+ +alpha*q*(beta^2+4*beta*gamma+gamma^2)
+ +alpha^2*q^2*(beta+gamma)
+].
+
+
+Let
+H_1
+=
+A_2*(B_3/m_1^2)
++
+A_3*(B_2/m_1^2),
+so v_p(beta+gamma)=v_p(H_1).
+If e=v_p(H_1)<2a, then
+boxed:
+v_p(w)=2a-e.
+Therefore in lowest terms
+boxed:
+m_1^2/gcd(m_1^2,H_1) | Num(w).
+Cyclically define H_2,H_3 exactly as in the former Section 39 and put
+Q_w
+=
+product_i [m_i^2/gcd(m_i^2,H_i)],
+C_w
+=
+product_i gcd(m_i^2,H_i).
+Then exactly
+boxed:
+Q_w | Num(w),
+boxed:
+Q_w*C_w=M_rel^2,
+hence
+boxed:
+max(Q_w,C_w)>=M_rel.
+
+
+This restores the old transfer/collision dichotomy, but for w=u/S rather than u.
+It does not restore retracted M3-T11-034.
+
+
+An additional exact identity is
+boxed:
+2*num_w_raw-den_w_raw
+=
+-(beta+gamma)*(beta+alpha*q)*(gamma+alpha*q)
+primewise in the displayed local representation.
+Thus the collision factor beta+gamma is the unique source of cancellation between the raw numerator and denominator.  This is diagnostic only; after reducing w, the canceled conductor cannot be recharged as an independent factor.
+
+
+### 44.2 Fixed-w incidence is elliptic with rational 2-torsion
+Substitute
+S=u/w
+into the canonical symmetric incidence
+Y^2=-(1+u^2)Q(S,u).
+Because physical u!=0, put
+x=u^2,
+Z=Y*w^2/u.
+Then exactly
+boxed:
+Z^2
+=
+-(1+x)
+[
+ x^2
+ +x*(1-16*w+44*w^2)
+ -4*w^2+48*w^3-16*w^4
+].
+For fixed rational w this is a cubic in x with the rational root x=-1.
+Hence every nonsingular fixed-w fiber is an elliptic curve over Q with rational 2-torsion.
+
+
+Its cubic discriminant is exactly
+boxed:
+256*(w-1)^6*w^2*(2*w-1)*(10*w-1)^3.
+The only rational singular parameters are
+w in {0,1,1/2,1/10}.
+All four are absent from the physical rational-u locus:
+w=0 gives RHS=-x(1+x)^2<0 for x=u^2>0;
+w=1 gives RHS=-(1+x)^2(28+x)<0;
+w=1/2 gives RHS=-(1+x)(2+x)^2<0;
+w=1/10 gives RHS=-(1+x)(25x-2)^2/625, whose only nonnegative zero requires u^2=2/25, impossible for rational u.
+Therefore every realized physical rational w lies on a smooth elliptic fixed-w fiber with Q-rational 2-torsion.
+
+
+### 44.3 Provisional fixed-w multiplicity upgrade
+The same Dujella theorem already audited for M3-T11-036 applies over Q with prime order 2 once the new fixed-w height adapter is verified.
+All variables entering w are rational functions of the polynomial-height anti-root packet, and the map to the displayed cubic has fixed degree.
+Therefore the expected output is
+boxed:
+fixed realized w + fixed content/coefficient packet
+=> B^o(1) physical endpoint states.
+
+
+This fixed-w conclusion is a NEW promotion boundary and is not yet canonical.
+It requires hostile audit of the transformed cubic, singular-fiber exclusion, and polynomial-height adapter.
+
+
+### 44.4 Current moving-support meaning
+On M_rel>B^(1/12-eta), every endpoint satisfies:
+A. Q_w>=M_rel, so a divisor >=M_rel is visible in Num(w); or
+B. C_w>=M_rel, so a polynomial portion of the fresh squared conductor is absorbed by the explicit scaled anti-root collision numerators H_i.
+
+
+The new fixed-w elliptic compression, if audited, would remove multiplicity inside each realized w fiber.
+It still does not count how many w values occur, and branch B remains a genuine collision-support problem.
+
+
+Flags:
+M3_T11_036_CANONICAL=true
+M3_T11_SCALED_W_PARAMETER=true
+M3_T11_W_EQUALS_U_OVER_S=true
+M3_T11_W_FRESH_TRANSFER_COLLISION=true
+M3_T11_W_TRANSFER_COLLISION_PRODUCT=MREL2
+M3_T11_FIXED_W_ELLIPTIC_2TORSION=true
+M3_T11_FIXED_W_SINGULAR_PHYSICAL_VALUES_EXCLUDED=true
+M3_T11_FIXED_W_UNIFORM_BO1_CANDIDATE=true
+M3_T11_FIXED_W_UNIFORM_BO1_PROVED=false
+M3_T11_ACTIVE_W_SUPPORT_DEFICIT_PROVED=false
+M3_T11_ACTIVE_U_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=ScaledSymmetricWFreshTransferVsCollision
+NEXT_REQUIRED_AUDIT=M3-T11-037-fixed-w-elliptic-height
+
+
+
+
+## 45. Raw projective-content recovery of the scaled-w collision branch
+Status: NEW EXACT SAME-MEASURE RECEIVER / COLLISION CONTENT GLOBALIZED / COUNTING TAIL OPEN.
+
+
+Retain M3-T11-037 and write the exact unreduced integer presentation
+boxed:
+w=N_w/D_w,
+with
+N_w=T_3*D,
+D_w=T_1*T_2+T_3*D.
+Here D=B_1*B_2*B_3 is the anti-root cubic leading coefficient.
+
+
+Fix p^a||m_1 and q=p^(2a).
+Using the M3-T11-033 local normal form
+v_1=alpha,
+v_2=beta/q,
+v_3=gamma/q,
+with alpha,beta,gamma p-units, one may take locally
+B_1=1,
+B_2=B_3=q
+up to p-units.
+Then exactly
+N_w=alpha*beta*gamma*q^2,
+while
+D_w
+=
+q*
+[
+ beta*gamma*(beta+gamma)
+ +alpha*q*(beta^2+4*beta*gamma+gamma^2)
+ +alpha^2*q^2*(beta+gamma)
+].
+Let
+e=v_p(beta+gamma)=v_p(H_1).
+Therefore
+v_p(N_w)=4a,
+and, after capping at 4a,
+boxed:
+min(4a,v_p(D_w))
+=
+2a+min(2a,e).
+
+
+Hence exactly
+boxed:
+v_p(gcd(N_w,D_w,q^2))
+=
+2a+min(2a,e).
+
+
+Since q^2=p^(4a), cyclic CRT over pairwise-coprime m_i gives the global fresh identity
+boxed:
+gcd(N_w,D_w,M_rel^4)
+=
+M_rel^2*C_w,
+where
+C_w=product_i gcd(m_i^2,H_i)
+is the collision content from M3-T11-037.
+
+
+Equivalently, the baseline M_rel^2 projective content is forced by the three fresh anti-root denominator carriers, and C_w is exactly the extra fresh projective content lost when w is reduced.
+
+
+Combining
+Q_w*C_w=M_rel^2
+with the identity above gives the exact large-conductor dichotomy:
+A. Q_w>=M_rel:
+   a divisor >=M_rel survives in Num(w);
+B. C_w>=M_rel:
+   boxed:
+   gcd(N_w,D_w,M_rel^4)>=M_rel^3.
+
+
+Thus the collision branch is not invisible. It is a large raw projective-gcd tail.
+
+
+### 45.1 Firewall against reduced-w-only attacks
+The collision content cannot in general be recovered from the reduced rational value w alone.
+At e=2a the whole p^(2a) collision content can be canceled in reducing N_w/D_w while the reduced residue of w remains a generic p-unit.
+Therefore fixed-w elliptic compression and any theorem depending only on reduced w cannot by themselves close branch B.
+
+
+The correct branch-B object is the unreduced projective pair
+(T_3*D, T_1*T_2+T_3*D)
+with its extra fresh gcd.
+
+
+### 45.2 Arsenal applicability audit
+AR-014 is structurally adjacent but not directly applicable.
+It requires a proved square-divisor lock h^2|W with W fixed before the root-pair count.
+No such fixed outer W has yet been proved for the new projective content C_w.
+AR-015 is Stage14 proportional-branch specific and its 7/16 exponent does not transfer.
+
+
+Therefore no old exponent is imported.
+The new exact counting gate is:
+ScaledSymmetricWProjectiveContentTail.
+
+
+A sufficient next result would control, on the exact fixed-content active endpoint measure,
+the branch
+gcd(N_w,D_w,M_rel^4)>=M_rel^3
+with a fixed-power deficit, or produce a same-measure square-divisor lock that makes AR-014 legally reusable.
+
+
+Flags:
+M3_T11_W_RAW_PROJECTIVE_PAIR=true
+M3_T11_W_COLLISION_EQUALS_EXTRA_PROJECTIVE_CONTENT=true
+M3_T11_W_FRESH_GCD_IDENTITY=true
+M3_T11_W_LARGE_COLLISION_IMPLIES_MREL3_GCD=true
+M3_T11_REDUCED_W_ONLY_CLOSES_COLLISION=false
+M3_T11_W_PROJECTIVE_CONTENT_TAIL_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=ScaledSymmetricWProjectiveContentTail
+
+
+
+
+## 46. Collision-amplified common-u Gaussian norm
+Status: NEW EXACT SAME-MEASURE STRENGTHENING / RAW-GCD DETOUR ELIMINATED / MOVING SUPPORT OPEN.
+
+
+Retain M3-T11-035, M3-T11-037, and M3-T11-038.
+
+
+Fix p^a||m_1 and q=p^(2a).  In the M3-T11-033 local normalization
+v_1=alpha,
+v_2=beta/q,
+v_3=gamma/q,
+with alpha,beta,gamma p-units, one has
+T_1
+=
+q*(beta+gamma+alpha*q)
+up to a p-unit factor.
+Let
+e=v_p(beta+gamma)=v_p(H_1).
+Then exactly, after capping at p^(4a),
+boxed:
+min(4a,v_p(T_1))
+=
+2a+min(2a,e).
+
+
+But the p-part of C_w is precisely
+p^min(2a,e).
+Hence primewise
+boxed:
+gcd(T_1,p^(4a))
+=
+p^(2a)*gcd(p^(2a),H_1)
+up to p-units.
+Cyclic CRT gives the global exact fresh identity
+boxed:
+gcd(T_1,M_rel^4)
+=
+M_rel^2*C_w.
+
+
+Thus M3-T11-038 may be simplified:
+the extra projective content C_w is already exactly the excess fresh valuation of T_1 beyond the baseline M_rel^2.
+
+
+### 46.1 Pass to r=T_3/T_1
+M3-T11-033 gives
+gcd(T_3,M_rel)=1.
+Therefore reduction of
+r=T_3/T_1
+does not cancel any fresh prime, and
+boxed:
+gcd(Den(r),M_rel^4)
+=
+M_rel^2*C_w.
+
+
+This strictly strengthens the Section-41 statement
+M_rel^2|Den(r).
+
+
+### 46.2 Pass to the common-u Gaussian norm
+Write
+u=A_u/B_u
+in lowest terms.
+Section 41 gives
+r=4*A_u^2/(A_u^2+B_u^2)
+and
+Den(r)=(A_u^2+B_u^2)/g_u,
+where g_u in {1,2}.
+Since M_rel is odd, g_u is invisible at every fresh prime.
+Hence exactly
+boxed:
+gcd(A_u^2+B_u^2,M_rel^4)
+=
+M_rel^2*C_w.
+
+
+Therefore on the collision branch
+C_w>=M_rel
+one has the amplified common-u norm condition
+boxed:
+gcd(A_u^2+B_u^2,M_rel^4)>=M_rel^3.
+
+
+Equivalently, with
+L_u:=M_rel^2*C_w,
+one has
+L_u | A_u^2+B_u^2,
+gcd(B_u,L_u)=1,
+and hence a genuine Gaussian root line
+boxed:
+A_u == rho_u B_u mod L_u,
+rho_u^2 == -1 mod L_u.
+
+
+The baseline modulus M_rel^2 is already consumed by M3-T11-035.
+Only the incremental factor C_w is new collision information and may be charged in a later count.
+
+
+### 46.3 Consequence for the active dichotomy
+The M3-T11-037 conservation law
+Q_w*C_w=M_rel^2
+now has the sharper interpretation:
+A. Q_w>=M_rel:
+   large fresh support survives in Num(w);
+B. C_w>=M_rel:
+   the already-canonical common-u Gaussian root line is amplified from modulus M_rel^2 to modulus at least M_rel^3.
+
+
+Thus branch B no longer requires a separate raw projective-gcd counting theory.
+M3-T11-038 remains a correct exact identity, but its raw-gcd receiver is superseded as the preferred attack by the stronger same-coordinate common-u norm formulation.
+
+
+No global saving is claimed yet.
+A legal counting theorem must charge only the incremental C_w beyond the already-consumed baseline M_rel^2.
+
+
+Flags:
+M3_T11_W_COLLISION_IS_T1_EXCESS_FRESH_VALUATION=true
+M3_T11_COMMON_U_AMPLIFIED_MODULUS=true
+M3_T11_COMMON_U_COLLISION_MODULUS=MREL2_TIMES_CW
+M3_T11_LARGE_COLLISION_IMPLIES_COMMON_U_MREL3_MODULUS=true
+M3_T11_038_RAW_GCD_RECEIVER_SUPERSEDED=true
+M3_T11_COLLISION_INCREMENTAL_CW_SAVING_PROVED=false
+M3_T11_ACTIVE_U_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=CollisionAmplifiedCommonUGaussianSupport
+
+
+
+
+## 47. Fresh-conductor partition on the audited symmetric coordinates S and u
+Status: NEW EXACT SAME-MEASURE CONSERVATION LAW / w ELIMINATED AS LOAD-BEARING COORDINATE / MOVING SUPPORT OPEN.
+
+
+Retain Sections 43 and 46.
+The fixed-u and fixed-S multiplicity theorems are canonical after the M3-T11-036 hostile-audit PASS.
+
+
+Fix p^a||m_1 and q=p^(2a).
+As above,
+D=B_1*B_2*B_3
+has fresh p-valuation 4a,
+while
+T_1
+has capped valuation
+min(4a,v_p(T_1))
+=
+2a+min(2a,e),
+where
+e=v_p(H_1)=v_p(beta+gamma).
+
+
+Since
+S=T_1/D,
+the reduced denominator of S has fresh p-exponent
+boxed:
+v_p(Den(S))
+=
+2a-min(2a,e)
+on the fresh p-primary part.
+Therefore
+boxed:
+gcd(Den(S),p^(2a))
+=
+p^[2a-min(2a,e)]
+=
+p^(2a)/gcd(p^(2a),H_1).
+
+
+Cyclic CRT yields exactly
+boxed:
+gcd(Den(S),M_rel^2)=Q_w.
+
+
+Section 46 gave
+boxed:
+gcd(A_u^2+B_u^2,M_rel^4)=M_rel^2*C_w.
+
+
+Since
+Q_w*C_w=M_rel^2,
+the entire squared fresh conductor is now partitioned between two already-audited symmetric coordinates:
+boxed:
+gcd(Den(S),M_rel^2)
+*
+[
+gcd(A_u^2+B_u^2,M_rel^4)/M_rel^2
+]
+=
+M_rel^2.
+
+
+Define
+Q_S:=gcd(Den(S),M_rel^2),
+C_u:=gcd(A_u^2+B_u^2,M_rel^4)/M_rel^2.
+Then exactly
+boxed:
+Q_S*C_u=M_rel^2.
+
+
+### 47.1 Large-conductor dichotomy with no new coordinate
+For every endpoint on the large fresh branch,
+max(Q_S,C_u)>=M_rel.
+Thus:
+A. denominator branch:
+   Q_S>=M_rel,
+   so the reduced denominator of the canonical symmetric coordinate S contains fresh divisor >=M_rel;
+B. amplified-u branch:
+   C_u>=M_rel,
+   so the canonical common-u Gaussian norm is divisible by a fresh modulus
+   L_u=M_rel^2*C_u>=M_rel^3.
+
+
+Both target coordinates already have canonical fixed-fiber multiplicity B^o(1) from M3-T11-036:
+fixed S => B^o(1) physical endpoint states,
+fixed u => B^o(1) physical endpoint states.
+
+
+Therefore w is no longer needed as a load-bearing counting coordinate.
+M3-T11-037 remains useful as the discovery/router identity, and its fixed-w elliptic candidate remains mathematically valid pending its own audit, but Stage37's primary moving-support attack can now be formulated entirely on the audited pair (S,u).
+
+
+### 47.2 No-double-charge rule
+The baseline M_rel^2 divisibility of A_u^2+B_u^2 is already consumed by M3-T11-035.
+Only the excess factor C_u may be charged on branch B.
+On branch A, only the fresh divisor Q_S in Den(S) may be charged.
+Since Q_S*C_u=M_rel^2 prime-by-prime, these are complementary allocations of the same fresh conductor, not independent simultaneous savings.
+
+
+### 47.3 New minimal theorem gate
+A sufficient same-measure theorem may now be split into two explicit support tails:
+
+
+SymmetricSFreshDenominatorTail:
+count active realized S with
+gcd(Den(S),M_rel^2)>=M_rel
+strongly enough for a fixed-power deficit;
+
+
+CollisionAmplifiedCommonUGaussianTail:
+count active realized u with
+gcd(A_u^2+B_u^2,M_rel^4)>=M_rel^3
+while charging only the incremental factor beyond M_rel^2.
+
+
+If both tails are fixed-power small on the exact fixed-content endpoint measure, then
+SymmetricCommonUFullFreshRootLineSupportOneTwelfth closes.
+
+
+Flags:
+M3_T11_SYMMETRIC_S_FRESH_DENOMINATOR=true
+M3_T11_SYMMETRIC_SU_CONDUCTOR_PARTITION=true
+M3_T11_SYMMETRIC_SU_PRODUCT=MREL2
+M3_T11_W_LOAD_BEARING_REQUIRED=false
+M3_T11_FIXED_S_UNIFORM_BO1_PROVED=true
+M3_T11_FIXED_U_UNIFORM_BO1_PROVED=true
+M3_T11_S_DENOMINATOR_TAIL_PROVED=false
+M3_T11_COLLISION_INCREMENTAL_CW_SAVING_PROVED=false
+M3_T11_ACTIVE_U_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=AuditedSymmetricSUFreshConductorPartition
+NEXT_ATTACK=SymmetricSFreshDenominatorTail|CollisionAmplifiedCommonUGaussianTail
+
+
+
+
+## 48. Homogeneous symmetric (S,u) ramification and interior-fresh normalization
+Status: NEW EXACT SAME-MEASURE HOMOGENEOUS ADAPTER / LOCAL RAMIFICATION FIREWALL / GLOBAL FIXED-POWER SAVING OPEN.
+
+
+Retain the canonical M3-T11-031/035/036/040 symmetric incidence
+
+
+Y^2=-(1+u^2)Q(S,u),
+
+
+Q(S,u)
+=
+-4*S^2+S^4+48*S*u-16*S^3*u-16*u^2+44*S^2*u^2+S^4*u^2.
+
+
+Write the two canonical rational coordinates in lowest terms
+
+
+S=s/t,
+u=a/b,
+
+
+with gcd(s,t)=gcd(a,b)=1, and put
+
+
+N_u=a^2+b^2.
+
+
+Define the integral binary quartic
+
+
+Phi(s,t;a,b)
+=
+N_u*s^4
+-16*a*b*s^3*t
++(44*a^2-4*b^2)*s^2*t^2
++48*a*b*s*t^3
+-16*a^2*t^4.
+
+
+Then exactly
+
+
+Q(S,u)=Phi/(t^4*b^2).
+
+
+Since the physical split-cubic discriminant is a rational square, there is an integer W satisfying
+
+
+boxed:
+W^2=-N_u*Phi.
+
+
+The integrality of W follows because the right side is an integer which is a rational square.
+
+
+### 48.1 Exact Gaussian-norm division identity
+
+
+Direct polynomial division gives
+
+
+boxed:
+Phi
+=
+N_u*(s^4+44*s^2*t^2-16*t^4)
+-16*b*t*
+(
+ a*s^3
+ +3*b*s^2*t
+ -3*a*s*t^2
+ -b*t^3
+).
+
+
+Let
+
+
+H=a*s^3+3*b*s^2*t-3*a*s*t^2-b*t^3.
+
+
+Fix an odd split prime p|N_u and an oriented p-adic root rho with
+
+
+a == rho*b mod p^h,
+rho^2 == -1 mod p^h.
+
+
+Then
+
+
+boxed:
+H == b*rho*(s-rho*t)^3 mod p^h.
+
+
+In particular, modulo p,
+
+
+boxed:
+Phi == -16*b^2*rho*t*(s-rho*t)^3 mod p.
+
+
+The exact resultant is
+
+
+boxed:
+Res_a(Phi,a^2+b^2)
+=
+256*b^4*t^2*(s^2+t^2)^3.
+
+
+Thus the reduction at a Gaussian-norm prime is not generic: it is one simple denominator component t=0 together with one triple Gaussian root line s=rho*t.
+
+
+### 48.2 Insert the M3-T11-040 fresh-conductor allocation
+
+
+Fix p^lambda || m_i in the fresh relative conductor M_rel.
+Let
+
+
+c_p = v_p(C_u),  0<=c_p<=2*lambda,
+k_p = v_p(Q_S)=2*lambda-c_p,
+
+
+where
+
+
+Q_S=gcd(Den(S),M_rel^2),
+C_u=gcd(N_u,M_rel^4)/M_rel^2.
+
+
+M3-T11-040 gives k_p+c_p=2*lambda.
+
+
+Also
+
+
+min(4*lambda,v_p(N_u))
+=
+2*lambda+c_p.
+
+
+Since the fresh p-part of Den(S) is p^k_p, the homogeneous identity above gives primewise
+
+
+boxed:
+v_p(Phi)>=k_p.
+
+
+Indeed:
+- if c_p=2*lambda, then k_p=0 and this is trivial;
+- if c_p=0, both terms in the exact division identity are divisible by p^(2*lambda);
+- if 0<c_p<2*lambda, then v_p(N_u)=2*lambda+c_p>k_p, while t has exact valuation k_p and s-rho*t is a p-unit, so
+
+
+boxed:
+v_p(Phi)=k_p.
+
+
+Therefore globally on the fresh support,
+
+
+boxed:
+Q_S | Phi,
+
+
+while M3-T11-039/040 already gives
+
+
+boxed:
+M_rel^2*C_u | N_u.
+
+
+Using Q_S*C_u=M_rel^2,
+
+
+boxed:
+M_rel^4 | N_u*Phi.
+
+
+Hence the square ordinate has a canonical fresh normalization
+
+
+boxed:
+M_rel^2 | W.
+
+
+Define the integers
+
+
+N_* = N_u/(M_rel^2*C_u),
+Phi_* = Phi/Q_S,
+W_* = W/M_rel^2.
+
+
+Then exactly
+
+
+boxed:
+W_*^2=-N_*Phi_*.
+
+
+### 48.3 Interior fresh primes are primitive after the forced conductor is removed
+
+
+Call p interior when
+
+
+0<c_p<2*lambda.
+
+
+For every such p, the exact valuations above give
+
+
+boxed:
+p does not divide N_*Phi_*W_*.
+
+
+Equivalently, if
+
+
+M_int
+=
+product over interior p^lambda,
+
+
+then
+
+
+boxed:
+gcd(W_*,M_int)=1.
+
+
+Thus every interior fresh prime is completely consumed by the already-recorded M3-T11-040 conductor allocation.  There is no residual fresh p-content left in the normalized square ordinate from which another valuation-density saving could legally be charged.
+
+
+The only fresh primes that can remain in the residual p-content of N_* or Phi_* are the extreme allocation primes
+
+
+c_p=0
+or
+c_p=2*lambda.
+
+
+This is an exact no-double-charge firewall, not a global counting theorem.
+
+
+### 48.4 Residual unit character on an interior prime
+
+
+The normalized square identity still leaves one unit-squareclass condition.
+
+
+Cyclically label the p-targeted anti-root system locally as
+
+
+v_i=alpha,
+v_j=beta/p^(2*lambda),
+v_k=gamma/p^(2*lambda),
+
+
+with alpha,beta,gamma p-adic units.
+For an interior prime let rho be the oriented reduction of the common parameter u, so rho^2==-1 mod p.
+
+
+Then the leading terms of N_* and Phi_* in the exact normalized square identity give
+
+
+boxed:
+chi_p(-rho*alpha*beta*gamma)=+1.
+
+
+Equivalently, since
+
+
+P=v_1*v_2*v_3
+and
+Pi_p:=p^(4*lambda)*P
+
+
+is a p-adic unit,
+
+
+boxed:
+chi_p(-rho*Pi_p)=+1.
+
+
+This is a genuine residual local selector on the pushed-forward symmetric (S,u) incidence after all forced valuation content is removed.
+
+
+It does NOT by itself yield a fixed-power theorem.
+Even under hypothetical independence, one binary condition per distinct interior prime would supply only the scale
+
+
+2^(-omega(M_int))=M_int^(-o(1))
+
+
+uniformly in the worst case, not M_int^(-delta) for fixed delta>0.
+
+
+Therefore a successful use of t

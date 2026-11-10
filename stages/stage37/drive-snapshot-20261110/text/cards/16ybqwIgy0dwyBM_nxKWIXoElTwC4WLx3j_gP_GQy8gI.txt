@@ -1,0 +1,410 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229AZ — four-line CRT lattice and crossed matching joint root count
+
+
+STATUS: POST_229AY_ROOT_LINE_NETWORK_COMPLETE / PROVED_SINGLE_4D_CRT_LATTICE_INDEX_EQUALS_GODD / PROVED_Q_MATCHING_AND_P_MATCHING_JOINT_ROOT_COUNTS / PROVED_FIXED_G_SAME_PHYSICAL_ROOT_SUPPORT_BOUND / IDENTIFIED_TWO_FREE_ROOT_FLOOR_AS_CURRENT_AR009_LIMIT / NO_COUNTING_PROMOTION / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_GLOBAL_REOPEN
+
+
+TYPE: POST-229AY JOINT ROOT-LINE LATTICE / EXACT CRT INDEX / CROSSED QP MATCHING COUNT / SAME-MEASURE AR009 NETWORK / QUANTITATIVE FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229AY
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 16ybqwIgy0dwyBM_nxKWIXoElTwC4WLx3j_gP_GQy8gI
+
+
+1. Scope
+
+
+This card continues the requested Arsenal re-evaluation by replacing four separate AR-009 line events with one exact same-measure lattice.
+
+
+Retain 229AY notation:
+  a=A_-,
+  b=A_+,
+  c=C_-,
+  d=C_+,
+which are pairwise coprime odd positive integers.
+
+
+Retain central roots
+  x0,x1,x2,x3
+from
+  lambda = eta0 a c x0^2,
+  S      = eta1 b d x1^2,
+  Lm     = eta2 a d x2^2,
+  Lp     = eta3 b c x3^2.
+
+
+Retain one charged orientation choice for each raw-power root line:
+  x1 == rho_a x3 mod a,
+  x0 == rho_b x2 mod b,
+  x1 == rho_c x2 mod c,
+  x0 == rho_d x3 mod d.                            (229AZ.1)
+
+
+The total number of orientation choices is at most
+  2^(omega(abcd)) = B^o(1).
+
+
+Define
+  G := abcd = (G_*)_odd,
+and retain the 229AS crossed matchings
+  Q_- = ac,
+  Q_+ = bd,
+  P_- = ad,
+  P_+ = bc,
+so
+  Q_-Q_+ = P_-P_+ = G.                             (229AZ.2)
+
+
+2. One four-dimensional CRT lattice
+
+
+For fixed atom data and fixed orientations rho, define
+  L_rho subset Z^4
+by the four homogeneous congruences (229AZ.1).
+
+
+Consider the homomorphism
+  Phi: Z^4 -> Z/a x Z/b x Z/c x Z/d
+given by
+  Phi(x0,x1,x2,x3)
+   = (x1-rho_a x3,
+      x0-rho_b x2,
+      x1-rho_c x2,
+      x0-rho_d x3).                                (229AZ.3)
+
+
+Phi is surjective.
+
+
+Indeed, for arbitrary target residues:
+- set x2=x3=0;
+- choose x1 by CRT to hit independently the residues modulo a and c;
+- choose x0 by CRT to hit independently the residues modulo b and d.
+
+
+Pairwise coprimality of a,b,c,d is exactly the needed hypothesis.
+
+
+Therefore
+  L_rho = ker Phi
+has exact lattice index
+  [Z^4 : L_rho] = abcd = G.                        (229AZ.4)
+
+
+RESULT_229AZ_FOUR_LINE_CRT_LATTICE_INDEX=GODD_PROVED_EXACT.
+
+
+This is the correct joint interpretation of the four 229AY root lines. No multiplication of heuristic local densities is used.
+
+
+3. Q-matching joint count
+
+
+Let the four roots lie in positive intervals/dyadic boxes of lengths/scales
+  X0,X1,X2,X3.
+
+
+Fix x2 and x3.
+
+
+The two congruences involving x1 are
+  x1 == rho_a x3 mod a,
+  x1 == rho_c x2 mod c.
+By CRT there is exactly one residue class modulo
+  ac=Q_-.
+
+
+Hence the number of admissible x1 in its interval is
+  O(1+X1/Q_-).
+
+
+Likewise the two congruences involving x0 give exactly one residue class modulo
+  bd=Q_+,
+so there are
+  O(1+X0/Q_+)
+choices for x0.
+
+
+Therefore
+  N_rho(X)
+   << X2 X3
+      (1+X1/Q_-)
+      (1+X0/Q_+).                                  (229AZ.5)
+
+
+RESULT_229AZ_Q_MATCHING_JOINT_ROOT_COUNT=PROVED_EXACT.
+
+
+This is a same-lattice joint count. The two Q moduli are not charged as independent endpoint probabilities.
+
+
+4. P-matching joint count
+
+
+Instead fix x0 and x1.
+
+
+The two congruences determining x2 are
+  x2 == rho_b^{-1} x0 mod b,
+  x2 == rho_c^{-1} x1 mod c,
+hence one residue class modulo
+  bc=P_+.
+
+
+The two congruences determining x3 give one residue class modulo
+  ad=P_-.
+
+
+Therefore
+  N_rho(X)
+   << X0 X1
+      (1+X2/P_+)
+      (1+X3/P_-).                                  (229AZ.6)
+
+
+RESULT_229AZ_P_MATCHING_JOINT_ROOT_COUNT=PROVED_EXACT.
+
+
+The swapped P signs are structural:
+x2 belongs to the Lm coefficient P_- but is controlled modulo the opposite matching P_+;
+x3 belongs to the Lp coefficient P_+ but is controlled modulo P_-.
+
+
+5. Physical root-size input
+
+
+The central forms are O(B). Therefore every nonempty dyadic root box satisfies
+  Q_- X0^2 << B,
+  Q_+ X1^2 << B,
+  P_- X2^2 << B,
+  P_+ X3^2 << B.                                  (229AZ.7)
+
+
+Since Q_-Q_+=P_-P_+=G,
+  X0 X1 << B/sqrt(G),
+  X2 X3 << B/sqrt(G),                              (229AZ.8)
+and
+  X0X1X2X3 << B^2/G.                               (229AZ.9)
+
+
+Insert these into (229AZ.5). After expansion,
+  N_rho(X)
+   << B/sqrt(G)
+      + B^(3/2)/G * (Q_-^(-1/2)+Q_+^(-1/2))
+      + B^2/G^2.                                   (229AZ.10)
+
+
+Likewise (229AZ.6) gives
+  N_rho(X)
+   << B/sqrt(G)
+      + B^(3/2)/G * (P_-^(-1/2)+P_+^(-1/2))
+      + B^2/G^2.                                   (229AZ.11)
+
+
+Thus one may take the better matching:
+  N_rho(X)
+   << B/sqrt(G)
+      + B^(3/2)/G * M_QP
+      + B^2/G^2,                                   (229AZ.12)
+where
+  M_QP :=
+   min(
+     Q_-^(-1/2)+Q_+^(-1/2),
+     P_-^(-1/2)+P_+^(-1/2)
+   ).
+
+
+RESULT_229AZ_CROSSED_MATCHING_QUANTITATIVE_BOUND=PROVED_EXACT_UP_TO_ABSOLUTE_DYADIC_CONSTANTS.
+
+
+All omitted physical equations and the exact additive central-form relation only reduce this root count.
+
+
+6. Fixed-G same-physical count
+
+
+Fix an odd raw content value
+  G=(G_*)_odd.
+
+
+Because a,b,c,d are pairwise coprime with product G, the number of ordered atom allocations is at most
+  4^omega(G)=G^o(1).
+
+
+The dyadic decomposition and four root-orientation choices together cost B^o(1).
+
+
+Retain 229AY that the seven-coordinate central-root support has physical fiber at most 16.
+
+
+Therefore the number of positive primitive physical endpoints with a fixed value G and lying in a fixed root-size range obeys the same bound (229AZ.12) up to B^o(1).
+
+
+In particular, discarding matching balance,
+  N_G(B)
+   << B^o(1)
+      [ B/sqrt(G)
+        + B^(3/2)/G
+        + B^2/G^2 ].                               (229AZ.13)
+
+
+RESULT_229AZ_FIXED_RAW_G_SAME_PHYSICAL_COUNT=PROVED_SCOPED.
+
+
+This is a genuine endpoint-side fixed-G estimate. It is not yet summable with the strength needed for the global one-third gate.
+
+
+7. Why this improves the route but does not close it
+
+
+229AY supplied four individual high-core AR-009 collapses.
+
+
+229AZ shows that one can do better conceptually:
+- all four congruences live in one exact index-G lattice;
+- the Q and P crossed matchings are two complementary CRT coordinatizations of that same lattice;
+- density is never multiplied across different measures;
+- fixed-G atom allocation and orientation costs are only B^o(1).
+
+
+However the terms
+  B/sqrt(G)
+and
+  B^(3/2)/G
+in (229AZ.13) remain too large at the preferred threshold
+  sf(G_*) > B^(1/3-delta).
+
+
+Moreover summing the fixed-G bound over all possible moving G values is not controlled by (229AZ.13) alone.
+
+
+Thus:
+  AR009_NETWORK_REENTRY = GENUINE,
+  GLOBAL_ONE_THIRD_GATE_CLOSED = false.
+
+
+8. The precise new blocker
+
+
+The leading term
+  B/sqrt(G)
+comes from leaving two central roots free after the CRT lattice has determined the other two modulo Q or P.
+
+
+But every physical root tuple also satisfies the exact central additive equation
+  eta0 Q_- x0^2
+  + eta1 Q_+ x1^2
+  =
+  eta2 P_- x2^2
+  + eta3 P_+ x3^2.                                (229AZ.14)
+
+
+Equation (229AZ.14) was not used in the lattice count.
+
+
+Therefore the next non-looping quantitative target is now sharply identified:
+
+
+  count lattice points of L_rho
+  on the exact diagonal quadric (229AZ.14)
+  in the physical dyadic root box,
+  uniformly in moving pairwise-coprime a,b,c,d,
+  while preserving the exact R<=B reconstruction.
+
+
+A theorem that only reuses the determinant/index G and ignores (229AZ.14) cannot remove the two-free-root floor already visible in (229AZ.13).
+
+
+RESULT_229AZ_CURRENT_BLOCKER=CRT_LATTICE_INTERSECT_EXACT_MOVING_SPLIT_QUADRIC.
+
+
+9. Arsenal reassessment consequence
+
+
+AR-009:
+  upgraded from four isolated high-core lines to an exact four-line index-G lattice with joint Q/P counts.
+
+
+AR-018:
+  orientation data are charged once globally through rho_a,rho_b,rho_c,rho_d; no second saving is assigned.
+
+
+S37-PW01:
+  229AY constant-fiber root support transfers any valid count on the lattice/quadric support back to physical endpoints with O(1) multiplicity.
+
+
+S36-PW07:
+  229AY all-odd character matrix remains an additional necessary support filter on the same atom data.
+
+
+S34-W01/W03:
+  still not automatically triggered by (229AZ.14), because coefficients/atom squareclasses move. They become relevant only if a finite exact branch reduction of the moving quadric packet is obtained.
+
+
+S35-PW04:
+  remains not triggered by 229AY's ratio identities; no strict iff coordinate compression has been produced.
+
+
+10. Preferred next input after the review
+
+
+Priority A:
+  moving-coefficient diagonal-quadric lattice count for (229AZ.14) inside L_rho, with a bound strong enough after summing atom data to beat B^(1/3).
+
+
+Priority B:
+  exact parameterization/factorization of (229AZ.14) that respects L_rho and reduces the two-free-root floor without enlarging the physical population.
+
+
+Priority C:
+  use 229AY inert-visible character rows jointly with the lattice/quadric count; do not charge them independently.
+
+
+Priority D:
+  theorem search only through S37-WF02 with exact variables
+    (a,b,c,d,x0,x1,x2,x3),
+  determinant/index G,
+  diagonal coefficients eta0Q_-,eta1Q_+,eta2P_-,eta3P_+,
+  and physical height R<=B.
+
+
+11. Firewalls and unchanged state
+
+
+Do not:
+- multiply four line densities;
+- count arbitrary index-G lattice points and call them physical endpoints without the constant-fiber source map;
+- sum (229AZ.13) over G and claim a tail bound without an actual summation theorem;
+- forget the moving diagonal quadric (229AZ.14);
+- replace raw G by sf(G) in the lattice determinant;
+- infer independence from the two Q/P coordinatizations, since they are the same lattice;
+- reopen S34/S35 routes merely from factor-shape similarity.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=SCOPED_AR009_JOINT_LATTICE_REENTRY.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_OPERATION=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+INTEGRATED_AUDIT_186_229O_SCOPE_UNCHANGED=true.
+
+
+12. Writeback
+
+
+This card adds:
+- exact index-G four-line CRT lattice structure;
+- exact Q/P crossed matching joint counts;
+- a scoped fixed-G same-physical endpoint bound;
+- a sharpened next blocker: moving split-diagonal-quadric points inside the exact CRT lattice.
+
+
+No authority, global counting credit, primary gate, closure, HOLD state, or integrated-audit scope changes.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

@@ -1,0 +1,3590 @@
+_n/C_n)^2
+with A_n,C_n>0 and gcd(A_n,C_n)=1.
+
+
+Section 74 proves the exact divisibility routers
+3|C_n iff 4|n,
+5|C_n iff 12|n,
+7|C_n iff 3|n.
+Those statements do not determine the unit squareclasses (C_n|p).
+
+
+Exact rational multiplication gives:
+C_1=1,
+C_9=57369809,
+C_10=2692585801,
+C_13=21024997727248007.
+Hence:
+- modulo 3, 1==9 mod4 but (C_1|3)=+1 and (C_9|3)=-1 because C_9==2 mod3;
+- modulo 5, 1==13 mod12 but (C_1|5)=+1 and (C_13|5)=-1 because C_13==2 mod5;
+- modulo 7, 1==10 mod3 but (C_1|7)=+1 and (C_10|7)=-1 because C_10==3 mod7.
+All displayed denominators are p-adic units at the relevant prime.
+
+
+Therefore the quotient classes E2(Q_p)/E_1(Q_p), and the corresponding reduction-kernel orders from Section 74, control only the predicate p|C_n. They do not determine the Legendre character of the globally normalized positive denominator C_n.
+
+
+This is the exact normalization obstruction behind the warning in M3-T11-066. A p-adic point or formal-group displacement can determine local coordinates, but the required Legendre character is attached to the globally normalized denominator after cancellation. A proof on the four M-progressions must therefore carry that normalization data explicitly.
+
+
+The firewall is narrow: it does not rule out periodic or finite-state character laws on
+n==+/-2 mod M, epsilon=0,
+n==+/-1 mod M, epsilon=1,
+M=2656080.
+It rejects only the shortcut
+"same bad-prime reduction class => same denominator character".
+
+
+The next first attack is therefore:
+X27Over40NormalizedDenominatorUnitRecurrenceOnFourMWSurvivorProgressions.
+
+
+Acceptable mechanisms include a normalized division-polynomial unit recurrence, an elliptic-divisibility-sequence unit law with exact bad-prime cancellation factors, or another exact global recurrence that survives the epsilon=1 torsion shift U(P+T)=562500/U(P). Reduction-kernel periodicity alone is not sufficient.
+
+
+No rational-point classification, fixed-power saving, primary theorem-gate closure, or P/M3 credit is promoted.
+M3_T11_X_27_OVER_40_REDUCTION_KERNEL_CHARACTER_SHORTCUT_REJECTED=true
+M3_T11_X_27_OVER_40_NORMALIZED_DENOMINATOR_UNIT_REQUIRED=true
+M3_T11_X_27_OVER_40_MW_LIVE_PROGRESSIONS=4
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40NormalizedDenominatorUnitRecurrenceOnFourMWSurvivorProgressions
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+ROUTE_CARD=M3-T11-068
+
+
+## 76. M3-T11-069 — exact odd-bad-prime EDS normalization and 2-adic residual isolation
+Status: NEW EXACT NORMALIZATION STRUCTURE / ODD BAD-PRIME CANCELLATION CLOSED / 2-ADIC UNIT-NORMALIZATION STILL OPEN / GLOBAL RATIONAL-POINT CLASSIFICATION STILL OPEN.
+
+
+Retain M3-T11-068. Let
+E2: V^2=U*(U^2+1244*U+562500),
+Q=(50,5600),
+and let
+W_n=psi_n(Q)
+be the integral division-polynomial elliptic divisibility sequence. Write the canonical root coordinate of nQ as
+U(nQ)=d0*(A_n/C_n)^2,
+with A_n,C_n>0, gcd(A_n,C_n)=1.
+Thus C_n is exactly the positive square-root denominator D_n of the x-coordinate in the standard EDS denominator notation.
+
+
+The discriminant and c4 are
+Delta=-2^19*3^4*5^12*7^3,
+c4=-2^6*11*3181.
+Hence the retained integral model is minimal and multiplicative at p=3,5,7. The reduction of Q is nonsingular at p=3 and singular at p=5,7:
+p=3: Qbar=(2,2), with nonzero gradient;
+p=5: Qbar=(0,0), singular;
+p=7: Qbar=(1,0), singular.
+
+
+Use Katherine E. Stange, "Integral Points on Elliptic Curves and Explicit Valuations of Division Polynomials", Canadian Journal of Mathematics 68 (2016), Theorem 9.3 and the denominator comparison in the proof of Lemma 11.4. For multiplicative reduction with singular P,
+v_p(W_n)=R_n(a_p,l_p)+v_p(D_n),
+where l_p=v_p(Delta) and R_n is the elliptic troublemaker sequence. For nonsingular reduction the cancellation term is zero.
+
+
+For p=3 this gives exactly
+boxed:
+v_3(W_n)=v_3(C_n).
+
+
+For p=5 one has l_5=12. Since W_2=11200 and C_2=1,
+v_5(W_2)-v_5(C_2)=2.
+The troublemaker parameter is therefore a_5=2 or 10; the two choices give the same sequence by a<->l-a symmetry. Hence
+boxed:
+v_5(W_n)-v_5(C_n)=R_n(2,12).
+
+
+For p=7 one has l_7=3. Again W_2=11200 and C_2=1, so
+v_7(W_2)-v_7(C_2)=1.
+Thus a_7=1 or 2, again the same troublemaker sequence, and
+boxed:
+v_7(W_n)-v_7(C_n)=R_n(1,3).
+
+
+At every prime outside {2,5,7}, Q has nonsingular reduction for the purpose of the W_n/C_n cancellation, including p=3. Therefore if
+e_2(n):=v_2(W_n)-v_2(C_n),
+then the global normalization is exactly
+boxed:
+|W_n|=C_n*2^{e_2(n)}*5^{R_n(2,12)}*7^{R_n(1,3)}.
+No unspecified odd-prime cancellation factor remains.
+
+
+The troublemaker sequence is
+R_n(a,l)=[n^2*a0*(l-a0)-r*(l-r)]/(2l),
+where a0 is the least nonnegative residue of a mod l and r is the least nonnegative residue of n*a mod l; the displayed quotient is integral.
+
+
+### 76.1 Consequence on the four M3-T11-067 Mordell-Weil progressions
+M=2656080 is divisible by 24 and by 6. Therefore the parity of both exact odd-prime correction exponents is fixed on each live progression. Directly from the closed troublemaker formula:
+R_n(2,12) is even on n==+/-1,+/-2 (mod M);
+R_n(1,3) is even on n==+/-1 (mod M);
+R_n(1,3) is odd on n==+/-2 (mod M).
+
+
+Thus the p=5 cancellation factor contributes a rational-square factor on every live progression. The p=7 cancellation factor contributes a fixed squareclass: trivial on the epsilon=1, n==+/-1 branches and [7] on the epsilon=0, n==+/-2 branches.
+
+
+This is an exact global-normalization bridge. It does not yet determine the required denominator characters because the 2-adic correction e_2(n), and the corresponding normalized EDS unit residues after exact division by the p-adic factors, still have to be controlled.
+
+
+### 76.2 2-adic diagnostic, not promoted
+Exact integer EDS computation for 1<=n<=20 gives
+e_2(n)=0,6,13,26,39,58,78,104,130,162,195,234,273,318,364,416,468,526,585,650.
+On this range it agrees identically with
+5*R_n(1,2)+R_n(1,4).
+This finite match is DIAGNOSTIC ONLY. It is not promoted to a theorem because p=2 is the additive-potential-multiplicative place and requires an exact Theorem-10.1/local-model derivation or another proof valid for all n.
+
+
+### 76.3 Next non-duplicative task
+The first attack is narrowed to:
+boxed:
+X27Over40TwoAdicTroublemakerNormalizationThenUnitRecurrence.
+
+
+First prove or refute, for all n,
+e_2(n)=5*R_n(1,2)+R_n(1,4),
+by an exact 2-adic minimal-model / potential-multiplicative calculation. If proved, transport the resulting fully explicit normalization into the four live progressions and compute the normalized EDS unit squareclasses modulo 3,5,7. Do not reopen the already-closed p=5 and p=7 valuation correction.
+
+
+No rational-point classification, fixed-power saving, primary theorem-gate closure, or P/M3 credit is promoted.
+
+
+M3_T11_X_27_OVER_40_ODD_BAD_PRIME_EDS_NORMALIZATION_EXACT=true
+M3_T11_X_27_OVER_40_P3_EDS_DENOMINATOR_VALUATIONS_EQUAL=true
+M3_T11_X_27_OVER_40_P5_TROUBLEMAKER_R_2_12=true
+M3_T11_X_27_OVER_40_P7_TROUBLEMAKER_R_1_3=true
+M3_T11_X_27_OVER_40_GLOBAL_NORMALIZATION_REDUCED_TO_P2=true
+M3_T11_X_27_OVER_40_P2_TROUBLEMAKER_FORMULA_PROVED=false
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40TwoAdicTroublemakerNormalizationThenUnitRecurrence
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+ROUTE_CARD=M3-T11-069
+
+
+
+
+## 77. M3-T11-070 — exact 2-adic troublemaker normalization and fully explicit EDS denominator normalization
+Status: NEW EXACT THEOREM / P=2 NORMALIZATION CLOSED / UNIT-CHARACTER RECURRENCE STILL OPEN / GLOBAL RATIONAL-POINT CLASSIFICATION STILL OPEN.
+
+
+
+
+Retain M3-T11-069. Let
+E2: V^2=U*(U^2+1244*U+562500),
+Q=(50,5600),
+W_n=psi_n(Q),
+and write
+U(nQ)=d0*(A_n/C_n)^2
+with d0 in {1,2}, A_n,C_n>0, gcd(A_n,C_n)=1.
+
+
+
+
+The diagnostic formula from Section 76 is now proved for every n:
+boxed:
+e_2(n):=v_2(W_n)-v_2(C_n)
+=
+5*R_n(1,2)+R_n(1,4).
+
+
+
+
+This closes the only remaining valuation-normalization gap from M3-T11-069.
+
+
+
+
+### 77.1 Potential-multiplicative transfer and the transformed component
+
+
+
+
+For the retained integral model,
+v_2(Delta)=19,
+v_2(c4)=6,
+hence
+v_2(j)=3*6-19=-1.
+
+
+
+
+Apply Stange, Theorem 10.1. There is a finite extension L/Q_2 of ramification degree d|24, a valuation v1 with v1|_Q2=d*v_2, and an isomorphism to a minimal multiplicative model E' such that, for the transformed EDS W'_n,
+boxed:
+d*v_2(W_n)
+=
+(3/2)*d*(n^2-1)+v1(W'_n).
+
+
+
+
+Exact division-polynomial evaluation at Q gives
+W_2=11200,
+v_2(W_2)=6,
+
+
+W_3=-307328000000,
+v_2(W_3)=13,
+
+
+W_4=-4956585984000000000000,
+v_2(W_4)=27.
+
+
+
+
+Therefore, writing
+u_n:=v1(W'_n),
+one has exactly
+u_2=3d/2,
+u_3=d,
+u_4=9d/2.
+
+
+
+
+The transformed point Q' has singular multiplicative reduction.
+
+
+
+
+Indeed, if Q' had nonzero nonsingular reduction of order n_P>1, Theorem 6.1 would force n_P to divide every n with u_n>0. Since u_2,u_3>0, this would force n_P|gcd(2,3)=1, impossible.
+
+
+
+
+If instead Q' reduced to the identity, put z=-x/y in the formal group. Then v1(z)>0 and, because 3 is a 2-adic unit,
+v1([3]z)=v1(z).
+The identity-reduction formula in the proof of Theorem 6.1 gives
+u_3
+=
+(v1(x(Q'))/2)*9+v1([3]z)
+=
+-9*v1(z)+v1(z)
+=
+-8*v1(z)<0,
+contradicting u_3=d>0.
+
+
+
+
+Thus Theorem 9.3 applies in its singular multiplicative form. Its Tate length is
+ell=-v1(j)=d.
+Write a for the component parameter. Then
+u_n=R_n(a,d)+T_n.
+
+
+
+
+By the troublemaker bound,
+R_2(a,d)<=d/2.
+Since u_2=3d/2, one has T_2>0. Therefore the reduction order n_P divides 2. Singularity gives n_P>1, hence
+boxed:
+n_P=2.
+
+
+
+
+The component order d/gcd(a,d) divides n_P and is >1, so it is exactly 2. Therefore
+boxed:
+a=d/2.
+
+
+
+
+By homogeneity of the troublemaker sequence,
+boxed:
+R_n(a,d)=(d/2)*R_n(1,2).
+
+
+
+
+At n=2,
+R_2(a,d)=d/2,
+so
+T_2=d.
+Hence the formal-sequence parameter in Theorem 9.3 is
+s=d.
+
+
+
+
+For the multiplicative formal sequence one has
+p=2,
+b=2,
+v1(2)=d,
+h=0.
+Since s=d, Definition 5.3 has j=0.
+
+
+
+
+At n=4,
+R_4(a,d)=2d,
+so
+T_4=u_4-R_4=5d/2.
+For k=n/n_P=2, Definition 5.3 gives
+T_4=s+d+w=2d+w.
+Thus
+boxed:
+w=d/2.
+
+
+
+
+Consequently the transformed correction term is exact:
+- n odd: T_n=0;
+- n=2k with k odd: T_n=d;
+- n=2k with k even:
+  T_n=d*(v_2(k)+3/2).
+
+
+
+
+Substitution into Theorem 10.1 yields the exact all-n valuation
+boxed:
+v_2(W_n)
+=
+13*(n^2-1)/8,
+if n is odd;
+
+
+v_2(W_n)
+=
+(13*n^2-4)/8,
+if n==2 mod 4;
+
+
+v_2(W_n)
+=
+13*n^2/8+v_2(n)-1,
+if 4|n.
+
+
+
+
+### 77.2 Exact 2-adic denominator root C_n
+
+
+
+
+The first four exact multiples of Q are
+Q=(50,5600),
+
+
+2Q=(2500,-157500),
+
+
+3Q=(31250/49,11500000/343),
+
+
+4Q=(105625/324,-109143125/5832).
+
+
+
+
+Thus Q,2Q,3Q are not in the formal kernel E_1(Q_2), while 4Q is. Therefore the class of Q in E(Q_2)/E_1(Q_2) has exact order 4:
+boxed:
+nQ in E_1(Q_2)
+iff
+4|n.
+
+
+
+
+For 4Q,
+z(4Q)=-x(4Q)/y(4Q)=234/13433,
+so
+boxed:
+v_2(z(4Q))=1.
+
+
+
+
+If 4 does not divide n, x(nQ) is 2-adically integral, hence
+v_2(C_n)=0.
+
+
+
+
+Now let n=4k. On the original integral minimal model, a1=a3=0. Therefore the formal multiplication series satisfies
+[2]z=2z+O(z^3)
+with integral higher coefficients.
+For v_2(z)>=1, the linear term has strictly smallest valuation, so
+v_2([2]z)=v_2(z)+1.
+
+
+
+
+For odd k,
+[k]z=kz+O(z^2),
+hence
+v_2([k]z)=v_2(z).
+
+
+
+
+Starting from v_2(z(4Q))=1 gives
+boxed:
+v_2(z(nQ))=1+v_2(k)=v_2(n)-1
+for 4|n.
+
+
+
+
+Inside E_1, v_2(x)=-2*v_2(z), and C_n is the positive square-root denominator of the canonical root coordinate. Therefore
+boxed:
+v_2(C_n)
+=
+0,
+if 4 does not divide n;
+
+
+v_2(C_n)
+=
+v_2(n)-1,
+if 4|n.
+
+
+
+
+### 77.3 Closed p=2 correction
+
+
+
+
+Subtracting Section 77.2 from Section 77.1 gives
+boxed:
+e_2(n)=v_2(W_n)-v_2(C_n)
+=
+13*(n^2-1)/8,
+if n is odd;
+
+
+e_2(n)
+=
+(13*n^2-4)/8,
+if n==2 mod 4;
+
+
+e_2(n)
+=
+13*n^2/8,
+if 4|n.
+
+
+
+
+Directly from Definition 8.1,
+R_n(1,2)
+=
+(n^2-1)/4 for n odd,
+n^2/4 for n even,
+
+
+and
+R_n(1,4)
+=
+3*(n^2-1)/8 for n odd,
+(3*n^2-4)/8 for n==2 mod4,
+3*n^2/8 for 4|n.
+
+
+
+
+Hence in all three residue classes,
+boxed:
+e_2(n)=5*R_n(1,2)+R_n(1,4).
+
+
+
+
+This proves the M3-T11-069 diagnostic for every positive integer n.
+
+
+
+
+Combining with the already-proved p=3,5,7 formulas gives the fully explicit global denominator normalization
+boxed:
+|W_n|
+=
+C_n
+*2^(5*R_n(1,2)+R_n(1,4))
+*5^R_n(2,12)
+*7^R_n(1,3).
+
+
+
+
+There is now no unspecified valuation-cancellation factor at any prime.
+
+
+
+
+### 77.4 Consequence and next non-duplicative task
+
+
+
+
+The valuation-normalization part of the x=27/40 denominator-character program is closed.
+
+
+
+
+The remaining first attack is not another local valuation calculation. It is the globally normalized unit-squareclass problem:
+boxed:
+X27Over40FullyNormalizedEDSUnitRecurrenceOnFourMWSurvivorProgressions.
+
+
+
+
+On the four M3-T11-067 live progressions
+epsilon=0, n==+/-2 mod M,
+epsilon=1, n==+/-1 mod M,
+M=2656080,
+use the exact normalization above to derive a normalized EDS/division-polynomial recurrence modulo 3,5,7 and determine the required denominator characters
+(C|3),(C|5),(C|7),
+with the epsilon=1 torsion reciprocity retained.
+
+
+
+
+Do not reopen:
+- the p=5 or p=7 troublemaker valuations;
+- the p=2 troublemaker formula;
+- reduction-kernel periodicity as a substitute for normalized units;
+- the closed n==0 mod M progression;
+- Packet III,d=225 on the four MW survivors.
+
+
+
+
+No rational-point classification, fixed-power saving, primary theorem-gate closure, or P/M3 credit is promoted by this card alone.
+
+
+
+
+M3_T11_X_27_OVER_40_P2_TROUBLEMAKER_FORMULA_PROVED=true
+M3_T11_X_27_OVER_40_P2_DENOMINATOR_ROOT_EXACT=true
+M3_T11_X_27_OVER_40_ALL_BAD_PRIME_EDS_NORMALIZATION_EXACT=true
+M3_T11_X_27_OVER_40_GLOBAL_NORMALIZATION_FULLY_EXPLICIT=true
+M3_T11_X_27_OVER_40_NORMALIZED_UNIT_RECURRENCE_PROVED=false
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40FullyNormalizedEDSUnitRecurrenceOnFourMWSurvivorProgressions
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+ROUTE_CARD=M3-T11-070
+## 78. M3-T11-071 — exact p=5 denominator character on all four live Mordell-Weil progressions
+Status: NEW EXACT LOCAL THEOREM / P=5 CHARACTER CLOSED / P=3 AND RAMIFIED-7 COMPATIBILITY STILL OPEN / GLOBAL RATIONAL-POINT CLASSIFICATION STILL OPEN.
+Retain M3-T11-066 through M3-T11-070. Put
+E2: V^2=U*(U^2+1244*U+562500),
+Q=(50,5600),
+W_n=psi_n(Q),
+M=2656080.
+The four live translated-lift progressions are
+epsilon=0, n==+/-2 mod M,
+epsilon=1, n==+/-1 mod M.
+The p=5 denominator character can now be determined exactly on all four, including the epsilon=1 torsion-shifted roots.
+### 78.1 Split multiplicative Tate data at p=5
+The retained invariants are
+Delta=-2^19*3^4*5^12*7^3,
+c4=-2239424.
+Modulo 5 the curve is
+V^2=U^2*(U-1),
+whose node at (0,0) has two rational tangent directions because -1 is a square modulo 5. Thus the reduction is split multiplicative of type I_12.
+Let q be the split Tate parameter. Since
+j(q)=q^(-1)+744+O(q)
+and j(E2)=c4^3/Delta,
+write q=5^12*q0. Then exactly at the residue-unit level
+q0 == Delta/(5^12*c4^3) == 1 mod 5.
+Choose the Tate representative of Q with component valuation a=2; the alternative a=10 is obtained by inversion/negation and does not change quadratic characters modulo 5 because (-1|5)=+1. Write the Tate point parameter as
+u=5^2*u0,
+with u0 a 5-adic unit.
+For a minimal-model isomorphism between E2 and its Tate model let lambda be the unit scaling factor, and write
+L=(lambda|5), U0=(u0|5).
+Stange's Tate theta identity
+psi_n(u,q)=u^((n^2-n)/2)*theta(u^n,q)/theta(u,q)^(n^2)
+shows the following. For 6 not dividing n, put
+r=floor(n/6),
+E(n)=n*(n-1)/2-n*r.
+After removing the exact troublemaker valuation R_n(2,12), all theta factors of negative valuation contribute only
+(-1)^r*q0^(r(r+1)/2)*u0^(-nr).
+Because (-1|5)=+1 and q0==1 mod5,
+boxed:
+( W_n/5^R_n(2,12) | 5 )
+=
+L^(n^2-1)*U0^E(n).
+At n=2,
+R_2(2,12)=2,
+W_2/5^2=448==3 mod5,
+so
+boxed:
+L*U0=-1.
+The parity of E(n) is periodic modulo 12. On the four live residue classes modulo 12:
+n==1,11 mod12 => E(n) even and n^2-1 even;
+n==2,10 mod12 => E(n) odd and n^2-1 odd.
+Therefore, for the signed normalized EDS unit,
+boxed:
+chi5(W_n/5^R_n(2,12))=+1 for n==+/-1 mod M,
+chi5(W_n/5^R_n(2,12))=-1 for n==+/-2 mod M.
+No global sign correction is needed at p=5 because -1 is a square.
+### 78.2 Base denominator character C_n is +1 on all four n-classes
+M3-T11-070 gives
+|W_n|=C_n*2^e2(n)*5^R_n(2,12)*7^R_n(1,3),
+where
+e2(n)=5*R_n(1,2)+R_n(1,4).
+All four live classes have 5 not dividing C_n. Since 16 divides M,
+n==+/-1,+/-2 mod M implies e2(n) is even. By M3-T11-069,
+R_n(1,3) is even on n==+/-1 mod M and odd on n==+/-2 mod M.
+Finally
+(2|5)=(7|5)=-1.
+Hence the two correction signs cancel the -1 occurring on the even live classes, and one obtains exactly
+boxed:
+(C_n|5)=+1
+for every n==+/-1,+/-2 mod M.
+This statement concerns the canonical root denominator of U(nQ).
+### 78.3 Epsilon=1 torsion shift also has denominator character +1
+For the actual epsilon=1 translated-lift point R=nQ+T, M3-T11-066 gives
+U(R)=562500/U(nQ)
+and, for odd n,
+(A_n,C_n) -> (375*C_n/g, A_n/g),
+g=gcd(A_n,375).
+On n==+/-1 mod M, the p=5 component is the same as +/-Q and M/12 is divisible by 5. In Tate coordinates the E_1 multiplier contributed by MQ is therefore congruent to 1 modulo 25. Consequently the normalized singular coordinate satisfies
+U(nQ)/25 == U(+/-Q)/25 == 2 mod5.
+Since
+U(nQ)=2*(A_n/C_n)^2,
+5 does not divide C_n and v_5(U(nQ))=2, one has v_5(A_n)=1 and
+(A_n/5)^2*C_n^(-2) == 1 mod5.
+Both square roots of 1 have quadratic character +1 modulo5, so
+(A_n/5|5)=(C_n|5)=+1.
+At p=3, n==+/-1 mod M implies n==+/-1 mod4. The reduction of nQ is +/-Q, whose x-coordinate is 2 mod3; hence 3 does not divide A_n. Therefore g=5 exactly and the shifted canonical denominator is
+C_n^T=A_n/5.
+Thus
+boxed:
+(C_n^T|5)=+1
+on both epsilon=1 live progressions.
+Combining with the epsilon=0 result gives the exact translated-lift statement
+boxed:
+kappa5=(C|5)=+1
+on all four M3-T11-067 live progressions.
+### 78.4 Delta router after p=5 closure
+M3-T11-066 now simplifies from
+(-1)^e2=(C|3),
+(-1)^e7=(-1)^n*(C|3)*(C|5)
+to
+boxed:
+(-1)^e2=(C|3),
+(-1)^e7=(-1)^n*(C|3).
+Therefore the local delta packet is controlled by the p=3 denominator character alone:
+- epsilon=0, n even (Packet III,d=9): (C|3)=+1 => delta=1; (C|3)=-1 => delta=14.
+- epsilon=1, n odd (Packets I/II): (C|3)=+1 => delta=7; (C|3)=-1 => delta=2.
+The p=5 character problem must not be reopened. The remaining first attack is the p=3 denominator character on the four live progressions, followed by the retained ramified-7 compatibility where v_7(U-2500)>=3.
+No rational-point classification, fixed-power saving, primary theorem-gate closure, or P/M3 credit is promoted.
+M3_T11_X_27_OVER_40_P5_DENOMINATOR_CHARACTER_ALL_LIVE_PLUS=true
+M3_T11_X_27_OVER_40_P5_TORSION_SHIFT_CHARACTER_CLOSED=true
+M3_T11_X_27_OVER_40_DELTA_REDUCED_TO_P3_CHARACTER=true
+M3_T11_X_27_OVER_40_NORMALIZED_UNIT_RECURRENCE_PROVED=false
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40P3DenominatorCharacterThenRamified7CompatibilityOnFourMWSurvivorProgressions
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+ROUTE_CARD=M3-T11-071
+## 79. M3-T11-072 — the p=3 denominator character is archimedean-sign coupled; constant-progression shortcut is impossible
+Status: NEW EXACT FIREWALL / BASE p=3 CHARACTER LAW PROVED / EPSILON=1 TORSION-ROOT CHARACTER STILL OPEN / GLOBAL CLASSIFICATION OPEN.
+Retain M3-T11-067 through M3-T11-071. The p=5 bit is closed. The next question is the p=3 character of the positive canonical root denominator.
+### 79.1 Signed EDS modulo 3 is constant on every live M-progression
+For W_n=psi_n(Q), exact low-index residues are
+W_1==1,
+W_2==1,
+W_3==1,
+W_4==0,
+W_5==2,
+W_6==2 mod3.
+Thus the rank of apparition of 3 is 4. Ward's EDS symmetry formula gives
+W_(n+4h) == W_n*a_3^(n*h)*b_3^(h^2) mod3,
+with
+a_3=W_6/(W_5*W_2)==1,
+b_3=W_5^2*W_2/W_6==2.
+Hence
+boxed:
+W_(n+4h) == W_n*(-1)^h mod3.
+Since
+M/4=664020
+is even,
+boxed:
+W_(n+M)==W_n mod3.
+Therefore the signed EDS residue is fixed on the four live residue classes. Extending W_(-n)=-W_n,
+- n==+1 modM: W_n==+1 mod3;
+- n==-1 modM: W_n==-1 mod3;
+- n==+2 modM: W_n==+1 mod3;
+- n==-2 modM: W_n==-1 mod3.
+Write this fixed residue sign as rho(n0), with rho(+1)=rho(+2)=+1 and rho(-1)=rho(-2)=-1.
+### 79.2 The absolute-value normalization introduces the real EDS sign
+M3-T11-070 gives
+|W_n|=C_n*2^e2(n)*5^R_n(2,12)*7^R_n(1,3).
+On every live n-class, e2(n) is even by M3-T11-070 and R_n(2,12) is even by M3-T11-069. Also 7==1 mod3. Therefore every explicit correction factor is a square modulo3, and
+boxed:
+(C_n|3)=(|W_n||3).
+The curve E2 has only one real cubic root: the quadratic factor U^2+1244U+562500 has discriminant
+1244^2-4*562500=-702464<0.
+Hence E2(R) is connected. Q is non-torsion by the retained saturated Mordell-Weil result M3-T11-056.
+Silverman-Stephens' sign theorem for an unbounded nonsingular EDS therefore applies in the connected case. Allowing the standard inverse-sequence twist, there are a fixed sigma in {+1,-1} and an irrational beta such that
+boxed:
+sign(W_n)=sigma^(n-1)*(-1)^floor(n*beta).
+Combining with the fixed signed residue rho(n0), for every base point nQ in a live class n==n0 modM,
+boxed:
+(C_n|3)=rho(n0)*sigma^(n-1)*(-1)^floor(n*beta).
+This is an exact character law for the canonical denominator of U(nQ).
+### 79.3 Nonconstancy on every live arithmetic progression
+Because M is even, sigma^(n-1) is constant when n is replaced by n+kM. Because beta is irrational, M*beta is irrational. Therefore the sequence
+floor((n0+kM)*beta) mod2
+assumes both parities infinitely often by irrational rotation modulo 2.
+Consequently
+boxed:
+(C_n|3) takes both +1 and -1 infinitely often on each of the four ambient MW progressions n==+/-1,+/-2 modM.
+This is not a contradiction: the MW progressions are necessary containers for translated-lift points, not sets on which every n is a translated-lift solution.
+For epsilon=0, the actual translated point is nQ, so this proves that no progression-level constant p=3 character or fixed delta can be imposed before the translated-lift condition is used. In particular, M3-T11-071's delta rule may give delta=1 or14 at different ambient points in either even progression.
+For epsilon=1, the actual translated denominator after adding T is A_n/g rather than C_n. The theorem above controls the base denominator C_n only. The positive root-sign character introduced by the reciprocal transform remains open and must not be silently identified with the base character.
+### 79.4 Firewall and next legal attack
+The p=3 task is not a finite periodicity problem in n modulo M. The signed EDS modulo3 is already periodic; the missing bit is exactly the global real sign needed to pass from W_n to the positive denominator C_n. Any continuation that uses only E2(Q_3), the rank-4 reduction class, or a finite congruence state for signed W_n will miss this bit.
+The legal continuation is to retain the exact Sturmian law above and intersect it with one of:
+1. the epsilon=1 positive-root/torsion-reciprocity sign law;
+2. the ramified-7 compatibility on actual translated roots;
+3. the delta-resolved H*K global packet;
+4. either retained independent global closure route (elliptic-log height reduction or split-Jacobian quadratic Chabauty).
+No rational-point classification, fixed-power saving, primary theorem-gate closure, or P/M3 credit is promoted.
+M3_T11_X_27_OVER_40_P3_SIGNED_EDS_PERIOD_M=true
+M3_T11_X_27_OVER_40_P3_BASE_DENOMINATOR_STURMIAN_LAW=true
+M3_T11_X_27_OVER_40_P3_BASE_CHARACTER_NONCONSTANT_EACH_LIVE_PROGRESSION=true
+M3_T11_X_27_OVER_40_P3_CONSTANT_PROGRESSION_SHORTCUT_REJECTED=true
+M3_T11_X_27_OVER_40_EPSILON1_ACTUAL_P3_ROOT_CHARACTER_PROVED=false
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40P3SturmianTorsionRootSignAndRamified7Compatibility
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+ROUTE_CARD=M3-T11-072
+
+
+
+
+## 80. M3-T11-073 — ramified-7 is exactly routed on the four live MW progressions and gives no additional pruning
+Status: NEW EXACT LOCAL THEOREM / RAMIFIED-7 SUBROUTE CLOSED ON THE FOUR LIVE PROGRESSIONS / GLOBAL CLASSIFICATION OPEN.
+
+
+Retain M3-T11-066 through M3-T11-072. Put
+E2: V^2=U*(U^2+1244U+562500),
+Q=(50,5600),
+T=(0,0),
+M=2656080.
+The live M3-T11-067 translated-lift progressions are
+epsilon=0, n==+/-2 mod M,
+epsilon=1, n==+/-1 mod M.
+
+
+M3-T11-066 gives the ramified-7 source condition
+7|a iff v_7(U(R)-2500)>=3,
+for R=nQ+epsilon*T,
+and on that branch
+(C|7)=(-1)^n*(C|3)*kappa5.
+M3-T11-071 gives kappa5=+1 on all four live progressions.
+
+
+### 80.1 Exact 7-adic formal-group router
+
+
+Use the standard formal parameter z=-U/V at O. The exact point
+3Q=(31250/49,11500000/343)
+has
+z(3Q)=-7/368,
+so v_7(z(3Q))=1.
+
+
+For every nonzero m divisible by 3, the formal group over Z_7 gives
+v_7(z(mQ))=1+v_7(m).
+Indeed m=3r, multiplication by a 7-adic unit preserves v_7(z), while each factor 7 raises it by exactly one.
+
+
+Direct expansion of the group law around +/-Q gives, for S in E_1(Q_7) with t=z(S),
+U(Q+S)=50+11200*t+694400*t^2+O(t^3),
+U(-Q+S)=50-11200*t+694400*t^2+O(t^3),
+with O(t^3) in Z_7[[t]].
+Since v_7(11200)=1 and v_7(t)>=1, one has
+v_7(U(+/-Q+S)-50)>=2.
+As 50-225=-175 has v_7=1,
+boxed:
+v_7(U(+/-Q+S)-225)=1.
+
+
+Direct expansion around +/-2Q, where
+2Q=(2500,-157500),
+-2Q=(2500,157500),
+gives
+U(2Q+S)-2500
+=-315000*t+25532500*t^2+O(t^3),
+U(-2Q+S)-2500
+=+315000*t+25532500*t^2+O(t^3).
+Here v_7(315000)=v_7(25532500)=1. Therefore the linear term has strictly smaller valuation than every later term and
+boxed:
+v_7(U(+/-2Q+S)-2500)=1+v_7(t).
+
+
+Consequently, away from the exact base points,
+n==2 mod3 =>
+v_7(U(nQ)-2500)=2+v_7(n-2),
+n==1 mod3 =>
+v_7(U(nQ)-2500)=2+v_7(n+2).
+At n=+/-2 the left side is +infinity.
+
+
+Because 3*7 divides M, this completely routes the four live progressions.
+
+
+For epsilon=0:
+n==+2 mod M => nQ=2Q+(n-2)Q,
+n==-2 mod M => nQ=-2Q+(n+2)Q.
+Hence every point in either ambient progression has
+boxed:
+v_7(U(nQ)-2500)>=3,
+including n=+/-2 where U=2500 exactly.
+Thus the ramified-7 source condition is always active on both epsilon=0 live progressions.
+
+
+For epsilon=1:
+n==+1 mod M or -1 mod M.
+Write U0=U(nQ). The +/-Q expansion above gives
+v_7(U0-225)=1.
+Adding T gives exactly
+U(nQ+T)=562500/U0,
+hence
+U(nQ+T)-2500
+=2500*(225-U0)/U0.
+Since U0 is a 7-adic unit,
+boxed:
+v_7(U(nQ+T)-2500)=1.
+Thus the ramified-7 source condition never occurs on either epsilon=1 live progression.
+
+
+### 80.2 Exact p=7 normalized EDS unit on the even live progressions
+
+
+It remains to test whether the ramified compatibility supplies a new filter on epsilon=0.
+
+
+Modulo 7,
+E2 is
+V^2=U*(U-1)^2.
+The node (1,0) has rational tangent directions, so reduction is split multiplicative of type I_3.
+
+
+Write the split Tate parameter
+q=7^3*q0.
+Using Delta=-2^19*3^4*5^12*7^3 and c4=-2^6*11*3181 gives
+q0 == Delta/(7^3*c4^3) == -1 mod7.
+
+
+Let the Tate component parameter of Q be a in {1,2}; these are the two inverse orientations and have the same troublemaker sequence R_n(1,3). Write the Tate point parameter as
+u=7^a*u0,
+and let
+L=(lambda|7),
+U0char=(u0|7)
+for the minimal-model scaling unit and the Tate unit.
+
+
+The same Tate-theta normalization used in M3-T11-071 gives, for 3 not dividing n,
+r=floor(a*n/3),
+E_a(n)=n*(n-1)/2-n*r,
+and
+chi_7(W_n/7^R_n(1,3))
+=
+L^(n^2-1)
+*U0char^E_a(n)
+*(-1)^(r+r*(r+1)/2).
+
+
+At n=2,
+W_2/7=1600==4 mod7,
+so its quadratic character is +1. For either a=1 or a=2 this forces
+L*U0char=+1.
+
+
+Now M is divisible by 12. A direct parity check in the two even live classes gives, for either Tate orientation,
+n==+2 mod M:
+chi_7(W_n/7^R_n(1,3))=+1,
+n==-2 mod M:
+chi_7(W_n/7^R_n(1,3))=-1.
+
+
+Define rho7(+2)=+1 and rho7(-2)=-1. Then
+boxed:
+chi_7(W_n/7^R_n(1,3))=rho7(n0)
+for n==n0 mod M, n0 in {+2,-2}.
+
+
+By M3-T11-069/070 the 2-adic correction and the p=5 correction contribute square characters modulo 7 on these two progressions. Since (-1|7)=-1,
+boxed:
+(C_n|7)=rho7(n0)*sign(W_n).
+
+
+But M3-T11-072 already gives at p=3
+(C_n|3)=rho3(n0)*sign(W_n),
+with
+rho3(+2)=+1,
+rho3(-2)=-1.
+Thus rho7=rho3 and therefore
+boxed:
+(C_n|7)=(C_n|3)
+identically on both epsilon=0 live progressions.
+
+
+This is exactly the M3-T11-066 ramified-7 compatibility because n is even and kappa5=+1. Therefore the ramified-7 condition is automatically satisfied wherever it is active; it removes no additional points.
+
+
+### 80.3 Consequence and next legal attack
+
+
+The ramified-7 branch is now closed on the entire four-progression M3-T11-067 sieve locus:
+- epsilon=0, n==+/-2 mod M: ramified condition always active, compatibility automatic;
+- epsilon=1, n==+/-1 mod M: ramified condition never active.
+
+
+Hence ramified-7 must be removed from the unresolved first-attack list. It is neither a remaining obstruction nor a source of fixed-power credit.
+
+
+The active arithmetic continuation is now:
+1. epsilon=0: feed the exact M3-T11-072 Sturmian p=3 character, hence the pointwise delta in {1,14}, directly into the retained delta-resolved H*K/global packet;
+2. epsilon=1: first determine the positive reciprocal-root p=3 character of A_n/5, then feed the resulting delta in {7,2} into the same global packet.
+
+
+No rational-point classification, fixed-power saving, primary theorem-gate closure, or P/M3 credit is promoted.
+
+
+M3_T11_X_27_OVER_40_RAMIFIED7_LIVE_ROUTER_PROVED=true
+M3_T11_X_27_OVER_40_RAMIFIED7_EPSILON0_ALWAYS=true
+M3_T11_X_27_OVER_40_RAMIFIED7_EPSILON1_NEVER=true
+M3_T11_X_27_OVER_40_P7_SIGNED_EDS_UNIT_EVEN_LAW=true
+M3_T11_X_27_OVER_40_RAMIFIED7_COMPATIBILITY_AUTOMATIC_EVEN=true
+M3_T11_X_27_OVER_40_RAMIFIED7_ADDS_NO_PRUNING_ON_FOUR_LIVE=true
+M3_T11_X_27_OVER_40_EPSILON1_ACTUAL_P3_ROOT_CHARACTER_PROVED=false
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40SturmianDeltaHKIntersectionWithEpsilon1TorsionRootSign
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+ROUTE_CARD=M3-T11-073
+
+
+
+
+## 81. M3-T11-074 — torsion-shifted p=3 EDS normalization and Sturmian reciprocal-root law
+Status: NEW EXACT MORDELL-WEIL/EDS BRIDGE / EPSILON=1 RECIPROCAL-ROOT p=3 CHARACTER CLOSED / LOCAL CHARACTER GAPS CLOSED / GLOBAL RATIONAL-POINT CLASSIFICATION STILL OPEN.
+
+
+Retain M3-T11-066 through M3-T11-073. Put
+E2: V^2=U*(U^2+1244*U+562500),
+Q=(50,5600), T=(0,0),
+M=2656080.
+
+
+The only local-character gap left by M3-T11-073 is the actual epsilon=1 p=3 character of the positive reciprocal-root denominator A_n/5 on
+epsilon=1, n==+/-1 (mod M).
+
+
+### 81.1 The torsion-shifted coset is an ordinary rank-one EDS
+Define
+Q_T=Q+T=(11250,-1260000).
+
+
+Every epsilon=1 live class has n odd. Hence exactly
+boxed:
+nQ+T=n(Q+T)=nQ_T.
+
+
+Write the canonical root coordinate of nQ_T as
+U(nQ_T)=2*(A_n^T/C_n^T)^2,
+A_n^T,C_n^T>0, gcd(A_n^T,C_n^T)=1.
+
+
+By the exact M3-T11-066 torsion-root transform and the M3-T11-071 live-class gcd calculation,
+boxed:
+C_n^T=A_n/5
+for n==+/-1 (mod M),
+where A_n is the canonical root numerator of U(nQ).
+
+
+Thus the open reciprocal-root character is not a new numerator problem. It is exactly the ordinary positive denominator character of the rank-one generator Q_T.
+
+
+### 81.2 Fully explicit shifted-EDS normalization
+Let
+W_n^T=psi_n(Q_T).
+
+
+At p=3 the integral model has nonsplit multiplicative reduction of type I_4:
+mod 3,
+V^2=U^2*(U-1),
+and Q_T reduces to the singular node. Passing to the unramified quadratic splitting field does not change valuations. Since
+v_3(W_2^T)=2
+and C_2^T=1,
+the component parameter is a_3=2. Therefore the exact multiplicative troublemaker formula gives
+boxed:
+v_3(W_n^T)-v_3(C_n^T)=R_n(2,4).
+
+
+At p=5 the reduction is split multiplicative of type I_12. Here
+v_5(W_2^T)=4,
+so the component parameter is a_5=4 or 8, which are troublemaker-symmetric. Hence
+boxed:
+v_5(W_n^T)-v_5(C_n^T)=R_n(4,12).
+
+
+At p=7 the reduction is split multiplicative of type I_3 and
+v_7(W_2^T)=1,
+so exactly
+boxed:
+v_7(W_n^T)-v_7(C_n^T)=R_n(1,3).
+
+
+At p=2 the same additive-potential-multiplicative transfer used in M3-T11-070 applies to Q_T. Exact low-index shifted EDS valuations are
+v_2(W_2^T)=6,
+v_2(W_3^T)=13,
+v_2(W_4^T)=27,
+and 4Q_T=4Q. These force the same component/formal parameters as M3-T11-070, hence for every n
+boxed:
+v_2(W_n^T)-v_2(C_n^T)
+=5*R_n(1,2)+R_n(1,4).
+
+
+There are no bad primes outside {2,3,5,7}. Consequently the shifted EDS has the exact all-prime normalization
+boxed:
+|W_n^T|
+=
+C_n^T
+*2^(5*R_n(1,2)+R_n(1,4))
+*3^R_n(2,4)
+*5^R_n(4,12)
+*7^R_n(1,3).
+
+
+This is the torsion-shifted analogue of M3-T11-070.
+
+
+### 81.3 Exact signed p=3 unit residue for odd n
+Work over the unramified quadratic extension of Q_3 in which the I_4 reduction splits. Write the split Tate parameter as
+q=3^4*q0.
+From
+j=c4^3/Delta=q^(-1)+744+O(q)
+and the retained invariants,
+boxed:
+q0 == Delta/(3^4*c4^3) == 1 (mod 3).
+
+
+Choose the Tate representative of Q_T with component valuation 2:
+u=3^2*u0.
+
+
+For odd n=2r+1, the Tate theta identity
+psi_n(u,q)
+=
+u^(n(n-1)/2)
+*theta(u^n,q)
+/theta(u,q)^(n^2)
+and the quasi-periodicity
+theta(q^r*v,q)
+=
+(-1)^r*q^(-r(r-1)/2)*v^(-r)*theta(v,q)
+with v=u^n/q^r
+give exact cancellation of the u-powers. After removing the valuation R_n(2,4),
+all theta unit factors are 1 modulo 3 and q0 is 1 modulo 3.
+
+
+The minimal-model scaling unit lies in the residue group F_9^x of order 8. Since n is odd,
+8 | (n^2-1),
+so its factor also disappears modulo 3.
+
+
+Therefore for every odd n,
+boxed:
+W_n^T / 3^R_n(2,4)
+== (-1)^((n-1)/2) (mod 3).
+
+
+### 81.4 Positive denominator character and Sturmian law
+On n==+/-1 (mod M), one has n==+/-1 (mod 24) and n==+/-1 (mod 16). Therefore:
+- 5*R_n(1,2)+R_n(1,4) is even;
+- R_n(4,12) is even;
+- 7==1 (mod 3).
+
+
+Hence every explicit non-3 normalization factor has square character modulo 3. Put
+rho_T(+1)=+1,
+rho_T(-1)=-1.
+Because M/2=1328040 is even, the signed unit formula above gives
+boxed:
+(C_n^T|3)=rho_T(n0)*sign(W_n^T)
+for n==n0 (mod M), n0 in {+1,-1}.
+
+
+The real cubic of E2 has one real root, so E2(R) is connected. Q_T=Q+T is non-torsion because Q is non-torsion and T is torsion. The Silverman-Stephens EDS sign theorem therefore gives fixed
+sigma_T in {+1,-1}
+and irrational beta_T such that
+boxed:
+sign(W_n^T)
+=
+sigma_T^(n-1)*(-1)^floor(n*beta_T).
+
+
+Combining,
+boxed:
+(A_n/5|3)
+=
+(C_n^T|3)
+=
+rho_T(n0)*sigma_T^(n-1)*(-1)^floor(n*beta_T)
+for n==n0 (mod M), n0 in {+1,-1}.
+
+
+Since M*beta_T is irrational, both character values occur infinitely often on each ambient epsilon=1 live progression. Thus a progression-level constant p=3 character, and hence a progression-level fixed delta, is impossible also on epsilon=1.
+
+
+### 81.5 Consequence for the delta packet
+M3-T11-071 gives kappa5=+1. On epsilon=1, n is odd, so the exact M3-T11-066 delta router becomes
+(C_n^T|3)=+1 => delta=7,
+(C_n^T|3)=-1 => delta=2.
+
+
+Together with M3-T11-072 on epsilon=0, all local character gaps on the four M3-T11-067 live progressions are now closed:
+- epsilon=0, n==+/-2 mod M: delta in {1,14} is driven by the base-Q Sturmian sign law;
+- epsilon=1, n==+/-1 mod M: delta in {7,2} is driven by the shifted-Q_T Sturmian sign law.
+
+
+No rational-point classification or fixed-power saving follows from this local closure. The next non-duplicative first attack is to insert these two exact Sturmian delta laws into the retained
+u*v=H*K,
+gcd(H,K)|7,
+principal-factor/global squareclass packet from M3-T11-060 through M3-T11-065.
+
+
+Do not reopen:
+- the epsilon=1 reciprocal-root p=3 character;
+- ramified-7 on the four live progressions;
+- p=5;
+- p=2/3/5/7 valuation normalization;
+- a search for a constant delta on an ambient M-progression.
+
+
+M3_T11_X_27_OVER_40_EPSILON1_SHIFTED_EDS_GENERATOR_EXACT=true
+M3_T11_X_27_OVER_40_EPSILON1_SHIFTED_EDS_NORMALIZATION_EXACT=true
+M3_T11_X_27_OVER_40_EPSILON1_P3_TROUBLEMAKER_R_2_4=true
+M3_T11_X_27_OVER_40_EPSILON1_P3_NORMALIZED_UNIT_RESIDUE_EXACT=true
+M3_T11_X_27_OVER_40_EPSILON1_ACTUAL_P3_ROOT_CHARACTER_PROVED=true
+M3_T11_X_27_OVER_40_EPSILON1_P3_CHARACTER_STURMIAN=true
+M3_T11_X_27_OVER_40_EPSILON1_P3_CHARACTER_NONCONSTANT_EACH_LIVE_PROGRESSION=true
+M3_T11_X_27_OVER_40_LOCAL_CHARACTER_GAPS_CLOSED=true
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40TwoSturmianDeltaHKGlobalPacketIntersection
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+ROUTE_CARD=M3-T11-07
+## 82. Canonical card-detail backfill for former MAIN 11A-11C
+This section is the durable detail location for M3-TQ-001 through M3-TQ-005, M3-TQ-GATE-002, and M3-TQ-NEG-001. It preserves the exact former MAIN 11A-11C algebra so MAIN can later remain only a compact authority dashboard.
+
+
+### 82.1 M3-TQ-001 — trivial-partition double-quartic endpoint adapter
+On the trivial split write
+D=(epsilon/2)(a^2+b^2),
+C=epsilon*a*b,
+W=epsilon*Z,
+and p/q=(D+X)/Q in lowest terms.
+The t28 cover gives exactly
+Z^2=(bp-aq)(aq+bp)(bq-ap)(bq+ap),
+with
+X=D*(p^2-q^2)/(p^2+q^2),
+Q=2D*p*q/(p^2+q^2),
+Y=W/(p^2+q^2).
+Actual simultaneous physical completion also requires
+P_1^2=C^2+X^2=D^2-Y^2.
+Equivalently, with K=(a^2+b^2)(p^2+q^2),
+S^2=K^2-4Z^2,
+so S^2+(2Z)^2=K^2.
+In T=p/q coordinates define
+F(T)=(b^2T^2-a^2)(b^2-a^2T^2),
+H(T)=(a^4+6a^2b^2+b^4)(T^4+1)-2(a^2-b^2)^2T^2.
+The two square gates are on the same variables. At every good odd auxiliary prime, their simultaneous nonzero-square density is lambda/4+O(sqrt(lambda)); this is a local exact statement, not a global power saving.
+The sufficient receiver is A_{1,1}^{(2sq)}(B)=o(B^(1/3)), with all exact physical reconstruction/height filters retained.
+ANTI_LOOP: do not restart a full-box double-character sieve; finite local density improvement alone does not beat the historical one-third balance.
+
+
+### 82.2 M3-TQ-002 and M3-TQ-GATE-002 — second Pythagorean identity and squareclass-energy receiver
+Put
+A=a^2+b^2,
+B0=p^2+q^2,
+D0=p^2-q^2.
+Then exactly
+H+4F=A^2*B0^2,
+and
+H=(A*D0)^2+(2ab*B0)^2.
+After F=Z^2, actual endpoint completion is equivalent to the linked Pythagorean system
+(A*D0)^2+(2ab*B0)^2=S^2,
+S^2+(2Z)^2=(A*B0)^2.
+Thus the second square is an explicit Pythagorean allocation problem, not merely another local quartic character.
+For the exact t28 first-cover physical candidate set H_F(B), define
+r_H(kappa;B)=#{s in H_F(B):[H(s)]=kappa},
+Q_H(B)=sum_kappa r_H(kappa;B)^2.
+The exact t27 multiplicity gives 3P(B)<=r_H(1;B), hence 9P(B)^2<=Q_H(B). Therefore Q_H(B)=o(B^(2/3)) is sufficient for P(B)/M3(B)->0.
+The generic off-fiber H-squareclass collision surface is of general type, but general type alone does not provide the required uniform quantitative rational-point bound. No such global theorem is promoted here.
+
+
+### 82.3 M3-TQ-003 — second-lift self-correspondence recursion
+Let A=a^2+b^2 and parameterize the second Pythagorean lift by rational t. On the nondegenerate orientation,
+T^2=[A*t+ab*(1-t^2)]/[A*t-ab*(1-t^2)].
+Put N=A*t+ab*(1-t^2) and D=A*t-ab*(1-t^2). Then exactly
+F_{a,b}(T)=[A/D]^2*F_{a,b}(t),
+so F(T) is a square iff F(t) is a square.
+Also
+N*D=F_{a,b}(t)+(2ab*t)^2.
+Hence rationality of T on y^2=F(t) is equivalent to the extra Pythagorean condition
+y^2+(2ab*t)^2=w^2.
+This is an exact self-correspondence description of the fixed-direction genus-five lift. It is not an infinite descent: no monotone height decrease under t->T or T->t is proved.
+
+
+### 82.4 M3-TQ-004 — intrinsic four-linear minor identity
+With the t28 factors
+g1=bp-aq,
+g2=aq+bp,
+g3=bq-ap,
+g4=bq+ap,
+one has
+g1^2+g4^2=g2^2+g3^2=A*(p^2+q^2),
+and exactly
+H=(g1*g2-g3*g4)^2+(g1*g3-g2*g4)^2,
+with
+g1*g2-g3*g4=A*(p^2-q^2),
+g1*g3-g2*g4=-2ab*(p^2+q^2).
+Therefore the second Pythagorean lift is intrinsic to the same four-linear first-cover packet.
+
+
+### 82.5 M3-TQ-005 — exact t37 Gaussian common-core second-squareclass adapter
+Use
+A_c=a+i b,
+P_c=p+i q,
+A_c*conj(P_c)=g4+i g1=c_S*N(R)*S^2,
+A_c*P_c=-g3+i g2=c_R*N(S)*R^2.
+Let t_core=N(R)N(S). Then
+H=t_core^2*(Re(c_S*conj(c_R)*S^2*conj(R)^2)^2+Im(c_S*c_R*S^2*R^2)^2).
+Hence on a fixed t37 common-core packet,
+[H]=[Re(c_S*conj(c_R)*S^2*conj(R)^2)^2+Im(c_S*c_R*S^2*R^2)^2].
+The norm factor t_core^2 disappears from squareclass. This gives an exact same-packet Pythagorean coupling of the two Gaussian spin variables. No independent counting saving is claimed.
+
+
+### 82.6 M3-TQ-NEG-001 — finite multisquare tensorization does not improve the one-third box exponent
+For k independently detected square conditions, the naive k-fold square-sieve balance has schematic terms
+L^(-k) and L^(2k)/H_U.
+Balancing gives L^(3k)=H_U and therefore L^(-k)=H_U^(-1/3).
+Thus a finite number of extra quadratic-character detectors on the enlarged t31 box does not by itself improve the one-third exponent. Any gain must retain the thin norm/common-core geometry or use a genuinely stronger same-measure correlation theorem.
+4
+
+
+
+
+## 83. M3-T11-075 — exact Sturmian principal-product squareclass bridge
+Status: NEW EXACT GLOBAL BRIDGE / PRINCIPAL-PRODUCT SQUARECLASS INTERSECTION CLOSED / H-K SPLIT-ALLOCATION COUPLING OPEN.
+
+
+Retain M3-T11-062, M3-T11-063, M3-T11-066, M3-T11-071, M3-T11-072, and M3-T11-074. Work on the exact x=27/40 translated-lift carrier restricted to the four M3-T11-067 live Mordell-Weil progressions and the canonical three-packet survivor locus.
+
+
+Put K=Q(s), s^2=-14, and
+P_pr=alpha0*alpha-*alpha+,
+with
+alpha0=b+a*s,
+alpha-=50*a-b+4*b*s,
+alpha+=50*a+b+4*b*s.
+
+
+M3-T11-063 gives exactly
+[P_pr]=[-delta]
+in K^x/K^x2
+on every canonical three-packet survivor.
+
+
+Let chi_n denote the actual positive canonical root-denominator p=3 character used by the translated point:
+- epsilon=0: chi_n=(C_n|3) for R=nQ;
+- epsilon=1: chi_n=(C_n^T|3)=(A_n/5|3) for R=nQ+T=nQ_T.
+
+
+M3-T11-071 gives kappa5=+1 on all four live progressions. Hence the uniform M3-T11-066 router
+(-1)^e2=chi_n,
+(-1)^e7=(-1)^n*chi_n,
+delta=2^e2*7^e7
+may be inserted directly into [P_pr]=[-delta].
+
+
+### 83.1 Even live progressions
+For epsilon=0, n is even. Thus e7=e2.
+If chi_n=+1, then delta=1 and [P_pr]=[-1].
+If chi_n=-1, then delta=14 and [P_pr]=[1].
+Therefore exactly
+boxed:
+[P_pr]=[-chi_n].
+
+
+Using M3-T11-072, for n==n0 (mod M), n0 in {+2,-2},
+chi_n=rho(n0)*sigma^(n-1)*(-1)^floor(n*beta),
+with beta irrational. Consequently
+boxed:
+[P_pr]=[-rho(n0)*sigma^(n-1)*(-1)^floor(n*beta)].
+
+
+### 83.2 Odd live progressions
+For epsilon=1, n is odd. Thus e7=1-e2.
+If chi_n=+1, then delta=7 and, since [7]=[-2] in K^x/K^x2, [P_pr]=[2].
+If chi_n=-1, then delta=2 and [P_pr]=[-2].
+Therefore exactly
+boxed:
+[P_pr]=[2*chi_n].
+
+
+Using M3-T11-074, for n==n0 (mod M), n0 in {+1,-1},
+chi_n=rho_T(n0)*sigma_T^(n-1)*(-1)^floor(n*beta_T),
+with beta_T irrational. Consequently
+boxed:
+[P_pr]=[2*rho_T(n0)*sigma_T^(n-1)*(-1)^floor(n*beta_T)].
+
+
+Equivalently, on all four live progressions one may write the parity-unified class
+boxed:
+[P_pr]=[(-1)^(n+1)*2^(n mod 2)*chi_n].
+
+
+### 83.3 Consequence and firewall
+This closes the principal-factor/global-squareclass insertion requested after M3-T11-074: the moving global element class is no longer an unresolved delta label. It is an exact two-state Sturmian class on each live Mordell-Weil progression.
+
+
+This does NOT by itself prune an ambient Mordell-Weil progression. The alpha-factors and P_pr belong to actual translated-lift survivor states; the fact that the Sturmian character takes both signs infinitely often on the ambient progression is not a half-density theorem for survivors.
+
+
+This also does NOT classify rational points and gives no fixed-power saving. The unresolved first attack is now narrower:
+intersect the forced Sturmian class above with the rational factor-allocation packet
+u*v=H*K,
+gcd(H,K)|7,
+including the fresh split-prime allocation laws of M3-T11-060/061, or reduce that residual coupling to a lower-genus global problem.
+
+
+Do not reopen:
+- the epsilon=0 or epsilon=1 p=3 character laws;
+- p=5 or ramified-7 routing;
+- the global product identity [P_pr]=[-delta];
+- a progression-level constant-delta search.
+
+
+M3_T11_X_27_OVER_40_STURMIAN_PRINCIPAL_PRODUCT_SQUARECLASS_EXACT=true
+M3_T11_X_27_OVER_40_PRINCIPAL_PRODUCT_GLOBAL_SQUARECLASS_INTERSECTION_CLOSED=true
+M3_T11_X_27_OVER_40_HK_SPLIT_ALLOCATION_GLOBAL_COUPLING_PROVED=false
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40SturmianPrincipalProductHKSplitAllocationIntersection
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+ROUTE_CARD=M3-T11-07
+
+
+## 84. M3-T11-076 — exact H/K neighboring Mordell–Weil denominator router
+
+
+Status: PROVISIONAL EXACT STRUCTURE / AUDIT REQUIRED / FRESH H-K SOURCE FACTORS MOVED TO FOUR NEIGHBOR ROOT DENOMINATORS / U-V SPLIT-ALLOCATION COUPLING STILL OPEN.
+
+
+Retain M3-T11-060, M3-T11-063, M3-T11-066, and M3-T11-075. Work on the exact x=27/40 translated-lift carrier. Put
+E2: V^2=U*(U^2+1244*U+562500),
+Q=(50,5600), T=(0,0),
+P_{n,epsilon}=nQ+epsilon*T,
+and write the canonical root coordinate of every finite P_{m,epsilon} as
+U(P_{m,epsilon})=d0*(A_{m,epsilon}/C_{m,epsilon})^2
+with A_{m,epsilon},C_{m,epsilon}>0 and gcd(A_{m,epsilon},C_{m,epsilon})=1.
+For an integer N let N^sharp denote its part supported on primes outside S={2,3,5,7}.
+
+
+### 84.1 Exact source-factor identities on the translated lift
+
+
+Write m=a/b in lowest terms. M3-T11-058 gives
+U(P_{n,epsilon})=2500+35000*a^2/b^2.
+With
+J=100*a^2+7*b^2,
+one also has exactly
+U(P_{n,epsilon})-50=350*J/b^2.
+
+
+The two target x-values are genuine Mordell-Weil points:
+U=2500 occurs at +/-2Q,
+U=50 occurs at +/-Q.
+For every fresh p not in S, p cannot divide b simultaneously with a or J. The points +/-Q and +/-2Q have p-integral unit y-coordinate, so at these good fresh primes x-x(R) is a local uniformizer at R, and translation by R identifies its valuation with the formal parameter at O. Since a canonical root denominator C has formal-parameter valuation v_p(C), the square in U-2500 doubles the H-side valuation whereas U-50 preserves the K-side valuation.
+
+
+M3-T11-060 removes only S-supported factors from a and J when forming H and K. Therefore, prime by prime, for every p not in S:
+
+
+- if p^e || H, exactly one sign sigma in {+1,-1} satisfies
+  v_p(C_{n-2*sigma,epsilon})=2e,
+  and the opposite sign has valuation 0;
+
+
+- if p^e || K, exactly one sign sigma in {+1,-1} satisfies
+  v_p(C_{n-sigma,epsilon})=e,
+  and the opposite sign has valuation 0.
+
+
+The sign is unique. Simultaneous occurrence for the two H-neighbors would force 4Q=O modulo p, hence a fresh denominator prime of 4Q, but C_4=18. Simultaneous occurrence for the two K-neighbors would force 2Q=O modulo p, but C_2=1.
+
+
+Consequently the fresh parts satisfy the exact positive-integer identities
+boxed:
+(H^sharp)^2=(C_{n-2,epsilon}*C_{n+2,epsilon})^sharp,
+boxed:
+K^sharp=(C_{n-1,epsilon}*C_{n+1,epsilon})^sharp.
+
+
+This is a same-coset Mordell-Weil identity: epsilon is unchanged in all four neighbors.
+
+
+### 84.2 Packet-specific root-coordinate check
+
+
+The M3-T11-066 canonical root dictionary gives the following exact expressions.
+
+
+Packets I/II (n odd, b=2C, A=25w, d=64):
+K=(A^2-25*C^2)/5600.
+
+
+Packet III,d=9 (n even, b=C, A=50w):
+K=(A^2-50*C^2)/350.
+
+
+Packet III,d=225 (n even, b=25C, A=2w):
+K=(A^2-50*C^2)/14.
+
+
+Likewise H^2 is a fixed S-supported scalar multiple of A^2-2500*C^2 in each packet. These formulas independently recover the same target points U=50 and U=2500.
+
+
+In particular, on the epsilon=0 live Packet-III progressions every fresh K-side prime satisfies A^2==50*C^2 (mod p), hence (2|p)=+1. Thus the K-side fresh support there is automatically confined to the split/ambiguous half already isolated by M3-T11-061; the generic K-side inert/deterministic case does not occur on the live Packet-III locus.
+
+
+### 84.3 Consequence for the current first attack
+
+
+M3-T11-075 left the residual problem as the intersection of its exact Sturmian principal-product class with
+u*v=H*K, gcd(H,K)|7,
+and the fresh split-prime allocation laws of M3-T11-060/061.
+
+
+The present card removes H and K as independent-looking rational source factors at fresh primes. Their entire fresh support and valuation data are encoded by the four neighboring root denominators
+C_{n-2,epsilon}, C_{n-1,epsilon}, C_{n+1,epsilon}, C_{n+2,epsilon}
+on the same Mordell-Weil coset.
+
+
+Therefore the next non-duplicative first attack is
+X27Over40SturmianPrincipalProductFourNeighborDenominatorAllocationIntersection:
+combine the forced M3-T11-075 principal-product class with the exact four-neighbor denominator valuation packet above and determine whether the remaining u/v split allocation is forced, contradictory, or reducible to a lower-genus/global EDS relation.
+
+
+This card does NOT determine which of u or v receives a fresh split prime. It does NOT prove independence, positive density, a rational-point classification, a fixed-power saving, primary theorem-gate closure, or P(B)/M3(B) credit.
+
+
+DO_NOT_REPEAT:
+- do not return to H and K as unrelated fresh-prime sources;
+- do not reopen p=3/p=5/p=7 character routing or the M3-T11-075 principal-product squareclass;
+- do not multiply neighboring-denominator events as independent probabilities.
+
+
+REOPEN_CONDITION:
+Only if the M3-T11-060 H/K normalization, the translated-lift identity U=2500+35000(a/b)^2, or the M3-T11-066 canonical root-denominator dictionary is retracted or changed.
+
+
+M3_T11_X_27_OVER_40_HK_FRESH_TO_FOUR_NEIGHBOR_DENOMINATORS_EXACT=true
+M3_T11_X_27_OVER_40_EPSILON0_K_FRESH_TWO_SPLIT_ONLY=true
+M3_T11_X_27_OVER_40_HK_SPLIT_ALLOCATION_GLOBAL_COUPLING_PROVED=false
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40SturmianPrincipalProductFourNeighborDenominatorAllocationIntersection
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+ROUTE_CARD=M3-T11-076
+
+
+
+
+## 85. M3-T11-077 — individual H-neighbor S-square denominator corollary
+Status: PROVISIONAL EXACT STRUCTURE / AUDIT REQUIRED / DUAL H-NEIGHBOR S-SQUARE NECESSARY CONDITION / COUNTING GATE OPEN.
+
+
+Retain M3-T11-076. Let S={2,3,5,7}, and let N^sharp denote the part supported on primes outside S. On the exact canonical x=27/40 translated-lift survivor locus, M3-T11-076 proves primewise that for every fresh prime p:
+- if p^e || H, exactly one of C_{n-2,epsilon}, C_{n+2,epsilon} has p-valuation 2e;
+- the opposite H-neighbor has p-valuation 0.
+In particular every fresh-prime valuation of each individual H-neighbor denominator is even.
+
+
+Therefore there exist positive integers h_- and h_+ such that exactly
+(C_{n-2,epsilon})^sharp = h_-^2,
+(C_{n+2,epsilon})^sharp = h_+^2,
+gcd(h_-,h_+)=1,
+and
+H^sharp = h_-*h_+.
+
+
+Equivalently, the squarefree kernel of each of the two canonical root denominators C_{n-2,epsilon} and C_{n+2,epsilon} is supported entirely on S={2,3,5,7}. This is stronger than the product identity (H^sharp)^2=(C_{n-2,epsilon} C_{n+2,epsilon})^sharp: the two factors are individually fresh squares because M3-T11-076 also proves disjoint fresh support.
+
+
+### 85.1 Consequence for the current first attack
+Every actual survivor on the four live Mordell-Weil progressions must satisfy two simultaneous same-coset finite-S denominator-squareclass conditions:
+sf(C_{n-2,epsilon}) | 2*3*5*7,
+sf(C_{n+2,epsilon}) | 2*3*5*7,
+where sf denotes the squarefree kernel.
+
+
+Thus the first attack can be narrowed before solving the remaining K-side u/v allocation. The immediate exact receiver is now:
+X27Over40DualHNeighborSSquareDenominatorIntersection.
+
+
+Preferred continuation:
+1. classify or bound the n in each of the four live progressions for which both neighboring EDS/root denominators C_{n-2,epsilon} and C_{n+2,epsilon} have squarefree kernel supported on {2,3,5,7};
+2. seek an exact elliptic-divisibility/perfect-power, primitive-divisor, or lower-genus reduction for this simultaneous condition;
+3. only after that, intersect surviving states with the M3-T11-075 Sturmian principal-product class and the remaining K-side u/v allocation.
+
+
+This is an exact same-measure necessary condition, not an independence heuristic. Do not multiply the two neighboring S-square events as probabilities. It does not classify rational points, prove a fixed-power saving, close the primary theorem gate, or change P(B)/M3(B) credit.
+
+
+DO_NOT_REPEAT:
+- do not treat the two H-neighbor denominator square conditions as independent;
+- do not return to H and K as unrelated fresh-prime sources;
+- do not infer density saving from the S-square condition without a same-measure counting theorem;
+- do not claim the K-side u/v split allocation is solved.
+
+
+REOPEN_CONDITION:
+Only if M3-T11-076's primewise H-neighbor valuation router, its uniqueness-of-sign statement, or the definition of the fresh support S={2,3,5,7} is retracted or changed.
+
+
+M3_T11_X_27_OVER_40_H_NEIGHBOR_INDIVIDUAL_S_SQUARE=true
+M3_T11_X_27_OVER_40_DUAL_H_NEIGHBOR_S_SQUARE_NECESSARY=true
+M3_T11_X_27_OVER_40_HK_SPLIT_ALLOCATION_GLOBAL_COUPLING_PROVED=false
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40DualHNeighborSSquareDenominatorIntersection
+ROUTE_CARD=M3-T11-077
+
+
+## 86. M3-T11-078 — finite-S root denominators are globally finite by power-integral scaling
+Status: PROVISIONAL EXACT THEOREM ADAPTER / AUDIT REQUIRED / H-NEIGHBOR MW INDEX SET QUALITATIVELY FINITE / EFFECTIVE ENUMERATION OPEN.
+Retain M3-T11-066, M3-T11-076, and M3-T11-077. Work first on the fixed elliptic quotient
+E2: V^2=U*(U^2+1244*U+562500).
+For a finite P in E2(Q), write its x-coordinate in standard lowest-denominator form
+U(P)=N/C^2,
+C>0,
+gcd(N,C)=1.
+For the canonical root coordinates used on the live translated-lift locus this C is exactly the C_{m,epsilon} already retained in M3-T11-066.
+### 86.1 Exact finite scaling
+Assume
+sf(C)|210,
+equivalently every prime outside S={2,3,5,7} occurs in C to even valuation.
+There is a unique squarefree d|210 and a unique z>0 such that
+C=d*z^2.
+For each such d define
+E2^(d):
+Y_d^2=X_d^3+1244*d^2*X_d^2+562500*d^4*X_d
+and the Q-isomorphism
+phi_d:E2 -> E2^(d),
+phi_d(U,V)=(d^2*U,d^3*V).
+Substituting C=d*z^2 gives exactly
+X_d=d^2*N/C^2=N/z^4.
+Because gcd(N,C)=1, also gcd(N,z)=1. Therefore the standard root denominator B_{phi_d(P)} is exactly
+B_{phi_d(P)}=z^2,
+an exact second power.
+No density heuristic or independence assumption is used.
+### 86.2 Faltings-based denominator theorem
+Everest-Reynolds-Stevens, On the denominators of rational points on elliptic curves, Bulletin of the London Mathematical Society 39 (2007), 762-770, DOI 10.1112/blms/bdm061, prove:
+for a fixed elliptic curve in Weierstrass form and a fixed exponent f>1, only finitely many rational points have standard root denominator B_P equal to an f-th power.
+Apply this with f=2 to each fixed E2^(d). There are 2^4=16 squarefree d|210. Hence
+boxed:
+F_S(E2):={P in E2(Q): sf(C_P)|210}
+is finite.
+The theorem is qualitative/Faltings-based here. No effective list or explicit height bound is claimed.
+### 86.3 Consequence for M3-T11-077
+M3-T11-077 says that every actual canonical x=27/40 translated-lift survivor satisfies
+sf(C_{n-2,epsilon})|210,
+sf(C_{n+2,epsilon})|210.
+Thus both
+P_{n-2,epsilon}, P_{n+2,epsilon}
+belong to the fixed finite set F_S(E2).
+Since Q is non-torsion, for each fixed epsilon the map
+m -> mQ+epsilon*T
+is injective. Therefore the set of n satisfying even one of these two H-neighbor conditions is finite. The dual-H intersection is finite a fortiori.
+This closes the qualitative finiteness question behind X27Over40DualHNeighborSSquareDenominatorIntersection, conditional only on the still-audit-pending 076/077 chain.
+### 86.4 What is and is not closed
+Closed provisionally:
+- qualitative finiteness of the E2 rational-point set with sf(C)|210;
+- qualitative finiteness of the H-neighbor Mordell-Weil index set forced by M3-T11-077.
+Not closed:
+- an effective enumeration of those points/indices;
+- the full x=27/40 rational-point classification;
+- the K-side u/v split allocation;
+- an audited same-measure physical counting exponent;
+- the primary Stage37 gate or P(B)/M3(B).
+NEXT_LEGAL_ACTION:
+Audit M3-T11-076 -> M3-T11-077 -> M3-T11-078 as one dependency chain. Then determine whether the finite Mordell-Weil index set, combined with the already-retained exact physical reconstruction/multiplicity map on this carrier, is sufficient for the required same-measure negligible/counting statement. Only if an explicit point list is required should the first attack switch to effective power-integral/S-integral computation on the 16 fixed curves E2^(d).
+DO_NOT_REPEAT:
+- do not restart an independence estimate for the two H-neighbor events;
+- do not seek a new primitive-divisor theorem merely to prove qualitative finiteness;
+- do not apply a moving-family Faltings warning here: the scaling produces only 16 fixed curves;
+- do not claim effective classification from the Faltings-based theorem.
+REOPEN_CONDITION:
+Only if the M3-T11-077 denominator condition is retracted, the canonical denominator C differs from the standard root denominator used above, or the exact scaling/root-denominator reduction fails.
+M3_T11_X_27_OVER_40_H_NEIGHBOR_FINITE_S_ROOT_DENOMINATOR_SET_FINITE=PROVISIONAL
+M3_T11_X_27_OVER_40_DUAL_H_NEIGHBOR_MW_INDEX_SET_FINITE=PROVISIONAL
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40FiniteSSquareDenominatorPowerIntegralFinitenessAudit
+ROUTE_CARD=M3-T11-078
+
+
+## 87. M3-T11-079 — finite Mordell–Weil support to fixed-u physical B^o(1) adapter
+Status: PROVISIONAL EXACT PHYSICAL COUNTING ADAPTER / AUDIT REQUIRED / X=27/40 FIXED-PACKET ONE-TWELFTH TARGET PROVISIONALLY CLOSED / PRIMARY STAGE37 GATE OPEN.
+
+
+Retain the audited M3-T11-036 fixed-fiber theorem:
+fixed realized u + fixed content/coefficient packet => B^o(1) physical endpoint states.
+Retain the exact x=27/40 translated-lift bridges from the current route:
+E2: V^2=U*(U^2+1244*U+562500),
+U=2500+35000*m^2,
+t^2=1/(36*m^2),
+and on the finite physical genus-two locus
+Y=5*(1-9*t^2)*u,
+with t=+/-1/3 excluded as denominator-clearing boundary/extraneous points.
+
+
+M3-T11-078, conditional on the audit-pending M3-T11-076 -> M3-T11-077 chain, proves that every actual canonical x=27/40 translated-lift survivor has Mordell-Weil index n in a finite set. This can now be attached to the physical measure without any effective enumeration.
+
+
+### 87.1 Finite MW index gives finite realized symmetric-u support
+For each epsilon in {0,1}, the map n -> P_{n,epsilon}=nQ+epsilon*T is injective because Q is non-torsion. Hence a finite allowed set of n gives a finite set of E2 points and therefore a finite set of U-values.
+
+
+For every finite translated-lift point,
+U=2500+35000*m^2.
+Thus each allowed U gives at most two rational m-values. The exact bridge
+t^2=1/(36*m^2)
+then gives at most two rational t-values for each nonzero m. The m=0 / U=2500 branch is the already-retained boundary branch and is a monotone physical post-filter.
+
+
+For each remaining finite physical t, the genus-two equation fixes only finitely many Y, in fact at most the two signs. Since t=+/-1/3 is excluded from the finite physical carrier, 1-9*t^2 is nonzero and
+u=Y/[5*(1-9*t^2)]
+is uniquely recovered from (t,Y).
+
+
+Therefore, conditional on M3-T11-076/077/078,
+boxed:
+the set of realized symmetric parameters u on the physical x=27/40 carrier is finite.
+This finite set is absolute for the fixed E2 carrier; no dependence on B and no effective cardinality are needed.
+
+
+### 87.2 Same-measure physical count
+M3-T11-036 is already hostile-audit promoted and gives, uniformly for every fixed content/coefficient packet and every fixed realized u,
+# physical endpoint states with height <=B = B^o(1).
+
+
+Partition the actual x=27/40 physical endpoints by their realized u. Section 87.1 supplies only finitely many such u. Summing finitely many B^o(1) fibers gives exactly
+boxed:
+# x=27/40 physical endpoint states in one fixed content/coefficient packet <= B^o(1).
+
+
+This is a same-physical-measure deduction. It does not multiply an ambient density, a determinant/index factor, the dual-H conditions, or any independent-probability heuristic. It only partitions the already-defined physical endpoint set by the exact symmetric coordinate u and applies the audited fixed-u multiplicity theorem.
+
+
+Since B^o(1) is smaller than B^(1/12-delta) for any fixed 0<delta<1/12 after absorbing the o(1), this provisionally closes the x=27/40 singular-carrier contribution to the fixed-packet one-twelfth target, conditional on hostile audit of the M3-T11-076 -> 077 -> 078 -> 079 dependency chain.
+
+
+### 87.3 What is no longer needed for power-scale closure
+An effective enumeration of the 16 scaled power-integral curves from M3-T11-078 is not required for the one-twelfth counting target.
+The remaining K-side u/v split allocation is not required merely to obtain the x=27/40 fixed-packet power saving once finite realized-u support is established.
+Elliptic-log height reduction and split-Jacobian quadratic Chabauty remain optional routes only if an explicit rational-point classification is desired.
+
+
+Not proved:
+- emptiness of the x=27/40 physical rational-point set;
+- an explicit list of the finitely many MW indices, t-values, or u-values;
+- the full Stage37 primary gate;
+- P(B)/M3(B) -> 0.
+
+
+NEXT_LEGAL_ACTION:
+Run hostile audit on M3-T11-076 -> M3-T11-077 -> M3-T11-078 -> M3-T11-079 as one dependency chain. If PASS, promote the x=27/40 fixed-content/coefficient-packet bound to B^o(1) and retire this singular carrier from the one-twelfth obstruction. Do not spend an effective power-integral enumeration or solve the residual K-side allocation unless an explicit point classification is separately required.
+
+
+DO_NOT_REPEAT:
+- do not require an effective Everest-Reynolds-Stevens point list for the one-twelfth counting closure;
+- do not continue the K-side u/v allocation solely to obtain x=27/40 power-scale sparsity after this finite-u adapter is audited;
+- do not multiply finite MW support by an unrelated local/determinant density factor;
+- do not claim rational-point emptiness or classification from qualitative finiteness.
+
+
+REOPEN_CONDITION:
+Only if M3-T11-076/077/078 is retracted, M3-T11-036 fixed-u B^o(1) is retracted, or the exact translated-lift/genus-two reconstruction U -> m -> t -> u fails on the finite physical locus.
+
+
+M3_T11_X_27_OVER_40_REALIZED_U_SET_FINITE=PROVISIONAL
+M3_T11_X_27_OVER_40_FIXED_PACKET_PHYSICAL_COUNT_BO1=PROVISIONAL
+M3_T11_X_27_OVER_40_ONE_TWELFTH_CARRIER_TARGET_CLOSED=PROVISIONAL
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40DependencyChainAuditToFixedPacketBO1Promotion
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040_OPTIONAL_CLASSIFICATION
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty_OPTIONAL_CLASSIFICATION
+ROUTE_CARD=M3-T11-079
+5
+
+
+## 88. Hostile-audit promotion — M3-T11-076 -> 077 -> 078 -> 079
+Status: CANONICAL / HOSTILE AUDIT PASS / X=27/40 FIXED-PACKET ONE-TWELFTH CARRIER CLOSED.
+
+
+Independent Stage37 hostile audit passed the full dependency chain M3-T11-076 -> M3-T11-077 -> M3-T11-078 -> M3-T11-079.
+
+
+Audited conclusions:
+- M3-T11-076: exact fresh H/K valuation routing to the same-coset neighbors C_{n+/-2,epsilon}, C_{n+/-1,epsilon};
+- M3-T11-077: each H-neighbor denominator individually has squarefree kernel supported on {2,3,5,7};
+- M3-T11-078: the finite-S denominator condition scales to 16 fixed elliptic curves with square root-denominator, and Everest-Reynolds-Stevens fixed-exponent finiteness gives a finite MW-index support;
+- M3-T11-079: finite MW support gives finite realized symmetric-u support, and audited M3-T11-036 then gives B^o(1) physical endpoints per fixed content/coefficient packet.
+
+
+Canonical promoted result:
+boxed:
+# x=27/40 physical endpoint states in one fixed content/coefficient packet <= B^o(1).
+
+
+Therefore the x=27/40 singular carrier is retired from the fixed-packet one-twelfth obstruction.
+
+
+Audit document:
+Stage37-HOSTILE-AUDIT-M3-T11-076-079-PASS
+ID=1_lXxW5FEvdLOEPG1BChE5akhTN6SzvFcANg6cXdIBuA
+
+
+Canonical flags:
+M3_T11_076_HOSTILE_AUDIT=PASS
+M3_T11_077_HOSTILE_AUDIT=PASS
+M3_T11_078_HOSTILE_AUDIT=PASS
+M3_T11_079_HOSTILE_AUDIT=PASS
+M3_T11_X_27_OVER_40_H_NEIGHBOR_FINITE_S_ROOT_DENOMINATOR_SET_FINITE=true
+M3_T11_X_27_OVER_40_DUAL_H_NEIGHBOR_MW_INDEX_SET_FINITE=true
+M3_T11_X_27_OVER_40_REALIZED_U_SET_FINITE=true
+M3_T11_X_27_OVER_40_FIXED_PACKET_PHYSICAL_COUNT_BO1=true
+M3_T11_X_27_OVER_40_ONE_TWELFTH_CARRIER_TARGET_CLOSED=true
+
+
+Firewalls remain:
+M3_T11_X_27_OVER_40_HK_SPLIT_ALLOCATION_GLOBAL_COUPLING_PROVED=false
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+Effective power-integral enumeration, elliptic-log reduction, split-Jacobian quadratic Chabauty, and residual K-side allocation are optional classification routes only. They are not required for this fixed-packet counting closure.
+
+
+NEXT_LEGAL_ACTION:
+Return to the remaining live part of M3-T11-GATE-001 after retiring the x=27/40 singular carrier. Do not reopen x=27/40 solely for one-twelfth power-scale credit.
+
+
+
+
+## 89. M3-T11-080 — x=-1/8 residual-squareclass j=1728 compression
+Status: PROVISIONAL EXACT STRUCTURE / FIXED-D B^o(1) CANDIDATE / HOSTILE AUDIT REQUIRED / ACTIVE-D SUPPORT OPEN.
+
+
+Retain M3-T11-035, audited M3-T11-036, and M3-T11-046. On the exact x=-1/8 carrier,
+c^2=a^2+2*b^2,
+N_u=a^2+b^2=(c-b)(c+b),
+with c-b and c+b positive odd coprime integers.
+
+
+### 89.1 Residual squarefree cofactor
+Put
+d_-=sf(c-b),
+d_+=sf(c+b),
+and write uniquely
+c-b=d_-*y_-^2,
+c+b=d_+*y_+^2,
+with d_-,d_+ coprime squarefree and gcd(y_-,y_+)=1.
+Let
+D=d_-*d_+.
+Then
+D=sf(N_u)=sf(N_u/M_rel^2).
+By the exact fresh valuation routing of M3-T11-046, each p|M_rel occurs with even valuation in exactly one of c-b,c+b, so
+gcd(D,M_rel)=1.
+Important firewall: D remains moving. Neither d_- nor d_+ is asserted to be finite-S.
+
+
+### 89.2 Exact genus-one compression
+From
+c=(d_+*y_+^2+d_-*y_-^2)/2,
+b=(d_+*y_+^2-d_-*y_-^2)/2,
+and a^2=c^2-2*b^2, one obtains
+(2a)^2=-d_+^2*y_+^4+6*D*y_+^2*y_-^2-d_-^2*y_-^4.
+With X=y_+/y_- and Z=2a/y_-^2:
+boxed:
+C_{d_-,d_+}: Z^2=-d_+^2*X^4+6*D*X^2-d_-^2.
+
+
+Its exact quartic discriminant is
+2^14*d_-^6*d_+^6=2^14*D^6,
+so every positive d_-,d_+ fiber is smooth genus one.
+The binary-quartic invariants are
+I=48*D^2,
+J=0,
+hence the scaled Jacobian is
+boxed:
+E_D: V^2=U^3-1296*D^2*U
+=U*(U-36D)*(U+36D).
+Thus j(E_D)=1728 and E_D has full rational 2-torsion.
+The quartic has a canonical point over the one fixed field Q(i):
+(X,Z)=(0,+/-i*d_-).
+
+
+### 89.3 Fixed-D B^o(1) candidate
+For fixed D, the number of ordered coprime squarefree splittings D=d_-d_+ is
+2^omega(D)=D^o(1).
+M3-T11-035 gives N_u=B^O(1), hence D<=B^O(1) and the split count is B^o(1).
+
+
+The physical point on C_{d_-,d_+} has polynomial height, and the quartic-to-Jacobian map has fixed degree. The Jacobian has rational exact prime-order 2-torsion, while the torsor has a point over the one fixed field Q(i). Therefore the same uniform bounded-height theorem species already audited in M3-T11-036 gives a plausible uniform B^o(1) fixed-fiber count after the physical height map is checked.
+
+
+Reduced X=y_+/y_- recovers y_+,y_-; Z then recovers a, and the formulas above recover b,c and u=a/b up to bounded sign/orientation conventions. Audited M3-T11-036 supplies B^o(1) physical endpoint multiplicity for each fixed u.
+
+
+Candidate only:
+boxed:
+fixed D + fixed content/coefficient packet
+=> B^o(1) physical x=-1/8 endpoints.
+This is not promoted before hostile audit.
+
+
+### 89.4 New moving-support target
+If the fixed-D candidate passes audit, the x=-1/8 one-twelfth problem is reduced to one moving residual squareclass:
+D=sf((a^2+b^2)/M_rel^2).
+A sufficient theorem is
+boxed:
+# realized D << B^(1/12-delta)
+per fixed content/coefficient packet,
+for some fixed delta>0, up to B^o(1) losses.
+
+
+Canonical receiver:
+XMinusOneEighthResidualSquarefreeKernelSupportOneTwelfth.
+
+
+This is sharper than directly counting the M3-T11-046 determinant-M_rel^2 lattices: the old two-core moving geometry is compressed to one residual squarefree-kernel support variable. No determinant density is charged.
+
+
+### 89.5 Side preflight on generic fixed-x
+The M3-T11-045 generic fixed-x algebra was independently rechecked:
+disc_v(P_x)=2^24*x^8*(1+8x)*(40x-27)^3.
+For
+v0=-(64x^2-48x+3)/3,
+the stated R0 satisfies P_x(v0)=R0^2, and the tangent-inflection identity vanishes identically. This reconfirms the order-3 section algebra only. The generic fixed-x B^o(1) physical pushforward/height adapter remains hostile-audit pending.
+
+
+DO_NOT_REPEAT:
+- do not declare d_-, d_+, or D finite-S;
+- do not charge M_rel^-2 from the old lattice determinant;
+- do not promote fixed-D B^o(1) before audit;
+- do not infer an x=-1/8 power saving from fixed-D fibers without the moving-D support theorem;
+- do not reopen x=27/40 for one-twelfth credit.
+
+
+NEXT_LEGAL_ACTION:
+Run stage37audit on the M3-T11-080 fixed-D adapter. Mainbatch should next attack XMinusOneEighthResidualSquarefreeKernelSupportOneTwelfth, with GenericXMovingSupportDispersion and InteriorCharacterGlobalDispersion retained as separate supporting routes.
+
+
+M3_T11_X_MINUS_ONE_EIGHTH_RESIDUAL_KERNEL_SPLIT=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_RESIDUAL_D_EQUALS_SF_NU_OVER_MREL2=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_RESIDUAL_QUARTIC_J1728=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_RESIDUAL_QUARTIC_FULL_RATIONAL_2TORSION=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_FIXED_D_BO1_CANDIDATE=true
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_D_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+M3_T11_FIXED_X_GENERIC_BO1_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+ROUTE_CARD=M3-T11-08
+
+
+## 90. Hostile-audit promotion — M3-T11-080
+Status: CANONICAL / HOSTILE AUDIT PASS / FIXED-D UNIFORMITY CLOSED / MOVING-D SUPPORT OPEN.
+
+
+Independent Stage37 hostile audit passed the M3-T11-080 fixed-D counting adapter.
+
+
+Audited conclusions:
+- D=d_-d_+=sf(N_u/M_rel^2), with gcd(D,M_rel)=1;
+- C_{d_-,d_+}: Z^2=-d_+^2 X^4+6D X^2-d_-^2 is smooth with I=48D^2, J=0, Delta=2^14 D^6;
+- its Jacobian is E_D: V^2=U^3-1296D^2U=U(U-36D)(U+36D), so j=1728 with full rational 2-torsion;
+- C_{d_-,d_+} has a point (0, +/-i d_-) over the single fixed field Q(i);
+- Dujella's uniform bounded-height theorem over fixed Q(i), plus the polynomial physical-height adapter, gives B^o(1) physical points for each fixed splitting;
+- the 2^omega(D)=B^o(1) splittings at fixed D preserve the B^o(1) total.
+
+
+Canonical promoted result:
+fixed D + fixed content/coefficient packet
+=> B^o(1) physical x=-1/8 endpoints.
+
+
+Audit document:
+Stage37-HOSTILE-AUDIT-M3-T11-080-PASS
+ID=1HJotvTyz0subm-JZY3H920GUNfjrcQyBlKGm4OIGBZQ
+
+
+Canonical flags:
+M3_T11_080_HOSTILE_AUDIT=PASS
+M3_T11_X_MINUS_ONE_EIGHTH_RESIDUAL_KERNEL_SPLIT=true
+M3_T11_X_MINUS_ONE_EIGHTH_RESIDUAL_D_EQUALS_SF_NU_OVER_MREL2=true
+M3_T11_X_MINUS_ONE_EIGHTH_RESIDUAL_QUARTIC_J1728=true
+M3_T11_X_MINUS_ONE_EIGHTH_RESIDUAL_QUARTIC_FULL_RATIONAL_2TORSION=true
+M3_T11_X_MINUS_ONE_EIGHTH_FIXED_D_BO1_PROVED=true
+
+
+Firewalls remain:
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_D_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+M3_T11_FIXED_X_GENERIC_BO1_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+NEXT_LEGAL_ACTION:
+Attack XMinusOneEighthResidualSquarefreeKernelSupportOneTwelfth: prove # realized D << B^(1/12-delta) per fixed content/coefficient packet, up to B^o(1) losses. Do not infer a carrier-wide saving from fixed-D uniformity alone.
+
+
+## 91. M3-T11-081 — x=-1/8 Sophie-Germain residual kernel and distinguished negative-square 2-descent point
+Status: PROVISIONAL EXACT STRUCTURE / THEOREM ROUTER / HOSTILE AUDIT REQUIRED / NO POWER SAVING.
+
+
+Retain M3-T11-035, M3-T11-046, and hostile-audit-passed M3-T11-080. On the exact x=-1/8 carrier use the primitive conic parameterization
+a=(r^2-2*s^2)/epsilon,
+b=2*r*s/epsilon,
+c=(r^2+2*s^2)/epsilon,
+gcd(r,s)=1, epsilon in {1,2}.
+Then the already-known Sophie-Germain factorization is
+F(r,s):=r^4+4*s^4
+=(r^2-2*r*s+2*s^2)*(r^2+2*r*s+2*s^2)
+=epsilon^2*N_u.
+M3-T11-080 gives D=sf(N_u/M_rel^2)=sf(N_u), while M3-T11-046 gives M_rel^2|N_u and gcd(D,M_rel)=1. Therefore there is an integer h>=1 such that
+N_u=D*(M_rel*h)^2
+and hence exactly
+F(r,s)=D*(epsilon*M_rel*h)^2.
+Thus the moving-D problem is a squarefree-kernel support problem for one fixed decomposable binary quartic, but on the exact physical subpopulation carrying the actual large square divisor epsilon*M_rel. This identity is a router, not a determinant-density saving.
+
+
+### 91.1 Distinguished rational point on the congruent-number curve
+Put W=epsilon*M_rel*h, so F=D*W^2, and define
+alpha=2*r*s/W,
+beta=(r^2-2*s^2)/W,
+gamma=(r^2+2*s^2)/W.
+Then exactly
+gamma^2-alpha^2=D
+and
+gamma^2-beta^2=2*alpha^2.
+Consequently
+P_D=(X,Y)=(-alpha^2, alpha*beta*gamma)
+lies on
+E_D: Y^2=X^3-D^2*X=X*(X+D)*(X-D),
+because
+X+D=beta^2
+and
+X-D=-gamma^2.
+On the nondegenerate physical carrier alpha*beta*gamma!=0, so this is a non-2-torsion-pattern rational point with the stronger exact square pattern
+X=-alpha^2,
+X+D=beta^2,
+X-D=-gamma^2.
+Equivalently, every realized D lies in this distinguished negative-square 2-descent class. Directly, the standard right-triangle formulas from this point give a rational right triangle of area D, so every realized D is a congruent number. No density consequence is inferred from that label.
+
+
+### 91.2 Same-measure and literature firewall
+The ambient binary quartic F has abundant power-free values; Greaves / Stewart-Top / Xiao-type binary-form power-free results therefore do not supply the required Stage37 deficit by themselves. Likewise, generic information on congruent numbers is not a substitute for a same-physical-measure count. Any fixed-power saving must use the exact physical R<=B packet together with the actual large square divisor W divisible by M_rel and/or the distinguished negative-square 2-descent class. Do not charge the old determinant-M_rel^2 lattice again.
+
+
+Canonical receiver remains:
+XMinusOneEighthResidualSquarefreeKernelSupportOneTwelfth.
+New supporting attack:
+XMinusOneEighthSophieGermainNegativeSquare2DescentSupport.
+
+
+NEXT_LEGAL_ACTION:
+Prove a same-physical-measure fixed-power bound for realized D satisfying F(r,s)=D*W^2 with M_rel|W and the distinguished negative-square 2-descent point, or first derive an exact physical height/range and multiplicity adapter from R<=B to (r,s,W) strong enough to invoke a large-square-divisor theorem. Keep GenericXMovingSupportDispersion and InteriorCharacterGlobalDispersion separate.
+
+
+DO_NOT_REPEAT:
+- do not claim novelty or saving from the Sophie-Germain factorization alone;
+- do not import ambient squarefree-value or congruent-number density as exact M3 density;
+- do not charge M_rel^-2 from the old parameter-lattice determinant;
+- do not promote a moving-D deficit, x=-1/8 power saving, primary-gate closure, endpoint credit, or P(B)/M3(B) credit before audit and a support theorem.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_X_MINUS_ONE_EIGHTH_SOPHIE_GERMAIN_KERNEL_ROUTER=true
+M3_T11_X_MINUS_ONE_EIGHTH_NEGATIVE_SQUARE_2DESCENT_POINT=true
+M3_T11_X_MINUS_ONE_EIGHTH_REALIZED_D_CONGRUENT=true
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_D_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+## 92. M3-T11-082 — exact large-denominator point on the moving congruent-number twist
+Status: PROVISIONAL EXACT STRUCTURE / SAME-MEASURE HEIGHT ADAPTER / HOSTILE AUDIT REQUIRED / NO POWER SAVING.
+
+
+Retain the audited x=-1/8 facts from M3-T11-046 and M3-T11-080. Write
+N_u=a^2+b^2=D*q^2
+with q>0.
+Because D=sf(N_u), and because every relative-fresh p^lambda||M_rel occurs in N_u to exact even valuation 2*lambda while gcd(D,M_rel)=1, one has
+boxed:
+q=M_rel*h
+for an integer h>=1.
+
+
+The singular conic is
+c^2=a^2+2*b^2,
+with gcd(a,b)=1, b even, a,c odd.
+Define
+boxed:
+P_D=(x_D,y_D)
+=
+(-b^2/q^2, a*b*c/q^3).
+Then exactly
+x_D+D=a^2/q^2,
+x_D-D=-c^2/q^2,
+so
+y_D^2=x_D*(x_D+D)*(x_D-D)
+=x_D^3-D^2*x_D.
+Hence P_D lies on the congruent-number twist
+boxed:
+E_D: y^2=x^3-D^2*x.
+This is the unscaled j=1728 model corresponding to the scaled Jacobian in M3-T11-080.
+
+
+### 92.1 Exact standard denominator
+The denominator q is not an unreduced auxiliary denominator.
+Since q^2 divides a^2+b^2 and gcd(a,b)=1, any prime p|q divides neither a nor b.
+Also q is odd because N_u and D are odd on this carrier.
+For p|q,
+c^2=a^2+2*b^2 == b^2 mod p,
+so p does not divide c.
+Therefore
+boxed:
+gcd(q,a*b*c)=1.
+Consequently P_D is already in standard integral Weierstrass denominator form:
+boxed:
+x_D=A_D/C_D^2,  y_D=B_D/C_D^3,
+with
+A_D=-b^2,
+B_D=a*b*c,
+C_D=q=M_rel*h,
+and gcd(A_D,C_D)=gcd(B_D,C_D)=1.
+In particular
+boxed:
+M_rel | C_D.
+Thus the actual Stage37 fresh conductor survives as a divisor of the standard denominator root of one explicit rational point on the moving quadratic twist.
+
+
+### 92.2 Exact naive-height window
+For the standard x-height
+H_x(P_D):=max(|A_D|,C_D^2),
+one has exactly
+H_x(P_D)=max(b^2,q^2).
+Since
+a^2+b^2=D*q^2,
+we have b^2<D*q^2 and hence
+boxed:
+q^2 <= H_x(P_D) <= D*q^2.
+On the hard large-fresh branch
+M_rel>B^(1/12-eta),
+this forces
+boxed:
+C_D=q>B^(1/12-eta)
+and
+boxed:
+H_x(P_D)>B^(1/6-2*eta).
+The exact physical packet still gives only a polynomial upper height bound at present; no sharp upper exponent sufficient for a support count has been proved here.
+
+
+### 92.3 Counting firewall and next theorem species
+A large standard denominator is not by itself rare on a positive-rank elliptic curve. Therefore no moving-D support saving follows merely from C_D>=M_rel or from the congruent-number label.
+Known integral-point results on congruent-number curves do not directly apply because the present distinguished point has denominator q>1 on the large-fresh branch. Generic quadratic-twist height results likewise require an exact match of theorem hypotheses and a same-physical-measure height/multiplicity adapter before they can be charged.
+
+
+Canonical receiver remains:
+XMinusOneEighthResidualSquarefreeKernelSupportOneTwelfth.
+Preferred supporting attack becomes:
+XMinusOneEighthMovingTwistLargeDenominatorHeightSupport.
+
+
+NEXT_LEGAL_ACTION:
+Derive an exact physical R<=B upper range for (D,q,H_x(P_D)) with B^o(1) pushforward multiplicity, then test a twist-family theorem that counts squarefree D admitting a rational point in the resulting denominator/height window. Alternatively prove such a count directly on the exact Stage37 image. Do not infer a fixed-power deficit from the lower denominator bound alone.
+
+
+DO_NOT_REPEAT:
+- do not count q>=M_rel as a density saving by itself;
+- do not replace the exact physical Stage37 image by all rational points on all congruent-number curves;
+- do not apply integral-point theorems to q>1 points;
+- do not charge the old M_rel^-2 parameter-lattice determinant again;
+- do not promote moving-D support, x=-1/8 power saving, primary-gate closure, endpoint credit, or P(B)/M3(B) credit before hostile audit and a same-measure support theorem.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_X_MINUS_ONE_EIGHTH_MOVING_D_POINT_EXPLICIT=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_MOVING_D_POINT_STANDARD_DENOMINATOR_EXACT=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_MOVING_D_POINT_DENROOT_MULTIPLE_OF_MREL=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_MOVING_D_POINT_NAIVE_HEIGHT_WINDOW=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_D_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+## 93. M3-T11-083 — x=-1/8 lcm denominator carrier and exact physical twist-height upper window
+Status: PROVISIONAL EXACT STRUCTURE / SAME-MEASURE PHYSICAL-RANGE ADAPTER / LITERATURE FIREWALL / HOSTILE AUDIT REQUIRED / NO POWER SAVING.
+
+
+Retain M3-T11-032/033/035/046, hostile-audit-passed M3-T11-080, and the provisional denominator point of M3-T11-082. On the exact x=-1/8 carrier write
+v_i=A_i/B_i
+in lowest terms,
+S=v_1+v_2+v_3=-2*a*b/N_u,
+N_u=a^2+b^2=D*q^2,
+q=M_rel*h.
+By M3-T11-046 the displayed S-fraction is reduced, hence
+boxed:
+Den(S)=N_u=D*q^2.
+
+
+### 93.1 lcm, not product, is the correct symmetric denominator carrier
+The corrected complementary anti-root denominator carriers give fixed packet integers L_i such that
+B_1 | L_1*(tau_0*tau_2*tau_3)^2,
+B_2 | L_2*(tau_0*tau_1*tau_3)^2,
+B_3 | L_3*(tau_0*tau_1*tau_2)^2.
+Put
+boxed:
+L_vee=lcm(L_1,L_2,L_3).
+Since
+S=A_1/B_1+A_2/B_2+A_3/B_3,
+the reduced denominator of S divides the least common multiple:
+boxed:
+Den(S) | lcm(B_1,B_2,B_3).
+Also each complementary core product tau_0*tau_j*tau_k divides
+tau=tau_0*tau_1*tau_2*tau_3.
+Therefore each B_i divides L_vee*tau^2, so
+boxed:
+D*q^2=N_u | L_vee*tau^2.
+This is the exact denominator recombination. Multiplying B_1*B_2*B_3 would introduce a spurious tau^6-scale carrier and is not the correct reduced-denominator operation.
+
+
+### 93.2 Exact physical R<=B upper window
+Let
+H_c=h_1*h_2*h_3.
+The retained cyclic content identity is
+R=H_c*tau.
+Hence on the exact physical packet R<=B,
+boxed:
+tau <= B/H_c.
+Combining with Section 93.1 gives
+boxed:
+D*q^2 <= L_vee*tau^2 <= L_vee*(B/H_c)^2.
+Since q=M_rel*h,
+boxed:
+D*h^2*M_rel^2 | L_vee*tau^2,
+and because M_rel|tau,
+boxed:
+D*h^2 <= L_vee*(tau/M_rel)^2.
+In particular,
+boxed:
+q <= sqrt(L_vee)*tau <= sqrt(L_vee)*B/H_c,
+and
+boxed:
+D <= L_vee*(tau/M_rel)^2
+<= L_vee*(B/(H_c*M_rel))^2.
+For the standard point of M3-T11-082,
+H_x(P_D)=max(b^2,q^2),
+so the exact physical upper window is
+boxed:
+q^2 <= H_x(P_D) <= D*q^2
+<= L_vee*tau^2
+<= L_vee*(B/H_c)^2.
+On the hard branch M_rel>B^(1/12-eta), this also implies the packet-relative bound
+D < L_vee*H_c^(-2)*B^(11/6+2*eta).
+No fixed-power support saving is inferred from this upper bound.
+
+
+### 93.3 Fixed-(D,q,H_x) pushforward multiplicity
+The required pushforward multiplicity does not create a new obstruction. Hostile-audit-passed M3-T11-080 already proves
+fixed D + fixed content/coefficient packet
+=> B^o(1) physical x=-1/8 endpoints.
+Therefore every smaller fiber with fixed
+(D,q,H_x(P_D))
+has cardinality B^o(1) as well.
+As an independent consistency check, fixed (D,q) fixes N_u=D*q^2; primitive representations a^2+b^2=N_u are divisor-many, and the audited fixed-u theorem M3-T11-036 is B^o(1), but no separate saving is charged for this second description.
+
+
+### 93.4 Fixed-base quadratic-twist coordinate
+Under
+x=D*X,
+y=D^2*Y,
+the curve
+E_D: y^2=x^3-D^2*x
+becomes
+boxed:
+D*Y^2=X^3-X.
+For the distinguished point,
+boxed:
+X=-b^2/(D*q^2)=-b^2/N_u.
+Because gcd(b,N_u)=1 and b^2<N_u, this fraction is reduced and its ordinary rational x-coordinate height is exactly
+boxed:
+H(X)=N_u=D*q^2.
+Thus the same lcm carrier supplies an exact fixed-base twist x-height upper range.
+
+
+### 93.5 Literature firewall
+A targeted theorem check does not presently close the support gate.
+- Everest-Reynolds-Stevens type denominator perfect-power finiteness is a fixed-curve statement and does not count moving squarefree twists D in this endogenous window.
+- Integral-point results for congruent-number curves do not directly apply to the hard branch q>1.
+- Le Boudec / Petit quadratic-twist height results concern lowest or almost-minimal canonical-height regimes; the present result supplies an ordinary rational x-height window for one distinguished physical point, not the required uniform canonical-height hypothesis or a same-physical-measure twist count.
+Accordingly no literature theorem is charged here.
+
+
+The canonical receiver remains
+boxed:
+XMinusOneEighthResidualSquarefreeKernelSupportOneTwelfth.
+The preferred supporting attack is sharpened to
+boxed:
+XMinusOneEighthMovingTwistLCMPhysicalHeightSupport.
+
+
+NEXT_LEGAL_ACTION:
+Hostile-audit M3-T11-082 and M3-T11-083. In mainbatch, exploit the exact endogenous divisor
+D*q^2 | L_vee*tau^2
+jointly with
+q=M_rel*h,
+R=H_c*tau<=B,
+and the exact Stage37 reconstruction to prove a fixed-power bound for realized squarefree D. A theorem on moving quadratic twists is usable only after matching this same physical measure. Do not infer saving from the upper window or from q>=M_rel alone.
+
+
+DO_NOT_REPEAT:
+- do not replace lcm(B_1,B_2,B_3) by the product B_1*B_2*B_3 when bounding Den(S);
+- do not treat L_vee as a uniform absolute constant outside one fixed packet;
+- do not count the upper bound D*q^2<=L_vee*tau^2 as a density saving;
+- do not replace the exact Stage37 image by all rational points on all congruent-number twists;
+- do not recharge the old M_rel^-2 determinant;
+- do not promote moving-D support, x=-1/8 power saving, the primary gate, endpoint credit, or P(B)/M3(B) credit before hostile audit and a same-measure support theorem.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_X_MINUS_ONE_EIGHTH_LCM_DENOMINATOR_UPPER_WINDOW=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_FIXED_DQH_PHYSICAL_FIBER_BO1=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_FIXED_BASE_TWIST_XHEIGHT_EXACT=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_D_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+## Audit promotion — M3-T11-083
+
+
+HOSTILE_AUDIT=PASS.
+Audit document: Stage37-HOSTILE-AUDIT-M3-T11-083-PASS, ID 1qlE66-it4Cg60Whtlwe-bot9-ldgbj1eyBoxVIhki8U.
+
+
+Promoted on the exact x=-1/8 physical measure:
+- D*q^2=Den(S) | lcm(B_1,B_2,B_3) | L_vee*tau^2;
+- the packet-relative R<=B upper window for D, q, and H_x(P_D);
+- fixed (D,q,H_x(P_D)) + fixed packet => B^o(1) physical multiplicity;
+- fixed-base twist coordinate height H(X)=N_u=D*q^2.
+
+
+M3-T11-082 remains standalone HOSTILE_AUDIT_REQUIRED; only the point/standard-denominator sublemma needed by M3-T11-083 was independently rechecked and passed inside this audit.
+
+
+No moving-D support deficit, x=-1/8 power saving, primary-gate closure, endpoint theorem, or P(B)/M3(B) credit is promoted.
+
+
+M3_T11_083_HOSTILE_AUDIT=PASS
+M3_T11_X_MINUS_ONE_EIGHTH_LCM_DENOMINATOR_UPPER_WINDOW=true
+M3_T11_X_MINUS_ONE_EIGHTH_FIXED_DQH_PHYSICAL_FIBER_BO1=true
+M3_T11_X_MINUS_ONE_EIGHTH_FIXED_BASE_TWIST_XHEIGHT_EXACT=true
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_D_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+NEXT_ATTACK=XMinusOneEighthResidualSquarefreeKernelSupportOneTwelfth.
+NEXT_RESEARCH_CARD_ID=M3-T11-084.
+
+
+
+
+## 94. M3-T11-084 — x=-1/8 residual kernel transfers to the all-same fresh core
+Status: PROVISIONAL EXACT SUPPORT TRANSFER / SMALL-BRANCH ONE-TWELFTH CLOSURE / HOSTILE AUDIT REQUIRED / TOTAL POWER SAVING OPEN.
+
+
+Retain hostile-audit-passed M3-T11-080 and M3-T11-083, together with Sections 28.3, 32.3-32.4, and 33.1-33.4. On the exact x=-1/8 carrier write
+N_u=D*q^2,
+q=M_rel*h.
+M3-T11-083 gives
+D*h^2*M_rel^2 | L_vee*tau^2.
+Also
+tau=tau_0*R_rel=tau_0*M_rel*N_rel,
+where every prime divisor of N_rel lies in
+S_content={p : p | c_1*c_2*c_3}.
+Cancelling M_rel^2 gives the exact divisibility
+boxed:
+D*h^2 | L_vee*tau_0^2*N_rel^2.
+
+
+### 94.1 Packet-free support transfer
+Since D is squarefree,
+D | rad(L_vee*tau_0*N_rel).
+Put
+Delta_pkt=rad(L_vee*c_1*c_2*c_3)
+and
+D_fr=D/gcd(D,Delta_pkt).
+Then exactly
+boxed:
+D_fr | rad(tau_0^sharp).
+Thus every prime of the residual squarefree twist D outside the fixed packet prime set is forced into the all-same fresh core tau_0^sharp. The relative fresh conductor M_rel disappears from the residual squarefree kernel after its square contribution has been absorbed into q^2.
+
+
+### 94.2 Small all-same fresh branch is below one-twelfth
+Write
+tau_0=tau_0^sharp*N_0,
+with N_0 supported on S_content.
+The Section-33.2 semigroup argument applies verbatim to N_0 in the retained polynomial physical range tau_0<=tau<=B/H_c. Hence, for one fixed content/coefficient packet, N_0 has only B^o(1) possible values.
+For fixed tau_0^sharp, the squarefree D satisfying
+D_fr | rad(tau_0^sharp)
+have only B^o(1) possibilities uniformly: the packet-supported part divides Delta_pkt and the remaining part is a squarefree divisor of tau_0^sharp.
+Therefore on
+tau_0^sharp <= B^(1/12-eta)
+one has
+boxed:
+# realized D <= B^(1/12-eta+o(1)).
+Hostile-audit-passed M3-T11-080 gives
+fixed D + fixed content/coefficient packet => B^o(1)
+physical x=-1/8 endpoints. Thus this subbranch contributes
+boxed:
+# physical x=-1/8 endpoints <= B^(1/12-eta+o(1)),
+and in particular <= B^(1/12-eta/2) for sufficiently large B.
+This is a same-physical-measure one-twelfth closure for the small-tau_0^sharp subbranch only.
+
+
+### 94.3 Remaining branch is the existing all-same Gaussian square-divisor branch
+The only unresolved x=-1/8 branch after Section 94.2 has
+tau_0^sharp > B^(1/12-eta).
+Section 28.3 already gives the exact all-same valuation condition
+(G_0^sharp)^2 | Num_Gauss(A),
+with
+N((G_0^sharp)^2)=(tau_0^sharp)^2 > B^(1/6-2*eta).
+No new G_0 root line is claimed. This is exactly the existing all-same Gaussian numerator square-divisor theorem species, now shown to be the only large residual-kernel branch for x=-1/8.
+Canonical remaining receiver:
+XMinusOneEighthAllSameFreshSquareDivisorOneTwelfth.
+
+
+### 94.4 Power-scale interpretation
+Hostile-audit-passed M3-T11-080 gives fixed D + packet => B^o(1) physical endpoints. Sections 32-33 give fixed M_rel + packet => B^o(1) physical endpoints, because N_rel has B^o(1) choices and fixed R_rel has B^o(1) physical multiplicity. Hence active D support and active M_rel support are equivalent at polynomial-exponent scale through the same physical endpoint count. The D compression is an alternate support coordinate, not an automatic density saving. The new gain here is the exact packet-free D-support transfer to tau_0^sharp and the resulting closure of the small-tau_0^sharp branch.
+
+
+DO_NOT_REPEAT:
+- do not claim D is finite-S;
+- do not claim all of D divides tau_0; packet primes from L_vee and S_content are retained in Delta_pkt;
+- do not infer total x=-1/8 power saving from the small-tau_0^sharp branch;
+- do not invent a fourth G_0 anti-root/root-line condition; use the existing Section-28.3 Gaussian numerator square-divisor branch;
+- do not import SR-STR-170 or an ordinary-divisor theorem without same-physical-measure compatibility;
+- do not recharge M_rel^-2 or determinant savings.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_X_MINUS_ONE_EIGHTH_RESIDUAL_D_FRESH_SUPPORT_IN_TAU0=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_SMALL_TAU0_FRESH_BRANCH_ONE_TWELFTH=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_LARGE_TAU0_FRESH_GAUSSIAN_SQUARE_DIVISOR_ROUTED=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_D_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+NEXT_ATTACK=XMinusOneEighthAllSameFreshSquareDivisorOneTwelfth.
+NEXT_RESEARCH_CARD_ID=M3-T11-085.
+
+
+## 95. M3-T11-085 — packet-free residual-kernel split and large all-same Gaussian square divisor
+Status: PROVISIONAL EXACT SUPPORT SPLIT / SMALL-D_fr ONE-TWELFTH CLOSURE / LARGE-D_fr SQUARE-DIVISOR ROUTER / HOSTILE AUDIT REQUIRED / TOTAL POWER SAVING OPEN.
+
+
+Retain hostile-audit-passed M3-T11-080 and M3-T11-083 and the exact Section-28.3 all-same valuation theorem. Put
+Delta_pkt=rad(L_vee*c_1*c_2*c_3),
+D_pkt=gcd(D,Delta_pkt),
+D_fr=D/D_pkt.
+Thus D_pkt is a squarefree divisor of the fixed packet integer Delta_pkt.
+
+
+From M3-T11-083 and
+tau=tau_0*M_rel*N_rel
+one has exactly
+D*h^2 | L_vee*tau_0^2*N_rel^2.
+For every p not dividing Delta_pkt, both L_vee and N_rel are p-units. Writing
+d=v_p(D) in {0,1},
+e=v_p(h),
+a=v_p(tau_0),
+the divisibility gives
+d+2e <= 2a.
+Hence
+d+e <= a.
+If
+h_fr=product_{p not dividing Delta_pkt} p^{v_p(h)},
+then primewise
+boxed:
+D_fr*h_fr | tau_0^sharp.
+In particular
+D_fr | rad(tau_0^sharp),
+recovering and strengthening the M3-T11-084 support transfer.
+
+
+### 95.1 Small packet-free residual kernel closes directly
+Fix eta>0. If
+D_fr <= B^(1/12-eta),
+then the number of possible D_fr is at most B^(1/12-eta).
+For the fixed content/coefficient packet, D_pkt ranges over squarefree divisors of Delta_pkt. The retained polynomial-height bounds imply
+# {D_pkt} <= d(Delta_pkt)=B^o(1).
+Therefore
+boxed:
+# realized D <= B^(1/12-eta+o(1))
+on this branch.
+Hostile-audit-passed M3-T11-080 gives fixed D + fixed packet => B^o(1) physical x=-1/8 endpoints, so
+boxed:
+# physical x=-1/8 endpoints with D_fr<=B^(1/12-eta)
+<= B^(1/12-eta+o(1)).
+This closes a strictly larger subbranch than M3-T11-084: no upper bound on tau_0^sharp is needed.
+
+
+### 95.2 Large D_fr forces a large square divisor of the common-phase numerator
+Now assume
+D_fr > B^(1/12-eta).
+For each rational prime p|D_fr, Section 95 gives p|tau_0^sharp. Let pi_p be the oriented Gaussian prime above p occurring in the primitive all-same core G_0^sharp, and define the squarefree Gaussian ideal
+mathfrak_D=product_{p|D_fr} (pi_p).
+Then
+N(mathfrak_D)=D_fr.
+Section 28.3 gives, for every pi_p^a||G_0^sharp,
+pi_p^(2a) | Num_Gauss(A),
+where
+A=r_1^2+r_2^2+r_3^2
+after the fixed packet denominator normalization. Consequently the selected squarefree subideal satisfies exactly
+boxed:
+mathfrak_D^2 | Num_Gauss(A),
+with
+boxed:
+N(mathfrak_D^2)=D_fr^2 > B^(1/6-2*eta).
+Thus the only packet-free residual-D support not already closed by Section 95.1 is carried by a genuinely large Gaussian ideal-square divisor of the existing common-phase numerator.
+
+
+The oriented choice of mathfrak_D over a fixed rational D_fr has only 2^omega(D_fr)=B^o(1) possibilities on the polynomial height range, so passing from D_fr support to the corresponding square-divisor labels loses no fixed power.
+
+
+### 95.3 Sharpened live theorem gate
+The previous large-tau_0 receiver is broader than necessary. Large tau_0^sharp with small D_fr is already harmless for the moving-D support count. The exact remaining receiver is therefore
+boxed:
+XMinusOneEighthResidualKernelGaussianSquareDivisorOneTwelfth.
+
+
+Required theorem species:
+on the exact fixed-packet x=-1/8 physical measure, prove a fixed-power deficit for realized packet-free residual kernels D_fr whose associated oriented ideal mathfrak_D satisfies
+mathfrak_D^2 | Num_Gauss(A)
+and
+N(mathfrak_D)>B^(1/12-eta).
+Equivalently, it is enough to prove
+# realized D_fr in the large branch << B^(1/12-delta)
+for some fixed delta>0.
+No ambient squarefree-value theorem, generic square-divisor density, or SR-STR-170 exponent is imported without a same-measure adapter.
+
+
+DO_NOT_REPEAT:
+- do not require tau_0^sharp itself to be small in the easy branch; D_fr is the support variable that matters;
+- do not count D_pkt by its numerical size; count its divisor choices inside the fixed packet;
+- do not claim mathfrak_D=G_0^sharp; it is only the squarefree subideal selected by D_fr;
+- do not infer a fixed-power saving merely from the large square divisor;
+- do not combine this square-divisor event multiplicatively with already-consumed M_rel^2 or determinant savings.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_X_MINUS_ONE_EIGHTH_DFR_HFR_DIVIDES_TAU0_FRESH=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_SMALL_DFR_BRANCH_ONE_TWELFTH=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_LARGE_DFR_COMMON_PHASE_SQUARE_DIVISOR=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_D_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+NEXT_ATTACK=XMinusOneEighthResidualKernelGaussianSquareDivisorOneTwelfth.
+NEXT_RESEARCH_CARD_ID=M3-T11-086.
+
+
+
+
+## 96. M3-T11-086 — triple-spin sigma dual-conductor root line
+
+
+Status: PROVISIONAL EXACT_STRUCTURE / SAME_MEASURE_DUAL_CONDUCTOR_ROOTLINE / SUPPORT_REDUCTION / HOSTILE_AUDIT_REQUIRED / TOTAL POWER SAVING OPEN.
+
+
+Retain the Section-17 common-phase notation
+A=r_1^2+r_2^2+r_3^2,
+U=Q^2,
+conj(A)*U^2+2*U+A=0,
+and write the rational triple-spin square root as
+boxed:
+sigma^2=|A|^2-1
+=Lambda(s_24)*Lambda(t)*Lambda(t/s_24).
+Here s_24 denotes the Section-24 variable r_2/r_1; sigma is a new name chosen to avoid collision with that variable.
+
+
+### 96.1 The all-same fresh core gives one genuine Gaussian root line on sigma
+
+
+For one of the two reconstructed common-phase branches,
+boxed:
+conj(A)*U=-1+epsilon*i*sigma,
+epsilon in {+1,-1}.
+
+
+Fix p^a||tau_0^sharp and the oriented Gaussian prime pi^a||G_0^sharp.
+The other three fresh core supports are disjoint from p, so
+v_pi(U)=2a.
+The coefficients r_1,r_2,r_3 are pi-adic units on this fresh branch; therefore conj(A) is pi-adically integral. Hence
+boxed:
+v_pi(-1+epsilon*i*sigma)>=2a.
+
+
+Write sigma=A_sigma/B_sigma in lowest terms.
+If p divided B_sigma, then p would not divide A_sigma and
+v_pi((-B_sigma+epsilon*i*A_sigma)/B_sigma)<0,
+contradicting the previous inequality. Therefore p does not divide B_sigma and
+boxed:
+pi^(2a) | (-B_sigma+epsilon*i*A_sigma).
+
+
+Equivalently, for a uniquely oriented root rho_{0,p} modulo p^(2a),
+rho_{0,p}^2==-1 mod p^(2a),
+boxed:
+A_sigma==rho_{0,p}*B_sigma mod p^(2a).
+
+
+CRT over all p|tau_0^sharp gives one common all-same root line
+boxed:
+(tau_0^sharp)^2 | A_sigma^2+B_sigma^2,
+boxed:
+gcd(B_sigma,tau_0^sharp)=1.
+At the oriented ideal level, the fresh ideal (G_0^sharp)^2 divides the corresponding Gaussian numerator -B_sigma+epsilon*i*A_sigma.
+
+
+This is the additional same-measure adapter that Section 34 explicitly left open. It is not a fourth anti-root obtained by multiplying the three corrected v_i, and it does not restore the retracted common-v CRT.
+
+
+### 96.2 The relative fresh conductor is exactly the fresh denominator of sigma
+
+
+Now fix p^a||m_1=tau_1^sharp.
+M3-T11-033 / Section 37 gives
+v_p(Lambda(s_24))=-2a,
+v_p(Lambda(t))=-2a,
+v_p(Lambda(t/s_24))=0.
+Therefore
+v_p(sigma^2)=-4a,
+and because sigma is rational,
+boxed:
+v_p(sigma)=-2a.
+
+
+By cyclic symmetry the same statement holds for every p^a||m_i, i=1,2,3.
+Thus, if sigma=A_sigma/B_sigma is reduced,
+boxed:
+v_p(B_sigma)=2*v_p(M_rel)
+for every fresh p|M_rel,
+and
+boxed:
+gcd(A_sigma,M_rel)=1.
+
+
+Hence the fresh part of the reduced denominator of sigma is exactly
+boxed:
+M_rel^2.
+Any remaining denominator support is packet/content-supported or nonfresh and is not promoted to a new polynomial-size variable.
+
+
+### 96.3 One joint primitive lattice, not two multiplied density charges
+
+
+The fresh relative and all-same supports are coprime. Therefore the reduced integer pair (A_sigma,B_sigma) satisfies simultaneously
+boxed:
+B_sigma==0 mod M_rel^2,
+and
+boxed:
+A_sigma==rho_0*B_sigma mod (tau_0^sharp)^2,
+where rho_0^2==-1 mod (tau_0^sharp)^2.
+
+
+For fixed oriented rho_0 these two linear congruences define one rank-two lattice in Z^2 of exact index
+boxed:
+M_rel^2*(tau_0^sharp)^2.
+
+
+On the M3-T11-085 large-residual branch one may restrict the second modulus to the selected squarefree D_fr|rad(tau_0^sharp):
+boxed:
+B_sigma==0 mod M_rel^2,
+boxed:
+A_sigma==rho_D*B_sigma mod D_fr^2,
+so the selected residual receiver has exact lattice index
+boxed:
+M_rel^2*D_fr^2.
+
+
+This index is structural only. No M_rel^-2, D_fr^-2, determinant density, or product of earlier root-line savings is charged before a same-physical-measure range/count theorem is proved. The two congruences are being packaged on the same realized coordinate sigma precisely to avoid double charging.
+
+
+### 96.4 Consequence for the live x=-1/8 carrier
+
+
+On x=-1/8, M3-T11-046 already proves that one of the three relative fresh cores is empty and the other two multiply to M_rel. Thus the exact fresh denominator M_rel^2 of sigma is contributed by only two relative cores on this carrier.
+
+
+M3-T11-085 selects D_fr with
+D_fr|rad(tau_0^sharp).
+The new all-same root line sharpens its large square-divisor router to
+boxed:
+D_fr^2 | A_sigma^2+B_sigma^2,
+with gcd(B_sigma,D_fr)=1.
+
+
+The physical polynomial-height framework gives H(sigma)=B^O(1): sigma is a fixed-degree rational trace expression in the exact physical Gaussian phases, and all core/packet denominators lie in the retained polynomial physical range. Hence, for one fixed realized sigma, the number of compatible squarefree D_fr values is divisor-many:
+boxed:
+# {D_fr compatible with fixed sigma}=B^o(1).
+
+
+Together with hostile-audit-passed M3-T11-080 and the B^o(1) packet-supported choices for D_pkt,
+boxed:
+# physical x=-1/8 endpoints on the large-D_fr branch
+<= B^o(1) * # realized sigma.
+
+
+Thus the M3-T11-085 large Gaussian-square-divisor gate can be replaced by the narrower one-coordinate receiver
+boxed:
+XMinusOneEighthDualConductorTripleSpinRootLineOneTwelfth.
+
+
+A sufficient theorem is:
+uniformly per fixed content/coefficient packet,
+# {realized sigma on the exact x=-1/8 physical measure
+   with D_fr>B^(1/12-eta)
+   and the displayed dual-conductor congruences}
+<< B^(1/12-delta)
+for some fixed delta>eta>0.
+
+
+### 96.5 No-double-charge and promotion boundary
+
+
+The identity
+conj(A)*U=-1+epsilon*i*sigma
+shows that the Section-28.3 all-same square-divisor phenomenon is endogenous to the same common-phase equation; the sigma root line is a sharper coordinate presentation of that conductor, not an independent new probability factor.
+
+
+Do not:
+- multiply the sigma lattice index by previously consumed M_rel^2 or determinant savings;
+- claim the lattice index alone is a physical endpoint saving;
+- replace the exact x=-1/8 physical measure by an ambient sigma box;
+- treat Section 34's anti-root product as a G_0 root line;
+- promote any total x=-1/8, primary-gate, endpoint, or P(B)/M3(B) credit before hostile audit and a same-measure moving-sigma theorem.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_TRIPLE_SPIN_SIGMA_TAU0_FRESH_ROOTLINE=PROVISIONAL
+M3_T11_TRIPLE_SPIN_SIGMA_RELATIVE_FRESH_DENOMINATOR_MREL2=PROVISIONAL
+M3_T11_TRIPLE_SPIN_SIGMA_DUAL_CONDUCTOR_LATTICE=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_SIGMA_DFR_ROOTLINE=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_SIGMA_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=XMinusOneEighthDualConductorTripleSpinRootLineOneTwelfth.
+NEXT_ATTACK=XMinusOneEighthDualConductorTripleSpinRootLineOneTwelfth.
+NEXT_RESEARCH_CARD_ID=M3-T11-087.
+
+
+
+
+## 97. M3-T11-087 — triple-spin sigma is an exact fresh-support coordinate
+
+
+Status: PROVISIONAL EXACT_SUPPORT_COORDINATE / BO1_PUSHFORWARD / SAME_MEASURE_COMPRESSION / HOSTILE_AUDIT_REQUIRED / NO POWER SAVING.
+
+
+Retain M3-T11-086 and write the rational triple-spin square root in lowest terms as
+sigma=A_sigma/B_sigma,
+gcd(A_sigma,B_sigma)=1,
+B_sigma>0.
+
+
+Let S_pkt be the fixed finite prime set generated by 2, the fixed content/coefficient packet, and the fixed Gaussian unit/coefficient normalizations. Put
+B_sigma,fr=product_{p notin S_pkt} p^{v_p(B_sigma)}.
+
+
+### 97.1 Exact fresh denominator support
+
+
+For p notin S_pkt with p not dividing R_rel=tau_1*tau_2*tau_3, all relative phases r_i are p-adic units. Hence every pairwise trace lambda_ij is p-integral. Since
+sigma^2=lambda_12*lambda_13*lambda_23
+and sigma is rational,
+v_p(sigma)>=0.
+
+
+Now let p^a||m_i=tau_i^sharp. The exact cyclic valuation theorem used in M3-T11-086 gives
+boxed:
+v_p(sigma)=-2a.
+Therefore
+boxed:
+B_sigma,fr=M_rel^2,
+where
+M_rel=m_1*m_2*m_3.
+
+
+Equivalently,
+boxed:
+M_rel=sqrt(B_sigma,fr).
+Thus one realized reduced sigma determines the complete fresh relative conductor exactly outside the fixed packet support.
+
+
+For audit bookkeeping one can also retain a global denominator carrier. Each lambda_ij is the rational trace of a fixed packet phase times (q_i/q_j)^2, hence its reduced denominator divides a fixed packet integer times (tau_i*tau_j)^2. Multiplying the three traces and taking the rational square root gives, after enlarging one fixed packet integer L_sigma if necessary,
+boxed:
+B_sigma | L_sigma*R_rel^2.
+Since R_rel=M_rel*N_rel and N_rel is S_content-supported, this is compatible with the exact identity B_sigma,fr=M_rel^2. The packet-supported quotient B_sigma/M_rel^2 has only B^o(1) possibilities in the retained polynomial physical range.
+
+
+### 97.2 Active M_rel injects into realized sigma support
+
+
+Because M_rel is recovered from B_sigma,fr,
+boxed:
+# active M_rel <= # realized sigma
+for one fixed packet.
+
+
+Conversely, Section 33 gives only B^o(1) possibilities for N_rel once M_rel is fixed, and Section 32.3 gives B^o(1) physical endpoint states for each fixed R_rel=M_rel*N_rel. Hence
+boxed:
+# realized sigma <= B^o(1) * # active M_rel.
+
+
+Therefore active M_rel support and realized sigma support have exactly the same polynomial exponent:
+boxed:
+# realized sigma = B^o(1) * # active M_rel
+at power scale.
+
+
+This is a support-coordinate statement, not a root-line density saving.
+
+
+### 97.3 Fixed sigma has B^o(1) physical multiplicity
+
+
+M3-T11-086 gives the all-same root line
+boxed:
+(tau_0^sharp)^2 | A_sigma^2+B_sigma^2,
+with
+gcd(B_sigma,tau_0^sharp)=1.
+
+
+For fixed sigma, the positive integer A_sigma^2+B_sigma^2 is fixed. Hence tau_0^sharp has only divisor-many choices, i.e. B^o(1) choices under the retained polynomial height.
+
+
+Write
+tau_0=tau_0^sharp*N_0.
+As in M3-T11-084/Section 94, N_0 is supported on the fixed content-prime set, so the Section-33 semigroup argument gives B^o(1) possibilities for N_0. Thus fixed sigma permits only B^o(1) values of tau_0.
+
+
+Section 97.1 recovers M_rel from sigma, Section 33 gives B^o(1) choices for N_rel, and therefore
+tau=tau_0*M_rel*N_rel
+has only B^o(1) possibilities for fixed sigma and packet.
+
+
+Finally Section 19 gives
+fixed (h_1,h_2,h_3,tau) + fixed packet => B^o(1)
+physical endpoints. Consequently
+boxed:
+fixed sigma + fixed content/coefficient packet
+=> B^o(1) physical endpoints.
+
+
+Hence, on the relative-fresh endpoint population,
+boxed:
+# physical endpoints <= B^o(1) * # realized sigma,
+while the reverse inequality at support level is tautological because every endpoint has one sigma. Realized sigma is therefore a genuine one-dimensional same-measure support coordinate.
+
+
+### 97.4 Consequence for the live x=-1/8 branch
+
+
+M3-T11-085 already closes the small-D_fr branch provisionally. On its large-D_fr branch, M3-T11-086 gives
+D_fr^2 | A_sigma^2+B_sigma^2
+together with the exact relative denominator M_rel^2.
+
+
+M3-T11-087 removes the remaining pushforward-multiplicity issue: counting the large-D_fr x=-1/8 branch up to B^o(1) is exactly a count of realized sigma values on that same physical branch.
+
+
+Thus the preferred receiver is sharpened to
+boxed:
+XMinusOneEighthDualConductorTripleSpinSigmaSupportOneTwelfth.
+
+
+A sufficient theorem is:
+uniformly per fixed content/coefficient packet,
+# {realized sigma on the exact x=-1/8 physical measure
+   with D_fr>B^(1/12-eta)
+   and the dual-conductor constraints}
+<< B^(1/12-delta)
+for some fixed delta>eta>0.
+
+
+### 97.5 Firewall
+
+
+This does not restore the retracted Section-31 same-v CRT.
+The three corrected relative anti-roots remain distinct.
+The fact that M_rel is readable from Den(sigma) is a valuation/support statement for the symmetric triple-spin coordinate, not a claim that the three relative root-line congruences act on sigma.
+
+
+Do not:
+- multiply the M_rel^2 denominator condition by a relative anti-root root-line saving;
+- charge the lattice index from M3-T11-086 as a density factor;
+- count divisors of A_sigma^2+B_sigma^2 as a new independent probability;
+- replace the exact physical sigma image by an ambient rational interval or box;
+- promote any total x=-1/8, primary-gate, endpoint, or P(B)/M3(B) credit before hostile audit and a realized-sigma support theorem.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_TRIPLE_SPIN_SIGMA_FRESH_DENOMINATOR_RECOVERS_MREL=PROVISIONAL
+M3_T11_TRIPLE_SPIN_SIGMA_ACTIVE_MREL_POWER_EQUIVALENT=PROVISIONAL
+M3_T11_FIXED_SIGMA_FIXED_PACKET_PHYSICAL_MULTIPLICITY=BO1_PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_SIGMA_SUPPORT_RECEIVER=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_SIGMA_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=XMinusOneEighthDualConductorTripleSpinSigmaSupportOneTwelfth.
+NEXT_ATTACK=XMinusOneEighthDualConductorTripleSpinSigmaSupportOneTwelfth.
+NEXT_RESEARCH_CARD_ID=M3-T11-088.
+## Audit promotion — M3-T11-084 through M3-T11-087
+HOSTILE_AUDIT=PASS.
+Audit document: Stage37-HOSTILE-AUDIT-M3-T11-084-087-PASS, ID 1gJmVhhWyEg7zsS1b-LiIEB1cYnJl4B_ndkVMteqDgXI.
+
+
+Grouped audit result:
+- M3-T11-084 PASS: packet-free D support transfers to tau_0^sharp; its small-tau_0^sharp branch closes at one-twelfth scale.
+- M3-T11-085 PASS: D_fr*h_fr | tau_0^sharp; small D_fr closes directly and large D_fr is routed to the selected Gaussian ideal-square divisor.
+- M3-T11-086 PASS in the grouped chain: the sigma all-same root line and joint dual-conductor lattice are exact. The claim that the packet-free denominator is exactly M_rel^2 uses the explicit no-extra-fresh-denominator argument written in M3-T11-087.1, independently rechecked in this audit.
+- M3-T11-087 PASS: B_sigma,fr=M_rel^2, so one realized sigma recovers M_rel; fixed sigma + fixed packet has B^o(1) physical multiplicity.
+
+
+Promoted flags:
+M3_T11_084_HOSTILE_AUDIT=PASS
+M3_T11_085_HOSTILE_AUDIT=PASS
+M3_T11_086_HOSTILE_AUDIT=PASS
+M3_T11_087_HOSTILE_AUDIT=PASS
+M3_T11_X_MINUS_ONE_EIGHTH_RESIDUAL_D_FRESH_SUPPORT_IN_TAU0=true
+M3_T11_X_MINUS_ONE_EIGHTH_DFR_HFR_DIVIDES_TAU0_FRESH=true
+M3_T11_X_MINUS_ONE_EIGHTH_SMALL_DFR_BRANCH_ONE_TWELFTH=true
+M3_T11_X_MINUS_ONE_EIGHTH_LARGE_DFR_COMMON_PHASE_SQUARE_DIVISOR=true
+M3_T11_TRIPLE_SPIN_SIGMA_TAU0_FRESH_ROOTLINE=true
+M3_T11_TRIPLE_SPIN_SIGMA_RELATIVE_FRESH_DENOMINATOR_MREL2=true
+M3_T11_TRIPLE_SPIN_SIGMA_DUAL_CONDUCTOR_LATTICE=true
+M3_T11_TRIPLE_SPIN_SIGMA_FRESH_DENOMINATOR_RECOVERS_MREL=true
+M3_T11_TRIPLE_SPIN_SIGMA_ACTIVE_MREL_POWER_EQUIVALENT=true
+M3_T11_FIXED_SIGMA_FIXED_PACKET_PHYSICAL_MULTIPLICITY=BO1
+M3_T11_X_MINUS_ONE_EIGHTH_SIGMA_SUPPORT_RECEIVER=true
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-087
+
+
+Firewalls remain:
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_SIGMA_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_D_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=XMinusOneEighthDualConductorTripleSpinSigmaSupportOneTwelfth.
+NEXT_ATTACK=XMinusOneEighthDualConductorTripleSpinSigmaSupportOneTwelfth.
+NEXT_RESEARCH_CARD_ID=M3-T11-088.
+
+
+The next legal theorem-level task is a same-physical-measure fixed-power bound for realized sigma on the large-D_fr x=-1/8 branch. No lattice-index, large-divisor, denominator-recovery, or fixed-sigma multiplicity factor may be charged independently.
+
+
+
+
+## 98. M3-T11-088 — anti-root product denominator quotient exactly recovers the residual kernel
+Status: PROVISIONAL EXACT_STRUCTURE / DETERMINISTIC_DFR_RECOVERY / ZERO_POWER_SUPPORT_ENRICHMENT / HOSTILE_AUDIT_REQUIRED / NO_POWER_SAVING.
+Retain hostile-audit-passed M3-T11-080, M3-T11-083, M3-T11-085, M3-T11-086, and M3-T11-087. On the exact x=-1/8 carrier, let
+Omega=v_1*v_2*v_3
+be the rational product of the three corrected anti-roots from Section 35.
+### 98.1 Exact reduced denominator of the anti-root product
+Section 35 gives
+P_ar=4*u^2*S/(1+u^2).
+On x=-1/8, Section 53 gives
+S=-2*u/(1+u^2).
+Therefore
+boxed:
+Omega=-8*u^3/(1+u^2)^2.
+Write u=a/b in lowest terms and N_u=a^2+b^2. Then
+boxed:
+Omega=-8*a^3*b/N_u^2.
+The x=-1/8 primitive conic gives N_u odd and gcd(N_u,2*a*b)=1. Hence the displayed fraction is reduced and
+boxed:
+B_Omega:=Den(Omega)=N_u^2.
+Thus sqrt(B_Omega)=N_u exactly; no packet-supported denominator ambiguity is present in this coordinate.
+### 98.2 Joint denominator quotient recovers D and D_fr exactly
+Write sigma=A_sigma/B_sigma reduced, and let B_sigma,fr denote the nonpacket denominator defined and audited in M3-T11-087. Then
+boxed:
+B_sigma,fr=M_rel^2.
+Audited M3-T11-080 defines the residual squarefree kernel by
+D=sf(N_u/M_rel^2).
+Combining the two exact denominator identities yields the endpoint-defined integer
+boxed:
+K_088:=sqrt(B_Omega)/B_sigma,fr=N_u/M_rel^2
+and therefore
+boxed:
+D=sf(K_088).
+With the M3-T11-085 fixed packet integer
+Delta_pkt=rad(L_vee*c_1*c_2*c_3),
+the live packet-free residual kernel is consequently recovered without an existential witness:
+boxed:
+D_fr=sf(K_088)/gcd(sf(K_088),Delta_pkt).
+Equivalently, the pair (sigma,Omega), together with the fixed packet, determines both moving support coordinates
+boxed:
+M_rel=sqrt(B_sigma,fr)
+and
+boxed:
+D_fr=sf(sqrt(B_Omega)/B_sigma,fr)/gcd(sf(sqrt(B_Omega)/B_sigma,fr),Delta_pkt).
+On the large branch, the M3-T11-086 root line can now be written with this deterministic value:
+boxed:
+D_fr(sigma,Omega)^2 | A_sigma^2+B_sigma^2.
+### 98.3 The enrichment costs no fixed power
+M3-T11-087 is hostile-audit PASS and gives
+fixed sigma + fixed packet => B^o(1) physical endpoints.
+Omega is an endpoint-defined rational invariant. Hence for fixed sigma there are at most B^o(1) realized Omega values. Therefore
+boxed:
+# realized (sigma,Omega) <= B^o(1) * # realized sigma.
+Conversely projection to the first coordinate is surjective on realized support, so
+boxed:
+# realized sigma <= # realized (sigma,Omega).
+Thus realized sigma support and realized (sigma,Omega) support have exactly the same polynomial exponent. Retaining Omega is a zero-fixed-power enrichment of the same physical measure.
+### 98.4 Sharpened theorem interface
+The current one-coordinate receiver remains valid:
+XMinusOneEighthDualConductorTripleSpinSigmaSupportOneTwelfth.
+For theorem design it may now be replaced, at zero power cost, by the deterministic two-coordinate interface
+boxed:
+XMinusOneEighthSigmaAntirootProductExactKernelSupportOneTwelfth.
+A sufficient bound is, uniformly per fixed content/coefficient packet,
+# {realized (sigma,Omega) on the exact x=-1/8 physical measure
+   with D_fr(sigma,Omega)>B^(1/12-eta)
+   and D_fr(sigma,Omega)^2 | A_sigma^2+B_sigma^2}
+<< B^(1/12-delta)
+for some fixed delta>eta>0.
+This formulation removes the existential D_fr/divisor witness from the live support theorem. It does not itself prove a support deficit.
+### 98.5 Firewall
+Do not:
+- count the recovery identity D_fr=D_fr(sigma,Omega) as a density saving;
+- multiply the sigma lattice index, the large D_fr square divisor, or the denominator quotient as independent probabilities;
+- replace the exact realized (sigma,Omega) image by an ambient rational box;
+- infer an ordinary squareclass/divisor-window theorem without proving same-physical-measure compatibility;
+- promote x=-1/8 power saving, primary-gate closure, endpoint credit, or P(B)/M3(B) credit before hostile audit and a fixed-power support theorem.
+PROVISIONAL_FLAGS:
+M3_T11_X_MINUS_ONE_EIGHTH_ANTIROOT_PRODUCT_DENOMINATOR_NU2=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_SIGMA_OMEGA_RECOVERS_D=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_SIGMA_OMEGA_RECOVERS_DFR=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_SIGMA_OMEGA_SUPPORT_POWER_EQUIVALENT=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_SIGMA_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_CANONICAL_X_MINUS_ONE_EIGHTH_ATTACK=XMinusOneEighthDualConductorTripleSpinSigmaSupportOneTwelfth.
+CURRENT_SUPPORTING_ATTACK=XMinusOneEighthSigmaAntirootProductExactKernelSupportOneTwelfth.
+NEXT_ATTACK=XMinusOneEighthSigmaAntirootProductExactKernelSupportOneTwelfth.
+NEXT_RESEARCH_CARD_ID=M3-T11-089.
+
+
+## 99. M3-T11-089 — all-same triple-trace valuation mismatch eliminates the packet-free residual kernel
+Status: PROVISIONAL EXACT CONTRADICTION / LARGE-D_fr BRANCH EMPTY / X=-1/8 ONE-TWELFTH CLOSURE CANDIDATE / HOSTILE AUDIT REQUIRED / NO GLOBAL CREDIT.
+Retain hostile-audit-passed M3-T11-083, M3-T11-085, M3-T11-086, M3-T11-087 and provisional M3-T11-088. Work on the exact fixed-packet x=-1/8 physical carrier.
+### 99.1 Assume one packet-free residual prime
+Suppose p|D_fr. By the audited M3-T11-085 support transfer,
+p does not divide Delta_pkt=rad(L_vee*c_1*c_2*c_3)
+and
+p|tau_0^sharp.
+Write
+alpha=v_p(tau_0^sharp)>=1,
+e=v_p(h).
+Because the four fresh core supports are pairwise disjoint, p does not divide M_rel. Because p is outside Delta_pkt, p does not divide L_vee or N_rel.
+The audited M3-T11-085 divisibility
+D*h^2 | L_vee*tau_0^2*N_rel^2
+therefore gives, primewise,
+boxed:
+1+2e <= 2alpha,
+since p|D_fr implies v_p(D)=1.
+Also
+N_u=D*(M_rel*h)^2
+gives exactly
+boxed:
+v_p(N_u)=1+2e.
+### 99.2 The Section-34 anti-root product forces a contradictory valuation
+Put
+J_0=Lambda(C)*Lambda(C*s)*Lambda(C*t).
+The exact Section-24 variables satisfy
+C=q_0^2*q_1^2/(kappa_2*kappa_3),
+C*s=q_0^2*q_2^2/(kappa_1*kappa_3),
+C*t=q_0^2*q_3^2/(kappa_1*kappa_2).
+Choose the oriented Gaussian prime pi^alpha||G_0^sharp above p. The relative cores and fixed packet coefficients are pi-units at this packet-free all-same fresh prime, while
+v_pi(q_0^2)=2alpha.
+Hence
+v_pi(C)=v_pi(C*s)=v_pi(C*t)=2alpha.
+For any of these norm-one phases Z, the two summands in
+Lambda(Z)=Z+Z^(-1)
+have distinct pi-valuations +2alpha and -2alpha. Therefore there is no local cancellation and
+boxed:
+v_p(Lambda(C))=v_p(Lambda(C*s))=v_p(Lambda(C*t))=-2alpha,
+so
+boxed:
+v_p(J_0)=-6alpha.
+Section 34 gives the exact product identity
+boxed:
+Omega^2=J_0^2*sigma^2,
+where Omega=v_1*v_2*v_3 and sigma is the same rational triple-spin square root used in M3-T11-086/087.
+Audited M3-T11-086 gives, at p^alpha||tau_0^sharp,
+p does not divide B_sigma
+and
+pi^(2alpha)|(-B_sigma+epsilon*i*A_sigma).
+Reducing modulo pi shows p does not divide A_sigma either. Thus
+boxed:
+v_p(sigma)=0.
+Consequently
+boxed:
+v_p(Omega)=-6alpha.
+Now apply M3-T11-088. On x=-1/8,
+Omega=-8*a_u^3*b_u/N_u^2
+is reduced and
+Den(Omega)=N_u^2.
+Since p is an odd fresh prime dividing D_fr|D|N_u, the reduced numerator is a p-unit, so
+boxed:
+v_p(Omega)=-2*v_p(N_u).
+Comparing with the Section-34 valuation gives
+boxed:
+v_p(N_u)=3alpha.
+### 99.3 Contradiction and exact support elimination
+Sections 99.1 and 99.2 give simultaneously
+3alpha=v_p(N_u)=1+2e<=2alpha.
+This is impossible for alpha>=1.
+Therefore no prime can divide D_fr:
+boxed:
+D_fr=1
+on every exact x=-1/8 physical endpoint in the retained fixed packet.
+Equivalently,
+boxed:
+the M3-T11-085 large-D_fr branch is empty.
+This is an exact same-measure contradiction. No lattice determinant, divisor density, independence assumption, or probability factor is charged.
+### 99.4 One-twelfth consequence
+Audited M3-T11-085 already proves that the branch
+D_fr<=B^(1/12-eta)
+contributes
+# physical x=-1/8 endpoints
+<=B^(1/12-eta+o(1))
+per fixed content/coefficient packet.
+Since D_fr=1 identically by Section 99.3, every x=-1/8 endpoint belongs to this small branch. Hence, provisionally,
+boxed:
+# physical x=-1/8 endpoints
+<=B^(1/12-eta+o(1)).
+For any fixed eta in (0,1/12), this is <=B^(1/12-eta/2) for sufficiently large B.
+Thus the entire x=-1/8 singular carrier is a one-twelfth-scale closure candidate, pending hostile audit of the M3-T11-088 -> M3-T11-089 chain.
+### 99.5 Firewall and next route
+Do not:
+- interpret the contradiction as a density estimate;
+- multiply it by the M3-T11-086 lattice index or any prior determinant/root-line saving;
+- promote the x=-1/8 closure to canonical before hostile audit;
+- infer the primary gate, endpoint theorem, P(B)/M3(B) limit, or Perfect Cuboid nonexistence.
+If audit passes, retire the x=-1/8 singular carrier at the fixed-packet one-twelfth scale. Together with the already-audited x=27/40 retirement, the singular fixed-x carriers then cease to be the live obstruction; remaining work returns to the generic fixed-x / global moving-support frontier.
+PROVISIONAL_FLAGS:
+M3_T11_X_MINUS_ONE_EIGHTH_ALLSAME_TRIPLE_TRACE_VALUATION=-6A
+M3_T11_X_MINUS_ONE_EIGHTH_DFR_PRIME_VALUATION_CONTRADICTION=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_DFR_EQUALS_ONE=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_LARGE_DFR_BRANCH_EMPTY=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_ONE_TWELFTH_CARRIER_CLOSED=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X_MINUS_ONE_EIGHTH_STATUS=PROVISIONAL_CLOSED_PENDING_AUDIT
+NEXT_ATTACK=HostileAuditM3T11088To089ThenGenericXMovingSupport
+NEXT_RESEARCH_CARD_ID=M3-T11-090.
+## Audit promotion — M3-T11-088 through M3-T11-089
+HOSTILE_AUDIT=PASS.
+Audit document: Stage37-HOSTILE-AUDIT-M3-T11-088-089-PASS, ID 1KWFj3p7PJYpKuHgmxn_b4RJEjNnRMpra-PK1Rr-n7yQ.
+
+
+M3-T11-088 PASS:
+Omega=-8*a^3*b/N_u^2 is reduced on primitive x=-1/8, hence Den(Omega)=N_u^2 exactly. Together with audited B_sigma,fr=M_rel^2 this deterministically recovers D and D_fr from (sigma,Omega)+packet at zero fixed-power cost.
+
+
+M3-T11-089 PASS:
+For p|D_fr, write alpha=v_p(tau_0^sharp)>=1 and e=v_p(h). Audited M3-T11-085 gives
+v_p(N_u)=1+2e<=2alpha.
+At the oriented all-same Gaussian prime, Section 24 gives v_p(Lambda(C))=v_p(Lambda(C*s))=v_p(Lambda(C*t))=-2alpha. Section 34 and audited sigma p-unit status give v_p(Omega)=-6alpha. Since Den(Omega)=N_u^2 in lowest terms, v_p(N_u)=3alpha. Thus
+3alpha=1+2e<=2alpha,
+impossible.
+Therefore D_fr=1 and the large-D_fr branch is empty.
+
+
+Audited consequence:
+all x=-1/8 endpoints lie in the M3-T11-085 small-D_fr branch, so per fixed packet
+# physical x=-1/8 endpoints <=B^(1/12-eta+o(1)).
+The x=-1/8 carrier is retired at fixed-packet one-twelfth scale.
+
+
+M3_T11_088_HOSTILE_AUDIT=PASS
+M3_T11_089_HOSTILE_AUDIT=PASS
+M3_T11_X_MINUS_ONE_EIGHTH_DFR_EQUALS_ONE=true
+M3_T11_X_MINUS_ONE_EIGHTH_LARGE_DFR_BRANCH_EMPTY=true
+M3_T11_X_MINUS_ONE_EIGHTH_ONE_TWELFTH_CARRIER_CLOSED=true
+CURRENT_X_MINUS_ONE_EIGHTH_STATUS=RETIRED_AUDITED_FIXED_PACKET_ONE_TWELFTH
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-089
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+NEXT_ATTACK=GenericXMovingSupportDispersion|InteriorCharacterGlobalDispersion
+NEXT_RESEARCH_CARD_ID=M3-T11-090.
+
+
+## 100. M3-T11-090 — generic fixed-x uniform fiber compression after singular-carrier retirement
+Status: PROVISIONAL THEOREM ADAPTER / FIXED-X B^o(1) CANDIDATE / SAME-MEASURE SUPPORT COMPRESSION / HOSTILE AUDIT REQUIRED / NO POWER SAVING.
+Retain the exact generic fixed-x algebra of M3-T11-045 / Section 52 and the hostile-audit-passed M3-T11-036 fixed-u theorem. The singular carriers x=27/40 and x=-1/8 are now both audited-retired at fixed-packet one-twelfth scale, so the unresolved full-S-denominator branch may be restricted to
+boxed:
+x in Q \ {0,-1/8,27/40}.
+Here x=0 is absent on the nondegenerate physical locus because u and S are nonzero.
+
+
+### 100.1 Smooth fixed-x elliptic fiber with one fixed torsion field
+Every endpoint on this generic branch satisfies
+boxed:
+R_x^2=P_x(v),
+v=u^2,
+where
+P_x(v)
+=
+v^3
++(3-48x-704x^2)v^2
++(3-96x-640x^2+4096x^3-4096x^4)v
++(1-48x+64x^2).
+The cubic discriminant is
+boxed:
+disc_v(P_x)=2^24*x^8*(8x+1)*(40x-27)^3.
+Hence E_x:R^2=P_x(v) is smooth for every realized generic x.
+The 3-division polynomial has the exact linear factor
+3v+64x^2-48x+3.
+At
+v_0=-(64x^2-48x+3)/3
+one has
+R_0=(64/9)*sqrt(-3)*x^2*(40x-27).
+Therefore over the single fixed field
+boxed:
+K=Q(sqrt(-3))
+the point (v_0,R_0) is K-rational and killed by the 3-division polynomial.
+On the generic branch x!=0,27/40, so R_0!=0; consequently this point has exact order 3.
+
+
+### 100.2 Close the physical pushforward by audited fixed-u multiplicity
+The remaining issue in the old M3-T11-045 candidate was not the elliptic algebra but the physical pushforward.
+On the exact R<=B packet, the audited symmetric coordinates u,S have polynomial height, hence
+x=((1+u^2)S)/(16u),
+v=u^2,
+R_x=NY/(4u)
+all have height B^O(1).
+The same uniform bounded-height theorem already hostile-audited in M3-T11-036 applies over the fixed field K because every E_x carries a K-rational point of exact order 3. Thus, uniformly in realized generic x,
+boxed:
+# {P in E_x(K) of physical-induced height B^O(1)}
+=
+B^o(1).
+Now avoid any unproved inverse-map multiplicity assertion: each physical endpoint maps to a point with v=u^2. One such v has at most two rational square roots u. Hostile-audit-passed M3-T11-036 gives
+boxed:
+fixed realized u + fixed content/coefficient packet
+=> B^o(1) physical endpoint states.
+Therefore, combining the elliptic point count with the at-most-two u lifts,
+boxed:
+fixed realized generic x + fixed content/coefficient packet
+=> B^o(1) physical endpoint states.
+This is the missing same-measure pushforward completion for the M3-T11-045 generic fixed-x candidate.
+
+
+### 100.3 Generic x is a legal moving-support coordinate
+For one fixed content/coefficient packet let
+E_gen(B)
+be the exact physical endpoint count on the unresolved full-S-denominator generic-x branch, and let
+A_x(B)
+be the number of realized generic rational x values there.
+Trivially
+A_x(B)<=E_gen(B).
+Section 100.2 gives
+E_gen(B)<=B^o(1)*A_x(B).
+Hence
+boxed:
+A_x(B) and E_gen(B) have the same polynomial exponent.
+
+
+Let A_u(B) be the number of realized u values on the same branch. Audited M3-T11-036 also gives
+A_u(B)<=E_gen(B)<=B^o(1)*A_u(B).
+Therefore
+boxed:
+A_x(B)<=B^o(1)*A_u(B),
+boxed:
+A_u(B)<=B^o(1)*A_x(B).
+Thus generic-x support and common-u support are power-equivalent on the exact same physical measure.
+The x-coordinate is therefore not a second density factor; it is an alternative one-dimensional support coordinate.
+
+
+### 100.4 Sharpened remaining theorem
+The unresolved denominator-extreme branch may now be routed to
+boxed:
+GenericXFullSDenominatorMovingSupportOneTwelfth.
+A sufficient theorem is, uniformly per fixed content/coefficient packet,
+boxed:
+# {realized generic x on the exact full-S-denominator physical measure}
+<< B^(1/12-delta)
+for some fixed delta>0.
+All existing exact x-side structure remains available inside this support:
+- the full-modulus congruence r^2==x(1-x) mod M_0^2;
+- min(v_p(Phi_*),2lambda)=min(v_p(x-1),2lambda) on c_p=0 fresh primes;
+- the singular values -1/8 and 27/40 are already retired and need not be carried as live exceptions.
+No fixed-power support deficit is proved here.
+
+
+### 100.5 Firewall
+Do not:
+- charge the fixed-x B^o(1) fiber bound as an independent density saving;
+- multiply the generic-x support count by the old common-u support count;
+- tensorize the local Legendre condition into a fixed-power saving; Section 52.5 already shows only subpower local filtering;
+- replace the exact physical x image by an ambient rational-height box;
+- reopen either singular carrier absent an audited dependency change;
+- promote primary-gate closure, endpoint credit, P(B)/M3(B), or Perfect Cuboid nonexistence.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_FIXED_X_GENERIC_BO1_CANDIDATE=true
+M3_T11_FIXED_X_GENERIC_BO1_PROVED=false
+M3_T11_GENERIC_X_SAME_MEASURE_SUPPORT_COORDINATE=PROVISIONAL
+M3_T11_GENERIC_X_ENDPOINT_POWER_EQUIVALENT=PROVISIONAL
+M3_T11_GENERIC_X_COMMON_U_POWER_EQUIVALENT=PROVISIONAL
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericXFullSDenominatorMovingSupportOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=GenericXFullSDenominatorMovingSupportOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_RESEARCH_CARD_ID=M3-T11-091.
+0
+## 101. M3-T11-091 — exact full-S Legendre defect saturates the fresh conductor and has fixed-defect elliptic fibers
+Status: PROVISIONAL EXACT SAME-MEASURE ADAPTER / EXACT FRESH VALUATION SATURATION / FIXED-DEFECT B^o(1) CANDIDATE / HOSTILE AUDIT REQUIRED / NO POWER SAVING.
+Retain M3-T11-045 / Section 52, hostile-audit-passed M3-T11-036, and the exact fresh saturation of Sections 49-50. Work on the unresolved nondegenerate generic full-S-denominator branch, so every relative-fresh prime p^lambda||M_rel has c_p=0. Hence
+v_p(N_u)=2*lambda,
+v_p(t)=2*lambda,
+and a,b,s are p-units, with u=a/b, v=u^2, N_u=a^2+b^2.
+Section 52 defines
+x=((1+u^2)*S)/(16*u),
+T=(1+u^2)*S=16*u*x,
+R_x=NY/(4*u),
+r=NY/(16*u*T)=R_x/(64*u*x),
+and gives
+r^2 == x*(1-x) mod M_rel^2
+on this full-S branch.
+
+
+### 101.1 Exact Legendre-defect factorization
+Define the rational Legendre defect
+boxed:
+ell = r^2 - x*(1-x).
+Using r^2=P_x(v)/(4096*v*x^2) and the Section-52 cubic
+P_x(v)
+=
+v^3
++(3-48*x-704*x^2)*v^2
++(3-96*x-640*x^2+4096*x^3-4096*x^4)*v
++(1-48*x+64*x^2),
+direct factorization gives
+boxed:
+P_x(v)-4096*v*x^3*(1-x)
+=
+(v+1)*G_x(v),
+where
+boxed:
+G_x(v)
+=
+(v+1)^2-48*(v+1)*x+64*(1-11*v)*x^2.
+Therefore every exact physical endpoint on the generic full-S branch satisfies
+boxed:
+ell
+=
+(v+1)*G_x(v)/(4096*v*x^2).
+
+
+### 101.2 Exact fresh valuation saturation
+Fix p^lambda||M_rel. Because c_p=0, the exact Section-49 fresh saturation gives
+v_p(v+1)
+=
+v_p(N_u)
+=
+2*lambda,
+since b is a p-unit.
+Section 52 already gives x a p-unit, and v=u^2 is a p-unit.
+Modulo p one has v==-1, hence
+boxed:
+G_x(v) == 768*x^2 mod p.
+Every relative-fresh prime is an odd split prime p==1 mod4, so p does not divide 6. Since x is a p-unit, G_x(v) is a p-unit. Consequently
+boxed:
+v_p(ell)=2*lambda
+for every p^lambda||M_rel.
+Thus the full relative-fresh conductor is visible in the reduced numerator of one rational same-measure coordinate:
+boxed:
+M_rel^2 | Num(ell),
+boxed:
+gcd(Num(ell)/M_rel^2,M_rel)=1,
+boxed:
+gcd(Den(ell),M_rel)=1.
+This is stronger than the Section-52 congruence alone: there is no residual fresh overvaluation of the defect after the forced conductor square.
+On the hard branch M_rel>1, ell is therefore nonzero.
+
+
+### 101.3 Fixed-ell elliptic fiber with rational 2-torsion
+Rewrite the defect identity as a quadratic equation in x:
+A_ell(v)*x^2+B(v)*x+C(v)=0,
+with
+A_ell(v)=64*(v+1)*(1-11*v)-4096*ell*v,
+B(v)=-48*(v+1)^2,
+C(v)=(v+1)^3.
+Its x-discriminant is exactly
+boxed:
+B(v)^2-4*A_ell(v)*C(v)
+=
+256*(v+1)^3*(11*v^2+(19+64*ell)*v+8).
+For a rational physical root x, the left side is the square
+(2*A_ell(v)*x+B(v))^2.
+Since rational u gives v+1!=0, define
+Z=(2*A_ell(v)*x+B(v))/(16*(v+1)).
+Then every physical endpoint with fixed ell maps to
+boxed:
+E_ell:
+Z^2=(v+1)*(11*v^2+(19+64*ell)*v+8).
+This cubic has the rational point (-1,0), hence rational 2-torsion.
+Its v-discriminant is exactly
+boxed:
+disc_v
+=
+4096*ell^2*(4096*ell^2+2432*ell+9).
+The second factor has discriminant
+2432^2-4*4096*9=2^18*22,
+which is not a rational square. Therefore for rational ell!=0 the cubic is smooth.
+Since the hard M_rel>1 branch forces ell!=0 by Section 101.2, every hard-branch fixed-ell fiber is a smooth elliptic curve over Q with a rational point of exact order 2.
+
+
+### 101.4 Fixed-ell physical multiplicity candidate
+The coordinates x,v,R_x already have physical-induced height B^O(1) from the retained Section-52 / M3-T11-090 setup. The formulas
+r=R_x/(64*u*x),
+ell=r^2-x*(1-x),
+Z=(2*A_ell(v)*x+B(v))/(16*(v+1))
+are fixed-degree rational expressions, so physical points map to E_ell(Q) with height B^O(1).
+The same uniform bounded-height theorem already hostile-audited in M3-T11-036 applies over Q because E_ell carries rational prime-order 2 torsion. Hence the candidate uniform bound is
+boxed:
+fixed realized ell + fixed content/coefficient packet
+=> B^o(1) physical endpoint states.
+Indeed the elliptic point count is B^o(1); each v has at most two rational square roots u; and hostile-audit-passed M3-T11-036 gives fixed u + fixed packet => B^o(1) physical endpoint states.
+This fixed-ell conclusion is a new promotion boundary and remains provisional until hostile audit.
+
+
+### 101.5 Sharpened same-measure support receiver
+Let E_gen(B) be the unresolved generic full-S physical endpoint count in one fixed packet, and A_ell(B) the number of realized nonzero Legendre defects ell there. Provisionally,
+A_ell(B)<=E_gen(B)<=B^o(1)*A_ell(B).
+Thus ell is an alternative one-dimensional support coordinate on the same physical measure. Unlike x alone, it deterministically carries the exact fresh square numerator M_rel^2.
+The preferred supporting receiver is now
+boxed:
+GenericFullSDenominatorLegendreDefectSquareNumeratorSupportOneTwelfth.
+A sufficient theorem is, uniformly per fixed content/coefficient packet and for the hard branch M_rel>B^(1/12-eta),
+boxed:
+# {realized ell on the exact physical full-S measure:
+   M_rel^2 | Num(ell),
+   gcd(Num(ell)/M_rel^2,M_rel)=1}
+<< B^(1/12-delta)
+for some fixed delta>eta>0,
+up to B^o(1) losses.
+
+
+### 101.6 Firewall
+The exact numerator divisibility is a router, not an ambient lattice probability. Do not:
+- charge M_rel^(-2) from M_rel^2|Num(ell) without a same-physical-measure support theorem;
+- multiply fixed-ell B^o(1), fixed-x B^o(1), or fixed-u B^o(1) as independent savings;
+- multiply the Section-52 local Legendre density by this defect condition;
+- replace the exact realized ell image by an ambient rational-height box;
+- promote a denominator-extreme power saving, primary-gate closure, endpoint credit, P(B)/M3(B), or Perfect Cuboid nonexistence.
+This card does not prove a fixed-power support deficit.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_GENERIC_FULL_S_LEGENDRE_DEFECT_COORDINATE=PROVISIONAL
+M3_T11_GENERIC_FULL_S_LEGENDRE_DEFECT_FRESH_VALUATION_EXACT=PROVISIONAL
+M3_T11_GENERIC_FULL_S_LEGENDRE_DEFECT_NUMERATOR_MREL2=PROVISIONAL
+M3_T11_GENERIC_FULL_S_LEGENDRE_DEFECT_NO_EXTRA_FRESH_VALUATION=PROVISIONAL
+M3_T11_FIXED_LEGENDRE_DEFECT_ELLIPTIC_2TORSION_CANDIDATE=true
+M3_T11_FIXED_LEGENDRE_DEFECT_BO1_PROVED=false
+M3_T11_GENERIC_LEGENDRE_DEFECT_SUPPORT_COORDINATE=PROVISIONAL
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericFullSDenominatorLegendreDefectSquareNumeratorSupportOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=GenericFullSDenominatorLegendreDefectSquareNumeratorSupportOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_RESEARCH_CARD_ID=M3-T11-092.
+
+
+
+
+
+
+## 102. M3-T11-092 — homogeneous Legendre-defect normal form and full-S residual character lock
+Status: PROVISIONAL EXACT SAME-MEASURE ADAPTER / FULL-MODULUS NORMALIZED COLLISION / FRESH CHARACTER LOCK / HOSTILE AUDIT REQUIRED / NO POWER SAVING.
+
+
+Retain M3-T11-091 and the homogeneous symmetric notation
+S=s/t,
+u=a/b,
+N_u=a^2+b^2,
+with gcd(s,t)=gcd(a,b)=1, together with
+Phi
+=
+N_u*s^4
+-16*a*b*s^3*t
++(44*a^2-4*b^2)*s^2*t^2
++48*a*b*s*t^3
+-16*a^2*t^4,
+and W^2=-N_u*Phi.
+
+
+Work on the exact nondegenerate generic full-S-denominator branch, so every relative-fresh p^lambda||M_rel has c_p=0 and
+v_p(N_u)=v_p(t)=2*lambda,
+while a,b,s are p-units.
+
+
+### 102.1 Homogeneous defect form
+Define the integral quadratic form
+boxed:
+P_ell
+=
+4*a^2*t^2
+-12*a*b*s*t
++(b^2-11*a^2)*s^2.
+
+
+Substituting
+v=u^2,
+x=((1+u^2)S)/(16u)
+into the exact M3-T11-091 Legendre defect gives
+boxed:
+ell
+=
+N_u*P_ell/(8*a*b*s)^2.
+
+
+Thus the exact fresh conductor square in Num(ell) has a homogeneous same-measure representative with no t in the displayed denominator.
+
+
+The quadratic discriminant in t is
+boxed:
+disc_t(P_ell)=16*a^2*s^2*(11*a^2+8*b^2),
+so P_ell is nondegenerate on the physical rational locus a*b*s!=0.
+
+
+### 102.2 Exact division identity with the endpoint quartic
+Direct polynomial division gives the exact identity
+boxed:
+Phi
+=
+-4*t^2*P_ell
++s^3*(N_u*s-16*a*b*t).
+
+
+This is a full-modulus lift of the old Section-50.3 first normalized collision, not merely a mod-p expansion.
+
+
+The exact t-resultant is
+boxed:
+Res_t(Phi,P_ell)
+=
+256*a^8*s^8*(a^4-750*a^2*b^2+17*b^4).
+
+
+For rational u=a/b the last factor never vanishes: in z=u^2 its roots are
+375 +/- 104*sqrt(13).
+Hence Phi and P_ell have no common geometric component for rational physical u.
+
+
+At a fresh p|M_rel one has a^2==-b^2 mod p, and a,s are p-units, so the resultant factor reduces to
+768*b^4 mod p.
+Every fresh prime is odd split p==1 mod4, hence p does not divide 768. Therefore Phi and P_ell are transverse modulo every fresh prime.
+
+
+### 102.3 One exact global normalized collision modulo M_rel^2
+On the full-S branch define integers
+N_0=N_u/M_rel^2,
+t_0=t/M_rel^2,
+Phi_0=Phi/M_rel^2,
+W_0=W/M_rel^2.
+Then
+gcd(N_0*t_0*a*b*s,M_rel)=1
+and
+boxed:
+W_0^2=-N_0*Phi_0.
+
+
+Dividing the identity of Section 102.2 by M_rel^2 gives
+boxed:
+Phi_0
+=
+s^3*(N_0*s-16*a*b*t_0)
+-4*M_rel^2*t_0^2*P_ell.
+
+
+Consequently
+boxed:
+Phi_0
+==
+s^3*(N_0*s-16*a*b*t_0)
+mod M_rel^2.
+
+
+Because
+x=N_0*s/(16*a*b*t_0),
+this recovers the Section-52 truncated valuation identity in one exact global formula:
+for eve

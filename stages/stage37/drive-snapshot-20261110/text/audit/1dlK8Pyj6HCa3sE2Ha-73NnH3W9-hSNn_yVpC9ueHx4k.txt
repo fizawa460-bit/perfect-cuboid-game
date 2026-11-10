@@ -1,0 +1,223 @@
+﻿Stage37 HOSTILE AUDIT — M3-T11-102
+
+
+HOSTILE_AUDIT=PASS
+AUDITED_CARD=M3-T11-102
+PRIOR_AUDITED_FRONTIER=M3-T11-101
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-102
+GITHUB_ACCESSED=false
+
+
+1. Executive verdict
+
+
+M3-T11-102 survives hostile audit.
+
+
+Promoted exact conclusions:
+- The splitting receiver fixes only the squareclass d=[2*Pi], not the exact rational value Pi.
+- The exact squareclass identities [2*Pi]=[2*S*(1+u^2)]=[2*s*t*N_u] hold; on the nonzero split-discriminant locus also [2*Pi]=[-2*S*Q(S,u)].
+- Writing 2*Pi=d*q^2 with signed squarefree d, every relative-fresh p^lambda||M_rel has p not dividing d and v_p(q)=-2*lambda. Thus q carries exact relative-fresh denominator M_rel^2, but this is only the square root of the already-consumed M_rel^4 denominator of Pi.
+- Fixing d leaves a two-dimensional endpoint surface. Fixed-Pi genus-5 fibers from M3-T11-101 are stricter q^2-fixed slices and cannot be charged as a fixed-squareclass theorem.
+- For fixed rational d!=0 and rational physical u!=0, the exact q-fiber is a smooth degree-8 hyperelliptic curve of genus 3.
+- The involution q->-q has as quotient the already-audited Section-35 fixed-u genus-one incidence after x=d*q^2=2*Pi.
+
+
+Not promoted:
+M3_T11_FIXED_SQUARECLASS_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+No endpoint theorem and no Perfect Cuboid existence/nonexistence credit are obtained.
+
+
+2. Squareclass identities — PASS
+
+
+Audited Section 35 gives
+Pi=4*u^2*S/(1+u^2).
+
+
+Then
+(2*Pi)/(2*S*(1+u^2))
+=4*u^2/(1+u^2)^2
+=(2*u/(1+u^2))^2,
+hence
+[2*Pi]=[2*S*(1+u^2)].
+
+
+Writing S=s/t, u=a/b, N_u=a^2+b^2 and
+Pi=4*a^2*s/(t*N_u),
+one gets
+(2*Pi)/(2*s*t*N_u)
+=4*a^2/(t^2*N_u^2)
+=(2*a/(t*N_u))^2,
+hence
+[2*Pi]=[2*s*t*N_u].
+
+
+On the nonzero split-discriminant locus,
+Y^2=-(1+u^2)*Q(S,u).
+Therefore
+(2*Pi)/(-2*S*Q)
+=-4*u^2/((1+u^2)*Q)
+=(2*u/Y)^2,
+equivalently to the card's displayed square expression.
+Thus
+[2*Pi]=[-2*S*Q(S,u)].
+
+
+All three representatives are exact and mutually consistent.
+
+
+3. Canonical squareclass representative and fresh denominator — PASS
+
+
+Choose a signed squarefree integer representative d and q in Q* with
+2*Pi=d*q^2.
+
+
+For every relative-fresh p^lambda||M_rel, audited Section 49 gives
+v_p(Pi)=-4*lambda
+in lowest terms.
+Fresh primes are odd, so v_p(2)=0. Since d is squarefree and the valuation of 2*Pi is even, p does not divide d. Therefore
+2*v_p(q)=-4*lambda,
+hence
+v_p(q)=-2*lambda.
+
+
+Thus on the relative-fresh support
+gcd(Den(q),M_rel^infinity)=M_rel^2.
+
+
+This denominator is not an independent event. Squaring q recovers the already-consumed M_rel^4 denominator of Pi, so the card correctly assigns zero independent saving credit.
+
+
+4. Fixed-squareclass dimension — PASS
+
+
+From
+2*Pi=d*q^2
+and
+Pi=4*u^2*S/(1+u^2),
+one gets exactly
+S=d*q^2*(1+u^2)/(8*u^2).
+
+
+For fixed nonzero d, variables (u,q,Y) satisfy one endpoint equation, so the receiver remains a two-dimensional surface. Fixing Pi additionally fixes q^2 and cuts to the one-dimensional M3-T11-101 genus-5 fiber.
+
+
+Therefore fixed d is strictly weaker than fixed Pi. Any fixed-Pi finiteness or future multiplicity theorem requires a separate same-measure q/exact-Pi support bound before it can be used for the fixed-squareclass receiver.
+
+
+5. Fixed-(d,u) genus-3 calculation — PASS
+
+
+Start from the audited M3-T11-101 fixed-Pi polynomial
+G_pi(u)
+=
+pi^4*(1+u^2)^5
+-64*pi^3*u^3*(1+u^2)^3
++64*pi^2*u^4*(1+u^2)^2*(11*u^2-1)
++3072*pi*u^7*(1+u^2)
+-4096*u^10.
+
+
+Substitute
+pi=d*q^2/2
+and put T=4*Z.
+Independent symbolic recomputation gives exactly
+T^2=-(1+u^2)*F_{d,u}(q),
+
+
+F_{d,u}(q)
+=
+d^4*q^8*(1+u^2)^5
+-128*d^3*q^6*u^3*(1+u^2)^3
++256*d^2*q^4*u^4*(1+u^2)^2*(11*u^2-1)
++24576*d*q^2*u^7*(1+u^2)
+-65536*u^10.
+
+
+The polynomial has degree 8 in q with leading coefficient
+d^4*(1+u^2)^5.
+
+
+Independent discriminant recomputation gives
+Disc_q(F_{d,u})
+=
+-2^128*d^28*u^62*(1+u^2)^33*(25*u^2-2)^6.
+
+
+For rational physical d!=0 and u!=0, the leading coefficient is nonzero and the discriminant is nonzero. The only additional formal zero u^2=2/25 has no rational solution.
+
+
+Hence each fixed-(d,u) fiber is a smooth degree-8 hyperelliptic curve, so its genus is
+(8-2)/2=3.
+
+
+6. Quotient identification — PASS
+
+
+The genus-3 equation is even in q. Quotient by q->-q and put z=q^2, then x=d*z=2*Pi.
+
+
+Using
+S=x*(1+u^2)/(8*u^2),
+direct symbolic substitution gives
+F_{d,u}(q)=4096*u^8*Q(S,u).
+
+
+Thus the quotient equation is exactly the audited Section-35 fixed-u symmetric incidence after a nonzero square/scalar rescaling of the ordinate.
+
+
+Therefore the elliptic/genus-one quotient is not new compression credit. The genuinely new object is the square-coordinate double cover x/d=q^2 over the old fixed-u quotient.
+
+
+7. Same-measure and credit audit — PASS
+
+
+M3-T11-102 remains on the exact same fixed-content/coefficient nondegenerate Stage37 physical endpoint population with R<=B.
+
+
+The following are correctly firewalled:
+- fixed d is not fixed Pi;
+- q's M_rel^2 denominator cannot be charged independently from Pi's M_rel^4 denominator;
+- the genus-one quotient cannot be charged again;
+- smooth genus 3 alone gives no uniform fixed-power saving and no fixed-squareclass B^o(1) theorem.
+
+
+The audited fixed-u B^o(1) statement may bound fixed-(d,u) physical multiplicity as a subset, but it does not remove the moving-u / moving-q surface problem for fixed d.
+
+
+8. Canonical route consequence
+
+
+Promote:
+M3_T11_102_HOSTILE_AUDIT=PASS
+M3_T11_2PI_SQUARECLASS_SYMMETRIC_REPRESENTATIONS=true
+M3_T11_FIXED_SQUARECLASS_Q_MREL2_DENOMINATOR=true
+M3_T11_FIXED_SQUARECLASS_Q_DENOMINATOR_INDEPENDENT_SAVING=false
+M3_T11_FIXED_2PI_SQUARECLASS_RECEIVER_DIMENSION=2
+M3_T11_FIXED_2PI_SQUARECLASS_FIXED_U_GENUS3=true
+M3_T11_FIXED_2PI_SQUARECLASS_GENUS3_ELLIPTIC_QUOTIENT_OLD=true
+M3_T11_FIXED_PI_GENUS5_OVERREFINEMENT_FIREWALL=true
+M3_T11_FIXED_SQUARECLASS_BO1_PROVED=false
+
+
+The surviving legal frontier is:
+ThetaFourthPowerMovingSupportBeyondKummer
+or
+Interior2PiSquareclassSurfaceQSupport.
+
+
+A valid continuation must control realized q/exact-Pi support inside one d on the same physical measure, or exploit the genus-3 square-coordinate cover globally across moving u.
+
+
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+NEXT_RESEARCH_CARD_ID=M3-T11-103

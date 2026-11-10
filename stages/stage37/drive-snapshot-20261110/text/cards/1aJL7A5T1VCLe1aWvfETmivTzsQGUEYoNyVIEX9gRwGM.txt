@@ -1,0 +1,202 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229AN — 229AL common-root event collapse and threshold-preserving no-extra-incidence firewall
+
+
+STATUS: POST_229AM_229AL_EVENT_COLLAPSE_COMPLETE / PROVED_229AL_COMMON_ROOT_GCD_EQUALS_SPACE_ROOT_INERT_PART / PROVED_229AL_COUNT_EVENT_IDENTICAL_TO_229AJ_PACKET_EVENT / PROVED_THRESHOLD_PRESERVATION_HAS_ZERO_EXTRA_LOCAL_INCIDENCE / 229AK_REMAINS_ONLY_CURRENT_FACE_SIGN_ENRICHMENT / NO_COUNTING_PROMOTION / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229AM SAME-PHYSICAL EVENT-EQUIVALENCE AUDIT / THRESHOLD-PRESERVING ADAPTER COLLAPSE / DEPENDENCE FIREWALL / ROUTE-STATUS REFRESH
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229AM
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1aJL7A5T1VCLe1aWvfETmivTzsQGUEYoNyVIEX9gRwGM
+
+
+1. Scope
+
+
+229AL preserved the 229AJ four-packet threshold by writing each inert packet as
+  a_tau=gcd_3(s_{a,tau},r_{a,-}r_{a,+}),
+  b_tau=gcd_3(s_{b,tau},r_{b,-}r_{b,+}),
+where s is one space Euclid root and r_-r_+ is the product of the two face Euclid roots.
+
+
+The unresolved question is whether this is genuinely a stronger counting event than the original 229AJ packet event. This card proves that it is not: after restricting to inert primes p==3 mod4, the face-product gcd is exactly the inert part of the space root itself. Hence the four 229AL common-root events are pointwise identical to the four 229AJ packet events.
+
+
+The 229AL identities remain correct. The new result is a routing/firewall refinement: threshold preservation was achieved by aggregating away the face sign, and that aggregation removes all additional local incidence at the event level.
+
+
+2. Retained root valuations
+
+
+Retain 229AL notation:
+  T_a=(ga,d0c,n1), with face roots r_{a,-},r_{a,+},
+  T_b=(gb,d0f,n2), with face roots r_{b,-},r_{b,+}.
+
+
+For every odd prime p,
+  v_p(r_{a,-}r_{a,+})=v_p(ga),
+  v_p(r_{b,-}r_{b,+})=v_p(gb).                         (229AN.1)
+
+
+Retain the space roots from 229AJ/229AL:
+  s_{a,-},s_{a,+} from (V,x,R)/c21,
+  s_{b,-},s_{b,+} from (U,y,R)/c12.
+
+
+Because
+  V/c21=a(n2/c21),
+  U/c12=b(n1/c12),
+and every odd prime divisor of n1,n2,c12,c21 is 1 mod4, no inert odd prime outside a occurs in s_{a,-}s_{a,+}, and no inert odd prime outside b occurs in s_{b,-}s_{b,+}.
+
+
+More precisely, if p^k||a with p==3 mod4, then exactly one a-space root has valuation k and the other has valuation 0. Likewise for p^k||b.
+
+
+Therefore, writing n_(3) for the p==3 mod4 part,
+  (s_{a,tau})_(3)=a_tau,
+  (s_{b,tau})_(3)=b_tau.                              (229AN.2)
+
+
+3. Collapse of the 229AL common-root gcd
+
+
+Fix tau in {-,+}. Let p==3 mod4.
+
+
+If p divides s_{a,tau}, then by (229AN.2)
+  v_p(s_{a,tau})=v_p(a)=k.
+By (229AN.1),
+  v_p(r_{a,-}r_{a,+})=v_p(g)+v_p(a)>=k.
+Hence
+  min(v_p(s_{a,tau}),v_p(r_{a,-}r_{a,+}))=k.
+
+
+If p does not divide a_tau, then p does not divide s_{a,tau}, so it contributes nothing to the gcd.
+
+
+Thus
+  gcd_3(s_{a,tau},r_{a,-}r_{a,+})
+   =(s_{a,tau})_(3)
+   =a_tau.                                             (229AN.3)
+
+
+Similarly,
+  gcd_3(s_{b,tau},r_{b,-}r_{b,+})
+   =(s_{b,tau})_(3)
+   =b_tau.                                             (229AN.4)
+
+
+RESULT_229AN_229AL_GCD_COLLAPSES_TO_SPACE_ROOT_INERT_PART=PROVED_EXACT.
+
+
+4. Exact event equivalence with 229AJ
+
+
+Taking radicals in (229AN.3)-(229AN.4),
+  rad(gcd_3(s_{a,tau},r_{a,-}r_{a,+}))=rad_3(s_{a,tau})=A_tau,
+  rad(gcd_3(s_{b,tau},r_{b,-}r_{b,+}))=rad_3(s_{b,tau})=B_tau.   (229AN.5)
+
+
+Therefore for every threshold M and every physical endpoint,
+  rad(gcd_3(s_{a,tau},r_{a,-}r_{a,+}))>M
+iff
+  A_tau>M,
+and likewise on the b side.
+
+
+Consequently the four 229AL counting sets are exactly, point by point, the four 229AJ packet counting sets. Not merely the exponent threshold but the underlying events are identical.
+
+
+RESULT_229AN_229AL_EVENT_EQUALS_229AJ_EVENT=PROVED_EXACT.
+RESULT_229AN_THRESHOLD_PRESERVING_FACE_PRODUCT_ADAPTER_ADDS_ZERO_EVENT_LEVEL_FILTER=PROVED_EXACT.
+
+
+5. Method firewall and route consequence
+
+
+229AL remains a valid algebraic representation and may still be useful for matching a theorem whose hypotheses are naturally stated in terms of two coupled root variables. But the condition “large common-root gcd” itself is not a new incidence condition: on the physical locus the face product automatically contains every inert prime-power already present in the corresponding space root.
+
+
+Therefore it is invalid to assign any extra local density, codimension, or gcd-independence saving merely from the 229AL gcd representation.
+
+
+This sharpens the current route hierarchy:
+- 229AJ remains the actual four-packet quantitative receiver at threshold B^(1/12-delta/4).
+- 229AL is an EVENT-EQUIVALENT REPARAMETERIZATION of those same four packet events, not an additional face-incidence filter.
+- 229AK remains the current sign-resolved interface that genuinely records extra face-root placement, but it pays the eight-packet threshold B^(1/24-delta/8) and its square-divisor conditions are dependent.
+- 229AM remains the third-gap redundancy firewall.
+
+
+No counting promotion follows.
+
+
+6. Operational consequence
+
+
+CURRENT_PREFERRED_GATE remains:
+  #{positive primitive physical endpoints R<=B :
+      sf(gcd(eR,xy)) > B^(1/3-delta)}
+    = o(B^(1/3))
+for some fixed delta>0.
+
+
+CURRENT_PREFERRED_INERT_STRUCTURAL_RECEIVER=229AJ four realized Euclid-root packets.
+229AL_ADAPTER_STATUS=EVENT_EQUIVALENT_REPARAMETERIZATION_NO_EXTRA_INCIDENCE.
+229AK_STATUS=SECONDARY_SIGN_RESOLVED_FACE_ENRICHMENT_WITH_THRESHOLD_LOSS.
+229AM_STATUS=THREE_GAP_REDUNDANCY_FIREWALL.
+
+
+NEXT_USEFUL_INPUT:
+(A) a same-physical count for the 229AJ four packet radicals at B^(1/12-delta/4);
+(B) a theorem using the 229AL root representation through genuinely quantitative size/height/global-distribution information beyond the gcd event identity;
+(C) a theorem exploiting 229AK sign-resolved structure strongly enough to compensate the T^(1/8) threshold;
+(D) a joint inert/split support theorem with genuine polynomial saving;
+(E) direct realized K_* or moving-twist support counting;
+(F) cross-prime cancellation/dispersion across a,b,c12,c21.
+
+
+DO_NOT_REPEAT:
+- do not treat 229AL common-root gcd>M as an extra filter beyond 229AJ packet>M;
+- do not infer an ambient gcd-density saving from the face-product representation;
+- do not multiply 229AK/229AM gap incidences as independent;
+- do not reopen codimension-only selector-cover sieve or generic rank/Selmer routes.
+
+
+INERT_LEG_SUPPORT_SUBGATE remains OPEN_REFINED_BY_229AJ.
+SMOOTH_INERT_STRUCTURAL_PACKETIZATION remains COMPLETE_COUNT_OPEN.
+CM_PAIR_DEPENDENCE_SUBGATE remains CLOSED_FOR_ONE_THIRD_BUDGET_BY_229AB.
+CM_PAIR_INDEPENDENT_BRANCH remains OPEN.
+CM_INDEPENDENT_PAIR_GENERIC_RANK_STATISTICS_ROUTE remains HOLD_BY_229AC.
+SELECTOR_COVER_CODIMENSION_ONLY_GEOMETRIC_SIEVE_ROUTE remains HOLD_BY_229AH.
+CORRECTED_CANONICAL_PACKET_STATE remains229AG.
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_OPERATION=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+INTEGRATED_AUDIT_186_229O_SCOPE=UNCHANGED_NOT_EXTENDED_TO_229P_THROUGH_229AN.
+
+
+7. Dependencies and verification scope
+
+
+Internal load-bearing inputs:
+- 229D/229AD primitive face triples, coprimalities and split-only hypotenuse support;
+- 229AJ clean four space-root packetization;
+- 229AK face-root valuation structure;
+- 229AL aggregated face-product gcd identities;
+- 229AM current route firewall;
+- current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+No external theorem is invoked. This is an exact p-adic valuation and event-equivalence deduction from retained Stage37 authority.
+
+
+Independent hostile audit of229AN has not been run. Existing operational authority, latest mathematical construction, counting credit, primary gate, closure states, retractions and integrated-audit scope are otherwise unchanged.

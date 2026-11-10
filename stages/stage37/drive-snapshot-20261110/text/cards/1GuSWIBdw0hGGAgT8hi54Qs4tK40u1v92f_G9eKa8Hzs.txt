@@ -1,0 +1,46 @@
+﻿STAGE37 A37 EXACT CERTIFICATE — GENUINE FJ HI150 KEY AND INTEGRAL DISCRIMINANT COUNT
+CARD_ID=1YdbEPDwd3qGqgH2RxQNO0wn6YY_grHluNMKIXh-syT8; DATE=2026-10-12 JST; STATUS=EXACT_FINITE_Q_LE300000 / SOURCE_HOSTILE_NOT_RUN.
+SOURCE: 000.011.102:0 valid zero-coordinate counts (1,1,1); 000.001.011:0 A36 INVALID zero-coordinate counts (0,1,2); 000.001.010:0 valid but HI audit.json globally_empty TRUE. Source chosen is HI audit.json remaining150_keys TRUE and FJ discriminant squarefree-degree4.
+From E macros F=2[t(X+t)Y²+(tX²−2X−t)Y+tX(tX−1)]; t=b/a, X=d/c, p²=a²+b²,q²=c²+d². Cleared coefficients:
+A=bc(ad+bc)>0, B=-a(2acd+bc²−bd²), C=-bd(ac−bd). Rational Y root => D=B²−4AC is nonnegative integer square. Exact original source filters only shrink.
+OUTPUT PER Q BAND: [11436153,6993362,0], [12406812,7543712,0], [16445811,10079811,0], [20161734,12353529,0], [23783200,14535557,0]. TOTAL 84233710,51505971,0; primes count12980.
+EXECUTABLE PYTHON3 STANDARD LIBRARY (no floats, heuristics or third-r truncation):
+from math import gcd,isqrt
+N=300000
+sieve=bytearray([1])*(N+1)
+sieve[0]=sieve[1]=0
+for p in range(2,isqrt(N)+1):
+    if sieve[p]:
+        sieve[p*p:N+1:p]=bytes((N-p*p)//p+1)
+rep={}
+for u in range(1,isqrt(N)+1):
+    for v in range(1,u):
+        p=u*u+v*v
+        if p>N:break
+        if sieve[p] and gcd(u,v)==1:
+            a=u*u-v*v;b=2*u*v
+            assert a%2 and b%4==0 and p%4==1
+            assert p not in rep or rep[p]==(a,b)
+            rep[p]=(a,b)
+pr=sorted(rep)
+assert len(pr)==12980 and len(pr)*(len(pr)-1)//2==84233710
+edges=(100000,150000,200000,250000,300000)
+counts=[[0,0,0] for _ in edges]
+for i,p in enumerate(pr):
+    a,b=rep[p]
+    for q in pr[i+1:]:
+        c,d=rep[q]
+        j=next(k for k,e in enumerate(edges) if q<=e)
+        counts[j][0]+=1
+        A=b*c*(a*d+b*c)
+        B=-a*(2*a*c*d+b*c*c-b*d*d)
+        C=-b*d*(a*c-b*d)
+        D=B*B-4*A*C
+        if D>=0:
+            counts[j][1]+=1
+            if isqrt(D)**2==D:
+                counts[j][2]+=1
+assert counts==[[11436153,6993362,0],[12406812,7543712,0],[16445811,10079811,0],[20161734,12353529,0],[23783200,14535557,0]]
+print("PASS",len(pr),counts)
+END EXECUTABLE.
+ALTERNATE SOURCE-GAUSSIAN NECESSITY: (A−C)²+B²=(a²+b²)(2acd+b(c²−d²))². Physical r>q prime entails r|2acd+b(c²−d²), via old 229GX Gauss lemma. This is NOT sufficient physical existence nor global saving. No independent external hostile audit.

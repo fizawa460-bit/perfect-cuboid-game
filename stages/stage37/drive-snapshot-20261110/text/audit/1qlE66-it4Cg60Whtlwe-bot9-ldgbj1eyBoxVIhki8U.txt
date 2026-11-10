@@ -1,0 +1,176 @@
+﻿Stage37 hostile audit — M3-T11-083 lcm denominator / physical twist-height adapter
+
+
+HOSTILE_AUDIT=PASS
+AUDIT_SCOPE=STAGE37_X_MINUS_ONE_EIGHTH_LCM_PHYSICAL_TWIST_HEIGHT_ADAPTER
+AUDITED_CARD=M3-T11-083
+PRIOR_AUDITED_FRONTIER=M3-T11-080
+M3_T11_082_STANDALONE_HOSTILE_AUDIT=NOT_PERFORMED
+M3_T11_082_REQUIRED_SUBLEMMA_RECHECK=PASS
+GITHUB_ACCESSED=false
+
+
+Frozen authority
+MAIN=K16-C3-M3-LOCAL-TO-GLOBAL-MAIN
+MAIN_DRIVE_REVISION=178
+RESULT_LEDGER=K16-C3-M3-RESULT-LEDGER
+RESULT_LEDGER_DRIVE_REVISION=147
+ROUTE=K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE
+ROUTE_DRIVE_REVISION=108
+RESEARCH_INDEX=K16-C3-M3-RESEARCH-INDEX
+RESEARCH_INDEX_DRIVE_REVISION=100
+PRIMARY_GATE=M3-T11-GATE-001
+ACTIVE_ROUTE=K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE
+
+
+Audit conclusion
+
+
+M3-T11-083 passes for the exact lcm denominator recombination, the exact physical R<=B twist-height upper window, the fixed-(D,q,H_x) B^o(1) pushforward multiplicity, and the fixed-base twist ordinary x-height identity.
+
+
+No same-measure moving-D support theorem is proved. No x=-1/8 carrier power saving, primary-gate closure, endpoint theorem, or P(B)/M3(B) credit is promoted.
+
+
+1. Reduced-denominator lcm recombination: PASS
+
+
+On the retained x=-1/8 carrier,
+Den(S)=N_u=D*q^2,
+q=M_rel*h.
+
+
+For the three corrected anti-roots v_i=A_i/B_i in lowest terms, the retained complementary denominator carriers are
+B_1 | L_1*(tau_0*tau_2*tau_3)^2,
+B_2 | L_2*(tau_0*tau_1*tau_3)^2,
+B_3 | L_3*(tau_0*tau_1*tau_2)^2.
+
+
+Put L_vee=lcm(L_1,L_2,L_3).
+The reduced denominator of S=v_1+v_2+v_3 divides lcm(B_1,B_2,B_3). Each complementary core product divides tau=tau_0*tau_1*tau_2*tau_3. Hence every B_i divides L_vee*tau^2 and therefore exactly
+D*q^2=Den(S) | lcm(B_1,B_2,B_3) | L_vee*tau^2.
+
+
+Using the lcm rather than B_1*B_2*B_3 is the correct reduced-denominator operation. No tau^6 product carrier is charged.
+
+
+2. Exact physical upper window: PASS
+
+
+Let H_c=h_1*h_2*h_3. The retained cyclic identity is
+R=H_c*tau.
+Thus R<=B gives tau<=B/H_c.
+
+
+Combining this with D*q^2 | L_vee*tau^2 and q=M_rel*h gives
+D*q^2 <= L_vee*(B/H_c)^2,
+q <= sqrt(L_vee)*B/H_c,
+D <= L_vee*(B/(H_c*M_rel))^2,
+D*h^2*M_rel^2 | L_vee*tau^2.
+
+
+For the distinguished point,
+q^2 <= H_x(P_D) <= D*q^2 <= L_vee*(B/H_c)^2.
+
+
+These are packet-relative upper-range statements. L_vee is not promoted to a packet-independent absolute constant, and no support saving is inferred from the upper window.
+
+
+3. M3-T11-082 dependency subset: PASS
+
+
+M3-T11-082 remains a standalone unaudited card. Only the sublemma required by M3-T11-083 was independently rechecked here.
+
+
+With
+c^2=a^2+2*b^2,
+N_u=a^2+b^2=D*q^2,
+the point
+P_D=(-b^2/q^2, a*b*c/q^3)
+satisfies
+x_D+D=a^2/q^2,
+x_D-D=-c^2/q^2,
+so
+y_D^2=x_D*(x_D+D)*(x_D-D)=x_D^3-D^2*x_D.
+
+
+On the primitive x=-1/8 carrier q is odd. If p|q, then p divides neither a nor b; reducing c^2=a^2+2b^2 modulo p shows p does not divide c. Hence gcd(q,a*b*c)=1 and q is the standard denominator root of this point. The audited fresh-valuation structure gives q=M_rel*h.
+
+
+Therefore the exact point/standard-denominator input used by M3-T11-083 is valid without promoting the whole M3-T11-082 card.
+
+
+4. Fixed-(D,q,H_x) pushforward: PASS
+
+
+Hostile-audit-passed M3-T11-080 proves
+fixed D + fixed content/coefficient packet => B^o(1)
+physical x=-1/8 endpoints.
+
+
+A fixed (D,q,H_x(P_D)) fiber inside the same packet is a subset of a fixed-D fiber. Hence it also has cardinality B^o(1). This is a refinement of the audited fiber, not a new independent saving.
+
+
+5. Fixed-base twist coordinate: PASS
+
+
+Under
+x=D*X,
+y=D^2*Y,
+the moving twist
+E_D: y^2=x^3-D^2*x
+becomes
+D*Y^2=X^3-X.
+
+
+For the distinguished point,
+X=-b^2/(D*q^2)=-b^2/N_u.
+Because gcd(b,N_u)=1 and b^2<N_u, this rational coordinate is reduced and its ordinary projective x-height is exactly
+H(X)=N_u=D*q^2.
+
+
+Thus the lcm carrier is an exact upper window for the fixed-base twist x-coordinate as claimed.
+
+
+6. Literature firewall: PASS AS A FIREWALL
+
+
+The card does not charge any external theorem as a fixed-power saving. Fixed-curve denominator-power results and known quadratic-twist small/almost-minimal canonical-height results are not silently identified with the present moving-D, q>1, exact physical ordinary-x-height window. This audit does not claim that no future literature theorem can apply; it only confirms that no unmatched theorem is used in M3-T11-083.
+
+
+7. Credit firewall: PASS
+
+
+Promoted audited flags:
+M3_T11_083_HOSTILE_AUDIT=PASS
+M3_T11_X_MINUS_ONE_EIGHTH_LCM_DENOMINATOR_UPPER_WINDOW=true
+M3_T11_X_MINUS_ONE_EIGHTH_FIXED_DQH_PHYSICAL_FIBER_BO1=true
+M3_T11_X_MINUS_ONE_EIGHTH_FIXED_BASE_TWIST_XHEIGHT_EXACT=true
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-083
+
+
+Retained non-credit flags:
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_D_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+M3_T11_FIXED_X_GENERIC_BO1_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+Next routing
+
+
+Canonical receiver remains
+XMinusOneEighthResidualSquarefreeKernelSupportOneTwelfth.
+
+
+The next genuinely new research-card ID remains M3-T11-084.
+
+
+The next theorem-level task is a same-physical-measure fixed-power bound for realized squarefree D using the exact endogenous divisor/window
+D*q^2 | L_vee*tau^2,
+q=M_rel*h,
+R=H_c*tau<=B,
+or an external moving-twist theorem only after an exact adapter to this physical measure and height.
+
+
+Do not infer a saving from the upper window, q>=M_rel, or fixed-D B^o(1) multiplicity alone.

@@ -1,0 +1,74 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229BR — five-halves height same-radical refinement and quadratic edge-outer radical receiver
+STATUS: POST_229BQ_SAME_SCALAR_HEIGHT_B_5_OVER_2_PROVED / QUADRATIC_EDGE_OUTER_RADICAL_RECEIVER_PROVED / UNIFORM_FIXED_SIGMA_B_O1_PHYSICAL_FIBER / FIXED_PHYSICAL_EDGE_AND_HEIGHT_FIBER_DIRECT_RECONSTRUCTION / NO_REALIZED_SUPPORT_POWER_SAVING / GLOBAL_CREDIT_0 / NO_REOPEN
+TYPE: exact coprime-content height bound; independent quadratic radical host; elementary same-physical divisor reconstruction; quantitative-host non-dominance firewall
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED; PRIMARY_GATE=M3-T11-GATE-001 OPEN; PRODUCTION HOLD.
+CARD_DOC_ID=116jWUjAU2OeIsqVGj6pTYiBemT7Gz5_jktMYHaqrSWs
+1. Retained physical notation and statement
+Take exactly the positive primitive canonical Stage37 physical endpoints P of 229AD/229BI/229BO/229BP/229BQ, with R(P)<=B and all original selector equations. Write
+ e=gab, x=d0bc=d0 b c21 X, y=d0af=d0 a c12 Y, z=d0q,
+ q^2=(bc)^2+(af)^2=(b c21 X)^2+(a c12 Y)^2,
+ e^2+x^2=U^2, e^2+y^2=V^2, x^2+y^2=z^2, e^2+z^2=R^2,
+ h=gcd(e,R)=gcd(g,q); c12=gcd(y,R)=gcd(n1,f), c21=gcd(x,R)=gcd(n2,c);
+ G0=gcd(eR,xy)=ab c12 c21; E=g/h; X=c/c21; Y=f/c12.
+Let H=c12*c21, m=min(X,Y), Phi=G0 E^2 m^2 and rho=rad(Phi)=rad(ab E H m).
+Retain 229AD exact PAIRWISE coprimality of h,d0,a,b,c12,c21 and 229BQ uniform fixed-rho physical fiber B^{o(1)}.
+NEW A: the SAME scalar rho from229BQ obeys
+  0<rho<= R^(5/2) / (2sqrt(2) h^(3/2) d0 sqrt(ab)) <= B^(5/2)/(2sqrt(2)).    (229BR.1)
+This improves the unconditional exponent 3 in229BQ to 5/2 WITHOUT changing the realized scalar or its fixed-value multiplicity.
+NEW B: define a distinct positive squarefree scalar
+  sigma(P):=rad(e(P)*R(P)).                                    (229BR.2)
+Then 0<sigma<=eR<R^2<=B^2, sf(G0)|sigma, and uniformly for every realized integer s
+  #{P:R(P)<=B, sigma(P)=s}=B^{o(1)}.                          (229BR.3)
+The source implication sf(G0)>B^(1/3-delta) => sigma>B^(1/3-delta) is exact; the converse is not asserted.
+2. Proof of SAME-scalar five-halves bound
+By retained 229AD/229BI definitions, h|R, c12|R, c21|R. These three integers are pairwise coprime; therefore
+  h*H = h*c12*c21 | R, hence H<=R/h.                          (229BR.4)
+Since X,Y are positive and both >=m, the primitive missing-face relation gives
+  q^2=(b c21 X)^2+(a c12 Y)^2
+     >=m^2[(b c21)^2+(a c12)^2]
+     >=2ab H m^2.                                           (229BR.5)
+Here the final step is AM-GM; its two nonnegative summands have geometric mean ab c12 c21=abH.
+Consequently m<=q/sqrt(2abH). Using rad(n)<=n,
+  rho=rad(ab E H m)<=ab E H m
+     <=(g q/h) sqrt(ab H/2)
+     =(e q/h) sqrt(H/(2ab)).                                (229BR.6)
+The outer Pythagorean identity e^2+(d0q)^2=R^2 implies 2 e d0 q<=R^2, hence e q<=R^2/(2d0). Combine (229BR.4) and (229BR.6) to get
+  rho<=R^2/(2h d0) sqrt(R/(2hab))
+     =R^(5/2)/(2sqrt(2) h^(3/2) d0 sqrt(ab)).                (229BR.7)
+No new analytic theorem, independence assumption, approximation, or genericity condition appears. Pairwise coprimality includes prime2 and is invoked integrally, not just as an odd-support statement.
+The original 229BQ content-specific cubic bound rho<=R^3/(3sqrt(3)habd0^2) is ALSO valid; the best uniform per-point bound is the MINIMUM of the two upper bounds. Neither is claimed pointwise superior in all content strata.
+Retained fixed-rho whole-physical fiber B^{o(1)} from229BQ is unchanged because rho(P) itself is unchanged.
+3. Independent degree-two radical receiver and fixed physical-edge lemma
+Since G0=gcd(eR,xy) divides eR, every prime dividing sf(G0) divides eR, so
+  sf(G0) | rad(eR)=sigma.                                    (229BR.8)
+The scalar sigma is positive squarefree and sigma<=eR<R^2<=B^2 because z>0.
+LEMMA (direct fixed-edge physical reconstruction): Fix an integer e=E0 with 1<=E0<=B. The number of positive canonical physical endpoints with that exact e is at most tau(E0^2)^2 times a bounded canonical-orientation factor, hence B^{o(1)} uniformly.
+PROOF: e^2+x^2=U^2 gives (U-x)(U+x)=e^2, so each allowed positive integer x,U is determined by one ordered positive divisor of e^2: at most tau(e^2) options. Independently e^2+y^2=V^2 gives at most tau(e^2) options for y,V. For each (e,x,y), the positive z is uniquely determined by z^2=x^2+y^2, if integral; the positive R is uniquely determined by R^2=e^2+z^2, if integral. Original primitivity, node, and selector restrictions only remove candidates. Any canonical symmetry/multiplicity factor is bounded. Thus fixed e has at most O(tau(e^2)^2)=B^{o(1)} physical endpoints. This agrees with the independently retained M3-T11-204 global fixed physical-edge fiber, but needs no circular use of229BQ.
+LEMMA (uniform polynomial-size prescribed support): For every fixed A,C>0 and r<=B^C, at most B^{o(1)} positive integers n<=B^A have all prime factors dividing r, uniformly in r. This is the Rankin/primorial argument proved in229BQ, §3.
+Fix a realized s=sigma(P)<=B^2. Every possible edge e of an endpoint in the fiber is positive, <=B and supported on primes dividing s. Applying the preceding uniform support lemma with A=1,C=2 gives B^{o(1)} possible e values. For each e, direct fixed-edge reconstruction gives B^{o(1)} possible physical endpoints. Therefore
+  #{P:R<=B, sigma(P)=s} <= B^{o(1)}*B^{o(1)}=B^{o(1)}      (229BR.9)
+uniformly in the realized s. This is a genuinely independent proof of sigma's fiber that does not assume a fixed-Phi or fixed-rho fiber from229BP/BQ.
+4. Parallel realized-value theorem inputs
+Let P_large(B,delta)={P current positive primitive physical Stage37 endpoints:R<=B and sf(G0)>B^(1/3-delta)} for fixed delta>0. Define
+  T_rho(B,delta):={rho(P):P in P_large(B,delta)},
+  T_sigma(B,delta):={sigma(P):P in P_large(B,delta)}.
+Then both maps have uniform B^{o(1)} whole-physical fibers, and
+  #P_large(B,delta) <= B^{o(1)} #T_rho(B,delta),           (229BR.10)
+  #P_large(B,delta) <= B^{o(1)} #T_sigma(B,delta).         (229BR.11)
+with occupied value size bounds
+  T_rho subset {squarefree r:B^(1/3-delta)<r<=B^(5/2)/(2sqrt2)},
+  T_sigma subset {squarefree s:B^(1/3-delta)<s<=B^2}.
+A selector-aware fixed-power support theorem #T_rho<<B^(1/3-epsilon) OR #T_sigma<<B^(1/3-epsilon) for some fixed epsilon>0 would be sufficient to close the preferred large-sf(G0) tail. NEITHER THEOREM IS PROVED.
+5. Quantitative comparison and structural firewall
+229BQ: same rho radical value, old height exponent3; 229BR: same rho exponent5/2 via h*c12*c21|R. This is a TRUE monotone bound improvement on an unchanged host.
+The new sigma=rad(eR) has exponent2 and B^{o(1)} fixed-value fiber, but its arithmetic selector is coarser: prime support of eR may contain primes not occurring in rho and vice versa. Neither occupied-value set is proved smaller in cardinality than the other. The exponent2 is not a counting saving.
+Actually a trivial height-one B^{o(1)}-fiber scalar exists: the physical outer hypotenuse R itself. For fixed R, the number of positive (e,z) with e^2+z^2=R^2 is <=4tau(R^2), by the standard two-squares divisor bound. For each e, the fixed-edge lemma gives <=tau(e^2)^2 endpoint choices. Therefore each fixed R has B^{o(1)} physical endpoints. This observation proves that SMALL POLYNOMIAL HEIGHT plus subpolynomial fiber ALONE cannot close the M3 gate. An arithmetic support theorem tied to the large-sf(G0) source is indispensable.
+Do not claim sf(G0)=sigma or sf(G0)=rho; only divisibility is proved. Do not replace T_sigma by all squarefree s<=B^2 or by all s>B^(1/3-delta). The source condition is indispensable. Do not infer selector independence, support image domination, a global physical endpoint count, or new global counting credit.
+6. Current best next theorem contract and dependencies
+CURRENT_PREFERRED_SAME_RECEIVER=229BR rho_5_OVER_2 (same229BQ values, refined height).
+CURRENT_PREFERRED_LOW_HEIGHT_PARALLEL_RECEIVER=229BR sigma=rad(eR) (quadratic height, weaker selector).
+CURRENT_BLOCKER=NO_FIXED_POWER_BOUND_FOR_REALIZED_RHO_FIVE_HALVES_OR_SIGMA_QUADRATIC_VALUES_FROM_LARGE_SF_G0_PHYSICAL_ENDPOINTS.
+NEXT: seek an actual selector-aware occupied-radical-value power saving for T_rho(B,delta) or T_sigma(B,delta); explicitly retain parity/source condition sf(G0)>threshold and the exact all-content physical population. As diagnostics test whether sigma's coarse added prime support destroys possible sieve gains. Alternatively use229BP exact squarefree-class Phi<=B^4 or229AR quadratic W_- with unresolved fixed-value fiber,229BM hard remainder/229BF floor.
+Load-bearing:229AD six pairwise-coprime buckets;229BI c12/c21/h divisibility into R, G0 identity;229BQ rho and Rankin uniform prescribed-support lemma;229BP fixed-Phi fiber only for carried-over rho route;M3-T11-204 corroborates but is not needed for independent sigma route.
+Global firewall unchanged: OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230=NOT_ISSUED; PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT; INTEGRATED_AUDIT_186_229O scope, closure flags and all previous credits remain unchanged. Independent hostile audit229BR NOT RUN.
+FINAL_READBACK_RECEIPT=PASS — card created in M3-Research-Cards and 229BR theorem contents read back; CARD-INDEX row535 and guide updated; RESULT-LEDGER canonical current+change record, MAIN canonical current+startup/footer, active ROUTE canonical header+POST-229BR synchronized; independent connector readback checks all passed, preserved authority/credit/gate/closure/HOLD verified. INDEPENDENT_HOSTILE_AUDIT_229BR=NOT_RUN. NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

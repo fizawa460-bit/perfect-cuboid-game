@@ -1,0 +1,421 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229BB — uniform Pell completion compression and root-free outer support
+
+
+STATUS: POST_229BA_AR010_PELL_RECONSTRUCTION_COMPLETE / REPROVED_UNIFORM_BINARY_NORM_COUNT / PROVED_FIXED_E0_ROOT_COMPLETION_B_O1 / PROVED_FIXED_R0_ROOT_COMPLETION_B_O1 / PROVED_ROOT_FREE_OUTER_SUPPORT_PUSHFORWARD / PROVED_PRIMITIVE_OUTER_PYTHAGOREAN_RECEIVER / ROOT_COMPLETION_NO_LONGER_FIXED_POWER_BLOCKER / OUTER_SUPPORT_COUNT_OPEN / NO_COUNTING_PROMOTION / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_GLOBAL_REOPEN
+
+
+TYPE: POST-229BA ARSENAL REUSE / UNIFORM PELL-NORM COMPLETION / AR-010 ONE-PAIR RECONSTRUCTION / ROOT-FREE SUPPORT COMPRESSION / PRIMITIVE OUTER PYTHAGOREAN RECEIVER / METHOD FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229BA
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1NFrTZpl6cw3UWBJJDhZAD1Y6KjY-OrHK1FlAfJAUDpE
+
+
+1. Scope and Arsenal trigger
+
+
+229BA sharpened the current receiver to the combined index-Gh^3 root lattice plus the exact normalized endpoint quotient rectangle.
+
+
+The requested Arsenal reassessment exposes a direct reusable counting lemma:
+Stage27-19-r5am / StructureRadar SR-STR-090 proved a uniform Pell/norm completion bound.
+
+
+Because that source is not current Stage37 authority, this card reproves the abstract lemma before using it. No Stage19 population or exponent is imported.
+
+
+Retain229BA notation:
+  A := A_-A_+,
+  C := C_-C_+,
+  G := AC = (G_*)_odd,
+and positive integers
+  E0=e/(hA),
+  R0=R/(hC),
+with
+  gcd(E0,R0)=1.
+
+
+Retain the exact quotient rectangle:
+  eta2 C_+ x2^2 - eta0 C_- x0^2
+    = 2h A_+ E0,                                  (229BB.1)
+
+
+  eta1 C_+ x1^2 - eta3 C_- x3^2
+    = 2h A_- E0,                                  (229BB.2)
+
+
+  eta3 A_+ x3^2 - eta0 A_- x0^2
+    = 2h C_+ R0,                                  (229BB.3)
+
+
+  eta1 A_+ x1^2 - eta2 A_- x2^2
+    = 2h C_- R0.                                  (229BB.4)
+
+
+All coefficients and roots have polynomial height in B.
+
+
+2. Uniform binary norm/Pell count
+
+
+Lemma 229BB-Pell.
+Let positive integers P,Q,N,H be given. The number of positive integer solutions
+  P X^2 - Q Y^2 = N,
+  X,Y <= H
+is
+  <<_epsilon (PQNH)^epsilon
+uniformly in P,Q,N,H.
+
+
+Proof.
+
+
+Multiply by P:
+  (PX)^2 - PQ Y^2 = PN.                            (229BB.5)
+
+
+Put D=PQ and M=PN.
+
+
+If D=t^2 is a square, then
+  (PX-tY)(PX+tY)=M.
+Thus the number of positive solutions is at most the number of divisor pairs of M, hence M^o(1).
+
+
+If D is not a square, write
+  D=t^2 d
+with d>1 squarefree and work in the maximal order O_K of K=Q(sqrt d).
+
+
+Every positive solution gives
+  alpha=PX+tY sqrt d in O_K,
+with
+  Norm(alpha)=M
+and both real embeddings positive.
+
+
+Then the principal ideal (alpha) is an integral ideal divisor of (M).
+For p^v||M, the number of local ideal-divisor exponent choices is O((2v+1)^2), uniformly in the splitting type. Hence the total number of possible integral ideals (alpha) is
+  <= tau(M^2)^2=M^o(1).                            (229BB.6)
+
+
+For a fixed principal ideal, all totally positive generators of norm M differ by powers of a totally positive norm-one unit.
+A nontrivial totally positive norm-one unit has integer trace at least3, hence is at least
+  (3+sqrt5)/2>1.
+Inside the polynomial height box there are therefore only
+  O(log(PQNH))
+unit translates.
+
+
+Multiplying with (229BB.6) proves the lemma.
+
+
+RESULT_229BB_UNIFORM_BINARY_NORM_COUNT=PROVED_EXACT.
+
+
+This is the same abstract mechanism harvested as SR-STR-090, but its proof is included here so Stage37 does not depend on the source-stage population contract.
+
+
+3. Fixed E0 gives B^o(1) complete central-root fibers
+
+
+Fix
+  A_-,A_+,C_-,C_+,h,
+  eta0,eta1,eta2,eta3,
+  E0.
+
+
+Equation (229BB.1) is a positive binary norm equation in (x2,x0):
+  P=eta2 C_+,
+  Q=eta0 C_-,
+  N=2hA_+E0.
+
+
+The uniform lemma gives
+  # {(x0,x2) satisfying (229BB.1)}
+    =B^o(1).                                      (229BB.7)
+
+
+Independently, (229BB.2) is a positive binary norm equation in (x1,x3):
+  P=eta1 C_+,
+  Q=eta3 C_-,
+  N=2hA_-E0,
+so
+  # {(x1,x3) satisfying (229BB.2)}
+    =B^o(1).                                      (229BB.8)
+
+
+The product of two subpower quantities is still B^o(1).
+Equations (229BB.3)-(229BB.4), the combined Gh^3 lattice congruences, positivity, primitivity and exact physical cutoff are postfilters.
+
+
+Therefore
+  # {central root quadruples above fixed atom,h,eta,E0 data}
+   =B^o(1).                                       (229BB.9)
+
+
+RESULT_229BB_FIXED_E0_CENTRAL_ROOT_COMPLETION=B_O1_PROVED_EXACT.
+
+
+This is a genuine AR-010-style reconstruction/completion compression:
+once the normalized edge quotient E0 is fixed, no root coordinate carries fixed-power multiplicity.
+
+
+4. Fixed R0 gives the symmetric B^o(1) fiber
+
+
+Fix the same coefficient data and R0.
+
+
+Equations (229BB.3)-(229BB.4) are two positive binary norm equations:
+- one in (x3,x0);
+- one in (x1,x2).
+
+
+Applying the same lemma twice gives
+  # {central root quadruples above fixed atom,h,eta,R0 data}
+   =B^o(1).                                       (229BB.10)
+
+
+RESULT_229BB_FIXED_R0_CENTRAL_ROOT_COMPLETION=B_O1_PROVED_EXACT.
+
+
+Thus either normalized endpoint quotient may be used as the outer coordinate.
+
+
+5. Root-free support pushforward
+
+
+Define the realized E-support
+  E_B :=
+  { (A_-,A_+,C_-,C_+,h,E0)
+    arising from positive primitive physical endpoints R<=B }.      (229BB.11)
+
+
+The eta bits have only 16 possibilities, and by (229BB.9) each fixed tuple in E_B has only B^o(1) central-root completions. Each completed central-root tuple reconstructs at most finitely many physical endpoints by229AY.
+
+
+Therefore
+  P(B) <= B^o(1) #E_B.                             (229BB.12)
+
+
+Similarly define
+  R_B :=
+  { (A_-,A_+,C_-,C_+,h,R0)
+    arising physically }.
+Then
+  P(B) <= B^o(1) #R_B.                             (229BB.13)
+
+
+RESULT_229BB_ROOT_FREE_OUTER_SUPPORT_PUSHFORWARD=PROVED_EXACT.
+
+
+This strictly changes the theorem-matching interface:
+the roots x0,x1,x2,x3 are no longer part of the fixed-power outer support once E0 or R0 is fixed.
+
+
+6. Elementary fixed coefficient-h bound
+
+
+The physical inequalities give
+  e=h A E0 < B,
+  R=h C R0 <= B.
+
+
+Hence
+  E0 <= B/(hA),
+  R0 <= B/(hC).                                   (229BB.14)
+
+
+For fixed atoms and h, summing the B^o(1) completion bound over either outer quotient yields
+  N_{atoms,h}(B)
+   << B^o(1)
+      min(
+        1+B/(hA),
+        1+B/(hC)
+      )                                           (229BB.15)
+   << B^o(1)
+      (1+B/(h max(A,C))).
+
+
+Since AC=G,
+  max(A,C)>=sqrt(G),
+so coarsely
+  N_{atoms,h}(B)
+   << B^o(1)(1+B/(h sqrt(G))).                    (229BB.16)
+
+
+RESULT_229BB_FIXED_ATOMS_h_ROOT_FREE_BOUND=PROVED_SCOPED.
+
+
+This is not by itself stronger than229BA in every atom regime; its main value is removal of the root coordinates from the outer support.
+
+
+7. Primitive outer Pythagorean receiver
+
+
+Retain h as the content of
+  e^2+z^2=R^2.
+
+
+Set
+  Z0:=z/h.
+Using e/h=A E0 and R/h=C R0 gives
+  (A E0)^2 + Z0^2 = (C R0)^2.                    (229BB.17)
+
+
+Because h is the exact content,
+  gcd(AE0,Z0,CR0)=1,
+and in particular
+  gcd(AE0,CR0)=1.                                 (229BB.18)
+
+
+Therefore the following stronger coprimalities hold:
+  gcd(A,C)=1,
+  gcd(E0,R0)=1,
+  gcd(A,R0)=1,
+  gcd(C,E0)=1.                                    (229BB.19)
+
+
+RESULT_229BB_PRIMITIVE_OUTER_PYTHAGOREAN_RECEIVER=PROVED_EXACT.
+
+
+The root-free support is thus not an arbitrary six-variable box. Its compressed outer coordinates satisfy one primitive Pythagorean relation in which:
+- A=A_-A_+ is the edge-content side and may carry inert odd primes;
+- C=C_-C_+ is split-prime-only;
+- h is a separate split-prime-only common content;
+- E0,R0 are cross-coprime to the opposite content products.
+
+
+8. Relation to229BA lattice counting
+
+
+229BA showed:
+  [Z^4:L_{rho,sigma}]=Gh^3
+and obtained a one-free-root lattice bound.
+
+
+229BB shows a different, complementary fact:
+after one normalized quotient E0 or R0 is fixed, the remaining full root completion is already B^o(1) by binary norm theory.
+
+
+Thus the current hierarchy is:
+
+
+  coefficient/content support
+    (A_-,A_+,C_-,C_+,h,E0)
+       |
+       | uniform Pell completion B^o(1)
+       v
+  central roots
+       |
+       | finite229AY reconstruction
+       v
+  physical endpoint.
+
+
+The Gh^3 lattice remains valuable for counting the moving outer support or for gaining additional savings before E0/R0 is fixed, but it is no longer necessary to bound a fixed outer completion fiber.
+
+
+9. Quantitative firewall
+
+
+The new compression does not count #E_B or #R_B.
+
+
+A naive count of possible E0 values produces B/(hA), and a naive count of R0 produces B/(hC). Those supports are still too large in the worst balanced regime.
+
+
+Likewise the uniform Pell lemma is a completion theorem, not a zero-density theorem for moving coefficients.
+
+
+Therefore:
+- do not charge the Pell B^o(1) completion as an independent density saving on top of229BA;
+- do not multiply the two Pell equation counts as two fixed-power savings;
+- do not replace the realized support E_B by all integer coefficient tuples;
+- do not infer a global one-third tail bound from fixed-E0 rigidity.
+
+
+RESULT_229BB_PELL_COMPLETION_COUNTING_CREDIT=0.
+
+
+10. Arsenal consequence
+
+
+AR-010:
+  now genuinely activated as a reconstruction principle. A normalized endpoint quotient is a smaller outer coordinate than the generic moving quadric/root packet, and fixed outer quotient has B^o(1) completion.
+
+
+SR-STR-090 / Stage27-19-r5am:
+  abstract uniform Pell-count lemma is directly applicable after independent reproving in this card. No Stage19 population/exponent is imported.
+
+
+AR-012:
+  still not needed for completion, and its exact reciprocal difference-of-squares signature is not asserted.
+
+
+AR-009 /229BA:
+  retained for support counting before fixing E0/R0 and for possible high-core/root-line savings.
+
+
+S36-PW07:
+  atom and h character rows remain filters on the compressed outer support.
+
+
+S35-PW04:
+  remains not triggered.
+
+
+11. Current blocker after229BB
+
+
+The fixed root-completion problem is no longer the main blocker.
+
+
+The preferred counting object is now the realized root-free support
+  E_B or R_B,
+with the exact primitive outer Pythagorean structure (229BB.17)-(229BB.19), atom pairwise coprimality, h split-only support, C split-only support,229AY/BA character filters and physical R<=B.
+
+
+CURRENT_BLOCKER=
+ROOT_FREE_ATOM_h_ENDPOINT_QUOTIENT_SUPPORT_COUNT
+WITH_PRIMITIVE_OUTER_PYTHAGOREAN_REALIZATION.
+
+
+Highest-value next operations:
+(A) parameterize the primitive outer Pythagorean triple (AE0,Z0,CR0) and push the atom/h divisibility into its coprime Euclid parameters;
+(B) test whether C split-only plus h split-only and the229AY/BA character rows produce a genuine growing-modulus sieve on that exact outer support;
+(C) combine the Gh^3 lattice with the outer Pythagorean parameterization without charging either mechanism twice;
+(D) seek a same-measure theorem directly counting E_B or R_B at the one-third budget.
+
+
+12. Unchanged state
+
+
+POST_229_REOPEN_TRIGGER_FOUND=AR010_AND_UNIFORM_PELL_COMPLETION_REENTRY_ONLY.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_OPERATION=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+INTEGRATED_AUDIT_186_229O_SCOPE_UNCHANGED=true.
+
+
+13. Writeback
+
+
+This card adds:
+- an internally reproved uniform positive binary norm/Pell counting lemma;
+- B^o(1) full central-root completion for fixed E0 or fixed R0;
+- a root-free Stage37 support pushforward;
+- a scoped fixed-atoms,h bound;
+- an exact primitive outer Pythagorean receiver with strengthened cross-coprimalities.
+
+
+No authority, global counting credit, primary gate, closure, HOLD state, or integrated-audit scope changes.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

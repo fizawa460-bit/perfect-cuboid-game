@@ -1,0 +1,82 @@
+﻿// Stage37-229GK — executable exact polynomial identity certificate, Node.js 18+.
+// No floating point, no sampling: coefficients live in Z[u,v,x,y] with BigInt.
+// Formal diagonal norm candidates only: r=p,q,pq via 2 primitive Gaussian products.
+"use strict";
+const mon=i=>{const e=[0,0,0,0];e[i]=1;return new Map([[e.join(","),1n]])};
+const zero=new Map();
+const negate=m=>new Map([...m].map(([k,v])=>[k,-v]));
+function plus(...polys){const out=new Map();for(const m of polys)for(const [k,v] of m){const w=(out.get(k)||0n)+v;if(w)out.set(k,w);else out.delete(k)}return out}
+const minus=(a,b)=>plus(a,negate(b));
+const multiplyScalar=(a,c)=>c===0n?new Map():new Map([...a].map(([k,v])=>[k,v*c]));
+function multiply(a,b){const out=new Map();for(const [key,v] of a)for(const [key2,w] of b){const ex=key.split(",").map(Number),ey=key2.split(",").map(Number),k=ex.map((e,j)=>e+ey[j]).join(","),z=(out.get(k)||0n)+v*w;if(z)out.set(k,z);else out.delete(k)}return out}
+const square=a=>multiply(a,a);
+const [u,v,x,y]=[0,1,2,3].map(mon);
+const ap=minus(square(u),square(v)),bp=multiplyScalar(multiply(u,v),2n),p=plus(square(u),square(v));
+const aq=minus(square(x),square(y)),bq=multiplyScalar(multiply(x,y),2n),q=plus(square(x),square(y));
+const gauss=(a,b)=>[minus(multiply(a[0],b[0]),multiply(a[1],b[1])),plus(multiply(a[0],b[1]),multiply(a[1],b[0]))];
+const pChoices=[[ap,negate(bp)],[p,zero],[ap,bp]];
+const qChoices=[[aq,negate(bq)],[q,zero],[aq,bq]];
+const codes=[];
+for(let i=0;i<3;i++)for(let j=0;j<3;j++)for(let k=0;k<3;k++){
+  if(i===1&&j===1&&k===1)continue;
+  const idx=i*9+j*3+k,conj=(2-i)*9+(2-j)*3+(2-k);
+  if(idx>conj)continue;
+  codes.push({key:""+i+j+k,mixed:[i===1,j===1,k===1],z:gauss(pChoices[i],qChoices[j]),k});
+}
+if(codes.length!==13)throw Error("wrong 13 Gaussian macro codes");
+const normCandidates=[
+ {label:"p",T:ap,W:bp,R:p},
+ {label:"q",T:aq,W:bq,R:q},
+ {label:"pqA",T:minus(multiply(ap,aq),multiply(bp,bq)),W:plus(multiply(ap,bq),multiply(bp,aq)),R:multiply(p,q)},
+ {label:"pqB",T:plus(multiply(ap,aq),multiply(bp,bq)),W:minus(multiply(ap,bq),multiply(bp,aq)),R:multiply(p,q)}
+];
+// Each T^2+W^2=R^2 identically by Brahmagupta/Fibonacci.
+// A sign epsilon selects T/W vs -T/W without changing the norm square.
+function legSquared(code,root,epsilon) {
+  const [real,imag]=code.z;
+  const L=code.k===1?multiply(imag,root.R):
+    plus(multiply(imag,root.T),multiplyScalar(multiply(real,root.W),code.k===0?-epsilon:epsilon));
+  return square(L);
+}
+const pre=[];
+for(const z of normCandidates)for(const epsilon of [-1n,1n])
+  pre.push({label:z.label+(epsilon===1n?"+":"-"),squares:codes.map(c=>legSquared(c,z,epsilon))});
+const result={total:0,one:0,two:0,none:0,byClass:{p:0,q:0,pqA:0,pqB:0},twoRootTemplateKeys:[],allWithDiagonal:[]};
+for(let i=0;i<13;i++)for(let j=i+1;j<13;j++)for(let k=j+1;k<13;k++){
+  if([0,1,2].some(t=>[i,j,k].filter(z=>codes[z].mixed[t]).length>1))continue;
+  for(let h=0;h<3;h++){
+    result.total++;
+    const labels=[];
+    for(const z of pre){
+      const F=plus(...[i,j,k].map((idx,pos)=>multiplyScalar(z.squares[idx],pos===h?-1n:1n)));
+      if(F.size===0)labels.push(z.label);
+    }
+    const key=[codes[i].key,codes[j].key,codes[k].key].join(".")+":"+h;
+    if(labels.length===0)result.none++;
+    else {
+      if(labels.length===1)result.one++;
+      else if(labels.length===2)result.two++;
+      else throw Error("unexpected >2 exact formal roots");
+      result.allWithDiagonal.push({key,labels});
+      for(const label of labels)result.byClass[label.replace(/[+-]$/,"")]++;
+      if(labels.length===2)result.twoRootTemplateKeys.push(key);
+    }
+  }
+}
+const expected=["000.010.101:2","000.011.100:1","001.010.102:0","001.012.100:0","002.011.102:1","002.012.101:2","010.020.101:2","010.021.100:1","011.020.102:0","011.022.100:0","012.021.102:1","012.022.101:2"];
+if(result.total!==414||result.one!==40||result.two!==12||result.none!==362
+  ||result.byClass.p!==20||result.byClass.q!==20
+  ||result.byClass.pqA!==12||result.byClass.pqB!==12
+  ||JSON.stringify(result.twoRootTemplateKeys)!==JSON.stringify(expected))
+  throw Error("229GK exact symbolic certificate mismatch");
+console.log(JSON.stringify(result,null,2));
+// SCOPE: an identity means a FORMAL root, not necessarily T>0,W>0 for every
+// specialisation. There can be exceptional nonidentity roots on moving p,q.
+// Two certified distinct formal roots factor a degree-2 F, proving its only
+// projective roots are diagonal (r=p, r=q, r=pq), unless F degenerates to zero;
+// FO original positive trace independently prevents F identically zero on
+// positive primitive original physical allocations. Do not equate these 52
+// keys with FJ's distinct 52 reducible biform families without code mapping.
+// For one known root (T0,W0), the second homogeneous root (when A*T0≠0)
+// is (C*W0,A*T0), yielding necessary norm-square equation
+// Z^2=(C*W0)^2+(A*T0)^2. No automatic global o(B^(1/3)).

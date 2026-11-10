@@ -1,0 +1,149 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229CB — pair-sum product receiver and tau square-modulus router
+STATUS: POST_229CA_PAIR_SUM_PRODUCT_RECEIVER / FIXED_VALUE_B_O1 / FIXED_RADICAL_B_O1 / EXACT_PRODUCT_COUPLING_WITH_OUTER_GAP_PRODUCT / FULL_PAIR_GCD_TAU_LIFT / TAU_SQUARE_MODULUS_ROOT_LINES / UNIFORM_ROOT_LINE_PACKING / PACKING_ALONE_TOO_WEAK / GLOBAL_CREDIT=0 / NO_REOPEN
+CARD_DOC_ID=1QHCTnjU4J9i4OrybevRn3VwrkkkD2lIMPBs6VrZRhQo
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229CA
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope
+Work on the exact current S_B^hard13(delta) source, retaining all positive primitive Stage37 selectors, exact physical height R<=B, and the corrected229BZ/229CA notation:
+A=R-U, Bv=R-V, C=R-z, D=2d>0,
+ABv+AC+BvC=2d^2,
+s=A+Bv, t=A+C, u=Bv+C,
+H_A=st=A^2+2d^2, H_B=su=Bv^2+2d^2, H_C=tu=C^2+2d^2.
+Retain229CA's conductor-aligned atoms and its three macro branches. This card does not claim that any branch is counted to one-third scale.
+
+
+2. Single pair-sum product receiver
+Define
+Pi(P):=s t u=(A+Bv)(A+C)(Bv+C).                              (CB.1)
+Let S=A+Bv+C. Since s+t+u=2S and S<R, AM-GM gives
+0<Pi< (2S/3)^3 < 8R^3/27 <= 8B^3/27.                         (CB.2)
+Also
+(A+Bv)(A+C)(Bv+C)
+ = S(ABv+AC+BvC)-ABvC
+ = 2S d^2 - Omega,                                             (CB.3)
+where Omega=ABvC is the retained229BU outer-gap product. Thus
+Pi+Omega=2S d^2,  S=R-2d.                                    (CB.4)
+This is an exact additive coupling between the outer-gap product and the pair-sum product.
+
+
+Fix n=Pi. There are at most d_3(n)=B^o(1) ordered positive triples (s,t,u) with stu=n. Each such triple determines
+A=(s+t-u)/2,
+Bv=(s+u-t)/2,
+C=(t+u-s)/2.                                                   (CB.5)
+Nonintegral or nonpositive triples are discarded. For every surviving labelled (A,Bv,C),229BU reconstructs at most one physical endpoint. Hence uniformly for n<=8B^3/27,
+#{P:R<=B,Pi(P)=n}<=B^o(1).                                    (CB.6)
+RESULT_229CB_FIXED_PAIR_SUM_PRODUCT_PHYSICAL_FIBER_B_O1=PROVED.
+
+
+Define
+k_sum(P):=rad(Pi(P)).                                          (CB.7)
+For fixed squarefree k,229BQ's uniform polynomial-height prescribed-prime-support lemma gives only B^o(1) possible Pi values of height O(B^3) with radical k. Combining with (CB.6),
+#{P:R<=B,k_sum(P)=k}<=B^o(1).                                 (CB.8)
+RESULT_229CB_FIXED_PAIR_SUM_PRODUCT_RADICAL_FIBER_B_O1=PROVED.
+
+
+By229BZ and229CA,
+k_sum=tau*v_s*v_t*v_u
+     =2*tau*h*w_s*w_t*w_u.                                    (CB.9)
+Thus k_sum is a single exact support receiver for the entire pair-sum side.
+Its low sector gives
+#{P:R<=B,k_sum<=T}<<T B^o(1),                                 (CB.10)
+but on hard13 this is NOT a new disposal: each k_A=rad(st),k_B=rad(su),k_C=rad(tu) divides k_sum, so k_sum<=T is already contained in the retained229BY low-k13 complement.
+
+
+3. Full pair-gcd lift of tau
+Define the full pair gcds
+g_A:=gcd(s,t),
+g_B:=gcd(s,u),
+g_C:=gcd(t,u).                                                  (CB.11)
+Since gcd(s,t,u)=1 by229BZ, g_A,g_B,g_C are pairwise coprime. Exactly one of s,t,u is even, hence all three pair gcds are odd.
+Put
+G:=g_A g_B g_C.                                                 (CB.12)
+The common radical atom of229BZ is exactly
+rad(G)=tau.                                                     (CB.13)
+Moreover
+g_A^2 | st=H_A,
+g_B^2 | su=H_B,
+g_C^2 | tu=H_C,                                                (CB.14)
+so
+G^2 | Pi.                                                       (CB.15)
+Since229CA gives Q^2|Pi and229BZ gives gcd(tau,Q)=1, hence gcd(G,Q)=1, we obtain
+(QG)^2 | Pi.                                                    (CB.16)
+Also229BX gives Q|D; Q is odd and D=2d, hence
+Q|d.                                                           (CB.17)
+
+
+4. Exact tau square-modulus root lines
+Every prime p|tau is coprime to 2dABC and satisfies (-2/p)=1 by229BZ. Therefore
+gcd(g_A,Ad)=gcd(g_B,Bv*d)=gcd(g_C,Cd)=1.                       (CB.18)
+From (CB.14),
+A^2+2d^2==0 mod g_A^2,
+Bv^2+2d^2==0 mod g_B^2,
+C^2+2d^2==0 mod g_C^2.                                        (CB.19)
+Thus there exist unique root choices modulo the corresponding square moduli:
+A == rho_A d mod g_A^2,   rho_A^2==-2 mod g_A^2,
+Bv== rho_B d mod g_B^2,   rho_B^2==-2 mod g_B^2,
+C == rho_C d mod g_C^2,   rho_C^2==-2 mod g_C^2.               (CB.20)
+For an odd m all of whose prime divisors split for -2, the congruence rho^2==-2 mod m^2 has exactly 2^omega(m) roots by Hensel lifting and CRT. Since m<B, this multiplicity is B^o(1).
+RESULT_229CB_TAU_FULL_PAIR_GCD_SQUARE_MODULUS_ROUTER=PROVED_EXACT.
+
+
+5. Uniform root-line packing
+Fix an odd m and one root rho^2==-2 mod m^2. Consider
+Lambda(m,rho)={(X,Y) in Z^2 : X==rho Y mod m^2}.               (CB.21)
+For every nonzero lattice vector,
+m^2 | X^2+2Y^2,
+hence X^2+2Y^2>=m^2.                                          (CB.22)
+Therefore distinct lattice points have separation at least m in the weighted norm sqrt(X^2+2Y^2). A disjoint-ellipse packing argument in 0<X,Y<B gives
+#{(X,Y) in Lambda(m,rho):0<X,Y<B}
+ << 1+B^2/m^2.                                                 (CB.23)
+Summing over the 2^omega(m)=B^o(1) admissible roots,
+#{(X,Y):0<X,Y<B, m^2|X^2+2Y^2, gcd(m,XY)=1}
+ << B^o(1)(1+B^2/m^2).                                        (CB.24)
+
+
+Apply this to g_A=m and (X,Y)=(A,d). For each (A,d), H_A=A^2+2d^2 is fixed; there are at most d(H_A)=B^o(1) factor pairs st=H_A, after which Bv=s-A and C=t-A are forced and229BU gives at most one physical endpoint. Consequently
+#{P:R<=B, g_A(P)=m}
+ << B^o(1)(1+B^2/m^2),                                        (CB.25)
+uniformly in m. The same bound holds cyclically for g_B and g_C.
+RESULT_229CB_FIXED_PAIR_GCD_SQUARE_MODULUS_PACKING=PROVED.
+
+
+6. Tau-large branch consequence and quantitative firewall
+If tau>K, then because tau=rad(g_A)rad(g_B)rad(g_C) with pairwise-coprime factors, at least one of
+rad(g_A),rad(g_B),rad(g_C)
+exceeds K^(1/3). Hence the corresponding full gcd m exceeds K^(1/3). Therefore the tau-large branch is contained in the union of three exact square-modulus root-line families with
+m>K^(1/3).                                                     (CB.26)
+This is a strict strengthening of229CA's phrase "tau-large using pair-sum congruence lines": the modulus is the square of the full pair gcd and the root multiplicity is subpower.
+
+
+However, summing (CB.25) naively over all m>M gives only
+<< B^o(1) sum_{M<m<B}(1+B^2/m^2)
+<< B^(1+o(1)) + B^(2+o(1))/M.                                 (CB.27)
+With M=K^(1/3), this is nowhere near o(B^(1/3)) at the current polynomial thresholds. Thus the square-modulus packing alone does NOT close the tau-large branch.
+Any successful use must retain additional selector/weighted-cone correlation, or a genuinely sparse occupied-modulus theorem for the realized g_A,g_B,g_C values.
+CURRENT_PREFERRED_SUPPORT_INTERFACE=229CA_THREE_BRANCH_SUPPORT_WITH_229CB_FULL_TAU_SQUARE_MODULUS_ROUTER_AND_PAIR_SUM_PRODUCT_RECEIVER.
+CURRENT_BLOCKER=NO_SELECTOR_AWARE_OR_OCCUPIED_MODULUS_SAVING_FOR_THE_229CB_TAU_SQUARE_MODULUS_FAMILIES_AND_OTHER_229CA_BRANCHES.
+REFINED_BLOCKER=NO_ONE_THIRD_COUNT_FOR_LARGE_h_OR_TAU_FULL_GCD_SQUARE_MODULI_OR_SIMULTANEOUS_RESIDUAL_BRANCH_WITH_EXACT_WEIGHTED_CONE_SELECTORS.
+NEXT_RESEARCH_INPUT_CONTRACT=On the exact S_B^hard13 source, combine229CB's full pair-gcd square-modulus root lines with the229BX weighted cone/R-height and physical selectors to obtain an occupied-modulus or selector-conditioned saving for tau-large; in parallel retain229CA h-large and simultaneous residual branches, or prove rho/sigma fixed-power occupied support. Do not sum unrestricted root-line moduli and call it physical saving.
+
+
+7. Verification
+Direct symbolic expansion proves (CB.3)-(CB.4). Fixed-Pi reconstruction is exact from (CB.5) plus229BU.
+A replay over all positive A,Bv,C<120 with gcd(A,Bv,C)=1, exactly two even gaps, and integral d satisfying ABv+AC+BvC=2d^2 found 4854 parity-compatible cone triples. For every fixture, g_A,g_B,g_C were odd and pairwise coprime, G^2|Pi, each root-line congruence (CB.19) held, and every prime of G satisfied the retained -2 splitting condition. No failures.
+These are cone-lemma fixtures, not perfect-cuboid endpoints and not endpoint-density evidence.
+No external theorem is invoked beyond elementary Hensel/CRT, divisor bounds, lattice packing, and the retained229BQ prescribed-support lemma. INDEPENDENT_HOSTILE_AUDIT_229CB=NOT_RUN.
+
+
+8. State
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED; PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+No perfect-cuboid existence/nonexistence conclusion or new global endpoint exponent is claimed.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

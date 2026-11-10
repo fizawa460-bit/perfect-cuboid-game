@@ -1,0 +1,63 @@
+﻿# M3-T11-116 — hostile audit PASS
+
+
+STATUS=PROVED_EXACT / HOSTILE_AUDIT_PASS / NO_GLOBAL_POWER_SAVING
+AUDIT_KIND=Within-session hostile rederivation; no independent external reviewer is claimed.
+POPULATION=Exact nondegenerate physical Stage37 psi/A4 endpoints with R<=B in one fixed content/coefficient packet. One endpoint is one count.
+
+
+## Checked chain
+
+
+1. Audited 115 gives
+N_u | W_car,
+W_car=2*L*tau0^6*Rrel^4.
+Hence J_car=W_car/N_u is a positive integer. Since tau0^6*Rrel^4 is a square,
+sf(N_u)=sf(2*L*J_car).
+Therefore fixed J_car in one fixed packet determines the canonical d=sf(N_u), and audited 113 gives B^o(1) physical endpoints for each fixed J_car.
+
+
+2. For primitive psi parameter [r:s], H=max(|r|,|s|),
+F=(r^2-2rs-s^2)^2+25(r^2+s^2)^2 >=25H^4.
+With g in {1,2}, N_u=F/g^2 >=(25/4)H^4. Thus
+J_car <= (8/25)*L*T0^6*U0^4/H0^4
+on H>=H0, tau0<=T0, Rrel<=U0. The stated exponent condition ell+6t+4r-4h<1/12 is arithmetically correct. L must remain in the exponent bookkeeping.
+
+
+3. Retain 114's C_u=kappa*T^2 with kappa=sf(C_u), 0<=v_p(C_u)<=2v_p(M_rel), and S_sq=M_rel*T. Then T|M_rel. Because M_rel|Rrel,
+S_sq^2=(M_rel*T)^2 | M_rel^4 | Rrel^4.
+Hence S_sq^2 divides both N_u and W_car. Therefore
+V_norm=N_u/S_sq^2,
+K_car=W_car/S_sq^2
+are positive integers and satisfy exactly
+V_norm*J_car=K_car,
+sf(V_norm)=sf(N_u)=d.
+
+
+4. For Z,Y>=1, K_car<=ZY implies V_norm<=Z or J_car<=Y. The V_norm<=Z piece has d<=Z and is bounded by Z*B^o(1) using audited 113. The J_car<=Y piece has at most floor(Y) integer cofactor values and is bounded by Y*B^o(1). This is a union replacement count, not a product of independent savings.
+
+
+5. Choosing Z=Y=sqrt(K0) gives
+E_psi(B;K_car<=K0) << B^o(1)*sqrt(K0)
+for polynomial K0>=1. The residual complement Xi>Z_Xi, V_norm>Z, J_car>Y indeed has K_car>ZY.
+
+
+## Audit conclusion
+
+
+PASS. M3-T11-116 promotes:
+PSI_FIXED_COMPLEMENTARY_NORM_COFACTOR_UNIFORM_BO1=true
+PSI_TWO_SIDED_HEIGHT_FREE_WINDOW=true
+
+
+No total-population occupancy theorem, global fixed-power saving, primary-gate closure, P(B)/M3(B) limit, or Perfect Cuboid nonexistence credit is promoted.
+
+
+A further exact square-root structure of K_car and an extreme-surplus packet-support simplification were found during this audit. They are recorded separately in M3-T11-117 rather than silently folded into 116.
+
+
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-116
+NEXT_RESEARCH_CARD_ID=M3-T11-117
+PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false

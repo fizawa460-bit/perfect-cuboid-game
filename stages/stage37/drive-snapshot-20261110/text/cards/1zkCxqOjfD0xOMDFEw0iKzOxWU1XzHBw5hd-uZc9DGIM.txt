@@ -1,0 +1,292 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229BV — three outer-pair radical fibers and hard10 reduction
+
+
+STATUS: POST_229BU_THREE_OUTER_PAIR_PRODUCTS_FIXED_FIBER_B_O / THREE_OUTER_PAIR_RADICAL_FIXED_FIBER_B_O / K10_LOW_RADICAL_SECTOR_O_T_B_O / HARD10_SOURCE_EQUIVALENCE / HARD10_SUBSUMES_229BU_HARD8_AND_229BL_PAIR_SIZE_REMAINDER / GLOBAL_CREDIT=0 / NO_REOPEN
+TYPE: post-229BU exact 229BL divisor-chart extraction / three pair-product finite-fiber receivers / radical-support sector disposal / stronger source narrowing
+CARD_DOC_ID=1zkCxqOjfD0xOMDFEw0iKzOxWU1XzHBw5hd-uZc9DGIM
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED; PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope
+
+
+Use exactly the current positive primitive Stage37 physical endpoints P with all original selector conditions and R(P)<=B.
+
+
+Retain 229BL:
+  A := R-U >0,
+  Bv := R-V >0,
+  C := R-z >0,                                      (229BV.1)
+and the three exact divisor charts
+  lambda_e(2e+lambda_e)=2 A Bv,
+  lambda_y(2y+lambda_y)=2 C Bv,
+  lambda_x(2x+lambda_x)=2 C A.                    (229BV.2)
+
+
+For fixed positive (A,Bv,lambda_e), the e-chart reconstructs the whole labelled endpoint uniquely if physical; likewise fixed (C,Bv,lambda_y) and fixed (C,A,lambda_x). This is the retained 229BL endpoint-fiber-at-most-one statement.
+
+
+Retain 229BT:
+  k7(P)=min{rad(e),rad(x),rad(y),rad(z),rad(U),rad(V),rad(R)}
+has uniform B^o fixed-value physical fibers.
+
+
+Retain 229BQ's uniform prescribed-prime-support lemma for polynomial-height integers.
+
+
+2. Fixed outer pair product has B^o physical fiber
+
+
+Define the three labelled pair products
+  Q_e := A Bv = (R-U)(R-V),
+  Q_y := C Bv = (R-z)(R-V),
+  Q_x := C A  = (R-z)(R-U).                       (229BV.3)
+
+
+Each Q_j is a positive integer <B^2.
+
+
+Fix n>=1 and first consider Q_e=n. The ordered positive factorization A Bv=n has at most tau(n) choices.
+
+
+For each such factorization, (229BV.2) gives
+  lambda_e | 2n.
+Hence lambda_e has at most tau(2n) possible positive values.
+
+
+For each triple (A,Bv,lambda_e), the retained 229BL reconstruction is injective:
+  e=(2ABv/lambda_e-lambda_e)/2,
+  U=e+Bv+lambda_e,
+  V=e+A+lambda_e,
+  R=e+A+Bv+lambda_e,
+and then x,y,z are uniquely forced if integral and physical.
+All selector, parity, primitivity and canonical-orientation conditions only remove candidates.
+
+
+Therefore
+  #{P:R<=B,Q_e(P)=n}
+    <= tau(n) tau(2n)
+    = B^o(1),                                      (229BV.4)
+uniformly for n<=B^2.
+
+
+The identical y- and x-chart arguments give
+  #{P:R<=B,Q_y(P)=n} <= B^o(1),
+  #{P:R<=B,Q_x(P)=n} <= B^o(1).                    (229BV.5)
+
+
+RESULT_229BV_THREE_OUTER_PAIR_PRODUCT_FIXED_VALUE_FIBERS_B_O=PROVED_EXACT_FROM_229BL.
+
+
+This is stronger than merely summing Q_j<=H as in 229BL: it isolates a uniform fixed-value fiber theorem for each pair-product scalar.
+
+
+3. Fixed radical of each outer pair product also has B^o fiber
+
+
+Define squarefree pair-support receivers
+  r_e(P):=rad(Q_e(P)),
+  r_y(P):=rad(Q_y(P)),
+  r_x(P):=rad(Q_x(P)).                             (229BV.6)
+
+
+Fix a squarefree s. Any Q_j<=B^2 with rad(Q_j)=s has all prime divisors in the prescribed support s. By 229BQ, uniformly in s, there are only B^o possible Q_j values of polynomial height.
+
+
+Each fixed Q_j value has B^o physical preimages by (229BV.4)-(229BV.5). Therefore
+  #{P:R<=B,r_e(P)=s} <= B^o(1),
+  #{P:R<=B,r_y(P)=s} <= B^o(1),
+  #{P:R<=B,r_x(P)=s} <= B^o(1),                   (229BV.7)
+uniformly in squarefree s.
+
+
+RESULT_229BV_THREE_OUTER_PAIR_RADICAL_FIXED_VALUE_FIBERS_B_O=PROVED.
+
+
+No independence of the three pair radicals is used or claimed.
+
+
+4. One combined ten-receiver minimum
+
+
+Define
+  k10(P):=min{
+    rad(e),rad(x),rad(y),rad(z),rad(U),rad(V),rad(R),
+    r_e,r_y,r_x
+  }.                                               (229BV.8)
+
+
+For fixed squarefree s, the event k10(P)=s is contained in a union of ten fixed-receiver events. The seven physical-length events have B^o fibers by 229BT and the three pair-radical events have B^o fibers by (229BV.7). Hence
+  #{P:R<=B,k10(P)=s} <= B^o(1).                    (229BV.9)
+
+
+Consequently, for every T>=1,
+  #{P:R<=B,k10(P)<=T} << T B^o(1).                 (229BV.10)
+
+
+For any fixed 0<delta<1/3, taking
+  T=B^(1/3-delta)
+gives
+  #{P:R<=B,k10(P)<=B^(1/3-delta)}
+    =O(B^(1/3-delta+o(1)))
+    =o(B^(1/3)).                                   (229BV.11)
+
+
+RESULT_229BV_K10_FIXED_VALUE_FIBER_B_O=PROVED.
+RESULT_229BV_K10_LOW_RADICAL_SECTOR_O_B13=PROVED_SCOPED.
+
+
+This is one union-bound count through a single-valued minimum receiver. It does not multiply ten sieve densities.
+
+
+5. Hard10 source and exact gate reduction
+
+
+Retain the original current large-squarefree source
+  S_B(delta)
+   ={P:R<=B, positive primitive Stage37 endpoint with all selectors,
+       sf(G0(P))>B^(1/3-delta)}.
+
+
+Define
+  S_B^hard10(delta)
+   ={P in S_B(delta):
+       rad(e),rad(x),rad(y),rad(z),rad(U),rad(V),rad(R)>B^(1/3-delta),
+       rad((R-U)(R-V))>B^(1/3-delta),
+       rad((R-z)(R-V))>B^(1/3-delta),
+       rad((R-z)(R-U))>B^(1/3-delta)}.             (229BV.12)
+
+
+The complement inside S_B(delta) is contained in the global low-k10 sector (229BV.11), so
+  |S_B(delta)|
+   =|S_B^hard10(delta)|
+      +O(B^(1/3-delta+o(1))).                     (229BV.13)
+
+
+Thus, at the same fixed delta,
+  |S_B^hard10(delta)|=o(B^(1/3))                  (229BV.14)
+is necessary and sufficient for the original preferred large-sf(G0) tail theorem.
+
+
+RESULT_229BV_GATE_REDUCTION_TO_HARD10=PROVED_EXACT_UP_TO_o_B13.
+
+
+The hard10 estimate itself is NOT proved.
+
+
+6. hard10 strictly strengthens the current structural remainder
+
+
+First, hard10 automatically implies the 229BU outer-product-radical condition. Indeed
+  rad((R-U)(R-V))
+    divides rad((R-U)(R-V)(R-z)).
+Hence if even one pair radical is >T, then the triple-product radical is >T; hard10 requires all three pair radicals >T. Therefore
+  S_B^hard10(delta) subset S_B^hard8(delta).       (229BV.15)
+
+
+Second, since rad(n)<=n,
+  rad((R-U)(R-V))>T => (R-U)(R-V)>T,
+and cyclically. Thus with eta=delta, every hard10 endpoint automatically lies in the retained 229BL all-three-pair-large remainder:
+  (R-U)(R-V)>B^(1/3-delta),
+  (R-z)(R-V)>B^(1/3-delta),
+  (R-z)(R-U)>B^(1/3-delta).                       (229BV.16)
+
+
+Therefore the 229BU hard8 condition and the separately retained 229BL pair-size-hard condition no longer need to be carried as additional hypotheses once hard10 is imposed.
+
+
+RESULT_229BV_HARD10_SUBSUMES_229BU_HARD8=PROVED.
+RESULT_229BV_HARD10_SUBSUMES_229BL_PAIR_SIZE_HARD_REMAINDER_AT_ETA_EQUALS_DELTA=PROVED.
+
+
+No claim is made that the inclusion is physically strict on an actually nonempty perfect-cuboid population.
+
+
+7. Consequences for retained rho/sigma interfaces
+
+
+Restrict the retained 229BR receiver images to hard10:
+  T_rho^hard10(B;delta)={rho(P):P in S_B^hard10(delta)},
+  T_sigma^hard10(B;delta)={sigma(P):P in S_B^hard10(delta)}.
+
+
+Their whole-physical fixed-value B^o fiber bounds survive restriction. Therefore either
+  #T_rho^hard10(B;delta) << B^(1/3-epsilon)
+or
+  #T_sigma^hard10(B;delta) << B^(1/3-epsilon)
+for some fixed epsilon>0
+would imply (229BV.14).
+
+
+The exact 229BU outer-gap cone
+  D^2=2(ABv+AC+BvC)
+remains valid on hard10, now together with all three pair-product radical lower bounds. No occupied-support saving is proved here.
+
+
+8. Current blocker and next research contract
+
+
+CURRENT_PREFERRED_NEW_INTERNAL_INTERFACE:
+  229BV_K10_LOW_RADICAL_DISPOSAL_AND_HARD10_THREE_PAIR_SUPPORT_REMAINDER.
+
+
+CURRENT_SCOPED_BLOCKER:
+  NO_SELECTOR_AWARE_COUNTING_SAVING_ON_HARD10_LARGE_SF_G0_PHYSICAL_SOURCE.
+
+
+ORIGINAL_OCCUPIED_VALUE_BLOCKER remains OPEN:
+  NO_SELECTOR_AWARE_FIXED_POWER_OCCUPIED_VALUE_BOUND_FOR_ANY_SUBPOWER_EQUIVALENT_RECEIVER_OF_SAME_LARGE_SF_G0_PHYSICAL_SOURCE.
+
+
+NEXT_RESEARCH_INPUT_CONTRACT:
+Count the exact same-physical S_B^hard10(delta) source by o(B^(1/3)), or prove a fixed-power occupied-value bound for retained rho/sigma on that source. The source now has:
+- exact positive primitive Stage37 selectors and R<=B;
+- sf(G0)>B^(1/3-delta);
+- all seven physical-length radicals >B^(1/3-delta);
+- all three outer pair-product radicals >B^(1/3-delta);
+- automatically the 229BU triple-product radical condition;
+- automatically the 229BL three pair-product size lower bounds at eta=delta;
+- the exact 229BU quadratic outer-gap cone.
+
+
+A useful next direction is a genuine global correlation among the three pair-supports on the physical cone, or a selector-aware occupied-support theorem for rho/sigma after this stronger source restriction.
+
+
+Do not:
+- treat the three pair radicals as independent;
+- multiply their local densities;
+- replace physical endpoints by arbitrary integer triples with the same pair products;
+- infer a population bound from large pair radicals alone;
+- alter authority, credit, gate or closure from this scoped result.
+
+
+9. State and dependencies
+
+
+No perfect-cuboid existence/nonexistence conclusion is claimed.
+No full endpoint numerator bound is proved.
+GLOBAL_COUNTING_CREDIT remains 0.
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope remain unchanged.
+INDEPENDENT_HOSTILE_AUDIT_229BV=NOT_RUN.
+
+
+Load-bearing inputs:
+- 229BL three exact outer-gap divisor charts and injective reconstruction from labelled (pair gaps,lambda);
+- 229BQ uniform prescribed-prime-support count;
+- 229BT seven physical-length radical fixed fibers;
+- 229BU hard8 and outer-gap cone only for comparison/crosswalk;
+- standard uniform divisor bound tau(n)=B^o for n<=B^O(1).
+
+
+No new external theorem and no physical endpoint enumeration are used.
+
+
+FINAL_READBACK_RECEIPT=PASS. 229BV card body and parent M3-Research-Cards verified. CARD-INDEX row539 contains229BV with correct CARD_DOC_ID and hyperlink; 案内 latest/current-operation/startup pointers advance to229BV. MAIN canonical current pointer/doc ID, startup row539, hard10 blocker and NEXT contract agree. RESULT-LEDGER canonical current229BV and appended229BV change record agree. Active ROUTE latest header and POST-229BV block agree. Mathematical readback confirms fixed pair-product B^o fibers, fixed pair-radical B^o fibers, k10 O(T B^o) low-sector theorem, hard10 reduction, and hard10 subsumption of229BU hard8 plus229BL pair-size-hard at eta=delta. OPERATIONAL_AUTHORITY=M3-T11-229, LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228, M3-T11-230 NOT_ISSUED, PRIMARY_GATE OPEN, GLOBAL_COUNTING_CREDIT=0, P_OVER_M3_LIMIT_PROVED=false, production HOLD, closure and INTEGRATED_AUDIT_186_229O scope unchanged. INDEPENDENT_HOSTILE_AUDIT_229BV=NOT_RUN. NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

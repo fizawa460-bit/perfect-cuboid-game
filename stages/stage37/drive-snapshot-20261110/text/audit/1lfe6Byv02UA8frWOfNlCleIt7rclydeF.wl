@@ -1,0 +1,2 @@
+Clear[rr,ss,kk,pp,qq]; vv={kk rr^2-1,kk ss^2-1,kk-1}; aa=Total[vv]; roots=aa-2vv; ee=roots[[1]]roots[[2]]+roots[[1]]roots[[3]]+roots[[2]]roots[[3]]; prod=Times@@roots; hh=Expand[(aa ee+prod)^2-aa^2 prod(4aa-prod)]; tt={ss,1/rr,rr/ss}; zz=tt+1/tt; ff=zz^2/4; {Exponent[hh,kk],hh/.kk->0,Together[Total[zz^2]-Times@@zz-4],Together[(Total[ff]-1)^2-4Times@@ff]}
+(* Expected output: {8,1,0,0}. Within-session replay, not external audit. *)

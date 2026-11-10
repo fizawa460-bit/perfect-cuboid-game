@@ -1,0 +1,317 @@
+﻿Stage37 HOSTILE AUDIT — M3-T11-097 through M3-T11-100
+
+
+HOSTILE_AUDIT=PASS
+AUDITED_CARDS=M3-T11-097,M3-T11-098,M3-T11-099,M3-T11-100
+AUDIT_GROUPS=M3-T11-097->M3-T11-098 dependency chain; M3-T11-099 independent; M3-T11-100 independent
+PRIOR_AUDITED_FRONTIER=M3-T11-096
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-100
+GITHUB_ACCESSED=false
+
+
+1. Executive verdict
+
+
+All four provisional cards survive hostile audit.
+
+
+Promoted:
+- M3-T11-097: rational 2-torsion translation exchanges the two visible M_rel^2 branch-depth factors of theta; duplication produces an exact rational square; ordinary rational-T Kummer iteration cannot recover the fresh M_rel factor.
+- M3-T11-098: the residual split-dual 2-Kummer brackets factor into complete squares over K=Q(sqrt(theta)); the full ordinary split dual 2-Kummer tuple is, up to ordering, (1,[-N_0],[-N_0]), including the split-torsion special-value cases.
+- M3-T11-099: the Section-48 residual interior character is exactly a prescribed Legendre sign of the single S-numerator s; for q_int equal to the squarefree radical of the interior support, the exact admissible unit density is 2^(-omega(q_int)).
+- M3-T11-100: after forced conductor normalization, the interior endpoint square equation is a p-adic unit equation whose mod-p squareclass is exactly the M3-T11-099 selector; odd-prime Hensel lifting adds no deeper p-adic thinning.
+
+
+Not promoted:
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+No endpoint theorem and no Perfect Cuboid existence/nonexistence credit are obtained.
+
+
+2. Dependency and measure audit — PASS
+
+
+M3-T11-097 depends only on hostile-audit-passed M3-T11-090 through M3-T11-096.
+M3-T11-098 depends on M3-T11-097 plus hostile-audit-passed M3-T11-096 and is audited here as one dependency chain with 097.
+M3-T11-099 is independent of 097/098 and uses hostile-audit-passed Section 35, Section 48, and M3-T11-040.
+M3-T11-100 is likewise independent of 097/098 and logically does not require 099; 099 is only a consistency cross-check.
+
+
+All four cards remain on the same exact physical R<=B population. No population, height, field, quotient, or multiplicity change is charged as a saving.
+
+
+3. M3-T11-097 — PASS
+
+
+Use
+E_theta^-: Z^2=U*(U^2+(9+4*theta)*U+4*theta),
+U=-A,
+A=v+1,
+q=Z/A.
+
+
+Substitution gives exactly
+q^2=9+4*theta-A-4*theta/A,
+hence
+A^2-(9+4*theta-q^2)*A+4*theta=0.
+
+
+For T=(0,0), the standard group law on y^2=x*(x^2+a*x+b) gives
+U(P+T)=b/U(P),
+Z(P+T)=-b*Z/U(P)^2.
+With b=4*theta and A=-U:
+A(P+T)=4*theta/A(P),
+q(P+T)=-q(P).
+Thus the two A-roots are exactly the T-translate pair and have product 4*theta.
+
+
+On full-S:
+A=M^2*kappa,
+theta=M^4*Theta,
+so
+kappa_T=4*Theta/kappa.
+Using the audited M3-T11-094 formulas,
+kappa_T=Psi_theta/(a^2*s^2),
+kappa*kappa_T=4*Theta.
+The two M^2 depth factors are therefore one involutive structure and cannot be double charged.
+
+
+The duplication identity is exact:
+U(2P)=((U^2-4*theta)/(2*Z))^2.
+Thus the apparent doubled fourth-power depth is an exact rational square and supplies no independent squareclass event.
+
+
+The rational-T Kummer map is
+delta_T(P)=[U(P)].
+Since
+U=-(v+1)=-M^2*N_0/b^2,
+delta_T(P)=[-N_0].
+As delta_T is a homomorphism modulo 2E,
+delta_T(nP)=[-N_0] for odd n and 1 for even n.
+Ordinary multiplication-by-n Kummer iteration cannot restore the fresh M factor.
+
+
+The split-dual formulas in 097 also check exactly:
+q^2-alpha_+
+=-4*M^2*(eta+3*omega-M^2*omega^2+M^2*Theta),
+q^2-alpha_-
+=4*M^2*(eta-3*omega+M^2*omega^2-M^2*Theta).
+At this stage only the forced M^2 square factor is removed; 097 correctly leaves the residual brackets to 098.
+
+
+Promoted:
+M3_T11_097_HOSTILE_AUDIT=PASS
+M3_T11_THETA_T_TRANSLATION_BRANCH_DEPTH_INVOLUTION=true
+M3_T11_THETA_BRANCH_DEPTH_PRODUCT_4THETA=true
+M3_T11_THETA_DUPLICATION_DEPTH_EXACT_SQUARE=true
+M3_T11_RATIONAL_T_KUMMER_ITERATES_FRESH_CONDUCTOR_VISIBLE=false
+
+
+4. M3-T11-098 — PASS
+
+
+Put m=M^2 and retain the audited identity
+Theta=kappa*(kappa-12*omega+4*m*omega^2)/(4*v),
+v=m*kappa-1.
+
+
+Direct exact simplification gives
+3*omega-m*omega^2+m*Theta
+=kappa/2+(4*Theta-kappa^2)/(4*kappa).
+
+
+With eta^2=Theta:
+B_+=(eta+kappa/2)^2/kappa,
+B_-=-(eta-kappa/2)^2/kappa.
+
+
+Hence
+q^2-alpha_+
+=-(4*M^2/kappa)*(eta+kappa/2)^2,
+q^2-alpha_-
+=-(4*M^2/kappa)*(eta-kappa/2)^2.
+
+
+For nonzero coordinates,
+[q^2-alpha_+]=[q^2-alpha_-]=[-1/kappa]=[-N_0]
+in K*/K*^2, because kappa=N_0/b^2.
+Also [Xp]=[q^2]=1.
+Thus the ordinary split dual 2-Kummer tuple is
+(1,[-N_0],[-N_0])
+up to ordering.
+
+
+The torsion special cases are also correct.
+If eta=kappa/2 then q^2=alpha_- and
+alpha_--alpha_+=-4*M^2*kappa.
+If eta=-kappa/2 then q^2=alpha_+ and
+alpha_+-alpha_-=-4*M^2*kappa.
+Under the standard full-2-descent special-value convention, the zero coordinate is replaced by the product of root differences; the remaining q^2 factor is a square, so the special coordinate again has class [-kappa]=[-N_0].
+
+
+Therefore the residual split-2-Kummer classes left open by 097 contain no new ordinary Kummer squareclass information.
+
+
+Promoted:
+M3_T11_098_HOSTILE_AUDIT=PASS
+M3_T11_DUAL_SPLIT_2KUMMER_BRACKETS_COMPLETE_SQUARE=true
+M3_T11_DUAL_SPLIT_2KUMMER_RESIDUAL_CLASSES_OPEN=false
+M3_T11_DUAL_SPLIT_2KUMMER_CLASSES_MINUS_N0=true
+M3_T11_DUAL_SPLIT_2KUMMER_TORSION_SPECIAL_VALUE_MINUS_N0=true
+M3_T11_FULL_SPLIT_2KUMMER_NEW_SAVING=false
+
+
+5. M3-T11-099 — PASS
+
+
+For an interior fresh prime p^lambda with 0<c_p<2*lambda, put
+k_p=2*lambda-c_p,
+t=p^k_p*tau_p,
+N_u=p^(2*lambda+c_p)*nu_p.
+
+
+The hostile-audit-passed Section-35 identity gives
+P=v_1*v_2*v_3
+=4*u^2*S/(1+u^2)
+=4*a^2*s/(t*N_u).
+
+
+Since
+k_p+(2*lambda+c_p)=4*lambda,
+the Section-48 unit
+Pi_p=p^(4*lambda)*P
+is exactly
+Pi_p=4*a^2*s/(tau_p*nu_p).
+
+
+At the oriented Gaussian root
+a==rho*b mod p,
+rho^2==-1 mod p,
+one has a^2==-b^2 mod p, so
+-rho*Pi_p
+==4*rho*b^2*s/(tau_p*nu_p) mod p.
+
+
+Because 4*b^2 is a nonzero square and a quadratic character has the same value on a unit and its inverse:
+chi_p(-rho*Pi_p)
+=chi_p(rho*tau_p*nu_p)*chi_p(s).
+
+
+Thus the physical selector is exactly
+chi_p(s)=chi_p(rho*tau_p*nu_p).
+
+
+For
+q_int=product_{p interior} p,
+with fixed auxiliary signs epsilon_p, each p admits exactly (p-1)/2 nonzero s-classes. CRT therefore gives exactly
+phi(q_int)/2^omega(q_int)
+admissible unit classes, and
+1_select(s)
+=2^(-omega(q_int))*product_{p|q_int}(1+epsilon_p*chi_p(s)).
+
+
+Hence selector-only equidistribution has an unavoidable principal relative density 2^(-omega(q_int)). Uniformly this is q_int^(-o(1)) in the worst case, and equals 1/2 when q_int is prime. Cancellation of nonprincipal character sums alone cannot produce a uniform q_int^(-delta) saving.
+
+
+Promoted:
+M3_T11_099_HOSTILE_AUDIT=PASS
+M3_T11_INTERIOR_CHARACTER_SINGLE_S_NUMERATOR=true
+M3_T11_INTERIOR_CHARACTER_CRT_EXACT_ACCEPTANCE=true
+M3_T11_INTERIOR_CHARACTER_EQUIDISTRIBUTION_ONLY_FIXED_POWER=false
+M3_T11_INTERIOR_CHARACTER_GENERIC_DISPERSION_ATTACK_RETIRED=true
+M3_T11_INTERIOR_CHARACTER_ENDPOINT_CORRELATION_OPEN=true
+
+
+6. M3-T11-100 — PASS
+
+
+Section 48 gives
+W^2=-N_u*Phi
+and, for an interior prime,
+v_p(Phi)=k_p.
+
+
+Define
+Phi_hat_p=Phi/p^k_p,
+W_hat_p=W/p^(2*lambda).
+Since
+(2*lambda+c_p)+k_p=4*lambda,
+one gets exactly
+W_hat_p^2=-nu_p*Phi_hat_p,
+with all displayed factors p-adic units.
+
+
+Use the audited exact division identity
+Phi
+=N_u*(s^4+44*s^2*t^2-16*t^4)-16*b*t*H,
+H=a*s^3+3*b*s^2*t-3*a*s*t^2-b*t^3,
+and
+H==b*rho*(s-rho*t)^3 mod p.
+
+
+Because k_p>0, p|t and p does not divide s, so
+H==b*rho*s^3 mod p.
+
+
+After division by p^k_p, the first N_u term retains valuation
+(2*lambda+c_p)-k_p=2*c_p>=2,
+hence vanishes mod p.
+Therefore
+Phi_hat_p
+==-16*b^2*rho*tau_p*s^3 mod p,
+and
+W_hat_p^2
+==16*b^2*rho*tau_p*nu_p*s^3 mod p.
+
+
+Removing the nonzero square 16*b^2*s^2 gives exactly
+chi_p(s)=chi_p(rho*tau_p*nu_p),
+the same selector as 099.
+
+
+For odd p, a p-adic unit is a square iff its residue mod p is a square. Any nonzero root mod p has derivative 2*w a p-adic unit and lifts uniquely along each sign. Therefore every accepted mod-p s-class has no further square-solvability obstruction at p^2,p^3,... .
+
+
+For fixed auxiliary local unit data and any h>=1, exactly
+phi(p^h)/2
+unit s-classes modulo p^h are accepted, each with exactly two W_hat_p roots. Across a finite interior-prime set and arbitrary precisions, CRT preserves exact relative density
+2^(-omega(q_int)).
+
+
+Thus the same local normalized endpoint square equation has no hidden higher-p-adic saving beyond the first-residue selector.
+
+
+Promoted:
+M3_T11_100_HOSTILE_AUDIT=PASS
+M3_T11_INTERIOR_NORMALIZED_SQUARE_HENSEL_SATURATED=true
+M3_T11_INTERIOR_HIGHER_PADIC_SELECTOR_GAIN=false
+M3_T11_INTERIOR_ENDPOINT_SQUARE_LOCAL_REFINEMENT_RETIRED=true
+M3_T11_INTERIOR_CHARACTER_ENDPOINT_GLOBAL_CORRELATION_OPEN=true
+
+
+7. Canonical route consequence
+
+
+The following independent attacks are now audited-retired:
+- ordinary rational-T Kummer iteration as a fresh M_rel detector;
+- ordinary split dual 2-Kummer residual brackets;
+- selector-only interior-character Burgess/large-sieve/equidistribution;
+- deeper p-adic refinement of the same Section-48 interior square equation.
+
+
+The surviving legal frontier is:
+ThetaFourthPowerMovingSupportBeyondKummer
+or
+InteriorCharacterCrossPrimeEndpointCorrelation.
+
+
+Any continuation must introduce genuinely new global/non-Kummer information, not another presentation of the audited theta/Kummer identities or the Hensel-saturated local selector.
+
+
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false

@@ -1,0 +1,327 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229X — norm-ten ramified division closure via physical genus-seven receivers
+
+
+STATUS: POST_229W_NORM10_RAMIFIED_DIVISION_CLOSED / PROVED_COPRIME_RAMIFIED_PULLBACK / PROVED_PHYSICAL_GAUSSIAN_SQUARE_FORCES_PREIMAGE_X_SQUARE / PROVED_TWO_FIXED_SMOOTH_GENUS7_RECEIVERS / FALTINGS_GIVES_FINITE_NORM10_PARAMETER_AND_TWIST_SUPPORT / PROVED_NORM10_DEPENDENT_ENDPOINT_COUNT_Bo1 / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229W NORM10_RAMIFIED_DIVISION_GATE / EXACT CM COPRIME PULLBACK / PHYSICAL BASE-NORM RESTORATION / FIXED HYPERELLIPTIC RECEIVERS / SUBGATE CLOSURE
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229W
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+
+
+1. Scope
+
+
+229V reduced primitive norm-ten CM dependence to
+  [1-i]P=[beta]R',    N(beta)=5,    R' in E_d(Q),
+with
+  r=X(R')/d=epsilon*d*t^2,
+and showed that the residual rational carrier is genus zero:
+  w^2=epsilon(q^2-1),    q=d*t^2.
+229V correctly concluded that the raw squareclass carrier alone does not support the direct 229U genus>1 argument.
+
+
+This card restores the physical conditions that 229V deliberately had not yet used: X(P)/d is a square in K=Q(i), and its Gaussian square root p satisfies N(p) in Q^{*2}. Those conditions lift the two genus-zero sign branches to two fixed smooth genus-seven curves. Faltings plus retained 229L then closes the entire norm-ten dependence branch at B^{o(1)}.
+
+
+No global Stage37 gate is closed.
+
+
+2. Coprime pullback through [1-i]
+
+
+Fix the representative
+  beta=2-i,    N(beta)=5.
+All primitive norm-ten slopes are obtained from the corresponding alpha=(1+i)beta by units and conjugation; the physical norm-square packet is invariant under those finite operations up to swapping the + and - selectors.
+
+
+Retain 229V:
+  [1-i]P=[beta]R'.                                  (229X.1)
+
+
+Because beta and 1-i are coprime in Z[i], choose A,B in Z[i] with
+  A*beta+B*(1-i)=1.
+Define
+  Q=[A]P+[B]R'.
+Then, using (229X.1),
+  [1-i]Q
+   =[A][1-i]P+[B][1-i]R'
+   =[A beta+B(1-i)]R'
+   =R'.                                             (229X.2)
+
+
+Moreover
+  [1-i](P-[beta]Q)=0,
+so
+  P=[beta]Q+S,    S in ker[1-i]={O,T0}, T0=(0,0).   (229X.3)
+
+
+The T0 translate is harmless for the physical square conditions: on normalized x it sends z to -1/z. Since -1=i^2 is a K-square, z is a K-square iff -1/z is; and N of a Gaussian square root is inverted, so being a rational square is preserved. Likewise N(z+1) and N(z-1) are swapped up to division by N(z), preserving their square status on the physical packet.
+
+
+Thus it suffices to analyze S=O.
+
+
+RESULT_229X_COPRIME_RAMIFIED_PULLBACK=PROVED_EXACT.
+
+
+3. Exact normalized coordinates
+
+
+Write
+  z=X(Q)/d in K,
+  r=X(R')/d in Q.
+
+
+The exact [1-i] x-map retained in 229V gives
+  r=i(z^2-1)/(2z).                                 (229X.4)
+
+
+For beta=2-i, the norm-five map is the conjugate of 229T:
+  X([beta]Q)/d = z H_beta(z)^2,                    (229X.5)
+where
+  H_beta(z)
+   = ((2+i)z^2-i)(z^2-1-2i)/(5z^4-2z^2+1).       (229X.6)
+
+
+A positive physical endpoint has
+  X(P)/d=p^2,    p in K^*,
+  N(p) in Q^{*2}.                                 (229X.7)
+
+
+By (229X.3)-(229X.5), away from the already excluded torsion/pole boundaries, (229X.7) implies z is a K-square. Write z=s^2. Then one may take p=s H_beta(z), up to the harmless T0 reciprocal. Therefore the base norm condition is exactly
+  N(s) N(H_beta(z)) in Q^{*2}.                    (229X.8)
+
+
+This is the physical condition that was not used in the genus-zero firewall of 229V.
+
+
+RESULT_229X_PHYSICAL_GAUSSIAN_SQUARE_FORCES_Q_X_SQUARE=PROVED_EXACT.
+RESULT_229X_BASE_NORM_CONDITION_AFTER_PULLBACK=PROVED_EXACT.
+
+
+4. epsilon=+1 branch gives a fixed genus-seven receiver
+
+
+Put
+  r=q=d t^2>0.
+The rational E_d equation from 229V gives
+  w^2=q^2-1.                                      (229X.9)
+
+
+Solving (229X.4),
+  z=i h,
+with
+  h=-q+w  or  h=-q-w,
+and the two h-values are reciprocal. Since q>|w| on the nonboundary real branch, h<0.
+
+
+Because z=i h is a K-square, there is a in Q^* with
+  h=-2a^2,                                        (229X.10)
+indeed (a(1-i))^2=-2i a^2.
+
+
+For z=i h, exact multiplication of (229X.6) by its conjugate gives
+  N(H_beta(i h))
+    =(h^4+2h^2+5)/(5h^4+2h^2+1).                (229X.11)
+
+
+With s=a(1-i), N(s)=2a^2. Thus (229X.8) is equivalent to
+  2*(16a^8+8a^4+5)/(80a^8+8a^4+1)
+being a rational square. Equivalently every physical point on this sign branch maps to the fixed curve
+
+
+  C_+:
+  Y^2=2 A_+(a) B_+(a),                           (229X.12)
+
+
+  A_+(a)=16a^8+8a^4+5,
+  B_+(a)=80a^8+8a^4+1.
+
+
+Exact polynomial arithmetic gives
+  Disc(A_+)=Disc(B_+)=2^60*5^3,
+  Res(A_+,B_+)=2^68.                              (229X.13)
+
+
+Hence A_+ and B_+ are squarefree and coprime. The right side of (229X.12) is squarefree of degree 16, so the smooth projective model C_+ has genus
+  g=(16-2)/2=7.                                   (229X.14)
+
+
+RESULT_229X_NORM10_PLUS_BRANCH_FIXED_CURVE=PROVED_EXACT.
+RESULT_229X_NORM10_PLUS_BRANCH_GENUS=7.
+
+
+5. epsilon=-1 branch gives a second fixed genus-seven receiver
+
+
+Put
+  r=-q,    q=d t^2>0.
+The residual conic is
+  w^2=1-q^2.                                      (229X.15)
+
+
+Solving (229X.4) gives
+  z=w+i q
+or its reciprocal/conjugate variant; in particular
+  N(z)=1.
+
+
+Since z=s^2 and N(z)=1, N(s)=1. Every rational norm-one s is parameterized, up to the usual finite boundary points, by
+  s=(u-i)/(u+i),    u in Q.
+Therefore
+  z=((u-i)/(u+i))^2.                              (229X.16)
+
+
+Substituting (229X.16) into (229X.6) and taking the exact K/Q norm gives
+
+
+  N(H_beta(z))=C(u)/D(u),                         (229X.17)
+
+
+where
+  C(u)=u^8+8u^7+20u^6-56u^5-26u^4+56u^3+20u^2-8u+1,
+  D(u)=u^8-8u^7+20u^6+56u^5-26u^4-56u^3+20u^2+8u+1.
+
+
+Since N(s)=1, the physical base condition (229X.8) is equivalent to C(u)/D(u) being a rational square, hence to the fixed curve
+
+
+  C_-:
+  Y^2=C(u)D(u).                                   (229X.18)
+
+
+Exact polynomial arithmetic gives
+  Disc(C)=Disc(D)=2^60*5^3,
+  Res(C,D)=2^68.                                  (229X.19)
+
+
+Thus C and D are squarefree and coprime. Their product is squarefree of degree 16, so the smooth projective model C_- also has genus 7.
+
+
+RESULT_229X_NORM10_MINUS_BRANCH_FIXED_CURVE=PROVED_EXACT.
+RESULT_229X_NORM10_MINUS_BRANCH_GENUS=7.
+
+
+6. Faltings closes norm-ten parameter and twist support
+
+
+Retain the Faltings theorem input already accepted in 229U/229W: a smooth projective curve of genus >1 over Q has finitely many Q-rational points.
+
+
+By Sections 4-5,
+  C_+(Q) and C_-(Q)
+are finite. Therefore only finitely many rational parameters a or u occur in physical norm-ten dependence.
+
+
+For the + branch, h determines
+  q=-(h+h^{-1})/2.
+For the - branch, u determines q through (229X.16), equivalently
+  q=-4u(u^2-1)/(u^2+1)^2
+up to the harmless conjugate/orientation choice.
+
+
+In either branch q=d t^2 with canonical positive squarefree d. Hence each surviving rational parameter fixes one canonical twist class d. Therefore norm-ten dependence realizes only finitely many d.
+
+
+Retain 229L: for every fixed canonical d, the number of positive physical endpoints of physical height R_phys<=B mapping to E_d is uniformly B^{o(1)}.
+
+
+The number of unit/conjugate norm-ten slopes and the T0 translate are absolute constants. Consequently
+
+
+  #{positive physical endpoints R_phys<=B
+      in CM dependence with N(alpha)=10}
+    =B^{o(1)}
+    =o(B^{1/3}).                                  (229X.20)
+
+
+RESULT_229X_NORM10_PARAMETER_SUPPORT=FINITE_BY_FALTINGS.
+RESULT_229X_NORM10_REALIZED_TWIST_SUPPORT=FINITE.
+RESULT_229X_NORM10_DEPENDENT_ENDPOINT_COUNT=B^{o(1)}.
+RESULT_229X_NORM10_BRANCH=CLOSED_FOR_STAGE37_ONE_THIRD_BUDGET.
+
+
+7. Relation to 229V and updated dependence status
+
+
+229V is not retracted. Its genus-zero statement is correct for the raw squareclass carrier r=±d t^2. What changes is that the exact physical ramified-division pullback adds the K-square condition on X(Q)/d and the rational-square condition on N(p). Those conditions cut the two raw conics by fixed genus-seven receivers.
+
+
+Updated CM dependence status:
+- norm2: physically empty by 229S;
+- norm5: B^{o(1)}, closed by 229U;
+- norm10: B^{o(1)}, CLOSED by 229X;
+- all odd norms: preimages rationalized by 229W;
+- norm13: B^{o(1)}, closed by 229W;
+- remaining bounded odd norms >=17: fixed alpha-dependent base-selector curves still to audit;
+- remaining even norms >10: parity-aware bounded-image analysis remains open.
+
+
+This is subgate counting credit only. It does not alter the whole-endpoint preferred gate.
+
+
+8. Global route status
+
+
+CURRENT_PREFERRED_GATE remains
+  #{positive primitive physical endpoints R_phys<=B:
+      sf(gcd(e R_phys, x y))>B^(1/3-delta)}
+    =o(B^(1/3))
+for some fixed delta>0.
+
+
+GAUSSIAN_TWIST_RADICAL_GCD remains CONDITIONAL_RESERVE/THEOREM_WATCH.
+
+
+Useful next inputs:
+(A) next unresolved bounded CM dependence norm, with odd norm17 now cleaner than norm10;
+(B) a uniform theorem closing all remaining bounded CM slopes;
+(C) selector-conditioned twist/radical-support theorem that attacks the preferred whole-population gate directly.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+PRIMARY_GATE_STATUS=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+
+
+9. Verification scope
+
+
+Within-session exact symbolic verification:
+- (229X.11) checked by exact conjugate multiplication.
+- For A_+,B_+: Disc=2^60*5^3 for each and resultant=2^68.
+- For C,D: Disc=2^60*5^3 for each and resultant=2^68.
+- C_+ and C_- therefore have squarefree degree-16 branch polynomials and genus 7.
+- The norm-one parametrization in (229X.16) satisfies w^2+q^2=1 identically.
+
+
+This is not an independent hostile audit. Integrated audit186–229O remains unchanged in scope and is not silently extended to 229P–X.
+
+
+10. Sources checked
+
+
+Internal:
+- Stage37-NEW-INPUT-DELTA-AUDIT-229W;
+- 229V norm10 ramified reduction;
+- 229T norm5 exact CM x-map;
+- 229L physical Gaussian twist router and fixed-d B^{o(1)} fiber;
+- 229J physical norm-square selector packet;
+- current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+External theorem:
+- no new theorem species. Faltings is reused only through the already accepted 229U/229W input.
+
+
+FINAL_READBACK_RECEIPT: PASS. Card, CARD-INDEX row489, 案内 latest/read-order, RESULT-LEDGER, MAIN current override, and active ROUTE were read back from Drive and agree on 229X. Norm10 is closed only for the Stage37 one-third CM-dependence budget at B^o(1); preferred whole-population radical-gcd gate remains OPEN, GLOBAL_COUNTING_CREDIT=0, M3-T11-230 unissued, production HOLD retained. Integrated audit186–229O scope unchanged.

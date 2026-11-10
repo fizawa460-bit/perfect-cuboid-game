@@ -1,0 +1,92 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229GE
+UNIFORM IN MOVING GAUSSIAN MINOR LEG a QUADRATIC-PRIME UPPER SIEVE; ORIGINAL BALANCED pqr PAIR-CONDUCTOR SECTOR EXPANDED FROM p=u²+1 TO a<=logQ/L(Q)
+CARD_DOC_ID=19hfUKqegtRPpzlrrMzlNGLPpSuXk8ic9FoZ34VMh5qg
+PREVIOUS=229GD source CARD-INDEX row650; NEW_INDEX=651.
+STATUS=PROVED_SCOPED_UNIFORM_MOVING_a_BRUN_FUNDAMENTAL_LEMMA / PROVED_SCOPED_BALANCED_ORIGINAL_PHYSICAL_Q_T1_T2_OVER_LOG²Q_IF_TWO_GAUSSIAN_MINORS_SMALL / DEPENDENT_ON_RETAINED_GA_FF_SAME_P_FIBER / GENERAL_BALANCED_OPEN / GLOBAL_CREDIT0.
+GOVERNANCE OPERATIONAL M3-T11-229; last construction M3-T11-228; M3-T11-230 NOT ISSUED; Gate OPEN; global Credit0; production HOLD; formal route switch NONE; closure unchanged.
+
+
+1. LIGHT SYNCHRONIZATION / FULL-INDEX TARGETED ANTI-LOOP / STRATEGIC ALTERNATIVES
+MAIN current229GD -> CARD-INDEX AI-00-CONTRACT physical source row650 -> LEDGER current229GD -> active ROUTE current229GD -> 229GD card and scoped NEG current229GD. Searched ENTIRE index as bounded read-only searches for uniform quadratic sieve, n²+a², u²+v², near-axis, bilinear prime norm, bad fiber, averaged discriminant and related objects; closest GD was p=u²+1 and q=v²+1 with a=1 FIXED, M3-T11-163 axis was a different face-leg object, 229FI/FJ 414 moving p FJ elliptic branch had no uniform average, 229FM fixed(p,q) physical O1 but O(Q²/log²Q) unrestricted support, 229GC mod ell>=13 local Gaussian pattern saturation, 229BI/BJ,G/H/I do not permit multiplying local density losses. Recent five entries GC and GD did not improve FULL balanced source; tested instead the distinct UNIFORM analytic sieve for MOVING Gaussian minor leg a, with actual dimension-2 upper-sieve distribution and averaged singular correction. Also checked unrestricted FJ/FO biform route: pointwise quadratic third-prime candidate only gives O(Q²/log²Q) pair envelope; NEED same-P averaged occupied pair o(Q), not supplied by this sieve. No formal route change.
+
+
+2. EXACT UNIFORM QUADRATIC SIEVE THEOREM GE.1 (NO CUBOID ASSUMPTION)
+Let N large, positive integer a, and P_a(N):=#{1<=u<=N: u²+a² is prime AND u²+a²>=N}. Then for ANY a>=1,
+     P_a(N) << g(a) N/log N + N^(1/3)(log N)^C,
+where C absolute, implied constants absolute, and
+     g(a)= product_{ell|a, ell=1 mod4} (ell−1)/(ell−2).
+(The lower-bound u²+a²>=N removes only tiny possible primes below sieve level. For Stage37 dyadic primes u²+a²∈[Q,2Q] with N=sqrt(2Q), the lower bound is automatic.)
+In particular for any fixed A>0 and 1<=T<=(logN)^A,
+     # {(u,a): u<=N, 1<=a<=T, u²+a² prime, u²+a²>=N}
+          <<_A N T/log N,
+and the SAME bound applies to the number of DISTINCT primes represented by such (u,a). No conjectured prime values or lower bound.
+
+
+3. FULL SIEVE PROOF, WITH ALL UNIFORMITY DATA
+For each a, define ρ_a(ell)=#{u mod ell:u²+a²=0 mod ell}. This EXACTLY equals
+   ρ_a(2)=1;
+   for odd ell|a, ρ_a(ell)=1;
+   for odd ell∤a and ell≡1mod4, ρ_a(ell)=2;
+   for odd ell∤a and ell≡3mod4, ρ_a(ell)=0.
+Thus 0<=ρ_a(ell)<ell and uniformly ρ_a(ell)<=2.
+For squarefree d, CRT produces ρ_a(d)=product_{ell|d}ρ_a(ell)<=2^{omega(d)} forbidden residue classes. Hence among u<=N with d|u²+a²,
+     count =N ρ_a(d)/d + O(ρ_a(d))
+UNIFORMLY in a,d. These are the exact distribution estimates needed for upper sieve, not unverified Gaussian prime equidistribution.
+
+
+Fix a sufficiently large ABSOLUTE integer K as required by the standard upper-bound fundamental lemma in sieve dimension κ=2. Choose z=N^(1/K), D=N^(1/3), s=logD/logz=K/3, with s sufficiently large. The uniform sieve-dimension condition holds because ρ_a(ell)<=2: for 3<=w<z,
+     product_{w<=ell<z}(1−ρ_a(ell)/ell)^(-1)
+          <<(log z/log w)^2
+with absolute constants; ell=2 is handled separately.
+The known upper-bound fundamental lemma (e.g. T. Tao, 254A Notes4 §1, https://terrytao.wordpress.com/2015/01/21/254a-notes-4-some-sieve-theory/) gives for our sequence
+     #{1<=u<=N: gcd(u²+a²,product_{ell<z}ell)=1}
+          << N V_a(z) + sum_{d<=D} |lambda_d| ρ_a(d)
+          << N V_a(z) + D(log D)^C,
+with V_a(z)=product_{ell<z}(1−ρ_a(ell)/ell), upper coefficients with bounded divisor-growth and C absolute. Last bound uses ρ_a(d)<=2^omega(d) and elementary divisor summation, UNIFORMLY in a.
+For a=1 the reference product is
+     V_1(z)=(1−1/2) product_{ell<z,ell≡1mod4}(1−2/ell) <<1/log z
+by ordinary Mertens in residue class1 mod4 (sum split 1/ell=(1/2)loglog z+O(1)).
+At odd ell≡3mod4 dividing a, V_a local factor is 1−1/ell<=1=V_1 local factor; at split ell≡1mod4 dividing a, its V_a/V_1 ratio is
+     (1−1/ell)/(1−2/ell)=(ell−1)/(ell−2).
+At ell=2 the factor stays1/2. Consequently EXACT inequality V_a(z) <= g(a) V_1(z) <<g(a)/logN, with absolute constant K fixed. Thus the sieved values <=g(a)N/logN+N^(1/3)(logN)^C. Every prime u²+a²>=N exceeds z for large N and is necessarily in the sifted set, proving GE.1.
+
+
+The singular correction g(a) has a UNIFORM bounded mean without any deep analytic conjecture. Put h(d)>=0 supported on squarefree integers with all ell|d≡1mod4, h(ell)=1/(ell−2). Then
+     g(a)=sum_{d|a}h(d).
+Therefore for every T>=1,
+     sum_{a<=T}g(a)
+       <=T sum_{d>=1}h(d)/d
+       = T product_{ell≡1mod4}(1+1/[ell(ell−2)])
+       <<T,
+since the product converges absolutely. Summing GE.1 over a<=T gives
+     <=NT/logN + T N^(1/3)(logN)^C,
+and for 1<=T<=(logN)^A the error is absorbed, giving claimed O_A(NT/logN) uniform moving-a upper bound.
+
+
+4. NEW BALANCED ORIGINAL SAME-P PHYSICAL THEOREM GE.2
+For Q→∞ choose 1<=T_1,T_2<=(logQ)^A. Let E(Q;T_1,T_2) denote ACTUAL positive primitive full-four-square P=(e,x,y,U,V,z,R) with gcd(e,x,y)=1, U²=e²+x², V²=e²+y², z²=x²+y², R²=e²+x²+y² and R=pqr, distinct split primes Q<=p<q<r<=2Q. Require the two smaller primes have Gaussian norm presentations
+     p=u_1²+a_1² with 1<=a_1<=T_1,
+     q=u_2²+a_2² with 1<=a_2<=T_2,
+and NO restriction on third r. Each norm representation of a prime is unique up to signs/interchange, but counting representations is sufficient as an upper bound.
+By GE.1 with N=sqrt(2Q), the number of such p is O_A(sqrtQ T_1/logQ), and such q O_A(sqrtQ T_2/logQ). Thus potential ordered-by-size pair support <= O_A(Q T_1 T_2/log²Q).
+For each fixed p<q, canonical largest split prime r of R=pqr has h=1 and s=pq; retained GA/FF physical bound over ALL possible r and physical macro orientation gives
+     F(pq,1)<<W(pq)=20²=400=O(1)
+independent of p,q,Q. No local-density multiplication or virtual Gaussian source-to-physical pushforward is used: this is precisely the already retained TRUE SAME-P Gaussian-angle nonidentity output (FF independent hostile audit remains HOLD).
+Therefore
+     #E(Q;T_1,T_2) <<_A Q T_1 T_2 / (logQ)².
+If T_1*T_2=o((logQ)²), this is o(Q)=o(B^(1/3)) on B≈Q³ balanced dyadic scale. In particular for ANY fixed eps∈(0,1),
+     T_1=T_2=(logQ)^(1−eps) implies #E <<Q/(logQ)^(2eps);
+and for ANY function L(Q)>=1 tending to infinity with T= floor(logQ/L(Q))>=1, T_1=T_2=T gives
+     #E(Q;T,T)<< Q/[L(Q)]²=o(Q).
+This STRICTLY enlarges 229GD's fixed a=1 two-prime packet to a GROWING gaussian minor-leg width approaching logQ, with all Stage37 original HIGH, sf(G0), Kcross/rad(Sd), q/Gres and 229EX signed filters remaining SAME-P subsets. The new analytic part GE.1 is independently valid of perfect-cuboid research; the resulting physical application is dependent on FF/GA retained input and is not asserted fully hostile-certified.
+
+
+5. EXECUTED RECHECK AND MAIN BOTTLENECK FIREWALL
+Exact residue root counts for a=1,2,3,5,6,10,30,45 over ell=2,3,5,7,13,17,29,37,41,53 matched formula without exception. A finite direct mean sample g(a) for a<=1000 yielded ~1.083, corroborating (but NOT proving) convergent Euler-product mean. The proof above is exact.
+The alternative ACTUALLY TESTED was unrestricted generic balanced p,q and its 229FJ/FO quadratic-in-third-prime biform: for each fixed p,q at most O(1) candidate r from its nonvertical quadratic F, but there are ~Q²/log²Q possible pairs, while o(Q) is required. A square-discriminant / Gaussian third-prime norm correlation averaged over p,q with a power ~Q^-1 occupancy remains unproved, so no promotion to all balanced pqr. One-prime Gaussian minor a<=T with the other unrestricted produces the insufficient first-moment bound O(Q^(3/2) T/log²Q). Nor can GC ell>=13 saturated local labels or FZ 2-adic fractions be multiplied to claim extra density.
+Independent hostile audits FF/FA, FJ414, FS245, FW84, FV16, FX remain HOLD; formal route change NONE. Global Credit0, Gate OPEN, closure unchanged.
+
+
+6. NEXT
+Primary: prove a same-P, original selector-aware UNRESTRICTED balanced p,q third split prime r Gaussian biform/square-discriminant dyadic occupancy o(Q), including all p,q,r≡1mod8 and exact bad-fiber handling; compare averaged rational genus-one and true norm-prime pair correlation. Different possible direction: high canonical cofactor with omega>=4/repeated powers nonlocal q/Gres or Kcross count, not merely enlarged thin-sector sieving. The widened two-prime Gaussian minor strip already reaches T=o(log Q) with this support-only first-moment argument; to extend to polynomial Gaussian minor angles one MUST prove nonlocal occupied-pair savings rather than repeat it. Preserve all HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/229EX masks. No unauthorized Gate/credit/authority/closure changes.
+READBACK required card + native source row651 + MAIN/LEDGER/ROUTE/NEG/FAST latest 229GE and folder.

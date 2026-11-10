@@ -1,0 +1,3400 @@
+y transfer に戻る。
+ONE_FACTOR_PRIMARY_ROUTE=false.
+Retain as auxiliary:
+- Gaussian reconstruction
+- common-core/root-line structure
+- exceptional subfamily decomposition
+- fixed-coordinate anti-concentration
+### 5.4 Ambient double-square route
+Exact four-variable model E4/H4、complete character sums、Fourier transforms は成立。
+しかし elementary double square sieve + completion の balanced-box ceiling は約
+B^(4/5+epsilon),
+必要な absolute B^(1/3) scale から遠い。
+AMBIENT_DOUBLE_SQUARE_PRIMARY_ROUTE=false.
+q-van der Corput / determinant-method 級の新しい強い analytic input が出ない限り secondary route。
+---
+## 6. Current primary route
+TERMINAL_COVER_GEOMETRY_PRIMARY_ROUTE=true.
+NEXT_ITEM=TerminalCoverAccumulatingCurveDecomposition.
+M3 population on K_c を
+A. low-degree / accumulating curves
+B. Zariski-dense residual population
+に分ける。
+### A. Accumulating curves
+最初に解くべき問題:
+1. physical height で polynomially many M3 points を持ち得る low-degree curves は何か。
+2. Testa–Stoll / 既存 K_c geometry でどこまで分類済みか。
+3. 各 curve family の endpoint pullback under S->K_c の degree/genus は何か。
+4. fixed curve ではなく、該当する curve family 全体を足しても endpoint contribution が o(B^(1/3)) になるか。
+5. exceptional low-degree curves が B^(1/3) scale の M3 denominator を担い得るなら、その family count を exact physical height とともに評価できるか。
+### B. Residual population
+accumulating curves を切り離した後だけ、generic residual に対して:
+- determinant method
+- uniform congruence counting
+- geometric sieve
+- rational-point height theorem
+のどれが最も強いかを査定する。
+最初から M3 全体へ一発 equidistribution theorem を要求しない。
+---
+## 7. Research stop rules
+次は primary effort を使わない:
+- 新しい L_- equivalent coordinate transform
+- 新しい Eulerian / Legendre-symbol graph
+- fixed h root-line ambient countingだけの継続
+- 既に B^o(1) がある fixed-fiber genus/rank 再計算
+- elementary square-sieve completion
+- third Pythagorean triple の単なる再parametrization
+- canonical image-size の再試行。ただし新しい独立 structural theorem が出た場合は再開可。
+新しい route を開始する前に必ず:
+「この結果が TerminalCoverAccumulatingCurveDecomposition のどの closure step を前進させるか」
+を明示する。
+答えられない場合は loop 候補として停止。
+---
+## 8. ARCHIVE policy
+K16-C3-M3-LOCAL-TO-GLOBAL-ARCHIVE には以下を完全保存:
+- 監査前 MAIN 全文 snapshot
+- 旧 active routes
+- one-factor / Eulerian / Gaussian / C_- / K_- / h の詳細
+- four-variable E4/H4
+- local character laws
+- Fourier / double-square sieve
+- negative results
+- finite diagnostics
+- superseded interpretationsと corrections
+研究成果を削除しない。
+MAIN から外すことは「不要」ではなく「current authority ではない」という意味だけ。
+---
+## 9. Current state flags
+STRATEGIC_AUDIT_COMPLETE=true
+RECENT_COORDINATE_LOOP_CONFIRMED=true
+EXISTING_CANONICAL_IMAGE_SIZE_ROUTE_CLOSES=false
+ONE_FACTOR_PRIMARY_ROUTE=false
+AMBIENT_DOUBLE_SQUARE_PRIMARY_ROUTE=false
+TERMINAL_COVER_GEOMETRY_PRIMARY_ROUTE=true
+NEXT_ITEM=TerminalCoverAccumulatingCurveDecomposition
+P_OVER_M3_LIMIT_PROVED=false
+
+
+# END POST-COMPACTION PRE-ROUTE-BREADTH MAIN SNAPSHOT
+
+
+
+
+---
+
+
+# ROUTE-ORGANIZATION COMPLETE MAIN SNAPSHOT
+
+
+This snapshot preserves the full route-breadth audit and R1/R2/R3/R4a/R10 preflights before MAIN compaction.
+
+
+# K16-C3-M3-LOCAL-TO-GLOBAL — MAIN
+## Current research authority / active route
+> このファイルだけ読めば通常の M3 研究を再開できる状態を保つ。
+> 旧主ルート・詳細証明・negative result・監査前の MAIN 全文は K16-C3-M3-LOCAL-TO-GLOBAL-ARCHIVE に保存済み。
+---
+## 0. M3研究の現在のゴール
+対象は primitive canonical Euler brick の exact physical population M3(B)。
+必須条件:
+- primitive
+- canonical ordering
+- Euclidean height R<=B
+- one object = one count
+- 3 face diagonals integral
+endpoint subset を P(B) とする。
+現在の唯一の主ゴール:
+P(B)/M3(B) -> 0.
+完全直方体の非存在そのものは、現在の M3 研究のゴールに含めない。
+既知の certified denominator scale:
+M3(B) >> B^(1/3).
+したがって absolute endpoint count で閉じるなら
+P(B)=o(B^(1/3))
+で十分。ただし relative M3 argument なら absolute B^(1/3) barrier を直接越える必要はない。
+## 0.5 Research credit / routing firewall
+- 研究 credit は厳格に分離する。有限計算 ≠ global theorem、numerical / receiver / theorem / effectivity / endpoint credit は別物。
+- population、measure、field、quotient、model、height、multiplicity 等が変わるなら exact adapter 必須。
+- 同じ restriction/saving を二重に credit しない。独立性を勝手に仮定しない。
+- formal class / orbit / cohomology があるだけでは、必要な geometric object の存在証明にならない。
+- blocked route や有限範囲で hit=0 は impossibility ではない。
+- perfect-cuboid の existence/nonexistence は explicit audited full-endpoint certificate がない限り絶対に claim しない。
+- Stage-local controller はこの firewall を強化してよいが、弱めてはいけない。
+- 既存武器を探すときだけ repository-asset-discovery、route を広げる・park・reopen・exhausted 判定をするときだけ cycle-exploration-safety-protocol を開く。
+---
+## 1. Exact physical endpoint structure
+Canonical labeling:
+- X = unique odd edge
+- Y,Z = even edges
+- P^2=X^2+Y^2
+- Q^2=X^2+Z^2
+- D^2=Y^2+Z^2
+- R^2=X^2+Y^2+Z^2
+M3 conditionは D integer。
+endpoint conditionはさらに R integer。
+Exact terminal factorization:
+(PQ-YZ)(PQ+YZ)=X^2 R^2.
+G=gcd(PQ,YZ),
+L_-=(PQ-YZ)/G,
+L_+=(PQ+YZ)/G.
+L_-,L_+ は positive odd coprime。
+Endpoint iff
+L_- and L_+ are both integer squares.
+one-factor condition L_-=square は endpoint の canonical necessary conditionだが、監査後は primary global route ではない。
+---
+## 2. Primitive norm architecture — auxiliary load-bearing arsenal
+Exact primitive Gaussian/norm decomposition:
+T:=R^2=N_- N_+,
+h:=gcd(N_-,N_+).
+Endpoint では exact に
+N_-=h*u^2,
+N_+=h*v^2,
+gcd(u,v)=1,
+したがって
+R=h*u*v.
+one-factor では N_-/h square のみを要求する。
+Current retained physical consequences:
+- gcd(h,X)=1
+- h^2 | X^2+D^2
+- D/X is a Gaussian root of -1 mod h^2
+- fixed (X,D) physical multiplicity is B^o(1)
+これらは auxiliary structure として保持するが、moving-h root-line counting 単独では relative M3 closure を与えないことは監査済み。
+---
+## 3. Accepted anti-concentration arsenal
+以下は再証明しない。
+### 3.1 Fixed t fiber
+K_c の rational fibration coordinate t について、各 fixed occupied t-fiber は
+N_t(B)<=exp(O(log B/log log B))=B^o(1)
+uniformly。
+したがって occupied t-values は少なくとも
+B^(1/3-o(1))
+個必要。
+B^(1/3-epsilon) 個以下の t-fibers の集合は M3-negligible。
+### 3.2 Other fixed-coordinate fibers
+既存 exact results により fixed:
+- X
+- D
+- N_-
+- N_+
+- (h,J), J=(X^2+D^2)/h^2
+はいずれも relevant M3 fiber multiplicity B^o(1)。
+small-X, small-D, small-N_-, small-N_+, small-C_- については B^(1/3-epsilon) threshold 以下の領域が M3-negligible になる exact anti-concentration results を保持。
+これらは今後 accumulating-curve decomposition の補助武器として使用する。
+---
+## 4. Top-down closure map — route inventory after ARCHIVE replay
+PRIMARY_ROUTE=UNDECIDED.
+今回の整理は「どの座標が綺麗か」ではなく、
+P(B)/M3(B) -> 0
+をどの mechanism で閉じるか、で分類する。
+Cycle Exploration Safety Protocol に従い、ARCHIVE の旧優先順位を見ずに receiver から blind pass を作り、その後で Stage16–29 / Arsenal / ARCHIVE と照合した。
+generated distinct candidates を silent discard しない。
+ただし current M3 scope は population-ratio research であり、perfect-cuboid existence/nonexistence 自体を主目標にしない。
+---
+### R1. TERMINAL POPULATION INTERACTION / SELECTOR CORRELATION
+Status: LIVE.
+Historical anchor: Stage29 J12-POP-INTERACTION = GREEN.
+This is currently the most goal-near relative formulation, but it is not yet proved.
+Exact populations:
+M2 = exactly two faces, no space condition
+N2 = exactly two faces + space
+M3 = three faces
+P  = three faces + space
+Selected two-face incidence counts:
+I2   = M2 + 3*M3
+I2^S = N2 + 3*P.
+Define
+a(B) = N2/M2,
+r(B) = M3/M2,
+b(B) = P/M3,
+s(B) = I2^S/I2.
+Then exactly
+s = (a + 3*r*b)/(1+3*r),
+and therefore
+s-a = 3*r*(b-a)/(1+3*r).
+Since the audited Stage24 theorem gives
+a(B)=N2/M2 -> 0,
+we obtain the exact equivalence:
+### Theorem 4-A — TerminalSelectorCorrelationEquivalence
+P/M3 -> 0
+iff
+P/M3 - N2/M2 -> 0,
+iff
+(s-a)/r -> 0.
+Thus the final M3 ratio can be closed by proving that the space-square survival rate on the third-face-complete stratum does not separate from the exactly-two-face space survival rate by an O(1) amount.
+This is not an independence assumption. It is an exact receiver reformulation.
+A weaker multiplicative receiver is also sufficient. Define
+T_terminal(B)
+ =
+(P/M3)/(N2/M2).
+The certified upper
+N2/M2 <<_epsilon B^(-1/2+epsilon)*(log B)^(-5)
+implies:
+if for some delta>0,
+T_terminal(B) << B^(1/2-delta),
+then P/M3 -> 0.
+In particular a subpolynomial terminal interaction bound
+T_terminal(B)=B^o(1)
+would suffice.
+#### Existing progress
+Stage29 already proves the legal survival ladder:
+I1^S/I1
+ ~ (kappa*pi/18)*(log B)^2/B,
+B^(-3/4)*(log B)^(-5)
+ << I2^S/I2
+ <<_epsilon B^(-1/2+epsilon)*(log B)^(-5),
+and
+P/(M2+M3)
+ <<_epsilon B^(-1/2+epsilon)*(log B)^(-5).
+This is the only historical Stage29 attack route with GREEN theorem credit.
+#### Existing geometric support
+Stage28 placed the two competing completion conditions over the same exact two-face host
+Y=Bl_4(P1 x P1)
+with the same physical anticanonical height.
+Both are degree-two K3 covers and both branch divisors have class -2K_Y.
+Coarse invariants therefore cancel:
+- same base
+- same cover degree
+- same total branch class
+- same K3 canonical type
+- same physical base-height line bundle.
+The first real geometric difference is:
+space cover branch      = 4 genus-0 components
+third-face cover branch = 2 genus-1 components.
+Good-prime first-order local sieve dimensions also agree; the relative local product has no polynomial or first-order logarithmic drift.
+Hence the surviving Stage28 gate was already:
+same-measure selector correlation / centered covariance / marginal comparison,
+not direct joint endpoint counting.
+StructureRadar's closest historical receiver was SR-STR-169 same-measure selector correlation, still an external gate.
+#### Exact centered-covariance normal form
+Let Omega_B be the selected two-face incidence host of size
+I2=M2+3*M3.
+Define Boolean selectors on Omega_B:
+T=1 iff the third face is integral,
+S=1 iff the space diagonal is integral.
+Then exactly
+E[T] = rho = 3*M3/I2,
+E[S] = s = (N2+3*P)/I2,
+E[S*T] = 3*P/I2.
+Therefore
+Cov(S,T)
+ = E[S*T]-E[S]E[T]
+ = 3*(P*M2-M3*N2)/(M2+3*M3)^2.
+Also
+Var(T)
+ = rho*(1-rho)
+ = 3*M2*M3/(M2+3*M3)^2.
+Hence:
+### Theorem 4-B — TerminalSelectorCovarianceIdentity
+Cov(S,T)/Var(T)
+ =
+P/M3 - N2/M2.
+Equivalently, with the 2x2 contingency determinant
+Delta_terminal(B):=P*M2-M3*N2,
+the M3 goal satisfies
+P/M3 -> 0
+iff
+Delta_terminal(B)=o(M2*M3),
+because N2/M2->0 is already audited.
+Thus the sharp R1 receiver is
+Cov(S,T)=o(Var(T)).
+This is weaker and more tailored than demanding a generic fixed-power covariance deficit relative to the entire selected-incidence host.
+The historical SR-STR-169 gate is therefore NOT directly imported: it was proved/reduced on a different Stage27 physical measure and targeted a stronger whole-host correlation deficit.
+However the changed receiver makes a bounded rematch legal:
+NEW_R1_REENTRY_REASON=RARE_SELECTOR_RELATIVE_COVARIANCE_RECEIVER.
+The exact adapter question is now:
+> Can the terminal centered selector pair (S,T) on the Stage29 selected-two-face
+> physical host be decomposed into one of the already-classified same-measure
+> correlation architectures with coefficient/energy normalization relative to
+> Var(T), while preserving primitive/canonical/R<=B semantics?
+No cross-measure promotion is allowed.
+#### Current blocker
+Need a theorem on the exact primitive/canonical selected-two-face physical measure proving one of:
+1. P/M3 - N2/M2 -> 0;
+2. T_terminal(B)=B^o(1);
+3. any explicit interaction growth < B^(1/2-delta);
+4. equivalently a centered selector-covariance estimate strong enough to imply the above.
+This route is genuinely more top-down than terminal-cover geometry.
+---
+### R2. SAME-M3 LOCAL-TO-GLOBAL / MASTER-HIT PHYSICAL TRANSFER
+Status: LIVE_BLOCKED_ON_GLOBAL_TRANSFER.
+Historical kernel: K16-C3-M3-LOCAL-TO-GLOBAL.
+Exact assets already proved:
+- global Master-Hit coverage of every primitive Euler brick;
+- exact primitive/canonical physical population semantics;
+- local squareclass laws;
+- finite-modulus character cancellation;
+- fixed finite-prime-set CRT extension;
+- a growing-sieve theorem on the parameter/local side.
+The original wall survived:
+parameter/local equidistribution
+  !=
+exact physical M3 measure under R<=B.
+The main reason is the moving gcd / physical-height normalization and the conditioning on the third-face square.
+Later ARCHIVE work repaired much of the geometry:
+- exact odd-edge divisor coordinates;
+- one-object/one-count physical parametrization;
+- exact primitivity;
+- exact R<=B inequality;
+- integral bidegree-(2,2) model;
+- signed squarefree delta decomposition;
+- only subpolynomially many squareclass allocations per physical packet.
+But no uniform fixed-q / moving-delta count was proved with an error summable over the exact M3 population.
+#### Current blocker
+A same-measure theorem of one of these types:
+- fixed-q equidistribution on exact physical M3;
+- relative large sieve on exact M3;
+- uniform delta-slice counting with summable error;
+- physical weighted character-sum theorem preserving primitivity, canonicalization and multiplicity.
+This remains a core route, not superseded by R1.
+---
+### R2b. PHYSICAL DIVISOR / DELTA DESCENT
+Status: LIVE_SUPPORT_ROUTE under R2.
+This is not a separate goal. It is the strongest exact physical implementation currently available for R2.
+Reached:
+- exact odd-edge divisor coordinates;
+- exact primitive criterion;
+- exact third-face equation;
+- exact physical height;
+- plus/minus twin model;
+- common signed squarefree kernel delta;
+- delta_odd | rad(PQ);
+- subpolynomial squareclass-allocation count;
+- each fixed-delta equation separately genus 0;
+- coupled slice retains a genus-1 core.
+Unfinished:
+- fixed-q relative counting uniform in delta/cross-gcd labels;
+- aggregation over all physical delta packets.
+Reopen/continue only if the next step is an actual same-measure counting estimate, not another coordinate rewrite.
+---
+### R3. K3 ELLIPTIC FIBRATION / MOVING-BASE DISTRIBUTION
+Status: LIVE_HIGH_VALUE_EXTERNAL_GATE.
+Reached:
+- exact identification of Euler K3 K_c;
+- explicit rational fibration t=a2/a3;
+- explicit genus-one / elliptic model;
+- physical height formula;
+- explicit duplication law;
+- proof that one fixed rank-positive fiber contributes only subpolynomially in B;
+- fixed-t uniform anti-concentration:
+  N_t(B)=B^o(1);
+- therefore at least B^(1/3-o(1)) occupied t-values;
+- second transverse fibration and an exact degree-2 quotient map between fibrations;
+- 2-isogeny/descent checked; physically relevant class returns to the original quartic and gives no shortcut.
+Negative conclusions already established:
+- high rank on one fiber cannot explain global M3 growth;
+- bounded individual-fiber Chabauty/MW work is not global coverage;
+- fixed-fiber density scans do not replace a moving-base theorem.
+#### Weaker average receiver — endpoint fiber energy
+For each occupied rational base value t define
+m_t(B):=#{E in M3(B): t(E)=t},
+p_t(B):=#{E in P(B): t(E)=t}.
+Then exactly
+M3(B)=sum_t m_t(B),
+P(B)=sum_t p_t(B),
+and
+P/M3
+ =
+sum_t [m_t/M3] * [p_t/m_t],
+with the ratio defined as 0 when m_t=0.
+Thus the M3 target requires only weighted average decay of the fiber endpoint ratio; uniform endpoint emptiness on every moving fiber is much stronger than necessary.
+There is also an exact two-copy energy receiver.
+By Cauchy-Schwarz,
+P(B)^2
+ <=
+M3(B)
+*
+sum_t p_t(B)^2/m_t(B).
+Therefore:
+### Receiver R3-A — MovingFiberEndpointEnergy
+It is sufficient to prove
+sum_t p_t(B)^2/m_t(B)
+ =
+o(M3(B)).
+Equivalently, if q_t:=p_t/m_t and w_t:=m_t/M3,
+sum_t w_t*q_t^2 -> 0
+is sufficient.
+A good/bad-fiber variant is also sufficient:
+for some alpha,beta>0,
+sum_{t:q_t>B^(-alpha)} m_t
+ <=
+B^(-beta+o(1))*M3.
+Then
+P/M3
+ <=
+B^(-alpha)+B^(-beta+o(1)).
+This is a genuinely weaker moving-base theorem than the Stage35-style requirement that every endpoint fiber be empty.
+It also matches the repository same-measure support/moment philosophy: high-survival fibers may be allowed provided their M3 mass is exceptional.
+MOVING_FIBER_UNIFORM_EMPTINESS_REQUIRED=false.
+MOVING_FIBER_AVERAGE_ENERGY_SUFFICIENT=true.
+#### Current blocker
+Need a uniform theorem over moving rational t, for example:
+- specialization-new point control;
+- uniform congruence distribution;
+- two-fibration incidence/energy estimate;
+- quantitative height distribution across occupied fibers.
+This route could implement either R1 or R2, so it remains live.
+---
+### R4. ABSOLUTE NUMERATOR ROUTE
+Goal species:
+P(B)=o(B^(1/3)).
+If achieved, certified M3(B)>>B^(1/3) immediately gives P/M3->0.
+Current global upper available from Stage29:
+P(B) <<_epsilon B^(1/2+epsilon).
+Thus the remaining absolute exponent gap is roughly 1/6 in power.
+Two main implementations have been explored.
+#### R4a. Terminal-cover / accumulating-curve geometry
+Status: LIVE_PARTIAL.
+Let
+pi:S->K_c
+be the endpoint degree-two cover.
+Load-bearing result from ARCHIVE Section37:
+for any fixed integral degree-6 curve C subset K_c,
+the restricted cover pi^{-1}(C)->C is non-split.
+Because the full endpoint surface S has no integral degree-6 curves,
+a fixed degree-6 M3 curve contributes at most
+O(B^(1/6+o(1)))
+endpoint points.
+Hence every fixed finite collection of such curves is negligible against M3(B)>>B^(1/3).
+This is a genuine numerator exponent improvement on a nontrivial subpopulation.
+Unfinished:
+- classify all denominator-scale accumulating curve families on K_c;
+- count the number of relevant curves/families under physical height;
+- control the Zariski-dense residual population.
+Important: this is one implementation of R4, not the overall primary route.
+#### R4b. Ambient four-variable double-square analysis
+Status: BLOCKED_ELEMENTARY; REOPEN_ON_STRONGER_ANALYTIC_INPUT.
+Exact assets:
+- four-variable E4/H4 model;
+- endpoint = simultaneous E4 square and H4 square;
+- complete local mixed character sums;
+- generic additive Fourier transform O(p^2);
+- squarefree incomplete-box bound.
+Negative result:
+standard double square sieve + elementary completion reaches only about
+B^(4/5+epsilon)
+in the balanced physical regime.
+This is far weaker than both the desired B^(1/3) scale and the already known global P<<B^(1/2+epsilon).
+Do not continue elementary completion.
+Reopen only for materially stronger input such as q-van der Corput / determinant-method / dimension-reducing structure.
+---
+### R5. DENOMINATOR-UPGRADE ROUTE
+Status: UNTESTED_BROAD / NO_CURRENT_MECHANISM.
+Current certified:
+M3(B) >> B^(1/3),
+P(B) <<_epsilon B^(1/2+epsilon).
+Therefore a theorem of the form
+M3(B) >> B^(1/2+delta)
+for some delta>0
+would immediately imply P/M3->0.
+ARCHIVE history:
+- the B^(1/3) lower came from freeing the hidden two-dimensional parameter space in the generalized Saunderson construction;
+- a direct search for a further B^(1/2)-scale family was attempted;
+- one promising divisibility ansatz collapsed to a sparse involutive pattern and did not add parameter dimension.
+No theorem rules out a stronger denominator construction in principle.
+But no currently retained mechanism is close to the required >1/2 exponent.
+Keep as UNTESTED, not as a primary route.
+---
+### R6. ONE-FACTOR / GAUSSIAN COMMON-CORE ROUTE
+Status: BLOCKED_AS_PRIMARY; AUXILIARY_ARSENAL.
+Exact receiver:
+L_- square
+is sufficient for endpoint membership and therefore proving its M3-density zero would close P/M3.
+Large exact arsenal accumulated:
+- canonical terminal factors L_-,L_+;
+- primitive norm rectangle N_-,N_+;
+- common core h;
+- Gaussian reconstruction;
+- squarefree kernel K_-;
+- root lines modulo h and h^2;
+- fixed X,D,N_-,N_+,(h,J) multiplicity B^o(1);
+- small-coordinate M3-negligibility.
+But repeated attempts returned to:
+local/fixed-packet information
+  ->
+moving exact M3 population.
+Ambient h-lattice summation and root-line counting were proved insufficient.
+Therefore no further equivalent L_- coordinate or local-symbol refinement gets primary effort.
+Reopen only if a genuinely new relative same-M3 counting theorem appears.
+---
+### R7. CANONICAL IMAGE-SIZE / FIXED-FIBER COMPRESSION
+Status: BLOCKED_FOR_EXISTING_COORDINATES.
+Existing fixed fibers:
+t, X, D, N_-, N_+, (h,J)
+have B^o(1) multiplicity.
+The full endpoint identities were tested against:
+X, D, N_-, N_+, h, K_-, (h,J), N_-/N_+, t.
+No exact mechanism was found forcing endpoint values into only B^(1/3-epsilon) coordinate values.
+This route is frozen for those coordinates.
+Reopen only when a new independent structural theorem creates a genuinely smaller image.
+---
+### R8. JOINT V4 MODEL
+Status: EQUIVALENT_SUPPORT_TO_R1.
+Exact cells on selected two-face incidence host:
+third NO, space NO   : M2-N2
+third NO, space YES  : N2
+third YES, space NO  : 3*(M3-P)
+third YES, space YES : 3P.
+Stage29 already merged this route into the terminal P/M3 kernel because no separate global joint theorem survived.
+Keep the V4 model as the exact bookkeeping/correlation language for R1.
+It becomes a separate LIVE route only if a genuinely new joint theorem appears that is not merely a reformulation of terminal selector correlation.
+---
+### R9. TORIC / COMMON-HOST BRANCH-PROFILE COMPARISON
+Status: LIVE_SUPPORT_TO_R1.
+Stage28 established:
+- same two-face toric base;
+- same cover degree;
+- same branch class -2K_Y;
+- same K3 type;
+- same physical base height;
+- distinct branch support:
+  space = 4 rational components,
+  third-face = 2 genus-1 components;
+- first-order local sieve dimensions equal;
+- relative local Euler product has no polynomial or first-order log drift.
+Thus any terminal interaction saving must come from finer arithmetic:
+- branch position/factorisation;
+- rational/adelic lift distribution;
+- accumulating curves/multisections;
+- exact primitive/canonical selector correlation.
+This is currently the most concrete geometric implementation of R1.
+---
+## 5. Breadth-audit classification
+Current candidate ledger:
+LIVE:
+- R1 TERMINAL_POPULATION_INTERACTION
+- R2 SAME_M3_LOCAL_TO_GLOBAL
+- R3 K3_MOVING_FIBRATION
+- R4a TERMINAL_COVER_ACCUMULATING_CURVES
+- R9 TORIC_COMMON_HOST_BRANCH_PROFILE
+UNTESTED:
+- R5 DENOMINATOR_UPGRADE
+EQUIVALENT / SUPPORT:
+- R2b PHYSICAL_DIVISOR_DELTA_DESCENT -> implementation of R2
+- R8 JOINT_V4 -> exact support language for R1
+BLOCKED:
+- R4b AMBIENT_DOUBLE_SQUARE by elementary completion
+- R6 ONE_FACTOR_COMMON_CORE as primary global route
+- R7 EXISTING_CANONICAL_IMAGE_SIZE
+No claim is made that every mathematically possible viewpoint has been exhausted.
+PRIMARY_ROUTE remains UNDECIDED until the LIVE routes are compared at comparable depth.
+---
+## 6. Current best next comparison
+The first route to deepen should be R1, because:
+1. it is literally one conditional step from P/M3;
+2. Stage29 already gave it the only GREEN route status;
+3. the exact selected-incidence host and same physical cutoff are already audited;
+4. Stage28 already isolated the correct theorem species: centered same-measure selector correlation;
+5. unlike the absolute numerator route, it does not require beating B^(1/3) absolutely;
+6. unlike the one-factor route, it keeps the full endpoint condition.
+This is a selection by expected information gain, not a theorem that R1 is the unique or ultimately best route.
+### NEXT_ITEM
+NEXT_ITEM=TerminalSelectorCorrelationDepthTest.
+The next work unit is:
+- express R1 on the exact Stage28 common two-face host;
+- identify the centered selector/covariance sum whose normalized bound is equivalent or sufficient for P/M3->0;
+- compare it to the retained SR-STR-169 / 161 / 164 / 165 / 173 weapon contracts;
+- determine whether the required saving is truly new or whether an existing large-sieve/energy theorem already reaches it after an exact adapter;
+- stop immediately if it merely reproduces the old same-M3 transfer wall.
+---
+## 7. Research stop rules
+Do not spend primary effort on:
+- new equivalent L_- coordinates;
+- new Eulerian/Legendre graphs;
+- raw moving-h lattice summation;
+- already-settled fixed-fiber genus/rank computations;
+- elementary double-square completion;
+- third Pythagorean triple reparametrization without a counting/image gain;
+- existing canonical image-size coordinates without a new theorem.
+Before opening a new route, state which top-level closure mechanism R1–R9 it belongs to and what exact missing implication it advances.
+Different coordinates alone do not constitute a new route.
+---
+## 8. ARCHIVE policy
+ARCHIVE keeps complete historical detail:
+- pre-compaction MAIN snapshot;
+- old active routes;
+- Master-Hit / Branch0 / physical transfer attempts;
+- K3 fibrations;
+- divisor/delta descent;
+- one-factor/Gaussian/common-core work;
+- E4/H4 and Fourier analysis;
+- negative results and bug corrections;
+- finite diagnostics;
+- superseded interpretations.
+MAIN contains only the current exact foundations, route ledger, blockers, and next receiver.
+No mathematical result is deleted by route reclassification.
+---
+## 9. Current state flags
+BREADTH_AUDIT_FROM_ARCHIVE=true
+BLIND_REDISCOVERY=true
+PRIMARY_ROUTE=UNDECIDED
+J12_POP_INTERACTION_GREEN_RETAINED=true
+TERMINAL_SELECTOR_CORRELATION_RECEIVER_DEFINED=true
+SAME_M3_LOCAL_TO_GLOBAL_LIVE=true
+K3_MOVING_FIBRATION_LIVE=true
+TERMINAL_COVER_IS_SUBROUTE_NOT_PRIMARY=true
+DENOMINATOR_UPGRADE_UNTESTED=true
+ONE_FACTOR_PRIMARY_ROUTE=false
+AMBIENT_DOUBLE_SQUARE_ELEMENTARY_ROUTE_BLOCKED=true
+EXISTING_CANONICAL_IMAGE_SIZE_ROUTE_CLOSES=false
+NEXT_ITEM=TerminalSelectorCorrelationDepthTest
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 10. R1 depth test — exact terminal interaction determinant and covariance
+### 10.1 Exact 2x2 population table
+Work on the exact selected-two-face incidence host counted by
+I2 = M2 + 3*M3.
+Let F be the indicator that the missing third face is also integral, and S the indicator that the space diagonal is integral.
+The exact cell counts are:
+F=0,S=0 : M2-N2
+F=0,S=1 : N2
+F=1,S=0 : 3*(M3-P)
+F=1,S=1 : 3*P.
+Therefore
+Pr(F=1)=3*M3/I2,
+Pr(F=0)=M2/I2,
+Pr(S=1|F=0)=N2/M2,
+Pr(S=1|F=1)=P/M3.
+This uses exactly the Stage29 selected-incidence multiplicity. No V4 sheet multiplicity or independence assumption is introduced.
+### Theorem 10-A — TerminalInteractionDeterminant
+Define
+D_terminal(B) := M2(B)*P(B) - M3(B)*N2(B).
+Then exactly
+P/M3
+ = N2/M2
+ + D_terminal/(M2*M3).
+Since the audited Stage24 theorem gives
+N2/M2 -> 0,
+we have the exact equivalence
+P/M3 -> 0
+iff
+D_terminal/(M2*M3) -> 0.
+Because P/M3 and N2/M2 are nonnegative, it is already sufficient to prove the one-sided estimate
+max(D_terminal,0)=o(M2*M3).
+A large negative interaction defect cannot obstruct the target density-zero conclusion.
+### Theorem 10-B — TerminalCovarianceIdentity
+On the same selected-incidence probability measure,
+Cov(S,F)
+ = E[SF]-E[S]E[F]
+ = 3*D_terminal/I2^2.
+Moreover
+Pr(F=1)*Pr(F=0)
+ = 3*M2*M3/I2^2.
+Hence exactly
+P/M3 - N2/M2
+ = Cov(S,F)/[Pr(F=1)*Pr(F=0)].
+Therefore
+P/M3 -> 0
+iff
+Cov(S,F)/[Pr(F=1)*Pr(F=0)] -> 0.
+Since M3=o(M2), one has Pr(F=0)->1, so equivalently
+P/M3 -> 0
+iff
+Cov(S,F)/Pr(F=1) -> 0.
+For a one-sided closure it suffices that
+Cov(S,F)_+ = o(Pr(F=1)).
+This is the minimal centered same-measure receiver currently known.
+### 10.2 Multiplicative terminal interaction receiver
+When N2>0 define
+T_terminal
+ := (P/M3)/(N2/M2)
+ = P*M2/(M3*N2).
+The audited Stage24 upper gives, for every epsilon>0,
+N2/M2 <<_epsilon B^(-1/2+epsilon)*(log B)^(-5).
+Consequently any theorem of the form
+T_terminal << B^(1/2-delta)
+for some fixed delta>0 is sufficient for P/M3->0.
+In particular
+T_terminal = B^o(1)
+would be more than enough.
+This target is substantially weaker than proving asymptotic independence T_terminal->1.
+### 10.3 Relation to historical interaction work
+Stage25 already proved a nontrivial earlier interaction ratio
+I_25=(N2/M2)/(N1/M1)
+and showed it diverges positively.
+Thus one must not assume that adding more face conditions leaves space survival asymptotically unchanged.
+The new terminal receiver does not assume such independence. It asks only that the terminal enhancement from exactly-two faces to three faces grow slower than the available B^(1/2) survival decay.
+This is why the multiplicative target T_terminal << B^(1/2-delta) is the correct weak receiver rather than T_terminal->1.
+### 10.4 Arsenal / StructureRadar depth test
+The closest retained theorem species is SR-STR-169: same-measure signed physical-selector correlation.
+Historical StructureRadar work reduced its own Stage27 measure to a precise covariance/quadratic-form deficit gate, but did not prove the theorem. It was eventually frozen as WORK_ONLY / external theorem gate to prevent further missing-lemma renaming.
+The supporting weapons have the following current role:
+- SR-STR-161: quadratic/Jacobi large sieve after exact coefficient separation;
+- SR-STR-164: square-lift collision-cover/sieve architecture;
+- SR-STR-165: Gaussian quadratic-Hecke large sieve after separation/conductor cleanup;
+- SR-STR-166: charged-once eliminant routing;
+- SR-STR-173: same-measure support/moment and no-recharge firewall.
+None currently supplies Theorem10-B on the selected-two-face M3 population.
+Cross-promotion from Stage27's H_phys^MAIN measure is forbidden without a new exact adapter.
+Therefore:
+### Audit Result 10-C — R1IsGenuineNewTheoremGate
+R1 is not already solved by the retained Arsenal.
+Its exact missing theorem is now smaller than a full same-M3 equidistribution theorem:
+TerminalSelectedIncidenceNormalizedCovarianceDecay:
+Cov(S,F)_+ = o(Pr(F=1))
+on the exact primitive/canonical selected-two-face incidence measure under R<=B.
+Any stronger estimate implying
+T_terminal << B^(1/2-delta)
+also closes the target.
+### 10.5 Strategic consequence
+R1 has now passed the depth test in the following sense:
+- exact receiver derived: YES;
+- exact population/measure adapter: YES;
+- known theorem already closes it: NO;
+- historical supporting weapons exist: YES;
+- new global theorem/adapter still required: YES.
+This makes R1 a genuine Class-3-style theorem gate, not another coordinate reformulation.
+It still does not prove R1 is ultimately easier than R2/R3/R4a/R5.
+PRIMARY_ROUTE remains UNDECIDED until at least one other LIVE route is depth-tested to the same standard.
+NEXT_ITEM=CompareR2R3R4aR5AtR1DepthStandard
+Next comparison fields for each route:
+1. exact minimal receiver;
+2. exact population/height adapter status;
+3. strongest retained theorem;
+4. first genuinely missing theorem;
+5. quantitative strength required to close P/M3;
+6. whether an existing Arsenal weapon reaches that strength.
+TERMINAL_INTERACTION_DETERMINANT_DEFINED=true
+TERMINAL_COVARIANCE_IDENTITY=true
+R1_MINIMAL_NORMALIZED_COVARIANCE_RECEIVER=true
+R1_EXISTING_ARSENAL_CLOSURE=false
+R1_DEPTH_TEST_COMPLETE=true
+PRIMARY_ROUTE=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 11. Comparable-depth audit of R2 / R3 / R4a / R5
+Purpose: compare the remaining LIVE/UNTESTED routes at the same depth standard used for R1.
+No route is promoted merely because its notation is cleaner.
+### 11.1 R2 — exact M3 growing local-square sieve
+#### Exact minimal receiver
+For a finite set of good primes S, let A_S(B) be the exact primitive/canonical M3(B) objects whose space quantity is locally a square at every p in S.
+Every endpoint lies in A_S(B).
+The local Master-Hit theorem already gives nontrivial squareclass contraction at each good prime; in the simplest form the one-prime conditional acceptance is
+1/2 + O(p^(-1/2)).
+Therefore full fixed-prime equidistribution is stronger than necessary.
+A sufficient closure theorem is:
+### Receiver R2-MIN — ExactM3GrowingLocalSquareUpperSieve
+There exists a family of good-prime sets S(B), with #S(B)->infinity, such that
+#A_{S(B)}(B) / M3(B) -> 0,
+with exact primitive/canonical/R<=B/one-object-one-count semantics.
+Any quantitative upper sieve of the shape
+#A_S(B)/M3(B)
+ <= exp(-c*#S)+o(1)
+for a slowly growing admissible S already suffices.
+#### Adapter status
+Exact global Master-Hit coverage: proved.
+Local conditional character law: proved.
+Finite-modulus/CRT parameter-side structure: proved.
+Physical one-object coordinates and height: proved later in ARCHIVE.
+Exact M3 growing-prime transfer: not proved.
+#### First genuinely missing theorem
+A physical-weighted congruence/large-sieve theorem after conditioning on the third-face square, uniform enough in gcd/squareclass packets to allow #S(B)->infinity.
+#### Closure distance
+One major theorem gate.
+But that theorem is a true same-M3 transfer theorem and has resisted many coordinate changes.
+R2_DEPTH_STATUS=ONE_MAJOR_GLOBAL_TRANSFER_GATE.
+---
+### 11.2 R3 — moving elliptic-fibration base
+For the exact rational fibration coordinate t=a2/a3 define
+A_t(B)=# M3 points of height <=B on fiber t,
+P_t(B)=# endpoint points among them.
+Then
+M3(B)=sum_t A_t(B),
+P(B)=sum_t P_t(B).
+Already proved uniformly:
+A_t(B)=B^o(1)
+for each fixed occupied t, and hence
+#T_M3(B) >= B^(1/3-o(1)),
+where T_M3(B) is the occupied M3 base image.
+#### Exact sufficient receiver
+A particularly clean sufficient theorem is:
+### Receiver R3-MIN — EndpointActiveBaseImagePowerSaving
+Let
+T_P(B)={t : P_t(B)>0}.
+Prove for some fixed delta>0
+#T_P(B) <= B^(1/3-delta).
+Then fixed-fiber B^o(1) gives
+P(B) <= B^(1/3-delta+o(1))=o(M3(B)).
+This is stronger than logically necessary, but it is a concrete fibration-native theorem that closes the target.
+A weaker weighted alternative is any uniform moving-base theorem implying directly
+sum_t P_t(B)=o(sum_t A_t(B)).
+#### Adapter status
+Exact physical t-map: proved.
+Elliptic/genus-one fiber model: proved.
+Physical height formula: proved.
+Fixed-fiber bounded-height count: proved.
+Polynomially many occupied base values: proved.
+Moving-base endpoint distribution: not proved.
+#### First genuinely missing theorem
+A uniform theorem controlling specialization-new endpoint points across rational t, or a base-image power saving for endpoint-active fibers.
+Historical moving-fiber work reaches the same boundary: individual Chabauty/MW calculations do not satisfy the moving-base quantifier.
+Closest retained theorem species: moving compatible-small-point/fiber-product gates such as SR-STR-223, still external.
+R3_DEPTH_STATUS=ONE_BROAD_UNIFORM_MOVING_FAMILY_GATE.
+---
+### 11.3 R4a — terminal cover / accumulating curves
+#### Exact minimal architecture
+Decompose the exact physical M3 population on K_c into
+A(B) = points carried by accumulating/low-degree subvarieties,
+G(B) = residual Zariski-dense population.
+Then it is enough to prove separately
+P_A(B)=o(B^(1/3)),
+P_G(B)=o(B^(1/3)).
+#### Existing exact progress
+For every fixed integral degree-6 curve C subset K_c, the endpoint cover is non-split and its endpoint lift contributes at most
+O(B^(1/6+o(1))).
+Therefore every fixed finite collection of such curves is already harmless.
+#### First genuinely missing theorems
+Two distinct obligations remain:
+1. an accumulating-subvariety classification/count strong enough to sum over every relevant curve family, not merely a fixed finite collection;
+2. a rational-point/counting theorem for the residual endpoint-cover population.
+The second obligation may be attacked by determinant/geometric-sieve methods only after the first is controlled.
+#### Closure distance
+At least two global layers remain.
+This route has the best current exponent on a fixed geometric subpopulation, but it is not the shortest whole-population route.
+R4A_DEPTH_STATUS=TWO_LAYER_GLOBAL_COUNTING_GATE.
+---
+### 11.4 R5 — denominator upgrade
+Known:
+P(B) <<_epsilon B^(1/2+epsilon).
+Therefore if one proves for some fixed delta>0
+M3(B) >> B^(1/2+delta),
+then choosing epsilon<delta gives immediately
+P(B)/M3(B)->0.
+#### Exact minimal receiver
+### Receiver R5-MIN — SuperHalfPowerM3Lower
+Construct or count an exact primitive/canonical M3 subpopulation with
+#F(B) >> B^(1/2+delta)
+for some fixed delta>0.
+#### Existing progress
+The current B^(1/3) lower arose by exposing the hidden two-dimensional parameter freedom in the generalized Saunderson construction.
+ARCHIVE explicitly investigated a possible next dimension gain through a U1|U2 divisibility ansatz. The tested relation produced only sparse hits and an involutive pairing, not a new free parameter family.
+No theorem rules out another stronger family.
+But no retained construction currently approaches exponent >1/2.
+#### First genuinely missing theorem/construction
+A new global M3 family or counting mechanism with parameter-dimension / physical-height exponent ratio strictly above 1/2, together with bounded multiplicity and primitive/canonical adapters.
+R5_DEPTH_STATUS=NEW_MECHANISM_NOT_YET_IDENTIFIED.
+---
+## 12. Comparable-depth conclusion
+After bringing R1,R2,R3,R4a,R5 to the same standard:
+R1 Terminal population interaction:
+- exact minimal receiver: YES;
+- population adapter: YES;
+- historical theorem progress: GREEN;
+- remaining layers: one same-measure covariance theorem.
+R2 Same-M3 local-to-global:
+- exact minimal receiver: YES;
+- local input: strong/proved;
+- population adapter: partial but exact geometry available;
+- remaining layers: one major growing-prime physical transfer theorem.
+R3 Moving fibration:
+- exact minimal receiver: YES;
+- fixed-fiber theory: strong/proved;
+- remaining layers: one broad uniform moving-family theorem.
+R4a Terminal cover:
+- fixed subpopulation exponent: strong/proved;
+- remaining layers: accumulating-family total + residual count, at least two layers.
+R5 Denominator upgrade:
+- closure implication: trivial/exact;
+- current construction approaching required exponent: NO;
+- remaining layer: discover a new high-dimensional M3 mechanism first.
+### Current route ordering by logical closure distance
+This is not a theorem about mathematical difficulty.
+It is only a current research-routing statement:
+1. R1 — shortest exact implication chain and strongest prior theorem progress;
+2. R2 — equally fundamental, but the physical-transfer theorem is broader;
+3. R3 — one theorem gate, but moving-family quantifier is broad;
+4. R4a — two whole-population layers remain;
+5. R5 — potentially decisive but mechanism still unidentified.
+R1 should therefore receive the next bounded research unit.
+R2 and R3 remain LIVE and must not be erased or called dominated.
+R4a remains LIVE_PARTIAL.
+R5 remains UNTESTED.
+PRIMARY_ROUTE remains formally UNDECIDED until R1 either gains a genuine estimate or hits a frozen theorem gate without a new attack.
+NEXT_ITEM=R1TerminalCovarianceAttackPreflight
+The next bounded unit should test whether the exact selected-incidence covariance can be rewritten into one of the already-retained large-sieve/collision/eliminant receivers without changing measure or double charging.
+If no exact adapter appears, freeze R1 at its precise theorem gate and rotate to R2 rather than reformulating it again.
+R2_DEPTH_TEST_COMPLETE=true
+R3_DEPTH_TEST_COMPLETE=true
+R4A_DEPTH_TEST_COMPLETE=true
+R5_DEPTH_TEST_COMPLETE=true
+ROUTE_COMPARISON_AT_COMMON_DEPTH_COMPLETE=true
+PRIMARY_ROUTE=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 13. R1 preflight result — directional raw-pair host removes the aggregate multiplicity issue
+### 13.1 Exact directional host
+Stage25's audited raw-pair completion adapter gives, for each unique shared-edge direction j in {a,b,c},
+H_j(B) := P_j(B) = M2,j(B) + M3(B).
+An exactly-two-face object belongs to exactly one shared-edge chamber j.
+An M3 object contributes exactly once to every direction j.
+Stage24 gives
+M2,j(B) ~ C_j*B*(log B)^5,
+C_j>0,
+and
+N2,j(B)/M2,j(B)
+ <<_{epsilon,j}
+ B^(-1/2+epsilon)*(log B)^(-5)
+ ->0.
+The Stage25 lower family also gives directionwise
+N2,j(B) >>_j B^(1/4),
+so
+N2,j/M2,j
+ >>_j B^(-3/4)*(log B)^(-5).
+### 13.2 Directional 2x2 table
+On H_j define:
+F=1 iff the missing third face is integral,
+S=1 iff the space diagonal is integral.
+Then exact cell counts are
+F=0,S=0 : M2,j-N2,j
+F=0,S=1 : N2,j
+F=1,S=0 : M3-P
+F=1,S=1 : P.
+Thus
+Pr_j(F=1)=M3/(M2,j+M3),
+Pr_j(F=0)=M2,j/(M2,j+M3),
+Pr_j(S=1|F=0)=N2,j/M2,j,
+Pr_j(S=1|F=1)=P/M3.
+No factor 3 appears.
+### Theorem 13-A — DirectionalTerminalCovarianceIdentity
+Let
+D_j := M2,j*P - M3*N2,j.
+Then
+P/M3 - N2,j/M2,j
+ = D_j/(M2,j*M3).
+And on the exact H_j probability measure,
+Cov_j(S,F)
+ = D_j/(M2,j+M3)^2.
+Therefore exactly
+P/M3 - N2,j/M2,j
+ = Cov_j(S,F)/[Pr_j(F=1)*Pr_j(F=0)].
+Since
+N2,j/M2,j ->0,
+for any one fixed direction j,
+P/M3 ->0
+iff
+Cov_j(S,F)/[Pr_j(F=1)*Pr_j(F=0)] ->0.
+Because M3=o(M2,j), Pr_j(F=0)->1, so a one-sided sufficient receiver is
+Cov_j(S,F)_+ = o(Pr_j(F=1)).
+This is strictly cleaner than the aggregate I2=M2+3M3 formulation because it removes direction-mixture covariance and the Euler multiplicity factor 3.
+### 13.3 Directional terminal interaction factor
+Define
+T_j(B)
+ :=
+ [P/M3] / [N2,j/M2,j]
+ = P*M2,j/(M3*N2,j)
+whenever N2,j>0.
+Then
+P/M3 = T_j * (N2,j/M2,j).
+Since the directional space-survival upper is
+N2,j/M2,j
+ << B^(-1/2+epsilon)*(log B)^(-5),
+any bound
+T_j << B^(1/2-delta)
+for a fixed delta>0 suffices.
+In particular T_j=B^o(1) is sufficient.
+The current purely unconditional information gives only the crude upper
+T_j << B^(3/4+o(1)),
+using P/M3<=1 and the directional lower N2,j/M2,j >> B^(-3/4)(log B)^(-5).
+Thus the quantitative interaction gap is now explicit:
+current generic interaction ceiling exponent <= 3/4;
+closure threshold requires exponent < 1/2.
+A power improvement of more than 1/4 in the terminal interaction factor would close the M3 density goal.
+### 13.4 Relation to the Stage25 causal interaction ladder
+Stage25 already studies the previous interaction cross-ratio
+I_2
+ = (N2/N1)/(M2/M1)
+ = (N2/M2)/(N1/M1),
+and proves positive divergent enhancement.
+The terminal factor is the exact next rung:
+I_3,j
+ = (P/N2,j)/(M3/M2,j)
+ = (P/M3)/(N2,j/M2,j)
+ = T_j.
+Hence R1 is naturally a terminal condition-interaction problem, not an independence problem.
+The earlier result warns that T_j->1 must not be assumed.
+The actual M3 target only requires the much weaker growth restriction
+T_j << B^(1/2-delta).
+### 13.5 Common-host adapter status
+The directional H_j host is the same labeled shared-edge two-face geometry used by the Stage18/24 toric model:
+Y=Bl_4(P1 x P1),
+with exact physical anticanonical height R.
+On its dense physical chart the two marginal square predicates are exactly:
+third-face square,
+space square.
+Thus the population/height side of the R1 adapter is already exact at the directional level.
+The remaining missing object is analytic, not semantic:
+a same-H_j-measure correlation theorem for the two square-lift selectors.
+The retained SR-STR-169 family is the closest theorem species, but no source-locked theorem proves the required covariance deficit on this exact H_j measure.
+SR-STR-161/165 require an additional low-rank/separated-coefficient representation that is not currently proved for this selector pair.
+SR-STR-173 supplies only the same-measure/no-recharge firewall.
+### 13.6 R1 anti-loop disposition
+R1 has reached a stable exact theorem boundary:
+R1_POPULATION_ADAPTER=true
+R1_DIRECTIONAL_RAW_PAIR_HOST=true
+R1_HEIGHT_ADAPTER=true
+R1_MINIMAL_COVARIANCE_RECEIVER=true
+R1_REQUIRED_INTERACTION_EXPONENT_LT_ONE_HALF=true
+R1_EXISTING_ANALYTIC_THEOREM_MATCH=false
+Therefore normal algebraic reformulation of R1 should stop here.
+R1_STATUS=LIVE_THEOREM_GATE_PAUSED.
+Reopen R1 only on one of:
+- a new same-measure selector-correlation theorem;
+- an exact separation adapter making SR-STR-161/165 applicable;
+- a direct proof T_j << B^(1/2-delta);
+- a new identity that genuinely lowers the required exponent.
+Under the Cycle Exploration Safety Protocol, rotate rather than rename the missing lemma.
+NEXT_ITEM=R2ExactM3GrowingSieveReentryCheck
+The next bounded unit should test whether the later physical divisor/delta work materially changed R2's old global-transfer gate enough to justify reopening it. If not, freeze R2 at its existing theorem gate and rotate to R3/R4a/R5.
+R1_PREFLIGHT_COMPLETE=true
+R1_STATUS=LIVE_THEOREM_GATE_PAUSED
+PRIMARY_ROUTE=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 14. R2 re-entry check — later physical divisor/delta work does not discharge the transfer gate
+Purpose: test the explicit re-entry condition left by Section13.
+The question is not whether Sections32–35 improved the physical model. They did.
+The question is whether they supplied a genuinely new theorem that transports the local square law to the exact M3 measure strongly enough for Receiver R2-MIN.
+### 14.1 What the later work repaired
+ARCHIVE Sections32–35 prove:
+1. exact odd-edge divisor coordinates
+   A,C | X^2
+   with one-object/one-count semantics;
+2. exact primitivity:
+   gcd(d_X(A),d_X(C))=1;
+3. exact Euler third-face condition;
+4. exact physical height:
+   (A^2+C^2)(X^4+A^2 C^2)
+   <= 4 A^2 C^2 B^2;
+5. removal of the invalid old raw Master-Hit square-box truncation;
+6. an integral physical bidegree-(2,2) model;
+7. restricted signed squarefree descent with
+   delta_odd | rad(PQ);
+8. only (PQ)^o(1) squareclass/allocation slices per physical packet.
+Thus the semantic/height/multiplicity side of the old R2 wall is substantially cleaner than in the original Master-Hit formulation.
+### 14.2 What was NOT obtained
+ARCHIVE Section35 explicitly records that a fixed-delta slice is not automatically toric:
+after the individual conic parametrizations are imposed together with the base identities, a genus-1 core remains.
+Most importantly, ARCHIVE Section38 states the remaining theorem in essentially the same form as R2-MIN:
+> prove fixed-modulus / finite-prime equidistribution, or a strong relative sieve inequality,
+> for the exact primitive/canonical physical M3 population after the Euler condition,
+> with error summable over the squareclass/gcd slices.
+Its recommended next step was still:
+- fix q and signed squarefree delta;
+- parameterize the conic;
+- retain the coupled genus-1 condition and exact height;
+- prove a fixed-q counting statement uniform in delta and cross-gcd labels;
+- only then sum the (PQ)^o(1) slices.
+No such fixed-q uniform physical counting theorem appears in the later retained work.
+### Theorem 14-A — R2ReentryNegativeCertificate
+The later physical divisor/delta descent changes the coordinates and removes several semantic obstacles, but it does not change the theorem class of the first missing global input.
+In particular, none of the retained results proves Receiver R2-MIN:
+#A_{S(B)}(B)/M3(B) -> 0
+for any growing good-prime set S(B).
+Nor do they prove the weaker fixed-q relative-error theorem needed to begin that summation.
+Therefore the Cycle Exploration re-entry condition for R2 is NOT met.
+R2_STATUS=THEOREM_GATE_PAUSED.
+R2_REENTRY_FROM_DIVISOR_DELTA=false.
+### 14.3 Exact frozen gate
+The narrowest retained R2 gate is:
+R2_FIXED_Q_DELTA_UNIFORM_PHYSICAL_COUNT:
+For fixed good modulus q, obtain an exact primitive/canonical/R<=B count on each retained delta/cross-gcd slice with a relative error uniform enough to sum over the (PQ)^o(1) physical slice family.
+A theorem of this type would reopen R2.
+Another coordinate reformulation, another local character calculation, or another fixed-delta genus computation does not reopen it.
+### 14.4 Rotation
+Under the anti-loop protocol, rotate rather than rename this gate.
+R1 is already LIVE_THEOREM_GATE_PAUSED.
+R2 is now THEOREM_GATE_PAUSED.
+R3 has a materially changed weaker receiver from Section3/11:
+sum_t p_t(B)^2/m_t(B)=o(M3(B)),
+or an exceptional M3-mass theorem for high endpoint-survival fibers.
+This average-energy receiver is strictly weaker than the uniform moving-fiber theorem previously used to judge R3.
+Hence a bounded R3 re-entry check is justified.
+NEXT_ITEM=R3AverageEnergyReentryCheck
+R2_REENTRY_CHECK_COMPLETE=true
+R2_STATUS=THEOREM_GATE_PAUSED
+R3_REENTRY_REASON=WEAKER_AVERAGE_ENERGY_RECEIVER
+PRIMARY_ROUTE=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 15. R3 re-entry check — average fiber energy is weaker, but no retained theorem currently controls it
+Purpose: test whether the weaker Receiver R3-A materially changes the applicability of the existing moving-fiber arsenal.
+### 15.1 The weaker receiver is genuine
+For the K_c fibration coordinate t used by the M3 anti-concentration theorem, write
+m_t(B)=#M3_t(B),
+p_t(B)=#P_t(B).
+Then
+P/M3
+ =
+sum_t [m_t/M3]*[p_t/m_t].
+By Cauchy-Schwarz,
+(P/M3)^2
+ <=
+(1/M3) * sum_t p_t^2/m_t.
+Hence
+R3_AVERAGE_ENERGY:
+sum_t p_t^2/m_t=o(M3)
+is sufficient.
+Likewise an exceptional-mass theorem for high q_t:=p_t/m_t is sufficient.
+This is strictly weaker than uniform emptiness of every endpoint fiber.
+### 15.2 Stage35 does not directly supply this theorem
+Stage35's selected direct endpoint fibration uses the full endpoint surface and the rational parameter
+t35=(e+d)/z.
+Every physical endpoint enters that fibration, but a general M3 point has no rational space-diagonal coordinate d.
+Therefore t35 is not an exact fibration coordinate on the full M3 denominator population.
+The M3 anti-concentration coordinate used in R3 is instead the rational K_c fibration coordinate inherited from the Euler-brick surface.
+No retained exact adapter identifies the Stage35 endpoint-only base measure with the M3-weighted base measure
+m_t/M3
+required by Receiver R3-A.
+Thus Stage35's fixed-fiber genus-5 geometry, bad-fiber ledger, elliptic quotients and receiver compression cannot be promoted directly to the R3 average-energy theorem.
+### 15.3 Fixed-fiber B^o(1) is insufficient by itself
+The proven bound
+m_t(B)=B^o(1)
+uniformly for fixed occupied t implies many occupied base values.
+But since p_t<=m_t,
+p_t^2/m_t <= p_t,
+so the trivial use of the fixed-fiber bound gives no saving beyond the numerator P itself.
+Likewise knowing only that each fiber contains B^o(1) M3 points does not imply that the M3 mass of high-survival fibers is exceptional.
+A genuinely moving-base correlation/moment theorem is still needed.
+### 15.4 What would reopen R3
+The narrowest useful re-entry theorem is not uniform point exclusion.
+Either of the following suffices:
+R3_ENDPOINT_FIBER_ENERGY:
+sum_t p_t^2/m_t=o(M3);
+or, for fixed alpha,beta>0,
+R3_HIGH_SURVIVAL_EXCEPTIONAL_MASS:
+sum_{t:p_t/m_t>B^(-alpha)} m_t
+ <=
+B^(-beta+o(1))*M3.
+A two-fibration incidence/energy estimate implying either statement would also reopen R3.
+No retained Stage35 / M3 fibration result currently proves one of these.
+### Theorem 15-A — R3ReentryNegativeCertificate
+The weaker average-energy receiver materially lowers the required quantifier compared with Stage35 uniform emptiness, but the current retained arsenal still lacks the necessary M3-weighted moving-base moment theorem.
+Therefore:
+R3_STATUS=THEOREM_GATE_PAUSED.
+R3_REENTRY_FROM_STAGE35=false.
+This does NOT say the average theorem is as difficult as the Stage35 uniform theorem.
+It only says no existing retained theorem closes it.
+### 15.5 Rotation
+R1, R2 and R3 have now each reached a precise theorem gate without a current source-locked estimate.
+The next materially distinct route is R4a, terminal-cover / accumulating-subvariety geometry.
+Unlike R1-R3, R4a seeks an absolute numerator bound and already has a fixed-subpopulation exponent 1/6.
+The bounded re-entry test is whether the available K_c / endpoint-surface curve classification is strong enough to control the NUMBER of relevant accumulating curves, rather than only each fixed curve separately.
+NEXT_ITEM=R4aAccumulatingFamilyReentryCheck
+R3_REENTRY_CHECK_COMPLETE=true
+R3_STATUS=THEOREM_GATE_PAUSED
+R4A_REENTRY_REASON=FIXED_CURVE_POWER_SAVING_ALREADY_PROVED
+PRIMARY_ROUTE=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 16. R4a re-entry check — fixed-curve saving does not yet sum over the K_c accumulating spectrum
+Purpose: test whether the retained Testa-Stoll / endpoint-cover geometry closes the family-count layer left in Section11.
+### 16.1 What is actually classified
+The imported Testa-Stoll theorem completely classifies integral curves of canonical/projective degree <=6 on the FULL endpoint surface S.
+In the positive nondegenerate physical chamber, no endpoint curve family of canonical degree <=6 survives.
+This is a theorem on S.
+It is not a classification of all degree-6 curves on the Euler K3 denominator K_c.
+### 16.2 What Section37 legitimately transfers
+For any fixed integral degree-6 curve C subset K_c, if the restricted endpoint double cover split generically, a degree-6 component would appear on S.
+Testa-Stoll forbids that.
+Hence each fixed degree-6 C has a nonsplit degree-2 endpoint lift of degree 12, and contributes at most
+B^(1/6+o(1))
+endpoint points.
+This fixed-curve theorem is valid and retained.
+### 16.3 The unresolved summation layer
+To turn the fixed-curve estimate into a whole accumulating contribution, one needs a theorem controlling the collection of relevant C as B grows.
+No retained result proves that:
+- only finitely many physical degree-6 curves C subset K_c can carry M3 points;
+- or only B^o(1) such curves are relevant up to height B;
+- or the total endpoint contribution after summing all such curves is o(B^(1/3)).
+The Testa-Stoll endpoint-surface classification cannot be reversed to obtain such a K_c curve-family count.
+Stage29-14 explicitly keeps the distinction:
+low-degree endpoint carriers are classified, but higher-degree carriers, isolated points and unresolved low-genus quotient classes remain outside that closure.
+### 16.4 The residual layer also remains
+Even if every accumulating curve family were controlled, the residual Zariski-dense endpoint-cover population would still require a separate rational-point theorem.
+No current retained theorem gives
+P_residual(B)=o(B^(1/3))
+under the exact physical height.
+### Theorem 16-A — R4aReentryNegativeCertificate
+The fixed degree-6 exponent B^(1/6+o(1)) is a genuine strong local geometric saving, but the current arsenal does not supply the two global summation layers required to turn it into a whole-population endpoint bound.
+Therefore:
+R4A_STATUS=LIVE_PARTIAL_THEOREM_GATE_PAUSED.
+Re-entry requires at least one material new input:
+1. a classification/count of denominator-side accumulating curves with a summable family bound; or
+2. a theorem directly bounding the union of their endpoint lifts; or
+3. a residual rational-point theorem strong enough that the accumulating part can be isolated and summed separately.
+Another fixed-curve degree/genus calculation does not reopen R4a.
+### 16.5 Route-breadth consequence
+R1: exact covariance receiver, theorem gate paused.
+R2: exact growing local-sieve receiver, theorem gate paused.
+R3: weaker average-energy receiver, theorem gate paused.
+R4a: strong fixed-curve saving, two-layer global theorem gate paused.
+R5: closure by denominator upgrade remains mechanism-free.
+A distinct blind-pass candidate has not yet received comparable-depth treatment:
+DIRECT_PHYSICAL_INCIDENCE:
+work directly with the occupied physical (X,D) image of M3 and the fourth Pythagorean condition
+X^2+D^2=R^2,
+seeking an M3-aware incidence/determinant/energy theorem rather than ambient root-line counting.
+This is not automatically equivalent to the blocked h-root-line route, because it need not condition on one-factor/common-core data.
+It must therefore remain UNTESTED rather than being silently absorbed.
+NEXT_ITEM=R10DirectPhysicalIncidencePreflight
+R4A_REENTRY_CHECK_COMPLETE=true
+R4A_STATUS=LIVE_PARTIAL_THEOREM_GATE_PAUSED
+R10_DIRECT_PHYSICAL_INCIDENCE=UNTESTED
+PRIMARY_ROUTE=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 17. R10 preflight — direct physical (X,D) incidence is distinct but needs an occupied-image expansion theorem
+Purpose: test the blind-pass route that ignores one-factor/common-core coordinates and works directly with the fourth Pythagorean condition.
+### 17.1 Exact physical image
+For a canonical M3 object let
+X = unique odd edge,
+D = sqrt(Y^2+Z^2).
+Define the occupied physical image
+W_B := {(X,D): some E in M3(B) has these coordinates}.
+Define its endpoint-active subset
+E_B := {(X,D) in W_B : X^2+D^2 is an integer square}.
+The endpoint condition is exactly the displayed Pythagorean relation.
+### 17.2 Fiber multiplicity
+The retained fixed-(X,D) theorem gives uniformly
+mu_B(X,D)
+ :=
+#{E in M3(B): (X(E),D(E))=(X,D)}
+ <=
+B^o(1).
+Therefore
+|W_B| <= M3(B) <= B^o(1)|W_B|,
+and
+P(B) <= B^o(1)|E_B|.
+Hence:
+### Receiver R10-A — OccupiedPhysicalPairIncidenceDeficit
+Any fixed delta>0 such that
+|E_B| <= B^(-delta+o(1)) |W_B|
+implies
+P(B)/M3(B)->0.
+This is a direct physical incidence receiver.
+### 17.3 Why ambient Pythagorean counting is insufficient
+For fixed X, the endpoint relation factors as
+(R-D)(R+D)=X^2,
+so the number of possible endpoint D values for that fixed X is divisor-many.
+But the M3 image itself also has only B^o(1) pairs above each fixed X, by fixed-X anti-concentration.
+Thus low degree of the ambient Pythagorean graph does not create a relative saving on W_B.
+The same issue occurs after fixing D.
+Ambient lattice/root-line counting is also too large compared with the certified M3 denominator and was already audited in the h-root-line route.
+### 17.4 Missing genuinely new theorem
+To make R10 effective one needs structure of the OCCUPIED M3 pair image, for example:
+- a product/expansion theorem forcing many D-values per relevant X-scale;
+- an incidence-energy deficit between W_B and the Pythagorean graph;
+- a determinant-method theorem retaining the M3 witness equations;
+- a two-coordinate equidistribution theorem on W_B.
+No retained theorem supplies such an expansion/incidence statement.
+The separate fixed-X and fixed-D B^o(1) results do not imply it.
+### Theorem 17-A — R10PreflightDisposition
+R10 is materially distinct from the one-factor h-root-line route because it uses the full endpoint condition directly and does not charge the common-core restriction.
+However its first missing quantitative input is again a new whole-population incidence theorem on the exact M3 image.
+Therefore:
+R10_STATUS=UNTESTED_THEOREM_GATE.
+Do not mark it BLOCKED by R6/R7.
+Do not prioritize it over a route with an existing theorem-shaped adapter unless a new occupied-image expansion mechanism is identified.
+### 17.5 Breadth-audit checkpoint
+The blind-pass route inventory has now been reconciled as follows:
+- terminal population interaction -> R1;
+- Master-Hit/global torsor/local-global -> R2;
+- moving fibration -> R3;
+- terminal-cover / low-degree curve spectrum -> R4a;
+- absolute ambient double-square -> R4b;
+- denominator/height growth -> R5;
+- primitive norm/common-core -> R6;
+- image-size/fixed-fiber -> R7;
+- V4/cohomological cross language -> R8/R1 support;
+- common toric host/adelic branch comparison -> R9/R1 support;
+- direct physical incidence -> R10.
+No blind-pass candidate has been silently discarded.
+Automorphism/quotient-only routes are support routes unless an exact population/height adapter appears.
+At this checkpoint:
+R1_STATUS=LIVE_THEOREM_GATE_PAUSED
+R2_STATUS=THEOREM_GATE_PAUSED
+R3_STATUS=THEOREM_GATE_PAUSED
+R4A_STATUS=LIVE_PARTIAL_THEOREM_GATE_PAUSED
+R4B_STATUS=BLOCKED_ELEMENTARY
+R5_STATUS=UNTESTED_MECHANISM_FREE
+R6_STATUS=BLOCKED_AS_PRIMARY
+R7_STATUS=BLOCKED_EXISTING_COORDINATES
+R8_STATUS=R1_SUPPORT
+R9_STATUS=R1_SUPPORT
+R10_STATUS=UNTESTED_THEOREM_GATE
+PRIMARY_ROUTE=UNDECIDED
+The route organization phase is now complete enough to start a new mechanism search without losing the old roads.
+The highest-value next action is NOT another algebraic reformulation.
+It is a targeted theorem/mechanism search against the smallest remaining gates:
+1. R1 rare-selector covariance on the directional two-face toric host;
+2. R3 M3-weighted moving-fiber energy;
+3. R4a accumulating-family summation;
+4. R10 occupied-pair incidence expansion.
+R2 should remain paused until an actual fixed-q/delta uniform physical count appears.
+NEXT_ITEM=CrossRouteNewMechanismSearch
+ROUTE_ORGANIZATION_COMPLETE=true
+BLIND_ROUTE_LEDGER_RECONCILED=true
+PRIMARY_ROUTE=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+
+
+# END ROUTE-ORGANIZATION COMPLETE MAIN SNAPSHOT
+
+
+# PRE-CLEANUP CURRENT MAIN SNAPSHOT — CROSS-GCD SECTION37 BOUNDARY
+
+
+# K16-C3-M3-LOCAL-TO-GLOBAL — MAIN
+## Current research authority / active route
+> このファイルだけ読めば通常の M3 研究を再開できる状態を保つ。
+> 旧主ルート・詳細証明・negative result・監査前の MAIN 全文は K16-C3-M3-LOCAL-TO-GLOBAL-ARCHIVE に保存済み。
+---
+## 0. M3研究の現在のゴール
+対象は primitive canonical Euler brick の exact physical population M3(B)。
+必須条件:
+- primitive
+- canonical ordering
+- Euclidean height R<=B
+- one object = one count
+- 3 face diagonals integral
+endpoint subset を P(B) とする。
+現在の唯一の主ゴール:
+P(B)/M3(B) -> 0.
+完全直方体の非存在そのものは、現在の M3 研究のゴールに含めない。
+既知の certified denominator scale:
+M3(B) >> B^(1/3).
+したがって absolute endpoint count で閉じるなら
+P(B)=o(B^(1/3))
+で十分。ただし relative M3 argument なら absolute B^(1/3) barrier を直接越える必要はない。
+## 0.5 Research credit / routing firewall
+- 研究 credit は厳格に分離する。有限計算 ≠ global theorem、numerical / receiver / theorem / effectivity / endpoint credit は別物。
+- population、measure、field、quotient、model、height、multiplicity 等が変わるなら exact adapter 必須。
+- 同じ restriction/saving を二重に credit しない。独立性を勝手に仮定しない。
+- formal class / orbit / cohomology があるだけでは、必要な geometric object の存在証明にならない。
+- blocked route や有限範囲で hit=0 は impossibility ではない。
+- perfect-cuboid の existence/nonexistence は explicit audited full-endpoint certificate がない限り絶対に claim しない。
+- Stage-local controller はこの firewall を強化してよいが、弱めてはいけない。
+- 既存武器を探すときだけ repository-asset-discovery、route を広げる・park・reopen・exhausted 判定をするときだけ cycle-exploration-safety-protocol を開く。
+---
+## 1. Exact physical endpoint structure
+Canonical labeling:
+- X = unique odd edge
+- Y,Z = even edges
+- P^2=X^2+Y^2
+- Q^2=X^2+Z^2
+- D^2=Y^2+Z^2
+- R^2=X^2+Y^2+Z^2
+M3 conditionは D integer。
+endpoint conditionはさらに R integer。
+Exact terminal factorization:
+(PQ-YZ)(PQ+YZ)=X^2 R^2.
+G=gcd(PQ,YZ),
+L_-=(PQ-YZ)/G,
+L_+=(PQ+YZ)/G.
+L_-,L_+ は positive odd coprime。
+Endpoint iff
+L_- and L_+ are both integer squares.
+one-factor condition L_-=square は endpoint の canonical necessary conditionだが、監査後は primary global route ではない。
+---
+## 2. Primitive norm architecture — auxiliary load-bearing arsenal
+Exact primitive Gaussian/norm decomposition:
+T:=R^2=N_- N_+,
+h:=gcd(N_-,N_+).
+Endpoint では exact に
+N_-=h*u^2,
+N_+=h*v^2,
+gcd(u,v)=1,
+したがって
+R=h*u*v.
+one-factor では N_-/h square のみを要求する。
+Current retained physical consequences:
+- gcd(h,X)=1
+- h^2 | X^2+D^2
+- D/X is a Gaussian root of -1 mod h^2
+- fixed (X,D) physical multiplicity is B^o(1)
+これらは auxiliary structure として保持するが、moving-h root-line counting 単独では relative M3 closure を与えないことは監査済み。
+---
+## 3. Accepted anti-concentration arsenal
+以下は再証明しない。
+### 3.1 Fixed t fiber
+K_c の rational fibration coordinate t について、各 fixed occupied t-fiber は
+N_t(B)<=exp(O(log B/log log B))=B^o(1)
+uniformly。
+したがって occupied t-values は少なくとも
+B^(1/3-o(1))
+個必要。
+B^(1/3-epsilon) 個以下の t-fibers の集合は M3-negligible。
+### 3.2 Other fixed-coordinate fibers
+既存 exact results により fixed:
+- X
+- D
+- N_-
+- N_+
+- (h,J), J=(X^2+D^2)/h^2
+はいずれも relevant M3 fiber multiplicity B^o(1)。
+small-X, small-D, small-N_-, small-N_+, small-C_- については B^(1/3-epsilon) threshold 以下の領域が M3-negligible になる exact anti-concentration results を保持。
+これらは今後 accumulating-curve decomposition の補助武器として使用する。
+---
+## 4. Root receiver after route-breadth audit
+The route audit is complete enough to separate the GOAL-NORMALIZING RECEIVER from the possible PROOF METHODS.
+PRIMARY_METHOD=UNDECIDED.
+The current M3 goal remains
+P(B)/M3(B) -> 0.
+The most useful exact normalization comes from one directional selected-two-face host.
+Fix one missing-face direction j.
+Let
+M2,j = exactly-two-face objects in direction j without the space condition,
+N2,j = the corresponding space-diagonal survivors.
+On the exact directional host
+H_j = M2,j disjoint_union M3,
+define Boolean selectors
+F=1 iff the missing third face is integral,
+S=1 iff the space diagonal is integral.
+Then the exact 2x2 cell table is
+F=0,S=0 : M2,j-N2,j
+F=0,S=1 : N2,j
+F=1,S=0 : M3-P
+F=1,S=1 : P.
+Therefore
+Pr_j(S=1|F=0)=N2,j/M2,j,
+Pr_j(S=1|F=1)=P/M3.
+The audited directional Stage24 bounds give
+N2,j/M2,j
+ << B^(-1/2+epsilon)(log B)^(-5)
+ ->0,
+and also a lower corridor of order at least
+B^(-3/4)(log B)^(-5).
+Define
+D_j := M2,j*P - M3*N2,j.
+Then exactly
+P/M3 - N2,j/M2,j
+ = D_j/(M2,j*M3),
+and
+Cov_j(S,F)
+ = D_j/(M2,j+M3)^2.
+Hence
+### ROOT RECEIVER — TerminalDirectionalCovariance
+P(B)/M3(B)->0
+iff
+Cov_j(S,F) /
+[Pr_j(F=1)Pr_j(F=0)]
+ ->0
+for any one fixed direction j.
+Because M3=o(M2,j), a sufficient one-sided form is
+Cov_j(S,F)_+ = o(Pr_j(F=1)).
+Equivalently define the terminal interaction factor
+T_j(B)
+ :=
+[P/M3]/[N2,j/M2,j]
+ =
+P*M2,j/(M3*N2,j).
+Any estimate
+T_j(B) << B^(1/2-delta)
+for one fixed delta>0 is sufficient.
+Current unconditional information gives only
+T_j(B) << B^(3/4+o(1)).
+Thus the quantitative interaction gap is explicit:
+current generic ceiling exponent <=3/4;
+closure threshold requires exponent <1/2.
+This receiver is NOT itself a proof method and does NOT assert independence.
+ROOT_RECEIVER=TerminalDirectionalCovariance.
+TERMINAL_INTERACTION_THRESHOLD_PROVED=false.
+---
+## 5. Proof-method ledger
+The following are materially distinct methods for attacking the root receiver or the original ratio.
+The labels below are current MAIN authority. Historical R1–R10 details are preserved in ARCHIVE.
+### METHOD A — common-host selector correlation
+Historical aliases:
+old R1 + R8 + R9.
+Exact host:
+the directional selected-two-face physical host is the same labeled toric/del-Pezzo geometry used in Stage18/24,
+Y=Bl_4(P1 x P1),
+with the audited physical anticanonical height.
+Two degree-two square-lift selectors live on this same host:
+- missing-third-face completion;
+- space-diagonal completion.
+Known exact support:
+- same base;
+- same physical height;
+- both degree-two covers;
+- both branch class -2K_Y;
+- joint V4 cover / cross quotient language;
+- branch decompositions differ:
+  space = 4 rational components,
+  third-face = 2 genus-1 components.
+The directional population/height adapter is already exact.
+Missing theorem:
+a same-H_j-measure correlation estimate giving the root covariance deficit, or directly
+T_j << B^(1/2-delta).
+Closest retained theorem species:
+SR-STR-169 same-measure selector correlation.
+Supporting routers:
+SR-STR-161 separated quadratic large sieve,
+SR-STR-165 Gaussian Hecke large sieve,
+SR-STR-166 charged-once eliminant,
+SR-STR-173 same-measure support/moment firewall.
+No exact separation/transfer currently makes one of these quantitative theorems applicable.
+Status:
+METHOD_A_STATUS=THEOREM_GATE_PAUSED.
+Reopen only for:
+- a new same-measure selector-correlation theorem;
+- an exact coefficient-separation adapter;
+- a charged-once eliminant with genuinely new determinant;
+- a direct T_j exponent <1/2 theorem.
+Do not continue by merely renaming the covariance.
+### METHOD B — exact M3 local-to-global / Master-Hit
+Historical alias:
+old R2/R2b.
+Known:
+- exact global Master-Hit coverage;
+- controlled parameter multiplicity;
+- strong local conditional squareclass law;
+- finite-modulus/CRT parameter-side structure;
+- exact odd-edge divisor one-object coordinates;
+- exact primitivity;
+- exact physical height;
+- integral bidegree-(2,2) model;
+- signed squarefree delta descent;
+- only (PQ)^o(1) squareclass/allocation slices.
+Critical correction retained:
+the old raw Master-Hit square-box truncation was invalid; only the exact physical coordinates may be used.
+Later divisor/delta work did NOT discharge the global theorem gate.
+The narrowest frozen gate is:
+R2_FIXED_Q_DELTA_UNIFORM_PHYSICAL_COUNT:
+for fixed good q, count the exact primitive/canonical/R<=B population on each retained delta/cross-gcd slice with relative error uniform enough to sum the (PQ)^o(1) slice family.
+No retained theorem proves that estimate.
+METHOD_B_STATUS=THEOREM_GATE_PAUSED.
+Reopen only when an actual fixed-q/delta uniform physical count or equivalent relative large-sieve theorem appears.
+### METHOD C — moving-fibration average energy
+Historical alias:
+old R3.
+For the exact K_c rational fibration coordinate t define
+m_t(B)=#M3_t(B),
+p_t(B)=#P_t(B).
+Known uniformly on every fixed occupied fiber:
+m_t(B)=B^o(1).
+Hence M3 occupies at least B^(1/3-o(1)) base values.
+The M3 goal has the exact weighted form
+P/M3
+ =
+sum_t [m_t/M3]*[p_t/m_t].
+By Cauchy-Schwarz,
+(P/M3)^2
+ <=
+(1/M3) * sum_t p_t^2/m_t.
+Thus the following is sufficient:
+### Receiver C1 — MovingFiberEndpointEnergy
+sum_t p_t(B)^2/m_t(B)
+ =
+o(M3(B)).
+A good/bad variant is also sufficient:
+if for some alpha,beta>0,
+sum_{t:p_t/m_t>B^(-alpha)} m_t
+ <=
+B^(-beta+o(1))*M3,
+then P/M3->0.
+This is strictly weaker than uniform endpoint emptiness on every fiber.
+Stage35 does not directly supply it:
+its selected direct endpoint fibration uses an endpoint-only parameter involving the space diagonal, so it is not an exact fibration of the whole M3 denominator population.
+Fixed-fiber B^o(1) alone also does not imply the energy bound.
+METHOD_C_STATUS=THEOREM_GATE_PAUSED.
+Reopen for:
+- an M3-weighted moving-base second-moment theorem;
+- an exceptional-base-mass theorem;
+- a two-fibration incidence/energy estimate implying one of them.
+### METHOD D — terminal cover / accumulating-subvariety geometry
+Historical alias:
+old R4a.
+Let
+pi:S->K_c
+be the endpoint degree-two cover.
+Known strong fixed-subpopulation theorem:
+for every fixed integral degree-6 curve C subset K_c, the restricted endpoint cover is non-split.
+Its dominating lift has degree 12, so one fixed C contributes at most
+B^(1/6+o(1))
+endpoint points.
+Hence any fixed finite collection is negligible against
+M3(B)>>B^(1/3).
+But Testa-Stoll classifies low-degree curves on the endpoint surface S, not all denominator-side degree-6 curves on K_c.
+Two global layers remain:
+1. classify/count the relevant accumulating curve families on K_c strongly enough to sum their endpoint lifts;
+2. bound the residual Zariski-dense endpoint population.
+METHOD_D_STATUS=LIVE_PARTIAL_THEOREM_GATE_PAUSED.
+Reopen for:
+- a summable denominator-side accumulating-curve classification/count;
+- a direct bound for the union of their endpoint lifts;
+- a residual rational-point theorem under the exact physical height.
+### METHOD E — denominator upgrade
+Historical alias:
+old R5.
+Known numerator upper:
+P(B) <<_epsilon B^(1/2+epsilon).
+Therefore any theorem
+M3(B) >> B^(1/2+delta)
+for one fixed delta>0 would immediately prove the goal.
+Current best certified lower is only B^(1/3), arising from a generalized Saunderson-type two-parameter mechanism.
+No retained construction approaches an exponent strictly above 1/2.
+METHOD_E_STATUS=UNTESTED_MECHANISM_FREE.
+Do not spend primary effort here until a genuinely new high-dimensional M3 family/counting mechanism is identified.
+### METHOD F — direct occupied physical (X,D) incidence
+Historical alias:
+old R10.
+Define
+W_B := {(X,D): some E in M3(B) has these coordinates},
+E_B := {(X,D) in W_B: X^2+D^2 is an integer square}.
+Fixed-(X,D) multiplicity is B^o(1), hence a fixed-power occupied-image deficit
+|E_B| <= B^(-delta+o(1))|W_B|
+would imply P/M3->0.
+Ambient Pythagorean sparsity alone is insufficient:
+for fixed X the endpoint relation has divisor-many D, but the M3 image itself also has only B^o(1) pairs over fixed X.
+Thus a new theorem must use the occupied M3 pair image itself:
+- incidence-energy deficit;
+- determinant method retaining the M3 witness equations;
+- expansion/product structure of W_B;
+- or a two-coordinate distribution theorem.
+METHOD_F_STATUS=UNTESTED_THEOREM_GATE.
+This route is distinct from the blocked common-core h-root-line route and must not be silently absorbed into it.
+---
+## 6. Auxiliary / frozen architectures
+These remain useful but are not current primary proof methods.
+### AUX-1 — one-factor / Gaussian common core
+Exact arsenal:
+L_-,L_+, N_-,N_+, h, K_-, Gaussian reconstruction, physical root lines, fixed-coordinate B^o(1) theorems.
+Repeated primary attacks returned to the moving-M3 transfer wall.
+STATUS=BLOCKED_AS_PRIMARY.
+Use only when it directly supplies a METHOD A–F gate or exceptional-family decomposition.
+### AUX-2 — canonical image-size
+Tested coordinates:
+X, D, N_-, N_+, h, K_-, (h,J), N_-/N_+, t.
+No current endpoint identity forces the image into <=B^(1/3-epsilon) values.
+STATUS=BLOCKED_FOR_EXISTING_COORDINATES.
+Reopen only for a genuinely new coordinate or independent image-compression theorem.
+### AUX-3 — ambient E4/H4 double-square analysis
+Exact four-variable model and strong complete/Fourier character sums are retained.
+Elementary double square sieve plus completion has balanced-box ceiling about
+B^(4/5+epsilon),
+far above the absolute B^(1/3) target.
+STATUS=BLOCKED_ELEMENTARY.
+Reopen only for a genuinely stronger q-van der Corput / determinant / dimension-reduction mechanism.
+### AUX-4 — V4/cohomological cross quotient
+The joint V4 and cross quotient are exact support/correlation language for METHOD A.
+Formal geometry/cohomology alone is not a population theorem.
+STATUS=METHOD_A_SUPPORT.
+---
+## 7. Breadth-audit conclusion
+The blind route pass and ARCHIVE/Arsenal replay have now been reconciled.
+No materially distinct blind-pass candidate was silently discarded:
+- population interaction / causal ladder -> ROOT + METHOD A;
+- global parameter/torsor -> METHOD B;
+- moving fibration -> METHOD C;
+- terminal-cover / low-degree spectrum -> METHOD D;
+- denominator growth -> METHOD E;
+- direct physical incidence -> METHOD F;
+- local/adelic toric transfer -> METHOD A/B support;
+- norm/common-core -> AUX-1;
+- image-size -> AUX-2;
+- ambient double-square -> AUX-3;
+- quotient/cohomology -> AUX-4 unless a population adapter appears.
+ROUTE_ORGANIZATION_COMPLETE=true.
+BLIND_ROUTE_LEDGER_RECONCILED=true.
+No proof method currently has theorem credit for the final ratio.
+PRIMARY_METHOD=UNDECIDED.
+The fact that the ROOT receiver is close to the goal does not imply METHOD A is mathematically easiest.
+---
+## 8. Cross-route search target
+The next phase is a targeted NEW-MECHANISM search, not another coordinate rewrite.
+Search only for theorem/mechanism species capable of crossing one of these smallest gates:
+A. same-host rare-selector covariance:
+   Cov_j(S,F)_+ = o(Pr_j(F=1))
+   or T_j exponent <1/2;
+C. M3-weighted moving-fiber energy:
+   sum_t p_t^2/m_t=o(M3);
+D. summable accumulating-family endpoint count plus residual control;
+F. fixed-power incidence deficit on the occupied physical pair image W_B.
+METHOD B remains paused until an actual fixed-q/delta uniform count appears.
+METHOD E remains parked until a new denominator mechanism is identified.
+For every candidate theorem:
+1. state the exact target population/measure;
+2. state the height;
+3. state multiplicity/pushforward weights;
+4. prove the adapter before importing the saving;
+5. do not multiply savings unless independence is proved;
+6. record whether it crosses a current gate or merely restates it.
+Current next action: CrossRouteNewMechanismSearch.
+---
+## 9. Current state flags
+STRATEGIC_AUDIT_COMPLETE=true
+ROUTE_BREADTH_AUDIT_COMPLETE=true
+ROUTE_ORGANIZATION_COMPLETE=true
+BLIND_ROUTE_LEDGER_RECONCILED=true
+ROOT_RECEIVER=TerminalDirectionalCovariance
+TERMINAL_INTERACTION_THRESHOLD_PROVED=false
+METHOD_A_STATUS=THEOREM_GATE_PAUSED
+METHOD_B_STATUS=THEOREM_GATE_PAUSED
+METHOD_C_STATUS=THEOREM_GATE_PAUSED
+METHOD_D_STATUS=LIVE_PARTIAL_THEOREM_GATE_PAUSED
+METHOD_E_STATUS=UNTESTED_MECHANISM_FREE
+METHOD_F_STATUS=UNTESTED_THEOREM_GATE
+PRIMARY_METHOD=UNDECIDED
+NEXT_ITEM=CrossRouteNewMechanismSearch
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 10. Cross-route continuation — METHOD B receiver correction and finite-prime terminal criterion
+This continuation replays ARCHIVE Sections6–8, 106, 109–113 against the current proof-method ledger.
+The purpose is to distinguish what METHOD B actually needs from stronger historical receivers.
+### 10.1 Exact local input already available
+On the complete good-prime Master/half-angle residue measure conditioned on the Euler/M3 square predicate, Section6 proves for every sufficiently large good odd prime p
+Pr(space radicand is a nonzero square mod p | Euler radicand is a nonzero square mod p)
+ = 1/2 + O(p^(-1/2)),
+with an absolute implied constant.
+Section7 then gives exact CRT factorization for every fixed finite set S of good primes in that complete parameter residue measure.
+The later four-variable exact physical model writes
+E4(a,b,c,f)
+ = c^2*f^2*(b^2-a^2)^2
+   + a^2*b^2*(f^2-c^2)^2,
+H4(a,b,c,f)
+ = (a^2*f^2+b^2*c^2)
+   *(a^2*c^2+b^2*f^2),
+with
+M3 iff E4 is an integer square,
+endpoint iff E4 and H4 are both integer squares,
+and the exact physical cutoff
+H4 <= 4*gcd(ab,cf)^2*B^2.
+Thus the local square bit to be transferred is already attached to the correct terminal polynomial H4. No moving terminal gcd twist is needed on the product route.
+### 10.2 Correction to the historical fixed-prime receiver
+ARCHIVE Sections109/110 proposed, for fixed good p, a receiver of the form
+sum_{E in M3(B)} chi_p(H4(E)) = o(M3(B)).
+This is a sufficient cancellation statement, but it is NOT the correct minimal expected fixed-p theorem.
+Reason:
+Section6 only proves that the complete local conditional character bias is O(p^(-1/2)).
+For fixed p this is a fixed constant depending on p and need not equal zero.
+Therefore physical fixed-p transfer should not be required to force the character mean to zero.
+It is enough to reproduce, or merely upper-bound by, a local acceptance strictly below 1.
+Accordingly:
+HISTORICAL_FIXED_PRIME_ZERO_MEAN_RECEIVER=OVERSTRONG_NOT_MINIMAL.
+No claim is made here that the zero-mean statement is false for every p; only that it is not implied by the local theorem and is unnecessary for the M3 density goal.
+### 10.3 Fixed finite prime sets are already terminally sufficient
+For a finite set S of good odd primes define
+A_S(B)
+ :=
+ #{E in M3(B): H4(E) is a square modulo p for every p in S}.
+Every perfect endpoint belongs to A_S(B), for every S.
+Hence
+P(B)/M3(B) <= A_S(B)/M3(B).
+The crucial quantifier order is:
+1. fix S;
+2. let B->infinity;
+3. only after taking the B-limit, enlarge S.
+Therefore no modulus q(B) growing with B is logically required.
+### Theorem 10-A — FixedFinitePrimeContractionIsTerminal
+Suppose there exist a constant rho<1 and arbitrarily large finite sets S_k of good primes with |S_k|=k such that
+limsup_{B->infinity}
+ A_{S_k}(B)/M3(B)
+ <= rho^k.
+Then
+P(B)/M3(B)->0.
+Proof:
+for every fixed k,
+limsup P/M3 <= rho^k.
+Let k->infinity after the B-limsup. Since rho^k->0, the limsup is zero. QED.
+A more source-matched sufficient statement is:
+for every fixed finite S of sufficiently large good primes,
+limsup_{B->infinity}
+ A_S(B)/M3(B)
+ <=
+ product_{p in S}
+ [1/2 + C*p^(-1/2)],
+for one absolute C and after absorbing the O(1/p) zero-residue strata into C*p^(-1/2).
+Choosing all p large enough makes every factor <=rho<1, so Theorem10-A applies.
+### 10.4 New minimal METHOD B receiver
+The correct terminal-strength target is therefore not growing-prime uniformity.
+It is:
+### Receiver B-MIN — ExactM3FixedFinitePrimeContraction
+For arbitrarily large fixed finite sets S of sufficiently large good odd primes, prove on the exact primitive/canonical/one-object M3 population under R<=B that
+limsup_{B->infinity}
+ # {E in M3(B): local endpoint-square condition holds at every p in S}
+ / M3(B)
+is bounded by rho^{|S|} for some fixed rho<1.
+Full equidistribution to the complete-residue product law is stronger than necessary.
+A one-sided contraction bound is enough.
+Equivalent useful theorem species:
+- fixed-q physical upper sieve for q=product(S);
+- fixed-S conditional equidistribution on M3;
+- iterative same-M3 conditional contraction at each p in a fixed list;
+- fixed-q residue-class count with constants allowed to depend arbitrarily on q, provided the limiting acceptance retains exponential decay in |S|.
+Crucially:
+GROWING_Q_WITH_B_REQUIRED=false.
+FIXED_FINITE_PRIME_PHYSICAL_TRANSFER_TERMINAL_SUFFICIENT=true.
+### 10.5 What remains hard after this weakening
+The hard step is still genuine.
+The exact M3 population is the E4-square locus with:
+- primitive masks;
+- canonical inequalities;
+- gcd-dependent physical height;
+- sparse arithmetic support;
+- equivalently, the Section35 delta/cross-gcd decomposition with only (PQ)^o(1) slices but a coupled genus-one core.
+No retained theorem currently proves even the fixed-q physical contraction after summing those slices.
+Thus METHOD B is narrowed but not closed:
+complete local residue contraction
+ -> fixed finite q
+ -> exact physical M3 contraction
+remains the missing bridge.
+This is weaker than the formerly emphasized growing-prime Selberg/large-sieve theorem and should replace it as the first METHOD B target.
+### 10.6 Literature cross-route screen: Jonathan Love 2025 near-match
+Jonathan R. Love, Rational configuration problems and a family of curves, Journal of Number Theory 269 (2025), studies the family
+y^2
+ =
+ [a(1-x^2)+2bx]^2
+ +
+ [c(1-x^2)+2dx]^2
+and proves a density-zero theorem for ambient parameter matrices giving locally soluble / rationally soluble curves.
+There is an exact formal near-match on one K_c t-fiber.
+Fix
+t=a2/a3,
+a3=1,
+a2=t,
+a1=(1-u^2)/(2u).
+Since on K_c
+b1^2=1+t^2,
+the space condition c_space^2=a1^2+b1^2 becomes
+(2u*c_space)^2
+ =
+ (1-u^2)^2
+ +
+ (2*b1*u)^2.
+This is Love's displayed family with the special diagonal parameter matrix
+diag(1,b1).
+However this does NOT transfer Love's density-zero theorem to M3:
+- this diagonal subfamily always has the obvious rational point u=0 on the compactified curve;
+- hence it lies in a special exceptional subfamily rather than the generic ambient matrix family on which local obstructions create density zero;
+- the M3 denominator additionally imposes the independent genus-one third-face condition
+  w^2=u^4+(4t^2-2)u^2+1;
+- Love's parameter height/measure is not the exact M3 physical R<=B measure.
+Therefore:
+LOVE_2025_DIRECT_M3_TRANSFER=false.
+LOVE_2025_FORMAL_FIBER_MATCH=true.
+This is retained as a useful negative adapter certificate, not theorem credit.
+### 10.7 Bonolis--Browning remains methodology-only
+ARCHIVE Section112 already audited Bonolis--Browning's hyperelliptic-fibration square-sieve method.
+For fixed (a,c,f), E4=W^2 is quadratic in x=b^2 and even quartic in b, whereas their published theorem requires odd hyperelliptic degree n>=3.
+Therefore the published theorem remains non-applicable off the shelf.
+Its square-sieve/q-van-der-Corput architecture is relevant only if the needed even-quartic incomplete sums are reproved.
+No new credit is assigned here.
+### 10.8 Updated METHOD B status
+METHOD_B_STATUS=THEOREM_GATE_PAUSED_NARROWED.
+METHOD_B_GROWING_MODULUS_REQUIRED=false.
+METHOD_B_FIXED_FINITE_PRIME_CONTRACTION_TERMINAL_SUFFICIENT=true.
+METHOD_B_HISTORICAL_ZERO_MEAN_RECEIVER_MINIMAL=false.
+METHOD_B_PHYSICAL_FIXED_Q_TRANSFER_PROVED=false.
+This makes METHOD B logically closer to closure than the previous wording suggested, but no existing theorem yet crosses its exact physical-measure gate.
+NEXT_ITEM=FixedQPhysicalM3ContractionMechanismSearch
+The next bounded unit should search for an exact fixed-q argument in the Section32/110 physical coordinates before returning to broad moving-modulus technology.
+Potential mechanisms to test, in order:
+1. finite automorphism/involution pairing that preserves physical height and mixes local endpoint states;
+2. fixed-q lattice equidistribution after the Section35 delta peel, with q fixed before B->infinity;
+3. third-Pythagorean-triple torsor coordinates plus fixed-q geometry-of-numbers;
+4. only if these fail, external same-K3 adelic equidistribution theorems.
+METHOD_B_RECEIVER_CORRECTED=true
+LOVE_2025_NEARMATCH_AUDITED=true
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 11. METHOD C continuation — M3-defined same-X double-divisibility receiver
+This section returns to the denominator-defined K_c fibration and imports only later Stage35/36 weapon species that match it exactly.
+No endpoint-only base is used.
+No generic-rank or fixed-fiber theorem is re-credited when it was already proved in Stage14/ARCHIVE.
+### 11.1 Exact M3-compatible genus-5 fiber
+Use the Euler-K3 coordinates
+b1^2=a2^2+a3^2,
+b2^2=a1^2+a3^2,
+b3^2=a1^2+a2^2.
+Fix the rational fibration coordinate
+t=a2/a3.
+On the affine chart a3=1 write
+a2=t,
+a1=(1-u^2)/(2u),
+b2=(1+u^2)/(2u).
+A genuine physical base value is not an arbitrary rational t:
+r^2:=1+t^2=b1^2
+must already be a rational square.
+This is the previously audited spurious-fiber firewall.
+The third-face / M3 condition is
+w_-^2
+ = u^4+(4t^2-2)u^2+1,
+where w_-=2u*b3.
+The endpoint adds
+w_+^2
+ = u^4+(4t^2+2)u^2+1,
+where w_+=2u*R.
+Thus
+w_+^2-w_-^2=4u^2.
+Now put
+xi=u-u^(-1),
+eta=u+u^(-1).
+Then exactly
+eta^2-xi^2=4,
+(w_-/u)^2=xi^2+4t^2,
+(w_+/u)^2=xi^2+4(1+t^2).
+Define
+R1=eta=2b2,
+R2=w_-/u=2b3,
+R3=w_+/u=2R.
+The endpoint fiber over a genuine t is therefore the diagonal elementary-2 cover
+R1^2=xi^2+4,
+R2^2=xi^2+4t^2,
+R3^2=xi^2+4r^2,
+with r^2=1+t^2.
+For generic nondegenerate t the six branch values
+xi=+-2i,
+xi=+-2it,
+xi=+-2ir
+are distinct. The degree-8 cover of P1_xi has six order-two branch values, so Riemann-Hurwitz gives genus 5.
+This recovers the expected Testa-Stoll genus-5 fiber type, now on the M3-defined base.
+### 11.2 Two elliptic quotient curves with the same X
+Set
+X=xi^2.
+From the first two square equations define
+Y_t=xi*R1*R2.
+Then
+Y_t^2=X(X+4)(X+4t^2).
+Define the split-full-2 elliptic curve
+E_t:
+Y^2=X(X+4)(X+4t^2).
+Similarly the endpoint third square gives
+Y_r=xi*R1*R3
+and therefore
+E_r:
+Y^2=X(X+4)(X+4r^2),
+where r^2=1+t^2.
+Thus an endpoint point produces points on E_t and E_r with the SAME rational X-coordinate.
+After scaling X=4x, Y=8y, E_t becomes exactly Jonathan Love's family
+y^2=x(x+1)(x+t^2).
+This is an exact curve-family collision with Love 2024, not merely an analogous elliptic family.
+Love's root-number/rank-density applications are nevertheless not imported as an M3 counting theorem: they order ambient t-values and use additional conjectural rank inputs, whereas the present population is restricted to genuine Pythagorean t and exact physical M3 height/multiplicity.
+### 11.3 Kummer 2-divisibility interpretation
+On a full rational 2-torsion curve
+E_t:Y^2=X(X+4)(X+4t^2),
+the standard Kummer map records the squareclasses
+[X], [X+4], [X+4t^2],
+with kernel 2E_t(Q) away from the usual torsion/boundary charts.
+For the physical M3 point constructed above,
+X=xi^2,
+X+4=R1^2,
+X+4t^2=R2^2.
+Therefore its nondegenerate elliptic image satisfies
+P_t in 2E_t(Q).
+At an endpoint one also has
+X+4r^2=R3^2,
+so the same X defines
+P_r in 2E_r(Q).
+Hence:
+### Theorem 11-A — M3SameXDoubleDivisibilityForwardMap
+Every nondegenerate endpoint on the genuine M3 base t produces a common rational X such that
+P_t=(X,Y_t) in 2E_t(Q),
+P_r=(X,Y_r) in 2E_r(Q),
+r^2=1+t^2.
+Every nondegenerate M3 point already produces the first condition P_t in 2E_t(Q).
+This is a forward exact adapter.
+A full converse including positivity, primitive reconstruction and boundary charts is NOT credited here until separately audited.
+### 11.4 Halving the M3 point gives an explicit four-linear endpoint receiver
+Let
+Q=(x,y) in E_t(Q)
+be any rational half of the M3 elliptic point P_t, so
+2Q=P_t.
+For
+E_t:y^2=x(x+4)(x+4t^2),
+the duplication formula is
+x(2Q)
+ =
+ (x^2-16t^2)^2
+ /
+ [4x(x+4)(x+4t^2)].
+Since the denominator is (2y)^2, the additional endpoint factor satisfies the exact identity
+x(2Q)+4(1+t^2)
+ =
+ G_t(x)/(2y)^2,
+where
+G_t(x)
+ =
+ [x^2+8(t^2-t+1)x+16t^2]
+ [x^2+8(t^2+t+1)x+16t^2].
+Therefore the endpoint condition is equivalent, on the nondegenerate halving chart, to
+G_t(x) being a rational square.
+Now parameterize the genuine M3 base by
+t=2s/(1-s^2),
+r=(1+s^2)/(1-s^2).
+Then the two quadratic factors split over Q(s):
+x^2+8(t^2-t+1)x+16t^2
+ =
+ [(x(s-1)^2+8s^2)(x(s+1)^2+8)]/(1-s^2)^2,
+x^2+8(t^2+t+1)x+16t^2
+ =
+ [(x(s-1)^2+8)(x(s+1)^2+8s^2)]/(1-s^2)^2.
+The denominator of their product is a square. Thus:
+### Theorem 11-B — M3HalvingFourLinearEndpointReceiver
+On the nondegenerate genuine-base halving chart, the endpoint condition is equivalent to
+G_s(x)
+ :=
+ [x(s-1)^2+8s^2]
+ [x(s+1)^2+8]
+ [x(s-1)^2+8]
+ [x(s+1)^2+8s^2]
+being a rational square.
+This is an exact moving four-linear squareclass receiver on the half-point Q.
+The factorization and duplication identity were independently symbolically rechecked before entry into MAIN.
+### 11.5 What is old and what is new
+Already proved before this section and NOT re-credited:
+- fixed-fiber genus-one/elliptic structure;
+- actual Pythagorean-base restriction;
+- generic-rank-zero phenomena for the earlier Stage14 elliptic fibration;
+- torsion/boundary analysis on that earlier fibration;
+- every fixed M3 t-fiber has B^o(1) physical multiplicity;
+- fixed-base terminal genus-5 finiteness;
+- global M3 mass requires B^(1/3-o(1)) moving t-values.
+New content here:
+- the endpoint fiber on the denominator-defined M3 base is written as three simultaneous diagonal quadratic squares;
+- the M3 square system gives a split-full-2 elliptic curve E_t with P_t in 2E_t(Q);
+- endpoint gives SAME-X 2-divisibility simultaneously on E_t and E_r;
+- after halving, the remaining endpoint condition becomes the explicit four-linear square product G_s(x).
+No new global density theorem follows yet.
+### 11.6 Stage36 weapon rematch
+The later provisional Stage36 Arsenal contains close structural weapons:
+S36-PW02:
+V4 curve/Jacobian quotient decomposition.
+Useful for certifying quotient-factor structure; gives no rational-point converse or density theorem.
+S36-PW05:
+split-full-2 order-4 half and 2-isogeny normalization for
+y^2=x(x+a^2)(x+b^2).
+The present E_t matches its object species exactly with
+a=2,
+b=2t.
+S36-PW06:
+relative 2-isogeny/Kummer specialization baseline via injective specialization and fixed-fiber descent.
+Potentially useful after an exact family adapter, but it does not give uniform rank control or receiver closure.
+S36-PW03/PW04:
+quadratic-extension anti-invariant growth and pointwise elementary-2 lift classes.
+These are supporting descent architectures only.
+Therefore the later Arsenal materially narrows METHOD C implementation work, but does not close the moving-family count.
+### 11.7 New METHOD C minimal receiver
+The old wording
+moving-fiber theorem
+was too broad.
+The exact new target is:
+### Receiver C-MIN — M3SameXDoubleDivisibilityCorrelation
+On the genuine Pythagorean base
+t=2s/(1-s^2),
+r=(1+s^2)/(1-s^2),
+control the exact physical M3-weighted frequency with which an M3 point
+P_t in 2E_t(Q)
+has the same X-coordinate compatible with
+P_r in 2E_r(Q).
+Equivalent halving form:
+control the exact physical moving-family frequency with which
+Q=(x,y) in E_t(Q),
+2Q=P_t,
+satisfies
+G_s(x) in Q^{*2}.
+A theorem proving that this compatible subset has o(M3(B)) total weight closes P/M3->0.
+This is more specific than generic rank-jump frequency and preserves the denominator-defined base.
+### 11.8 Current status
+METHOD_C_DENOMINATOR_DEFINED_BASE=true
+METHOD_C_DIAGONAL_GENUS5_MODEL=true
+METHOD_C_SAME_X_DOUBLE_DIVISIBILITY_FORWARD=true
+METHOD_C_HALVING_FOUR_LINEAR_RECEIVER=true
+METHOD_C_STAGE36_STRUCTURAL_WEAPONS_AVAILABLE_PROVISIONALLY=true
+METHOD_C_MOVING_WEIGHTED_SPARSE_THEOREM_PROVED=false
+METHOD_C_STATUS=LIVE_NARROWED_THEOREM_GATE.
+The next useful test is not another genus/rank calculation.
+It is to determine whether G_s(x) on E_t can be identified with a standard 2-isogeny/twist Kummer class whose moving support can be controlled by an existing theorem.
+NEXT_ITEM=FourLinearKummerClassIdentification
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 14. R2 reentry audit — delta descent is a fixed-base genus-one twist family
+Purpose: determine whether the late Section34–35 divisor/delta work created a genuinely new global route, or only refines the old moving-fibration wall.
+### 14.1 Exact fixed-delta quartic
+Recall the Section34 base data
+P=L^2-M^2,
+Q=2LM,
+W=L^2+M^2,
+A=P-Q,
+B=P+Q,
+together with the transverse quotient coordinate
+t2=C/D.
+Section35 fixes a signed squarefree delta through
+C^2-D^2=delta*r^2
+and, after primitive cross-gcd removal,
+c^2*a^2-d^2*b^2=delta*s^2.
+Because
+c*a/(d*b)=C*A/(D*B),
+put
+x=C/D,
+k=A/B.
+Then the two delta conditions are
+x^2-1=delta*y^2,
+k^2*x^2-1=delta*z^2.
+Parameterize the first conic by
+x=(1+delta*t^2)/(1-delta*t^2).
+Substitution into the second gives the even quartic
+delta*zeta^2
+=
+(k^2-1)
++2*delta*(k^2+1)*t^2
++delta^2*(k^2-1)*t^4.
+Using
+k=(P-Q)/(P+Q)=A/B,
+and multiplying by the harmless rational square B^2/4, this becomes
+### Theorem 14-A — FixedBaseDeltaQuartic
+y^2
+=
+-delta*P*Q*t^4
++W^2*t^2
+-(P*Q)/delta.
+This is smooth for a genuine primitive Pythagorean base P,Q>0 with P!=Q.
+### 14.2 Delta does not create new elliptic moduli
+For an even quartic
+y^2=a*t^4+b*t^2+c,
+the binary-quartic invariants are functions of
+ac
+and
+b.
+In Theorem14-A,
+a=-delta*P*Q,
+b=W^2,
+c=-(P*Q)/delta,
+so
+ac=(P*Q)^2,
+b=W^2,
+both independent of delta.
+Therefore the binary-quartic invariants I,J, its geometric discriminant up to the standard scalar normalization, and the geometric Jacobian j-invariant are independent of delta.
+### Theorem 14-B — DeltaTwistNoNewModuli
+For a fixed primitive Pythagorean base (P,Q,W), all signed-squarefree delta slices from Section35 lie in one geometric genus-one/Jacobian isomorphism class.
+Changing delta changes the arithmetic twist / torsor / descent class, not the underlying elliptic moduli.
+This is an exact theorem about the Section35 descent family. It does not assert that every delta slice has a rational point.
+### 14.3 Relation to the old two-fibration architecture
+Section31 proves that
+t1=a2/a3=P/Q
+and
+t2=C/D
+are transverse rational fibrations, with t2 a degree-two quotient coordinate on a fixed t1-fiber.
+Also
+k=A/B=(t1-1)/(t1+1).
+Hence Theorem14-A is precisely a descent decomposition performed on the transverse degree-two quotient of a fixed t1-fiber.
+The late Section35 squareclass decomposition therefore does not create a new independent global parameter direction.
+It refines each moving t1-fiber into only
+(PQ)^o(1)
+arithmetic twist/descent classes.
+### Audit Result 14-C — R2R3StructuralMerge
+The late R2 divisor/delta route and the R3 moving-fibration route share the same unresolved global quantifier:
+uniform control while the rational Pythagorean base t1=P/Q moves through the exact physical M3 population.
+R2 contributes a valuable arithmetic decomposition of each moving fiber.
+R3 contributes the exact elliptic-fibration height and fixed-fiber anti-concentration theorem.
+They should no longer be counted as two logically independent closure mechanisms.
+They are two implementations of one broader method family:
+METHOD_BC = MOVING_FIBRATION_WITH_DESCENT.
+Subroutes:
+BC1 = moving-base distribution / energy on t1;
+BC2 = fixed-base squareclass/twist decomposition by delta, followed by a uniform sum over moving t1.
+### 14.4 What the merge buys and what it does not
+It buys:
+- exact physical one-object coordinates;
+- only subpolynomially many delta classes per base;
+- a fixed-base genus-one twist family with no new delta-dependent moduli;
+- uniform fixed-fiber point bound B^o(1) from Section39;
+- a precise statement that any remaining obstruction must be spread over polynomially many moving base values.
+It does NOT buy:
+- equidistribution of occupied t1 values modulo q;
+- a uniform average over the twist classes as t1 moves;
+- a summable fixed-q error over the full physical population;
+- endpoint density zero.
+### 14.5 Revised theorem gate
+The narrowest remaining METHOD_BC gate is no longer best described as fixed-q count on every delta slice separately.
+Because delta does not add a new moduli dimension, the natural gate is:
+### Receiver BC-MIN — MovingBaseTwistUniformity
+For each fixed good modulus q, prove a physical-height weighted congruence / character estimate on the moving t1-family, uniform over the rationally soluble delta/twist classes, with total error
+o(M3(B))
+or strong enough to support a slowly growing prime sieve.
+Equivalent acceptable outputs include:
+- an M3-weighted second-moment theorem across t1;
+- a uniform average over the relevant 2-covering/twist classes;
+- a moving-base large sieve after exact physical-height and primitive adapters.
+### 14.6 Anti-loop disposition
+Further algebraic refinement of the fixed-delta quartic is not primary work unless it creates a genuinely uniform moving-base estimate.
+Do not:
+- derive another equivalent quartic model;
+- classify individual delta fibers one by one;
+- promote fixed-base rank or Selmer information to a moving-family count;
+- treat the (PQ)^o(1) delta count itself as density saving.
+R2_REENTRY_CHECK_COMPLETE=true
+DELTA_SLICE_GENUS1_EXPLICIT=true
+DELTA_GEOMETRIC_MODULI_INDEPENDENT=true
+R2_R3_STRUCTURAL_MERGE=true
+METHOD_BC_STATUS=THEOREM_GATE_PAUSED
+Under the route-rotation rule, the next materially distinct route is METHOD_D terminal-cover/accumulating-subvariety geometry.
+NEXT_ITEM=MethodDAccumulatingFamilyReentryAudit
+PRIMARY_METHOD=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 14. R2 reentry audit — old semantic wall reduced to a conditional sparse-lattice theorem
+### 14.1 What changed since the old Master-Hit wall
+The old R2 failure had two layers:
+1. semantic/measure mismatch: moving gcd normalization, physical R<=B, one-object multiplicity and canonicalization were not yet controlled cleanly;
+2. analytic conditional-counting wall: after imposing the M3 square condition, no same-measure character/sieve theorem was available for the space-square predicate.
+Sections32,35,110,111 materially repair layer 1.
+Section32 gives an exact one-object/one-count odd-edge divisor model with exact primitivity and exact physical height.
+Section35 reduces squareclass complexity to only subpolynomially many signed delta allocations, but the coupled slice retains a genus-1 core.
+Section110 replaces sparse divisors by four primitive face variables (a,b,c,f) with
+E4(a,b,c,f)=square  iff  M3,
+H4(a,b,c,f)=square  iff  endpoint on M3,
+and exact height
+H4 <= 4*gcd(ab,cf)^2*B^2.
+Section111 resolves all cross gcds and shows that the residual variables are no longer divisors of one fixed integer. This is the first exact coordinate system in which ordinary lattice/character-sum completion is structurally plausible without changing the physical measure.
+Therefore the original objection
+"Master-Hit parameter measure != exact physical M3 measure"
+is no longer the correct first blocker.
+### 14.2 What did not change
+The M3 condition itself is still sparse:
+E4(a,b,c,f)=integer square.
+Theorems112-A/B prove excellent complete finite-field cancellation for E4, H4 and E4*H4 in the ambient four-variable family, but this does not imply cancellation after restricting to the global integer-square locus E4=square.
+Theorems113-B/C give incomplete ambient box bounds, but the elementary simultaneous square-sieve ceiling is only B^(4/5+epsilon) in physical height. That route cannot close the current B^(1/3) denominator strategy.
+Hence the remaining R2 wall is no longer a coordinate or multiplicity problem. It is a conditional sparse-lattice theorem.
+### 14.3 Exact R2 theorem ladder
+A single fixed-prime theorem is useful but does not by itself prove P/M3->0.
+#### R2-L1 — FixedPrimeConditionalCharacterTransfer
+For each fixed good odd prime ell, prove
+sum_{E in M3(B)} chi_ell(H4(E)) = o(M3(B)),
+with exact primitive/canonical/R<=B semantics.
+This would establish genuine same-M3 local transfer.
+#### R2-L2 — UniformFiniteSetTransfer
+Extend R2-L1 uniformly to squarefree moduli or finite good-prime sets with an explicit modulus-dependent error.
+#### R2-L3 — GrowingLocalSquareUpperSieve
+Choose a good-prime set S(B) with #S(B)->infinity and prove
+#{E in M3(B): H4(E) is a local square at every p in S(B)}
+ = o(M3(B)).
+Every endpoint lies in this set, so R2-L3 implies P/M3->0.
+Thus R2 closure still requires growing-prime uniformity, but the immediate first missing lemma is now R2-L1 rather than a vague physical-height adapter.
+### 14.4 Cross-gcd-strata branch is genuinely unfinished, not previously disproved
+Section111 proposed
+GlobalProductCharacterViaCrossGcdStrata
+as the next item.
+The idea is to fix dyadic ranges for the four pairwise-coprime cross gcds r,s,t,u and work in residual variables a0,b0,c0,f0. In these variables:
+- exact height is retained;
+- the terminal product character has no moving-h twist;
+- the residual variables are ordinary lattice variables rather than divisors of a fixed X;
+- no automatic dimension drop occurs from simply Euclid-parametrizing the third face.
+The later Sections112-113 switched instead to an ambient double-square sieve. They did not prove or disprove the conditional cross-gcd-strata transfer R2-L1.
+Therefore this branch has not been exhausted.
+### 14.5 Reentry decision
+R2_REENTRY_JUSTIFIED=true.
+But the permitted restart point is narrow:
+NEXT_R2_ITEM=CrossGcdStrataFixedPrimeConditionalTransfer.
+The bounded research question is:
+After fixing one good odd prime ell and dyadic cross-gcd strata, can the exact E4=square population be decomposed into enough regular residual lattice pieces to prove
+sum chi_ell(H4)=o(count)
+uniformly over the strata, with summable errors?
+Do not reopen:
+- raw Master-Hit box equidistribution;
+- moving-gcd heuristics;
+- another equivalent one-factor coordinate;
+- ambient complete character sums already proved in Section112.
+If the fixed-prime conditional transfer cannot be obtained from the cross-gcd/delta structure without invoking a new theorem, freeze R2 at R2-L1 and rotate to R3.
+R2_SEMANTIC_ADAPTER_WALL_REDUCED=true
+R2_CONDITIONAL_SPARSE_LATTICE_WALL=true
+R2_CROSS_GCD_BRANCH_EXHAUSTED=false
+R2_FIXED_PRIME_TRANSFER_PROVED=false
+R2_GROWING_PRIME_TRANSFER_PROVED=false
+PRIMARY_ROUTE=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 15. R2 reentry preflight — freeze at the exact conditional theorem gate
+### 15.1 Arsenal rematch result
+The retained Arsenal was searched specifically for:
+- fixed-prime character cancellation on a genus-1/K3-conditioned family;
+- fixed-modulus equidistribution on exact physical M3;
+- sparse-lattice character sums after an integer-square condition;
+- moving elliptic-family averages preserving physical height.
+No exact theorem match was found.
+Stage14 AR-005 gives a strong uniform B^o(1) bound on points in a particular elliptic fiber, but it is a fixed-fiber / Stage14 space-diagonal measure theorem and does not transfer to the exact M3 population.
+Stage13 fixed-prime/local-state asymptotics live on a different exactly-one-face population and cannot be promoted without an exact population adapter.
+StructureRadar same-measure correlation weapons remain theorem/adapter gates rather than proved R2-L1 estimates.
+### 15.2 Exact surviving R2 gate
+The first missing statement remains:
+CrossGcdStrataFixedPrimeConditionalTransfer:
+For one fixed good odd prime ell, after partitioning by dyadic cross-gcd strata and the exact primitive/canonical physical height, prove
+sum_{E in M3(B) in stratum} chi_ell(H4(E))
+ = o(#M3(B) in stratum)
+with an error uniform enough that summing all retained strata still gives
+sum_{E in M3(B)} chi_ell(H4(E))=o(M3(B)).
+The later delta/cross-gcd/four-variable work makes this statement precise and removes the old semantic ambiguities, but does not prove it.
+### 15.3 Anti-loop disposition
+Further algebraic reparametrization does not count as progress on R2.
+R2_STATUS=LIVE_THEOREM_GATE_PAUSED.
+Reopen only on:
+- a genuine conditional sparse-lattice character theorem;
+- a new exact decomposition turning the E4=square locus into theorem-compatible regular pieces;
+- a source-locked same-measure large-sieve theorem with the required primitive/height contract;
+- a new estimate that directly supplies R2-L1 or stronger.
+The cross-gcd branch is not mathematically disproved; it is paused because its next step is a new theorem rather than another exact rewrite.
+### 15.4 Rotation
+Under the cycle-exploration rule, rotate to METHOD C / R3 moving fibration instead of renaming the R2 gate.
+NEXT_ITEM=R3MovingFibrationDepthReentry.
+R2_REENTRY_AUDIT_COMPLETE=true
+R2_SEMANTIC_PROGRESS_REAL=true
+R2_EXISTING_ARSENAL_CLOSURE=false
+R2_STATUS=LIVE_THEOREM_GATE_PAUSED
+PRIMARY_ROUTE=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 15. Method D reentry audit — low-degree spectrum and the Saunderson denominator-scale curve
+### 15.1 Audited Stage28 low-degree assets
+Stage28 checkpoint60-r3 / checkpoint70 fresh audit gives theorem-level reusable facts under the common physical quasi-polarization normalization:
+Stage19 space-completion K3:
+- physical degree <4 rational curves impossible;
+- physical degree 4 stratum empty;
+- every odd physical degree absent;
+- hence physical degree 5 absent;
+- physical degree 6 presence/absence remains open.
+Stage20 third-face / M3 K3:
+- the generalized Saunderson image is a rational curve C_S;
+- its physical M-degree is exactly 6;
+- on the audited positive physical cone it contributes
+Theta(B^(1/3))
+M3 points.
+The common physical polarization adapter has zero height-power loss.
+These facts are already fresh-audit PASS in Stage28 and must not be downgraded to heuristic evidence.
+### 15.2 Combine with the terminal-cover degree-six theorem
+ARCHIVE Section37 proves:
+for every fixed integral degree-6 curve C subset K_c, the endpoint double cover
+pi^{-1}(C)->C
+is generically non-split, because a split component would give an integral degree-6 curve on the full endpoint surface S, contradicting the Testa-Stoll low-degree theorem used there.
+Consequently every fixed degree-6 M3 curve contributes at most
+O(B^(1/6+o(1)))
+endpoint points.
+Apply this to the audited Saunderson curve C_S.
+### Theorem 15-A — SaundersonFamilyEndpointPowerSaving
+Let
+M3_S(B)=# {physical M3 points on the fixed Saunderson degree-6 curve C_S with R<=B},
+P_S(B)=# {endpoint points among them}.
+Then
+M3_S(B)=Theta(B^(1/3)),
+while
+P_S(B)=O(B^(1/6+o(1))).
+Hence
+P_S(B)/M3_S(B)
+ = O(B^(-1/6+o(1)))
+ ->0.
+This is a genuine relative endpoint-thinning theorem on a denominator-scale explicit M3 subpopulation.
+It does not imply the global P/M3 limit, because M3 mass outside C_S is uncontrolled from below and endpoint mass outside C_S is uncontrolled from above.
+### 15.3 Meaning for Method D
+The terminal-cover mechanism demonstrably works on the known construction that supplies the certified global denominator exponent 1/3.
+Therefore Method D is not merely aesthetic geometry: it kills the endpoint condition by a fixed power on the strongest explicit denominator-scale family currently known.
+However Stage28 checkpoint70 also proves the precise limitation:
+PhysicalLowDegreeRootSpectrumM6
+is only an optional finite refinement.
+Even a complete degree-6 spectrum does not control the moving/collective complement.
+The genuine global Method D gate remains:
+### Receiver D-MIN — AccumulatingPlusResidualEndpointCount
+Decompose K_c(Q) under physical height into
+A = accumulating low-degree contribution,
+G = moving/Zariski-dense residual contribution.
+Prove
+P_A(B)+P_G(B)=o(B^(1/3)).
+Current status:
+- one critical denominator-scale curve C_S is closed with endpoint ratio B^(-1/6+o(1));
+- every fixed finite set of degree-6 curves is harmless;
+- a complete summable classification/count of all relevant accumulating families is not available;
+- no residual endpoint count below B^(1/3) is available.
+### 15.4 Optional finite receiver disposition
+Stage28's remaining finite receiver
+PhysicalLowDegreeRootSpectrumM6
+can sharpen the causal low-degree spectrum but cannot by itself close Method D.
+Under the anti-loop rule it is not the next primary task unless:
+- a global residual theorem becomes available whose hypotheses require complete M6 removal; or
+- the M6 classification itself produces a new global decomposition theorem.
+### 15.5 Method D status
+METHOD_D_REENTRY_AUDIT_COMPLETE=true
+SAUNDERSON_M3_DENOMINATOR_SCALE_THETA_B_ONE_THIRD=true
+SAUNDERSON_ENDPOINT_RATIO_POWER_SAVING=true
+FIXED_FINITE_M6_COLLECTION_HARMLESS=true
+M6_FINITE_CLASSIFICATION_OPTIONAL_NOT_CLOSING=true
+METHOD_D_GLOBAL_MOVING_COMPLEMENT_GATE=true
+METHOD_D_STATUS=LIVE_PARTIAL_THEOREM_GATE_PAUSED
+Under route rotation, the next materially distinct underexplored mechanism is METHOD_E denominator upgrade.
+NEXT_ITEM=MethodEDenominatorUpgradeDepthTest
+PRIMARY_METHOD=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 16. R3 moving-fibration reentry audit
+### 16.1 What is already strong
+For the exact M3 fibration coordinate t=a2/a3:
+- the rational/genus-one/elliptic fiber model is explicit;
+- the physical height comparison is explicit;
+- every fixed occupied t-fiber contributes only B^o(1) M3 points;
+- consequently the occupied base image satisfies
+#T_M3(B) >= B^(1/3-o(1)).
+Thus no bounded, polylogarithmic or B^o(1) collection of exceptional fibers can carry a positive proportion of M3.
+### 16.2 Exact sufficient receiver
+Let
+T_P(B)={t : the M3 fiber t contains at least one endpoint of height <=B}.
+A sufficient theorem is
+#T_P(B) <= B^(1/3-delta)
+for some fixed delta>0.
+Then fixed-fiber B^o(1) gives
+P(B)<=B^(1/3-delta+o(1))=o(M3(B)).
+A more flexible sufficient statement is any weighted moving-base theorem implying
+sum_t P_t(B)=o(sum_t M3_t(B)).
+### 16.3 Archive/Stage35 compatibility audit
+The later Stage35 direct endpoint fibration does not automatically improve this receiver.
+Its selected endpoint parameter uses endpoint-only information involving the space diagonal, so it is not an exact fibration of the whole M3 denominator population.
+Therefore Stage35 fixed-fiber or moving-fiber results cannot be promoted to the present T_M3/T_P comparison without an exact denominator-side adapter.
+Likewise SR-STR-223 concerns a different moving compatible-small-point/fiber-product receiver. It is structurally adjacent but does not currently imply an endpoint-active t-image bound for exact physical M3.
+### 16.4 First genuinely missing theorem
+R3_MOVING_BASE_UNIFORMITY:
+prove one of:
+1. endpoint-active base image power saving;
+2. M3-weighted exceptional-base mass o(M3);
+3. a two-fibration incidence/energy estimate implying either of the above;
+4. a specialization theorem with quantitative height uniformity strong enough to sum over the B^(1/3-o(1)) moving base values.
+Fixed-fiber Mordell-Weil/Chabauty calculations do not satisfy this quantifier.
+### 16.5 Anti-loop disposition
+R3 has reached a clean theorem gate.
+R3_STATUS=THEOREM_GATE_PAUSED.
+Reopen only on a genuine moving-family theorem or an exact adapter from another fibration whose base is defined on the whole M3 denominator.
+Do not continue by classifying more individual fibers.
+R3_FIXED_FIBER_ANTICONCENTRATION_PROVED=true
+R3_ENDPOINT_ACTIVE_BASE_BOUND_PROVED=false
+R3_STAGE35_DIRECT_TRANSFER=false
+R3_EXISTING_ARSENAL_CLOSURE=false
+R3_STATUS=THEOREM_GATE_PAUSED
+NEXT_ITEM=R4aAccumulatingCurveGlobalizationAudit
+PRIMARY_ROUTE=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 17. METHOD C — four-linear class identification: branched cover, not standard 2-isogeny Kummer
+Purpose: resolve the current item FourLinearKummerClassIdentification without re-crediting Stage36 structural weapons.
+Recall
+E_t: y^2=x(x+4)(x+4t^2),
+with genuine M3 base
+r^2=1+t^2.
+For a half Q=(x,y) with 2Q=P_t, the endpoint condition is
+G_t(x)=q_-(x)q_+(x) in Q^{*2},
+where
+q_-(x)=x^2+8(t^2-t+1)x+16t^2,
+q_+(x)=x^2+8(t^2+t+1)x+16t^2.
+### 17.1 Exact splitting on the genuine base
+The discriminants are
+Disc_x(q_-)=64(t-1)^2(1+t^2),
+Disc_x(q_+)=64(t+1)^2(1+t^2).
+Since r^2=1+t^2, both are rational squares on the genuine M3 base.
+Using r^2-t^2=1 one obtains exactly
+q_-(x)
+ = [x+2(r-t+1)^2]
+   [x+2(r+t-1)^2],
+q_+(x)
+ = [x+2(r-t-1)^2]
+   [x+2(r+t+1)^2].
+Hence
+### Theorem 17-A — GenuineBaseFourLinearSplit
+On every nondegenerate genuine base value t with r^2=1+t^2,
+G_t(x)
+ = product over epsilon,delta in {+1,-1} of
+   [x+2(r+epsilon*t+delta)^2]
+with the four sign choices corresponding to the displayed factors.
+This is equivalent to the earlier s-parameter factorization but exposes the intrinsic Pythagorean-base meaning.
+### 17.2 Not a standard 2-isogeny / E_t[2] Kummer class
+The standard full-2 Kummer functions on E_t are generated by
+x,
+x+4,
+x+4t^2.
+Their divisors are even: each is twice a rational 2-torsion divisor minus twice the origin divisor. Therefore every squareclass generated by the standard E_t[2] Kummer functions has even valuation at every non-2-torsion geometric point.
+For generic nondegenerate t, each of the four roots
+-2(r-t+1)^2,
+-2(r+t-1)^2,
+-2(r-t-1)^2,
+-2(r+t+1)^2
+is distinct and avoids 0,-4,-4t^2.
+Above each root there are generically two points of E_t, and G_t has valuation 1 at each such point.
+Therefore the divisor of G_t contains eight generic odd-valuation branch points.
+### Theorem 17-B — FourLinearClassIsBranchedNonKummer
+Generically,
+[G_t] in Q(E_t)^*/Q(E_t)^{*2}
+is not contained in the subgroup generated by the standard E_t[2] Kummer functions x, x+4, x+4t^2.
+Equivalently, the quadratic extension
+Q(E_t)(sqrt(G_t))/Q(E_t)
+is branched at eight generic points and is not the unramified 2-isogeny/Kummer cover supplied by S36-PW05/PW06.
+Thus:
+S36_PW05_DIRECT_RECEIVER_IDENTIFICATION=false
+S36_PW06_DIRECT_RECEIVER_IDENTIFICATION=false.
+PW05/PW06 remain useful for the denominator point P_t and its halving baseline, but they do not identify the terminal squareclass itself.
+### 17.3 Genus check
+A degree-two cover of a genus-one curve branched at eight simple points has
+2g(C)-2 = 2*(2*1-2)+8 = 8,
+so
+g(C)=5.
+Thus the halving receiver returns exactly to a genuine moving genus-5 cover, consistent with the earlier endpoint-fiber geometry rather than collapsing to an elliptic 2-isogeny problem.
+### 17.4 Special branch geometry
+Parameterize the genuine base by
+t=2s/(1-s^2),
+r=(1+s^2)/(1-s^2).
+The four x-branch values become
+-8/(1+s)^2,
+-8s^2/(1-s)^2,
+-8s^2/(1+s)^2,
+-8/(1-s)^2.
+For the ordering
+a=-8/(1+s)^2,
+b=-8s^2/(1-s)^2,
+c=-8s^2/(1+s)^2,
+d=-8/(1-s)^2,
+the cross-ratio is
+((a-c)(b-d))/((a-d)(b-c))
+ = (1-s^2)^4/(16s^4)
+ = 1/t^4.
+Hence the branch family is not isotrivial, but its four x-values have a square-valued cross-ratio.
+This is genuine structure, but no counting credit is assigned from it alone.
+### 17.5 Anti-loop consequence
+The next METHOD C step is NOT another 2-isogeny normalization or fixed-fiber rank calculation.
+The remaining possible leverage is a moving-family theorem for this special branched genus-5 family, exploiting one of:
+- square-valued branch cross-ratio;
+- the V4/Jacobian quotient decomposition;
+- a uniform large-sieve / Selmer / rational-point frequency theorem over the Pythagorean base.
+No such theorem is currently retained in Arsenal.
+METHOD_C_FOURLINEAR_IDENTIFICATION_COMPLETE=true
+METHOD_C_TERMINAL_CLASS_STANDARD_KUMMER=false
+METHOD_C_GENUS5_BRANCHED_COVER=true
+METHOD_C_BRANCH_CROSSRATIO_SQUARE=true
+METHOD_C_MOVING_FAMILY_THEOREM_PROVED=false
+METHOD_C_STATUS=LIVE_NARROWED_THEOREM_GATE
+NEXT_ITEM=SpecialGenus5MovingFamilyTheoremSearch
+PRIMARY_METHOD=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 18. METHOD C moving-family theorem search — near-matches do not close the physical frequency problem
+### 18.1 Literature screen
+The exact Section17 receiver is a non-isotrivial one-parameter genus-5 family, presented as a degree-two cover of E_t branched at eight generic points, with V4/Jacobian quotient structure available.
+A targeted literature search found the following near-match theorem species.
+1. Dimitrov--Gao--Habegger, Uniform Bound for the Number of Rational Points on a Pencil of Curves (IMRN 2021):
+for a fixed one-parameter family of genus >=2 curves, the number of rational points on a fiber is bounded in terms of the family and the Mordell--Weil rank of that fiber's Jacobian.
+2. Silverman, A Uniform Bound for Rational Points on Twists of a Given Curve (1993):
+uniform bounds for twists in terms of Jacobian rank; primarily useful for geometrically constant/twist families.
+3. modern arithmetic-statistics results for 2-Selmer groups of structured curve families and hyperelliptic Jacobians: potentially relevant only after an exact representation/family adapter.
+### 18.2 Why the strongest near-match is insufficient
+The M3 goal is not merely a uniform per-fiber point bound.
+Even if one had
+#C_t(Q) <= F(rank Jac(C_t))
+uniformly, the denominator occupies at least B^(1/3-o(1)) moving t-values.
+A bounded or subpolynomial number of endpoint points on EACH active fiber can still sum to the full B^(1/3) denominator scale.
+To close P/M3 one still needs one of:
+- endpoint-active base values form an o(1) weighted fraction of M3 base mass;
+- a rank/Selmer statistic forcing such exceptional mass decay;
+- a two-fibration/quotient correlation theorem that directly controls the weighted endpoint frequency.
+The current literature screen did not produce such a theorem on this exact Pythagorean-base family.
+### 18.3 Twist-family theorem mismatch
+Section17 proves that the branch cross-ratio varies as 1/t^4.
+Therefore the genus-5 family is not geometrically constant.
+Consequently uniform twist-family theorems do not apply by simply declaring the fibers twists of one fixed genus-5 curve.
+SILVERMAN_TWIST_DIRECT_MATCH=false.
+### 18.4 V4 / Selmer statistics mismatch
+The V4 decomposition can reduce Jacobian arithmetic to lower-genus quotient factors, but this is only a structural adapter.
+Existing arithmetic-statistics theorems require a specific coregular representation / hyperelliptic / twist-family parameterization and a compatible height/ordering.
+No exact adapter currently identifies the M3 Pythagorean-base physical measure with such a published family ordering.
+Therefore no Selmer-density credit is imported.
+### Audit Result 18-A — MethodCMovingFamilySearchNegative
+The special genus-5 structure narrows the theorem species but does not currently match an off-the-shelf moving-family rational-point or Selmer-frequency theorem strong enough for P/M3.
+METHOD_C_DGH_NEARMATCH=true
+METHOD_C_DGH_DIRECT_CLOSURE=false
+METHOD_C_TWIST_FAMILY_DIRECT_MATCH=false
+METHOD_C_ARITHMETIC_STATISTICS_ADAPTER=false
+METHOD_C_STATUS=LIVE_NARROWED_THEOREM_GATE_PAUSED
+Reopen METHOD C only for:
+- a theorem controlling rank/Selmer exceptional mass on this exact Pythagorean-base family;
+- an exact representation adapter to an arithmetic-statistics family;
+- a direct two-fibration incidence theorem.
+NEXT_ITEM=MethodEDenominatorUpgradeDepthTest
+PRIMARY_METHOD=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 18. Cross-route new mechanism search — R1 Poisson/trace-function candidate
+### 18.1 Why R1 deserves one bounded reopen
+The directional formulation places the terminal interaction problem on
+H_j(B)=M2,j(B)+M3(B),
+not on the sparse M3 measure.
+Exact cell counts are
+F=0,S=0 : M2,j-N2,j
+F=0,S=1 : N2,j
+F=1,S=0 : M3-P
+F=1,S=1 : P.
+The target remains
+Cov_j(S,F)_+ = o(Pr_j(F=1)),
+or equivalently any
+T_j
+=
+(P/M3)/(N2,j/M2,j)
+<< B^(1/2-delta)
+for fixed delta>0.
+H_j is the Stage18 directional shared-edge toric host with
+M2,j(B)~C_j B(log B)^5,
+exact physical height, and exact Pythagorean parametrization.
+### 18.2 New external theorem species found
+Recent 2025-2026 inputs are relevant as method species only.
+A. Bonolis-Pierce-Woo 2025:
+affine type-II thin-set counting by polynomial sieve and uniform Katz-Laumon/Fouvry-Katz stratification.
+Direct R1/R4a transfer is not available because their ambient integer-box measure does not preserve the exact directional toric physical population.
+B. Bonolis-Kowalski-Woo 2025:
+uniform stratification theorems for exponential sums in families.
+Potentially relevant after Poisson completion if R1 yields a bounded-complexity family of finite-field trace functions with controlled exceptional loci.
+C. Fouvry-Kowalski-Michel-Sawin 2025:
+bilinear trace-function bounds below the Polya-Vinogradov range under robust monodromy hypotheses.
+Potentially relevant only after exact coefficient separation, conductor cleanup, and monodromy verification.
+D. Bo He 2026:
+a linked simultaneous-square problem is solved via exact parametrization, sieve, Poisson summation, finite-field cancellation, monodromy/exceptional-locus control, and switching.
+The arithmetic target differs from R1, so this is method evidence, not theorem transfer.
+DIRECT_THEOREM_TRANSFER_FOUND=false.
+NEW_METHOD_SPECIES_FOUND=true.
+### 18.3 New bounded R1 implementation
+R1-TF = DirectionalToricSelectorPoissonTrace.
+On one exact shared-edge direction:
+1. parameterize H_j by the two primitive Pythagorean pairs;
+2. write the centered F/S covariance before imposing the sparse M3 conditioning;
+3. insert square-sieve / character weights without recharging Stage24 or Stage26 savings;
+4. smooth the exact physical-height region;
+5. apply Poisson summation in the genuine free lattice variables;
+6. identify complete mixed sums as a trace-function family;
+7. classify coincidence/symmetry loci;
+8. apply uniform stratification and, if separation is available, bilinear trace-function bounds;
+9. seek a power deficit strong enough for T_j << B^(1/2-delta).
+### 18.4 First missing adapter
+R1_DIRECTIONAL_TORIC_SELECTOR_POISSON_TRACE_ADAPTER:
+produce an exact smoothed integer-parameter formula for the centered two-selector correlation on H_j such that
+- primitive/canonical multiplicity is exact;
+- R<=B is retained with no height-power loss;
+- the zero frequency is the correct product-of-marginals term;
+- nonzero frequencies form a bounded-complexity trace-function family;
+- exceptional coincidence loci are explicit;
+- coefficient energies fit a uniform stratification/bilinear theorem.
+This is an adapter task, not another renaming of a correlation theorem.
+### 18.5 Why this differs from the frozen SR-STR-169 loop
+SR-STR-169 worked on a later sparse Stage27 survivor measure.
+R1-TF starts earlier on H_j, whose toric/Pythagorean host and asymptotic count are already exact.
+The key change is quantifier order:
+center the two completion selectors on the easy two-face host BEFORE conditioning on third-face completion.
+If successful, the covariance can be attacked by ambient toric cancellation instead of same-M3 transfer.
+### 18.6 Verdict
+R1_STATUS=BOUNDED_REOPEN_FOR_NEW_EXTERNAL_METHOD_INPUT.
+R1_TF_STATUS=ADAPTER_NOT_YET_PROVED.
+R2_STATUS=THEOREM_GATE_PAUSED.
+R3_STATUS=THEOREM_GATE_PAUSED.
+R4A_STATUS=LIVE_PARTIAL_THEOREM_GATE_PAUSED.
+NEXT_ITEM=R1DirectionalToricSelectorPoissonTraceAdapterPreflight
+If the exact Poisson-compatible centered expansion fails, freeze R1-TF immediately.
+If it succeeds, then inspect monodromy and stratification ranges.
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 19. R1 quantitative narrowing — only a 1/12 correlation-power gain is sufficient
+### 19.1 Rare-selector normalization
+On the exact directional host
+H_j=M2,j+M3,
+write
+alpha_j=Pr_j(F=1)=M3/H_j,
+beta_j=Pr_j(S=1)=(N2,j+P)/H_j.
+Certified global inputs give
+H_j ~ C_j B(log B)^5,
+M3 >> B^(1/3),
+N2,j+P <<_epsilon B^(1/2+epsilon).
+Hence
+alpha_j >> B^(-2/3)(log B)^(-5),
+beta_j <<_epsilon B^(-1/2+epsilon)(log B)^(-5).
+Therefore
+sqrt(beta_j/alpha_j)
+ <<_epsilon
+ B^(1/12+epsilon).
+Let rho_j(B) be the Pearson correlation coefficient of the two Boolean selectors F,S on H_j:
+rho_j
+ =
+Cov_j(S,F)
+/ sqrt(Var_j(S)Var_j(F)).
+Since alpha_j,beta_j->0,
+Var(F)<=alpha_j,
+Var(S)<=beta_j,
+and thus
+Cov_j(S,F)_+ / alpha_j
+ <=
+|rho_j| * sqrt(beta_j/alpha_j)
+ <<_epsilon
+ |rho_j| B^(1/12+epsilon).
+But Section13 shows
+P/M3
+ =
+N2,j/M2,j
+ +
+Cov_j(S,F)/[Pr_j(F=1)Pr_j(F=0)],
+and Pr_j(F=0)->1.
+Therefore:
+### Theorem 19-A — OneTwelfthCorrelationReceiver
+If for some fixed delta>0
+|rho_j(B)| << B^(-1/12-delta)
+for one fixed direction j, then
+P(B)/M3(B)->0.
+More generally any estimate
+rho_j(B)=o(B^(-1/12))
+with sufficient control of the epsilon/log factors closes the target.
+This is a sufficient receiver, not an assertion that the true correlation has this scale.
+### 19.2 Interpretation
+R1 does NOT require:
+- asymptotic independence;
+- T_j->1;
+- a full asymptotic for M3;
+- a fixed-power upper for P below B^(1/3).
+It only requires a fixed power improvement of slightly more than 1/12 beyond the rare-selector Cauchy-Schwarz normalization.
+This is materially weaker than the earlier absolute double-square target.
+### 19.3 Existing Section112-113 finite-field assets already match the selector pair
+The four-variable primitive-face model defines exact squareclass representatives
+E4 = third-face square condition,
+H4 = space square condition.
+Section112 proves complete mixed character bounds for
+chi(E4),
+chi(H4),
+chi(E4 H4),
+with square-root-quality complete cancellation.
+Section113 proves the additive Fourier hierarchy:
+- zero frequency O(p^(7/2));
+- one-pair-degenerate frequency O(p^(5/2));
+- generic nonzero frequency O(p^2);
+and squarefree incomplete-box bounds.
+Thus the finite-field cancellation component needed by R1-TF is not new.
+What failed in Section113 was the ABSOLUTE simultaneous-square count:
+elementary double square sieve only reached about B^(4/5).
+R1 is different:
+it asks for a CENTERED covariance on the easy two-face host, normalized by the rare third-face selector.
+Therefore the old B^(4/5) absolute ceiling does not by itself rule out R1-TF.
+### 19.4 Updated R1-TF first missing step
+The first missing input is no longer generic finite-field cancellation.
+It is:
+R1_CENTERED_PHYSICAL_SQUARE_SELECTOR_EXPANSION
+Construct a physical-height-preserving expansion of the global square selectors F,S on H_j such that:
+1. the zero-frequency / principal contribution is exactly the product of the directional marginals;
+2. the remaining centered term can use the Section113 nonzero-frequency Fourier bounds;
+3. primitive/canonical/gcd masks are retained without changing measure;
+4. no existing Stage24 or Stage26 saving is charged twice;
+5. the final correlation coefficient gains >B^(-1/12) over the rare-selector Cauchy scale.
+### 19.5 New literature rematch
+Recent sources materially improve the available method species but do not directly prove the receiver:
+- Bonolis-Pierce-Woo 2025: type-II thin-set sieve + uniform stratification; direct exact-host transfer absent.
+- Bonolis-Kowalski-Woo 2025: uniform stratification in exponential-sum families; relevant to the nonzero-frequency family.
+- Fouvry-Kowalski-Michel-Sawin 2025: bilinear trace-function estimates below Polya-Vinogradov; relevant after exact separation/monodromy.
+- Bo He 2026: linked-square problem solved with parametrization + sieve + Poisson + finite-field correlation + switching; method analogue only.
+- Buggenhout-Cluckers-Santens-Vermeulen 2025: strong projective thin-set degree>=4 bounds; no exact toric anticanonical-height adapter.
+No direct theorem transfer is certified.
+### 19.6 Current disposition
+R1_TF_FINITE_FIELD_INPUT_ALREADY_AVAILABLE=true
+R1_TF_ABSOLUTE_DOUBLE_SIEVE_CEILING_NOT_DECISIVE_FOR_CENTERED_ROUTE=true
+R1_REQUIRED_CORRELATION_POWER=1/12_PLUS_MARGIN
+R1_CENTERED_PHYSICAL_SELECTOR_EXPANSION=false
+NEXT_ITEM=CenteredSelectorExpansionOnDirectionalToricHost
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 14. R2 reentry check — old transfer wall materially narrowed, not closed
+### 14.1 Historical R2 wall
+The old Class-3 wall was:
+local / parameter-side squareclass information
+  -> exact primitive canonical physical M3(B) under R<=B.
+ARCHIVE Section38 states the missing ingredient explicitly:
+"The local law itself is already available. The missing ingredient is the global physical weighting."
+The operational form was:
+- fix modulus q;
+- fix signed squarefree delta / cross-gcd labels;
+- count exact physical M3 points in the slice;
+- require an error uniform enough in delta and cross-gcd labels;
+- sum the slice estimates without losing the saving.
+### 14.2 What later work actually repaired
+The later physical divisor / delta / norm work substantially reduced the semantic part of this wall.
+Already exact:
+- one-object / one-count physical coordinates;
+- primitive/canonical normalization;
+- exact physical height;
+- delta_odd | rad(PQ);
+- only B^o(1) squareclass allocations per physical packet;
+- fixed-delta individual equations genus 0;
+- coupled fixed-delta slice retains one genus-1 core;
+- four-cross-gcd packetization;
+- fixed residual packet M3 multiplicity B^o(1);
+- small C_- region M3-negligible;
+- exact primitive norm rectangle;
+- physical recovery h=gcd(Y,Q)*gcd(Z,P);
+- fixed N_-, fixed D, fixed (h,J), fixed X and related fibers have B^o(1) multiplicity.
+Thus the old "parameter-to-object transfer" is no longer the correct description of the blocker.
+The object semantics and height are now physically exact.
+### 14.3 What remains genuinely missing
+What is still absent is cancellation across a polynomially large collection of moving physical packets.
+A fixed packet may contain only B^o(1) points, but there are polynomially many packets and their arithmetic states may be biased.
+Therefore packet anti-concentration alone does not imply same-M3 equidistribution.
+The remaining wall is not:
+"recover the physical M3 measure."
+It is now:
+"prove a nontrivial average cancellation theorem across the exact moving packet family."
+### Receiver 14-A — PhysicalPacketAverageCharacterCancellation
+Let Pi range over any exact packetization retaining:
+- primitive/canonical M3;
+- R<=B;
+- one-object/one-count;
+- all cross-gcd / delta / common-core labels needed to reconstruct the physical point.
+For a fixed good odd prime ell, let chi_ell(E) denote the nontrivial squareclass character relevant to the terminal condition on a physical M3 point E.
+A sufficient fixed-prime theorem is
+sum_{Pi} sum_{E in Pi(B)} chi_ell(E)
+  = o(M3(B)).
+A stronger quantitative form uniform for squarefree q is
+sum_{Pi} sum_{E in Pi(B)} chi_q(E)
+  << M3(B)*rho(q) + Err(B,q),
+with rho(q) decaying multiplicatively and an error summable for q in a growing family.
+This formulation preserves the exact physical measure and does not require ambient packet density assumptions.
+### 14.4 Why fixed-packet B^o(1) is not enough
+Suppose every packet has at most B^o(1) points.
+This only implies that M3(B) is spread over at least B^(1/3-o(1)) packets.
+It does not prevent every occupied packet from carrying the same terminal squareclass sign.
+Hence:
+FIXED_PACKET_ANTICONCENTRATION != PACKET_AVERAGE_EQUIDISTRIBUTION.
+The missing theorem must see correlations between packet labels and terminal characters.
+### 14.5 Later one-factor/common-core work does not close R2
+Sections99–104 identify genuine moving moduli K_- and h and exact root packets.
+These are valuable arithmetic decompositions, but the large-modulus savings remain conditional on averaging over the same physical M3 packet family.
+Section103 explicitly shows that the first split-product eliminant is too diagonal for a direct Reuss transfer.
+Section104 corrects the proportional-branch interpretation and confirms that raw bilinear determinant savings are not available automatically.
+Therefore no later result supplies the missing packet-average theorem.
+### 14.6 R2 current theorem gate
+R2 has materially improved from a broad semantic transfer problem to a precise same-measure averaging problem.
+Current minimal theorem species:
+PhysicalPacketAverageCharacterCancellation
+or equivalently
+ExactM3GrowingLocalSquareUpperSieve.
+Required features:
+- exact physical M3 measure;
+- primitive/canonical/R<=B preserved;
+- no double charge of common-core/root-line savings;
+- uniformity over the moving packet labels;
+- enough modulus range to make the terminal survival factor tend to zero.
+Existing packet/fiber B^o(1) theorems are supporting inputs only.
+### 14.7 R2 anti-loop disposition
+R2_REENTRY_MATERIALLY_JUSTIFIED=true because the later exact physical work changed the blocker from a parameter-transfer problem to a packet-average theorem gate.
+However no current retained theorem closes that gate.
+R2_STATUS=LIVE_THEOREM_GATE_PAUSED.
+Reopen R2 only on one of:
+- a same-measure character/large-sieve theorem on the exact packet family;
+- an exact low-rank separation of the packet character making SR-STR-161/165 applicable;
+- a determinant/incidence theorem with a nondegenerate eliminant after all physical masks are retained;
+- a new packet image-size theorem that reduces the number of bad packets below B^(1/3-epsilon).
+Further coordinate rewrites alone do not count as progress.
+### 14.8 Comparison with R1
+R1 and R2 now end at related but distinct gates:
+R1:
+  one normalized terminal covariance on the exact directional two-face host.
+R2:
+  character cancellation across the exact M3 moving packet family.
+R1 is logically closer to P/M3, but its selector covariance theorem is absent.
+R2 has much richer local arithmetic input, but requires broader global averaging.
+Neither dominates the other.
+NEXT_ITEM=R3MovingFibrationReentryCheck
+R2_REENTRY_CHECK_COMPLETE=true
+R2_OLD_SEMANTIC_TRANSFER_WALL_SUPERSEDED=true
+R2_PACKET_AVERAGE_GATE_DEFINED=true
+R2_EXISTING_THEOREM_CLOSURE=false
+R2_STATUS=LIVE_THEOREM_GATE_PAUSED
+PRIMARY_ROUTE=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 15. R3 reentry check — moving-fibration gate is exact and still open
+### 15.1 What is already proved
+For the rational fibration
+t1=a2/a3,
+ARCHIVE proves uniformly for every occupied physical fiber:
+N_t(B)=B^o(1).
+Since M3(B)>>B^(1/3), the occupied base image satisfies
+#T_M3(B) >= B^(1/3-o(1)).
+Hence no finite, polylogarithmic, or B^o(1) collection of fibers can carry a positive proportion of M3.
+This permanently rules out fixed-fiber Mordell-Weil enumeration as a whole-population strategy.
+### 15.2 Transverse fibration progress
+A second rational fibration was constructed after the earlier Q(i)-valued attempt.
+The physically useful pair is:
+t1=a2/a3,
+t2=(a2+a3)/(b2+b3).
+On a fixed generic t1-fiber, t2 is nonconstant and the map
+E_{t1} -> P1_{t2}
+has exact degree 2.
+Therefore the two fibrations are genuinely transverse, not a base reparametrization of one another.
+This is real geometric progress and supplies an exact two-fibration incidence architecture.
+### 15.3 What it does not prove
+The transverse degree-2 map does not count which rational base specializations are occupied under the exact physical height.
+ARCHIVE explicitly records that geometric MW information and transverse-fibration structure do not by themselves give a physical M3 asymptotic or endpoint density theorem.
+The unresolved quantifier is moving-base uniformity.
+### Receiver 15-A — EndpointActiveBaseImagePowerSaving
+Let
+T_P(B)={t1 : the t1-fiber contains at least one endpoint point of height <=B}.
+A sufficient theorem is:
+#T_P(B) <= B^(1/3-delta)
+for some fixed delta>0.
+Because every fixed t1-fiber contributes only B^o(1) points,
+P(B) <= B^(1/3-delta+o(1))=o(M3(B)).
+A weaker weighted theorem
+sum_t P_t(B)=o(sum_t N_t(B))
+is also sufficient.
+### Receiver 15-B — TwoFibrationIncidenceEnergySaving
+Using the transverse pair (t1,t2), another sufficient theorem is a same-height incidence/energy estimate showing that endpoint-active rational points occupy an o(1) proportion of the physical M3 incidence graph.
+The degree-2 map is the exact geometric input; the missing piece is a uniform rational-point/specialization theorem over the moving base.
+### 15.4 R3 theorem boundary
+R3 exact assets:
+- physical rational t1-map;
+- uniform fixed-fiber B^o(1) count;
+- polynomially many occupied t1-values forced;
+- second transverse rational fibration;
+- exact degree-2 map between fibrations.
+Missing:
+- moving-base distribution / specialization theorem;
+- or a two-fibration incidence-energy estimate with exact physical height.
+No retained theorem currently supplies either.
+Therefore:
+R3_STATUS=LIVE_THEOREM_GATE_PAUSED.
+Reopen only on:
+- a uniform moving-specialization theorem;
+- a quantitative two-fibration incidence/energy estimate;
+- an endpoint-active base-image compression theorem;
+- an exact external theorem matching the physical height and rational base quantifiers.
+Further fixed-fiber rank/MW computations do not count as progress.
+NEXT_ITEM=R4aAccumulatingCurveCoverageReentryCheck
+R3_REENTRY_CHECK_COMPLETE=true
+R3_TRANSVERSE_FIBRATION_ASSET=true
+R3_MOVING_BASE_THEOREM_MISSING=true
+R3_STATUS=LIVE_THEOREM_GATE_PAUSED
+PRIMARY_ROUTE=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 16. R4a reentry check — terminal-cover geometry remains a two-layer route
+### 16.1 Exact assets retained
+Let pi:S->K_c be the endpoint degree-two cover from the Euler K3 to the full endpoint surface.
+For every fixed integral degree-6 curve C subset K_c, the restricted cover is non-split.
+The dominating lift has endpoint contribution at most
+O(B^(1/6+o(1))).
+Thus every fixed finite collection of such curves is negligible against
+M3(B)>>B^(1/3).
+This is a genuine numerator exponent improvement on a nontrivial geometric subpopulation.
+### 16.2 What Stage29/Testa-Stoll adds
+On the full endpoint surface Sbar, Testa-Stoll completely classifies all integral curves of canonical/projective degree <=6.
+In the positive nondegenerate physical chamber:
+- degree <=6 positive-dimensional endpoint carrier families are absent;
+- there are no integral degree-6 curves on the endpoint surface;
+- the first possible physical endpoint curve-family degree is >=8.
+This strengthens the fixed-curve terminal-cover picture.
+However it is a theorem on the endpoint surface, not a classification of all accumulating curves on the Euler K3 denominator.
+### 16.3 Higher low-genus carrier work is still incomplete
+The frozen Stage29/Stage32 low-genus Picard receivers remain:
+R29-LG2,
+R29-LG2-EFF,
+R29-LG2-MB.
+Their audited scope includes unibranch genus-0 / genus-1 numerical windows through degree 176/192 plus effectivity and multibranch corrections.
+Current literature and bounded computation strengthen filters but do not discharge the full receivers.
+Therefore higher-degree low-genus endpoint carrier census is not complete.
+### 16.4 The two distinct layers that remain
+Even if every low-genus endpoint carrier receiver were eventually closed, the M3 density target would still require a whole-population statement.
+Layer A — accumulating/carrier contribution:
+classify and sum every curve/family capable of carrying denominator-scale or numerator-relevant mass, with exact physical height.
+Layer B — residual population:
+prove that the endpoint lift on the Zariski-dense residual M3 population contributes o(B^(1/3)) or o(M3(B)).
+Layer B is not supplied by low-degree curve classification alone.
+Hence:
+LOW_DEGREE_CARRIER_CLASSIFICATION != WHOLE_ENDPOINT_COUNT.
+### Receiver 16-A — AccumulatingCarrierTotalBound
+A sufficient Layer-A theorem is
+P_acc(B)=o(B^(1/3)).
+The fixed degree-6 theorem proves this only for every fixed finite subcollection, not for a moving family of curves.
+### Receiver 16-B — ResidualEndpointCount
+After removing all certified accumulating carriers, prove
+P_res(B)=o(B^(1/3)).
+Any relative version
+P_res(B)=o(M3_res(B))
+is also sufficient when the removed denominator mass is separately controlled.
+### 16.5 R4a theorem boundary
+R4a exact assets:
+- global endpoint cover S->K_c;
+- fixed degree-6 nonsplitting;
+- B^(1/6+o(1)) fixed-curve endpoint count;
+- complete endpoint degree<=6 carrier classification;
+- positive physical degree<=6 carrier absence;
+- extensive but incomplete higher low-genus Picard machinery.
+Missing:
+- total accumulating-family count under physical height;
+- residual endpoint count.
+Therefore:
+R4A_STATUS=LIVE_TWO_LAYER_THEOREM_GATE_PAUSED.
+Reopen on:
+- complete effective carrier classification with a summable family count;
+- a residual rational-point theorem on the terminal cover;
+- a determinant/geometric-sieve theorem after carrier removal;
+- a theorem proving all denominator-scale accumulation is captured by a controlled explicit family.
+Do not promote completion of the finite Picard census itself to P/M3 credit.
+NEXT_ITEM=R5DenominatorUpgradeReentryCheck
+R4A_REENTRY_CHECK_COMPLETE=true
+R4A_FIXED_CURVE_EXPONENT_ONE_SIXTH=true
+R4A_LOW_DEGREE_ENDPOINT_FILTER=true
+R4A_WHOLE_ACCUMULATING_COUNT=false
+R4A_RESIDUAL_COUNT=false
+R4A_STATUS=LIVE_TWO_LAYER_THEOREM_GATE_PAUSED
+PRIMARY_ROUTE=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 17. R5 reentry check — denominator upgrade remains mechanism-discovery stage
+### 17.1 Exact closure implication
+The current whole-endpoint upper is
+P(B) <<_epsilon B^(1/2+epsilon).
+Therefore any theorem
+M3(B) >> B^(1/2+delta)
+for one fixed delta>0 would immediately imply
+P(B)/M3(B)->0
+by choosing epsilon<delta.
+This implication is exact and uses no interaction assumption.
+### 17.2 Where the present B^(1/3) lower came from
+The current explicit lower arose by exposing the hidden two-dimensional freedom in the generalized Saunderson construction.
+The historical improvement
+B^(1/6) -> B^(1/3)
+came from replacing an effectively one-parameter view by a genuine two-parameter cone with bounded multiplicity and exact physical control.
+Thus the denominator route is fundamentally a parameter-dimension / physical-height problem.
+### 17.3 What was already tried
+ARCHIVE explicitly investigated a possible next dimension gain through the empirical divisibility pattern
+U1 | U2.
+One concrete ansatz
+m-n=r+s,
+m+n=k(r-s)
+matched a few examples but failed as a universal identity.
+The induced transform had an involutive/scaling structure but did not create an additional free parameter family.
+Therefore that branch did not improve the lower exponent.
+### 17.4 Current minimal receiver
+### Receiver 17-A — SuperHalfPowerM3Family
+Construct an exact primitive/canonical M3 subfamily F(B) satisfying
+#F(B) >> B^(1/2+delta)
+for some fixed delta>0,
+with:
+- exact R<=B;
+- bounded/subpolynomial multiplicity;
+- primitive/canonical recovery;
+- no endpoint assumption.
+Any such family would close the M3 density target when combined with the existing endpoint upper.
+### 17.5 Current theorem/mechanism status
+No retained construction currently approaches exponent >1/2.
+No theorem rules out the existence of such a family.
+But unlike R1/R2/R3, there is not yet a precise one-theorem gate with an identified input architecture.
+The missing object is first a new mechanism:
+- an additional independent parameter freedom;
+- a new dominant M3 component/family;
+- or a direct lower-count theorem for a broad M3 region.
+Hence:
+R5_STATUS=UNTESTED_MECHANISM_DISCOVERY.
+This is not a blocked theorem gate; it is earlier-stage discovery.
+Reopen when:
+- a new exact M3 parametrized family with apparent exponent ratio >1/2 is found;
+- a broad K3/rational-point lower-count theorem becomes applicable to exact physical M3;
+- or a new structural decomposition shows that an already-known family has hidden additional free dimension.
+Do not spend primary effort on blind ansatz enumeration without a dimension-gain certificate.
+---
+## 18. Route-audit synthesis after R1–R5 reentry
+The major routes are now at comparable depth.
+### R1 terminal selector correlation
+State:
+exact measure and exact minimal covariance receiver; one new same-measure correlation theorem missing.
+Status:
+LIVE_THEOREM_GATE_PAUSED.
+### R2 exact M3 local-to-global
+State:
+semantic/height transfer largely repaired by physical packets; one packet-average/growing-sieve theorem missing.
+Status:
+LIVE_THEOREM_GATE_PAUSED.
+### R3 moving fibration
+State:
+fixed-fiber B^o(1), many-base theorem, transverse degree-2 fibration architecture; one moving-base uniform theorem missing.
+Status:
+LIVE_THEOREM_GATE_PAUSED.
+### R4a terminal cover / accumulating geometry
+State:
+strong fixed-curve exponent and low-degree endpoint carrier filter; whole accumulating-family sum plus residual count remain.
+Status:
+LIVE_TWO_LAYER_THEOREM_GATE_PAUSED.
+### R5 denominator upgrade
+State:
+closure implication trivial, but no >1/2 family mechanism identified.
+Status:
+UNTESTED_MECHANISM_DISCOVERY.
+### Strategic comparison
+By logical closure distance, not estimated human difficulty:
+R1 is currently closest to the target ratio.
+R2 is next: richer arithmetic input but broader averaging theorem.
+R3 is next: strong geometry, broad moving-family theorem.
+R4a has two remaining global layers.
+R5 needs mechanism discovery before theorem proving begins.
+Therefore the next active research unit should not reopen R4a or R5 first.
+The best bounded choice is to attack R1 once at its exact frozen receiver, but under a strict anti-loop rule:
+try only to derive an exact coefficient-separation / bilinear / collision representation on the directional host H_j that would make an already-retained analytic weapon genuinely applicable.
+If that fails without a new identity, freeze R1 and rotate immediately to R2.
+NEXT_ITEM=R1ExactSeparationAdapterAttempt
+R5_REENTRY_CHECK_COMPLETE=true
+R5_STATUS=UNTESTED_MECHANISM_DISCOVERY
+ROUTE_REENTRY_AUDIT_COMPLETE=true
+PRIMARY_ROUTE=UNDECIDED
+NEXT_ITEM=R1ExactSeparationAdapterAttempt
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 17. R5 reentry check — denominator upgrade now has an exact family-growth threshold
+Purpose: turn the vague idea “make M3 much larger” into a quantitative construction receiver.
+Known globally:
+M3(B) >> B^(1/3),
+P(B) <<_epsilon B^(1/2+epsilon).
+Hence any fixed delta>0 theorem
+M3(B) >> B^(1/2+delta)
+would imply P(B)/M3(B)->0 by choosing epsilon<delta.
+### 17.1 General family exponent bookkeeping
+Suppose an explicit exact primitive/canonical M3 family is parametrized by integer data of effective count
+T^(k+o(1))
+inside a positive-density admissible parameter region, has physical height
+R << T^d,
+and parameter-to-object multiplicity T^o(1).
+Then it contributes
+M3(B) >> B^(k/d-o(1)).
+Therefore a family-construction proof of the denominator route requires
+k/d > 1/2,
+equivalently
+2k>d.
+This is a receiver condition, not a claim that every possible M3 lower-bound proof must arise from such a polynomial family.
+### 17.2 Standard Saunderson scale
+The classical Saunderson construction starts from a primitive Pythagorean triple, hence from two Euclid integer parameters.
+After substitution, the physical Euler-brick edges have total degree 6 in those parameters.
+Thus
+k=2,
+d=6,
+and the natural count scale is
+B^(2/6)=B^(1/3).
+This exactly matches the certified lower exponent.
+### 17.3 Previous attempted upgrade
+ARCHIVE Phase1.1 investigated the observed U1|U2 subpopulation and the ansatz
+m-n=r+s,
+m+n=k(r-s).
+It produced only sparse hits and an involutive pairing under iteration; it did not create a new genuinely free parameter dimension or lower the physical height degree.
+Therefore that branch does not satisfy 2k>d and gives no denominator upgrade.
+### Receiver 17-A — SuperHalfPowerM3Family
+To reopen R5 by explicit construction, produce an exact primitive/canonical M3 family with:
+1. effective parameter count T^(k+o(1));
+2. physical height O(T^d);
+3. multiplicity T^o(1);
+4. 2k>d.
+Any equivalent counting mechanism proving M3(B)>>B^(1/2+delta) also reopens R5.
+### 17.4 R5 disposition
+No retained family currently meets Receiver17-A.
+No theorem rules out such a family or a non-parametric denominator lower-bound mechanism.
+Hence:
+R5_STATUS=UNTESTED_MECHANISM_FREE.
+Do not spend primary effort on random algebraic ansatz search unless it comes with a credible k/d improvement certificate.
+R5_REENTRY_CHECK_COMPLETE=true
+R5_SUPERHALF_THRESHOLD=2k>d
+R5_EXISTING_FAMILY_MEETS_THRESHOLD=false
+NEXT_ITEM=R10DirectPhysicalIncidencePreflight
+PRIMARY_ROUTE=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 18. R10 preflight — direct physical occupied-pair incidence
+Let X be the unique odd edge and D=sqrt(Y^2+Z^2) on a canonical M3 object.
+Define
+W_B={(X,D): some E in M3(B) has these coordinates},
+E_B={(X,D) in W_B: X^2+D^2 is an integer square}.
+The endpoint condition is exactly the fourth Pythagorean relation
+X^2+D^2=R^2.
+The retained fixed-(X,D) theorem gives
+mu_B(X,D)=#{E in M3(B):(X(E),D(E))=(X,D)} <= B^o(1).
+Hence
+|W_B| <= M3(B) <= B^o(1)|W_B|,
+P(B) <= B^o(1)|E_B|.
+### Receiver 18-A — OccupiedPhysicalPairIncidenceDeficit
+Any fixed delta>0 theorem
+|E_B| <= B^(-delta+o(1))*|W_B|
+implies
+P(B)/M3(B)->0.
+This route is distinct from the one-factor/common-core route because it uses the full endpoint relation directly.
+Ambient Pythagorean counting alone is insufficient: for fixed X the endpoint condition gives divisor-many D, but the occupied M3 image above fixed X is itself already only B^o(1). Separate fixed-X and fixed-D anti-concentration therefore gives no relative saving on W_B.
+A genuine R10 theorem would need one of:
+- expansion of the occupied M3 pair image;
+- incidence-energy deficit against the Pythagorean graph;
+- determinant-method counting retaining the M3 witness equations;
+- two-coordinate equidistribution on W_B.
+No retained theorem currently supplies such an estimate.
+R10_STATUS=UNTESTED_THEOREM_GATE.
+---
+## 19. Route-organization checkpoint
+Current route states:
+R1 terminal population interaction / directional covariance:
+LIVE_THEOREM_GATE_PAUSED.
+R2 same-M3 local-to-global / delta physical transfer:
+THEOREM_GATE_PAUSED.
+R3 M3-weighted moving-fiber energy:
+THEOREM_GATE_PAUSED.
+R4a terminal-cover / accumulating carriers:
+LIVE_TWO_LAYER_THEOREM_GATE_PAUSED.
+R4b ambient double-square elementary completion:
+BLOCKED_ELEMENTARY.
+R5 denominator upgrade:
+UNTESTED_MECHANISM_FREE.
+Re-entry threshold for polynomial family constructions: 2k>d.
+R6 one-factor/common-core:
+BLOCKED_AS_PRIMARY; auxiliary only.
+R7 existing canonical image-size:
+BLOCKED_EXISTING_COORDINATES.
+R8 joint V4:
+R1_SUPPORT.
+R9 common toric host / branch profile:
+R1_SUPPORT.
+R10 direct physical (X,D) incidence:
+UNTESTED_THEOREM_GATE.
+No blind-pass candidate has been silently discarded.
+The route-organization phase is complete enough to begin a targeted new-mechanism search.
+Priority theorem gates for the next search:
+1. R1 same-measure rare-selector covariance on a directional two-face toric host;
+2. R3 M3-weighted moving-fiber energy / exceptional-mass theorem;
+3. R4a accumulating-family summation or residual terminal-cover count;
+4. R10 occupied-pair incidence expansion.
+R2 remains paused until a genuine fixed-q/delta uniform physical count appears.
+NEXT_ITEM=CrossRouteNewMechanismSearch
+ROUTE_ORGANIZATION_COMPLETE=true
+BLIND_ROUTE_LEDGER_RECONCILED=true
+PRIMARY_ROUTE=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 20. Cross-route mechanism search — McKinnon big-nef adapter tested and rejected in the naive form
+Status: DERIVED_RESEARCH_RESULT_PENDING_HOSTILE_AUDIT.
+External theorem checked:
+David McKinnon, Counting Rational Points on K3 Surfaces, JNT 84 (2000), Theorem 2.1 / Corollary 2.2.
+McKinnon treats a smooth K3 surface with a generically degree-two map to P1xP1 branched over a singular (4,4) curve. If the singular points give simple irreducible one-dimensional fibers E_i, write F1,F2 for the two ruling-fiber classes and
+A_i=F1+F2-E_i.
+For an ample divisor
+D=sum_i a_i A_i+c1 F1+c2 F2,
+a=sum_i a_i,
+his residual-point exponent contains
+alpha=max{4/(a+c1+c2), 2/(a+c1), 2/(a+c2)}.
+### 20.1 Exact physical specialization
+The Stage14/20 Euler K3 blow-down has four ordinary double points on the (4,4) branch, at the four toric corners.
+The resolved physical polarization is
+M=pi^*(-K_Y),
+Y=Bl_4(P1xP1),
+-K_Y=2H1+2H2-E1-E2-E3-E4.
+Under the direct map to P1xP1 this gives the corresponding K3 divisor class
+M=2F1+2F2-(E1+E2+E3+E4).
+Using McKinnon's A_i basis:
+sum_{i=1}^4 A_i
+ =4F1+4F2-(E1+E2+E3+E4),
+hence
+M=sum_i A_i-2F1-2F2.
+Therefore the physical coefficients are
+a_i=1,
+a=4,
+c1=c2=-2.
+Thus
+a+c1+c2=0.
+### Theorem 20-A — McKinnonPhysicalBoundaryDegeneracy
+The exact physical quasi-polarization M lies on the boundary at which the first McKinnon exponent denominator vanishes.
+Consequently McKinnon Theorem 2.1 does not merely fail because its statement says ample: its explicit counting exponent degenerates at the physical M-ray.
+A naive ample perturbation M_epsilon approaching M makes the corresponding first exponent term blow up rather than converge to a useful physical-height exponent.
+The fact that the M-null curves lie outside the primitive positive physical open does not by itself repair this exponent degeneration.
+### 20.2 Strategic consequence
+The candidate
+McKinnonBigNefPhysicalOpenAdapter
+is NOT obtained by a routine ample perturbation or by deleting the null boundary curves.
+Reopening this route requires a genuinely new proof that exploits additional arithmetic/physical restrictions in the diagonal-growth region responsible for a+c1+c2=0.
+This is stronger than the old statement MCKINNON_DIRECT_PHYSICAL_HEIGHT_TRANSFER=false.
+R4A_MCKINNON_NAIVE_BIG_NEF_EXTENSION=false
+R4A_MCKINNON_BOUNDARY_DENOMINATOR_ZERO=true
+R4A_NEW_RESIDUAL_THEOREM_FOUND=false
+### 20.3 Literature screen note
+Recent quasi-polarized K3 work of Rams--Schuett controls low-degree rational curves for big-and-nef polarizations but does not provide the required bounded-height residual rational-point theorem at physical degree M^2=8.
+The 2026 degree-two K3 rational-point work located in the screen concerns infinitude/field extensions, not a physical-height residual counting theorem.
+Therefore R4a remains
+R4A_STATUS=LIVE_TWO_LAYER_THEOREM_GATE_PAUSED.
+NEXT_SEARCH_TARGET=R3_MOVING_FIBER_ENERGY_OR_R1_SELECTOR_COVARIANCE
+PRIMARY_ROUTE=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 21. R1 blocker-level joint local interaction — corrected exact support statement
+Status: DERIVED_AFTER_HOSTILE_SOURCE_RECONCILIATION; GLOBAL_CREDIT_NOT_GRANTED.
+The previous draft first overclaimed a codimension-two statement from geometric branch divisors, then correctly withdrew it after noticing that the Stage20 blocker lives on toric exceptional divisors rather than directly on the third-face branch divisor.
+A second source-level reconciliation with the exact Stage15 split-prime decomposition now identifies the relevant supports correctly.
+### 21.1 Stage19 first-order blocker support
+For good split primes p=1 mod 4,
+A=(mr+i ns)(mr-i ns),
+B=(ms+i nr)(ms-i nr).
+On the smooth toric resolution Y=Bl_4(P1xP1), the four squareclass-odd divisors are the strict transforms
+D_A,+, D_A,-, D_B,+, D_B,-.
+The four exceptional divisors occur in div(A) or div(B) with multiplicity 2 and are therefore invisible to valuation parity.
+Accordingly the Stage19 rejection event
+v_p(A) != v_p(B) mod 2
+has first-order support on the strict A/B divisor tubes, not on the generic exceptional-divisor tubes.
+The exact marginal rejection remains
+1-alpha_p
+ =4p(p-1)^2/((p+1)^2(p^2+6p+1))
+ =4/p+O(p^-2).
+### 21.2 Stage20 first-order blocker support
+The audited Stage14-e11 state is
+G: |n1|=|n2|>0,
+where (n1,n2)=(v_p(q1),v_p(q2)).
+A state-G point specializes to the OPEN STRATUM of one of the four exceptional toric divisors.
+After removal of the common valuation, the blocker is the residue condition
+chi_p(x^2+y^2)=-1
+on that exceptional divisor.
+Its exact marginal mass is
+delta_p
+ =2(p-chi_4(p))/(p^2+6p+1)
+ =2/p+O(p^-2).
+### Theorem 21-A — FirstOrderBlockerSupportsSeparate
+For every sufficiently good split prime, the first-order Stage19 blocker support lies on the strict A/B divisor strata, while the first-order Stage20 state-G blocker lies on the open exceptional-divisor strata.
+These mod-p first-order supports are disjoint.
+Possible interaction is therefore confined to the finite boundary where strict A/B divisors meet exceptional divisors, or to higher-order p-adic refinements.
+Such boundary residue classes have total normalized mass O(p^-2).
+Hence, for the KNOWN SIEVE BLOCKERS only,
+Pr(B_19,p intersection B_20,p)=O(p^-2).
+Equivalently, if sigma_p denotes survival against both known blockers,
+sigma_p
+ = alpha_p*(1-delta_p)+O(p^-2).
+Thus
+sigma_p/[alpha_p*(1-delta_p)]
+ =1+O(p^-2),
+and the relative Euler product of the KNOWN blocker interaction converges absolutely after removal of finitely many bad primes.
+### 21.3 Firewall — this is not local independence of the actual completion predicates
+The theorem above concerns only the two certified first-order sieve blockers.
+It does NOT prove that the exact local third-face-square predicate and exact local space-square predicate are independent.
+It does NOT identify the exact joint local lift density for the two degree-two covers.
+It does NOT imply any global terminal interaction estimate.
+In particular it does not prove
+T_j=(P/M3)/(N2,j/M2,j)=O(1)
+or any bound on T_j.
+What it proves is narrower:
+the B-power-sized terminal enhancement, if present, is not generated by overlap of the two already-certified first-order good-prime blocker systems.
+### 21.4 Strategic consequence
+The known local blocker mechanisms now have:
+- marginal first-order dimensions already compared in Stage28;
+- finite relative marginal Euler-product bias;
+- no new first-order cross-blocker term.
+Therefore METHOD A remains a genuinely global correlation problem.
+Any successful R1 theorem must exploit information beyond the currently certified first-order local blockers, such as:
+- physical-height correlation;
+- higher-order local structure with effective growing modulus;
+- accumulating multisections / exceptional support;
+- global arithmetic correlation of the two quadratic lifts.
+R1_KNOWN_BLOCKER_FIRST_ORDER_SUPPORTS_SEPARATE=true
+R1_KNOWN_BLOCKER_JOINT_MASS=O(p^-2)
+R1_KNOWN_BLOCKER_RELATIVE_EULER_PRODUCT_CONVERGENT=true
+R1_ACTUAL_SELECTOR_LOCAL_INDEPENDENCE_PROVED=false
+R1_GLOBAL_COVARIANCE_GATE_REMAINS=true
+R1_STATUS=LIVE_THEOREM_GATE_PAUSED
+NEXT_ITEM=R1GlobalCorrelationMechanismAfterLocalBlockerExhaustion
+PRIMARY_ROUTE=UNDECIDED
+P_OVER_M3_LIMIT_PROVED=false
+---
+## 22. R5 geometric no-go for naive extra-parameter denominator families
+Status: DERIVED_STRUCTURAL_RESULT.
+The denominator-upgrade route asks for a mechanism proving
+M3(B) >> B^(1/2+delta)
+for some fixed delta>0.
+Section17 gave a polynomial-family bookkeeping rule: a primitive family with T^(k+o(1)) effective parameter tuples, physical height O(T^d), and T^o(1) multiplicity contributes B^(k/d-o(1)).
+A naive idea is therefore to add one genuinely free rational parameter to a Saunderson-type family.
+The K3 geometry forbids this in the bounded-multiplicity Zariski-dense form.
+### Theorem 22-A — NoDominantRationalSurfaceParameterizationOfKc
+Let K_c be the smooth Euler-brick K3 surface over Q.
+There is no dominant generically finite rational map
+P^2 -->> K_c
+over characteristic zero.
+More generally, no ration

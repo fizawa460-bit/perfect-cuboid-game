@@ -1,0 +1,340 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229AA — uniform primitive odd-CM selector smoothness and total odd-dependence closure
+
+
+STATUS: POST_229Z_UNIFORM_ODD_CM_SELECTOR_THEOREM / PROVED_H_ALPHA_DESCENDS_TO_X_LINE / PROVED_UNIFORM_ZERO_POLE_SEPARATION_BY_GAUSSIAN_COPRIMALITY / PROVED_FIXED_SELECTOR_CURVE_SMOOTH_GENUS_N_MINUS_2_FOR_EVERY_PRIMITIVE_ODD_ALPHA / PROVED_ALL_BOUNDED_ODD_CM_DEPENDENCE_Bo1 / ODD_CM_DEPENDENCE_SUBGATE_CLOSED / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229Z UNIFORM CM DIVISOR THEOREM / ODD-NORM SELECTOR CURVE CLASSIFICATION / FINITE-SLOPE CLOSURE
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229Z
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+
+
+1. Scope
+
+
+229W proved the all-odd pullback/rationalization theorem. For every primitive odd Gaussian dependence slope
+  alpha=a+bi in Z[i],
+with a,b nonzero coprime integers and
+  n=N(alpha)=a^2+b^2 odd,
+a physical dependent endpoint has
+  Q in E_d(Q),
+  P=[alpha]Q,
+  r=X(Q)/d=epsilon*t^2,  epsilon in {+1,-1}.
+For each fixed alpha the only remaining condition is the physical base selector N(p) in Q^{*2}.
+
+
+Cards 229U/229W/229Y/229Z closed n=5,13,17,25 one by one by explicit fixed curves. The observed genus pattern is not accidental. This card proves a uniform divisor-theoretic theorem for every primitive odd alpha and closes ALL odd slopes in the bounded 229S dependence gate at once.
+
+
+No global Stage37 gate is closed.
+
+
+2. Retained odd CM square-root and descent to the X-line
+
+
+Work over
+  K=Q(i),
+  E_d: Y^2=X^3-d^2X,
+  T0=(0,0),
+  O=point at infinity.
+
+
+Retain 229W:
+  F_alpha := (X composed [alpha])/X = H_alpha^2      (229AA.1)
+for some H_alpha in K(E_d)^*.
+
+
+The divisor is
+  div(H_alpha)
+   =[alpha]^*(T0-O)-(T0-O).                         (229AA.2)
+
+
+Both T0 and O are fixed by [-1], and [alpha] commutes with [-1], so this divisor is [-1]-invariant. Normalize the 229W square root at O. Then
+  H_alpha(-P)/H_alpha(P)
+is a constant with value +1 at O. Therefore
+  H_alpha(-P)=H_alpha(P),
+so H_alpha belongs to the even subfield
+  K(X) subset K(E_d).                              (229AA.3)
+
+
+Thus write
+  H_alpha(X)=c_alpha A_alpha(X)/B_alpha(X),
+with c_alpha in K^* and coprime A_alpha,B_alpha in K[X].
+
+
+RESULT_229AA_H_ALPHA_DESCENDS_TO_X_LINE=PROVED_EXACT.
+
+
+3. Zero and pole structure on E_d
+
+
+Multiplication by alpha is etale in characteristic zero and has degree n.
+
+
+The zero divisor in (229AA.2) consists of
+  [alpha]^{-1}(T0) minus {T0},
+and the pole divisor consists of
+  ker[alpha] minus {O}.                            (229AA.4)
+
+
+Because n is odd, a and b have opposite parity. Modulo2, alpha acts on E_d[2] as either the unit 1 or the unit i. Both are bijections of E_d[2], and both fix T0. Hence:
+- T0 is the only 2-torsion point mapping to T0 under [alpha];
+- ker[alpha] contains no nontrivial 2-torsion.
+
+
+Therefore every remaining zero and pole in (229AA.4) is non-2-torsion and occurs in a distinct pair {P,-P}. Since [alpha] is etale, every such point has multiplicity one on E_d.
+
+
+It follows on the X-line that
+  deg A_alpha=deg B_alpha=(n-1)/2,                (229AA.5)
+and A_alpha and B_alpha are individually squarefree and coprime over K.
+
+
+RESULT_229AA_FIXED_ALPHA_ZERO_POLE_SIMPLE=PROVED_EXACT.
+RESULT_229AA_FIXED_ALPHA_DEGREES=(n-1)/2.
+
+
+4. Gaussian coprimality separates every conjugate support
+
+
+Because gcd(a,b)=1 and n is odd,
+  gcd_{Z[i]}(alpha,bar(alpha))=1.                  (229AA.6)
+
+
+Proof: a common Gaussian prime divides
+  alpha+bar(alpha)=2a
+and
+  alpha-bar(alpha)=2bi.
+The prime 1+i cannot divide alpha because n is odd. Any other common prime lies over an odd rational prime dividing both a and b, contradicting gcd(a,b)=1.
+
+
+Hence choose u,v in Z[i] with
+  u alpha+v bar(alpha)=1.                         (229AA.7)
+
+
+Now compare the supports of A_alpha,B_alpha and their coefficient conjugates.
+
+
+If a common X-root of A_alpha and bar(A_alpha) existed, choose P above that X-value. Since T0=-T0,
+  [alpha]P=T0,
+  [bar(alpha)]P=T0.
+Equation (229AA.7) gives
+  P=[u+v]T0 in E_d[2].
+But [alpha] is bijective on E_d[2] and only T0 maps to T0, so P=T0, which is precisely the canceled point and is not a root of A_alpha. Contradiction.
+
+
+If a common root of B_alpha and bar(B_alpha) existed, then
+  [alpha]P=O,
+  [bar(alpha)]P=O,
+and (229AA.7) gives P=O, again the canceled point rather than a finite B_alpha-root.
+
+
+If a common root occurred between a zero-support factor and a pole-support conjugate, for example
+  [alpha]P=T0,
+  [bar(alpha)]P=O,
+then (229AA.7) gives P=[u]T0 in {O,T0}; neither possibility satisfies both equations. The other cross cases are identical.
+
+
+Therefore all four finite support sets attached to
+  A_alpha, bar(A_alpha), B_alpha, bar(B_alpha)
+are pairwise disjoint except for the already canceled O/T0 points, and each is simple.
+
+
+RESULT_229AA_GAUSSIAN_COPRIMALITY=PROVED_EXACT.
+RESULT_229AA_CONJUGATE_ZERO_POLE_SUPPORTS_PAIRWISE_DISJOINT=PROVED_EXACT.
+
+
+5. Uniform fixed-selector curve and genus formula
+
+
+For rational r, coefficient conjugation gives
+  N_{K/Q}(H_alpha(r))
+   =c'_alpha
+      [A_alpha(r)bar(A_alpha)(r)]
+      /[B_alpha(r)bar(B_alpha)(r)]                (229AA.8)
+with fixed c'_alpha in Q^*.
+
+
+By 229W, r=epsilon*t^2 and
+  X(P)/d=r H_alpha(r)^2.
+Thus a Gaussian square root can be written as eta*t*H_alpha(r), eta^2=epsilon. The physical base condition
+  N(p) in Q^{*2}
+is therefore equivalent to
+  c''_alpha N(A_alpha(r))/N(B_alpha(r))
+  in Q^{*2}                                      (229AA.9)
+for a fixed nonzero rational constant c''_alpha depending only on alpha.
+
+
+After clearing the denominator, every physical dependence point of slope alpha maps to the fixed curve
+  C_alpha:
+  U^2=c''_alpha
+       N(A_alpha(r)) N(B_alpha(r)).               (229AA.10)
+
+
+Sections3-4 show:
+- N(A_alpha)=A_alpha bar(A_alpha) is squarefree of degree n-1;
+- N(B_alpha)=B_alpha bar(B_alpha) is squarefree of degree n-1;
+- the two norm polynomials are coprime.
+
+
+Hence the branch polynomial in (229AA.10) is squarefree of degree
+  2(n-1),
+so the smooth projective model has genus
+  g_alpha=(2n-2-2)/2=n-2.                        (229AA.11)
+
+
+Every primitive odd slope has n>=5, hence
+  g_alpha>=3.
+
+
+RESULT_229AA_UNIFORM_ODD_SELECTOR_CURVE_SMOOTH=PROVED_EXACT.
+RESULT_229AA_UNIFORM_ODD_SELECTOR_GENUS=n-2.
+RESULT_229AA_EVERY_PRIMITIVE_ODD_SELECTOR_HAS_GENUS_GT1=PROVED_EXACT.
+
+
+The explicit cards agree with the theorem:
+n=5 -> genus3,
+n=13 -> genus11,
+n=17 -> genus15,
+n=25 -> genus23.
+These examples are consistency checks, not premises of the proof.
+
+
+6. Faltings closes every fixed primitive odd slope
+
+
+Retain the Faltings theorem input already accepted in Stage37:
+every smooth projective curve of genus greater than1 over Q has finitely many Q-rational points.
+
+
+For every fixed primitive odd alpha, C_alpha(Q) is finite. Thus only finitely many rational r occur.
+
+
+As retained in 229W,
+  (y_Q/d)^2=d*r*(r^2-1),
+so
+  [d]=[r(r^2-1)]                                 (229AA.12)
+in Q^*/Q^{*2}.
+Each surviving r fixes at most one canonical positive squarefree d. Therefore each fixed primitive odd alpha realizes only finitely many canonical twists.
+
+
+Retain 229L: every fixed canonical d contributes at most B^{o(1)} positive physical endpoints of R_phys<=B. Hence for every fixed primitive odd alpha,
+  P_alpha(B)=B^{o(1)}.                            (229AA.13)
+
+
+RESULT_229AA_EACH_PRIMITIVE_ODD_SLOPE_COUNT=B^{o(1)}.
+
+
+7. The entire bounded odd CM-dependence locus is B^{o(1)}
+
+
+Retain 229S on the preferred large-radical tail: every dependent physical point has a primitive nonzero Gaussian slope alpha with
+  5<=N(alpha)<=M_delta,
+where M_delta is a constant depending on the fixed delta but independent of B.
+
+
+Therefore the set of primitive odd alpha allowed by 229S is FINITE and B-independent. Summing (229AA.13) over that finite set gives
+
+
+  #{positive physical endpoints R_phys<=B
+      in the 229S CM-dependence locus
+      with N(alpha) odd}
+    =B^{o(1)}
+    =o(B^{1/3}).                                  (229AA.14)
+
+
+RESULT_229AA_ALL_BOUNDED_ODD_CM_DEPENDENCE=B^{o(1)}.
+RESULT_229AA_ODD_CM_DEPENDENCE_SUBGATE=CLOSED_FOR_STAGE37_ONE_THIRD_BUDGET.
+
+
+This supersedes the need for further norm29/norm37/... fixed-curve production. The explicit norm5/13/17/25 cards remain retained verification instances.
+
+
+8. What remains open
+
+
+The bounded CM dependence gate is NOT globally closed because primitive EVEN Gaussian norms >10 remain. Norm2 is physically empty and norm10 is closed by229X; higher even norms still require parity/ramified-factor analysis.
+
+
+The independent CM-pair branch also remains outside this dependence closure. No rank>=2 theorem is activated here.
+
+
+The whole-population preferred gate remains unchanged:
+  #{positive primitive physical endpoints R_phys<=B:
+      sf(gcd(e R_phys, x y))>B^(1/3-delta)}
+    =o(B^(1/3))
+for some fixed delta>0.
+
+
+GAUSSIAN_TWIST_RADICAL_GCD remains CONDITIONAL_RESERVE/THEOREM_WATCH.
+
+
+NEXT_USEFUL_INPUT:
+(A) UNIFORM_EVEN_CM_RAMIFIED_FACTOR_REDUCTION for primitive even norms >10;
+(B) next minimal even norm branch if a uniform argument fails;
+(C) CM-independent-pair quantitative theorem after dependence disposal;
+(D) direct same-physical radical-support theorem, still the preferred whole-population route.
+
+
+DO_NOT_CONTINUE:
+- no further odd fixed-norm iteration unless hostile audit rejects229AA;
+- do not promote odd-dependence closure to global radical-tail or P/M3 closure;
+- do not infer CM-pair independence from failure of dependence.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+PRIMARY_GATE_STATUS=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+
+
+9. Audit and verification scope
+
+
+This is a within-session exact divisor/support proof, not an independent hostile audit.
+
+
+Load-bearing checks:
+- 229W supplies the exact square root and all-odd rationalization;
+- odd alpha acts invertibly on E[2];
+- primitive odd alpha and bar(alpha) are Gaussian-coprime;
+- multiplication by alpha is etale in characteristic zero;
+- zero/pole supports are therefore simple, paired by +/- and conjugate-separated;
+- the fixed selector branch polynomial has degree2(n-1) and no repeated root.
+
+
+229Z gives an independent exact symbolic instance at n=25:
+Disc(A_25)=2^552*5^22,
+Disc(B_25)=2^552*5^114,
+Res(A_25,B_25)=2^588*5^48,
+matching the uniform genus n-2 formula.
+
+
+Integrated audit186–229O remains unchanged in scope and is not silently extended to229P–AA.
+
+
+10. Sources checked
+
+
+Internal:
+- Stage37-NEW-INPUT-DELTA-AUDIT-229Z;
+- 229Y/229W odd fixed-selector framework;
+- 229S bounded dependence slopes;
+- 229L fixed-d B^{o(1)} fiber;
+- 229J physical Gaussian base selector;
+- current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+External theorem:
+- no new theorem species. Faltings is reused through the already accepted Stage37 input.
+
+
+FINAL_READBACK_RECEIPT: PENDING_WRITEBACK.

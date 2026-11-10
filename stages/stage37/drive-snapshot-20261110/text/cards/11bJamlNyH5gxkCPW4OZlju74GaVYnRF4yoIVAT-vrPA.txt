@@ -1,0 +1,85 @@
+﻿STAGE37-NEW-INPUT-DELTA-AUDIT-229HI-A28 — NEW TRUE-PHYSICAL ANGULAR SYNCHRONIZATION AND JOINT TWO-PRIME PELL–DIVISOR COUNT FOR LIVE FJ330 KEY 000.001.010:0
+2026-10-12 JST. Source CARD-INDEX expected ROW709; predecessor A27 row708. Self-contained exact certificate: https://docs.google.com/document/d/1XDTdGFsw75wMf0PjlkG2ia0RILHcXSZuss_Iqu3fY2s/edit .
+STATUS=PROVED_SCOPED_ACTUAL_ORIGINAL_P_FJ330_KEY_ANGULAR_WEDGE_EMPTY_AND_Q4_3_LOG10_MOVING_TWO_PRIME_NARROW_WEDGE / FULL_330_AND_GLOBAL_OQ_OPEN / EXTERNAL_HOSTILE_NOT_RUN / CREDIT0.
+
+
+1. PRECISE ORIGINAL-PHYSICAL STATEMENT AND NEW QUANTITATIVE THEOREM.
+Original positive primitive physical full-four-square P=(e,x,y,U,V,z,R), with U²=e²+x², V²=e²+y², z²=x²+y², R²=e²+x²+y², gcd(e,x,y)=1; R=pqr squarefree and distinct rational split primes 5<=p<q<r, all ≡1 mod4. Require the ORIGINAL retained FJ signed-source label exactly j=000.001.010:0 (one of A27 independently verified 330 generic live FJ labels, FJ disc_X squarefree-degree 4, FO J354 nonsquare). Let the assigned primitive rational Gaussian hypotenuse-p², q², r² leg pairs be respectively (a,b),(c,d),(h,w), with a,c,h>0 odd, b,d,w>0 multiples of4, gcd each pair=1 and
+p²=a²+b², q²=c²+d², r²=h²+w². Define t=b/a, X=d/c, Y=w/h, all POSITIVE rational. This is a necessary source label, NOT an assertion of sufficient original physical existence.
+
+
+NEW ALL-HEIGHT ANGULAR SYNCHRONIZATION:
+  (i) If 0<t<1, EVERY source solution must have BOTH
+                  0<X<(1−t²)/(2t),  0<Y<(1−t²)/(2t).
+  (ii) If 1<=t<=sqrt(2), NO positive rational X,Y source solution exists AT ANY p,q,r HEIGHT. Hence actual original P in this angular wedge with key j is identically empty (zero exact count).
+  (iii) If t>sqrt(2), EVERY source solution must have BOTH
+       X>t*(2+sqrt(t²+2))/(t²−2) and Y>same threshold.
+These are necessary REAL sign restrictions, derived exactly from source F, without any modular or independent density multiplication. They do not exclude other 329 live FJ keys.
+
+
+NEW TRUE-PHYSICAL MOVING TWO-PRIME COUNT, THIRD PRIME UNRESTRICTED:
+Fix any 0<eta<1. Let N_j(Q,eta) be number of above actual physical P assigned to key j, with FIRST TWO primes Q<=p<q<=2Q and first Gaussian slope
+                1−Q^(−eta)< t=b/a < 1.
+Then uniformly for all sufficiently large Q (depending on eta),
+            N_j(Q,eta) <<_eta Q^(2−2eta) * (log(2Q))^10.
+In particular for eta=1/3,
+            N_j(Q,1/3) << Q^(4/3) (log(2Q))^10.
+The third prime r is arbitrary large, only r>q and primitive original relations required. This beats A26/A27 Q^(7/4)logQ bound for the SAME narrowed one-key angular sector (and beats retained balanced P(B)<<B^(1/2+eps) -> O(Q^(3/2+eps)) for eta=1/3). It is NOT any bound of size o(Q) and does NOT control other 329 signed live source keys. The bounding family may be empty; no actual perfect cuboid claimed.
+
+
+2. EXACT SOURCE POLYNOMIAL DERIVATION (symbolic code independently executed).
+Historic FJ 13 Gaussian signed code biform E_{ijk}(t,X,Y)=[1+t²]^(i=1)[1+X²]^(j=1)[1+Y²]^(k=1)*((i−1)t+(j−1)X+(k−1)Y−(i−1)(j−1)(k−1)tXY)².
+For j=000.001.010:0, take F=E_001+E_010−E_000. Exact SymPy expansion yields
+ F(t,X,Y)=A(t,X)Y²+B(t,X)Y+C(t,X),
+ A=t²+4tX+(2−t²)X²,
+ B=2X(t²+2tX−1),
+ C=t²(1+X²)>0.
+F is EXACTLY symmetric under X↔Y. Every actual positive primitive original P assigned key j has F=0. The third Gaussian ratio Y=w/h solves a NONZERO rational quadratic because C>0 for t,X>0; thus at most two rational positive Y per fixed (p,q,j), regardless of r height.
+
+
+SIGN PROOF:
+When 0<t<1, A>0,C>0; for Y>0 root, B<0 necessary, i.e. X<(1−t²)/(2t). By exact F symmetry, Y must satisfy the same bound.
+When 1<=t<=sqrt2, A>0,B>=0,C>0 for ANY X>0, so F>0 for Y>0; zero source count.
+When t>sqrt2, B>0,C>0 so F=0 for Y>0 forces A<0, i.e. (t²−2)X²−4tX−t²>0, hence X>t*(2+sqrt(t²+2))/(t²−2), and symmetry gives same Y bound. Necessity is not sufficiency.
+Actual prime Gaussian numerical examples: p=97 has p²=65²+72², t=72/65 ∈[1,sqrt2]; this SOURCE j has zero original P for that p at ALL q,r, not a new complete fixed-p global theorem. p=29 has 29²=21²+20², t=20/21 and any j-source would require X,Y<41/840. Both are exact sanity checks, NOT prime-density results.
+
+
+3. ELEMENTARY COMPLETE COUNT FOR 1−Q^-eta<t<1 (ANALYTIC PROOF; no heuristic independence).
+Put k=a−b≥1, an odd positive integer because a odd and b≡0 mod4. Since a<=p<=2Q and 1−t=k/a<Q^-eta, k<K:=2Q^(1−eta). For Q^-eta<=1/2, b>a/2 and a>=p/sqrt2>=Q/sqrt2.
+First-prime p count at FIXED k: put n=a+b=2a−k. From p²=a²+b²,
+           n²−2p²=−k².
+In the Dedekind ring Z[sqrt2], alpha=n+p sqrt2 is a positive real algebraic integer with norm −k², and
+            sqrt2 Q <=alpha <=4 sqrt2 Q.
+Then the principal ideal (alpha) divides (k²). Every prime ideal divisor count of rational (k²), including split/inert/ramified ideals, is bounded by τ(k²)²: for rational ell^e||k, at worst (2e+1)² choices. For each such principal ideal, two positive alpha generators of N=-k² differ by a positive norm-one unit (3+2sqrt2)^m; the alpha range ratio=4 is SMALLER than fundamental positive norm-one unit 3+2sqrt2>4. Thus at most ONE alpha per ideal, and at most τ(k²)² first p (overcounts possible orientations and non-prime). This is an exact uniform all-height standard Pell-ideal bound, NOT an unproved average-rank hypothesis.
+SECOND-prime q angular lock: X=d/c< (1−t²)/(2t)=k(a+b)/(2ab). Since b>a/2 and a>=Q/sqrt2,
+      X<2k/a<2sqrt2*k/Q.
+With c<q<=2Q, get 0<d<4sqrt2*k<6k. For each fixed EVEN Gaussian leg d, q²=c²+d² implies (q−c)(q+c)=d², giving at most τ(d²) possible integers q (even before q prime and Gaussian primitive restrictions). Therefore, uniformly for EACH fixed p with given k,
+      #q <= sum_{1<=d<6k} τ(d²) <= sum_{d<=6k} d_3(d) << k*(1+log(2k))².
+No factorization dependence between p,q is assumed; this is a deterministic PRODUCT OF TWO UPPER FIBERS, not multiplication of probabilistic local sieve densities.
+
+
+Per actual pair (p,q,j), at most two positive primitive Y directions for third r by nonzero quadratic F, hence at most two primitive (h,w), unique after gcd normalization, thus at most two third primes r of ANY height. For fixed R=pqr the actual positive original P fiber is uniformly bounded by the old Stage37 A23 exact 13 R-hypotenuse even legs/finite leg-pair allocation; no high-R factorial error. For the theorem restricted to physical P assigned j, no claim that F equation alone supplies original P.
+
+
+Sum by k≤K:
+ #P_j << sum_{k<=K} τ(k²)² * k*(1+log(2k))².
+Use elementary divisor inequality τ(k²)²≤d_9(k) for each k, since at prime powers (2e+1)²≤binomial(e+8,8); true at e0,1 and preserved inductively, difference for e→e+1 is 24e²+16e≥0. Then ∑_{k<=K} d_9(k) <=K(1+log K)^8 by the nine-fold divisor sum/harmonic bound. Consequently
+            #P_j << K²*(1+log(2K))^10 <<_eta Q^(2−2eta)*(log(2Q))^10.
+This proves the ACTUAL ORIGINAL PHYSICAL restricted count using NO analytic thin-set theorem, no unverified independent probabilistic factors, and no upper bound for r. For eta=1/3 new 4/3 exponent. Physical equation source linkage retains historic FJ map hostile HOLD.
+
+
+4. NOVELTY, FULL-INDEX LOOP/STRATEGY/NEGATIVE AUDIT.
+Drive startup MAIN A27 -> canonical INDEX source row708 AI00=707 -> LEDGER A27 -> active light ROUTE A27 -> A27 card/exact414 cert -> current NEG. Entire 707 prior physical source rows2:708 screened by same object/method/barrier and retractions: 229FJ630,FN634,FO635,FL632,FS639,FX644, GK657/GL658/GM659/GN660/GO661, GS665/GU667/GW669/HB674/HC675/HD676/HE677/HF678, A2/A3/A6/A7/A8 (rows683-689), A9/A10 (690/691), A11 retraction A12 rows692/693, A16/A17 rows697/698, A23-A27 rows704-708, NEG DT/DU/GW/GZ. Exact target key 000.001.010:0 was NOT among explicit A10 twelve all-height removed, A12 original signed24, A2/A3 B0 exclusions; A27 classifies it as FJ degree4 in J354, so prior FJ84 non-excluded. Old A6/A7 use Pell ideals Qsqrt2 on TWO OTHER B0 signed source keys to count h; A28 DOES NOT invent Pell method, but newly derives FIRST-prime angular k=a−b and independently coupled SECOND-prime even leg d<6k for this specified LIVE GENUS1 key, with uniform same-P physical Q^(2−2eta) log^10Q bound. Old GH fixed-p angular lattice is different first-prime determinant; old A2 aspect q>=sqrt2p is different variable and source keys. A25–A27 general Cohen–Serre single square Δ sieve neither used nor improved globally.
+
+
+Last five A23–A27 improved some scoped FJ algebra/count coverage but DID NOT improve unrestricted o(Q) GOOD moving outer(p,r) or P(B)=o(B^(1/3)); primary counting stagnation. Alternatives compared: naive treat Δ square and third norm square as two independent probability sieves (BLOCKED by A1 tautology/DT DU non-independence), repeat A27 general A^4 typeII bound (loop), extend GS/A24 finite q search (loop), 229AR single scalar Wminus receiver (not switched; formal strategy audit required), prior A6–A8 norm Pell (same method but different object), exact FJ selected key real sign plus simultaneous two-prime Pell/divisor count (ACTUALLY TESTED / PROVED). Formal ROUTE_SWITCH NONE, no classifier/source loss claimed. Numeric checks not substituted for proof.
+
+
+5. BARRIER / NEXT.
+The sharp angular theorem is ONE signed key only, and narrow p near t=1 window. It does not prove #ALL actual P(B)=o(B^(1/3)); moving GOOD(p,r) occupied o(Q) remains OPEN for all 330 generic keys. Even Q^(4/3)log^10Q remains >Q for eta=1/3, and for Q^(2−2eta)=o(Q) one could take eta>1/2 BUT this only counts an artificially very narrow angular sector: do NOT treat as global o(Q) or credit for an unrestricted sector. Complementary t away from1 remains untouched. Other original signed selectors HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/K-null/EX, omega4/repeated prime powers and external independent hostile FJ/FN/FO source-map auditing remain OPEN. All 84 old empty source labels unchanged, actual global potential130/uncounted128 unchanged.
+
+
+NEXT: exploit the exact k=a−b, d<=6k SAME-P angle coupling for a MACROSCOPIC family of t (or for >1 of the 330 FJ keys) so that the sum over ALL k<=Q gives o(Q), rather than shrinking k artificially; inspect whether q norm prime and third-r norm prime impose nontrivial averaged arithmetic sparsity beyond ∑k^1. Test a genuinely independent cross-key angular synchronization or reverse third-r Pell norm and quantify occupied moving (p,r), with original HIGH/Gres/Kcross/EX selectors. If no saving, run 229AR alternative after required formal switch audit. No more identical fixed-polynomial thin-set replay.
+
+
+GOVERNANCE UNCHANGED: operational authority M3-T11-229; mathematical construction M3-T11-228; M3-T11-230 NOT_ISSUED; M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD; closure unchanged; potential130/uncounted128 unchanged; formal ROUTE_SWITCH NONE; external hostile A28 NOT_RUN; GitHub NOT_USED.

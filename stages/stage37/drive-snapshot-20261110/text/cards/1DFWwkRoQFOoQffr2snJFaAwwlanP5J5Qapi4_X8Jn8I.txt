@@ -1,0 +1,253 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229H — fixed-support Hilbert structure and rational-height quantitative HIT rematch
+
+
+STATUS=POST_229G_CURRENT_THEOREM_WATCH_COMPLETE / PROVED_PYTHAGOREAN_COVER_FIXED_FINITE_PRIME_SUPPORT_INTERSECTION_FINITE / PROVED_AMBIENT_RATIONAL_HEIGHT_POWER_DEFICIT / PROVED_NO_CURRENT_TRANSFER_TO_EXACT_M3_WEIGHT / LOCAL_NEW_FINITE_RING_INPUT_NO_TRANSFER / NO_REOPEN / GLOBAL_COUNTING_CREDIT=0
+AUDIT_MODE=EXTERNAL_THEOREM_APPLICABILITY_AUDIT_PLUS_EXACT_COVER_IDENTIFICATION / NOT_INDEPENDENT_HOSTILE_PROOF_AUDIT
+OPERATIONAL_AUTHORITY=M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228
+LATEST_INTERNAL_STRUCTURAL_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229F
+PREVIOUS_EXTERNAL_THEOREM_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229G
+M3_T11_230_ISSUED=false
+
+
+1. Question
+
+
+After 229G sharpened the PAIR reopen contract to M3_WEIGHTED_HILBERT_PROPERTY, test genuinely new/unregistered Hilbert-irreducibility inputs against the exact Pythagorean thin image and exact M3 pushforward measure.
+
+
+The exact PAIR base variable is
+    w=D/X,
+with occupied weight
+    nu_B({w})=n_B(w).
+
+
+The required direct closure remains
+    sum_{w in T_Pyth} n_B(w)
+      <= B^(-delta+o(1)) sum_w n_B(w)
+for some fixed delta>0,
+where
+    T_Pyth={w in Q : 1+w^2 is a rational square}.
+
+
+No ambient replacement of n_B is allowed.
+
+
+2. Exact Pythagorean cover identification
+
+
+Define
+    phi(t)=2t/(1-t^2).
+
+
+For w in Q, the equation w=phi(t) is
+    w t^2 + 2t - w = 0.
+Its discriminant is
+    4(1+w^2).
+
+
+Therefore this quadratic fibre is reducible over Q if and only if 1+w^2 is a rational square. Hence
+    T_Pyth = Red(phi)
+for the degree-two cover phi:P^1 -> P^1, with the usual projective interpretation at t=infinity.
+
+
+This identifies the PAIR thin set with a literal reducible-fibre set, not only an abstract type-II thin image.
+
+
+RESULT_229H_PYTH_IS_REDUCIBLE_FIBRE_SET=PROVED.
+
+
+3. Stoll–Siksek G_m Hilbert irreducibility: fixed-support sector
+
+
+New source not previously registered in Stage37:
+Michael Stoll and Samir Siksek, “Hilbert's Irreducibility for G_m”, arXiv:2609.04551.
+
+
+Their Theorem 3 describes, for an irreducible cover pi and fixed finite S,
+    O_S^* intersect Red(pi)
+as a finite set together with finitely many power cosets.
+
+
+More strongly, their Theorem 5 says that for an absolutely irreducible cover and a finitely generated infinite subgroup Theta of K^*, the intersection
+    Theta intersect Red(pi)
+is infinite only if the covering function is, up to a constant, an ell-th power for a prime ell, or the exceptional -4 times a fourth power.
+
+
+For
+    phi(t)=2t/(1-t^2),
+the divisor has simple zeros and simple poles. In particular its divisor multiplicities are not all divisible by any ell>=2, so phi cannot have either exceptional power form.
+
+
+Therefore for every fixed finite set S of rational primes,
+    T_Pyth intersect O_S^*
+is finite.
+
+
+Equivalently, any PAIR sector whose reduced w=D/X has numerator and denominator supported on one fixed finite prime set S contains only finitely many Pythagorean w-values.
+
+
+RESULT_229H_FIXED_S_UNIT_PYTH_INTERSECTION_FINITE=PROVED.
+
+
+Scope firewall:
+- the finite set and its size depend on S;
+- Stage37 does not have one fixed S for all physical M3 points;
+- the prime support of w is allowed to grow with B;
+- no uniform bound in S or support complexity is supplied by this theorem;
+- n_B(w) is still the exact occupied M3 weight.
+
+
+Hence this is a genuine scoped structural theorem but not a B-uniform global PAIR count.
+
+
+PAIR_FIXED_S_SECTOR=STRUCTURALLY_FINITE_BUT_NO_UNIFORM_GLOBAL_CREDIT.
+
+
+4. Anders Mah quantitative rational-height Hilbert irreducibility
+
+
+New source not previously registered in Stage37:
+Anders Mah, “Counting rational points on affine hypersurfaces”, arXiv:2512.03490.
+
+
+Mah Theorem 1.4 gives, for one rational parameter t of height <=H, an upper bound
+    S(f,H) << H (log ||f|| + log H)^5
+for reducible specialisations of a fixed irreducible polynomial.
+
+
+Apply it to
+    F(W,T)=W T^2 + 2T - W.
+This polynomial is irreducible over Q(W), since 1+W^2 is not a square in Q(W). For every nonzero rational w, reducibility after W=w is exactly w in T_Pyth. The value w=0 is the single affine degree-drop exception for F, while projectively it is still a reducible fibre of phi; this O(1) exception does not affect the height bound.
+
+
+Thus
+    #{w in T_Pyth : H(w)<=H}
+      << H (log H)^5.
+
+
+Since all rational points of P^1 of height <=H have order H^2, this is a genuine ambient fixed-power rational-height deficit:
+    ambient relative density << H^(-1) (log H)^5.
+
+
+RESULT_229H_AMBIENT_PYTH_HEIGHT_COUNT=PROVED_USING_MAH.
+
+
+This is stronger in B-power type than the qualitative Hilbert/value-set inputs audited in 229G, but it is still an unweighted target-value count.
+
+
+Exact transfer firewall:
+    sum_{w in T_Pyth} n_B(w)
+cannot be bounded by the distinct-value count without a bound on the concentration of n_B(w).
+
+
+Even a strong ambient count of distinct w does not exclude the exact M3 pushforward from placing most of its mass on those w-values. This is precisely the 229G qualitative-versus-weighted firewall, now tested against a quantitative ambient theorem.
+
+
+RESULT_229H_AMBIENT_POWER_SAVING_STILL_INSUFFICIENT_FOR_M3_WEIGHT=PROVED.
+
+
+5. New local theorem watch: finite-ring Lang–Weil input
+
+
+Current source checked:
+Kien Huu Nguyen, “Uniform estimate of Lang-Weil type for counting points of schemes over finite rings”, arXiv:2610.01748.
+
+
+The theorem gives uniform estimates for X(Z/p^m Z) in terms of the previous level and p-adic Igusa-zeta data. This is relevant in theorem species to M3-LOCAL-GATE-001 because it controls local scheme populations uniformly in p and m.
+
+
+However LOCAL needs a same-M3 global distribution statement: exact primitive/canonical physical M3 points of R<=B must be shown to occupy the admissible residue blocks with quantitative contraction. Counting all points of the ambient scheme modulo p^m does not provide equidistribution of the realized global M3 population into those blocks.
+
+
+No exact physical measure / canonical multiplicity / global-to-local transfer adapter is supplied by the finite-ring theorem.
+
+
+RESULT_229H_NGUYEN_FINITE_RING_THEOREM_MATCH=LOCAL_ADJACENT_BUT_NO_TRANSFER.
+LOCAL_REOPEN=false.
+
+
+6. Consequence for the missing theorem species
+
+
+229G named the missing theorem M3_WEIGHTED_HILBERT_PROPERTY. The present audit sharpens where its missing uniformity lies.
+
+
+Two facts are now available:
+(A) fixed finite prime support in w: the Pythagorean thin intersection is finite;
+(B) unrestricted ambient rational height: the Pythagorean thin set has a fixed-power deficit among all rational target values.
+
+
+What remains uncontrolled is the simultaneous movement of
+    - prime support of w with B, and
+    - the exact occupied weight n_B(w).
+
+
+Thus a direct PAIR theorem may be sought in any equivalent form that gives one of:
+
+
+1. growing-support uniform Hilbert irreducibility:
+   a quantitative bound uniform in the support set S or a suitable support-complexity parameter, strong enough after summing over physical sectors;
+
+
+2. exact M3 pushforward anti-concentration:
+   a theorem bounding concentration of n_B(w) on ambient thin sets, so that Mah-type target-value counts become usable;
+
+
+3. source-side exact-height counting:
+   a fixed-power count directly on the physical M3 source whose pullback condition is w in T_Pyth, preserving primitive/canonical multiplicity and exact R<=B.
+
+
+This is a refinement of the existing reopen contract, not a replacement:
+    PAIR_REOPEN_CONTRACT=M3_WEIGHTED_HILBERT_PROPERTY
+remains canonical.
+
+
+PAIR_MISSING_UNIFORMITY=GROWING_PRIME_SUPPORT_PLUS_EXACT_M3_WEIGHT.
+
+
+7. Current verdict
+
+
+The Stoll–Siksek theorem gives a new exact fixed-support finiteness statement and Mah gives a genuine ambient rational-height power deficit. Neither supplies the source-weighted fixed-power inequality required by PAIR.
+
+
+Nguyen gives a new local finite-ring theorem species but no same-M3 global distribution adapter.
+
+
+Therefore:
+    POST_229_REOPEN_TRIGGER_FOUND=false
+    PAIR_REOPEN=false
+    LOCAL_REOPEN=false
+    A_REOPEN=false
+    FIB_REOPEN=false
+    GEOMETRY_229F_REOPEN=false
+    RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_GENUINELY_NEW_THEOREM_INPUT
+    NEXT_AUTOMATIC_INTERNAL_PREFLIGHT=NONE
+    M3_T11_230_ISSUED=false
+    GLOBAL_COUNTING_CREDIT=0
+    M3_T11_GATE_001=OPEN
+    P_OVER_M3_LIMIT_PROVED=false
+    NO_PERFECT_CUBOID_EXISTENCE_OR_NONEXISTENCE_CONCLUSION=true
+
+
+8. Reopen/watch guidance
+
+
+Do not start a new internal identity chain from this card.
+
+
+PAIR theorem watch should now prioritize:
+- uniform Hilbert irreducibility on rational values with growing prime support and exact source weights;
+- weighted thin-set/value-set estimates for arithmetic pushforward measures;
+- source-side counts for the exact Pythagorean pullback on the physical M3 population.
+
+
+LOCAL theorem watch may use finite-ring estimates only after an explicit same-M3 global distribution/equidistribution adapter is supplied.
+
+
+SOURCES CHECKED
+- Stoll–Siksek, arXiv:2609.04551.
+- Mah, arXiv:2512.03490.
+- Nguyen, arXiv:2610.01748.
+- retained context: Stage37-PAIR-PREFLIGHT-001 and Stage37-NEW-INPUT-DELTA-AUDIT-229G.

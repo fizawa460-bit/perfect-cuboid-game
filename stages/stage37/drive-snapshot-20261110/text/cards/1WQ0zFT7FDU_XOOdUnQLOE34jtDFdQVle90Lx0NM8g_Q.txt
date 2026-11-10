@@ -1,0 +1,72 @@
+﻿// Stage37-229GS exact source certificate. Node.js >=18. Recomputes ALL 414 FO original primitive necessary quadratic templates per p<q split rational primes <=3593. No bound on third prime r. No perfect cuboid construction. Finite ONLY. Independent FJ source necessity hostile audit remains HOLD.
+"use strict";
+const MAX=3600;
+function sieve(n){let a=Array(n+1).fill(true);a[0]=a[1]=false;for(let p=2;p*p<=n;p++)if(a[p])for(let j=p*p;j<=n;j+=p)a[j]=false;return a;}
+const prime=sieve(MAX),PS=[];
+for(let p=5;p<=MAX;p+=4)if(prime[p]){
+ let obj=null;
+ for(let v=1;2*v*v<p;v++){let u=Math.floor(Math.sqrt(p-v*v));if(u>v&&u*u+v*v===p){obj={p,u:BigInt(u),v:BigInt(v)};break;}}
+ if(!obj)throw Error("split p missing "+p);PS.push(obj);
+}
+function gcd(a,b){a=a<0n?-a:a;b=b<0n?-b:b;while(b){let c=a%b;a=b;b=c;}return a;}
+function isqrt(n){if(n<0n)return null;if(n<2n)return n;let x=1n<<BigInt((n.toString(2).length+1)>>1);for(;;){let y=(x+n/x)>>1n;if(y>=x)return x;x=y;}}
+const R16=new Set([0n,1n,4n,9n]);
+function square(n){if(n<0n||!R16.has(n&15n)||n%3n===2n||n%5n===2n||n%5n===3n)return null;let y=isqrt(n);return y*y===n?y:null;}
+function multiply(a,b){return [a[0]*b[0]-a[1]*b[1],a[0]*b[1]+a[1]*b[0]];}
+function macros(P,Q){
+ let x=P.u*P.u-P.v*P.v,y=2n*P.u*P.v;
+ let s=Q.u*Q.u-Q.v*Q.v,t=2n*Q.u*Q.v;
+ let bp=[[x,-y],[BigInt(P.p),0n],[x,y]],bq=[[s,-t],[BigInt(Q.p),0n],[s,t]],out=[];
+ for(let i=0;i<3;i++)for(let j=0;j<3;j++)for(let k=0;k<3;k++){
+  if(i===1&&j===1&&k===1)continue;
+  let code=i*9+j*3+k,conj=(2-i)*9+(2-j)*3+2-k;
+  if(code>conj)continue;
+  let [c,d]=multiply(bp[i],bq[j]);
+  out.push({mixed:[i===1,j===1,k===1],A:d*d,B:k===1?0n:(k===2?2n:-2n)*c*d,C:k===1?d*d:c*c});
+ }
+ if(out.length!==13)throw Error("13 macros absent");
+ return out;
+}
+const result={max:MAX,primes:PS.length,lastPrime:PS.at(-1).p,pairs:0,templates:0,primitiveSlope:0,squareNorm:0,third_p:0,third_q:0,third_pq:0,third_other:0,primeThirdAboveQ:0,zeroPoly:0};
+for(let pi=0;pi<PS.length;pi++)for(let qi=pi+1;qi<PS.length;qi++){
+ let P=PS[pi],Q=PS[qi],m=macros(P,Q),templates=0;
+ let pairP=0,pairQ=0,pairPQ=0,pairOther=0;
+ for(let i=0;i<13;i++)for(let j=i+1;j<13;j++)for(let k=j+1;k<13;k++){
+  let cc=[m[i],m[j],m[k]];
+  if([0,1,2].some(pos=>cc.reduce((acc,x)=>acc+Number(x.mixed[pos]),0)>1))continue;
+  for(let h=0;h<3;h++){
+   templates++;result.templates++;
+   let A=0n,B=0n,C=0n;
+   for(let z=0;z<3;z++){let sg=z===h?-1n:1n;A+=sg*cc[z].A;B+=sg*cc[z].B;C+=sg*cc[z].C;}
+   if(A===0n&&B===0n&&C===0n){result.zeroPoly++;throw Error("zero FO polynomial");}
+   let roots=[];
+   if(A!==0n){let v=square(B*B-4n*A*C);if(v===null)continue;roots=[[-B+v,2n*A],[-B-v,2n*A]];}
+   else if(B!==0n)roots=[[-C,B]];
+   for(let [num,den] of roots){
+    if(num*den<=0n)continue;
+    let g=gcd(num,den),T=(num<0n?-num:num)/g,W=(den<0n?-den:den)/g;
+    if(T%2n===0n||W%4n!==0n)continue;
+    result.primitiveSlope++;
+    let r=square(T*T+W*W);
+    if(r===null)continue;
+    result.squareNorm++;
+    if(r===BigInt(P.p)){result.third_p++;pairP++;}
+    else if(r===BigInt(Q.p)){result.third_q++;pairQ++;}
+    else if(r===BigInt(P.p*Q.p)){result.third_pq++;pairPQ++;}
+    else {result.third_other++;pairOther++;throw Error("NEW distinct norm root p="+P.p+" q="+Q.p+" r="+r);}
+    if(r>BigInt(Q.p)&&r<=BigInt(Number.MAX_SAFE_INTEGER)){
+     let x=Number(r),valid=x>=2;
+     for(let d=2;d*d<=x&&valid;d++)if(x%d===0)valid=false;
+     if(valid)result.primeThirdAboveQ++;
+    }
+   }
+  }
+ }
+ if(templates!==414)throw Error("414 templates fail "+P.p+","+Q.p);
+ if(pairP!==10||pairQ!==10||pairPQ!==12||pairOther!==0)throw Error("pairwise 32-root distribution FAIL "+P.p+","+Q.p);
+ result.pairs++;
+}
+console.log(JSON.stringify(result,null,2));
+const expected={primes:247,lastPrime:3593,pairs:30381,templates:12577734,primitiveSlope:1154540,squareNorm:972192,third_p:303810,third_q:303810,third_pq:364572,third_other:0,primeThirdAboveQ:0,zeroPoly:0};
+for(let k in expected)if(result[k]!==expected[k])throw Error("expected mismatch "+k);
+console.log("PASS: 30381 pairwise audits, unbounded third-prime norm root search. FINITE source NECESSITY only.");

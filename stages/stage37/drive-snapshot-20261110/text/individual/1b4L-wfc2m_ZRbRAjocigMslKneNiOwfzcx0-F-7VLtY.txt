@@ -1,0 +1,384 @@
+﻿M3-T11-168 — Global-max Euclid-root/content equivalence and R2tau amplification
+
+
+CARD_ID: M3-T11-168
+CANONICAL_CARD_KEY: M3-T11-168
+STATUS: PROVED_EXACT_GLOBAL_MAX_ROOT_AMPLIFICATION / FIXED_PAIR_FIBER_BOUND / GLOBAL_COUNTING_CREDIT=0
+GLOBAL_OPERATION: ACTIVE_T11_RESEARCH_WITH_SCOPED_DECOMPOSITION
+PRIMARY_GATE: M3-T11-GATE-001, OPEN
+GLOBAL_COUNTING_CREDIT: 0
+AUDIT_MODE: WITHIN_SESSION_NOT_INDEPENDENT
+
+
+1. Current authority and decision
+
+
+Current MAIN, CARD-INDEX, RESULT-LEDGER, active ROUTE and M3-T11-167 were read first. The retained large-R branch, M3-T11-013/014, and the older fixed-content active-tau cards M3-T11-015 through 019 were checked only where needed.
+
+
+The current variable r below is the canonical global maximum among the six positive Euclid roots introduced in M3-T11-167. It is not the norm-one torus coefficient r_i used in M3-T11-015/016.
+
+
+This card proves three new exact statements:
+(1) r^2/tau is equivalent up to an absolute factor 2 to the largest cyclic content c_max;
+(2) the product of the three reduced space hypotenuses is R^2*tau, forcing a much stronger lower bound on r on the retained large-R/small-c branch;
+(3) fixing the pair (r,tau) leaves at most a square-root-content physical fiber, not an arbitrary polynomial fiber.
+
+
+No global endpoint power saving is claimed.
+
+
+2. Local Euclid-root size versus one content
+
+
+For each primitive space triangle
+u_i^2+v_i^2=D_i^2,
+D_i=c_i*tau,
+write the two positive coprime Euclid roots from M3-T11-167 as a_i,b_i, and put
+t_i=max(a_i,b_i).
+
+
+If u_i is even,
+D_i=a_i^2+b_i^2.
+If u_i is odd,
+D_i=(a_i^2+b_i^2)/2.
+
+
+In both parity cases one has the uniform absolute comparison
+
+
+D_i/2 <= t_i^2 <= 2D_i.
+
+
+Let
+r=max(t_1,t_2,t_3)
+and let
+c_max=max(c_1,c_2,c_3).
+
+
+Choose i_* with t_i*=r. Then
+r^2 <= 2D_i* <= 2 c_max*tau.
+
+
+On the other hand, choose j with c_j=c_max. Since
+t_j^2 >= D_j/2,
+we have
+r^2 >= t_j^2 >= c_max*tau/2.
+
+
+Therefore the exact global comparison is
+
+
+c_max/2 <= r^2/tau <= 2 c_max.        (168.1)
+
+
+Thus the ratio r^2/tau is not a new independent large parameter: it is the existing maximum cyclic content, up to a bounded factor.
+
+
+In particular:
+- c_max>C implies r^2/tau>C/2;
+- c_max<=C implies r^2/tau<=2C.
+
+
+This gives a direct translation between the current Euclid-root language and the old cross-gcd/content split.
+
+
+3. Three-hypotenuse product identity
+
+
+Retain
+c_1=h_2*h_3,
+c_2=h_1*h_3,
+c_3=h_1*h_2,
+H=h_1*h_2*h_3,
+R=H*tau.
+
+
+Since D_i=c_i*tau,
+
+
+D_1*D_2*D_3
+=
+(c_1*c_2*c_3)*tau^3
+=
+H^2*tau^3
+=
+R^2*tau.                                      (168.2)
+
+
+Because every local maximum t_i is <=r and D_i<=2t_i^2<=2r^2,
+
+
+D_1*D_2*D_3 <= 8r^6.
+
+
+Combining with (168.2),
+
+
+r^2 >= (R^2*tau/8)^(1/3)
+     = (1/2) R^(2/3) tau^(1/3).               (168.3)
+
+
+This inequality is on the exact same endpoint. No face independence is used.
+
+
+4. Strong amplification on the retained small-c branch
+
+
+On the branch
+c_max<=C,
+the exact cyclic product identity also gives
+
+
+H^2=c_1*c_2*c_3<=C^3,
+so
+H<=C^(3/2),
+and therefore
+tau=R/H >= R/C^(3/2).                          (168.4)
+
+
+Putting (168.4) into (168.3) yields the cleaner direct bound
+
+
+r^2 >= R/(2*C^(1/2)).                          (168.5)
+
+
+Multiplying by tau gives
+
+
+r^2*tau >= R^2/(2*C^2).                        (168.6)
+
+
+Now use the retained large-R branch
+R>B^(2/3-eta)
+and the standard threshold
+C=B^(1/6+xi).
+
+
+Then every endpoint in the current small-c branch satisfies
+
+
+tau > B^(5/12-eta-(3/2)xi),                   (retained M3-T11-013)
+
+
+r^2 > (1/2) B^(7/12-eta-xi/2),                (168.7)
+
+
+r^2*tau > (1/2) B^(1-2eta-2xi).               (168.8)
+
+
+This strictly improves the weaker root exponents recorded in M3-T11-167:
+the governing lower bound is now r^2>B^(7/12-o(1)), not merely B^(1/4-o(1)),
+and the coprime product r^2*tau is at the B^(1-o(1)) scale, not merely B^(2/3-o(1)).
+
+
+The improvement is an exact amplification of already-retained large-R plus the three simultaneous space triangles. It is not yet a count.
+
+
+5. Exact global compatibility in normalized legs
+
+
+Because
+e_i=h_i*u_i=(H/c_i)u_i
+and
+R=H*tau,
+the terminal diagonal equation
+e_1^2+e_2^2+e_3^2=R^2
+is equivalent to
+
+
+(u_1/c_1)^2+(u_2/c_2)^2+(u_3/c_3)^2=tau^2.    (168.9)
+
+
+Thus the three primitive space triangles with hypotenuses D_i=c_i*tau are not independent choices. Their primitive legs must satisfy the same endpoint sphere after content normalization.
+
+
+Equation (168.9) is retained as the exact physical compatibility that any future (r,tau)-support count must preserve. It is consistent with, and is the elementary physical-coordinate form underlying, the older equal-tau/triple-spin receiver M3-T11-015 through 019.
+
+
+No new credit is taken from (168.9) alone.
+
+
+6. Fixed-(r,tau) same-measure fiber bound
+
+
+Fix positive integers r and tau and restrict to endpoints for which r is the canonical global maximum Euclid root.
+
+
+Choose the selected face and root sign/parity; this costs only an absolute constant.
+
+
+Let s<=r be the companion Euclid root on the selected face.
+
+
+In both parity cases integrality of c_i implies
+
+
+s^2 == -r^2 mod tau.
+
+
+Because gcd(r,tau)=1 and every prime of tau is split (p==1 mod4), the congruence has at most
+2^omega(tau)=B^o(1)
+residue classes modulo tau.
+
+
+Hence the number of possible positive s<=r is at most
+
+
+(1+r/tau) B^o(1).                              (168.10)
+
+
+Once s is fixed, c_i is fixed by
+c_i*tau=r^2+s^2
+in the even-u_i case, or
+2*c_i*tau=r^2+s^2
+in the odd-u_i case.
+
+
+The factorization
+c_i=h_j*h_k
+has B^o(1) ordered coprime choices for (h_j,h_k).
+
+
+For the remaining h_i, global maximality of r gives
+D_j,D_k<=2r^2,
+hence
+
+
+h_i*h_k*tau<=2r^2,
+h_i*h_j*tau<=2r^2.
+
+
+Therefore
+
+
+h_i <= 2r^2/(tau*max(h_j,h_k)).
+
+
+Since max(h_j,h_k)>=sqrt(c_i), while the selected-face comparison gives
+c_i>=r^2/(2tau), one obtains
+
+
+h_i <= 2*sqrt(2)*r/sqrt(tau).                  (168.11)
+
+
+For fixed h_i,h_j,h_k,tau, the remaining D_j,D_k are fixed primitive Pythagorean hypotenuses. By the standard divisor/Gaussian representation bound, their oriented primitive directions contribute only B^o(1) candidates. The endpoint sphere and reconstruction constraints are post-filters.
+
+
+Consequently
+
+
+m_(r,tau)(B)
+:=
+#{exact primitive canonical endpoints with canonical max root r and common residual tau}
+<=
+(1+r/tau)(1+r/sqrt(tau)) B^o(1).               (168.12)
+
+
+On the current small-c branch, (168.1) gives
+r^2/tau<=2C.
+
+
+Moreover, for fixed small eta,xi satisfying
+eta+(5/2)xi<1/4,
+the retained tau lower bound implies tau/C -> infinity, so r<tau for all sufficiently large B.
+
+
+Then (168.12) simplifies to
+
+
+m_(r,tau)(B) <= C^(1/2) B^o(1).                (168.13)
+
+
+At C=B^(1/6+xi),
+
+
+m_(r,tau)(B)
+<=
+B^(1/12+xi/2+o(1)).
+
+
+This is a genuine same-measure fixed-pair fiber theorem. It does not control the number of occupied (r,tau) pairs.
+
+
+7. Interpretation against the retained active-tau route
+
+
+M3-T11-017 already proves B^o(1) multiplicity for fixed labeled content triple and fixed tau. The present theorem forgets the content triple and retains only (r,tau), so the residual C^(1/2) fiber cost in (168.13) is expected: one content direction remains movable.
+
+
+Therefore the pair (r,tau) is a useful compression, but not automatically a stronger receiver than the retained fixed-content active-tau/triple-spin route.
+
+
+The exact comparison (168.1) shows why:
+- the ratio r^2/tau is essentially c_max;
+- the scale tau is the old active residual;
+- the endpoint sphere/triple-spin selector is still the arithmetic condition deciding which such pairs are physically occupied.
+
+
+Thus 168 rules out treating the near-B conductor r^2*tau in (168.8) as an independent density gain. A new theorem must bound occupied pair support, or exploit the retained triple-spin selector on that support.
+
+
+8. Verification and audit limits
+
+
+The local inequality
+D/2<=max(a,b)^2<=2D
+is immediate from the exact Euclid formulas and was replayed on all 63638 oriented primitive Pythagorean leg choices with D<=200000.
+
+
+For synthetic content-compatible bundles, pairwise-coprime h_i and split-prime tau were chosen so that all three D_i=c_i*tau admit primitive Pythagorean representations. Across the generated test set, the replay verified exactly:
+- D_1 D_2 D_3 = R^2 tau;
+- c_max/2 <= r^2/tau <= 2c_max;
+- R^2 tau <= 8r^6;
+- on c_max<=C, r^2>=R/(2sqrt(C)).
+
+
+These bundles are not asserted to satisfy the endpoint sphere and are not physical cuboids. Physical endpoints enumerated=0. The theorem statements follow algebraically from retained004/013/167 plus exact primitive Pythagorean formulas.
+
+
+9. Handoff
+
+
+LATEST_RESEARCH_CARD=M3-T11-168
+NEXT_CANDIDATE=M3-T11-169
+CURRENT_ATTACK=OccupiedRTauSupportViaEndpointSphereTripleSpinOrThresholdCrossGcdTail
+
+
+Current live core after negligible deletions:
+
+
+(A) c_max>B^(1/6+xi), equivalently r^2/tau > (1/2)B^(1/6+xi) up to the factor-2 comparison. Threshold-specific same-measure cross-gcd tail remains OPEN; uniform 1/C tail remains forbidden by156.
+
+
+(B) c_max<=B^(1/6+xi), retained R>B^(2/3-eta), and
+    tau>B^(5/12-eta-(3/2)xi),
+    r^2>(1/2)B^(7/12-eta-xi/2),
+    gcd(r,tau)=1,
+    r^2*tau>(1/2)B^(1-2eta-2xi).
+
+
+Fixed (r,tau) fiber on branch(B) is at most
+B^(1/12+xi/2+o(1))
+for the standard small-parameter regime.
+
+
+Next research should compare the occupied (r,tau) support directly with the retained fixed-content active-tau/triple-spin machinery M3-T11-015 through 019. The concrete question is whether the endpoint sphere/triple-spin selector forces a support deficit for pairs with r^2*tau at the B^(1-o(1)) scale. If not, return to branch(A)'s threshold-specific cross-gcd tail rather than inventing another local congruence density.
+
+
+Do not charge r^2*tau>B^(1-o(1)) by itself as a probability saving.
+Do not treat r^2/tau as independent of c_max.
+Do not multiply the three space-triangle choices independently; preserve (168.9).
+Do not use the false uniform raw cross-gcd tail rejected by156.
+
+
+NEW_ROOT_CONTENT_EQUIVALENCE=true
+NEW_R2TAU_PRODUCT_IDENTITY=true
+NEW_ROOT_EXPONENT_7_12=true
+NEW_FIXED_R_TAU_FIBER_BOUND=true
+NEW_GLOBAL_ENDPOINT_BOUND=false
+P_OVER_M3_LIMIT_PROVED=false
+GLOBAL_COUNTING_CREDIT=0
+TI=PARKED
+120=RETRACTED
+147-149=FROZEN

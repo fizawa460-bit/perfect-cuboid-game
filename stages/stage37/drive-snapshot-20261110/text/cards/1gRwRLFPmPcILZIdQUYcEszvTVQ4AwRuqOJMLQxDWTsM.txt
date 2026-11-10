@@ -1,0 +1,414 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229AE — split-prime quadratic-residue cut system for the three-Hilbert packet
+
+
+STATUS: POST_229AD_LOCAL_RESIDUE_REFINEMENT / PROVED_SPLIT_PRIME_LOCAL_CHARACTER_RULES_FOR_DELTA0_DELTA_PLUS_DELTA_MINUS / PROVED_PURE_TWIST_OPPOSITE_PACKET_CHARACTER_CONDITION / PROVED_AFFINE_REDEI_TYPE_CUT_SYSTEM_ON_SPLIT_PRIME_ROWS / PROVED_INERT_PRIME_ROWS_AUTOMATIC_OVER_QI / STANDARD_Q_MONSKY_BLACKBOX_NOT_IDENTICAL / NO_COUNTING_PROMOTION / PREFERRED_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229AD LOCAL 2-DESCENT REFINEMENT / QUADRATIC-RESIDUE CHARACTER PACKET / SPLIT-PRIME CUT MATRIX / METHOD FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229AD
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1gRwRLFPmPcILZIdQUYcEszvTVQ4AwRuqOJMLQxDWTsM
+
+
+1. Scope and notation
+
+
+Retain229L/229AD. Over K=Q(i), every physical selector point has rational squareclasses
+  p       = Delta0 c^2,
+  p^2+1   = Delta+ a^2,
+  p^2-1   = Delta- b^2,                         (229AE.1)
+with c,a,b in K^* and Delta0,Delta+,Delta- in Q^*.
+
+
+Choose positive squarefree rational representatives for the three classes, with their 2-adic bits retained. By229AD their odd supports are pairwise disjoint, and physically
+  Delta0 ~ 2^e0 h d0,
+  Delta+ ~ 2^e+ b0 c12,
+  Delta- ~ 2^e- a0 c21                         (229AE.2)
+in Q^*/Q^{*2}, where h,d0,a0,b0,c12,c21 are the six pairwise-coprime physical buckets of229AD.
+
+
+Put
+  D = Delta+ Delta-
+as a squareclass. This is the moving congruent-number twist class of229L.
+
+
+This card extracts the exact odd split-prime local conditions already forced by (229AE.1). No new counting theorem is inserted.
+
+
+2. Split-prime residue-field lemma
+
+
+Let ell be an odd rational prime with
+  ell == 1 mod 4.
+Choose one Gaussian prime pi above ell. Then
+  O_K/pi = F_ell.
+
+
+Let chi_ell be the quadratic character on F_ell^*.
+
+
+A root i_ell of -1 in F_ell satisfies
+  chi_ell(i_ell)
+   = i_ell^((ell-1)/2)
+   = (-1)^((ell-1)/4)
+   = (2/ell),                                    (229AE.3)
+where (2/ell) is the ordinary Legendre symbol. Since -1 is itself a square for ell==1 mod4, the two roots +/-i_ell have the same character.
+
+
+RESULT_229AE_SPLIT_ROOT_CHARACTER=PROVED_EXACT.
+
+
+3. Local rule at a split prime dividing Delta+
+
+
+Assume
+  ell | Delta+
+with ell==1 mod4.
+
+
+Because Delta+ is squarefree at ell, v_pi(p^2+1) is odd.
+
+
+If v_pi(p)>0 then p^2+1 is a unit, contradiction.
+If v_pi(p)<0 then
+  v_pi(p^2+1)=2v_pi(p)
+is even, contradiction.
+Therefore
+  v_pi(p)=0,
+  p^2 == -1 mod pi.                              (229AE.4)
+
+
+From p=Delta0 c^2 and ell not dividing Delta0 by229AD support disjointness,
+  (Delta0/ell)=chi_ell(p)=(2/ell).               (229AE.5)
+
+
+Also
+  p^2-1 == -2 mod pi.
+Since p^2-1=Delta- b^2 and ell does not divide Delta-,
+  (Delta-/ell)=(-2/ell)=(2/ell).                 (229AE.6)
+
+
+Thus every odd split prime ell in Delta+ satisfies
+
+
+  (Delta0/ell) = (Delta-/ell) = (2/ell).         (229AE.7)
+
+
+RESULT_229AE_SPLIT_PRIME_IN_DELTA_PLUS_RULE=PROVED_EXACT.
+
+
+4. Local rule at a split prime dividing Delta-
+
+
+Assume
+  ell | Delta-
+with ell==1 mod4.
+
+
+The same valuation argument gives
+  v_pi(p)=0,
+  p^2 == 1 mod pi.                               (229AE.8)
+
+
+The roots +/-1 are squares in F_ell because -1 is a square. Hence from p=Delta0 c^2,
+  (Delta0/ell)=1.                                (229AE.9)
+
+
+Also
+  p^2+1 == 2 mod pi.
+Using p^2+1=Delta+ a^2 gives
+  (Delta+/ell)=(2/ell).                          (229AE.10)
+
+
+Therefore every odd split prime ell in Delta- satisfies
+
+
+  (Delta0/ell)=1,
+  (Delta+/ell)=(2/ell).                          (229AE.11)
+
+
+RESULT_229AE_SPLIT_PRIME_IN_DELTA_MINUS_RULE=PROVED_EXACT.
+
+
+5. Local rule at a split prime dividing Delta0
+
+
+Assume
+  ell | Delta0
+with ell==1 mod4.
+
+
+Since v_pi(p)=1 mod2, v_pi(p) is nonzero.
+
+
+Case v_pi(p)>0:
+  p^2+1 == 1 mod pi,
+  p^2-1 == -1 mod pi.
+Because +/-1 are both quadratic residues in F_ell,
+  (Delta+/ell)=(Delta-/ell)=1.                  (229AE.12)
+
+
+Case v_pi(p)<0:
+put t=p^{-1}, so v_pi(t)>0. Multiplying the last two equations of (229AE.1) by t^2 gives
+  1+t^2 = Delta+ (a t)^2,
+  1-t^2 = Delta- (b t)^2.
+Reduction mod pi again gives
+  (Delta+/ell)=(Delta-/ell)=1.                  (229AE.13)
+
+
+Thus for every odd split prime ell in Delta0,
+
+
+  (Delta+/ell)=(Delta-/ell)=1.                  (229AE.14)
+
+
+RESULT_229AE_SPLIT_PRIME_IN_DELTA0_RULE=PROVED_EXACT.
+
+
+6. Exact three-color residue packet
+
+
+Combining Sections3-5, the three pairwise-odd-coprime Hilbert packets satisfy the following complete split-prime character table:
+
+
+If ell | Delta0 and ell==1 mod4:
+  (Delta+/ell)=1,
+  (Delta-/ell)=1.
+
+
+If ell | Delta+ and ell==1 mod4:
+  (Delta0/ell)=(2/ell),
+  (Delta-/ell)=(2/ell).
+
+
+If ell | Delta- and ell==1 mod4:
+  (Delta0/ell)=1,
+  (Delta+/ell)=(2/ell).                          (229AE.15)
+
+
+Equivalently, at ell==1 mod8 all cross-packet characters appearing above are +1.
+At ell==5 mod8, the prescribed (2/ell) entries are -1.
+
+
+RESULT_229AE_THREE_COLOR_SPLIT_PRIME_CHARACTER_PACKET=PROVED_EXACT.
+
+
+This strictly sharpens229AD's support-only statement. It records not only where primes may occur but the exact quadratic-residue relation the other packet coefficients must satisfy at each split prime.
+
+
+7. Pure twist consequence independent of Delta0
+
+
+The Delta0 entries can be eliminated from part of the system.
+
+
+For every odd split prime ell dividing Delta+,
+  (Delta-/ell)=(2/ell).                          (229AE.16)
+
+
+For every odd split prime ell dividing Delta-,
+  (Delta+/ell)=(2/ell).                          (229AE.17)
+
+
+Thus every physical factorization
+  D = Delta+ Delta-
+comes with an exact opposite-packet quadratic-character condition at every split prime of D.
+
+
+RESULT_229AE_PURE_TWIST_SPLIT_CUT_CONDITION=PROVED_EXACT.
+
+
+This is a genuine twist-side condition: it no longer mentions the base class Delta0 or the six-bucket realization.
+
+
+8. Affine split-prime cut matrix
+
+
+Write the odd part of D as
+  D_odd = product_{j=1}^r ell_j
+with distinct odd primes.
+
+
+Let
+  x_j in F_2
+encode which packet contains ell_j:
+  x_j=1 for Delta+,
+  x_j=0 for Delta-.
+
+
+Let
+  e_+,e_- in F_2
+be the 2-adic exponents of the chosen squarefree representatives Delta+,Delta-.
+
+
+For each split row ell_i==1 mod4 define
+  lambda_ij in F_2 by
+    (-1)^lambda_ij = (ell_j/ell_i),  j!=i,
+and
+  theta_i in F_2 by
+    (-1)^theta_i = (2/ell_i).                    (229AE.18)
+
+
+The opposite packet at ell_i consists exactly of:
+- odd primes ell_j with x_j+x_i=1;
+- the factor2 with exponent e_- if x_i=1 and exponent e_+ if x_i=0.
+
+
+Therefore (229AE.16)-(229AE.17) are equivalent to the affine linear equation
+
+
+  sum_{j!=i} lambda_ij (x_i+x_j)
+   + theta_i [ e_- x_i + e_+ (1-x_i) ]
+   = theta_i                                  mod2. (229AE.19)
+
+
+This equation is imposed for every split prime row ell_i|D.
+No row is imposed here for ell_i==3 mod4.
+
+
+For fixed D and fixed 2-adic packet bits, the physically admissible Delta+/Delta- partitions therefore lie in an affine F_2 solution space of an explicit split-row residue matrix.
+
+
+RESULT_229AE_AFFINE_REDEI_TYPE_SPLIT_CUT_SYSTEM=PROVED_EXACT.
+
+
+If the resulting matrix has rank rho(D), the number of packet partitions satisfying this necessary condition is at most
+  2^(r-rho(D)),                                   (229AE.20)
+before imposing the stronger physical six-bucket realization, Delta0 packet, height, and selector conditions.
+
+
+This is a fixed-D label bound only. It does not count the number of realized D.
+
+
+9. Why inert rational primes supply no analogous row
+
+
+Let ell==3 mod4. Then ell is inert in Q(i), and the residue field is
+  F_{ell^2}.
+
+
+Every rational unit in F_ell^* becomes a square in F_{ell^2}^* because
+  (ell^2-1)/2
+is divisible by ell-1.
+
+
+Also i is a square in F_{ell^2}: ell^2==1 mod8, so an element of order4 lies in the square subgroup.
+
+
+Hence the local reductions used in Sections3-5 impose no nontrivial rational Legendre-symbol condition at inert ell.
+
+
+RESULT_229AE_INERT_PRIME_RESIDUE_ROWS=AUTOMATIC_OVER_QI.
+
+
+This is consistent with229AD: inert primes of the moving twist may occur only in the unrestricted e-side buckets a0,b0, but their mere presence is not excluded by the Q(i) selector squareclass equations.
+
+
+10. Relation to Monsky / Redei methods
+
+
+Equation (229AE.19) is Monsky/Redei-type in shape: an F_2 residue matrix records Legendre-symbol interactions among prime factors and a packet partition.
+
+
+However it is NOT licensed to identify (229AE.19) with the standard Q-rational Monsky matrix black-box:
+- the source point of229L is K=Q(i)-rational;
+- inert rational primes have residue degree2 and produce no rows in the present derivation;
+- Delta0 is an additional rational Hilbert class outside the moving twist support;
+- the Stage37 physical six-bucket and exact R-height realization are extra conditions absent from an ordinary twist-Selmer support count.
+
+
+A current theorem scan found Monsky-matrix work, including 2026 constructions of congruent/noncongruent-number families, but no theorem directly counting the exact Stage37 realized packet support at o(B^(1/3)). This scan is only a theorem-contract check; no absence theorem is claimed.
+
+
+RESULT_229AE_STANDARD_Q_MONSKY_BLACKBOX=NOT_IDENTICAL_TO_STAGE37_PACKET.
+
+
+11. Counting consequence and firewall
+
+
+229AE gives a new exact local restriction but no global power saving.
+
+
+Reasons:
+- solvability of an affine residue system is a Selmer-type admissibility condition, not by itself a bound on the number of twist values D;
+- fixed-D packet-label bounds do not improve229L's already-solved fixed-twist endpoint fiber obstruction;
+- 229AC already records that generic 2-Selmer/rank statistics are too broad for the current d<=2B^2 and B^(1/3) budget;
+- the exact physical six-bucket realization and exact R-height must remain in any future count.
+
+
+Therefore
+  PHYSICAL_JOINT_RADICAL_GCD_ONE_THIRD = OPEN.
+  CM_PAIR_INDEPENDENT_BRANCH = OPEN.
+  GLOBAL_COUNTING_CREDIT = 0.
+
+
+RESULT_229AE_LOCAL_RESIDUE_REFINEMENT_COUNTING_CREDIT=0.
+
+
+12. Next useful input
+
+
+The refined theorem targets are now:
+
+
+(A) PHYSICAL_RESIDUE_MATRIX_SUPPORT_COUNT:
+count Stage37 realized twists D for which the split-row system (229AE.19) has a packet solution that ALSO admits the exact229AD six-bucket realization and R<=B, with o(B^(1/3)) output;
+
+
+(B) THREE_PACKET_CHARACTER_COUNT:
+count the full (Delta0,Delta+,Delta-) packet using the exact character table (229AE.15), pairwise odd coprimality, h/c12/c21 split-only support, nested Pythagorean realization, and physical height;
+
+
+(C) DIRECT_SAME_PHYSICAL_RADICAL_SUPPORT:
+the retained preferred gate for sf(gcd(eR,xy));
+
+
+(D) another selector-aware support theorem meeting the same one-third budget.
+
+
+DO_NOT_CONTINUE:
+- do not count affine packet labels for fixed D as if they were new twist-support savings;
+- do not replace the Q(i) split-row system by a standard Q Monsky matrix without an exact adapter;
+- do not assign a density saving to Legendre-symbol conditions without a same-physical counting theorem;
+- do not reopen generic rank/Selmer distribution scans barred by229AC unless they meet its explicit exponent contract;
+- do not reopen CM dependence unless229AB fails audit.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+PRIMARY_GATE_STATUS=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+
+
+Integrated audit186-229O remains unchanged in scope and is not silently extended to229P-229AE.
+
+
+13. Verification scope and sources
+
+
+Internal load-bearing inputs:
+-229AD three-Hilbert six-bucket packet and odd support disjointness;
+-229L Hilbert-90 equations and distinguished 2-descent labels;
+-229M explicit squareclass representatives;
+-229D/E nested primitive Pythagorean and parity structure;
+-229O preferred radical receiver;
+-current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+External theorem-species comparison only:
+- Shamik Das and Sudipa Mondal, “Monsky Matrix and 2-Selmer rank,” arXiv:2604.26183.
+- Pan and Tian 2-Selmer distribution context already audited in229AC.
+
+
+No external theorem is used to prove Sections2-9.
+
+
+FINAL_READBACK_RECEIPT: PASS. Card, CARD-INDEX row496 and 案内, RESULT-LEDGER, MAIN current override, and active ROUTE were read back from Drive and agree on 229AE. The new result is an exact split-prime three-color character table and an affine F2 opposite-packet cut system for fixed D; inert primes give no rational-character rows over Q(i). This is a fixed-D packet-label restriction only, not a realized-twist support count. Preferred same-physical radical-gcd gate and CM-pair independent branch remain OPEN; CM dependence remains closed by229AB; generic rank/Selmer route remains HOLD by229AC; GLOBAL_COUNTING_CREDIT=0; M3-T11-230 remains unissued; production HOLD and integrated-audit186-229O scope are unchanged.

@@ -1,0 +1,413 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229AR — macro-Pythagorean content collapse and no-threshold-loss bilinear gap receiver
+
+
+STATUS: POST_229AQ_MACRO_PYTHAGOREAN_COLLAPSE_COMPLETE / PROVED_eR_xy_UV_IS_SINGLE_PHYSICAL_PYTHAGOREAN_TRIPLE / PROVED_GSTAR_EQUALS_ITS_EXACT_CONTENT_AND_GCD_eR_UV / PROVED_BILINEAR_SUM_DIFFERENCE_ARE_CONTENT_TIMES_COPRIME_SQUARES_UP_TO_ONE_2 / PROVED_NO_THRESHOLD_LOSS_SINGLE_SCALAR_KSTAR_RECEIVER / PROVED_229AQ_TWO_PRODUCTS_CARRY_RAW_GSTAR_TIMES_SQUARE / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229AQ EXACT MACRO-PYTHAGOREAN CONTENT / SINGLE-SCALAR SQUAREFREE RECEIVER / EUCLID-ROOT COMPRESSION / NO-THRESHOLD-LOSS THEOREM INTERFACE / METHOD FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229AQ
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1jzJ7yV0SoCU9sxBCN4d2bDj5Bmf3c8MchdQCP-cb4nc
+
+
+1. Scope
+
+
+229AQ gave an exact four-short-gap squarefree-kernel collapse, then a two-linear O(B)-height packetization
+  d_tw=sf(L_- L_+),
+  K_odd=sf_odd(L_- L_+),
+with
+  L_-=e+U+V-R,
+  L_+=R+U+V-e,
+and a packet threshold T^(1/2).
+
+
+There is a stronger exact whole-support identity hidden directly in the physical metric equations. It uses no packet choice and preserves the full one-third squarefree threshold.
+
+
+The key observation is that the products
+  eR, xy, UV
+form a single integral Pythagorean triple. Its exact content is precisely the current physical gcd
+  G_*=gcd(eR,xy).
+The two diagonal bilinear gaps
+  W_-:=UV-eR,
+  W_+:=UV+eR
+are then the Euclid gap factors of that macro triple and each separately carries the entire odd squarefree support of G_*.
+
+
+2. Macro-Pythagorean identity
+
+
+Retain the physical equations
+  U^2=e^2+x^2,
+  V^2=e^2+y^2,
+  R^2=e^2+x^2+y^2.                               (229AR.1)
+
+
+Then
+  U^2 V^2
+   =(e^2+x^2)(e^2+y^2)
+   =e^4+e^2(x^2+y^2)+x^2y^2
+   =e^2 R^2+x^2y^2.
+
+
+Therefore
+  (eR)^2+(xy)^2=(UV)^2.                          (229AR.2)
+
+
+Thus
+  (eR,xy,UV)
+is a positive integral Pythagorean triple.
+
+
+RESULT_229AR_MACRO_PYTHAGOREAN_TRIPLE=PROVED_EXACT.
+
+
+3. Its exact content is the current G_*
+
+
+Define
+  G_*:=gcd(eR,xy),
+as in the current quotient-free receiver.
+
+
+In any integral Pythagorean triple A^2+B^2=C^2, the three pairwise gcds coincide with the content:
+if p^k divides A and C, then p^(2k) divides C^2-A^2=B^2, hence p^k divides B; and similarly for the other pairs.
+
+
+Applying this to (229AR.2),
+  gcd(eR,xy)
+   =gcd(eR,UV)
+   =gcd(xy,UV)
+   =gcd(eR,xy,UV).                               (229AR.3)
+
+
+Hence
+  G_*
+   =content(eR,xy,UV)
+   =gcd(eR,UV).                                   (229AR.4)
+
+
+RESULT_229AR_GSTAR_IS_MACRO_TRIPLE_CONTENT=PROVED_EXACT.
+RESULT_229AR_GSTAR_EQUALS_GCD_eR_UV=PROVED_EXACT.
+RESULT_229AR_GSTAR_EQUALS_GCD_xy_UV=PROVED_EXACT.
+
+
+This is a new diagonal-product form of the current physical gcd receiver:
+  K_*=sf(G_*)=sf(gcd(eR,UV)).                     (229AR.5)
+
+
+No quotient, selector substitution, or population change is involved.
+
+
+4. Macro Euclid-root compression
+
+
+Normalize the macro triple by its exact content:
+  E0:=eR/G_*,
+  X0:=xy/G_*,
+  H0:=UV/G_*.
+Then
+  E0^2+X0^2=H0^2
+is primitive.
+
+
+Therefore there are coprime integers m>n>0 of opposite parity. There are two cases.
+
+
+Case I: E0 is the even leg.
+Then
+  E0=2mn,
+  X0=m^2-n^2,
+  H0=m^2+n^2.
+Thus
+  H0-E0=(m-n)^2,
+  H0+E0=(m+n)^2.
+
+
+Case II: E0 is the odd leg.
+Then
+  E0=m^2-n^2,
+  X0=2mn,
+  H0=m^2+n^2.
+Thus
+  H0-E0=2n^2,
+  H0+E0=2m^2.
+
+
+Consequently there exist
+  epsilon_macro in {0,1}
+and coprime positive integers
+  r_-<r_+
+such that exactly
+  UV-eR = 2^epsilon_macro G_* r_-^2,             (229AR.6)
+  UV+eR = 2^epsilon_macro G_* r_+^2.             (229AR.7)
+
+
+Moreover
+  gcd(r_-,r_+)=1.                                (229AR.8)
+
+
+In Case I one may take
+  epsilon_macro=0,
+  r_-=m-n,
+  r_+=m+n.
+Because m,n have opposite parity, r_-,r_+ are odd and coprime.
+
+
+In Case II one may take
+  epsilon_macro=1,
+  r_-=n,
+  r_+=m.
+
+
+It follows immediately that
+  gcd(UV-eR,UV+eR)
+    =2^epsilon_macro G_*.                         (229AR.9)
+
+
+Also, multiplying (229AR.6) and (229AR.7),
+  (UV-eR)(UV+eR)
+    =x^2y^2,                                      (229AR.10)
+which recovers
+  xy=2^epsilon_macro G_* r_- r_+.                (229AR.11)
+
+
+RESULT_229AR_MACRO_GAPS_EQUAL_CONTENT_TIMES_COPRIME_SQUARES=PROVED_EXACT.
+RESULT_229AR_MACRO_GAP_GCD_EQUALS_2EPS_GSTAR=PROVED_EXACT.
+
+
+5. Positivity and exact single-scalar squarefree receiver
+
+
+By (229AR.10), the product
+  (UV-eR)(UV+eR)
+is positive. Since UV+eR>0,
+  UV-eR>0.                                        (229AR.12)
+
+
+Thus the smaller bilinear gap
+  W_-:=UV-eR
+is a positive integer.
+
+
+From (229AR.6),
+  sf_odd(W_-)=sf_odd(G_*).                        (229AR.13)
+
+
+Likewise from (229AR.7),
+  sf_odd(W_+)=sf_odd(G_*),                        (229AR.14)
+where
+  W_+:=UV+eR.
+
+
+Let
+  K_odd:=sf_odd(G_*).
+Then exactly
+  K_odd
+   =sf_odd(UV-eR)
+   =sf_odd(UV+eR).                                (229AR.15)
+
+
+RESULT_229AR_SINGLE_BILINEAR_GAP_CARRIES_FULL_ODD_KSTAR=PROVED_EXACT.
+RESULT_229AR_BOTH_MACRO_GAPS_HAVE_IDENTICAL_FULL_ODD_KSTAR_KERNEL=PROVED_EXACT.
+
+
+This is stronger than a packet union: both single scalars individually carry the complete odd moving support.
+
+
+6. No-threshold-loss reduction of the current one-third gate
+
+
+Retain
+  K_*=sf(G_*).
+Since K_* differs from its odd part K_odd by at most a factor 2,
+  K_*>T
+implies
+  K_odd>T/2.                                      (229AR.16)
+
+
+Using (229AR.15),
+  K_*>T
+implies simultaneously
+  sf_odd(UV-eR)>T/2,
+  sf_odd(UV+eR)>T/2.                              (229AR.17)
+
+
+At the current preferred threshold
+  T=B^(1/3-delta),
+the large-K_* event therefore lies inside each of the two single-scalar events
+  sf_odd(UV-eR)
+    > (1/2) B^(1/3-delta),                       (229AR.18)
+and
+  sf_odd(UV+eR)
+    > (1/2) B^(1/3-delta).                       (229AR.19)
+
+
+There is no T^(1/2) or T^(1/4) packet-threshold loss.
+
+
+RESULT_229AR_NO_THRESHOLD_LOSS_SINGLE_SCALAR_RECEIVER=PROVED_EXACT.
+
+
+The price is height: each W_± is O(B^2), not O(B).
+Indeed U,V,e,R<R or <=R in the physical ordering, so
+  0<W_-<B^2,
+  0<W_+<2B^2.                                    (229AR.20)
+
+
+Thus 229AR and 229AQ provide complementary theorem interfaces:
+- 229AR: one scalar, full B^(1/3-delta) squarefree threshold, quadratic height;
+- 229AQ: two O(B)-height linear packets, threshold B^(1/6-delta/2).
+
+
+Neither dominates the other for counting without a theorem sensitive to these height/threshold tradeoffs.
+
+
+7. Exact strengthening of the 229AQ central products
+
+
+Retain from229AQ
+  lambda=U+V-R-e>0,
+  S=e+U+V+R,
+  L_-=e+U+V-R,
+  L_+=R+U+V-e.
+
+
+The elementary factorizations are
+  L_- L_+
+   =(U+V)^2-(R-e)^2
+   =2(UV+eR)
+   =2W_+,                                         (229AR.21)
+
+
+and
+  lambda S
+   =(U+V)^2-(R+e)^2
+   =2(UV-eR)
+   =2W_-.                                         (229AR.22)
+
+
+Combining with (229AR.6)-(229AR.7),
+  L_-L_+
+    =2^(epsilon_macro+1) G_* r_+^2,              (229AR.23)
+  lambda S
+    =2^(epsilon_macro+1) G_* r_-^2.              (229AR.24)
+
+
+Thus the two 229AQ products do not merely share the same squareclass: each is exactly the raw physical content G_* times a square and one controlled power of 2.
+
+
+RESULT_229AR_229AQ_LINEAR_PRODUCT_IS_RAW_GSTAR_TIMES_SQUARE=PROVED_EXACT.
+RESULT_229AR_229AQ_CENTRAL_PRODUCT_IS_RAW_GSTAR_TIMES_SQUARE=PROVED_EXACT.
+
+
+In particular,
+  d_tw=sf(L_-L_+)
+      =sf(2^(epsilon_macro+1) G_*),               (229AR.25)
+consistent with the retained 2-adic twist bit.
+
+
+8. Current theorem interface after 229AR
+
+
+CURRENT_PREFERRED_GATE remains:
+  #{positive primitive physical endpoints R<=B :
+      sf(gcd(eR,xy))>B^(1/3-delta)}
+    =o(B^(1/3))
+for some fixed delta>0.
+
+
+NEW EXACT CONTENT FORM:
+  G_*=content(eR,xy,UV)=gcd(eR,UV)=gcd(xy,UV).
+
+
+CURRENT_PREFERRED_NO_THRESHOLD_LOSS_WHOLE_KSTAR_RECEIVER:
+  W_-=UV-eR>0,
+  with
+    sf_odd(W_-)=K_odd,
+    W_-=2^epsilon_macro G_* r_-^2,
+  and threshold
+    sf_odd(W_-)>0.5 B^(1/3-delta).
+
+
+REDUNDANT SECOND SINGLE-SCALAR RECEIVER:
+  W_+=UV+eR,
+  with the same full odd squarefree kernel and the same threshold.
+
+
+CURRENT_PREFERRED_LOW_HEIGHT_PACKET_RECEIVER remains:
+  229AQ normalized two O(B)-height linear packets ell_± at threshold B^(1/6-delta/2).
+
+
+CURRENT_PREFERRED_EDGE_REFINEMENT remains:
+  229AP full-odd sign-resolved edge packets and height localization.
+
+
+SCOPED_DISPOSED_SECTOR from229AQ remains:
+  (R-U)(R-V)<=B^(1/3-eta)
+for any fixed eta>0 contributes o(B^(1/3)).
+
+
+NEXT_USEFUL_INPUT:
+(A) same-physical squarefree-kernel tail for W_-=UV-eR at the full B^(1/3-delta) threshold and quadratic height;
+(B) a theorem exploiting the exact macro-Pythagorean content condition rather than treating W_- as a generic quadratic/bilinear value;
+(C) combine the macro Euclid roots r_± with the 229AQ central divisor chart and remaining square selectors;
+(D) compare quantitatively the229AR no-threshold-loss quadratic-height receiver against the229AQ half-threshold linear-height receiver;
+(E) combine229AR macro-content structure with229AP sign-resolved edge-prime information.
+
+
+9. Firewalls and unchanged state
+
+
+Do not:
+- infer a count merely because the macro triple is Pythagorean;
+- replace the exact physical endpoint measure by all Pythagorean triples;
+- infer independence of W_- and W_+; they have the same squarefree kernel and their product is a square;
+- double-count the two single-scalar receivers as independent restrictions;
+- discard229AQ, whose low-height linear packets and scoped divisor count remain distinct useful information;
+- promote the macro-content identity to a global endpoint saving without a same-physical counting theorem.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_OPERATION=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+INTEGRATED_AUDIT_186_229O_SCOPE=UNCHANGED_NOT_EXTENDED_TO_229P_THROUGH_229AR.
+
+
+10. Dependencies and verification scope
+
+
+Load-bearing internal inputs:
+- current physical equations for e,x,y,U,V,R;
+- 229N/O quotient-free definition G_*=gcd(eR,xy), K_*=sf(G_*);
+- 229M primitive Pythagorean content/gap lemma;
+- 229AQ central-gap and two-linear identities for cross-check;
+- current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+The macro-Pythagorean identity, exact content collapse, Euclid-root formulas and no-threshold-loss receiver are direct integer deductions. No external theorem is invoked.
+
+
+Independent hostile audit of229AR has not been run. Existing operational authority, latest mathematical construction, global counting credit, primary gate, closure states, retractions, production HOLD and integrated-audit scope are otherwise unchanged.
+
+
+
+
+FINAL_READBACK_RECEIPT: PASS
+READBACK_CONFIRMED: 229AR card body / CARD-INDEX row509 / 案内 latest routing / RESULT-LEDGER 229AR change record / MAIN current authority override=229AR / active ROUTE POST-229AR block.
+DRIVE_LOCATION_CONFIRMED: M3-Research-Cards folder (parent 1PTFrohNcPTyhLT-b51IT3VUy-tikkxLz).
+AUTHORITY_CREDIT_GATE_CLOSURE_CHECK: unchanged except latest post-229 delta pointer advanced to229AR; M3-T11-229 operational authority, M3-T11-228 latest mathematical construction, PRIMARY_GATE OPEN, GLOBAL_COUNTING_CREDIT=0, M3-T11-230 unissued, production HOLD, P_OVER_M3_LIMIT_PROVED=false, integrated audit186-229O scope unchanged.
+MACRO_RECEIVER_CHECK: G_*=content(eR,xy,UV)=gcd(eR,UV); UV±eR=2^epsilon_macro G_* times coprime squares; both single-scalar odd squarefree kernels equal K_odd and retain the full one-third threshold up to factor2.
+COMPLEMENTARY_RECEIVER_CHECK:229AQ low-height two-linear receiver/scoped outer-gap-product count and229AP sign-resolved edge refinement remain active; no counting promotion assigned.
+CONCURRENCY_CHECK: no 229AS row found in final CARD-INDEX readback.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

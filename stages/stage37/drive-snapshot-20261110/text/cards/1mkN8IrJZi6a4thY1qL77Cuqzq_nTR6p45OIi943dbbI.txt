@@ -1,0 +1,70 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229BS — subpower-equivalent receiver supports and linear-height radical firewall
+STATUS: POST_229BR_UNIFORM_SUBPOWER_RECEIVER_EQUIVALENCE_PROVED / DEGREE_ONE_RAD_E_AND_RAD_R_RECEIVERS_PROVED / EXACT_EDGE_VS_OUTER_SELECTOR_SPLIT_PROVED / ALL_RECEIVER_FIXED_POWER_GATES_EQUIVALENT / NO_ACTUAL_OCCUPIED_VALUE_SAVING / GLOBAL_CREDIT=0 / NO_REOPEN
+TYPE: exact cross-receiver value-support transfer; elementary fixed-edge/fixed-outer and uniform smooth-support lemmas; squarefree-kernel selector-loss characterization; strategy firewall
+CARD_DOC_ID=1mkN8IrJZi6a4thY1qL77Cuqzq_nTR6p45OIi943dbbI
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230=NOT_ISSUED; PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; PRODUCTION=HOLD; P_OVER_M3_LIMIT_PROVED=false.
+
+
+1. Scope and retained source
+Fix delta>0 and B>=2. Let S_B(delta) be EXACTLY the current positive primitive physical Stage37 endpoints P satisfying R(P)<=B, ALL original face and space selectors, and sf(G0(P))>B^(1/3-delta), with G0=gcd(eR,xy)=ab c12 c21. No relaxation of source, height, or primitivity is made.
+Retain 229BR: rho(P)=rad(Phi(P))<=B^(5/2)/(2sqrt2), sigma(P)=rad(e(P)R(P))<=B^2, and uniform B^o(1) physical fibers for BOTH scalars, with sf(G0)|rho and sf(G0)|sigma. Retain 229BQ uniform bounded-support smooth-number lemma; 229BR independent fixed-edge divisor count and fixed-R divisor count.
+No existence of a perfect cuboid endpoint is assumed.
+
+
+2. Generic finite-fiber transfer theorem (NEW explicit cross-host result)
+LEMMA 229BS.1. Let S_B be any finite family, and f,g:S_B->integers be single-valued maps. Suppose for some eta(B)->0, every fiber of each map on S_B has size <=B^eta(B). Write T_f=f(S_B) and T_g=g(S_B). Then
+  |S_B|/B^eta(B) <= |T_f|, |T_g| <= |S_B|,              (229BS.1)
+and
+  B^(-eta(B)) |T_f| <= |T_g| <= B^eta(B) |T_f|.        (229BS.2)
+PROOF: partition S_B into the disjoint nonempty fibers of f, and separately of g. Each fiber has size between 1 and B^eta. Summing gives (229BS.1), then eliminate |S_B|. Empty S_B gives |T_f|=|T_g|=0 and the same inequalities.
+COROLLARY 229BS.2. At a fixed target exponent alpha>0, existence of epsilon>0 with |T_f|=O(B^(alpha-epsilon)) is equivalent to existence of epsilon'>0 with |T_g|=O(B^(alpha-epsilon')). In either direction one may take epsilon'=epsilon/2 for sufficiently large B.
+CAUTION: a mere o(B^alpha) estimate without a fixed-power margin need NOT transfer through a B^o factor; neither does a polynomial height bound imply an occupied-value bound.
+
+
+3. Apply to current rho and sigma
+Set T_rho={rho(P):P in S_B(delta)} and T_sigma={sigma(P):P in S_B(delta)}. By 229BR their fibers are uniformly B^o on the whole physical population and hence on S_B(delta).
+Therefore
+  B^(-o(1)) |T_rho| <= |T_sigma| <= B^o(1)|T_rho|.     (229BS.3)
+A fixed-power one-third support saving for T_rho holds IF AND ONLY IF one for T_sigma holds (possibly at a smaller saving exponent). This equivalence is a mathematical reduction, NOT a proof that either bound actually holds. There is no exact ordering |T_rho|<=|T_sigma| or reverse, nor any independence or multiplicative saving.
+The two preferred receivers can therefore be treated as a single power-saving proof obligation with different available arithmetic information; proving the gate for either is enough.
+
+
+4. Further degree-one radical receivers
+Let u(P)=rad(e(P)), v(P)=rad(R(P)). Both are positive squarefree and <=B.
+Retain the 229BR fixed-edge lemma: for every e<=B, the two factorizations (U-x)(U+x)=e^2 and (V-y)(V+y)=e^2 give at most O(tau(e^2)^2)=B^o physical endpoints at fixed e.
+Retain the 229BR fixed-R lemma: e^2+z^2=R^2 allows B^o choices of (e,z) at fixed R; the fixed-edge lemma gives B^o further physical endpoints. Thus every R<=B has a uniform B^o fiber.
+Fix u=r<=B. Every possible e<=B with rad(e)=r uses only prime divisors of r; 229BQ's UNIFORM polynomial-size prescribed-support Rankin lemma gives at most B^o possible e. Multiply by the fixed-e fiber B^o. Thus fixed u=rad(e) has B^o physical endpoints.
+Likewise fixed v=s<=B allows only B^o positive R<=B supported on primes of s; multiply by the fixed-R physical fiber B^o. Thus fixed v=rad(R) has B^o endpoints.
+Consequently the realized images of rho, sigma, e, R, rad(e), and rad(R), all restricted to the SAME S_B(delta), have cardinalities pairwise comparable up to B^o factors and have EQUIVALENT fixed-power one-third support gates.
+This proves that even LINEAR-height SQUAREFREE scalars with uniform B^o physical fibers already exist. Further reduction of ambient receiver height without new selector-sensitive occupied-value information cannot, by itself, improve the M3 power exponent.
+
+
+5. Exactly why the degree-one radicals are weaker as selectors
+Let H=c12*c21 as in 229BR, G0=abH. By 229AD the six buckets h,d0,a,b,c12,c21 are pairwise coprime. Since gcd(e,R)=h, ab|e and gcd(ab,h)=1, we have
+  gcd(ab,R)=1.                                        (229BS.4)
+Since H|R, gcd(H,h)=1, and gcd(e,R)=h, we have
+  gcd(H,e)=1.                                         (229BS.5)
+With gcd(ab,H)=1, squarefree-kernel (odd-exponent) multiplicativity gives
+  sf(G0)=sf(ab)*sf(H).                                (229BS.6)
+Thus
+  sf(G0)|rad(e)  iff sf(H)=1 (iff H is a square),      (229BS.7)
+  sf(G0)|rad(R)  iff sf(ab)=1 (iff ab is a square).    (229BS.8)
+Here sf means the original squarefree kernel, NOT the full prime radical. This distinction is essential: H>1 or ab>1 alone does not disprove divisibility when that factor is a perfect square.
+In general neither degree-one radical u nor v retains the original source threshold as a standalone condition, whereas both 229BR rho and sigma satisfy sf(G0)|rho,sigma. Therefore the degree-one radical support-count contracts MUST keep the original physical source qualifier sf(G0)>B^(1/3-delta); replacing it by u>threshold or v>threshold is INVALID. No unconditional failure/existence assertion about any special H or ab stratum is made.
+
+
+6. Operational theorem contract after 229BS
+Keep the preferred source S_B(delta), alpha=1/3, and same selector conditions. Define T_f(B,delta)=f(S_B(delta)) for f in {rho,sigma,rad(e),rad(R)}.
+An actual theorem |T_f|<<B^(1/3-epsilon) for ANY ONE of these for fixed epsilon>0 would imply |S_B(delta)|<<B^(1/3-epsilon/2) for sufficiently large B, and hence close the P_large tail. Conversely such a fixed-power bound for the P_large source implies a fixed-power bound for ALL four images; thus no simpler host automatically gives a new analytic input.
+Priority stays with rho/sigma, because their squarefree radicals visibly contain sf(G0), unlike rad(e)/rad(R) in general. The new result REMOVES duplication in receiver-height optimization but supplies NO counting estimate.
+Do not multiply T_rho and T_sigma as independent sieve events. Do not claim B^o equivalence transfers an arbitrary little-o bound. Do not treat rad(e) or rad(R) as a threshold-loss-free selector, except under the exact square conditions (229BS.7)-(229BS.8). Do not relabel these host equivalences as M3-T11-230 or as a resolved theorem gate.
+
+
+7. State and dependencies
+CURRENT_BLOCKER=NO_SELECTOR_AWARE_FIXED_POWER_OCCUPIED_VALUE_BOUND_FOR_ANY_SUBPOWER_EQUIVALENT_RECEIVER_OF_SAME_LARGE_SF_G0_PHYSICAL_SOURCE.
+NEXT_RESEARCH_INPUT=ACTUAL_GLOBAL_SELECTOR_CONDITIONED_SUPPORT_SAVING_ON_S_B(delta), with retained 229BR rho=rad(Phi) or sigma=rad(eR) primary, 229BP sf-exact Phi, 229AR W_- fixed fiber OPEN, 229BM hard remainder and 229BF outer-floor as parallel routes. Fixed-power occupied-value theorem is NOT supplied here.
+Dependencies:229AD pairwise content buckets;229BI G0 and h/c12/c21 content geometry;229BQ uniform Rankin support lemma and fixed rho fibers;229BR rho/sigma B^o fibers and elementary fixed edge/fixed R. All new claims here are exact logical or elementary arithmetic deductions; NO external theorem imported, NO numerical endpoint enumeration, and NO independent hostile audit conducted.
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230=NOT_ISSUED; PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD; existing closure and INTEGRATED_AUDIT_186_229O scope unchanged; INDEPENDENT_HOSTILE_AUDIT_229BS=NOT_RUN.
+
+
+FINAL_READBACK_RECEIPT=PASS — 2026-10-07. Independent connector readback after targeted repair verified research-card body+ID+M3-Research-Cards folder; CARD-INDEX row536 with native hyperlink and 案内 latest/start order; RESULT-LEDGER canonical current229BS and final 229BS change record; MAIN canonical current229BS, exact current doc ID, blocker and next theorem contract; active ROUTE canonical latest229BS header, blocker/next contract, and terminal POST-229BS research block. All current pointers name exactly 229BS and predecessor229BR. Retained operation=M3-T11-229, latest mathematical construction=M3-T11-228, M3-T11-230 NOT_ISSUED, primary gate M3-T11-GATE-001 OPEN, GLOBAL_COUNTING_CREDIT=0, P_OVER_M3_LIMIT_PROVED=false, production HOLD, existing closure and integrated-audit186–229O scope unchanged. Independent hostile audit229BS NOT_RUN. This card is structural equivalence and height firewall, not a fixed-power realized-value bound. NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

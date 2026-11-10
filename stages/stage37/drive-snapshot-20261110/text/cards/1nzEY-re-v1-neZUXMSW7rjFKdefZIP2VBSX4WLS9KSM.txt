@@ -1,0 +1,37 @@
+﻿Stage37 229HI-A3 — exact six-form coefficient certificate and square-area arithmetic audit.
+CURRENT=Stage37-NEW-INPUT-DELTA-AUDIT-229HI-A3; CARD=1Cn1G2mZboqJUkFfICPGC4Ns_B3pJefF4zFNhHDCbVMA; PARENT=229HI-A2; PREVIOUS_EXACT_CERT=17mRIFO_6MXTpe42lUaOpTFG7aWacF9xc4hHsRhFMEY0.
+LIST q²: 000.002.011:2; 011.020.022:0
+LIST p²: 000.002.101:2; 020.022.101:2
+REMAINING: 000.002.021:2; 001.020.022:0
+Exact F generator and test, locally executed with SymPy for all six:
+import sympy as s
+t,X,Y,a,b,c,d=s.symbols('t X Y a b c d')
+key_types={'000.002.011:2':'aq','000.002.021:2':'plus','000.002.101:2':'cp','001.020.022:0':'minus','011.020.022:0':'aq','020.022.101:2':'cp'}
+def macro(k):
+    i,j,h=[int(w)-1 for w in k]
+    return s.expand((i*t+j*X+h*Y-i*j*h*t*X*Y)**2*(1+t*t if i==0 else 1)*(1+X*X if j==0 else 1)*(1+Y*Y if h==0 else 1))
+def coeffs(key):
+    codes,h=key.split(':');h=int(h)
+    F=s.expand(sum((1 if z!=h else -1)*macro(k) for z,k in enumerate(codes.split('.'))))
+    f=s.Poly(s.cancel(a*a*c*c*F.subs({t:b/a,X:d/c})),Y)
+    return [s.factor(f.nth(i)) for i in (2,1,0)]
+for key,kind in key_types.items():
+    A,B,C=coeffs(key)
+    if key.startswith('000'):
+        U,V=b*d-a*c,b*c+a*d
+    else:
+        U,V=b*d+a*c,b*c-a*d
+    D2={'aq':a*a*(c*c+d*d),'cp':c*c*(a*a+b*b),
+        'plus':(a*c+b*d)**2,'minus':(a*c-b*d)**2}[kind]
+    assert B==0
+    assert s.expand(A-C-2*(U*U-V*V))==0
+    assert s.expand(A+C-2*D2)==0
+    assert s.expand(U*U+V*V-(a*a+b*b)*(c*c+d*d))==0
+    print(key,kind,'EXACT PASS')
+print('ALL SIX EXACT PASS')
+Proof: primitive U,V Gaussian product with distinct coprime p²,q² norms gives gcd(U,V)=1; argument via invertible multiplication matrices mod p,q (det q²,p²), and norm U²+V²=p²q² excludes any other common prime. For each ℓ=p,q, ℓ|U²−V² would imply ℓ|U,V as ℓ odd and ℓ|U²+V², contradiction, so gcd(pq,A0−C0)=1 and hence gcd(pq,g)=1. Primitive root Y=W/T with T²+W²=r² and B0=0 implies A0/g=eps*T²,C0/g=−eps*W². For aq or cp forms q² or p² divides T²−W²; retain A2 r²≤sqrt(2)pq and q<sqrt(2)p, giving 0<|T²−W²|<2q² or <2p²; hence absolute difference exactly q² or p². This would produce a nonzero integer right triangle (r+s,r−s,2T) or (r+s,r−s,2W) with square area W² or T², contradicting Fermat's square-area theorem. Therefore exactly four new ALL-HEIGHT empty labels.
+Remaining two: B0=0,A−C=2E,E odd, A+C=2D². Since A−C=eps*g*r² and r odd, v2(g)=1. Since T²−W² odd, v2(A+C)=1, forcing D odd. Excludes opposite parity of a,c only. The actual specialized content may be >2 and cannot be cancelled. The source coefficient identities were regenerated exactly; nontrivial signed specialization p,q<2000 under p<q<sqrt(2)p was sanity-tested (56,256 key/signed instances across six), no proof from cutoff.
+Numerical status: global residual146−4=142; square90−4=86; FS98−4=94, FW48; all-height global-empty112+4=116; large-aspect residual140 stays140. Authority M3-T11-229, GATE OPEN, GLOBAL_CREDIT0, route change NONE, FJ/FS/FW/HB and independent A3 hostile audit HOLD/NOT_RUN.
+
+
+POSTWRITE CERTIFICATE RECEIPT — 2026-10-10 JST. Native companion research card current229HI-A3 and six exact coefficients locally re-generated PASS; Stage37 research-card parent verified. CARD-INDEX source row684/AI00 live683/AI10 and MAIN/LEDGER/ROUTE/NEG/FASTPATH current229HI-A3 were read back successfully, authority M3-T11-229, gate OPEN, GLOBAL_CREDIT0, route switch NONE, independent hostile audit NOT_RUN. This is algebraic scoped source proof not full physical population closure.

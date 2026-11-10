@@ -1,0 +1,79 @@
+﻿STAGE37 229HI-A12 EXACT PORTABLE NATIVE CERTIFICATE / PARITY-ORIENTATION RETRACTION RECEIPT
+DATE 2026-10-11 JST; PARENT_CURRENT=1wGweVNd_YEr5HF11jSaHUVoHKD9gilpTC-MAx3dU4dk; NATIVE_CARD_INDEX_SOURCE_ROW693; PREVIOUS=229HI-A11.
+EXACT SYMBOLIC 24/24 PASS: D_y/4=(p q U)^2−Z^4 and S0=4p²q²U² for all A11 8*3 original signed 13 Gaussian E macro constructions. Four (U,Z) classes: (ad+bc,ad−bc),(ad−bc,ad+bc),(ac+bd,ac−bd),(ac−bd,ac+bd). Every signed coordinate swap maps them among this exhaustive four-family set. A11 unjustified simultaneous odd-first parity was RETRACTED: opposite parity between a,c swaps which groups are odd/even U.
+ONE ACTUAL signed third norm-prime physical root =>r²|S0 via previous229GX. Primitivity of product U²+V²=(pq)² forces either even U contradiction pq<r² (Euclid), or odd U with k=|U|/r, r²+k²=2pq, q<2p,r<2p, and ≤24K π((2B)^(1/3)) odd-U source triples with k≤K. No global signed source label empty from parity alone; restore globally uncounted128, potentially nonempty130. Opposite-parity exact norm gate p73 q89 r113, (a,b)=(48,55),(c,d)=(39,80), U=ad−bc=1695=113*15; V=ac+bd=6272, gcd1; NOT a full F-root.
+EXACT FINITE ALL-HEIGHT TEST for p split rational prime1(mod8)≤100000 (2,384 primes): q split p<q<2p (2,494,003 pairs); 4 all-orientation discriminant tests/pair =9,976,012; negatives3,877,263; nonnegative perfect square ZERO in each of four classes. Thus zero rational signed third root (stronger than no prime r) for each of the ORIGINAL24 FJ signed source keys for ALL first p≤100000, all R. No unconditional entire physical Stage37 counting claim.
+SOURCE SCRIPT SHA256: symbolic e99c2ca285fdb050c5ee3af151bda411dc85c6dd0ec5a7faec4bc37e1259e007, finite 79bc8ba5ee9506ff9d0be2fd16d2a1b3fa8e16a122433bc8d70648d1bbbea335; finite saved JSON result SHA256 6f446ff28278f429d6d2f8ef778b065ebeb530710811fb22da9a14f59fcce20e. The scripts BELOW are compact independently executable equivalents; hashes identify the full local scripts and JSON in original execution, not necessarily exact compact text bytes.
+PROOF GAPS / HOSTILE FIREWALL: This covers FJ NECESSARY SOURCE labels only, requires original source-map hostile HOLD; independent external A12 hostile audit NOT_RUN. Finite run and exact symbolic do not imply unbounded p count o(B^(1/3)), physical full Stage37 goal OPEN; production HOLD gate OPEN global credit0.
+STANDALONE SYMBOLIC CHECK START
+# Python3 + SymPy exact independent original 24 signed FJ coefficient identities
+import sympy as s
+from collections import Counter
+a,b,c,d,t,x,y=s.symbols('a b c d t x y')
+N1=a*a+b*b; N2=c*c+d*d
+bases='000.021.110 001.010.100 001.012.102 001.020.110 001.022.110 002.021.110 010.021.102 012.021.100'.split()
+pairs=[(a*d+b*c,a*d-b*c),(a*d-b*c,a*d+b*c),(a*c+b*d,a*c-b*d),(a*c-b*d,a*c+b*d)]
+def macro(s3):
+ i,j,k=[int(v)-1 for v in s3]
+ return s.expand((i*t+j*x+k*y-i*j*k*t*x*y)**2*(1+t*t if i==0 else 1)*(1+x*x if j==0 else 1)*(1+y*y if k==0 else 1))
+distribution=Counter()
+for base in bases:
+ es=[macro(v) for v in base.split('.')]
+ for h in range(3):
+  F=s.Poly(sum((1 if j!=h else -1)*es[j] for j in range(3)),y)
+  A,B,C=[s.factor(s.cancel(a*a*c*c*F.nth(j).subs({t:b/a,x:d/c}))) for j in (2,1,0)]
+  assert all(s.denom(v)==1 for v in (A,B,C))
+  delta=s.expand(B*B-4*A*C)
+  matches=[idx for idx,(U,Z) in enumerate(pairs) if s.expand(delta-4*(N1*N2*U*U-Z**4))==0]
+  assert len(matches)==1,(base,h,matches)
+  U,Z=pairs[matches[0]]
+  assert s.expand((A-C)**2+B**2-4*N1*N2*U*U)==0
+  distribution[matches[0]]+=1
+assert sum(distribution.values())==24
+print('24 original signed FJ macro discriminator identities exact PASS',dict(distribution))
+
+
+STANDALONE SYMBOLIC CHECK END
+STANDALONE FINITE EXACT CHECK START
+# Python3 + SymPy (for prime enumeration) exact finite proof, no floating-point decisions
+import math,bisect,json,hashlib
+from sympy import primerange
+LIMIT=100000
+ps=[int(p) for p in primerange(17,2*LIMIT) if p%8==1]
+def legs(p):
+ for u in range(1,math.isqrt(p)+1,2):
+  v=math.isqrt(p-u*u)
+  if u*u+v*v==p and v%2==0:
+   a,b=abs(u*u-v*v),2*u*v
+   assert a and b and a*a+b*b==p*p and math.gcd(a,b)==1
+   return a,b
+ raise AssertionError(p)
+reps={p:legs(p) for p in ps}
+nprimes=0; npairs=0; tests=0; negatives=0; square_counts=[0]*4
+for p in ps:
+ if p>LIMIT:break
+ nprimes+=1;a,b=reps[p]
+ for q in ps[bisect.bisect_right(ps,p):bisect.bisect_left(ps,2*p)]:
+  c,d=reps[q];H=p*q
+  ad,bc,ac,bd=a*d,b*c,a*c,b*d
+  U1,U2,U3,U4=ad+bc,ad-bc,ac+bd,ac-bd
+  for j,(U,Z) in enumerate(((U1,U2),(U2,U1),(U3,U4),(U4,U3))):
+   D=H*H*U*U-Z**4
+   tests+=1
+   if D<0: negatives+=1;continue
+   if math.isqrt(D)**2==D:square_counts[j]+=1
+  npairs+=1
+assert nprimes==2384 and npairs==2494003 and tests==9976012
+assert negatives==3877263 and square_counts==[0,0,0,0]
+print('p<=100000, all heights 24 source keys ZERO rational Y')
+print('nprimes=',nprimes,'npairs=',npairs,'four discriminant tests=',tests,'negative=',negatives,'square by family=',square_counts)
+
+
+STANDALONE FINITE EXACT CHECK END
+EXPECTED RESULTS:
+24 original signed FJ macro discriminator identities exact PASS {0: 8, 3: 4, 2: 4, 1: 8}
+p<=100000, all heights 24 source keys ZERO rational Y
+nprimes= 2384 npairs= 2494003 four discriminant tests= 9976012 negative= 3877263 square by family= [0,0,0,0]
+CROSS-PARITY COUNTEREXAMPLE TO UNSCOPED A11, NORM GATE ONLY:
+p=73,q=89,r=113,a=48,b=55,c=39,d=80, U=ad−bc=1695=113*15,V=ac+bd=6272; 1695²+6272²=(73*89)²; r²+15²=2pq. This contradicts universal 'U even' but NOT 'no full F-root'.
+NEXT: Unbounded p first; use original exact signed discriminant square D=(p q U)²−Z⁴ combined q<2p and actual r|U for all24; seek rigorous prime-pair occupancy/debit, or signed EX/OFF-G0 alternate after route audit. Restore A10 130/128.

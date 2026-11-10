@@ -1,0 +1,70 @@
+﻿STAGE37-229HI-A26 — EXECUTABLE EXACT PRIMITIVE-GAUSSIAN WITNESS AND QUANTITATIVE THIN-SET PROOF RECEIPT
+2026-10-12 JST. Companion to card https://docs.google.com/document/d/1brgNLpanFZyL2yky_ODVrACT25cw_HaMDvHMr2myLzA/edit . Previous A25 symbolic certificate https://docs.google.com/document/d/10vrU2D4YDY2KJwKQUyBn6jAGd9PoY4FcnepBqKXIDd0/edit .
+This certificate is a self-contained Python 3 exact-integer reenactment of the crucial 354/414 discriminant nonsquare witness, plus an EXTERNAL classical Cohen–Serre theorem applied with the correct fixed n=4 parameter height and physical finite-fiber hypothesis. It DOES NOT claim to computationally prove the external large sieve theorem or the historic FO/A23 source lemmas. The theorem is scoped to original P inside fixed 354 source keys, global credit0.
+
+
+PYTHON 3 STANDALONE CERTIFICATE: save lines below as stage37_A26_cert.py then run python3 stage37_A26_cert.py.
+
+
+from itertools import product, combinations
+from math import isqrt
+import hashlib
+u,v,x,y=2,1,3,2
+p=u*u+v*v; q=x*x+y*y
+a=u*u-v*v; b=2*u*v; c=x*x-y*y; d=2*x*y
+P=[(a,-b),(p,0),(a,b)]
+Q=[(c,-d),(q,0),(c,d)]
+K=[z for z in product(range(3),repeat=3) if z!=(1,1,1) and z<tuple(2-k for k in z)]
+assert len(K)==13 and (p,q)==(5,13)
+cs=[]
+for i,j,k in K:
+    real=P[i][0]*Q[j][0]-P[i][1]*Q[j][1]
+    imag=P[i][0]*Q[j][1]+P[i][1]*Q[j][0]
+    cs.append((imag*imag,0 if k==1 else (-2 if k==0 else 2)*real*imag,
+               imag*imag if k==1 else real*real))
+bad=[]; good=[]; N=0; three=0
+for ids in combinations(range(13),3):
+    if any(sum(K[z][t]==1 for z in ids)>1 for t in range(3)): continue
+    three+=1
+    for hyp in range(3):
+        N+=1
+        key='.'.join(''.join(map(str,K[z])) for z in ids)+':'+str(hyp)
+        A,B,C=(sum((-1 if m==hyp else 1)*cs[z][j] for m,z in enumerate(ids))
+               for j in range(3))
+        discr=B*B-4*A*C
+        if discr>=0 and isqrt(discr)**2==discr: good.append(key)
+        else: bad.append(key)
+        if key=='000.001.002:0':
+            assert (A,B,C,discr)==(3136,7392,3136,15303680)
+assert (three,N,len(good),len(bad))==(138,414,60,354)
+digest=hashlib.sha256('\n'.join(sorted(bad)).encode()).hexdigest()
+assert digest=='8af883139beca7d8956d1c5b362c75f5cf48b41bb6f070a1dbefe88ff2c16563'
+print('PASS 13 codes, 138 triples, 414 FO forms')
+print('PASS 354 nonsquare discriminants at p=5,q=13; 60 other squares')
+print('PASS 354 SHA256',digest)
+print('PASS F example 3136*T^2+7392*T*W+3136*W^2, D=15303680 nonsquare')
+
+
+EXPECTED OUTPUT from independent 2026-10-12 run:
+PASS 13 codes, 138 triples, 414 FO forms
+PASS 354 nonsquare discriminants at p=5,q=13; 60 other squares
+PASS 354 SHA256 8af883139beca7d8956d1c5b362c75f5cf48b41bb6f070a1dbefe88ff2c16563
+PASS F example 3136*T^2+7392*T*W+3136*W^2, D=15303680 nonsquare
+
+
+PROOF STEP-BY-STEP:
+1. For every one of bad354 the discriminant Δ_j(u,v,x,y) is a polynomial with integer coefficients and is nonsquare over Q(u,v,x,y). Indeed if Δ_j=g² in Q(u,v,x,y), integral closure Q[u,v,x,y] gives g polynomial with rational coefficients, so specialization at 2,1,3,2 would be rational square. An integer rational square must be an integer square. Exact Python witness says no.
+2. For every actual original P belonging to FO key j, primitive rational T/W solving nonzero quadratic A_j T²+B_j T W+C_j W²=0 forces Δ_j to be a rational square, including linear degeneration A_j=0 (then Δ=B_j²). Since integer, Δ_j must be an integer square. Thus its Gaussian p,q pair is in fixed quadratic-cover thin set.
+3. For each fixed j in 354, E_j={integer quadruples | Δ_j square} is the image of irreducible degree2 quadratic cover z²=Δ_j over Q, a TYPE-II affine thin set in dimension n=4. Classical Cohen–Serre large sieve gives #E_j∩[-H,H]^4 <<_j H^(7/2)log(2H). All constants are fixed because precisely 354 polynomial keys independent of Q. This is the only EXTERNAL mathematical input.
+4. If p,q∈[Q,2Q] are split primes, p=u²+v², q=x²+y², each |u|,|v|,|x|,|y|<=sqrt(2Q). H=ceil sqrt(2Q) yields #eligible p,q for any j among354 << Q^(7/4)log(2Q).
+5. Old FO row635 proved trace A_j+C_j>0 on ORIGINAL positive primitive P, so no F_j≡0 specialization and at most 2 rational third norm directions per (p,q,j). Primitive T,W and r determined up to constant choices. Old A23 row704 exact 13 positive even norm-R leg values (for three distinct split prime factors), so number of full physical P per R and fixed source is bounded by constant (old 156 ordered positive R-leg pairs suffices). Thus #TRUE ORIGINAL PHYSICAL in scoped J354 subpopulation <<Q^(7/4)log(2Q). This is not a proof of #FULL P(B)=o(B^(1/3)).
+6. The remaining 60 keys, FJ generic class crosswalk, selector-conditioned exact physical value, GOOD moving outer(p,r) occupancy=o(Q), omega4 and prime powers are unresolved. Do not interpret generic nonsquare as pointwise impossibility or multiply modular densities without independence.
+
+
+REFERENCES:
+S. D. Cohen, The Distribution of Galois Groups and Hilbert's Irreducibility Theorem (1981), https://doi.org/10.1112/plms/s3-43.2.227 .
+Bonolis–Pierce, Application of a polynomial sieve: beyond separation of variables, Algebra & Number Theory (2024), §1.1 formula(1-5), https://msp.org/ant/2024/18-8/ant-v18-n8-s.pdf .
+Zywina, Hilbert's irreducibility theorem and the larger sieve, Theorem1.2, https://pi.math.cornell.edu/~zywina/papers/Quantitative-HIT.pdf .
+Bonolis–Pierce–Woo (2025) improved type-II exponent under separate nondegeneracy NOT VERIFIED here: https://arxiv.org/abs/2505.11226 .
+Existing Stage37 229B row464 and 229C row465 rejected black-box FULL M3 conclusion from their DIFFERENT chart height and source; A26 ONLY claims the fixed Gaussian FO354 dyadic subpopulation result.
+AUTHORITY M3-T11-229; GATE OPEN; GLOBAL_CREDIT0; PRODUCTION HOLD; FJ/FO source HOSTILE not run; NO formal route change.

@@ -1,0 +1,369 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229N — single physical radical-gcd receiver for the full twist support
+
+
+STATUS: POST_229M_SINGLE_GCD_COLLAPSE_COMPLETE / PROVED_CRAW_EQUALS_GCD_R_CF / PROVED_AEDGE_EQUALS_GCD_E_XPRIMEYPRIME / PROVED_TWIST_CONTENT_EQUALS_SINGLE_PHYSICAL_GCD / PROVED_FOUR_BUCKET_GCD_MATRIX / PROVED_SMALL_RADICAL_GCD_SECTOR_o_M3 / TWO_RAW_TAILS_SUPERSEDED_AS_PREFERRED_GATE / LARGE_RADICAL_GCD_TAIL_OPEN / NO_REOPEN / GLOBAL_CREDIT=0
+
+
+TYPE: POST-229M EXACT GCD COLLAPSE / SINGLE SQUAREFREE-KERNEL RECEIVER / FULL-ENDPOINT SCOPED COUNT / ANTI-LOOP FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229M
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+
+
+1. Scope
+
+
+229M proved for every positive physical endpoint
+  d = sf(2^epsilon A_edge C_raw),
+where
+  A_edge = a b = gcd(e,xy),
+  C_raw  = c12 c21,
+and a,b,c12,c21 are four pairwise-coprime physical Pythagorean contents.
+
+
+229M then used raw thresholds on A_edge and C_raw. That is sufficient but not optimal, because the 229L fixed-d theorem only sees the squarefree twist class. Large square parts of A_edge or C_raw do not create new d.
+
+
+This card collapses the two raw content variables to one exact physical gcd and replaces the two-tail target by one squarefree-kernel tail.
+
+
+2. Normalize the missing-face triple
+
+
+Retain 229D notation:
+  d0 = gcd(x,y),
+  x = d0 b c,
+  y = d0 a f,
+with
+  gcd(bc,af)=1.
+Define
+  x' = x/d0 = b c,
+  y' = y/d0 = a f.
+Then
+  gcd(x',y')=1
+and
+  x'^2+y'^2=q^2
+is the primitive missing-face Pythagorean triple.
+
+
+Also retain
+  e = g a b,
+with
+  gcd(g,c)=gcd(g,f)=1.
+
+
+3. A_edge is exactly gcd(e,x'y')
+
+
+Since
+  x'y' = a b c f,
+we have
+  gcd(e,x'y')
+    = gcd(gab,abcf)
+    = ab gcd(g,cf)
+    = ab.
+Therefore
+  A_edge = gcd(e,x'y').                          (229N.1)
+
+
+RESULT_229N_AEDGE_SINGLE_GCD=PROVED_EXACT.
+
+
+4. The two space contents are exactly gcd(R,f) and gcd(R,c)
+
+
+Recall
+  c12 = gcd(U,y),
+  c21 = gcd(V,x),
+with
+  c12|f,
+  c21|c.
+
+
+First prove
+  gcd(R,f)=c12.
+The inclusion c12|R follows because c12 divides both U and y and
+  R^2=U^2+y^2.
+Also c12|f by 229M.
+
+
+Conversely let r divide both R and f. Since f|y, r|y. Then
+  U^2=R^2-y^2
+is divisible by r^2, so r|U. Thus
+  r|gcd(U,y)=c12.
+Hence gcd(R,f)=c12.
+
+
+Identically,
+  gcd(R,c)=c21.                                  (229N.2)
+
+
+Since gcd(c,f)=1,
+  gcd(R,cf)
+   = gcd(R,c) gcd(R,f)
+   = c21 c12
+   = C_raw.                                      (229N.3)
+
+
+RESULT_229N_CRAW_EQUALS_GCD_R_CF=PROVED_EXACT.
+
+
+5. C_raw is exactly gcd(R,x'y')
+
+
+We need to remove the factors a,b from x'y'=abcf.
+
+
+If a prime divides R and a, then it divides R,e,y because a|e and a|y. The sphere equation
+  R^2=e^2+x^2+y^2
+then forces that prime to divide x, contradicting the primitive physical condition
+  gcd(e,x,y)=1.
+Therefore
+  gcd(R,a)=1.
+Similarly
+  gcd(R,b)=1.
+
+
+Hence
+  gcd(R,x'y')
+   = gcd(R,abcf)
+   = gcd(R,cf)
+   = C_raw.                                      (229N.4)
+
+
+RESULT_229N_CRAW_SINGLE_GCD=PROVED_EXACT.
+
+
+6. Exact single-gcd collapse
+
+
+Define the physical joint gcd
+  G_* := gcd(eR,x'y').                           (229N.5)
+
+
+No prime dividing x'y' can divide both e and R: if p|e,R and p divides x' or y', then p divides one of x,y, and the sphere equation forces p to divide the other edge as well, contradicting gcd(e,x,y)=1.
+
+
+Therefore the e-side and R-side gcds with x'y' are coprime, and
+  G_*
+   = gcd(e,x'y') gcd(R,x'y')
+   = A_edge C_raw.                               (229N.6)
+
+
+Combining with 229M,
+  d = sf(2^epsilon G_*).                         (229N.7)
+
+
+Equivalently,
+  G_* = gcd(eR, (xy)/gcd(x,y)^2).                (229N.8)
+
+
+This is the exact whole-endpoint twist-support receiver.
+
+
+RESULT_229N_TWIST_CONTENT_EQUALS_SINGLE_PHYSICAL_GCD=PROVED_EXACT.
+RESULT_229N_TWIST_CLASS_SINGLE_GCD=d_EQ_sf_2EPS_GSTAR.
+RESULT_229N_TWO_RAW_CONTENT_VARIABLES_COLLAPSE_TO_ONE=true.
+
+
+7. Exact four-bucket gcd matrix
+
+
+The same argument gives the four entries directly:
+  gcd(e,x') = b,
+  gcd(e,y') = a,
+  gcd(R,x') = c21,
+  gcd(R,y') = c12.                               (229N.9)
+
+
+They are pairwise coprime by 229M. Hence every odd prime divisor of G_* lies in exactly one physical bucket in the 2x2 matrix
+
+
+             x'      y'
+    e        b       a
+    R        c21     c12
+
+
+and no prime is double-charged across buckets.
+
+
+This is a stronger bookkeeping statement than the raw two-tail split. The twist support is exactly the squarefree support of this one four-bucket gcd matrix, up to the single 2-adic bit epsilon.
+
+
+RESULT_229N_FOUR_BUCKET_GCD_MATRIX=PROVED_EXACT.
+RESULT_229N_NO_ODD_PRIME_DOUBLE_CHARGE=true.
+
+
+8. Replace raw size by the actual squarefree kernel
+
+
+Define
+  K_*(E) := sf(G_*(E))
+for a physical endpoint E.
+
+
+From (229N.7), d differs from K_* only in the 2-adic bit. In particular
+  d <= 2 K_*,
+and for a fixed value of K_* there are at most two possible canonical d.
+
+
+Let delta>0 be fixed. On the sector
+  K_* <= B^(1/3-delta),                         (229N.10)
+the number of possible d is
+  O(B^(1/3-delta)).
+By the 229L uniform fixed-d endpoint fiber theorem,
+  # {E:R<=B, K_*(E)<=B^(1/3-delta)}
+    <= B^(1/3-delta+o(1))
+    = o(B^(1/3))
+    = o(M3(B)).                                  (229N.11)
+
+
+Therefore
+  P(B)
+   <= P_rad-tail(B)
+      + B^(1/3-delta+o(1)),                      (229N.12)
+where
+  P_rad-tail(B)
+   := # {E:R<=B, sf(gcd(eR,xy/gcd(x,y)^2))
+                    > B^(1/3-delta)}.            (229N.13)
+
+
+RESULT_229N_SMALL_RADICAL_GCD_SECTOR=o_M3.
+RESULT_229N_FULL_ENDPOINT_ONE_TAIL_REDUCTION=PROVED_EXACT.
+
+
+9. Relation to 229M two-tail reduction
+
+
+229M's raw sufficient conditions
+  A_edge <= B^alpha,
+  C_raw  <= B^beta,
+  alpha+beta<1/3
+imply
+  K_* = sf(A_edge C_raw)
+       <= A_edge C_raw
+       <= B^(alpha+beta),
+so 229M's small-small sector is contained in the 229N small-radical sector.
+
+
+But the converse can fail badly: A_edge or C_raw may be large because of square factors while K_* is small. Such endpoints are already absorbed by the fixed-d B^{o(1)} theorem and do not belong in the true moving-support obstruction.
+
+
+Therefore:
+- the 229M A_edge raw large-tail and C_raw raw large-tail remain valid sufficient routes;
+- they are no longer the preferred/minimal Gaussian-twist gate;
+- the preferred gate is the single radical-gcd tail (229N.13).
+
+
+RESULT_229N_229M_TWO_RAW_TAILS=SUPERSEDED_AS_PREFERRED_GATE_ONLY.
+No 229M theorem is retracted.
+
+
+10. New exact restart contract
+
+
+The Gaussian/twist route now needs only one quantitative theorem:
+
+
+PHYSICAL_JOINT_RADICAL_GCD_ONE_THIRD:
+for some fixed delta>0,
+  # {primitive positive physical endpoints R<=B:
+       sf(gcd(eR,xy/gcd(x,y)^2)) > B^(1/3-delta)}
+     = o(B^(1/3)).                               (229N.14)
+
+
+Any fixed-power bound
+  << B^(1/3-epsilon)
+is more than sufficient.
+
+
+Equivalent support form:
+the number of realized squarefree values
+  sf(gcd(eR,xy/gcd(x,y)^2))
+above the threshold, weighted by the already-uniform B^{o(1)} fixed-d fiber, must be o(B^(1/3)).
+
+
+This is a same-physical-measure theorem. Ambient gcd heuristics or ordinary integer radical statistics cannot be imported without a transfer theorem.
+
+
+11. Current theorem rematch
+
+
+A targeted current search was made for:
+- large squarefree common divisors of polynomial values;
+- quantitative Ekedahl/geometric-sieve tails;
+- squarefree parts of polynomial values;
+- gcd-height theorems.
+
+
+The inspected squarefree-sieve/discriminant results control conditions of the form m^2|F(x) or squarefree values in ambient polynomial families. They do not directly count the Stage37 physical endpoint locus with a large squarefree common divisor
+  m | eR
+and
+  m | x'y'
+under the exact R-height, primitive masks, and four-square endpoint conditions.
+
+
+Likewise generic logarithmic-gcd and semiabelian gcd theorems are not an exact counting theorem for this occupied physical family.
+
+
+RESULT_229N_CURRENT_EXTERNAL_THEOREM_MATCH=NO_DIRECT_PHYSICAL_RADICAL_GCD_TAIL_BOUND_FOUND.
+
+
+12. Anti-loop firewall
+
+
+Do not next:
+- reprove fixed-d B^{o(1)};
+- split back into raw A_edge/C_raw tails unless invoking a concrete theorem that acts on one raw tail;
+- infer rarity from large raw gcd alone;
+- infer rarity from generic squarefree-kernel heuristics;
+- multiply four bucket probabilities independently.
+
+
+The next useful input must act on (229N.13)/(229N.14), or give a theorem on one stronger sufficient raw branch that genuinely meets the B^(1/3) budget.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+GEOMETRY_REOPEN=false.
+CROSS_GCD_REOPEN=false.
+LOCAL_REOPEN=false.
+PAIR_REOPEN=false.
+A_REOPEN=false.
+FIB_REOPEN=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_GENUINELY_NEW_THEOREM_INPUT.
+
+
+13. Sources checked
+
+
+Internal:
+- Stage37-NEW-INPUT-DELTA-AUDIT-229M;
+- Stage37-NEW-INPUT-DELTA-AUDIT-229L;
+- Stage37-NEW-INPUT-DELTA-AUDIT-229D;
+- M3-T11-228;
+- M3-XG-007;
+- M3-EULERIAN-FW-001 semantic firewall search.
+
+
+External theorem scan:
+- Bhargava–Shankar–Wang, Squarefree values of polynomial discriminants II;
+- Gouvêa/Mazur and related square-free sieve literature;
+- Krumm, Squarefree parts of polynomial values;
+- current search for large-gcd/gcd-height theorems.
+
+
+AUDIT SCOPE
+
+
+This is an exact whole-endpoint algebraic gcd collapse plus a scoped counting deduction using the retained 229L fixed-twist theorem. It is not an independent hostile audit of cards 186–229. It gives no global P(B)/M3(B) limit and no perfect-cuboid existence/nonexistence conclusion.
+
+
+FINAL_READBACK_RECEIPT: PASS. Card parent=M3-Research-Cards; G_*=gcd(eR,xy/gcd(x,y)^2), four-bucket matrix, d=sf(2^epsilon G_*), small-K_* sector o(M3), and one-tail preferred gate present; MAIN latest delta=229N and card pointer present; active ROUTE latest229N/result block/doc pointer present; current LEDGER 229N control and change record present; CARD-INDEX row478 and 案内 latest/read-order updated. M3-T11-230 remains unissued; production HOLD; global credit0; independent hostile audit186–229 NOT RUN.

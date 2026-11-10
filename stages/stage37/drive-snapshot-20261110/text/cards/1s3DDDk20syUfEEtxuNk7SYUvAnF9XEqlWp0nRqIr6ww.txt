@@ -1,0 +1,345 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229BW — outer-gap radical support triangle and six-bucket overlap localization
+
+
+STATUS: POST_229BV_OUTER_GAP_SUPPORT_TRIANGLE / EXACT_FOUR_ATOM_PAIR_RADICAL_DECOMPOSITION / ODD_TRIPLE_OVERLAP_EMPTY / ODD_PAIR_OVERLAPS_LOCALIZED_TO_D0_A_B / SPLIT_BUCKET_SUPPORT_EMBEDDED_IN_THREE_UNIQUE_ATOMS / HARD10_PAIR_PART_COMPRESSED_TO_ONE_FOUR_ATOM_INEQUALITY / NO_COUNTING_PROMOTION / GLOBAL_CREDIT=0 / NO_REOPEN
+TYPE: post-229BV exact prime-support correlation / outer-gap Venn decomposition / six-content-bucket crosswalk / hard10 theorem-interface refinement
+CARD_DOC_ID=1s3DDDk20syUfEEtxuNk7SYUvAnF9XEqlWp0nRqIr6ww
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED; PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope
+
+
+Work on exactly the current positive primitive Stage37 physical endpoints P with all original selectors and R(P)<=B.
+
+
+Retain 229BL/229BV notation
+  g_U := R-U >0,
+  g_V := R-V >0,
+  g_z := R-z >0,                                      (229BW.1)
+and the three squarefree pair-support receivers
+  r_e := rad(g_U g_V),
+  r_y := rad(g_z g_V),
+  r_x := rad(g_z g_U).                                (229BW.2)
+
+
+Retain 229AD/229BI's six pairwise-coprime physical content buckets
+  h   = gcd(e,R)=gcd(e,z),
+  d0  = gcd(x,y),
+  a   = gcd(e,y),
+  b   = gcd(e,x),
+  c12 = gcd(y,R)=gcd(U,y),
+  c21 = gcd(x,R)=gcd(V,x),                            (229BW.3)
+with h,d0,a,b,c12,c21 pairwise coprime. Retain that h,c12,c21 are odd and have only split odd prime support.
+
+
+This card does not count hard10. It proves the exact correlation structure among the three 229BV pair-radical masks.
+
+
+2. Canonical four-atom decomposition of the three pair radicals
+
+
+Define
+  chi := gcd(r_e,r_y,r_x),                            (229BW.4)
+and
+  u_U := gcd(r_e,r_x)/chi,
+  u_V := gcd(r_e,r_y)/chi,
+  u_z := gcd(r_y,r_x)/chi.                           (229BW.5)
+
+
+All four quantities are squarefree positive integers. Prime-by-prime:
+- chi consists exactly of primes dividing at least two of g_U,g_V,g_z;
+- u_U consists exactly of primes dividing g_U and neither g_V nor g_z;
+- u_V consists exactly of primes dividing g_V and neither g_U nor g_z;
+- u_z consists exactly of primes dividing g_z and neither g_U nor g_V.
+
+
+Hence
+  gcd(chi,u_U u_V u_z)=1,
+  gcd(u_U,u_V)=gcd(u_V,u_z)=gcd(u_z,u_U)=1.          (229BW.6)
+
+
+The three pair radicals reconstruct exactly as
+  r_e = chi u_U u_V,
+  r_y = chi u_V u_z,
+  r_x = chi u_z u_U.                                (229BW.7)
+
+
+Also
+  rad(g_U g_V g_z)=chi u_U u_V u_z,                 (229BW.8)
+and therefore
+  r_e r_y r_x
+    = chi^3 u_U^2 u_V^2 u_z^2
+    = chi [rad(g_U g_V g_z)]^2.                     (229BW.9)
+
+
+Equivalently,
+  (r_e r_y r_x)/chi
+is an exact integer square.
+
+
+RESULT_229BW_OUTER_PAIR_RADICALS_HAVE_EXACT_FOUR_ATOM_SUPPORT_TRIANGLE=PROVED.
+RESULT_229BW_PAIR_RADICAL_PRODUCT_OVER_COMMON_OVERLAP_IS_EXACT_SQUARE=PROVED.
+
+
+This is an exact dependence relation. The three pair-radical masks are not independent.
+
+
+3. Physical localization of odd pair overlaps
+
+
+For a positive integer n write rad_odd(n) for the product of its odd prime divisors.
+
+
+Let p be odd.
+
+
+If p|g_U and p|g_V, then p|R-U and p|R-V, so U≡V≡R mod p. Using
+  R^2-U^2=y^2,
+  R^2-V^2=x^2,
+we get p|x and p|y. Therefore
+  p|d0=gcd(x,y).                                    (229BW.10)
+
+
+If p|g_U and p|g_z, then U≡z≡R mod p. From
+  R^2-U^2=y^2,
+  R^2-z^2=e^2,
+we obtain p|e,y and therefore
+  p|a=gcd(e,y).                                     (229BW.11)
+
+
+If p|g_V and p|g_z, similarly
+  p|b=gcd(e,x).                                     (229BW.12)
+
+
+Define the three odd overlap atoms
+  chi_UV := rad_odd(gcd(g_U,g_V)),
+  chi_Uz := rad_odd(gcd(g_U,g_z)),
+  chi_Vz := rad_odd(gcd(g_V,g_z)).                 (229BW.13)
+
+
+Then exactly
+  chi_UV | rad(d0),
+  chi_Uz | rad(a),
+  chi_Vz | rad(b).                                 (229BW.14)
+
+
+Because d0,a,b are pairwise coprime by 229AD, the three odd overlap atoms in (229BW.13) are pairwise coprime. In particular no odd prime can divide all three outer gaps:
+  rad_odd(gcd(g_U,g_V,g_z))=1.                     (229BW.15)
+
+
+Thus the odd part of the common pair-radical overlap is
+  chi_odd = chi_UV chi_Uz chi_Vz,                  (229BW.16)
+with the three factors supported respectively in the unrestricted content buckets d0,a,b.
+
+
+RESULT_229BW_ODD_TRIPLE_OUTER_GAP_OVERLAP_EMPTY=PROVED_EXACT.
+RESULT_229BW_ODD_PAIR_OVERLAPS_LOCALIZED_TO_D0_A_B=PROVED_EXACT.
+
+
+No assertion is made about the prime 2 beyond the generic four-atom decomposition.
+
+
+4. Split-only content buckets lie in three distinct unique atoms
+
+
+Retain the pairwise-content property of integral Pythagorean triples:
+- (U,y,R) has content c12, so gcd(U,R)=gcd(y,R)=c12;
+- (V,x,R) has content c21, so gcd(V,R)=gcd(x,R)=c21;
+- (e,z,R) has content h, so gcd(z,R)=gcd(e,R)=h.    (229BW.17)
+
+
+Let p be an odd prime dividing c12. Then p|R and p|U, so p|g_U.
+Pairwise coprimality gives p∤c21 and p∤h. Hence p∤V and p∤z by (229BW.17), so p∤g_V and p∤g_z.
+Therefore p belongs to the unique g_U atom u_U.
+
+
+Thus
+  rad(c12) | u_U.                                  (229BW.18)
+
+
+Similarly,
+  rad(c21) | u_V,                                  (229BW.19)
+  rad(h)   | u_z.                                  (229BW.20)
+
+
+Here h,c12,c21 are odd, so no 2-adic qualification is needed for these inclusions.
+
+
+RESULT_229BW_SPLIT_BUCKET_C12_EMBEDS_IN_UNIQUE_U_ATOM=PROVED_EXACT.
+RESULT_229BW_SPLIT_BUCKET_C21_EMBEDS_IN_UNIQUE_V_ATOM=PROVED_EXACT.
+RESULT_229BW_SPLIT_BUCKET_H_EMBEDS_IN_UNIQUE_Z_ATOM=PROVED_EXACT.
+
+
+This is an inclusion, not equality. The unique atoms may contain additional primes coming from the square multipliers in the physical Pythagorean gap factorizations. In particular it is invalid to replace u_U,u_V,u_z by rad(c12),rad(c21),rad(h).
+
+
+5. Exact six-bucket/outer-support crosswalk
+
+
+The odd support picture is therefore:
+
+
+overlap support:
+  chi_UV -> d0,
+  chi_Uz -> a,
+  chi_Vz -> b;                                     (229BW.21)
+
+
+forced unique split support:
+  c12 -> u_U,
+  c21 -> u_V,
+  h   -> u_z.                                      (229BW.22)
+
+
+Thus the 229AD six pairwise-coprime buckets split naturally across the outer-gap Venn diagram:
+- unrestricted buckets d0,a,b are the only possible hosts for odd support shared by two outer gaps;
+- split-only buckets c12,c21,h are forced into three distinct one-gap-only components.
+
+
+This is a new exact crosswalk between the 229AD/229BI content packet and the 229BV hard10 pair-radical masks.
+
+
+RESULT_229BW_SIX_BUCKET_OUTER_GAP_VENN_CROSSWALK=PROVED_EXACT.
+
+
+This does NOT say that every prime of d0,a,b occurs in an overlap, nor that the unique atoms contain only h,c12,c21.
+
+
+6. Compress the three hard10 pair-radical inequalities
+
+
+Let
+  T=B^(1/3-delta)
+for the current fixed delta.
+
+
+The pair-radical portion of hard10 is
+  r_e>T, r_y>T, r_x>T.                             (229BW.23)
+
+
+Using (229BW.7), this is exactly
+  chi u_U u_V > T,
+  chi u_V u_z > T,
+  chi u_z u_U > T.                                (229BW.24)
+
+
+Order the three unique atoms numerically:
+  u_(1) <= u_(2) <= u_(3).
+
+
+Then the smallest of the three products in (229BW.24) is
+  chi u_(1)u_(2).
+Therefore the entire three-mask condition is equivalent to the single inequality
+  chi u_(1)u_(2) > T.                              (229BW.25)
+
+
+RESULT_229BW_HARD10_THREE_PAIR_RADICAL_CONDITIONS_COMPRESS_TO_ONE_FOUR_ATOM_INEQUALITY=PROVED_EXACT.
+
+
+This is compression of dependent conditions, not a counting saving.
+
+
+A useful deterministic split follows. For any fixed alpha in [0,1], every endpoint satisfying (229BW.25) lies in one of:
+  chi > T^alpha,                                   (229BW.26)
+or
+  u_(2) > T^((1-alpha)/2) and
+  u_(3) > T^((1-alpha)/2).                        (229BW.27)
+
+
+Indeed, if chi<=T^alpha, then u_(1)u_(2)>T^(1-alpha); since u_(1)<=u_(2), this forces u_(2)>T^((1-alpha)/2), and u_(3)>=u_(2).
+
+
+At alpha=1/3:
+  either chi>T^(1/3),
+  or at least two unique atoms exceed T^(1/3).     (229BW.28)
+
+
+At the current T=B^(1/3-delta), the atom threshold in (229BW.28) is
+  B^(1/9-delta/3).
+
+
+RESULT_229BW_HARD10_OVERLAP_VS_TWO_UNIQUE_ATOMS_DICHOTOMY=PROVED_EXACT_STRUCTURAL.
+
+
+No endpoint count follows from this dichotomy without a same-physical support theorem.
+
+
+7. Consequence for the current source and theorem input
+
+
+The current source remains exactly S_B^hard10(delta) from229BV:
+- exact positive primitive Stage37 selectors and R<=B;
+- sf(G0)>B^(1/3-delta);
+- all seven physical-length radicals >T;
+- all three outer pair radicals >T.
+
+
+229BW does not remove an additional sector. Instead it replaces the last three conditions by the exact four-atom support object
+  (chi,u_U,u_V,u_z)
+with (229BW.25), and supplies the content localization (229BW.21)-(229BW.22).
+
+
+CURRENT_PREFERRED_NEW_INTERNAL_INTERFACE:
+  229BW_OUTER_GAP_FOUR_ATOM_SUPPORT_TRIANGLE_ON_HARD10.
+
+
+REFINED_BLOCKER:
+  NO_SELECTOR_AWARE_COUNT_FOR_LARGE_COMMON_OVERLAP_OR_TWO_LARGE_UNIQUE_OUTER_SUPPORT_ATOMS_ON_THE_HARD10_LARGE_SF_G0_PHYSICAL_SOURCE.
+
+
+The original current blocker remains valid:
+  NO_SELECTOR_AWARE_COUNTING_SAVING_ON_HARD10_LARGE_SF_G0_PHYSICAL_SOURCE.
+
+
+NEXT_RESEARCH_INPUT_CONTRACT:
+Prove #S_B^hard10(delta)=o(B^(1/3)) by exploiting the exact four-atom support correlation, or prove a fixed-power realized-support bound for retained rho/sigma on this same source. A promising internal split is:
+(A) large chi branch, where odd common overlap can only be carried by a,b,d0;
+(B) two-large-unique-atoms branch, where the three distinct unique atoms already contain rad(c12),rad(c21),rad(h) respectively.
+Any count must retain exact physical selectors and the 229BU outer-gap cone. Do not multiply the three pair-radical masks as independent events.
+
+
+8. Firewalls
+
+
+Do not:
+- treat r_e,r_y,r_x as independent;
+- infer a fixed-power saving from (r_e r_y r_x)/chi being square;
+- replace chi by rad(a b d0), since only divisibility/localization is proved;
+- replace u_U,u_V,u_z by rad(c12),rad(c21),rad(h), since only one-way inclusion is proved;
+- discard primes arising from square multipliers in the Pythagorean gap factorizations;
+- infer that the large-overlap or two-large-unique branches are individually sparse without a same-physical counting theorem;
+- alter operational authority, construction credit, gate, closure or production state from this structural result.
+
+
+9. State
+
+
+No perfect-cuboid existence/nonexistence conclusion is claimed.
+No new global endpoint exponent is claimed.
+No additional o(B^(1/3)) sector is claimed.
+GLOBAL_COUNTING_CREDIT remains 0.
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+INDEPENDENT_HOSTILE_AUDIT_229BW=NOT_RUN.
+
+
+Load-bearing inputs:
+- 229AD six pairwise-coprime content buckets and split-only h,c12,c21;
+- 229BI physical gcd meanings and content packet crosswalk;
+- 229BL three positive outer gaps;
+- 229BV three pair-radical hard10 receivers;
+- elementary prime-support set algebra and the physical Pythagorean identities.
+
+
+No external theorem and no physical perfect-cuboid endpoint enumeration are used.
+
+
+FINAL_READBACK_RECEIPT=PASS. 229BW card body and parent M3-Research-Cards verified. CARD-INDEX row540 contains229BW with correct CARD_DOC_ID and hyperlink; 案内 latest/current-operation/startup pointers advance to229BW. MAIN canonical current pointer/doc ID, startup row540, unchanged hard10 blocker, refined four-atom blocker, NEXT contract and current-link line agree. RESULT-LEDGER canonical current229BW and appended229BW change record agree. Active ROUTE latest header and POST-229BW block agree. Mathematical readback confirms exact four-atom pair-radical support triangle, odd overlap localization to d0/a/b, no odd triple outer-gap overlap, split-only c12/c21/h embedding in distinct unique atoms, and exact compression of the three hard10 pair-radical inequalities to chi*u_(1)*u_(2)>T. This is structural only; no additional endpoint sector disposal or global exponent is claimed. OPERATIONAL_AUTHORITY=M3-T11-229, LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228, M3-T11-230 NOT_ISSUED, PRIMARY_GATE OPEN, GLOBAL_COUNTING_CREDIT=0, P_OVER_M3_LIMIT_PROVED=false, production HOLD, closure and INTEGRATED_AUDIT_186_229O scope unchanged. INDEPENDENT_HOSTILE_AUDIT_229BW=NOT_RUN. NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

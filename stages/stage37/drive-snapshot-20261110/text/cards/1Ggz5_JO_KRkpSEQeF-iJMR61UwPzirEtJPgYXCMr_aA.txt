@@ -1,0 +1,33 @@
+﻿STAGE37 229HI-A18 EXACT PROOF / REPLAYER — ORIGINAL ALL-FOUR-SQUARE R-SMOOTH LOG^(3/2−kappa)
+Date 2026-10-11 JST; CURRENT=229HI-A18; parent229HI-A17; CARD_ID=1x6ysf7aVxvMmrc_XP8WiYB9Tzc6PKJcM1Rp0XMe-8JY; CERT_ID=1Ggz5_JO_KRkpSEQeF-iJMR61UwPzirEtJPgYXCMr_aA. This proof consumes PRIOR 229FB original-physical fixed-R bound F(R)<=d20(R), not newly proved from scratch. Independent external hostile certification NOT_RUN.
+For any positive primitive full-four-square P=(e,x,y,U,V,z,R), R<=B, original postfilters HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/EX can only reduce counts. Original 229FB full physical Gaussian three-macro reconstruction gives F(R)<=prod_(p^a||R)(24a−4)<=d20(R), with d20(p^a)=binom(a+19,19). For Y>1 and 0<sigma<1, every nonnegative multiplicative d20 weight obeys
+ Sum_{R<=B,Pplus(R)<=Y} d20(R)
+ <= B^sigma ∏_(p<=Y) sum_(a>=0)d20(p^a)p^(−a sigma)
+ = B^sigma∏_(p<=Y)(1−p^(−sigma))^(−20).
+The Euler product is absolutely finite, no independence of same-P selectors presumed. For any fixed sigma>0, -log(1−t)<=t/(1−2^(−sigma)) when 0<t<=2^(−sigma), so
+ log product <=20/(1−2^(−sigma)) ∑_(p<=Y)p^(−sigma)
+ <=C_sigma ∑_(n<=Y)n^(−sigma)
+ <=C'_sigma Y^(1−sigma).
+For 0<kappa<1/2 set Y=(log B)^(3/2−kappa), sigma=1/3−kappa/12. Then
+ (3/2−kappa)(1−sigma)=1−13kappa/24−kappa²/12 < 1
+and consequently N(B;kappa) <=B^(1/3−kappa/12) exp(C_kappa (logB)^(1−13kappa/24−kappa²/12))
+ = B^(1/3−kappa/12+o(1))=o(B^(1/3)).
+Explicit kappa1/10 alternative sigma3/10 produces Y=(logB)^(7/5),Y^(1−sigma)=(logB)^(49/50), exponent physical B^(3/10+o). No claim at alpha>=3/2 by this Rankin method; for such alpha any sigma<1/3 gives alpha(1−sigma)>1, and the simple Euler majorant ceases to be o(log B), METHOD CEILING ONLY, not a physical-point lower bound.
+Standalone portable Python3 standard-library symbolic rational certificate:
+from fractions import Fraction as F
+from math import comb
+for a in range(1,1000):
+    assert 24*a-4 <= comb(a+19,19)
+for kn in (F(1,100),F(1,10),F(1,4),F(49,100)):
+    alpha=F(3,2)-kn
+    sigma=F(1,3)-kn/12
+    beta=alpha*(1-sigma)
+    assert 0<sigma<F(1,3)
+    assert beta == 1-F(13,24)*kn-kn*kn/12
+    assert beta<1
+assert F(7,5)*(1-F(3,10))==F(49,50)
+print("EXACT RANKIN EXPONENT AND d20 LOCAL BOUND PASS")
+Limited finite arithmetical replayer does not certify old 229FB Gaussian physical fixed-R class reconstruction or independent external original-source audits. Logical current theorem inherits that previous scoped physical lemma only. No inferences on existence/nonexistence of perfect cuboids.
+NEGATIVE QUANTITATIVE REPLAYER: retained original 229HB fixed(pr)<=384000, 229HD good(pr) middle q<=360; count outer rational split primes p,r in Q..2Q at most π(2Q)^2=O(Q²/log²Q). Even a const number of q per outer pair leaves O(Q²/log²Q), whereas the required balanced Stage37 one-third norm budget is o(Q) (since R~Q³). No proven occupancy-factor 1/Q from EX sign routing or p-adic DU masses; cannot multiply them. This is a failure of the bound, not a lower bound for original physical points. Entire signed FJ/HB HOSTILE HOLD retained.
+CURRENT governance unchanged: M3-T11-229 authority; M3-T11-228 latest construction; 230 NOT ISSUED; Gate001 OPEN; global credit0; production HOLD; formal route NONE; Stage37 unrestricted count OPEN.
+STAGE37 A18 FINAL READBACK RECEIPT — 2026-10-11 JST: main, RESULT-LEDGER, active lightweight ROUTE, NEGATIVE-REGISTER, FASTPATH each HEAD current A18 and card/cert IDs matched; prior A17 history preserved. Native CARD-INDEX physical source ROW699 has valid COUNTING_THEOREM dropdown, W NEGATIVE_METHOD|FIREWALL, X native HYPERLINK and auto Y TEXTJOIN; AI-00 live698,lastrow699,lastid A18 and AI-10 recall699 verified. Both A18 card and native certificate content readable; exact rational exponent/old d20 prime-power domination replayer executed Python3 with 1000 coefficient checks and kappa 1/100,1/10,1/4,49/100: PASS. This checks scoped formula arithmetic/storage, not independent full external hostile source proof. 229FB source inherited, global credit0/gate OPEN/authority229/closure unchanged.

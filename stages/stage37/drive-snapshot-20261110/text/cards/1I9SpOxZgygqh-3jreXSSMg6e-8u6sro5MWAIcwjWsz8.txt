@@ -1,0 +1,31 @@
+﻿Stage37 229HI-A10 — INDEPENDENT EXACT SYMBOLIC CERTIFICATE and r-adic proof
+DATE 2026-10-11 JST; PARENT_CARD=1gLstwwP0sW9uRnkY1EfccT-9lcqdLQdgtBJYbSbVaWk; SOURCE_ROW691; PREVIOUS_A9=1etkkBkNbtFnyj5hQKeg5_1D5FPDXM8O0GMSSXPVeH1o; CANDIDATE_PROVENANCE=11hHwJ3Ba7ZWmJXUAjDfvZToI2862W-xju3DZZ24kk1M.
+Python3 + SymPy 12/12 factorizations independent replay PASS; local exact script SHA256=96ac85405cf2074d388b973dac42d888732ca8878df9dcae57751173d5f6ffdf.
+QUADRATIC D valuation: r|u²-v² exactly once since primitive opposite parity and |u±v|<2r; r∤u,v,T,W,s. ∆u⁴T⁴=8r²(u²-v²)L, L typeI (uW-vT)(uW+vT)≡−s²T² mod r, or typeII W[(u²−v²)W±2uvT]≡±2uvTW mod r; both units => v_r(∆)=3, impossible rational square. No need to prove leading coefficient nonzero: for linear specialization ∆=B² square. No exceptions at zero/vertical physical split prime legs. Scope exactly 12 original signed FJ necessary keys, all heights, no unconditional source-map promotion.
+VERBATIM REPRODUCTION PROGRAM:
+import sympy as S
+T,W,a,b,c,d=S.symbols('T W a b c d',nonzero=True)
+t,x,y=S.symbols('t x y')
+Q='000.001.020:1 000.011.020:1 000.020.021:2 001.002.022:0 002.011.022:1 002.021.022:1'.split()
+P='000.001.022:1 000.021.022:1 000.022.101:2 001.002.020:0 002.020.021:2 002.020.101:2'.split()
+def f(key):
+ codes,h=key.split(':');h=int(h);expr=0
+ for j,code in enumerate(codes.split('.')):
+  i,k,l=[int(e)-1 for e in code]
+  E=(i*t+k*x+l*y-i*k*l*t*x*y)**2*((1+t*t)if i==0 else 1)*((1+x*x)if k==0 else 1)*((1+y*y)if l==0 else 1)
+  expr+=(1 if j!=h else -1)*E
+ return S.expand(expr)
+for key in Q+P:
+ isq=key in Q;var=t if isq else x;u,v=(c,d) if isq else (a,b)
+ disc=S.discriminant(f(key),var)
+ sub={x:d/c,y:W/T} if isq else {t:b/a,y:W/T}
+ actual=S.factor(S.cancel(disc.subs(sub)*u**4*T**4/(8*(T**2+W**2))))
+ type1=key in {'000.011.020:1','002.011.022:1','000.022.101:2','002.020.101:2'}
+ sign=-1 if key in {'000.001.020:1','002.021.022:1','000.001.022:1','002.020.021:2'} else 1
+ expected=(u*u-v*v)*((u*W-v*T)*(u*W+v*T) if type1 else W*((u*u-v*v)*W+sign*2*u*v*T))
+ assert S.expand(actual-expected)==0,key
+ print(key,'EXACT',actual)
+print('ALL 12 DISCRIMINANT FACTORIZATIONS PASS')
+
+
+INDEPENDENT_PROOF_STATUS=REPLAYED_EXACT_MATH; INDEPENDENT_EXTERNAL_HOSTILE_AUDIT=NOT_RUN; FJ_FS_FW_HB_SOURCE_MAP_HOLD; AUTHORITY229; CONSTRUCTION228; GATE_OPEN; GLOBAL_CREDIT0; ROUTE_SWITCH_NONE.

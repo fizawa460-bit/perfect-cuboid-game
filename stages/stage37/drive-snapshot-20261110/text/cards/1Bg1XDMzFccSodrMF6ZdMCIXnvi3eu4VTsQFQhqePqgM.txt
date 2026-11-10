@@ -1,0 +1,493 @@
+﻿M3-T11-226 — Pre-endpoint shared-edge linked-square covariance split
+
+
+STATUS: PROVED_EXACT_PREENDPOINT_LINKED_SQUARE_FORM / PROVED_SHARED_EDGE_TOTAL_COVARIANCE_SPLIT / PROVED_FIXED_SHARED_EDGE_FIBER_B_O1 / NO_GO_FIXED_X_COMPLETE_SUM_PLUS_SPARSE_L1 / MOVING_X_RATE_DISPERSION_RECEIVER_OPEN / A_CURRENT_IMPLEMENTATION_HOLD_PENDING_NEW_MOVING_FAMILY_THEOREM / GLOBAL_CREDIT=0.
+
+
+Authority:
+- current Stage37 MAIN through M3-T11-225;
+- ROUTE-PORTFOLIO-AUDIT-224-R3;
+- active T11 route NEXT226;
+- M3-ROOT-001;
+- M3-A-001 / M3-A-GATE-001 / M3-A-LOCAL-001;
+- legacy-cold Sections13,18,19;
+- M3-T11-159 and M3-T11-213/214 firewalls;
+- StructureRadar SR-STR-161/165/166/169/173 theorem contracts.
+
+
+Gate OPEN. No retraction. Independent hostile audit186–226 NOT RUN. TI remains parked.
+
+
+1. Question
+
+
+NEXT226 asks for the actual directional PRE-ENDPOINT host before either the missing-third-face selector or the space-diagonal selector is conditioned away, and for one centered moving-family coefficient structure that can be compared honestly with the M3-A-001 budget
+
+
+    |rho_j(B)| << B^(-1/12-delta).
+
+
+The first version of this preflight considered restricting to an odd-shared-edge divisor subchart. That restriction is unnecessary and would not by itself represent the full audited directional host. The exact reduction below therefore uses the full shared-edge host H_j and partitions only by its actual shared edge x.
+
+
+2. Exact pre-endpoint directional host
+
+
+Fix one missing-face direction j.
+
+
+The audited directional host is
+
+
+    H_j(B) = M2,j(B) disjoint_union M3(B),
+
+
+with exact primitive/canonical physical height R<=B.
+
+
+Write a physical state in this direction as positive edges
+
+
+    (x,y,z),
+
+
+where x is the distinguished shared edge and the two already-required faces satisfy
+
+
+    x^2+y^2 = q_y^2,
+    x^2+z^2 = q_z^2
+
+
+for integers q_y,q_z.
+
+
+No condition is imposed yet on y^2+z^2 or on x^2+y^2+z^2.
+
+
+Define Boolean selectors on this SAME H_j measure:
+
+
+    F(E) = 1_{y^2+z^2 is a square},
+    S(E) = 1_{x^2+y^2+z^2 is a square}.
+
+
+Thus F is the missing-third-face selector and S is the space-diagonal selector before either is conditioned away.
+
+
+This is exactly the pre-endpoint population required by M3-A-001 and avoids the endpoint-conditioned saturation of159 by construction.
+
+
+3. Exact linked-square normal form
+
+
+Put
+
+
+    e(E) = y^2+z^2.
+
+
+Then on every E in H_j,
+
+
+    F(E) = 1_square(e),
+    S(E) = 1_square(e+x^2).                         (226.1)
+
+
+Therefore the two terminal selectors form an exact LINKED-SQUARE pair whose radicands differ by the square x^2.
+
+
+No ambient box, residue replacement, or extra density assumption is used in (226.1).
+
+
+In particular, on F=1 with d^2=e, the remaining S condition is exactly
+
+
+    d^2+x^2 = square,
+
+
+so endpoint completion is a second Pythagorean completion on the same physical object. This identity is structural only; it is not charged as a new saving.
+
+
+4. Global centered score and exact root normalization
+
+
+Let
+
+
+    H = |H_j(B)| = M2,j+M3,
+    alpha = E_H[F] = M3/H,
+    beta  = E_H[S] = (N2,j+P)/H.
+
+
+Define the raw centered score
+
+
+    Z_j(B)
+      = sum_{E in H_j(B)} (F(E)-alpha)(S(E)-beta).  (226.2)
+
+
+Let
+
+
+    D_j = M2,j*P - M3*N2,j.
+
+
+The directional 2x2 table gives exactly
+
+
+    Z_j = H*Cov_j(F,S)
+        = D_j/H.                                    (226.3)
+
+
+Also define the unnormalized selector variances
+
+
+    V_F = sum_H (F-alpha)^2
+        = H*alpha*(1-alpha),
+
+
+    V_S = sum_H (S-beta)^2
+        = H*beta*(1-beta).                          (226.4)
+
+
+Then the Pearson coefficient in M3-A-001 is exactly
+
+
+    rho_j = Z_j / sqrt(V_F V_S).                    (226.5)
+
+
+Consequently the M3-A-001 sufficient budget becomes the raw-score target
+
+
+    |Z_j|
+      << B^(-1/12-delta) sqrt(V_F V_S)              (226.6)
+
+
+for some fixed delta>0, with the inherited log/epsilon bookkeeping.
+
+
+The one-sided root receiver is even simpler:
+
+
+    Z_j^+ = o(M3)                                   (226.7)
+
+
+is sufficient for P/M3 -> 0, because
+Cov_j(F,S)_+=Z_j^+/H and alpha=M3/H.
+
+
+Equations (226.2)–(226.7) are on the exact pre-endpoint physical measure.
+
+
+5. Partition by the actual shared edge
+
+
+For each positive integer x define the exact physical fiber
+
+
+    H_{j,x}(B)
+      = {E in H_j(B): shared edge(E)=x},
+
+
+and let
+
+
+    n_x = |H_{j,x}|.
+
+
+For n_x>0 define
+
+
+    alpha_x = E[F | x],
+    beta_x  = E[S | x],
+    gamma_x = E[FS | x].
+
+
+Then
+
+
+    sum_x n_x alpha_x = H alpha,
+    sum_x n_x beta_x  = H beta,
+    sum_x n_x gamma_x = P.
+
+
+The law of total covariance gives the exact split
+
+
+    Z_j = C_within + C_between,                     (226.8)
+
+
+where
+
+
+    C_within
+      = sum_x n_x (gamma_x-alpha_x beta_x),         (226.9)
+
+
+and
+
+
+    C_between
+      = sum_x n_x (alpha_x-alpha)(beta_x-beta).     (226.10)
+
+
+This is the first exact moving-family decomposition of the M3-A centered score on its audited pre-endpoint host.
+
+
+It separates two logically different tasks:
+
+
+A. within-x linked-square correlation;
+B. moving-x covariance of the two selector survival rates.
+
+
+Neither term may be dropped or renamed as the other.
+
+
+6. Uniform fixed-x physical fiber bound
+
+
+For fixed x, every positive y with x^2+y^2=q_y^2 satisfies
+
+
+    (q_y-y)(q_y+y)=x^2.                             (226.11)
+
+
+Hence the number of possible y is at most the divisor count of x^2 up to an absolute parity/order factor:
+
+
+    #y << tau(x^2).
+
+
+The same holds for z. Therefore
+
+
+    n_x << tau(x^2)^2 = B^o(1)                     (226.12)
+
+
+uniformly for x<=B.
+
+
+All primitive/canonical/height masks only reduce the count, so (226.12) is valid on the exact physical directional host.
+
+
+This is not a density saving for H_j: the B^o(1) fibers move through polynomially many x.
+
+
+7. Exact moving-rate dispersion receiver
+
+
+Define between-fiber dispersion energies
+
+
+    V_F^btw
+      = sum_x n_x (alpha_x-alpha)^2,
+
+
+    V_S^btw
+      = sum_x n_x (beta_x-beta)^2.                 (226.13)
+
+
+Cauchy on the SAME x-weighted physical measure gives
+
+
+    |C_between|
+      <= sqrt(V_F^btw V_S^btw).                    (226.14)
+
+
+The Bernoulli variance decomposition is exact:
+
+
+    V_F
+      = sum_x n_x alpha_x(1-alpha_x) + V_F^btw,
+
+
+    V_S
+      = sum_x n_x beta_x(1-beta_x) + V_S^btw.      (226.15)
+
+
+Thus
+
+
+    eta_F = V_F^btw/V_F,
+    eta_S = V_S^btw/V_S
+
+
+lie in [0,1], and the normalized between-fiber contribution satisfies
+
+
+    |C_between|/sqrt(V_F V_S)
+      <= sqrt(eta_F eta_S).                         (226.16)
+
+
+Therefore a sufficient moving-family theorem for the BETWEEN part is
+
+
+    eta_F eta_S
+      << B^(-1/6-2delta)                            (226.17)
+
+
+for some fixed delta>0.
+
+
+Equivalently it is enough to power-control one of the two moving survival-rate dispersions strongly enough, since the other eta is at most1.
+
+
+This is an explicit 1/12-plus-margin coefficient-energy budget, not generic squareclass energy.
+
+
+8. Fixed-x complete-sum / sparse-L1 architecture is insufficient
+
+
+The fixed-x fibers satisfy only
+
+
+    n_x=B^o(1).
+
+
+Therefore a method that:
+
+
+1. proves a complete finite-field or complete-curve character bound at fixed x;
+2. transfers it to the actual physical H_{j,x} by taking only the L1 mass of that sparse fiber;
+3. then sums over x,
+
+
+can recover at best a bound on the scale
+
+
+    sum_x n_x = H_j
+              ~ C_j B(log B)^5,                    (226.18)
+
+
+up to subpolynomial factors.
+
+
+But the one-sided centered target is already
+
+
+    Z_j^+ = o(M3),
+
+
+with M3 >> B^(1/3).
+
+
+Hence the fixed-x-complete-sum + sparse-L1 architecture supplies no required global power deficit.
+
+
+Decision:
+
+
+    FIXED_SHARED_EDGE_COMPLETE_SUM_PLUS_SPARSE_L1 = NO_GO.  (226.19)
+
+
+This is the same transfer obstruction seen abstractly in213/214, now stated directly on the actual M3-A pre-endpoint directional fibers.
+
+
+It does NOT rule out:
+- an x-averaged bilinear/Poisson theorem;
+- a same-measure linked-square correlation theorem;
+- a genuine coefficient separation across moving x;
+- a new charged-once eliminant.
+
+
+9. Existing theorem-contract rematch
+
+
+SR-STR-161:
+usable only after genuine one-variable coefficient separation. The x-fiber split (226.8) is not such a separation; arbitrary correlated moving weights remain outside its contract.
+
+
+SR-STR-165:
+requires exact one-ideal coefficient separation plus conductor/ray-class bookkeeping. No such adapter follows from (226.1)–(226.12).
+
+
+SR-STR-166:
+requires a new charged-once determinant/eliminant or an exact inverse-fraction transform. The linked-square identity alone creates neither.
+
+
+SR-STR-169:
+this is precisely the same-measure signed physical-selector correlation species. It remains EXTERNAL_GATE; complete traces or conductor energy are not independent savings.
+
+
+SR-STR-173:
+supports same-measure moment bookkeeping/firewalls but gives no fixed-power covariance estimate.
+
+
+M3-A-LOCAL-001:
+first-order local blocker supports are generically separate, but that local O(p^-2) interaction does not bound C_within or the moving-rate dispersion (226.13).
+
+
+Thus no retained theorem currently proves either:
+- C_within at the 1/12-plus-margin scale; or
+- eta_F eta_S << B^(-1/6-c).
+
+
+10. Decision
+
+
+New exact results:
+- the correct full pre-endpoint H_j host is explicit before either selector is conditioned;
+- F and S are the linked-square pair e and e+x^2;
+- the raw centered M3-A score is Z_j=D_j/H and has the exact 1/12 Pearson budget;
+- partition by the actual shared edge x gives the exact within/between covariance split;
+- every fixed-x physical fiber has B^o(1) size;
+- the between term reduces to the moving survival-rate dispersion product eta_F eta_S;
+- fixed-x complete-sum plus sparse-L1 completion is a method-level NO_GO.
+
+
+What is NOT proved:
+- no bound on C_within with a fixed power;
+- no fixed-power decay of eta_F or eta_S;
+- no M3-A Pearson decay;
+- no endpoint upper-bound improvement.
+
+
+Therefore:
+
+
+    PREENDPOINT_HOST_CONSTRUCTION = PASS.
+    SHARED_EDGE_LINKED_SQUARE_REDUCTION = PROVED_EXACT.
+    SHARED_EDGE_TOTAL_COVARIANCE_SPLIT = PROVED_EXACT.
+    FIXED_SHARED_EDGE_FIBER_B_O1 = PROVED_EXACT.
+    FIXED_X_COMPLETE_SUM_PLUS_SPARSE_L1 = NO_GO.
+    MOVING_X_RATE_DISPERSION_RECEIVER = OPEN.
+    CURRENT_RETAINED_THEOREM_MATCH = NONE.
+    M3_A_GATE_001 = OPEN_RECEIVER.
+    A_CURRENT_SELECTED_IMPLEMENTATION = HOLD_PENDING_NEW_MOVING_FAMILY_THEOREM.
+    GLOBAL_CREDIT = 0.
+
+
+11. Next
+
+
+224-R3 selected LOCAL first and A second.225 put current LOCAL mechanisms on HOLD.226 now sharpens A to a concrete same-measure moving-x linked-square/rate-dispersion theorem and finds no retained theorem match.
+
+
+Therefore the next bounded unit should NOT rename the A covariance again.
+
+
+NEXT227 = POST_LOCAL_A_WHOLE_POPULATION_PORTFOLIO_REAUDIT.
+
+
+Reassess the remaining whole-population routes after both selected mechanisms have reached precise theorem gates:
+- PAIR only if a genuinely new occupied-image/correlation mechanism is identified;
+- CROSS-GCD physical threshold tail remains mathematically OPEN but existing Stage14 automatic stratification is HOLD;
+- TQ/nonlocal graph energy remains HOLD pending new J-label distribution;
+- 216–220 remain auxiliary pay-sectors;
+- TI remains parked unless a new exact bridge is supplied.
+
+
+A-route may reopen only on:
+1. an x-averaged same-measure linked-square correlation theorem preserving the exact H_j weight;
+2. a genuine coefficient-separation adapter for the moving-x score;
+3. a charged-once eliminant producing a new determinant;
+4. a fixed-power moving survival-rate dispersion theorem proving (226.17) or an equivalent bound.
+
+
+LATEST_MATH=M3-T11-226.
+GATE=OPEN.
+GLOBAL_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+PERFECT_CUBOID_EXISTENCE_OR_NONEXISTENCE_CONCLUSION=NONE.
+INDEPENDENT_HOSTILE_AUDIT_186_226=NOT_RUN.

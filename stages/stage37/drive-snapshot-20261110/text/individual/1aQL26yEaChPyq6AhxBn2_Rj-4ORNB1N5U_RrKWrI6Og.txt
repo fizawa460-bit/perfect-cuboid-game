@@ -1,0 +1,292 @@
+﻿M3-T11-166 — Large L_free fresh square-modulus router
+
+
+CARD_ID: M3-T11-166
+CANONICAL_CARD_KEY: M3-T11-166
+STATUS: PROVED_EXACT_FRESH_SQUARE_MODULUS_ROUTER / TWO_GATE_CORE_DECOMPOSITION / GLOBAL_COUNTING_CREDIT=0
+GLOBAL_OPERATION: ACTIVE_T11_RESEARCH_WITH_SCOPED_DECOMPOSITION
+PRIMARY_GATE: M3-T11-GATE-001, OPEN
+GLOBAL_COUNTING_CREDIT: 0
+AUDIT_MODE: WITHIN_SESSION_NOT_INDEPENDENT
+
+
+1. Current authority and decision
+
+
+Current MAIN, CARD-INDEX, RESULT-LEDGER, active ROUTE and M3-T11-165 were read first. Targeted INDEX searches for square divisor / large square divisor / D_i±v_i / Pythagorean factor / space-triangle factor found no prior card for the global physical factorization below.
+
+
+M3-T11-026 is a packet-specific fresh-tau Gaussian squared-modulus transfer. M3-XD-GATE-001 is a paused moving common-core square-divisor gate. Neither is the theorem below. M3-T11-156 also matters operationally: a uniform raw cross-gcd 1/C tail is false. Therefore branch (A) below must be recorded as the threshold-specific endpoint/raw-edge tail gate, not as an already proved global tail theorem.
+
+
+This card gives an exact deterministic same-endpoint router. It does not prove a power-saving count.
+
+
+2. Physical space-triangle normalization
+
+
+Let (e1,e2,e3) be a primitive canonical endpoint with all three face diagonals integral and terminal space diagonal R integral. A primitive Euler brick has exactly one odd edge and two even edges; hence R is odd.
+
+
+Retain
+h_i=gcd(R,e_i),
+u_i=e_i/h_i,
+D_i=R/h_i,
+c_i=H/h_i=h_j*h_k,
+tau=R/H,
+where H=h1*h2*h3.
+
+
+Let f_jk be the physical face diagonal opposite e_i. Retained M3-T11-007 gives
+h_i=gcd(R,f_jk),
+so
+v_i=f_jk/h_i
+is integral and
+
+
+u_i^2+v_i^2=D_i^2.
+
+
+Moreover gcd(u_i,D_i)=1, hence each (u_i,v_i,D_i) is a primitive Pythagorean triple. Since R and all h_i are odd, u_i has the same parity as e_i: exactly one u_i is odd and two are even.
+
+
+Define
+hat_u_i =
+  u_i        if u_i is odd,
+  u_i/2      if u_i is even.
+
+
+Define the two normalized linear factors
+F_i,- , F_i,+ by
+
+
+if u_i is odd:
+  F_i,- = D_i-v_i,
+  F_i,+ = D_i+v_i;
+
+
+if u_i is even:
+  F_i,- = (D_i-v_i)/2,
+  F_i,+ = (D_i+v_i)/2.
+
+
+Then in every case
+F_i,- * F_i,+ = hat_u_i^2
+and
+gcd(F_i,-,F_i,+)=1.
+
+
+Also
+0<F_i,±<2D_i<=2B.
+
+
+3. Exact prime-square allocation
+
+
+Fix i. Because the two normalized factors are coprime and their product is hat_u_i^2, every prime power p^a || hat_u_i occurs with exponent exactly 2a in exactly one of F_i,- or F_i,+.
+
+
+Now let
+Lambda=L_free=lcm(u1,u2,u3).
+
+
+Because exactly two u_i are even and one is odd, dividing the even u_i by 2 lowers the global 2-adic lcm exponent by exactly one and changes no odd exponent. Therefore
+
+
+hat_Lambda := lcm(hat_u_1,hat_u_2,hat_u_3) = Lambda/2.
+
+
+For each prime power p^a || hat_Lambda, choose deterministically the least index i for which v_p(hat_u_i)=a. In that chosen face, the coprime factorization above determines uniquely which sign epsilon in {-,+} receives p^(2a).
+
+
+For each of the six buckets (i,epsilon), let q_i,epsilon be the product of all p^a assigned to that bucket.
+
+
+Then the q_i,epsilon are pairwise coprime and satisfy the exact identities
+
+
+product over the six buckets q_i,epsilon = hat_Lambda = Lambda/2,
+
+
+q_i,epsilon^2 | F_i,epsilon.
+
+
+Therefore at least one bucket obeys
+
+
+q := max q_i,epsilon >= (Lambda/2)^(1/6),
+
+
+and for the deterministically first maximizing bucket
+
+
+q^2 | F_i,epsilon,
+q^2 >= (Lambda/2)^(1/3).
+
+
+This is a no-double-charge endpoint router: every endpoint selects one canonical face/sign/bucket.
+
+
+4. Freshness of the selected square modulus
+
+
+The selected q divides hat_u_i and hence u_i. Since (u_i,v_i,D_i) is primitive,
+
+
+gcd(q,D_i)=1.
+
+
+Because D_i=c_i*tau, this gives
+
+
+gcd(q,c_i*tau)=1.
+
+
+Also q^2|F_i,epsilon implies, without any parity exception,
+
+
+v_i == sigma*D_i mod q^2
+
+
+for one sigma in {+1,-1}. Equivalently,
+
+
+v_i == sigma*c_i*tau mod q^2,
+gcd(q,c_i*tau)=1.
+
+
+Thus the selected modulus is an actual content-free square modulus on one physical space-triangle root line. It is not obtained by multiplying independent face densities.
+
+
+5. Consequence on the current 164/165 core
+
+
+Retain the equal-cutoff core after 162/163:
+all three d_ij>D and all three ell_ij>E.
+
+
+For any C, M3-T11-164 gives the exact split
+
+
+(A) some c_i>C;
+
+
+(B) max_i c_i<=C and
+    Lambda=L_free>E^3/C^(3/2),
+    gcd(Lambda,tau)=1.
+
+
+On branch (B), the selected square modulus from Section 3 satisfies
+
+
+q^2 >= (Lambda/2)^(1/3)
+     > 2^(-1/3) * E/C^(1/2).
+
+
+At the standard scales
+E=B^(1/3-delta),
+C=B^(1/6+xi),
+
+
+branch (B) therefore forces
+
+
+q^2 > const * B^(1/4-delta-xi/2),
+
+
+q > const * B^(1/8-delta/2-xi/4),
+
+
+together with one exact physical congruence
+
+
+v_i == sigma*c_i*tau mod q^2,
+gcd(q,c_i*tau)=1.
+
+
+Hence the live core is now routed to two explicit theorem gates:
+
+
+(A) threshold-specific large-c_i endpoint/raw-edge tail at C=B^(1/6+xi);
+
+
+(B) a large fresh square-modulus physical space-triangle root line with modulus q^2>B^(1/4-o(1)).
+
+
+M3-T11-156 forbids replacing gate (A) by the false uniform raw B^(1/2+o(1))/C theorem. For 0<xi<1/12, the useful threshold-specific C=B^(1/6+xi) tail remains unrefuted but unproved.
+
+
+6. Relation to previous square-modulus receivers
+
+
+This branch is structurally analogous to, but not identical with, M3-T11-026 and M3-XD-GATE-001.
+
+
+- Unlike M3-T11-026, q is selected directly from the global physical L_free support and the congruence is on the elementary physical space triangle (v_i,D_i), not on a fixed-content relative-core Gaussian coordinate.
+- Unlike M3-XD-GATE-001, the square modulus q^2 is forced by the current large-L_free branch and is coprime to the corresponding D_i=c_i*tau.
+- No existing Fourier coefficient separation or same-measure large-q counting theorem is automatically inherited. An adapter would still be required.
+
+
+The ambient count of integers F<=2B with some square divisor q^2>=Y is at most O(B/Y^(1/2)), but this is not an endpoint-measure theorem and gives no global credit here.
+
+
+7. Verification and audit limits
+
+
+The local normalized factorization was replayed exhaustively on every primitive Pythagorean triple with hypotenuse D<=200000.
+
+
+There are 31819 unordered triples and 63638 oriented choices of the leg u. For every oriented choice the replay verified exactly:
+- F_-*F_+=hat_u^2;
+- gcd(F_-,F_+)=1;
+- every p^a||hat_u occurs to exponent 2a in exactly one normalized factor.
+
+
+Additionally, 10000 synthetic three-face parity bundles were formed from one odd-leg primitive triple and two even-leg primitive triples. These are not physical cuboids. For every bundle the deterministic global allocation verified:
+- hat_Lambda=Lambda/2;
+- product of the six bucket roots equals hat_Lambda;
+- each q_i,epsilon^2 divides its assigned F_i,epsilon;
+- max q_i,epsilon >= hat_Lambda^(1/6).
+
+
+These finite tests validate only the arithmetic adapter. Physical endpoints enumerated=0. The exact endpoint statement follows from the proved primitive-space-triangle identities and deterministic prime allocation, not from finite data.
+
+
+8. Handoff
+
+
+LATEST_RESEARCH_CARD=M3-T11-166
+NEXT_CANDIDATE=M3-T11-167
+CURRENT_ATTACK=FreshSquareModulusPhysicalCoefficientOrThresholdCrossGcdTail
+
+
+Current exact core router at standard scales:
+
+
+(A) some c_i>B^(1/6+xi): threshold-specific cross-gcd tail gate, OPEN;
+
+
+(B) max c_i<=B^(1/6+xi): select one physical space triangle and q with
+    q^2 > const*B^(1/4-delta-xi/2),
+    q^2 | F_i,epsilon,
+    v_i == sigma*c_i*tau mod q^2,
+    gcd(q,c_i*tau)=1.
+
+
+Next research should test whether the simple linear physical root-line in branch (B) admits a same-measure coefficient separation/counting theorem, possibly by adapting the exact pushforward discipline of M3-T11-026, or whether the odd-edge/divisor chart makes the q^2 condition a divisor-window restriction with a true fixed-power saving.
+
+
+Do not multiply the six buckets as independent savings.
+Do not count ambient residues uniformly.
+Do not use the false uniform raw cross-gcd tail rejected by M3-T11-156.
+Do not infer a large-q endpoint bound solely from the ambient square-divisor count.
+
+
+NEW_FRESH_SQUARE_MODULUS_ROUTER=true
+THRESHOLD_CROSS_GCD_GATE_OPEN=true
+NEW_GLOBAL_ENDPOINT_BOUND=false
+P_OVER_M3_LIMIT_PROVED=false
+GLOBAL_COUNTING_CREDIT=0
+TI=PARKED
+120=RETRACTED
+147-149=FROZEN

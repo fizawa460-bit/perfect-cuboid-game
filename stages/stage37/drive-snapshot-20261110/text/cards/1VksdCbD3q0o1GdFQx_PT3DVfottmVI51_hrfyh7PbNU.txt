@@ -1,0 +1,34 @@
+﻿Stage37-229HA EXACT DET-BAD REPLAY AND PROOF CERTIFICATE
+CARD=182Po6mDmZKfaFz49gtHyOiBP1u0Q_vRZH9Yo9sjphhA
+SCOPE: original pqr determinant-bad branch for 22 GY matrices. This standalone certificate gives a rigorous factorization proof and a finite executable JS hostile replay; the original population theorem invokes retained GG.1 pending hostile audit.
+
+
+PROOF:
+D1=p²−4b²=(p−2b)(p+2b); for r>p, smaller absolute factor <p, larger is odd <3r and therefore divisible by r only if equals r. r=p+2|b|, <=1 distinct r.
+D2=p²−4a² similarly forces r=p+2|a|≡3 or7 (mod8), so NO r≡1(mod8).
+D3=p⁴−16a²b²=(p²−4|ab|)(p²+4|ab|). Let h=4|ab|<2p². Lower abs factor<p² has <=1 prime divisor >p; upper factor<3p² has <=2 distinct prime divisors >p, since p>=17. Equality p²=h would require (a/b) irrational root of x²±4x+1=0, impossible. Total <=4 exceptional r per p.
+GG.1 F_1(s)<=C W_*(s) uniformly for every moving split prime ell coprime s, with s=pr and ell=q, W_*(pr)=400, implies <=1600C pi(2Q)<<Q/logQ physical points in balanced bad-r sector. CONDITION: retained GG.1 hostile certification HOLD.
+
+
+EXECUTABLE NODE.JS 18+ REPLAY:
+'use strict';
+function prime(n){if(n<2)return false;for(let d=2;d*d<=n;d++)if(n%d===0)return false;return true;}
+function highPrimeDivs(n,p){let out=[];n=Math.abs(n);for(let d=2;d*d<=n;d++){if(n%d===0){if(d>p&&d%8===1&&prime(d))out.push(d);while(n%d===0)n/=d;}}if(n>p&&n%8===1&&prime(n))out.push(n);return out;}
+let cnt=0,max=0,d1hits=0,d2hits=0,most=[];
+for(let p=17;p<=10000;p+=8){if(!prime(p))continue;
+ let u,v;for(let t=2;t*t<p;t+=2){let k=Math.sqrt(p-t*t);if(Number.isInteger(k)){u=k;v=t;break;}}
+ if(u===undefined)throw Error('missing '+p);
+ let a=u*u-v*v,b=2*u*v;if(Math.abs(a)%2!==1||b%8!==0)throw Error('parity');
+ let A=highPrimeDivs(a*a-3*b*b,p),B=highPrimeDivs(b*b-3*a*a,p);
+ let h=4*Math.abs(a*b),C=[...new Set([...highPrimeDivs(p*p+h,p),...highPrimeDivs(p*p-h,p)])];
+ if(A.length)d1hits++;if(B.length)d2hits++;let U=[...new Set([...A,...B,...C])];
+ if(U.length>max){max=U.length;most=[p,a,b,A,B,C];}
+ if(A.length>1||B.length||C.length>3||U.length>4)throw Error('bound failed '+p);
+ cnt++;
+}
+if(cnt!==295||max!==3||d1hits!==99||d2hits!==0)throw Error('unexpected count');
+console.log(JSON.stringify({pTested:cnt,maxBad:max,example:most,d1Incidence:d1hits,d2Incidence:d2hits,status:'PASS'}));
+EXPECTED: pTested295, maxBad3, example=[281,-231,160,[601],[],[337,673]], d1Incidence99, d2Incidence0, status PASS.
+
+
+FIREWALL: finite output does not prove the asymptotic. 4/p is a rigorous worst-case upper bound even if 3/p observed in the finite sample. GG.1 is not independently hostile-certified. Do not promote gate/authority/credit or assert unrestricted pqr elimination.

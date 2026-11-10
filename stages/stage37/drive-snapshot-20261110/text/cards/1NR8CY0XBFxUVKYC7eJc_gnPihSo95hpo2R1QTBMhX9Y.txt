@@ -1,0 +1,68 @@
+﻿STAGE37-NEW-INPUT-DELTA-AUDIT-229HI-A41
+TITLE: ALL-HEIGHT TRUE-PHYSICAL THIRD-PRIME SQRT(p)*q CEILING FROM EXACT UNDERLYING GAUSSIAN LINEAR FACTORIZATION; EVEN-BRANCH /4; NO UNRESTRICTED GLOBAL SAVING
+DATE=2026-10-12 JST; PREVIOUS=A40 SOURCE_ROW721; NEW_CARD_INDEX_SOURCE_ROW=722; CARD_ID=1NR8CY0XBFxUVKYC7eJc_gnPihSo95hpo2R1QTBMhX9Y.
+STATUS=PROVED_SCOPED_ONE_VALID_HI150_SOURCE_ALL_HEIGHT_R_LT_Q_SQRT_P / DYADIC_EVEN_BRANCH_R_LT_Q_SQRT_P_OVER4 / GLOBAL_OCCUPIED_oQ_NOT_PROVED / COUNTING_CREDIT0.
+GOVERNANCE: OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED; PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; RESEARCH_PRODUCTION_STATUS=HOLD; potential130/unaccounted128 and closure unchanged; EXTERNAL_FJ_FO_HOSTILE_NOT_RUN; FORMAL_ROUTE_SWITCH NONE; GitHub NOT_USED.
+
+
+1. STRICT SOURCE / PHYSICAL UNIVERSE.
+ONLY canonical414 / HI remaining150 / FJ330 signed j=000.011.102:0 independently validated A37. ORIGINAL SAME-P positive primitive all-four-square physical endpoint P, squarefree R=pqr with 5<=p<q<r distinct split rational primes; p²=a²+b², q²=c²+d², r²=h²+w² with a,c,h positive odd, b,d,w positive divisible by4, primitive Gaussian orientations, and t=b/a,X=d/c,Y=w/h positive. Necessary original signed f=t(X+t)Y²+(tX²-2X-t)Y+tX(tX-1)=0. The original HEIGHT R<=B and HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/K-null/EX, positivity and primitivity remain SAME-P restrictions; neither f=0 nor any norm-divisor condition is sufficient to build an original physical P. Independent FJ/FO source necessity HOSTILE HOLD.
+
+
+2. NEW EXACT NONFINITE THIRD-PRIME HEIGHT ZERO THEOREM A41.1.
+For p=u²+v² with u>v>0 positive coprime, opposite parity (p≡1 mod4), use primitive p-square legs a=u²-v² and b=2uv. Define
+  L_minus = u*c - v*d,       L_plus = v*c + u*d.
+Exact integer identities:
+  M := 2*a*c*d + b*(c²-d²) = 2*L_minus*L_plus,
+  L_minus²+L_plus²=(u²+v²)(c²+d²)=p*q².
+Existing A38/GX/HC one-sign Gauss lemma forces physical r|M; A39 strengthens to r|(M/4) because M multiple4 and r odd. Hence r divides L_minus or L_plus, since r is an odd prime, r>q>p and r|L_minus*L_plus.
+BOTH L factors are nonzero for genuine distinct primes: L_plus>0; if L_minus=0, coprimality of u,v and c,d forces (c,d)=(v,u) up to a common unit (positive c,d => c=v,d=u), so q²=c²+d²=u²+v²=p, impossible q prime (>p) since q²=p. If ratios in another sign convention, the same primitive proportionality and q²=p contradiction applies.
+Thus r<=|L_i|<sqrt(p)*q for whichever factor r divides. IN PARTICULAR every original P assigned j with r>=q*sqrt(p) is exactly EMPTY for ALL unbounded first-pair p,q and all third-prime heights, with NO finite cutoff and regardless of other selector masks. Equivalent integer formulation r²<p*q². For balanced Q<=p<q<=2Q, all assigned physical source points satisfy r < (2Q)^(3/2), so the r>= (2Q)^(3/2) source tail is identically empty; this DOES NOT exclude r~Q.
+
+
+A41.2 EVEN-BRANCH SHARPENING FOR ORIGINAL p,q≡1(mod8).
+For p≡1 mod8, the even member of coprime (u,v) is divisible by4; q≡1 mod8 yields c odd and d divisible8 under the stated positive p-square orientation. Consequently exactly one of L_minus,L_plus is even, that even factor is divisible by4, and the other is odd. If r divides the EVEN factor L_even, r|(L_even/4), and 16r²<=L_even²< p*q²; therefore r<q*sqrt(p)/4. If r divides the odd factor, only the general r<q*sqrt(p) follows. The branch is a necessary signed-source assignment condition, not a theorem that all r lie in the even branch.
+
+
+3. EXACT INDEPENDENT REPLAY / QUANTITATIVE PHYSICAL-SCOPE CONTROL.
+Symbolic expansion of 2(u*c-v*d)(v*c+u*d) gives 2(u²-v²)cd+2uv(c²-d²)=M, and Gaussian norm identity follows by expanding squared real/imaginary parts. The proof is unbounded in p,q,r; it uses exact divisibility and norm rather than finite cutoff, angular continuous density, or independent local densities.
+Independent finite arithmetic verification: all 37 rational primes p≡1(mod8) in [17,1000); all 666 ordered p<q pairs; exact identity, nonzero L factors, and divisibility by4 PASS. Factoring |M|/4 and retaining r>q prime r≡1(mod8) produces 85 norm-only third-prime candidate incidences: 64 odd-factor, 21 even-factor, with all r²<pq² and all 21 even cases satisfying 16r²<pq². Example (p,q,r,L_minus,L_plus)=(17,97,353,188,353) odd branch, norm-only. These 85 are NOT actual physical P or rational signed Y roots; A37 already showed zero integer discriminant squares throughout q<=300000, so finite physical count in this test remains zero and receives NO NEW count credit.
+Standalone reproduction:
+  from math import isqrt
+  from sympy import primerange, factorint
+  P=[]
+  for p in primerange(17,1000):
+      if p%8 !=1: continue
+      for u in range(isqrt(p),0,-1):
+          vv=p-u*u
+          if vv>0:
+              v=isqrt(vv)
+              if 0<v<u and v*v==vv:
+                  P.append((p,u,v,u*u-v*v,2*u*v));break
+  assert len(P)==37
+  N=[0,0]
+  for i,(p,u,v,a,b) in enumerate(P):
+      for q,s,t,c,d in P[i+1:]:
+          lm=u*c-v*d;lp=v*c+u*d
+          M=2*a*c*d+b*(c*c-d*d)
+          assert M==2*lm*lp and lm*lm+lp*lp==p*q*q and lm and lp and M%4==0
+          assert (lm%2==0)!=(lp%2==0)
+          for r in factorint(abs(M)//4):
+              if r>q and r%8==1:
+                  assert (lm%r==0)!=(lp%r==0)
+                  z=lm if lm%r==0 else lp
+                  even=(z%2==0)
+                  assert r*r<p*q*q
+                  if even: assert z%4==0 and 16*r*r<p*q*q
+                  N[int(even)]+=1
+  assert N==[64,21]
+  print('A41 EXACT REPLAY PASS',len(P),666,N,sum(N))
+
+
+4. FULL-HISTORY LOOP / NEGATIVE / FIVE-STALL STRATEGY AUDIT.
+Whole native canonical CARD-INDEX rows2:721 (720 records) searched using AI-10/AI-20 and source Y token/synonym filters on exact j, third r norm, primitive Gaussian first prime, M factor, same-P positive P, quantitative occupied GOOD(p,r), retract/hold/negative. Specific j only A37 row718, A38 row719, A39 row720, A40 row721; A39 old source norm upper r<pq²/4 is strictly weaker for large q, since q*sqrt(p) < p*q²/4 whenever q*sqrt(p)>4, true for p>=5,q>p. Norm identity/general one-sign prerequisite OLD GX670/HC675, as is Gaussian composition; A41 does NOT recredit r|M. A4 row685 complementary linear factor controls TWO DIFFERENT zero-middle signed keys, not j. A12 row693 corrected A11 row692 global even-leg parity error; A11 old r²<pq² aspect claims on other 24 keys quarantined, not invoked. Old A28-A35 angular key 000.001.010:0 ALREADY HI row681 globally empty; A36 row717 000.001.011:0 NONCANONICAL RETRACTED. Current j true HI150 is not those labels. Older 229GT short-gap / HA determinant-bad / AR509 macro Wminus scalar had no same-source r<sqrt(p)q result nor qualifying main count. NEG DT/DU/GW/GZ warn against multiplying local densities, fixed-fiber upper=o(Q), illegitimate one-sign->two-sign conversion, and false root physical sufficiency. This card claims scoped mathematical novelty only, no independent whole-card semantic HOSTILE PASS.
+Latest >=5 A35-A40 fail unrestricted original o(Q) occupied moving pair estimate, so STRATEGY AUDIT: extending A37 finite q cutoff rejected; finite norm-pair densities rejected; old 229AR Wminus full physical scalar with fixed fiber lacks saving and requires INDEPENDENT route-switch audit; selected executed EXACT underlying Gaussian p=u²+v² factorization and all-height true-source r bound, with replay. This meaningfully strengthens one-key high-r disposal but DOES NOT improve balanced r~Q or whole P(B). FORMAL MATHEMATICAL ROUTE SWITCH NONE.
+
+
+5. BARRIER AND IMMEDIATE NEXT INPUT.
+The region q<r<q*sqrt(p) is very large, in particular balanced q,r~Q remains. Number of p,q prime first pairs is still order Q²/log²Q; r|one linear form alone gives no proved occupied moving GOOD(p,r)=o(Q). Even 85 norm-only finite incidences are NOT physical. D discriminant integer square is proven absent only q<=300000; no all-Q rational-Y theorem. Other149 HI, other FJ330, omega>=4 and powers, all original selector walls remain OPEN. Next: on balanced Q<=p<q<r<=2Q, combine r|(u c-v d)(v c+u d), one primitive THIRD Gaussian r²=h²+w², FIRST exact D-square and full SAME-P HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/K-null/EX / R<=B into a genuine moving occupied (p,r) mean estimate o(Q), with odd/even factor and determinant-bad exceptions treated jointly. Distinguish R=pqr counting and associated fixed-P multiplicity. If no rigorous saving, execute already audited 229AR/high-Gres/Kcross alternative formal preflight, request separate independent route-switch audit before any switch. Authority/credit/gate/closure/HOLD unchanged.

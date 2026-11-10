@@ -1,0 +1,71 @@
+﻿# Stage37 229GM — reproducible exact symbolic 8-horizontal-genus3 exclusion
+# Python 3 + SymPy; all identities over Q[t,X,Y], no finite specialization.
+# The theorem uses separately Bremner 2018 Thm 4.1: K(A,B) is nonsquare for
+# nondegenerate rational Pythagorean A^2+B^2 rational square.
+import sympy as S
+t,X,Y=S.symbols("t X Y")
+K=lambda A,B:S.expand(A**4+18*A**2*B**2+B**4)
+codes=[]
+for i in range(3):
+ for j in range(3):
+  for k in range(3):
+   if (i,j,k)==(1,1,1):continue
+   if i*9+j*3+k>(2-i)*9+(2-j)*3+(2-k):continue
+   codes.append((i,j,k))
+assert len(codes)==13
+def E(c):
+ i,j,k=c
+ p=1+t*t if i==1 else 1
+ q=1+X*X if j==1 else 1
+ r=1+Y*Y if k==1 else 1
+ a=(i-1)*t
+ b=(j-1)*X
+ z=(k-1)*Y
+ return S.expand(p*q*r*(a+b+z-a*b*z)**2)
+legs=[E(c) for c in codes]
+F={}
+for i in range(13):
+ for j in range(i+1,13):
+  for k in range(j+1,13):
+   cs=[codes[i],codes[j],codes[k]]
+   if any(sum(int(z[h]==1) for z in cs)>1 for h in range(3)):continue
+   for hyp in range(3):
+    key=".".join("".join(map(str,z)) for z in cs)+":"+str(hyp)
+    F[key]=S.expand(sum((-1 if pos==hyp else 1)*legs[z]
+                        for pos,z in enumerate((i,j,k))))
+assert len(F)==414 and all(f!=0 for f in F.values())
+cases={
+ "000.020.101:0":(X,K(1-t*Y,t+Y)),
+ "000.020.101:1":(X,K(1-t*Y,t+Y)),
+ "002.022.101:0":(X,K(1+t*Y,t-Y)),
+ "002.022.101:1":(X,K(1+t*Y,t-Y)),
+ "020.021.022:0":(X-t,(1+t*t)*K(1,Y)),
+ "020.021.022:2":(X-t,(1+t*t)*K(1,Y)),
+ "000.001.002:0":(X+t,(1+t*t)*K(1,Y)),
+ "000.001.002:2":(X+t,(1+t*t)*K(1,Y)),
+}
+assert len(cases)==8
+for key,(linear,target) in sorted(cases.items()):
+ f=F[key]
+ assert S.expand(f.subs(X,S.solve(linear,X)[0]))==0
+ g=S.cancel(f/linear)
+ assert S.expand(f-linear*g)==0
+ assert S.Poly(g,X,Y).degree(X)==1
+ assert S.Poly(g,X,Y).degree(Y)==2
+ D=S.expand(S.diff(g,X))
+ N=-S.expand(g.subs(X,0))
+ assert S.expand(g-(D*X-N))==0
+ assert S.expand(D**2+N**2-target)==0, key
+ assert S.factor(target)!=0
+ print("PASS",key,"excluded-horizontal=",str(linear),
+       "D=",S.factor(D),"N=",S.factor(N))
+print("CHECKED 8/8 EXACT over Q[t,X,Y]; original 414 source templates generated")
+print("CASE 4 X=0: (A,B)=(1-tY,t+Y) or (1+tY,t-Y)")
+print("CASE 4 X=+/-t: (1+t^2)*K(1,Y)")
+print("HYPOTHESES for original odd split primes:")
+print("t>0,X>0,Y>0; 1+t^2,1+X^2,1+Y^2 are rational squares")
+print("X=0 or X<0 physically impossible; X=t forces q=p, forbidden")
+print("1-tY!=0 by 4|numerators, odd denominators; 1+tY>0")
+print("t+Y>0; t-Y!=0 since r!=p")
+print("Thus (A,B) rational Pythagorean nonzero, K(A,B) nonsquare")
+print("No claim of full unrestricted pqr elimination; 338 FJ allocations open")
