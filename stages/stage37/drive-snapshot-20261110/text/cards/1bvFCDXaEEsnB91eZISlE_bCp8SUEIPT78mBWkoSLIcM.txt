@@ -1,0 +1,1390 @@
+﻿Stage37-229HC NATIVE EXACT CERTIFICATE
+RESEARCH_CARD_ID=1Y6sFOOZdRTdZgZOvI2bfkcYTe3WG2WishsLNhDCfuiQ
+STATUS exact symbolic audit; original FJ source external hostile HOLD; global credit0; GateOPEN; productionHOLD; formal route switchNONE.
+The companion ZIP is supplementary. This readable native certificate is sufficient for Drive-only replay even when binary transfer is unavailable. No archive SHA256 download-verification claim is made: connector raw metadata16626 bytes readback succeeded, local signed-byte materialization returnedHTTP403. Native code and matrices below are independently readable.
+Save the following three named Python files in one folder, install SymPy, run analyze.py, extend.py, verify.py in that order. All file paths resolve relative to scripts.
+
+
+FILE_BEGIN analyze.py
+import os
+ROOT=os.path.dirname(os.path.abspath(__file__))
+import sympy as s, itertools, json, collections, time
+t,X,Y=s.symbols('t X Y')
+codes=[k for k in itertools.product([-1,0,1],repeat=3) if any(k) and next(z for z in k if z)!=1]
+def E(k):
+ i,j,k=k
+ return s.expand((i*t+j*X+k*Y-i*j*k*t*X*Y)**2*((1+t*t) if i==0 else 1)*((1+X*X) if j==0 else 1)*((1+Y*Y) if k==0 else 1))
+def key(tr,h):return '.'.join(''.join(str(z+1) for z in k) for k in tr)+':'+str(h)
+triples=[tr for tr in itertools.combinations(codes,3) if all(sum(k[j]==0 for k in tr)<=1 for j in range(3))]
+assert len(codes)==13 and len(triples)==138
+out=[];counts=collections.Counter()
+for tr in triples:
+ for h in range(3):
+  F=s.expand(sum((1 if j!=h else -1)*E(k) for j,k in enumerate(tr)))
+  px=s.Poly(F,X); DX=s.factor(s.discriminant(px.as_expr(),X))
+  odd=[f for f,e in s.factor_list(DX)[1] if e%2 and s.degree(f,Y)>0]
+  genusdeg=sum(s.degree(f,Y) for f in odd)
+  P=s.Poly(F,Y); A,B,C=[P.nth(j) for j in (2,1,0)]
+  Norm=s.factor((A-C)**2+B**2)
+  fl=s.factor_list(Norm)[1]
+  record={'key':key(tr,h),'discdeg':int(genusdeg),'F':str(F),'norm':str(Norm),'factors':[(str(f),int(e),int(s.degree(f,X)),int(s.degree(f,t))) for f,e in fl]}
+  out.append(record)
+  if genusdeg>=3:counts[tuple((e,int(s.degree(f,X)),int(s.degree(f,t))) for f,e in fl)]+=1
+json.dump(out,open(os.path.join(ROOT,'all414.json'),'w'),indent=2)
+print('generic330',sum(z['discdeg']>=3 for z in out),flush=True)
+for k,v in counts.items():print(v,k,flush=True)
+print('distinct residual factors')
+fac={f for z in out if z['discdeg']>=3 for f,e,dx,dt in z['factors'] if dx and f!='X**2 + 1'}
+for f in sorted(fac):print(f,flush=True)
+
+
+FILE_END analyze.py
+
+
+FILE_BEGIN extend.py
+import os
+ROOT=os.path.dirname(os.path.abspath(__file__))
+import sympy as s,json,collections,math
+t,X=s.symbols('t X'); a,b,c,d=s.symbols('a b c d');I=s.I
+data=json.load(open(os.path.join(ROOT,'all414.json')))
+summary=collections.Counter(); quadratic=[]; squarekeys=[];quartickeys=[]
+for z in data:
+ if z['discdeg']<3:continue
+ residual=[(s.sympify(f),e) for f,e,dx,dt in z['factors'] if f not in ['X**2 + 1','t**2 + 1'] and e%2]
+ deg=sum(s.degree(f,X) for f,e in residual);summary[int(deg)]+=1
+ if deg==0:squarekeys.append(z['key'])
+ elif deg==4:quartickeys.append(z['key'])
+ elif deg==2:
+  assert len(residual)==1
+  H=residual[0][0]
+  delta=s.factor(s.discriminant(H,X)); root=s.sqrt(-delta/4)
+  fac=s.factor_list(H,extension=I)[1]
+  assert len(fac)==2 and all(s.degree(f,X)==1 and e==1 for f,e in fac),(z['key'],fac)
+  L=fac[0][0]
+  Re=s.expand(s.re(L.expand(complex=True))) if False else s.expand((L+s.conjugate(L).subs({s.conjugate(t):t,s.conjugate(X):X}))/2)
+  Im=s.expand((L-s.conjugate(L).subs({s.conjugate(t):t,s.conjugate(X):X}))/(2*I))
+  K=s.cancel(H/(Re**2+Im**2))
+  assert not K.has(X)
+  # Integer homogeneous linear form in c,d; clear rational numeric denominator.
+  coeff=s.Poly(Re+I*Im,X)
+  td=max(s.degree(s.re(v).expand(complex=True),t) if False else s.degree(v,t) for v in coeff.all_coeffs())
+  Lint=s.expand(s.cancel(a**td*c*L.subs({t:b/a,X:d/c})))
+  denom=s.ilcm(*[s.denom(v) for v in s.Poly(Lint,a,b,c,d).all_coeffs()]) if False else s.ilcm(*[s.denom(v) for v in s.Poly(Lint,a,b,c,d).coeffs()])
+  Lint=s.expand(denom*Lint)
+  re=s.expand((Lint+s.conjugate(Lint).subs({s.conjugate(v):v for v in [a,b,c,d]}))/2)
+  im=s.expand((Lint-s.conjugate(Lint).subs({s.conjugate(v):v for v in [a,b,c,d]}))/(2*I))
+  matrix=[s.diff(re,c),s.diff(re,d),s.diff(im,c),s.diff(im,d)]
+  determinant=s.factor(matrix[0]*matrix[3]-matrix[1]*matrix[2])
+  const=s.factor(K)
+  record={'key':z['key'],'H':str(H),'delta':str(delta),'L':str(L),'K':str(const),'td':int(td),'matrix':[str(v) for v in matrix],'det':str(determinant),'denom':int(denom)}
+  quadratic.append(record)
+else:pass
+out={'counts':dict(summary),'quadratic':quadratic,'squarekeys':squarekeys,'quartickeys':quartickeys}
+json.dump(out,open(os.path.join(ROOT,'extension.json'),'w'),indent=2)
+print('RESIDUAL_DEGREES',summary)
+print('QUADRATIC_KEYS',len(quadratic),'unique_H',len(set(z['H'] for z in quadratic)))
+for z in sorted({(z['det'],z['K'],z['denom']) for z in quadratic}):print(z)
+
+
+FILE_END extend.py
+
+
+FILE_BEGIN verify.py
+import sympy as s,json,collections,hashlib,math
+from pathlib import Path
+root=Path(__file__).resolve().parent
+data=json.load(open(root/'all414.json')); ext=json.load(open(root/'extension.json'))
+t,X,Y,a,b,c,d=s.symbols('t X Y a b c d')
+assert len(data)==414 and sum(z['discdeg']>=3 for z in data)==330
+assert ext['counts']=={'0':198,'2':42,'4':90}
+orig22=set(('000.010.022:0 000.010.022:2 000.010.100:0 000.010.100:1 000.010.100:2 '
+'000.012.022:0 000.012.022:2 000.022.110:0 002.010.020:0 002.010.020:2 '
+'002.012.020:2 002.012.102:0 002.012.102:1 002.012.102:2 002.020.110:0 '
+'002.020.110:1 010.020.102:0 010.020.102:1 010.020.102:2 '
+'012.022.100:0 012.022.100:1 012.022.100:2').split())
+qkeys=set(z['key'] for z in ext['quadratic']);assert orig22<qkeys and len(qkeys-orig22)==20
+D1=a*a-3*b*b;D2=3*a*a-b*b;D3=(a*a+b*b)**2-16*a*a*b*b
+matchecks=0;denoms=set();mult=[]
+for z in ext['quadratic']:
+ H=s.sympify(z['H']);L=s.sympify(z['L']);K=s.sympify(z['K']);m=list(map(s.sympify,z['matrix']))
+ conjugate=lambda f:s.conjugate(f).subs({s.conjugate(v):v for v in [t,X,a,b,c,d]})
+ assert s.expand(H-K*L*conjugate(L))==0
+ Li=s.expand((m[0]+s.I*m[2])*c+(m[1]+s.I*m[3])*d)
+ assert s.expand(Li-z['denom']*a**z['td']*c*L.subs({t:b/a,X:d/c}))==0
+ det=s.sympify(z['det']); assert s.expand(det-(m[0]*m[3]-m[1]*m[2]))==0
+ div=s.cancel(D1*D2*D3*(a*a+b*b)/det)
+ assert s.denom(div)==1
+ assert z['denom'] in [1,3] and K in [1,9]
+ matchecks+=1
+ denoms.add(z['denom'])
+ # homogeneous integer S0=a^4*c^4*S, remove physical p/q norm factors exactly.
+ src=next(v for v in data if v['key']==z['key']); F=s.sympify(src['F']);P=s.Poly(F,Y)
+ norm=s.expand((P.nth(2)-P.nth(0))**2+P.nth(1)**2)
+ S0=s.expand(s.cancel(a**4*c**4*norm.subs({t:b/a,X:d/c})))
+ N=s.expand(Li*conjugate(Li)); quotient=s.factor(s.cancel(S0/N))
+ num,den=s.fraction(quotient);facs=s.factor_list(num)[1]+s.factor_list(den)[1]
+ assert all(f in [a*a+b*b,c*c+d*d] for f,e in facs),(z['key'],quotient)
+ mult.append({'key':z['key'],'S0_div_N':str(quotient)})
+# Norm identity for both rational roots, including scalar square class.
+for key in ext['squarekeys']:
+ src=next(v for v in data if v['key']==key);num,fl=s.factor_list(s.sympify(src['norm']))
+ assert s.sqrt(num).is_Rational
+ assert all(e%2==0 or f in [1+t*t,1+X*X] for f,e in fl)
+summary={'enumeration':[13,138,414],'generic_count':330,'classification':ext['counts'],
+'linear_matrix_exact_checks':matchecks,'new_keys':sorted(qkeys-orig22),
+'all42_determinants_divide_D1_D2_D3_p2':True,'S0_div_norm_identities':mult,
+'square_kernel_exact_checks':198,'quartic_residual_count':90,
+'global_count_improved':False,'gate':'OPEN','credit':0,'production':'HOLD','route_switch':'NONE'}
+for f in ['analyze.py','extend.py','verify.py','all414.json','extension.json']:
+ summary.setdefault('sha256',{})[f]=hashlib.sha256((root/f).read_bytes()).hexdigest()
+json.dump(summary,open(root/'certificate.json','w'),indent=2)
+print(json.dumps({k:v for k,v in summary.items() if k not in ['S0_div_norm_identities','new_keys','sha256']},indent=2))
+print('NEW20',' '.join(summary['new_keys']))
+print('EXAMPLE_S0_OVER_N',mult[0])
+# Actual alternate raw edge-support enumeration, no claim of physical points.
+def singleton_large(n,Z):
+ for p in s.factorint(n):
+  if p>Z and n%int(p)**2:return True
+ return False
+fixtures=[]
+for XX,Z in [(10000,100),(30000,200)]:
+ count=sum(singleton_large(n,Z) for n in range(1,XX+1))
+ fixtures.append({'edge_bound':XX,'singleton_prime_threshold':Z,'raw_edges_surviving':count,'physical_count':None})
+summary['alternative_high_Gres_edge_tail_fixtures']=fixtures
+json.dump(summary,open(root/'certificate.json','w'),indent=2)
+print('ALTERNATE_RAW_EDGE_SUPPORT_ONLY',fixtures)
+
+
+FILE_END verify.py
+
+
+ALL42 MATRICES AND COMPLETE198/90 SOURCE KEYS
+{
+  "counts": {
+    "0": 198,
+    "4": 90,
+    "2": 42
+  },
+  "quadratic": [
+    {
+      "key": "000.010.022:0",
+      "H": "X**2*t**4 + 34*X**2*t**2 + X**2 - 16*X*t**3 + 16*X*t + t**4 + 2*t**2 + 1",
+      "delta": "-4*(t**2 - 4*t + 1)**2*(t**2 + 4*t + 1)**2",
+      "L": "X*t**2 + 6*I*X*t - X - I*t**2 - 2*t + I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "-2*a*b",
+        "-a**2 + b**2",
+        "a**2 - b**2",
+        "6*a*b"
+      ],
+      "det": "(a**2 - 4*a*b + b**2)*(a**2 + 4*a*b + b**2)",
+      "denom": 1
+    },
+    {
+      "key": "000.010.022:1",
+      "H": "9*X**2*t**4 - 14*X**2*t**2 + 9*X**2 + 16*X*t**3 - 16*X*t + t**4 + 2*t**2 + 1",
+      "delta": "-4*(t**2 - 3)**2*(3*t**2 - 1)**2",
+      "L": "X*t**2 - 2*I*X*t/3 - X - I*t**2/3 + 2*t/3 + I/3",
+      "K": "9",
+      "td": 2,
+      "matrix": [
+        "2*a*b",
+        "-3*a**2 + 3*b**2",
+        "a**2 - b**2",
+        "-2*a*b"
+      ],
+      "det": "(a**2 - 3*b**2)*(3*a**2 - b**2)",
+      "denom": 3
+    },
+    {
+      "key": "000.010.022:2",
+      "H": "X**2*t**4 + 2*X**2*t**2 + X**2 + 16*X*t**3 - 16*X*t + t**4 + 34*t**2 + 1",
+      "delta": "-4*(t**2 - 4*t + 1)**2*(t**2 + 4*t + 1)**2",
+      "L": "X*t**2 - 2*I*X*t - X - I*t**2 + 6*t + I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "6*a*b",
+        "-a**2 + b**2",
+        "a**2 - b**2",
+        "-2*a*b"
+      ],
+      "det": "(a**2 - 4*a*b + b**2)*(a**2 + 4*a*b + b**2)",
+      "denom": 1
+    },
+    {
+      "key": "000.010.100:0",
+      "H": "9*X**2*t**2 + X**2 + 8*X*t + t**2 + 1",
+      "delta": "-4*(3*t**2 - 1)**2",
+      "L": "X*t - I*X/3 - I*t/3 + 1/3",
+      "K": "9",
+      "td": 1,
+      "matrix": [
+        "a",
+        "3*b",
+        "-b",
+        "-a"
+      ],
+      "det": "-a**2 + 3*b**2",
+      "denom": 3
+    },
+    {
+      "key": "000.010.100:1",
+      "H": "X**2*t**2 + 9*X**2 - 8*X*t + t**2 + 1",
+      "delta": "-4*(t**2 - 3)**2",
+      "L": "X*t + 3*I*X - I*t - 1",
+      "K": "1",
+      "td": 1,
+      "matrix": [
+        "-a",
+        "b",
+        "-b",
+        "3*a"
+      ],
+      "det": "-3*a**2 + b**2",
+      "denom": 1
+    },
+    {
+      "key": "000.010.100:2",
+      "H": "X**2*t**2 + X**2 - 8*X*t + 9*t**2 + 1",
+      "delta": "-4*(3*t**2 - 1)**2",
+      "L": "X*t + I*X - 3*I*t - 1",
+      "K": "1",
+      "td": 1,
+      "matrix": [
+        "-a",
+        "b",
+        "-3*b",
+        "a"
+      ],
+      "det": "-a**2 + 3*b**2",
+      "denom": 1
+    },
+    {
+      "key": "000.012.022:0",
+      "H": "X**2*t**4 + 2*X**2*t**2 + X**2 - 16*X*t**3 + 16*X*t + t**4 + 34*t**2 + 1",
+      "delta": "-4*(t**2 - 4*t + 1)**2*(t**2 + 4*t + 1)**2",
+      "L": "X*t**2 + 2*I*X*t - X - I*t**2 - 6*t + I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "-6*a*b",
+        "-a**2 + b**2",
+        "a**2 - b**2",
+        "2*a*b"
+      ],
+      "det": "(a**2 - 4*a*b + b**2)*(a**2 + 4*a*b + b**2)",
+      "denom": 1
+    },
+    {
+      "key": "000.012.022:1",
+      "H": "9*X**2*t**4 - 14*X**2*t**2 + 9*X**2 - 16*X*t**3 + 16*X*t + t**4 + 2*t**2 + 1",
+      "delta": "-4*(t**2 - 3)**2*(3*t**2 - 1)**2",
+      "L": "X*t**2 + 2*I*X*t/3 - X - I*t**2/3 - 2*t/3 + I/3",
+      "K": "9",
+      "td": 2,
+      "matrix": [
+        "-2*a*b",
+        "-3*a**2 + 3*b**2",
+        "a**2 - b**2",
+        "2*a*b"
+      ],
+      "det": "(a**2 - 3*b**2)*(3*a**2 - b**2)",
+      "denom": 3
+    },
+    {
+      "key": "000.012.022:2",
+      "H": "X**2*t**4 + 34*X**2*t**2 + X**2 + 16*X*t**3 - 16*X*t + t**4 + 2*t**2 + 1",
+      "delta": "-4*(t**2 - 4*t + 1)**2*(t**2 + 4*t + 1)**2",
+      "L": "X*t**2 - 6*I*X*t - X - I*t**2 + 2*t + I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "2*a*b",
+        "-a**2 + b**2",
+        "a**2 - b**2",
+        "-6*a*b"
+      ],
+      "det": "(a**2 - 4*a*b + b**2)*(a**2 + 4*a*b + b**2)",
+      "denom": 1
+    },
+    {
+      "key": "000.012.100:0",
+      "H": "9*X**2*t**4 - 6*X**2*t**2 + X**2 - 24*X*t**3 + 8*X*t + t**4 + 18*t**2 + 1",
+      "delta": "-4*(t**2 + 1)**2*(3*t**2 - 1)**2",
+      "L": "X*t**2 - X/3 - I*t**2/3 - 4*t/3 - I/3",
+      "K": "9",
+      "td": 2,
+      "matrix": [
+        "-4*a*b",
+        "-a**2 + 3*b**2",
+        "-a**2 - b**2",
+        "0"
+      ],
+      "det": "-(a**2 - 3*b**2)*(a**2 + b**2)",
+      "denom": 3
+    },
+    {
+      "key": "000.012.100:1",
+      "H": "X**2*t**4 - 6*X**2*t**2 + 9*X**2 - 8*X*t**3 + 24*X*t + t**4 + 18*t**2 + 1",
+      "delta": "-4*(t**2 - 3)**2*(t**2 + 1)**2",
+      "L": "X*t**2 - 3*X - I*t**2 - 4*t - I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "-4*a*b",
+        "-3*a**2 + b**2",
+        "-a**2 - b**2",
+        "0"
+      ],
+      "det": "-(a**2 + b**2)*(3*a**2 - b**2)",
+      "denom": 1
+    },
+    {
+      "key": "000.012.100:2",
+      "H": "X**2*t**4 + 18*X**2*t**2 + X**2 + 24*X*t**3 - 8*X*t + 9*t**4 - 6*t**2 + 1",
+      "delta": "-4*(t**2 + 1)**2*(3*t**2 - 1)**2",
+      "L": "X*t**2 - 4*I*X*t + X - 3*I*t**2 + I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "0",
+        "a**2 + b**2",
+        "a**2 - 3*b**2",
+        "-4*a*b"
+      ],
+      "det": "-(a**2 - 3*b**2)*(a**2 + b**2)",
+      "denom": 1
+    },
+    {
+      "key": "000.022.110:0",
+      "H": "X**2*t**4 + 18*X**2*t**2 + X**2 + 16*X*t**3 + 16*X*t + t**4 + 18*t**2 + 1",
+      "delta": "-4*(t**2 - 4*t + 1)**2*(t**2 + 4*t + 1)**2",
+      "L": "X*t**2 - 4*I*X*t + X - I*t**2 + 4*t - I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "4*a*b",
+        "a**2 + b**2",
+        "-a**2 - b**2",
+        "-4*a*b"
+      ],
+      "det": "(a**2 - 4*a*b + b**2)*(a**2 + 4*a*b + b**2)",
+      "denom": 1
+    },
+    {
+      "key": "000.022.110:1",
+      "H": "X**2*t**4 + 18*X**2*t**2 + X**2 - 16*X*t**3 - 16*X*t + t**4 + 18*t**2 + 1",
+      "delta": "-4*(t**2 - 4*t + 1)**2*(t**2 + 4*t + 1)**2",
+      "L": "X*t**2 + 4*I*X*t + X - I*t**2 - 4*t - I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "-4*a*b",
+        "a**2 + b**2",
+        "-a**2 - b**2",
+        "4*a*b"
+      ],
+      "det": "(a**2 - 4*a*b + b**2)*(a**2 + 4*a*b + b**2)",
+      "denom": 1
+    },
+    {
+      "key": "000.022.110:2",
+      "H": "X**2*t**4 - 6*X**2*t**2 + 9*X**2 + 9*t**4 - 6*t**2 + 1",
+      "delta": "-4*(t**2 - 3)**2*(3*t**2 - 1)**2",
+      "L": "X*t**2 - 3*X - 3*I*t**2 + I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "0",
+        "-3*a**2 + b**2",
+        "a**2 - 3*b**2",
+        "0"
+      ],
+      "det": "(a**2 - 3*b**2)*(3*a**2 - b**2)",
+      "denom": 1
+    },
+    {
+      "key": "002.010.020:0",
+      "H": "X**2*t**4 + 2*X**2*t**2 + X**2 - 16*X*t**3 + 16*X*t + t**4 + 34*t**2 + 1",
+      "delta": "-4*(t**2 - 4*t + 1)**2*(t**2 + 4*t + 1)**2",
+      "L": "X*t**2 + 2*I*X*t - X - I*t**2 - 6*t + I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "-6*a*b",
+        "-a**2 + b**2",
+        "a**2 - b**2",
+        "2*a*b"
+      ],
+      "det": "(a**2 - 4*a*b + b**2)*(a**2 + 4*a*b + b**2)",
+      "denom": 1
+    },
+    {
+      "key": "002.010.020:1",
+      "H": "9*X**2*t**4 - 14*X**2*t**2 + 9*X**2 - 16*X*t**3 + 16*X*t + t**4 + 2*t**2 + 1",
+      "delta": "-4*(t**2 - 3)**2*(3*t**2 - 1)**2",
+      "L": "X*t**2 + 2*I*X*t/3 - X - I*t**2/3 - 2*t/3 + I/3",
+      "K": "9",
+      "td": 2,
+      "matrix": [
+        "-2*a*b",
+        "-3*a**2 + 3*b**2",
+        "a**2 - b**2",
+        "2*a*b"
+      ],
+      "det": "(a**2 - 3*b**2)*(3*a**2 - b**2)",
+      "denom": 3
+    },
+    {
+      "key": "002.010.020:2",
+      "H": "X**2*t**4 + 34*X**2*t**2 + X**2 + 16*X*t**3 - 16*X*t + t**4 + 2*t**2 + 1",
+      "delta": "-4*(t**2 - 4*t + 1)**2*(t**2 + 4*t + 1)**2",
+      "L": "X*t**2 - 6*I*X*t - X - I*t**2 + 2*t + I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "2*a*b",
+        "-a**2 + b**2",
+        "a**2 - b**2",
+        "-6*a*b"
+      ],
+      "det": "(a**2 - 4*a*b + b**2)*(a**2 + 4*a*b + b**2)",
+      "denom": 1
+    },
+    {
+      "key": "002.010.102:0",
+      "H": "9*X**2*t**4 - 6*X**2*t**2 + X**2 - 24*X*t**3 + 8*X*t + t**4 + 18*t**2 + 1",
+      "delta": "-4*(t**2 + 1)**2*(3*t**2 - 1)**2",
+      "L": "X*t**2 - X/3 - I*t**2/3 - 4*t/3 - I/3",
+      "K": "9",
+      "td": 2,
+      "matrix": [
+        "-4*a*b",
+        "-a**2 + 3*b**2",
+        "-a**2 - b**2",
+        "0"
+      ],
+      "det": "-(a**2 - 3*b**2)*(a**2 + b**2)",
+      "denom": 3
+    },
+    {
+      "key": "002.010.102:1",
+      "H": "X**2*t**4 - 6*X**2*t**2 + 9*X**2 - 8*X*t**3 + 24*X*t + t**4 + 18*t**2 + 1",
+      "delta": "-4*(t**2 - 3)**2*(t**2 + 1)**2",
+      "L": "X*t**2 - 3*X - I*t**2 - 4*t - I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "-4*a*b",
+        "-3*a**2 + b**2",
+        "-a**2 - b**2",
+        "0"
+      ],
+      "det": "-(a**2 + b**2)*(3*a**2 - b**2)",
+      "denom": 1
+    },
+    {
+      "key": "002.010.102:2",
+      "H": "X**2*t**4 + 18*X**2*t**2 + X**2 + 24*X*t**3 - 8*X*t + 9*t**4 - 6*t**2 + 1",
+      "delta": "-4*(t**2 + 1)**2*(3*t**2 - 1)**2",
+      "L": "X*t**2 - 4*I*X*t + X - 3*I*t**2 + I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "0",
+        "a**2 + b**2",
+        "a**2 - 3*b**2",
+        "-4*a*b"
+      ],
+      "det": "-(a**2 - 3*b**2)*(a**2 + b**2)",
+      "denom": 1
+    },
+    {
+      "key": "002.012.020:0",
+      "H": "X**2*t**4 + 34*X**2*t**2 + X**2 - 16*X*t**3 + 16*X*t + t**4 + 2*t**2 + 1",
+      "delta": "-4*(t**2 - 4*t + 1)**2*(t**2 + 4*t + 1)**2",
+      "L": "X*t**2 + 6*I*X*t - X - I*t**2 - 2*t + I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "-2*a*b",
+        "-a**2 + b**2",
+        "a**2 - b**2",
+        "6*a*b"
+      ],
+      "det": "(a**2 - 4*a*b + b**2)*(a**2 + 4*a*b + b**2)",
+      "denom": 1
+    },
+    {
+      "key": "002.012.020:1",
+      "H": "9*X**2*t**4 - 14*X**2*t**2 + 9*X**2 + 16*X*t**3 - 16*X*t + t**4 + 2*t**2 + 1",
+      "delta": "-4*(t**2 - 3)**2*(3*t**2 - 1)**2",
+      "L": "X*t**2 - 2*I*X*t/3 - X - I*t**2/3 + 2*t/3 + I/3",
+      "K": "9",
+      "td": 2,
+      "matrix": [
+        "2*a*b",
+        "-3*a**2 + 3*b**2",
+        "a**2 - b**2",
+        "-2*a*b"
+      ],
+      "det": "(a**2 - 3*b**2)*(3*a**2 - b**2)",
+      "denom": 3
+    },
+    {
+      "key": "002.012.020:2",
+      "H": "X**2*t**4 + 2*X**2*t**2 + X**2 + 16*X*t**3 - 16*X*t + t**4 + 34*t**2 + 1",
+      "delta": "-4*(t**2 - 4*t + 1)**2*(t**2 + 4*t + 1)**2",
+      "L": "X*t**2 - 2*I*X*t - X - I*t**2 + 6*t + I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "6*a*b",
+        "-a**2 + b**2",
+        "a**2 - b**2",
+        "-2*a*b"
+      ],
+      "det": "(a**2 - 4*a*b + b**2)*(a**2 + 4*a*b + b**2)",
+      "denom": 1
+    },
+    {
+      "key": "002.012.102:0",
+      "H": "9*X**2*t**2 + X**2 + 8*X*t + t**2 + 1",
+      "delta": "-4*(3*t**2 - 1)**2",
+      "L": "X*t - I*X/3 - I*t/3 + 1/3",
+      "K": "9",
+      "td": 1,
+      "matrix": [
+        "a",
+        "3*b",
+        "-b",
+        "-a"
+      ],
+      "det": "-a**2 + 3*b**2",
+      "denom": 3
+    },
+    {
+      "key": "002.012.102:1",
+      "H": "X**2*t**2 + 9*X**2 - 8*X*t + t**2 + 1",
+      "delta": "-4*(t**2 - 3)**2",
+      "L": "X*t + 3*I*X - I*t - 1",
+      "K": "1",
+      "td": 1,
+      "matrix": [
+        "-a",
+        "b",
+        "-b",
+        "3*a"
+      ],
+      "det": "-3*a**2 + b**2",
+      "denom": 1
+    },
+    {
+      "key": "002.012.102:2",
+      "H": "X**2*t**2 + X**2 - 8*X*t + 9*t**2 + 1",
+      "delta": "-4*(3*t**2 - 1)**2",
+      "L": "X*t + I*X - 3*I*t - 1",
+      "K": "1",
+      "td": 1,
+      "matrix": [
+        "-a",
+        "b",
+        "-3*b",
+        "a"
+      ],
+      "det": "-a**2 + 3*b**2",
+      "denom": 1
+    },
+    {
+      "key": "002.020.110:0",
+      "H": "X**2*t**4 + 18*X**2*t**2 + X**2 + 16*X*t**3 + 16*X*t + t**4 + 18*t**2 + 1",
+      "delta": "-4*(t**2 - 4*t + 1)**2*(t**2 + 4*t + 1)**2",
+      "L": "X*t**2 - 4*I*X*t + X - I*t**2 + 4*t - I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "4*a*b",
+        "a**2 + b**2",
+        "-a**2 - b**2",
+        "-4*a*b"
+      ],
+      "det": "(a**2 - 4*a*b + b**2)*(a**2 + 4*a*b + b**2)",
+      "denom": 1
+    },
+    {
+      "key": "002.020.110:1",
+      "H": "X**2*t**4 + 18*X**2*t**2 + X**2 - 16*X*t**3 - 16*X*t + t**4 + 18*t**2 + 1",
+      "delta": "-4*(t**2 - 4*t + 1)**2*(t**2 + 4*t + 1)**2",
+      "L": "X*t**2 + 4*I*X*t + X - I*t**2 - 4*t - I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "-4*a*b",
+        "a**2 + b**2",
+        "-a**2 - b**2",
+        "4*a*b"
+      ],
+      "det": "(a**2 - 4*a*b + b**2)*(a**2 + 4*a*b + b**2)",
+      "denom": 1
+    },
+    {
+      "key": "002.020.110:2",
+      "H": "X**2*t**4 - 6*X**2*t**2 + 9*X**2 + 9*t**4 - 6*t**2 + 1",
+      "delta": "-4*(t**2 - 3)**2*(3*t**2 - 1)**2",
+      "L": "X*t**2 - 3*X - 3*I*t**2 + I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "0",
+        "-3*a**2 + b**2",
+        "a**2 - 3*b**2",
+        "0"
+      ],
+      "det": "(a**2 - 3*b**2)*(3*a**2 - b**2)",
+      "denom": 1
+    },
+    {
+      "key": "010.020.102:0",
+      "H": "X**2*t**2 + 9*X**2 + 8*X*t + t**2 + 1",
+      "delta": "-4*(t**2 - 3)**2",
+      "L": "X*t - 3*I*X - I*t + 1",
+      "K": "1",
+      "td": 1,
+      "matrix": [
+        "a",
+        "b",
+        "-b",
+        "-3*a"
+      ],
+      "det": "-3*a**2 + b**2",
+      "denom": 1
+    },
+    {
+      "key": "010.020.102:1",
+      "H": "9*X**2*t**2 + X**2 - 8*X*t + t**2 + 1",
+      "delta": "-4*(3*t**2 - 1)**2",
+      "L": "X*t + I*X/3 - I*t/3 - 1/3",
+      "K": "9",
+      "td": 1,
+      "matrix": [
+        "-a",
+        "3*b",
+        "-b",
+        "a"
+      ],
+      "det": "-a**2 + 3*b**2",
+      "denom": 3
+    },
+    {
+      "key": "010.020.102:2",
+      "H": "X**2*t**2 + X**2 + 8*X*t + 9*t**2 + 1",
+      "delta": "-4*(3*t**2 - 1)**2",
+      "L": "X*t - I*X - 3*I*t + 1",
+      "K": "1",
+      "td": 1,
+      "matrix": [
+        "a",
+        "b",
+        "-3*b",
+        "-a"
+      ],
+      "det": "-a**2 + 3*b**2",
+      "denom": 1
+    },
+    {
+      "key": "010.022.100:0",
+      "H": "X**2*t**4 - 6*X**2*t**2 + 9*X**2 + 8*X*t**3 - 24*X*t + t**4 + 18*t**2 + 1",
+      "delta": "-4*(t**2 - 3)**2*(t**2 + 1)**2",
+      "L": "X*t**2 - 3*X - I*t**2 + 4*t - I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "4*a*b",
+        "-3*a**2 + b**2",
+        "-a**2 - b**2",
+        "0"
+      ],
+      "det": "-(a**2 + b**2)*(3*a**2 - b**2)",
+      "denom": 1
+    },
+    {
+      "key": "010.022.100:1",
+      "H": "9*X**2*t**4 - 6*X**2*t**2 + X**2 + 24*X*t**3 - 8*X*t + t**4 + 18*t**2 + 1",
+      "delta": "-4*(t**2 + 1)**2*(3*t**2 - 1)**2",
+      "L": "X*t**2 - X/3 - I*t**2/3 + 4*t/3 - I/3",
+      "K": "9",
+      "td": 2,
+      "matrix": [
+        "4*a*b",
+        "-a**2 + 3*b**2",
+        "-a**2 - b**2",
+        "0"
+      ],
+      "det": "-(a**2 - 3*b**2)*(a**2 + b**2)",
+      "denom": 3
+    },
+    {
+      "key": "010.022.100:2",
+      "H": "X**2*t**4 + 18*X**2*t**2 + X**2 - 24*X*t**3 + 8*X*t + 9*t**4 - 6*t**2 + 1",
+      "delta": "-4*(t**2 + 1)**2*(3*t**2 - 1)**2",
+      "L": "X*t**2 + 4*I*X*t + X - 3*I*t**2 + I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "0",
+        "a**2 + b**2",
+        "a**2 - 3*b**2",
+        "4*a*b"
+      ],
+      "det": "-(a**2 - 3*b**2)*(a**2 + b**2)",
+      "denom": 1
+    },
+    {
+      "key": "012.020.102:0",
+      "H": "X**2*t**4 - 6*X**2*t**2 + 9*X**2 + 8*X*t**3 - 24*X*t + t**4 + 18*t**2 + 1",
+      "delta": "-4*(t**2 - 3)**2*(t**2 + 1)**2",
+      "L": "X*t**2 - 3*X - I*t**2 + 4*t - I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "4*a*b",
+        "-3*a**2 + b**2",
+        "-a**2 - b**2",
+        "0"
+      ],
+      "det": "-(a**2 + b**2)*(3*a**2 - b**2)",
+      "denom": 1
+    },
+    {
+      "key": "012.020.102:1",
+      "H": "9*X**2*t**4 - 6*X**2*t**2 + X**2 + 24*X*t**3 - 8*X*t + t**4 + 18*t**2 + 1",
+      "delta": "-4*(t**2 + 1)**2*(3*t**2 - 1)**2",
+      "L": "X*t**2 - X/3 - I*t**2/3 + 4*t/3 - I/3",
+      "K": "9",
+      "td": 2,
+      "matrix": [
+        "4*a*b",
+        "-a**2 + 3*b**2",
+        "-a**2 - b**2",
+        "0"
+      ],
+      "det": "-(a**2 - 3*b**2)*(a**2 + b**2)",
+      "denom": 3
+    },
+    {
+      "key": "012.020.102:2",
+      "H": "X**2*t**4 + 18*X**2*t**2 + X**2 - 24*X*t**3 + 8*X*t + 9*t**4 - 6*t**2 + 1",
+      "delta": "-4*(t**2 + 1)**2*(3*t**2 - 1)**2",
+      "L": "X*t**2 + 4*I*X*t + X - 3*I*t**2 + I",
+      "K": "1",
+      "td": 2,
+      "matrix": [
+        "0",
+        "a**2 + b**2",
+        "a**2 - 3*b**2",
+        "4*a*b"
+      ],
+      "det": "-(a**2 - 3*b**2)*(a**2 + b**2)",
+      "denom": 1
+    },
+    {
+      "key": "012.022.100:0",
+      "H": "X**2*t**2 + 9*X**2 + 8*X*t + t**2 + 1",
+      "delta": "-4*(t**2 - 3)**2",
+      "L": "X*t - 3*I*X - I*t + 1",
+      "K": "1",
+      "td": 1,
+      "matrix": [
+        "a",
+        "b",
+        "-b",
+        "-3*a"
+      ],
+      "det": "-3*a**2 + b**2",
+      "denom": 1
+    },
+    {
+      "key": "012.022.100:1",
+      "H": "9*X**2*t**2 + X**2 - 8*X*t + t**2 + 1",
+      "delta": "-4*(3*t**2 - 1)**2",
+      "L": "X*t + I*X/3 - I*t/3 - 1/3",
+      "K": "9",
+      "td": 1,
+      "matrix": [
+        "-a",
+        "3*b",
+        "-b",
+        "a"
+      ],
+      "det": "-a**2 + 3*b**2",
+      "denom": 3
+    },
+    {
+      "key": "012.022.100:2",
+      "H": "X**2*t**2 + X**2 + 8*X*t + 9*t**2 + 1",
+      "delta": "-4*(3*t**2 - 1)**2",
+      "L": "X*t - I*X - 3*I*t + 1",
+      "K": "1",
+      "td": 1,
+      "matrix": [
+        "a",
+        "b",
+        "-3*b",
+        "-a"
+      ],
+      "det": "-a**2 + 3*b**2",
+      "denom": 1
+    }
+  ],
+  "squarekeys": [
+    "000.001.010:0",
+    "000.001.010:1",
+    "000.001.010:2",
+    "000.001.012:0",
+    "000.001.012:1",
+    "000.001.012:2",
+    "000.001.020:0",
+    "000.001.020:1",
+    "000.001.020:2",
+    "000.001.022:0",
+    "000.001.022:1",
+    "000.001.022:2",
+    "000.001.100:0",
+    "000.001.100:1",
+    "000.001.100:2",
+    "000.001.102:0",
+    "000.001.102:1",
+    "000.001.102:2",
+    "000.002.011:0",
+    "000.002.011:1",
+    "000.002.011:2",
+    "000.002.021:0",
+    "000.002.021:1",
+    "000.002.021:2",
+    "000.002.101:0",
+    "000.002.101:1",
+    "000.002.101:2",
+    "000.010.021:0",
+    "000.010.021:1",
+    "000.010.021:2",
+    "000.011.020:0",
+    "000.011.020:1",
+    "000.011.020:2",
+    "000.011.102:0",
+    "000.011.102:1",
+    "000.011.102:2",
+    "000.012.021:0",
+    "000.012.021:1",
+    "000.012.021:2",
+    "000.012.101:0",
+    "000.012.101:1",
+    "000.012.101:2",
+    "000.020.021:0",
+    "000.020.021:1",
+    "000.020.021:2",
+    "000.021.022:0",
+    "000.021.022:1",
+    "000.021.022:2",
+    "000.021.100:0",
+    "000.021.100:1",
+    "000.021.100:2",
+    "000.021.102:0",
+    "000.021.102:1",
+    "000.021.102:2",
+    "000.021.110:0",
+    "000.021.110:1",
+    "000.021.110:2",
+    "000.022.101:0",
+    "000.022.101:1",
+    "000.022.101:2",
+    "001.002.010:0",
+    "001.002.010:1",
+    "001.002.010:2",
+    "001.002.012:0",
+    "001.002.012:1",
+    "001.002.012:2",
+    "001.002.020:0",
+    "001.002.020:1",
+    "001.002.020:2",
+    "001.002.022:0",
+    "001.002.022:1",
+    "001.002.022:2",
+    "001.002.100:0",
+    "001.002.100:1",
+    "001.002.100:2",
+    "001.002.102:0",
+    "001.002.102:1",
+    "001.002.102:2",
+    "001.010.020:0",
+    "001.010.020:1",
+    "001.010.020:2",
+    "001.010.022:0",
+    "001.010.022:1",
+    "001.010.022:2",
+    "001.010.100:0",
+    "001.010.100:1",
+    "001.010.100:2",
+    "001.012.020:0",
+    "001.012.020:1",
+    "001.012.020:2",
+    "001.012.022:0",
+    "001.012.022:1",
+    "001.012.022:2",
+    "001.012.102:0",
+    "001.012.102:1",
+    "001.012.102:2",
+    "001.020.022:0",
+    "001.020.022:1",
+    "001.020.022:2",
+    "001.020.100:0",
+    "001.020.100:1",
+    "001.020.100:2",
+    "001.020.102:0",
+    "001.020.102:1",
+    "001.020.102:2",
+    "001.020.110:0",
+    "001.020.110:1",
+    "001.020.110:2",
+    "001.022.100:0",
+    "001.022.100:1",
+    "001.022.100:2",
+    "001.022.102:0",
+    "001.022.102:1",
+    "001.022.102:2",
+    "001.022.110:0",
+    "001.022.110:1",
+    "001.022.110:2",
+    "002.010.021:0",
+    "002.010.021:1",
+    "002.010.021:2",
+    "002.010.101:0",
+    "002.010.101:1",
+    "002.010.101:2",
+    "002.011.022:0",
+    "002.011.022:1",
+    "002.011.022:2",
+    "002.011.100:0",
+    "002.011.100:1",
+    "002.011.100:2",
+    "002.012.021:0",
+    "002.012.021:1",
+    "002.012.021:2",
+    "002.020.021:0",
+    "002.020.021:1",
+    "002.020.021:2",
+    "002.020.101:0",
+    "002.020.101:1",
+    "002.020.101:2",
+    "002.021.022:0",
+    "002.021.022:1",
+    "002.021.022:2",
+    "002.021.100:0",
+    "002.021.100:1",
+    "002.021.100:2",
+    "002.021.102:0",
+    "002.021.102:1",
+    "002.021.102:2",
+    "002.021.110:0",
+    "002.021.110:1",
+    "002.021.110:2",
+    "010.020.021:0",
+    "010.020.021:1",
+    "010.020.021:2",
+    "010.021.022:0",
+    "010.021.022:1",
+    "010.021.022:2",
+    "010.021.102:0",
+    "010.021.102:1",
+    "010.021.102:2",
+    "010.022.101:0",
+    "010.022.101:1",
+    "010.022.101:2",
+    "011.020.022:0",
+    "011.020.022:1",
+    "011.020.022:2",
+    "011.020.100:0",
+    "011.020.100:1",
+    "011.020.100:2",
+    "011.022.102:0",
+    "011.022.102:1",
+    "011.022.102:2",
+    "012.020.021:0",
+    "012.020.021:1",
+    "012.020.021:2",
+    "012.020.101:0",
+    "012.020.101:1",
+    "012.020.101:2",
+    "012.021.022:0",
+    "012.021.022:1",
+    "012.021.022:2",
+    "012.021.100:0",
+    "012.021.100:1",
+    "012.021.100:2",
+    "020.021.100:0",
+    "020.021.100:1",
+    "020.021.100:2",
+    "020.021.102:0",
+    "020.021.102:1",
+    "020.021.102:2",
+    "020.022.101:0",
+    "020.022.101:1",
+    "020.022.101:2",
+    "021.022.100:0",
+    "021.022.100:1",
+    "021.022.100:2",
+    "021.022.102:0",
+    "021.022.102:1",
+    "021.022.102:2"
+  ],
+  "quartickeys": [
+    "000.002.010:0",
+    "000.002.010:1",
+    "000.002.010:2",
+    "000.002.012:0",
+    "000.002.012:1",
+    "000.002.012:2",
+    "000.002.020:0",
+    "000.002.020:1",
+    "000.002.020:2",
+    "000.002.022:0",
+    "000.002.022:1",
+    "000.002.022:2",
+    "000.002.100:0",
+    "000.002.100:1",
+    "000.002.100:2",
+    "000.002.102:0",
+    "000.002.102:1",
+    "000.002.102:2",
+    "000.010.102:0",
+    "000.010.102:1",
+    "000.010.102:2",
+    "000.012.020:0",
+    "000.012.020:1",
+    "000.012.020:2",
+    "000.012.102:0",
+    "000.012.102:1",
+    "000.012.102:2",
+    "000.020.022:0",
+    "000.020.022:1",
+    "000.020.022:2",
+    "000.020.100:0",
+    "000.020.100:1",
+    "000.020.100:2",
+    "000.020.102:0",
+    "000.020.102:1",
+    "000.020.102:2",
+    "000.020.110:0",
+    "000.020.110:1",
+    "000.020.110:2",
+    "000.022.102:0",
+    "000.022.102:1",
+    "000.022.102:2",
+    "002.010.022:0",
+    "002.010.022:1",
+    "002.010.022:2",
+    "002.010.100:0",
+    "002.010.100:1",
+    "002.010.100:2",
+    "002.012.100:0",
+    "002.012.100:1",
+    "002.012.100:2",
+    "002.020.022:0",
+    "002.020.022:1",
+    "002.020.022:2",
+    "002.020.100:0",
+    "002.020.100:1",
+    "002.020.100:2",
+    "002.022.100:0",
+    "002.022.100:1",
+    "002.022.100:2",
+    "002.022.102:0",
+    "002.022.102:1",
+    "002.022.102:2",
+    "002.022.110:0",
+    "002.022.110:1",
+    "002.022.110:2",
+    "010.020.022:0",
+    "010.020.022:1",
+    "010.020.022:2",
+    "010.020.100:0",
+    "010.020.100:1",
+    "010.020.100:2",
+    "010.022.102:0",
+    "010.022.102:1",
+    "010.022.102:2",
+    "012.020.022:0",
+    "012.020.022:1",
+    "012.020.022:2",
+    "012.020.100:0",
+    "012.020.100:1",
+    "012.020.100:2",
+    "012.022.102:0",
+    "012.022.102:1",
+    "012.022.102:2",
+    "020.022.100:0",
+    "020.022.100:1",
+    "020.022.100:2",
+    "020.022.102:0",
+    "020.022.102:1",
+    "020.022.102:2"
+  ]
+}
+EXECUTED CERTIFICATE AND S0/MATRIX NORM QUOTIENTS
+{
+  "enumeration": [
+    13,
+    138,
+    414
+  ],
+  "generic_count": 330,
+  "classification": {
+    "0": 198,
+    "4": 90,
+    "2": 42
+  },
+  "linear_matrix_exact_checks": 42,
+  "new_keys": [
+    "000.010.022:1",
+    "000.012.022:1",
+    "000.012.100:0",
+    "000.012.100:1",
+    "000.012.100:2",
+    "000.022.110:1",
+    "000.022.110:2",
+    "002.010.020:1",
+    "002.010.102:0",
+    "002.010.102:1",
+    "002.010.102:2",
+    "002.012.020:0",
+    "002.012.020:1",
+    "002.020.110:2",
+    "010.022.100:0",
+    "010.022.100:1",
+    "010.022.100:2",
+    "012.020.102:0",
+    "012.020.102:1",
+    "012.020.102:2"
+  ],
+  "all42_determinants_divide_D1_D2_D3_p2": true,
+  "S0_div_norm_identities": [
+    {
+      "key": "000.010.022:0",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "000.010.022:1",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "000.010.022:2",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "000.010.100:0",
+      "S0_div_N": "(a**2 + b**2)*(c**2 + d**2)"
+    },
+    {
+      "key": "000.010.100:1",
+      "S0_div_N": "(a**2 + b**2)*(c**2 + d**2)"
+    },
+    {
+      "key": "000.010.100:2",
+      "S0_div_N": "(a**2 + b**2)*(c**2 + d**2)"
+    },
+    {
+      "key": "000.012.022:0",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "000.012.022:1",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "000.012.022:2",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "000.012.100:0",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "000.012.100:1",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "000.012.100:2",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "000.022.110:0",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "000.022.110:1",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "000.022.110:2",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "002.010.020:0",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "002.010.020:1",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "002.010.020:2",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "002.010.102:0",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "002.010.102:1",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "002.010.102:2",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "002.012.020:0",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "002.012.020:1",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "002.012.020:2",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "002.012.102:0",
+      "S0_div_N": "(a**2 + b**2)*(c**2 + d**2)"
+    },
+    {
+      "key": "002.012.102:1",
+      "S0_div_N": "(a**2 + b**2)*(c**2 + d**2)"
+    },
+    {
+      "key": "002.012.102:2",
+      "S0_div_N": "(a**2 + b**2)*(c**2 + d**2)"
+    },
+    {
+      "key": "002.020.110:0",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "002.020.110:1",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "002.020.110:2",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "010.020.102:0",
+      "S0_div_N": "(a**2 + b**2)*(c**2 + d**2)"
+    },
+    {
+      "key": "010.020.102:1",
+      "S0_div_N": "(a**2 + b**2)*(c**2 + d**2)"
+    },
+    {
+      "key": "010.020.102:2",
+      "S0_div_N": "(a**2 + b**2)*(c**2 + d**2)"
+    },
+    {
+      "key": "010.022.100:0",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "010.022.100:1",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "010.022.100:2",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "012.020.102:0",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "012.020.102:1",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "012.020.102:2",
+      "S0_div_N": "c**2 + d**2"
+    },
+    {
+      "key": "012.022.100:0",
+      "S0_div_N": "(a**2 + b**2)*(c**2 + d**2)"
+    },
+    {
+      "key": "012.022.100:1",
+      "S0_div_N": "(a**2 + b**2)*(c**2 + d**2)"
+    },
+    {
+      "key": "012.022.100:2",
+      "S0_div_N": "(a**2 + b**2)*(c**2 + d**2)"
+    }
+  ],
+  "square_kernel_exact_checks": 198,
+  "quartic_residual_count": 90,
+  "global_count_improved": false,
+  "gate": "OPEN",
+  "credit": 0,
+  "production": "HOLD",
+  "route_switch": "NONE",
+  "sha256": {
+    "analyze.py": "892c87424a2daaab3f5cf9f88e5762d36f4287292217a49ddc858ecb5bc5765d",
+    "extend.py": "4799275426586e9da19b827db8132be36c207b9fb6f195873b8a76585f53e954",
+    "verify.py": "5a89cd2f4f047c51f4cd55986b00a487d9fd4fe079eb053c1f931ef649c51476",
+    "all414.json": "118f3bddd1d724c6994adf4d7431fef6220c54f686e77361ecf4b41e9c8de716",
+    "extension.json": "5c34da6a79d401a54205c5903b528e90b3e6bcb8f358a77dd2d03ef2c6b6bbc1"
+  },
+  "alternative_high_Gres_edge_tail_fixtures": [
+    {
+      "edge_bound": 10000,
+      "singleton_prime_threshold": 100,
+      "raw_edges_surviving": 6284,
+      "physical_count": null
+    },
+    {
+      "edge_bound": 30000,
+      "singleton_prime_threshold": 200,
+      "raw_edges_surviving": 18005,
+      "physical_count": null
+    }
+  ]
+}
+ADDITIONAL ALL90 REPLAY
+import sympy as s,json
+X,t=s.symbols('X t')
+data=json.load(open('all414.json')); keys=set(json.load(open('extension.json'))['quartickeys'])
+count=0
+for v in data:
+ if v['key'] not in keys: continue
+ f=next(s.sympify(f) for f,e,dx,dt in v['factors'] if dx==4 and e%2)
+ factors=s.factor_list(f,extension=s.I)[1]
+ assert len(factors)==2 and all(s.degree(g,X)==2 and e==1 for g,e in factors)
+ count+=1
+assert count==90
+print('PASS all90 residual quartics factor as conjugate Gaussian quadratics')
+
+
+RECORDED_RUN all90 conjugate quadratic factor checks PASS. This supports the concrete nonlinear NEXT, not o(Q) occupancy.
+END_STAGE37_229HC_NATIVE_EXACT_CERTIFICATE
+
+
+DRIVE_NATIVE_READBACK_AND_REPLAY_RECEIPT: Native exact certificate37,959 readback characters matched inserted text exactly after trailing-newline normalization; code extracted from its observed textRun elements into a fresh folder. analyze.py -> extend.py -> verify.py rerun produced exact13/138/414, generic330,198/42/90,42 integer matrix/quotient/determinant checks,198 square-class checks and20 new keys. All six replay files compared SHA256 with original and MATCH. MAIN/INDEX source675+AI00/LEDGER/ROUTE/NEG/FASTPATH/card/native cert pointers all readback MATCH current229HC. Binary ZIP connector metadata readback succeeded, direct signed-byte HTTP403 not treated as SHA256 PASS; readable native certificate is the primary replay fallback. Governance unchanged GateOPEN/credit0/HOLD/routeSwitchNONE; no global actual count gain.

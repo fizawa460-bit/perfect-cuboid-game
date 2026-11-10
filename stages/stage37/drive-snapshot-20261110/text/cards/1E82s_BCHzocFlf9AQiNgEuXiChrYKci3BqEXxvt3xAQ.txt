@@ -1,0 +1,1476 @@
+﻿Stage37-229HE NATIVE EXACT CERTIFICATE
+DRIVE_READBACK_AND_NATIVE_REPLAY_RECEIPT: MAIN/INDEX source677+AI00/derived AI10/LEDGER/active lightweight ROUTE/NEG/FASTPATH current229HE verified. Native certificate textRun readback matched exact inserted content after trailing document newline normalization. Its two named scripts were extracted into a fresh folder and run from Drive-read code; analyze.py,exception_audit.py,all414.json,exception_audit.json,certificate.json SHA256 all MATCH. Exact90/26 factor/support count and84 bad-r bound, untagged32,256,000*pi(2Q) actual sector proof, universal first-Delta local redundancy and representative special-fiber identities verified. No unrestricted good-sector o(Q), no gate/credit/closure/production/route promotion. Governed authority229 construction228 GateOPEN credit0 HOLD routeSwitchNONE unchanged.
+Python3+SymPy. Save the two FILE_BEGIN sections as their names in one folder, run analyze.py then exception_audit.py. No unpublished prior files are required. All90 identities and exact expected outputs follow.
+
+
+FILE_BEGIN analyze.py
+import os
+ROOT=os.path.dirname(os.path.abspath(__file__))
+import sympy as s, itertools, json, collections, time
+t,X,Y=s.symbols('t X Y')
+codes=[k for k in itertools.product([-1,0,1],repeat=3) if any(k) and next(z for z in k if z)!=1]
+def E(k):
+ i,j,k=k
+ return s.expand((i*t+j*X+k*Y-i*j*k*t*X*Y)**2*((1+t*t) if i==0 else 1)*((1+X*X) if j==0 else 1)*((1+Y*Y) if k==0 else 1))
+def key(tr,h):return '.'.join(''.join(str(z+1) for z in k) for k in tr)+':'+str(h)
+triples=[tr for tr in itertools.combinations(codes,3) if all(sum(k[j]==0 for k in tr)<=1 for j in range(3))]
+assert len(codes)==13 and len(triples)==138
+out=[];counts=collections.Counter()
+for tr in triples:
+ for h in range(3):
+  F=s.expand(sum((1 if j!=h else -1)*E(k) for j,k in enumerate(tr)))
+  px=s.Poly(F,X); DX=s.factor(s.discriminant(px.as_expr(),X))
+  odd=[f for f,e in s.factor_list(DX)[1] if e%2 and s.degree(f,Y)>0]
+  genusdeg=sum(s.degree(f,Y) for f in odd)
+  P=s.Poly(F,Y); A,B,C=[P.nth(j) for j in (2,1,0)]
+  Norm=s.factor((A-C)**2+B**2)
+  fl=s.factor_list(Norm)[1]
+  record={'key':key(tr,h),'discdeg':int(genusdeg),'F':str(F),'norm':str(Norm),'factors':[(str(f),int(e),int(s.degree(f,X)),int(s.degree(f,t))) for f,e in fl]}
+  out.append(record)
+  if genusdeg>=3:counts[tuple((e,int(s.degree(f,X)),int(s.degree(f,t))) for f,e in fl)]+=1
+json.dump(out,open(os.path.join(ROOT,'all414.json'),'w'),indent=2)
+print('generic330',sum(z['discdeg']>=3 for z in out),flush=True)
+for k,v in counts.items():print(v,k,flush=True)
+print('distinct residual factors')
+fac={f for z in out if z['discdeg']>=3 for f,e,dx,dt in z['factors'] if dx and f!='X**2 + 1'}
+for f in sorted(fac):print(f,flush=True)
+
+
+
+
+FILE_END analyze.py
+
+
+FILE_BEGIN exception_audit.py
+import os,json,sympy as s,collections,hashlib
+from pathlib import Path
+ROOT=Path(__file__).parent
+a,b,c,d,t,X,Y,A,B,C=s.symbols('a b c d t X Y A B C',real=True)
+records=json.load(open(ROOT/'all414.json'))
+keys=[z['key'] for z in records if z['discdeg']>=3 and any(e%2 and dx==4 for f,e,dx,dt in z['factors'])]
+out=[];support={};lead_support={};constants=set()
+for z in records:
+ if z['key'] not in keys:continue
+ F=s.sympify(z['F'],locals={str(v):v for v in (t,X,Y)})
+ f=s.cancel(a*a*c*c*F.subs({t:b/a,X:d/c})).expand();Q=f.subs(Y,s.I).expand()
+ alpha=Q.coeff(d,2);beta=Q.coeff(d,1).coeff(c,1);gamma=Q.coeff(c,2)
+ disc=s.expand(beta*beta-4*alpha*gamma);DN=s.expand(disc*s.conjugate(disc))
+ R=s.expand(s.resultant(Q.subs(c,1),s.conjugate(Q).subs(c,1),d))
+ assert DN!=0 and R!=0,z['key']
+ scalar,factors=s.factor_list(DN*R,a,b);constants.update(s.factorint(abs(int(scalar))))
+ for g,e in factors:support[str(g)]=int(s.total_degree(g))
+ LN=s.expand(alpha*s.conjugate(alpha));GN=s.expand(gamma*s.conjugate(gamma))
+ for g,e in s.factor_list(LN*GN,a,b)[1]:lead_support[str(g)]=int(s.total_degree(g))
+ out.append({'key':z['key'],'Q':str(Q),'discNorm':str(s.factor(DN,a,b)),'resultant':str(s.factor(R,a,b)),'leadingNorm':str(s.factor(LN,a,b)),'trailingNorm':str(s.factor(GN,a,b)),'bad_factors':[str(g) for g,e in factors]})
+assert len(out)==90 and constants=={2}
+print('25 support?',len(support),collections.Counter(support.values()));print('additional affine-leading support',set(lead_support)-set(support))
+json.dump({'count':90,'support':support,'scalar_primes':sorted(constants),'leading_support':lead_support,'records':out},open(ROOT/'exception_audit.json','w'),indent=2)
+# Bound coefficient factors uniformly, proving they do not vanish at physical slopes.
+for fs,degree in support.items():
+ g=s.sympify(fs,locals={'a':a,'b':b}); coef=sum(abs(v) for v in s.Poly(g,a,b).coeffs())
+ assert coef<= {1:2,2:34,4:36,6:274}[degree],(fs,coef)
+ if degree==2:
+  D=s.discriminant(g.subs(b,1),a); assert not (D>=0 and s.sqrt(D).is_rational), (fs,D)
+assert s.expand(9*(a*a-b*b)**2+4*a*a*b*b)==9*a**4-14*a*a*b*b+9*b**4
+G=25*a**6-69*a**4*b*b+171*a*a*b**4+9*b**6
+assert s.expand(25*a*a*(a*a-s.Rational(69,50)*b*b)**2+s.Rational(12339,100)*a*a*b**4+9*b**6)==G
+assert set(lead_support)-set(support)=={'a**4 + 18*a**2*b**2 + b**4'}
+assert 79+5==84 and 84*384000==32256000
+# First square is redundant locally on an actual root line, not globally.
+assert s.expand((B+2*s.I*A)**2-4*A*(C-A+s.I*B))==B*B-4*A*C
+rep=next(z for z in records if z['key']=='000.002.010:0'); F=s.sympify(rep['F'],locals={'t':t,'X':X,'Y':Y});f=s.cancel(a*a*c*c*F.subs({t:b/a,X:d/c})).expand()
+K=d*(a*d+b*c)*(b*d-a*c)*((b*b-a*a)*c+2*a*b*d)
+assert s.expand(s.discriminant(f,Y)-16*K)==0
+lines=[d,a*d+b*c,b*d-a*c,(b*b-a*a)*c+2*a*b*d]
+Ds=[s.factor(s.det(s.Matrix([[u.coeff(c),u.coeff(d)],[v.coeff(c),v.coeff(d)]]))) for i,u in enumerate(lines) for v in lines[i+1:]]
+assert Ds==[-b,a,(a-b)*(a+b),a*a+b*b,a*(a*a+b*b),-b*(a*a+b*b)]
+assert s.expand(f.coeff(Y,2)-a*a*(c*c+d*d))==0
+assert s.expand(f.coeff(Y,0)-b*b*(c*c+d*d))==0
+assert s.expand((2*a*b)**2+(a*a-b*b)**2-(a*a+b*b)**2)==0
+# A full original exceptional selector, not a code-tagged selector.
+assert collections.Counter(support.values())=={1:4,2:17,4:2,6:2}
+assert 4+17*3+2*5+2*7==79
+assert 79*384000==30336000
+assert (25*9**2+9*40**2)%73==0
+old=(9**2-3*40**2)*(3*9**2-40**2)*((9**2+40**2)**2-16*9**2*40**2);assert old%73!=0
+cert={'all90_exact_checks':'PASS','factor_count':25,'factor_degree_counts':{str(k):v for k,v in collections.Counter(support.values()).items()},'scalar_primes':[2],'affine_leading_additional_factors':sorted(set(lead_support)-set(support)),'uniform_bad_r_per_p':79,'projective_exceptional_population_upper_bound':'30336000*pi(2Q)=O(Q/log Q)','affine_full_factor_count':26,'affine_full_bad_r_per_p':84,'actual_all_original_exceptional_population_upper_bound':'32256000*pi(2Q)=O(Q/log Q)','FJ_completeness_dependency_of_this_actual_count':False,'HB_independent_fixed_cofactor_proof_used':True,'HD360_candidate_bound_recredited':False,'same_r2_local_first_discriminant_redundancy':'PASS','first_global_square_equivalent_to_third_norm':False,'four_linear_global_descent_identity':'PASS','representative_A0_and_C0_strictly_positive':True,'representative_Delta0_zero_possible_prime_norms':[1,'p','p^2'],'representative_Delta0_zero_distinct_prime_q':'IMPOSSIBLE','representative_identically_zero_f_or_real_root_zero_resultant':'IMPOSSIBLE','pairwise_determinants':[str(v) for v in Ds],'unrestricted_oQ_proved':False}
+cert['hashes']={n:hashlib.sha256((ROOT/n).read_bytes()).hexdigest() for n in ['analyze.py','all414.json','exception_audit.py','exception_audit.json']}
+json.dump(cert,open(ROOT/'certificate.json','w'),indent=2);print(json.dumps(cert,indent=2))
+
+
+FILE_END exception_audit.py
+
+
+EXPECTED_BEGIN certificate.json
+{
+  "all90_exact_checks": "PASS",
+  "factor_count": 25,
+  "factor_degree_counts": {
+    "1": 4,
+    "2": 17,
+    "4": 2,
+    "6": 2
+  },
+  "scalar_primes": [
+    2
+  ],
+  "affine_leading_additional_factors": [
+    "a**4 + 18*a**2*b**2 + b**4"
+  ],
+  "uniform_bad_r_per_p": 79,
+  "projective_exceptional_population_upper_bound": "30336000*pi(2Q)=O(Q/log Q)",
+  "affine_full_factor_count": 26,
+  "affine_full_bad_r_per_p": 84,
+  "actual_all_original_exceptional_population_upper_bound": "32256000*pi(2Q)=O(Q/log Q)",
+  "FJ_completeness_dependency_of_this_actual_count": false,
+  "HB_independent_fixed_cofactor_proof_used": true,
+  "HD360_candidate_bound_recredited": false,
+  "same_r2_local_first_discriminant_redundancy": "PASS",
+  "first_global_square_equivalent_to_third_norm": false,
+  "four_linear_global_descent_identity": "PASS",
+  "representative_A0_and_C0_strictly_positive": true,
+  "representative_Delta0_zero_possible_prime_norms": [
+    1,
+    "p",
+    "p^2"
+  ],
+  "representative_Delta0_zero_distinct_prime_q": "IMPOSSIBLE",
+  "representative_identically_zero_f_or_real_root_zero_resultant": "IMPOSSIBLE",
+  "pairwise_determinants": [
+    "-b",
+    "a",
+    "(a - b)*(a + b)",
+    "a**2 + b**2",
+    "a*(a**2 + b**2)",
+    "-b*(a**2 + b**2)"
+  ],
+  "unrestricted_oQ_proved": false,
+  "hashes": {
+    "analyze.py": "f0e220dc8e750c6c6a4cb15b4aa05c21f833c91e5e86a260b6adad98192be794",
+    "all414.json": "118f3bddd1d724c6994adf4d7431fef6220c54f686e77361ecf4b41e9c8de716",
+    "exception_audit.py": "f46a365cd7f33d42fc2a30550093329bbf63449d67dd52e9be1805e1bc24d8d6",
+    "exception_audit.json": "f3787f81a3241cfa6d5dfc886a314770efb3a826c7ad34ff1c2af8d2cfca391f"
+  }
+}
+EXPECTED_END certificate.json
+
+
+EXPECTED_BEGIN exception_audit.json
+{
+  "count": 90,
+  "support": {
+    "a - b": 1,
+    "a + b": 1,
+    "5*a**2 - 8*a*b + 5*b**2": 2,
+    "5*a**2 + 8*a*b + 5*b**2": 2,
+    "a**2 + b**2": 2,
+    "b": 1,
+    "a": 1,
+    "a**2 + 9*b**2": 2,
+    "9*a**2 + b**2": 2,
+    "a**2 - 3*b**2": 2,
+    "3*a**2 - b**2": 2,
+    "a**2 - 4*a*b + b**2": 2,
+    "a**2 + 4*a*b + b**2": 2,
+    "25*a**2 + 9*b**2": 2,
+    "9*a**2 + 25*b**2": 2,
+    "a**2 - 4*a*b + 5*b**2": 2,
+    "a**2 + 4*a*b + 5*b**2": 2,
+    "5*a**2 - 4*a*b + b**2": 2,
+    "5*a**2 + 4*a*b + b**2": 2,
+    "a**2 - 2*a*b - b**2": 2,
+    "a**2 + 2*a*b - b**2": 2,
+    "a**4 + 34*a**2*b**2 + b**4": 4,
+    "9*a**4 - 14*a**2*b**2 + 9*b**4": 4,
+    "25*a**6 - 69*a**4*b**2 + 171*a**2*b**4 + 9*b**6": 6,
+    "9*a**6 + 171*a**4*b**2 - 69*a**2*b**4 + 25*b**6": 6
+  },
+  "scalar_primes": [
+    2
+  ],
+  "leading_support": {
+    "a**2 + b**2": 2,
+    "a**4 + 34*a**2*b**2 + b**4": 4,
+    "9*a**4 - 14*a**2*b**2 + 9*b**4": 4,
+    "a**4 + 18*a**2*b**2 + b**4": 4,
+    "a**2 - 3*b**2": 2,
+    "a**2 + 9*b**2": 2,
+    "9*a**2 + b**2": 2,
+    "3*a**2 - b**2": 2
+  },
+  "records": [
+    {
+      "key": "000.002.010:0",
+      "Q": "-a**2*c**2 - 4*I*a**2*c*d - a**2*d**2 - 2*I*a*b*c**2 + 6*I*a*b*d**2 + b**2*c**2 + 4*I*b**2*c*d + b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**2*(5*a**2 - 8*a*b + 5*b**2)*(5*a**2 + 8*a*b + 5*b**2)",
+      "resultant": "-64*(a - b)**2*(a + b)**2*(a**2 + b**2)**2",
+      "leadingNorm": "a**4 + 34*a**2*b**2 + b**4",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a - b",
+        "a + b",
+        "5*a**2 - 8*a*b + 5*b**2",
+        "5*a**2 + 8*a*b + 5*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.002.010:1",
+      "Q": "-a**2*c**2 + 4*I*a**2*c*d - a**2*d**2 + 6*I*a*b*c**2 - 2*I*a*b*d**2 + b**2*c**2 - 4*I*b**2*c*d + b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**2*(5*a**2 - 8*a*b + 5*b**2)*(5*a**2 + 8*a*b + 5*b**2)",
+      "resultant": "-64*(a - b)**2*(a + b)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "a**4 + 34*a**2*b**2 + b**4",
+      "bad_factors": [
+        "a - b",
+        "a + b",
+        "5*a**2 - 8*a*b + 5*b**2",
+        "5*a**2 + 8*a*b + 5*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.002.010:2",
+      "Q": "-a**2*c**2 + 3*a**2*d**2 - 2*I*a*b*c**2 + 8*a*b*c*d - 2*I*a*b*d**2 + b**2*c**2 - 3*b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**2*(a**2 + 9*b**2)*(9*a**2 + b**2)",
+      "resultant": "-256*a**2*b**2*(a**2 + b**2)**2",
+      "leadingNorm": "9*a**4 - 14*a**2*b**2 + 9*b**4",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "b",
+        "a",
+        "a**2 + 9*b**2",
+        "9*a**2 + b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.002.012:0",
+      "Q": "-a**2*c**2 - 4*I*a**2*c*d - a**2*d**2 - 6*I*a*b*c**2 + 2*I*a*b*d**2 + b**2*c**2 + 4*I*b**2*c*d + b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**2*(5*a**2 - 8*a*b + 5*b**2)*(5*a**2 + 8*a*b + 5*b**2)",
+      "resultant": "-64*(a - b)**2*(a + b)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "a**4 + 34*a**2*b**2 + b**4",
+      "bad_factors": [
+        "a - b",
+        "a + b",
+        "5*a**2 - 8*a*b + 5*b**2",
+        "5*a**2 + 8*a*b + 5*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.002.012:1",
+      "Q": "-a**2*c**2 + 4*I*a**2*c*d - a**2*d**2 + 2*I*a*b*c**2 - 6*I*a*b*d**2 + b**2*c**2 - 4*I*b**2*c*d + b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**2*(5*a**2 - 8*a*b + 5*b**2)*(5*a**2 + 8*a*b + 5*b**2)",
+      "resultant": "-64*(a - b)**2*(a + b)**2*(a**2 + b**2)**2",
+      "leadingNorm": "a**4 + 34*a**2*b**2 + b**4",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a - b",
+        "a + b",
+        "5*a**2 - 8*a*b + 5*b**2",
+        "5*a**2 + 8*a*b + 5*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.002.012:2",
+      "Q": "-a**2*c**2 + 3*a**2*d**2 + 2*I*a*b*c**2 + 8*a*b*c*d + 2*I*a*b*d**2 + b**2*c**2 - 3*b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**2*(a**2 + 9*b**2)*(9*a**2 + b**2)",
+      "resultant": "-256*a**2*b**2*(a**2 + b**2)**2",
+      "leadingNorm": "9*a**4 - 14*a**2*b**2 + 9*b**4",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "b",
+        "a",
+        "a**2 + 9*b**2",
+        "9*a**2 + b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.002.020:0",
+      "Q": "-a**2*c**2 - 6*I*a**2*c*d + a**2*d**2 - 2*I*a*b*c**2 - 4*a*b*c*d + 2*I*a*b*d**2 + b**2*c**2 + 6*I*b**2*c*d - b**2*d**2",
+      "discNorm": "1024*(a - b)**2*(a + b)**2*(a**2 + b**2)**2",
+      "resultant": "16*(a**2 - 3*b**2)**2*(3*a**2 - b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a - b",
+        "a + b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2",
+        "3*a**2 - b**2"
+      ]
+    },
+    {
+      "key": "000.002.020:1",
+      "Q": "-a**2*c**2 + 2*I*a**2*c*d + a**2*d**2 + 6*I*a*b*c**2 - 4*a*b*c*d - 6*I*a*b*d**2 + b**2*c**2 - 2*I*b**2*c*d - b**2*d**2",
+      "discNorm": "4096*a**2*b**2*(a**2 + b**2)**2",
+      "resultant": "16*(a**2 - 4*a*b + b**2)**2*(a**2 + 4*a*b + b**2)**2",
+      "leadingNorm": "a**4 + 34*a**2*b**2 + b**4",
+      "trailingNorm": "a**4 + 34*a**2*b**2 + b**4",
+      "bad_factors": [
+        "b",
+        "a",
+        "a**2 + b**2",
+        "a**2 - 4*a*b + b**2",
+        "a**2 + 4*a*b + b**2"
+      ]
+    },
+    {
+      "key": "000.002.020:2",
+      "Q": "-a**2*c**2 + 2*I*a**2*c*d + a**2*d**2 - 2*I*a*b*c**2 + 12*a*b*c*d + 2*I*a*b*d**2 + b**2*c**2 - 2*I*b**2*c*d - b**2*d**2",
+      "discNorm": "4096*a**2*b**2*(a**2 + b**2)**2",
+      "resultant": "16*(a**2 - 4*a*b + b**2)**2*(a**2 + 4*a*b + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "b",
+        "a",
+        "a**2 + b**2",
+        "a**2 - 4*a*b + b**2",
+        "a**2 + 4*a*b + b**2"
+      ]
+    },
+    {
+      "key": "000.002.022:0",
+      "Q": "-a**2*c**2 - 2*I*a**2*c*d + a**2*d**2 - 6*I*a*b*c**2 - 4*a*b*c*d + 6*I*a*b*d**2 + b**2*c**2 + 2*I*b**2*c*d - b**2*d**2",
+      "discNorm": "4096*a**2*b**2*(a**2 + b**2)**2",
+      "resultant": "16*(a**2 - 4*a*b + b**2)**2*(a**2 + 4*a*b + b**2)**2",
+      "leadingNorm": "a**4 + 34*a**2*b**2 + b**4",
+      "trailingNorm": "a**4 + 34*a**2*b**2 + b**4",
+      "bad_factors": [
+        "b",
+        "a",
+        "a**2 + b**2",
+        "a**2 - 4*a*b + b**2",
+        "a**2 + 4*a*b + b**2"
+      ]
+    },
+    {
+      "key": "000.002.022:1",
+      "Q": "-a**2*c**2 + 6*I*a**2*c*d + a**2*d**2 + 2*I*a*b*c**2 - 4*a*b*c*d - 2*I*a*b*d**2 + b**2*c**2 - 6*I*b**2*c*d - b**2*d**2",
+      "discNorm": "1024*(a - b)**2*(a + b)**2*(a**2 + b**2)**2",
+      "resultant": "16*(a**2 - 3*b**2)**2*(3*a**2 - b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a - b",
+        "a + b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2",
+        "3*a**2 - b**2"
+      ]
+    },
+    {
+      "key": "000.002.022:2",
+      "Q": "-a**2*c**2 - 2*I*a**2*c*d + a**2*d**2 + 2*I*a*b*c**2 + 12*a*b*c*d - 2*I*a*b*d**2 + b**2*c**2 + 2*I*b**2*c*d - b**2*d**2",
+      "discNorm": "4096*a**2*b**2*(a**2 + b**2)**2",
+      "resultant": "16*(a**2 - 4*a*b + b**2)**2*(a**2 + 4*a*b + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "b",
+        "a",
+        "a**2 + b**2",
+        "a**2 - 4*a*b + b**2",
+        "a**2 + 4*a*b + b**2"
+      ]
+    },
+    {
+      "key": "000.002.100:0",
+      "Q": "-a**2*c**2 - 2*I*a**2*c*d + a**2*d**2 - 4*I*a*b*c**2 + 4*I*a*b*d**2 - b**2*c**2 + 6*I*b**2*c*d + b**2*d**2",
+      "discNorm": "1024*b**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 - 3*b**2)**2*(a**2 + b**2)**2",
+      "leadingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.002.100:1",
+      "Q": "-a**2*c**2 + 6*I*a**2*c*d + a**2*d**2 + 4*I*a*b*c**2 - 4*I*a*b*d**2 - b**2*c**2 - 2*I*b**2*c*d + b**2*d**2",
+      "discNorm": "1024*a**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 + b**2)**2*(3*a**2 - b**2)**2",
+      "leadingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "a",
+        "3*a**2 - b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.002.100:2",
+      "Q": "-a**2*c**2 - 2*I*a**2*c*d + a**2*d**2 + 8*a*b*c*d + 3*b**2*c**2 - 2*I*b**2*c*d - 3*b**2*d**2",
+      "discNorm": "1024*b**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 - 3*b**2)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 - 3*b**2)**2",
+      "trailingNorm": "(a**2 - 3*b**2)**2",
+      "bad_factors": [
+        "b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.002.102:0",
+      "Q": "-a**2*c**2 - 6*I*a**2*c*d + a**2*d**2 - 4*I*a*b*c**2 + 4*I*a*b*d**2 - b**2*c**2 + 2*I*b**2*c*d + b**2*d**2",
+      "discNorm": "1024*a**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 + b**2)**2*(3*a**2 - b**2)**2",
+      "leadingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "a",
+        "3*a**2 - b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.002.102:1",
+      "Q": "-a**2*c**2 + 2*I*a**2*c*d + a**2*d**2 + 4*I*a*b*c**2 - 4*I*a*b*d**2 - b**2*c**2 - 6*I*b**2*c*d + b**2*d**2",
+      "discNorm": "1024*b**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 - 3*b**2)**2*(a**2 + b**2)**2",
+      "leadingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.002.102:2",
+      "Q": "-a**2*c**2 + 2*I*a**2*c*d + a**2*d**2 + 8*a*b*c*d + 3*b**2*c**2 + 2*I*b**2*c*d - 3*b**2*d**2",
+      "discNorm": "1024*b**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 - 3*b**2)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 - 3*b**2)**2",
+      "trailingNorm": "(a**2 - 3*b**2)**2",
+      "bad_factors": [
+        "b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.010.102:0",
+      "Q": "-a**2*c**2 - 4*I*a**2*c*d - a**2*d**2 - 4*a*b*c*d + 4*I*a*b*d**2 - b**2*c**2 + 3*b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**3*(25*a**2 + 9*b**2)",
+      "resultant": "-64*a**2*(a**2 + b**2)**3",
+      "leadingNorm": "(a**2 + b**2)*(a**2 + 9*b**2)",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a",
+        "25*a**2 + 9*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.010.102:1",
+      "Q": "-a**2*c**2 + 3*a**2*d**2 + 4*a*b*c*d - 4*I*a*b*d**2 - b**2*c**2 - 4*I*b**2*c*d - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**3*(9*a**2 + 25*b**2)",
+      "resultant": "-64*b**2*(a**2 + b**2)**3",
+      "leadingNorm": "(a**2 + b**2)*(9*a**2 + b**2)",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "b",
+        "9*a**2 + 25*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.010.102:2",
+      "Q": "-a**2*c**2 + 4*I*a**2*c*d - a**2*d**2 + 4*I*a*b*c**2 + 4*a*b*c*d + 3*b**2*c**2 - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**3*(25*a**2 + 9*b**2)",
+      "resultant": "-64*a**2*(a**2 + b**2)**3",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)*(a**2 + 9*b**2)",
+      "bad_factors": [
+        "a",
+        "25*a**2 + 9*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.012.020:0",
+      "Q": "-a**2*c**2 - 4*I*a**2*c*d - a**2*d**2 - 2*I*a*b*c**2 - 8*a*b*c*d - 2*I*a*b*d**2 + b**2*c**2 + 4*I*b**2*c*d + b**2*d**2",
+      "discNorm": "16*(a**2 - 4*a*b + 5*b**2)*(a**2 + 4*a*b + 5*b**2)*(5*a**2 - 4*a*b + b**2)*(5*a**2 + 4*a*b + b**2)",
+      "resultant": "-64*(a**2 - 2*a*b - b**2)**2*(a**2 + 2*a*b - b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a**2 - 4*a*b + 5*b**2",
+        "a**2 + 4*a*b + 5*b**2",
+        "5*a**2 - 4*a*b + b**2",
+        "5*a**2 + 4*a*b + b**2",
+        "a**2 - 2*a*b - b**2",
+        "a**2 + 2*a*b - b**2"
+      ]
+    },
+    {
+      "key": "000.012.020:1",
+      "Q": "-a**2*c**2 + 3*a**2*d**2 + 6*I*a*b*c**2 - 2*I*a*b*d**2 + b**2*c**2 - 3*b**2*d**2",
+      "discNorm": "16*(a**4 + 34*a**2*b**2 + b**4)*(9*a**4 - 14*a**2*b**2 + 9*b**4)",
+      "resultant": "-1024*a**2*b**2*(a - b)**2*(a + b)**2",
+      "leadingNorm": "9*a**4 - 14*a**2*b**2 + 9*b**4",
+      "trailingNorm": "a**4 + 34*a**2*b**2 + b**4",
+      "bad_factors": [
+        "b",
+        "a",
+        "a - b",
+        "a + b",
+        "a**4 + 34*a**2*b**2 + b**4",
+        "9*a**4 - 14*a**2*b**2 + 9*b**4"
+      ]
+    },
+    {
+      "key": "000.012.020:2",
+      "Q": "-a**2*c**2 + 4*I*a**2*c*d - a**2*d**2 - 2*I*a*b*c**2 + 8*a*b*c*d - 2*I*a*b*d**2 + b**2*c**2 - 4*I*b**2*c*d + b**2*d**2",
+      "discNorm": "16*(a**2 - 4*a*b + 5*b**2)*(a**2 + 4*a*b + 5*b**2)*(5*a**2 - 4*a*b + b**2)*(5*a**2 + 4*a*b + b**2)",
+      "resultant": "-64*(a**2 - 2*a*b - b**2)**2*(a**2 + 2*a*b - b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a**2 - 4*a*b + 5*b**2",
+        "a**2 + 4*a*b + 5*b**2",
+        "5*a**2 - 4*a*b + b**2",
+        "5*a**2 + 4*a*b + b**2",
+        "a**2 - 2*a*b - b**2",
+        "a**2 + 2*a*b - b**2"
+      ]
+    },
+    {
+      "key": "000.012.102:0",
+      "Q": "-a**2*c**2 - 4*I*a**2*c*d - a**2*d**2 - 4*I*a*b*c**2 - 4*a*b*c*d - b**2*c**2 + 3*b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)*(25*a**6 - 69*a**4*b**2 + 171*a**2*b**4 + 9*b**6)",
+      "resultant": "-64*a**2*(a**2 - 3*b**2)**2*(a**2 + b**2)",
+      "leadingNorm": "(a**2 - 3*b**2)**2",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "a",
+        "a**2 - 3*b**2",
+        "a**2 + b**2",
+        "25*a**6 - 69*a**4*b**2 + 171*a**2*b**4 + 9*b**6"
+      ]
+    },
+    {
+      "key": "000.012.102:1",
+      "Q": "-a**2*c**2 + 3*a**2*d**2 + 4*I*a*b*c**2 + 4*a*b*c*d - b**2*c**2 - 4*I*b**2*c*d - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)*(9*a**6 + 171*a**4*b**2 - 69*a**2*b**4 + 25*b**6)",
+      "resultant": "-64*b**2*(a**2 + b**2)*(3*a**2 - b**2)**2",
+      "leadingNorm": "(3*a**2 - b**2)**2",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "b",
+        "a**2 + b**2",
+        "3*a**2 - b**2",
+        "9*a**6 + 171*a**4*b**2 - 69*a**2*b**4 + 25*b**6"
+      ]
+    },
+    {
+      "key": "000.012.102:2",
+      "Q": "-a**2*c**2 + 4*I*a**2*c*d - a**2*d**2 + 4*a*b*c*d - 4*I*a*b*d**2 + 3*b**2*c**2 - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)*(25*a**6 - 69*a**4*b**2 + 171*a**2*b**4 + 9*b**6)",
+      "resultant": "-64*a**2*(a**2 - 3*b**2)**2*(a**2 + b**2)",
+      "leadingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "trailingNorm": "(a**2 - 3*b**2)**2",
+      "bad_factors": [
+        "a",
+        "a**2 - 3*b**2",
+        "a**2 + b**2",
+        "25*a**6 - 69*a**4*b**2 + 171*a**2*b**4 + 9*b**6"
+      ]
+    },
+    {
+      "key": "000.020.022:0",
+      "Q": "-a**2*c**2 - 2*I*a**2*c*d + a**2*d**2 - 2*I*a*b*c**2 - 12*a*b*c*d + 2*I*a*b*d**2 + b**2*c**2 + 2*I*b**2*c*d - b**2*d**2",
+      "discNorm": "4096*a**2*b**2*(a**2 + b**2)**2",
+      "resultant": "16*(a**2 - 4*a*b + b**2)**2*(a**2 + 4*a*b + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "b",
+        "a",
+        "a**2 + b**2",
+        "a**2 - 4*a*b + b**2",
+        "a**2 + 4*a*b + b**2"
+      ]
+    },
+    {
+      "key": "000.020.022:1",
+      "Q": "-a**2*c**2 + 6*I*a**2*c*d + a**2*d**2 - 2*I*a*b*c**2 + 4*a*b*c*d + 2*I*a*b*d**2 + b**2*c**2 - 6*I*b**2*c*d - b**2*d**2",
+      "discNorm": "1024*(a - b)**2*(a + b)**2*(a**2 + b**2)**2",
+      "resultant": "16*(a**2 - 3*b**2)**2*(3*a**2 - b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a - b",
+        "a + b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2",
+        "3*a**2 - b**2"
+      ]
+    },
+    {
+      "key": "000.020.022:2",
+      "Q": "-a**2*c**2 - 2*I*a**2*c*d + a**2*d**2 + 6*I*a*b*c**2 + 4*a*b*c*d - 6*I*a*b*d**2 + b**2*c**2 + 2*I*b**2*c*d - b**2*d**2",
+      "discNorm": "4096*a**2*b**2*(a**2 + b**2)**2",
+      "resultant": "16*(a**2 - 4*a*b + b**2)**2*(a**2 + 4*a*b + b**2)**2",
+      "leadingNorm": "a**4 + 34*a**2*b**2 + b**4",
+      "trailingNorm": "a**4 + 34*a**2*b**2 + b**4",
+      "bad_factors": [
+        "b",
+        "a",
+        "a**2 + b**2",
+        "a**2 - 4*a*b + b**2",
+        "a**2 + 4*a*b + b**2"
+      ]
+    },
+    {
+      "key": "000.020.100:0",
+      "Q": "-a**2*c**2 - 2*I*a**2*c*d + a**2*d**2 - 8*a*b*c*d - b**2*c**2 + 6*I*b**2*c*d + b**2*d**2",
+      "discNorm": "1024*b**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 - 3*b**2)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.020.100:1",
+      "Q": "-a**2*c**2 + 6*I*a**2*c*d + a**2*d**2 + 8*a*b*c*d - b**2*c**2 - 2*I*b**2*c*d + b**2*d**2",
+      "discNorm": "1024*a**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 + b**2)**2*(3*a**2 - b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a",
+        "3*a**2 - b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.020.100:2",
+      "Q": "-a**2*c**2 - 2*I*a**2*c*d + a**2*d**2 + 4*I*a*b*c**2 - 4*I*a*b*d**2 + 3*b**2*c**2 - 2*I*b**2*c*d - 3*b**2*d**2",
+      "discNorm": "1024*b**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 - 3*b**2)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)*(a**2 + 9*b**2)",
+      "trailingNorm": "(a**2 + b**2)*(a**2 + 9*b**2)",
+      "bad_factors": [
+        "b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.020.102:0",
+      "Q": "-a**2*c**2 - 6*I*a**2*c*d + a**2*d**2 - 8*a*b*c*d - b**2*c**2 + 2*I*b**2*c*d + b**2*d**2",
+      "discNorm": "1024*a**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 + b**2)**2*(3*a**2 - b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a",
+        "3*a**2 - b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.020.102:1",
+      "Q": "-a**2*c**2 + 2*I*a**2*c*d + a**2*d**2 + 8*a*b*c*d - b**2*c**2 - 6*I*b**2*c*d + b**2*d**2",
+      "discNorm": "1024*b**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 - 3*b**2)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.020.102:2",
+      "Q": "-a**2*c**2 + 2*I*a**2*c*d + a**2*d**2 + 4*I*a*b*c**2 - 4*I*a*b*d**2 + 3*b**2*c**2 + 2*I*b**2*c*d - 3*b**2*d**2",
+      "discNorm": "1024*b**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 - 3*b**2)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)*(a**2 + 9*b**2)",
+      "trailingNorm": "(a**2 + b**2)*(a**2 + 9*b**2)",
+      "bad_factors": [
+        "b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.020.110:0",
+      "Q": "-a**2*c**2 - 4*I*a**2*c*d - a**2*d**2 - 8*a*b*c*d - b**2*c**2 + 4*I*b**2*c*d - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**2*(5*a**2 - 8*a*b + 5*b**2)*(5*a**2 + 8*a*b + 5*b**2)",
+      "resultant": "-64*(a - b)**2*(a + b)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a - b",
+        "a + b",
+        "5*a**2 - 8*a*b + 5*b**2",
+        "5*a**2 + 8*a*b + 5*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.020.110:1",
+      "Q": "-a**2*c**2 + 4*I*a**2*c*d - a**2*d**2 + 8*a*b*c*d - b**2*c**2 - 4*I*b**2*c*d - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**2*(5*a**2 - 8*a*b + 5*b**2)*(5*a**2 + 8*a*b + 5*b**2)",
+      "resultant": "-64*(a - b)**2*(a + b)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a - b",
+        "a + b",
+        "5*a**2 - 8*a*b + 5*b**2",
+        "5*a**2 + 8*a*b + 5*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.020.110:2",
+      "Q": "-a**2*c**2 + 3*a**2*d**2 + 4*I*a*b*c**2 - 4*I*a*b*d**2 + 3*b**2*c**2 - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**2*(a**2 + 9*b**2)*(9*a**2 + b**2)",
+      "resultant": "-256*a**2*b**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)*(9*a**2 + b**2)",
+      "trailingNorm": "(a**2 + b**2)*(a**2 + 9*b**2)",
+      "bad_factors": [
+        "b",
+        "a",
+        "a**2 + 9*b**2",
+        "9*a**2 + b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "000.022.102:0",
+      "Q": "-a**2*c**2 - 2*I*a**2*c*d + a**2*d**2 - 4*I*a*b*c**2 - 8*a*b*c*d + 4*I*a*b*d**2 - b**2*c**2 - 2*I*b**2*c*d + b**2*d**2",
+      "discNorm": "4096*a**2*b**2*(a**2 + b**2)**2",
+      "resultant": "16*(a**2 - 4*a*b + b**2)**2*(a**2 + 4*a*b + b**2)**2",
+      "leadingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "b",
+        "a",
+        "a**2 + b**2",
+        "a**2 - 4*a*b + b**2",
+        "a**2 + 4*a*b + b**2"
+      ]
+    },
+    {
+      "key": "000.022.102:1",
+      "Q": "-a**2*c**2 - 2*I*a**2*c*d + a**2*d**2 + 4*I*a*b*c**2 + 8*a*b*c*d - 4*I*a*b*d**2 - b**2*c**2 - 2*I*b**2*c*d + b**2*d**2",
+      "discNorm": "4096*a**2*b**2*(a**2 + b**2)**2",
+      "resultant": "16*(a**2 - 4*a*b + b**2)**2*(a**2 + 4*a*b + b**2)**2",
+      "leadingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "b",
+        "a",
+        "a**2 + b**2",
+        "a**2 - 4*a*b + b**2",
+        "a**2 + 4*a*b + b**2"
+      ]
+    },
+    {
+      "key": "000.022.102:2",
+      "Q": "-a**2*c**2 + 6*I*a**2*c*d + a**2*d**2 + 3*b**2*c**2 - 2*I*b**2*c*d - 3*b**2*d**2",
+      "discNorm": "1024*(a - b)**2*(a + b)**2*(a**2 + b**2)**2",
+      "resultant": "16*(a**2 - 3*b**2)**2*(3*a**2 - b**2)**2",
+      "leadingNorm": "(a**2 - 3*b**2)**2",
+      "trailingNorm": "(a**2 - 3*b**2)**2",
+      "bad_factors": [
+        "a - b",
+        "a + b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2",
+        "3*a**2 - b**2"
+      ]
+    },
+    {
+      "key": "002.010.022:0",
+      "Q": "-a**2*c**2 + 4*I*a**2*c*d - a**2*d**2 + 2*I*a*b*c**2 - 8*a*b*c*d + 2*I*a*b*d**2 + b**2*c**2 - 4*I*b**2*c*d + b**2*d**2",
+      "discNorm": "16*(a**2 - 4*a*b + 5*b**2)*(a**2 + 4*a*b + 5*b**2)*(5*a**2 - 4*a*b + b**2)*(5*a**2 + 4*a*b + b**2)",
+      "resultant": "-64*(a**2 - 2*a*b - b**2)**2*(a**2 + 2*a*b - b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a**2 - 4*a*b + 5*b**2",
+        "a**2 + 4*a*b + 5*b**2",
+        "5*a**2 - 4*a*b + b**2",
+        "5*a**2 + 4*a*b + b**2",
+        "a**2 - 2*a*b - b**2",
+        "a**2 + 2*a*b - b**2"
+      ]
+    },
+    {
+      "key": "002.010.022:1",
+      "Q": "-a**2*c**2 + 3*a**2*d**2 - 6*I*a*b*c**2 + 2*I*a*b*d**2 + b**2*c**2 - 3*b**2*d**2",
+      "discNorm": "16*(a**4 + 34*a**2*b**2 + b**4)*(9*a**4 - 14*a**2*b**2 + 9*b**4)",
+      "resultant": "-1024*a**2*b**2*(a - b)**2*(a + b)**2",
+      "leadingNorm": "9*a**4 - 14*a**2*b**2 + 9*b**4",
+      "trailingNorm": "a**4 + 34*a**2*b**2 + b**4",
+      "bad_factors": [
+        "b",
+        "a",
+        "a - b",
+        "a + b",
+        "a**4 + 34*a**2*b**2 + b**4",
+        "9*a**4 - 14*a**2*b**2 + 9*b**4"
+      ]
+    },
+    {
+      "key": "002.010.022:2",
+      "Q": "-a**2*c**2 - 4*I*a**2*c*d - a**2*d**2 + 2*I*a*b*c**2 + 8*a*b*c*d + 2*I*a*b*d**2 + b**2*c**2 + 4*I*b**2*c*d + b**2*d**2",
+      "discNorm": "16*(a**2 - 4*a*b + 5*b**2)*(a**2 + 4*a*b + 5*b**2)*(5*a**2 - 4*a*b + b**2)*(5*a**2 + 4*a*b + b**2)",
+      "resultant": "-64*(a**2 - 2*a*b - b**2)**2*(a**2 + 2*a*b - b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a**2 - 4*a*b + 5*b**2",
+        "a**2 + 4*a*b + 5*b**2",
+        "5*a**2 - 4*a*b + b**2",
+        "5*a**2 + 4*a*b + b**2",
+        "a**2 - 2*a*b - b**2",
+        "a**2 + 2*a*b - b**2"
+      ]
+    },
+    {
+      "key": "002.010.100:0",
+      "Q": "-a**2*c**2 + 4*I*a**2*c*d - a**2*d**2 + 4*I*a*b*c**2 - 4*a*b*c*d - b**2*c**2 + 3*b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)*(25*a**6 - 69*a**4*b**2 + 171*a**2*b**4 + 9*b**6)",
+      "resultant": "-64*a**2*(a**2 - 3*b**2)**2*(a**2 + b**2)",
+      "leadingNorm": "(a**2 - 3*b**2)**2",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "a",
+        "a**2 - 3*b**2",
+        "a**2 + b**2",
+        "25*a**6 - 69*a**4*b**2 + 171*a**2*b**4 + 9*b**6"
+      ]
+    },
+    {
+      "key": "002.010.100:1",
+      "Q": "-a**2*c**2 + 3*a**2*d**2 - 4*I*a*b*c**2 + 4*a*b*c*d - b**2*c**2 + 4*I*b**2*c*d - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)*(9*a**6 + 171*a**4*b**2 - 69*a**2*b**4 + 25*b**6)",
+      "resultant": "-64*b**2*(a**2 + b**2)*(3*a**2 - b**2)**2",
+      "leadingNorm": "(3*a**2 - b**2)**2",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "b",
+        "a**2 + b**2",
+        "3*a**2 - b**2",
+        "9*a**6 + 171*a**4*b**2 - 69*a**2*b**4 + 25*b**6"
+      ]
+    },
+    {
+      "key": "002.010.100:2",
+      "Q": "-a**2*c**2 - 4*I*a**2*c*d - a**2*d**2 + 4*a*b*c*d + 4*I*a*b*d**2 + 3*b**2*c**2 - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)*(25*a**6 - 69*a**4*b**2 + 171*a**2*b**4 + 9*b**6)",
+      "resultant": "-64*a**2*(a**2 - 3*b**2)**2*(a**2 + b**2)",
+      "leadingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "trailingNorm": "(a**2 - 3*b**2)**2",
+      "bad_factors": [
+        "a",
+        "a**2 - 3*b**2",
+        "a**2 + b**2",
+        "25*a**6 - 69*a**4*b**2 + 171*a**2*b**4 + 9*b**6"
+      ]
+    },
+    {
+      "key": "002.012.100:0",
+      "Q": "-a**2*c**2 + 4*I*a**2*c*d - a**2*d**2 - 4*a*b*c*d - 4*I*a*b*d**2 - b**2*c**2 + 3*b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**3*(25*a**2 + 9*b**2)",
+      "resultant": "-64*a**2*(a**2 + b**2)**3",
+      "leadingNorm": "(a**2 + b**2)*(a**2 + 9*b**2)",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a",
+        "25*a**2 + 9*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "002.012.100:1",
+      "Q": "-a**2*c**2 + 3*a**2*d**2 + 4*a*b*c*d + 4*I*a*b*d**2 - b**2*c**2 + 4*I*b**2*c*d - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**3*(9*a**2 + 25*b**2)",
+      "resultant": "-64*b**2*(a**2 + b**2)**3",
+      "leadingNorm": "(a**2 + b**2)*(9*a**2 + b**2)",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "b",
+        "9*a**2 + 25*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "002.012.100:2",
+      "Q": "-a**2*c**2 - 4*I*a**2*c*d - a**2*d**2 - 4*I*a*b*c**2 + 4*a*b*c*d + 3*b**2*c**2 - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**3*(25*a**2 + 9*b**2)",
+      "resultant": "-64*a**2*(a**2 + b**2)**3",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)*(a**2 + 9*b**2)",
+      "bad_factors": [
+        "a",
+        "25*a**2 + 9*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "002.020.022:0",
+      "Q": "-a**2*c**2 + 2*I*a**2*c*d + a**2*d**2 + 2*I*a*b*c**2 - 12*a*b*c*d - 2*I*a*b*d**2 + b**2*c**2 - 2*I*b**2*c*d - b**2*d**2",
+      "discNorm": "4096*a**2*b**2*(a**2 + b**2)**2",
+      "resultant": "16*(a**2 - 4*a*b + b**2)**2*(a**2 + 4*a*b + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "b",
+        "a",
+        "a**2 + b**2",
+        "a**2 - 4*a*b + b**2",
+        "a**2 + 4*a*b + b**2"
+      ]
+    },
+    {
+      "key": "002.020.022:1",
+      "Q": "-a**2*c**2 + 2*I*a**2*c*d + a**2*d**2 - 6*I*a*b*c**2 + 4*a*b*c*d + 6*I*a*b*d**2 + b**2*c**2 - 2*I*b**2*c*d - b**2*d**2",
+      "discNorm": "4096*a**2*b**2*(a**2 + b**2)**2",
+      "resultant": "16*(a**2 - 4*a*b + b**2)**2*(a**2 + 4*a*b + b**2)**2",
+      "leadingNorm": "a**4 + 34*a**2*b**2 + b**4",
+      "trailingNorm": "a**4 + 34*a**2*b**2 + b**4",
+      "bad_factors": [
+        "b",
+        "a",
+        "a**2 + b**2",
+        "a**2 - 4*a*b + b**2",
+        "a**2 + 4*a*b + b**2"
+      ]
+    },
+    {
+      "key": "002.020.022:2",
+      "Q": "-a**2*c**2 - 6*I*a**2*c*d + a**2*d**2 + 2*I*a*b*c**2 + 4*a*b*c*d - 2*I*a*b*d**2 + b**2*c**2 + 6*I*b**2*c*d - b**2*d**2",
+      "discNorm": "1024*(a - b)**2*(a + b)**2*(a**2 + b**2)**2",
+      "resultant": "16*(a**2 - 3*b**2)**2*(3*a**2 - b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a - b",
+        "a + b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2",
+        "3*a**2 - b**2"
+      ]
+    },
+    {
+      "key": "002.020.100:0",
+      "Q": "-a**2*c**2 + 2*I*a**2*c*d + a**2*d**2 + 4*I*a*b*c**2 - 8*a*b*c*d - 4*I*a*b*d**2 - b**2*c**2 + 2*I*b**2*c*d + b**2*d**2",
+      "discNorm": "4096*a**2*b**2*(a**2 + b**2)**2",
+      "resultant": "16*(a**2 - 4*a*b + b**2)**2*(a**2 + 4*a*b + b**2)**2",
+      "leadingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "b",
+        "a",
+        "a**2 + b**2",
+        "a**2 - 4*a*b + b**2",
+        "a**2 + 4*a*b + b**2"
+      ]
+    },
+    {
+      "key": "002.020.100:1",
+      "Q": "-a**2*c**2 + 2*I*a**2*c*d + a**2*d**2 - 4*I*a*b*c**2 + 8*a*b*c*d + 4*I*a*b*d**2 - b**2*c**2 + 2*I*b**2*c*d + b**2*d**2",
+      "discNorm": "4096*a**2*b**2*(a**2 + b**2)**2",
+      "resultant": "16*(a**2 - 4*a*b + b**2)**2*(a**2 + 4*a*b + b**2)**2",
+      "leadingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "b",
+        "a",
+        "a**2 + b**2",
+        "a**2 - 4*a*b + b**2",
+        "a**2 + 4*a*b + b**2"
+      ]
+    },
+    {
+      "key": "002.020.100:2",
+      "Q": "-a**2*c**2 - 6*I*a**2*c*d + a**2*d**2 + 3*b**2*c**2 + 2*I*b**2*c*d - 3*b**2*d**2",
+      "discNorm": "1024*(a - b)**2*(a + b)**2*(a**2 + b**2)**2",
+      "resultant": "16*(a**2 - 3*b**2)**2*(3*a**2 - b**2)**2",
+      "leadingNorm": "(a**2 - 3*b**2)**2",
+      "trailingNorm": "(a**2 - 3*b**2)**2",
+      "bad_factors": [
+        "a - b",
+        "a + b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2",
+        "3*a**2 - b**2"
+      ]
+    },
+    {
+      "key": "002.022.100:0",
+      "Q": "-a**2*c**2 + 6*I*a**2*c*d + a**2*d**2 - 8*a*b*c*d - b**2*c**2 - 2*I*b**2*c*d + b**2*d**2",
+      "discNorm": "1024*a**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 + b**2)**2*(3*a**2 - b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a",
+        "3*a**2 - b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "002.022.100:1",
+      "Q": "-a**2*c**2 - 2*I*a**2*c*d + a**2*d**2 + 8*a*b*c*d - b**2*c**2 + 6*I*b**2*c*d + b**2*d**2",
+      "discNorm": "1024*b**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 - 3*b**2)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "002.022.100:2",
+      "Q": "-a**2*c**2 - 2*I*a**2*c*d + a**2*d**2 - 4*I*a*b*c**2 + 4*I*a*b*d**2 + 3*b**2*c**2 - 2*I*b**2*c*d - 3*b**2*d**2",
+      "discNorm": "1024*b**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 - 3*b**2)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)*(a**2 + 9*b**2)",
+      "trailingNorm": "(a**2 + b**2)*(a**2 + 9*b**2)",
+      "bad_factors": [
+        "b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "002.022.102:0",
+      "Q": "-a**2*c**2 + 2*I*a**2*c*d + a**2*d**2 - 8*a*b*c*d - b**2*c**2 - 6*I*b**2*c*d + b**2*d**2",
+      "discNorm": "1024*b**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 - 3*b**2)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "002.022.102:1",
+      "Q": "-a**2*c**2 - 6*I*a**2*c*d + a**2*d**2 + 8*a*b*c*d - b**2*c**2 + 2*I*b**2*c*d + b**2*d**2",
+      "discNorm": "1024*a**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 + b**2)**2*(3*a**2 - b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a",
+        "3*a**2 - b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "002.022.102:2",
+      "Q": "-a**2*c**2 + 2*I*a**2*c*d + a**2*d**2 - 4*I*a*b*c**2 + 4*I*a*b*d**2 + 3*b**2*c**2 + 2*I*b**2*c*d - 3*b**2*d**2",
+      "discNorm": "1024*b**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 - 3*b**2)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)*(a**2 + 9*b**2)",
+      "trailingNorm": "(a**2 + b**2)*(a**2 + 9*b**2)",
+      "bad_factors": [
+        "b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "002.022.110:0",
+      "Q": "-a**2*c**2 + 4*I*a**2*c*d - a**2*d**2 - 8*a*b*c*d - b**2*c**2 - 4*I*b**2*c*d - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**2*(5*a**2 - 8*a*b + 5*b**2)*(5*a**2 + 8*a*b + 5*b**2)",
+      "resultant": "-64*(a - b)**2*(a + b)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a - b",
+        "a + b",
+        "5*a**2 - 8*a*b + 5*b**2",
+        "5*a**2 + 8*a*b + 5*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "002.022.110:1",
+      "Q": "-a**2*c**2 - 4*I*a**2*c*d - a**2*d**2 + 8*a*b*c*d - b**2*c**2 + 4*I*b**2*c*d - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**2*(5*a**2 - 8*a*b + 5*b**2)*(5*a**2 + 8*a*b + 5*b**2)",
+      "resultant": "-64*(a - b)**2*(a + b)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a - b",
+        "a + b",
+        "5*a**2 - 8*a*b + 5*b**2",
+        "5*a**2 + 8*a*b + 5*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "002.022.110:2",
+      "Q": "-a**2*c**2 + 3*a**2*d**2 - 4*I*a*b*c**2 + 4*I*a*b*d**2 + 3*b**2*c**2 - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**2*(a**2 + 9*b**2)*(9*a**2 + b**2)",
+      "resultant": "-256*a**2*b**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)*(9*a**2 + b**2)",
+      "trailingNorm": "(a**2 + b**2)*(a**2 + 9*b**2)",
+      "bad_factors": [
+        "b",
+        "a",
+        "a**2 + 9*b**2",
+        "9*a**2 + b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "010.020.022:0",
+      "Q": "-a**2*c**2 + 3*a**2*d**2 - 2*I*a*b*c**2 - 8*a*b*c*d - 2*I*a*b*d**2 + b**2*c**2 - 3*b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**2*(a**2 + 9*b**2)*(9*a**2 + b**2)",
+      "resultant": "-256*a**2*b**2*(a**2 + b**2)**2",
+      "leadingNorm": "9*a**4 - 14*a**2*b**2 + 9*b**4",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "b",
+        "a",
+        "a**2 + 9*b**2",
+        "9*a**2 + b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "010.020.022:1",
+      "Q": "-a**2*c**2 + 4*I*a**2*c*d - a**2*d**2 - 2*I*a*b*c**2 + 6*I*a*b*d**2 + b**2*c**2 - 4*I*b**2*c*d + b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**2*(5*a**2 - 8*a*b + 5*b**2)*(5*a**2 + 8*a*b + 5*b**2)",
+      "resultant": "-64*(a - b)**2*(a + b)**2*(a**2 + b**2)**2",
+      "leadingNorm": "a**4 + 34*a**2*b**2 + b**4",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a - b",
+        "a + b",
+        "5*a**2 - 8*a*b + 5*b**2",
+        "5*a**2 + 8*a*b + 5*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "010.020.022:2",
+      "Q": "-a**2*c**2 - 4*I*a**2*c*d - a**2*d**2 + 6*I*a*b*c**2 - 2*I*a*b*d**2 + b**2*c**2 + 4*I*b**2*c*d + b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**2*(5*a**2 - 8*a*b + 5*b**2)*(5*a**2 + 8*a*b + 5*b**2)",
+      "resultant": "-64*(a - b)**2*(a + b)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "a**4 + 34*a**2*b**2 + b**4",
+      "bad_factors": [
+        "a - b",
+        "a + b",
+        "5*a**2 - 8*a*b + 5*b**2",
+        "5*a**2 + 8*a*b + 5*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "010.020.100:0",
+      "Q": "-a**2*c**2 + 3*a**2*d**2 - 4*a*b*c*d - 4*I*a*b*d**2 - b**2*c**2 + 4*I*b**2*c*d - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**3*(9*a**2 + 25*b**2)",
+      "resultant": "-64*b**2*(a**2 + b**2)**3",
+      "leadingNorm": "(a**2 + b**2)*(9*a**2 + b**2)",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "b",
+        "9*a**2 + 25*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "010.020.100:1",
+      "Q": "-a**2*c**2 + 4*I*a**2*c*d - a**2*d**2 + 4*a*b*c*d + 4*I*a*b*d**2 - b**2*c**2 + 3*b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**3*(25*a**2 + 9*b**2)",
+      "resultant": "-64*a**2*(a**2 + b**2)**3",
+      "leadingNorm": "(a**2 + b**2)*(a**2 + 9*b**2)",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a",
+        "25*a**2 + 9*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "010.020.100:2",
+      "Q": "-a**2*c**2 - 4*I*a**2*c*d - a**2*d**2 + 4*I*a*b*c**2 - 4*a*b*c*d + 3*b**2*c**2 - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**3*(25*a**2 + 9*b**2)",
+      "resultant": "-64*a**2*(a**2 + b**2)**3",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)*(a**2 + 9*b**2)",
+      "bad_factors": [
+        "a",
+        "25*a**2 + 9*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "010.022.102:0",
+      "Q": "-a**2*c**2 + 3*a**2*d**2 - 4*I*a*b*c**2 - 4*a*b*c*d - b**2*c**2 - 4*I*b**2*c*d - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)*(9*a**6 + 171*a**4*b**2 - 69*a**2*b**4 + 25*b**6)",
+      "resultant": "-64*b**2*(a**2 + b**2)*(3*a**2 - b**2)**2",
+      "leadingNorm": "(3*a**2 - b**2)**2",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "b",
+        "a**2 + b**2",
+        "3*a**2 - b**2",
+        "9*a**6 + 171*a**4*b**2 - 69*a**2*b**4 + 25*b**6"
+      ]
+    },
+    {
+      "key": "010.022.102:1",
+      "Q": "-a**2*c**2 - 4*I*a**2*c*d - a**2*d**2 + 4*I*a*b*c**2 + 4*a*b*c*d - b**2*c**2 + 3*b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)*(25*a**6 - 69*a**4*b**2 + 171*a**2*b**4 + 9*b**6)",
+      "resultant": "-64*a**2*(a**2 - 3*b**2)**2*(a**2 + b**2)",
+      "leadingNorm": "(a**2 - 3*b**2)**2",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "a",
+        "a**2 - 3*b**2",
+        "a**2 + b**2",
+        "25*a**6 - 69*a**4*b**2 + 171*a**2*b**4 + 9*b**6"
+      ]
+    },
+    {
+      "key": "010.022.102:2",
+      "Q": "-a**2*c**2 + 4*I*a**2*c*d - a**2*d**2 - 4*a*b*c*d + 4*I*a*b*d**2 + 3*b**2*c**2 - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)*(25*a**6 - 69*a**4*b**2 + 171*a**2*b**4 + 9*b**6)",
+      "resultant": "-64*a**2*(a**2 - 3*b**2)**2*(a**2 + b**2)",
+      "leadingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "trailingNorm": "(a**2 - 3*b**2)**2",
+      "bad_factors": [
+        "a",
+        "a**2 - 3*b**2",
+        "a**2 + b**2",
+        "25*a**6 - 69*a**4*b**2 + 171*a**2*b**4 + 9*b**6"
+      ]
+    },
+    {
+      "key": "012.020.022:0",
+      "Q": "-a**2*c**2 + 3*a**2*d**2 + 2*I*a*b*c**2 - 8*a*b*c*d + 2*I*a*b*d**2 + b**2*c**2 - 3*b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**2*(a**2 + 9*b**2)*(9*a**2 + b**2)",
+      "resultant": "-256*a**2*b**2*(a**2 + b**2)**2",
+      "leadingNorm": "9*a**4 - 14*a**2*b**2 + 9*b**4",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "b",
+        "a",
+        "a**2 + 9*b**2",
+        "9*a**2 + b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "012.020.022:1",
+      "Q": "-a**2*c**2 + 4*I*a**2*c*d - a**2*d**2 - 6*I*a*b*c**2 + 2*I*a*b*d**2 + b**2*c**2 - 4*I*b**2*c*d + b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**2*(5*a**2 - 8*a*b + 5*b**2)*(5*a**2 + 8*a*b + 5*b**2)",
+      "resultant": "-64*(a - b)**2*(a + b)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "a**4 + 34*a**2*b**2 + b**4",
+      "bad_factors": [
+        "a - b",
+        "a + b",
+        "5*a**2 - 8*a*b + 5*b**2",
+        "5*a**2 + 8*a*b + 5*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "012.020.022:2",
+      "Q": "-a**2*c**2 - 4*I*a**2*c*d - a**2*d**2 + 2*I*a*b*c**2 - 6*I*a*b*d**2 + b**2*c**2 + 4*I*b**2*c*d + b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**2*(5*a**2 - 8*a*b + 5*b**2)*(5*a**2 + 8*a*b + 5*b**2)",
+      "resultant": "-64*(a - b)**2*(a + b)**2*(a**2 + b**2)**2",
+      "leadingNorm": "a**4 + 34*a**2*b**2 + b**4",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a - b",
+        "a + b",
+        "5*a**2 - 8*a*b + 5*b**2",
+        "5*a**2 + 8*a*b + 5*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "012.020.100:0",
+      "Q": "-a**2*c**2 + 3*a**2*d**2 + 4*I*a*b*c**2 - 4*a*b*c*d - b**2*c**2 + 4*I*b**2*c*d - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)*(9*a**6 + 171*a**4*b**2 - 69*a**2*b**4 + 25*b**6)",
+      "resultant": "-64*b**2*(a**2 + b**2)*(3*a**2 - b**2)**2",
+      "leadingNorm": "(3*a**2 - b**2)**2",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "b",
+        "a**2 + b**2",
+        "3*a**2 - b**2",
+        "9*a**6 + 171*a**4*b**2 - 69*a**2*b**4 + 25*b**6"
+      ]
+    },
+    {
+      "key": "012.020.100:1",
+      "Q": "-a**2*c**2 + 4*I*a**2*c*d - a**2*d**2 - 4*I*a*b*c**2 + 4*a*b*c*d - b**2*c**2 + 3*b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)*(25*a**6 - 69*a**4*b**2 + 171*a**2*b**4 + 9*b**6)",
+      "resultant": "-64*a**2*(a**2 - 3*b**2)**2*(a**2 + b**2)",
+      "leadingNorm": "(a**2 - 3*b**2)**2",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "a",
+        "a**2 - 3*b**2",
+        "a**2 + b**2",
+        "25*a**6 - 69*a**4*b**2 + 171*a**2*b**4 + 9*b**6"
+      ]
+    },
+    {
+      "key": "012.020.100:2",
+      "Q": "-a**2*c**2 - 4*I*a**2*c*d - a**2*d**2 - 4*a*b*c*d - 4*I*a*b*d**2 + 3*b**2*c**2 - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)*(25*a**6 - 69*a**4*b**2 + 171*a**2*b**4 + 9*b**6)",
+      "resultant": "-64*a**2*(a**2 - 3*b**2)**2*(a**2 + b**2)",
+      "leadingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "trailingNorm": "(a**2 - 3*b**2)**2",
+      "bad_factors": [
+        "a",
+        "a**2 - 3*b**2",
+        "a**2 + b**2",
+        "25*a**6 - 69*a**4*b**2 + 171*a**2*b**4 + 9*b**6"
+      ]
+    },
+    {
+      "key": "012.022.102:0",
+      "Q": "-a**2*c**2 + 3*a**2*d**2 - 4*a*b*c*d + 4*I*a*b*d**2 - b**2*c**2 - 4*I*b**2*c*d - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**3*(9*a**2 + 25*b**2)",
+      "resultant": "-64*b**2*(a**2 + b**2)**3",
+      "leadingNorm": "(a**2 + b**2)*(9*a**2 + b**2)",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "b",
+        "9*a**2 + 25*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "012.022.102:1",
+      "Q": "-a**2*c**2 - 4*I*a**2*c*d - a**2*d**2 + 4*a*b*c*d - 4*I*a*b*d**2 - b**2*c**2 + 3*b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**3*(25*a**2 + 9*b**2)",
+      "resultant": "-64*a**2*(a**2 + b**2)**3",
+      "leadingNorm": "(a**2 + b**2)*(a**2 + 9*b**2)",
+      "trailingNorm": "(a**2 + b**2)**2",
+      "bad_factors": [
+        "a",
+        "25*a**2 + 9*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "012.022.102:2",
+      "Q": "-a**2*c**2 + 4*I*a**2*c*d - a**2*d**2 - 4*I*a*b*c**2 - 4*a*b*c*d + 3*b**2*c**2 - b**2*d**2",
+      "discNorm": "16*(a**2 + b**2)**3*(25*a**2 + 9*b**2)",
+      "resultant": "-64*a**2*(a**2 + b**2)**3",
+      "leadingNorm": "(a**2 + b**2)**2",
+      "trailingNorm": "(a**2 + b**2)*(a**2 + 9*b**2)",
+      "bad_factors": [
+        "a",
+        "25*a**2 + 9*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "020.022.100:0",
+      "Q": "-a**2*c**2 + 6*I*a**2*c*d + a**2*d**2 - 4*I*a*b*c**2 + 4*I*a*b*d**2 - b**2*c**2 - 2*I*b**2*c*d + b**2*d**2",
+      "discNorm": "1024*a**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 + b**2)**2*(3*a**2 - b**2)**2",
+      "leadingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "a",
+        "3*a**2 - b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "020.022.100:1",
+      "Q": "-a**2*c**2 - 2*I*a**2*c*d + a**2*d**2 + 4*I*a*b*c**2 - 4*I*a*b*d**2 - b**2*c**2 + 6*I*b**2*c*d + b**2*d**2",
+      "discNorm": "1024*b**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 - 3*b**2)**2*(a**2 + b**2)**2",
+      "leadingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "020.022.100:2",
+      "Q": "-a**2*c**2 - 2*I*a**2*c*d + a**2*d**2 - 8*a*b*c*d + 3*b**2*c**2 - 2*I*b**2*c*d - 3*b**2*d**2",
+      "discNorm": "1024*b**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 - 3*b**2)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 - 3*b**2)**2",
+      "trailingNorm": "(a**2 - 3*b**2)**2",
+      "bad_factors": [
+        "b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "020.022.102:0",
+      "Q": "-a**2*c**2 + 2*I*a**2*c*d + a**2*d**2 - 4*I*a*b*c**2 + 4*I*a*b*d**2 - b**2*c**2 - 6*I*b**2*c*d + b**2*d**2",
+      "discNorm": "1024*b**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 - 3*b**2)**2*(a**2 + b**2)**2",
+      "leadingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "020.022.102:1",
+      "Q": "-a**2*c**2 - 6*I*a**2*c*d + a**2*d**2 + 4*I*a*b*c**2 - 4*I*a*b*d**2 - b**2*c**2 + 2*I*b**2*c*d + b**2*d**2",
+      "discNorm": "1024*a**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 + b**2)**2*(3*a**2 - b**2)**2",
+      "leadingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "trailingNorm": "a**4 + 18*a**2*b**2 + b**4",
+      "bad_factors": [
+        "a",
+        "3*a**2 - b**2",
+        "a**2 + b**2"
+      ]
+    },
+    {
+      "key": "020.022.102:2",
+      "Q": "-a**2*c**2 + 2*I*a**2*c*d + a**2*d**2 - 8*a*b*c*d + 3*b**2*c**2 + 2*I*b**2*c*d - 3*b**2*d**2",
+      "discNorm": "1024*b**2*(a**2 + b**2)**3",
+      "resultant": "16*(a**2 - 3*b**2)**2*(a**2 + b**2)**2",
+      "leadingNorm": "(a**2 - 3*b**2)**2",
+      "trailingNorm": "(a**2 - 3*b**2)**2",
+      "bad_factors": [
+        "b",
+        "a**2 - 3*b**2",
+        "a**2 + b**2"
+      ]
+    }
+  ]
+}
+EXPECTED_END exception_audit.json

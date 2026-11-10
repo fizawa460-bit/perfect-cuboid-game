@@ -1,0 +1,98 @@
+﻿Stage37-229HG-NATIVE-EXACT-CERTIFICATE
+Portable exact verifier for the split-septic norm lift
+CARD_DOC_ID=1hJxeJ98xNI_oxOEHAS4-blBJCv3qzOQ4m4G8p9XCbqc; SOURCE_ROW679. Symbolic identities ONLY; no actual MW-rank or physical-population enumeration. Proof of Selmer/uniformity and scopes is in the HG research card. This replay is not an independent hostile audit.
+FILE_BEGIN split_norm.py
+SHA256 4e7f4a164c21c52e898d5128e63895823efc67e80ae4941c6b6f2414f1b52118
+CONTENT_BEGIN
+import json
+from pathlib import Path
+import sympy as s
+
+
+a, b, p, x, u, M, N = s.symbols('a b p x u M N')
+K = x*(a*x+b)*(b*x-a)*(b*b-a*a+2*a*b*x)
+F = 2*u*(b*(1-u*u)+2*a*u)*(-a*(1-u*u)+2*b*u)*((b*b-a*a)*(1-u*u)+4*a*b*u)
+assert s.cancel((1-u*u)**4*K.subs(x, 2*u/(1-u*u))-F) == 0
+assert s.cancel(((1+u*u)/(1-u*u))**2-1-(2*u/(1-u*u))**2) == 0
+assert s.factor(s.discriminant(F,u)) == 2**30*a**6*b**6*(a-b)**2*(a+b)**2*(a*a+b*b)**16
+assert s.factor(s.discriminant(K,x)) == a**4*b**4*(a-b)**2*(a+b)**2*(a*a+b*b)**6
+assert s.factor(s.resultant(K,x*x+1,x)) == (a*a+b*b)**4
+assert s.factor(s.discriminant(K*(x*x+1),x)) == -4*a**4*b**4*(a-b)**2*(a+b)**2*(a*a+b*b)**14
+roots = [s.Integer(0), (a+p)/b, (a-p)/b, (-b+p)/a, (-b-p)/a,
+         (2*a*b+p*p)/(b*b-a*a), (2*a*b-p*p)/(b*b-a*a)]
+for root in roots:
+    num=s.fraction(s.cancel(F.subs(u,root)))[0]
+    assert s.rem(num,p*p-a*a-b*b,p)==0
+for quad,disc in [(b*(1-u*u)+2*a*u,4*(a*a+b*b)),
+                  (-a*(1-u*u)+2*b*u,4*(a*a+b*b)),
+                  ((b*b-a*a)*(1-u*u)+4*a*b*u,4*(a*a+b*b)**2)]:
+    assert s.factor(s.discriminant(quad,u)-disc)==0
+split=s.factor(F.subs({a:M*M-N*N,b:2*M*N}))
+unit,factors=s.factor_list(split,u)
+assert sum(exp*s.degree(poly,u) for poly,exp in factors)==7
+assert all(exp==1 and s.degree(poly,u)==1 for poly,exp in factors)
+# Exact Gaussian rotations, inverse and first-root multiplicity dependencies.
+c,d,Y=s.symbols('c d Y')
+L2=a*d+b*c; L3=b*d-a*c
+assert s.expand(L2*L2+L3*L3-(a*a+b*b)*(c*c+d*d))==0
+f=a*a*(c*c+d*d)*Y*Y+(-2*a*b*c*c+4*(b*b-a*a)*c*d+6*a*b*d*d)*Y+b*b*(c*c+d*d)
+assert s.expand(s.discriminant(f,Y)-16*d*(a*d+b*c)*(b*d-a*c)*((b*b-a*a)*c+2*a*b*d))==0
+assert 768000*67 == 51456000
+assert 2**6 > 3
+out={
+ 'exact_checks':'PASS',
+ 'K':str(K), 'F':str(F),
+ 'seven_rational_roots_mod_norm':[str(r) for r in roots],
+ 'eighth_branch':'infinity',
+ 'discF':'2^30 a^6 b^6 (a-b)^2 (a+b)^2 p^32',
+ 'bad_support':'D=abs(2*a*b*(a*a-b*b)*p)<=2*p^5',
+ 'genus':3,'Jacobian_full_rational_2torsion_dimension':6,
+ 'symbolic_pythagorean_split':str(split),
+ 'fixed_oriented_physical_multiplier_HB':768000,
+ 'rank_zero_Stoll_point_bound':67,
+ 'rank_zero_fixed_oriented_physical_bound_per_p':51456000,
+ 'split_Jacobian_Selmer_size_floor':64,
+ 'unrestricted_average':'OPEN; worst omega bound yields Q^(1+o(1)), not o(Q)',
+ 'average_Selmer_transfer':'NOT_APPLICABLE: thin prime one-parameter split-root family is not full coefficient-height family',
+ 'limits':'Algebra only. Does not certify actual MW ranks, DGH/Stoll, HB hostile audit, full FJ source completeness, or global closure.',
+ 'finite_prime_enumeration':False
+}
+Path(__file__).with_suffix('.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+print(json.dumps(out,sort_keys=True))
+CONTENT_END
+FILE_END split_norm.py
+
+
+FILE_BEGIN split_norm.json
+SHA256 c4c8d11aa0ee74d56714a03501c8fb794d0a2be0b8dd51342609361b9b4563dd
+CONTENT_BEGIN
+{
+  "F": "2*u*(2*a*u + b*(1 - u**2))*(-a*(1 - u**2) + 2*b*u)*(4*a*b*u + (1 - u**2)*(-a**2 + b**2))",
+  "Jacobian_full_rational_2torsion_dimension": 6,
+  "K": "x*(-a + b*x)*(a*x + b)*(-a**2 + 2*a*b*x + b**2)",
+  "average_Selmer_transfer": "NOT_APPLICABLE: thin prime one-parameter split-root family is not full coefficient-height family",
+  "bad_support": "D=abs(2*a*b*(a*a-b*b)*p)<=2*p^5",
+  "discF": "2^30 a^6 b^6 (a-b)^2 (a+b)^2 p^32",
+  "eighth_branch": "infinity",
+  "exact_checks": "PASS",
+  "finite_prime_enumeration": false,
+  "fixed_oriented_physical_multiplier_HB": 768000,
+  "genus": 3,
+  "limits": "Algebra only. Does not certify actual MW ranks, DGH/Stoll, HB hostile audit, full FJ source completeness, or global closure.",
+  "rank_zero_Stoll_point_bound": 67,
+  "rank_zero_fixed_oriented_physical_bound_per_p": 51456000,
+  "seven_rational_roots_mod_norm": [
+    "0",
+    "(a + p)/b",
+    "(a - p)/b",
+    "(-b + p)/a",
+    "(-b - p)/a",
+    "(2*a*b + p**2)/(-a**2 + b**2)",
+    "(2*a*b - p**2)/(-a**2 + b**2)"
+  ],
+  "split_Jacobian_Selmer_size_floor": 64,
+  "symbolic_pythagorean_split": "-4*u*(-M + N*u)*(M*u + N)*(M*u - M + N*u + N)*(M*u + M - N*u + N)*(M**2*u - M**2 + 2*M*N*u + 2*M*N - N**2*u + N**2)*(M**2*u + M**2 - 2*M*N*u + 2*M*N - N**2*u - N**2)",
+  "unrestricted_average": "OPEN; worst omega bound yields Q^(1+o(1)), not o(Q)"
+}
+CONTENT_END
+FILE_END split_norm.json

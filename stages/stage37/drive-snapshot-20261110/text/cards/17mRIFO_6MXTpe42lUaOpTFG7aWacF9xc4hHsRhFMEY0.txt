@@ -1,0 +1,57 @@
+﻿Stage37 229HI-A2 — portable exact algebraic certificate
+Parent Stage37 HI certificate ID 1P8LdtObaD36UR2B1rvrvaLeIOTGeIaKQ8pv5RWejOSw provides the immutable remaining150 keys and 13-code / 138-triple / 414-form grammar. This certificate is self-contained for the 10 selected source coefficients and proofs.
+CARD_ID=18HEvXnP62Sfv-ZPdYNDpLDqDyMnV87ni2LIdLK709d0; CURRENT_RELATIVE=229HI-A2; ALLOWED_COUNT_CREDIT=0.
+
+
+EXACT TEN SOURCE KEYS
+FOUR_GLOBAL = [000.002.021:0,000.002.021:1,001.020.022:1,001.020.022:2]
+SIX_ASPECT = [000.002.011:2,000.002.021:2,000.002.101:2,001.020.022:0,011.020.022:0,020.022.101:2]
+All ten are explicit distinct keys in HI remaining150. Exact patterns: K four [1,1,1]; six L1 first/last [2,2] and remaining four [1,1,1,1]. All square-norm, FS 2-torsion.
+
+
+REPRODUCE EXACT SOURCE COEFFICIENTS
+Use Python3+SymPy; the code below regenerates the source F from original macro semantics. No cached expressions:
+import sympy as s
+t,X,Y,a,b,c,d=s.symbols('t X Y a b c d')
+groupK1=['000.002.021:0','000.002.021:1']
+groupK2=['001.020.022:1','001.020.022:2']
+groupL1=['000.002.011:2','000.002.021:2','000.002.101:2']
+groupL2=['001.020.022:0','011.020.022:0','020.022.101:2']
+def macro(k):
+    i,j,h=[int(w)-1 for w in k]
+    return s.expand((i*t+j*X+h*Y-i*j*h*t*X*Y)**2*(1+t*t if i==0 else 1)*(1+X*X if j==0 else 1)*(1+Y*Y if h==0 else 1))
+def coefficients(key):
+    groups,h=key.split(':'); h=int(h)
+    F=s.expand(sum((1 if z!=h else -1)*macro(k) for z,k in enumerate(groups.split('.'))))
+    A,B,C=[s.factor(s.Poly(F,Y).nth(i)) for i in (2,1,0)]
+    f=s.Poly(s.cancel(a*a*c*c*F.subs({t:b/a,X:d/c})),Y)
+    return [s.factor(f.nth(i)) for i in (2,1,0)]
+for key in groupK1+groupK2+groupL1+groupL2:
+    A,B,C=coefficients(key)
+    if key in groupK1:
+        assert s.expand(A-(b*c-a*d)**2)==0 and A==C
+        assert s.expand(B*B-16*(b*c+a*d)**2*(b*d-a*c)**2)==0
+    if key in groupK2:
+        assert s.expand(A-(b*c+a*d)**2)==0 and A==C
+        assert s.expand(B*B-16*(b*c-a*d)**2*(b*d+a*c)**2)==0
+    if key in groupL1:
+        U,V=b*d-a*c,b*c+a*d
+        assert B==0 and s.expand(A-C-2*(U-V)*(U+V))==0
+    if key in groupL2:
+        U,V=b*d+a*c,b*c-a*d
+        assert B==0 and s.expand(A-C-2*(U-V)*(U+V))==0
+    print(key, 'PASS')
+assert len(groupK1+groupK2+groupL1+groupL2)==10
+print('ALL10 EXACT PASS')
+
+
+MATHEMATICAL PROOF
+For primitive first signed pairs a²+b²=p²,c²+d²=q² with distinct prime p<q<r, a third physical primitive slope W/T has T²+W²=r² and 0<abs(T),abs(W)<r. For K1/K2: A0=C0≠0 and B0=±4UV, U²+V²=p²q². Equation A0r²+B0WT=0 implies r²|B0 because r∤WT. r∤p q implies r cannot divide both U,V. Hence r² divides one of U,V, but 0<abs(U),abs(V)≤pq<r², impossible (a zero product B0 itself also contradicts nonzero A0). For L1/L2: B0=0,A0−C0=2(U−V)(U+V), U²+V²=p²q². Reducing g=gcd(A0,C0) and using rational primitive root forces A0/g=εT²,C0/g=−εW², so r²|A0−C0. r∤pq prevents r dividing both U−V,U+V. Thus r² divides a nonzero U±V, bounded by sqrt(2)pq, whence q<sqrt(2)p and r≤2^(1/4)sqrt(pq).
+
+
+PROOF DEPENDENCIES AND FIREWALL
+Only Euclidean inequalities, primality r, coprimality, Gauss rational-root lemma and exact source algebra are used. No finite prime search, no both-sign norm assumption, no independence heuristic, no physical original-source completeness claim, no external hostile audit. Full FJ/FS/FW/HB HOLD; AUTHORITY229/CONSTRUCTION228, GATE OPEN, GLOBAL_CREDIT0, PRODUCTION HOLD, route-switch NONE. 
+
+
+POSTWRITE REPRODUCIBILITY RECEIPT — 2026-10-10 JST
+All ten exact algebraic coefficient tests in this certificate replayed with original signed F grammar: ALL10 EXACT PASS. Source parent HI remaining150 membership and patterns checked; companion research card readback PASS. MAIN, CARD-INDEX row683/AI00/AI10, LEDGER/ROUTE/NEG/FASTPATH readback current229HI-A2 PASS. Certificate parented Stage37 M3-Research-Cards. External hostile proof audit NOT_RUN; original-source FJ/FS/FW/HB HOLD, global credit0, gate OPEN, route switch NONE.

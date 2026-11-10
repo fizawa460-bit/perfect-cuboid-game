@@ -1,0 +1,1388 @@
+﻿Stage37-229HH-NATIVE-EXACT-CERT
+CARD_DOC_ID=1dd9Meir_YJrX4zvG7jkk3x75VKqgVFni7uh2QNCLvJA; SOURCE_ROW680; PREVIOUS229HG679.
+Symbolic all-parameter certificate. No finite prime scan, actual rank computation, independent hostile audit or global closure.
+SHA256 prime_height.py=1a4275087f270c8b748e71dbd85b9849fb8d91fd06321c276f8c9f9c7b0cb549
+SHA256 prime_height.json=65a8e38abeb085552b4346465be19e43464504954869a898abfdf435647fd14f
+Replay with Python3.10+ and SymPy: python prime_height.py. Output JSON must equal saved JSON byte for byte.
+FILE_BEGIN prime_height.py
+CONTENT_BEGIN
+"""Stage37 229HH: exact all-parameter coefficient / permutation audit.
+No prime cutoff, point search, rank computation, or physical witness.
+Run: python prime_height.py (Python 3.10+, SymPy).
+The accompanying card supplies the elementary valuation proof and scope.
+"""
+from pathlib import Path
+import itertools
+import collections
+import json
+import sympy as s
+
+
+t, X, Y, a, b, c, d, z = s.symbols('t X Y a b c d z')
+variables = (t, X, Y)
+codes = [k for k in itertools.product((-1, 0, 1), repeat=3)
+         if any(k) and next(v for v in k if v) == -1]
+
+
+def macro(k):
+    i, j, k = k
+    return s.expand((i*t+j*X+k*Y-i*j*k*t*X*Y)**2
+                    * (1+t*t if i == 0 else 1)
+                    * (1+X*X if j == 0 else 1)
+                    * (1+Y*Y if k == 0 else 1))
+
+
+def label(tr, hyp):
+    return '.'.join(''.join(str(v+1) for v in k) for k in tr)+':'+str(hyp)
+
+
+triples = [tr for tr in itertools.combinations(codes, 3)
+           if all(sum(k[j] == 0 for k in tr) <= 1 for j in range(3))]
+assert (len(codes), len(triples)) == (13, 138)
+records = {}
+base = []
+for tr in triples:
+    for hyp in range(3):
+        key = label(tr, hyp)
+        F = s.expand(sum((1 if i != hyp else -1)*macro(k)
+                         for i, k in enumerate(tr)))
+        DX = s.factor(s.discriminant(F, X))
+        degree = sum(int(s.degree(f, Y)) for f, e in s.factor_list(DX)[1]
+                     if e % 2 and s.degree(f, Y) > 0)
+        records[key] = {'tr': tr, 'hyp': hyp, 'F': F, 'degree': degree}
+        f = s.Poly(s.expand(a*a*c*c*F.subs({t:b/a, X:d/c})), Y)
+        A, B, C = [s.factor(f.nth(i)) for i in (2, 1, 0)]
+        assert all(s.Poly(v, a, b, c, d).domain == s.ZZ for v in (A, B, C))
+        for ell, norm, variable in [(0, a*a+b*b, b), (1, c*c+d*d, d)]:
+            if s.rem(A, norm, variable) != 0 or s.rem(C, norm, variable) != 0:
+                continue
+            Bmod = s.rem(B, norm, variable)
+            resultant = s.factor(s.resultant(Bmod, norm, variable))
+            expected = 16*a**4*(c*c+d*d)**2 if ell == 0 else 16*c**4*(a*a+b*b)**2
+            assert s.expand(resultant-expected) == 0
+            base.append({'key':key, 'norm_index':ell, 'degree':degree,
+                         'A':str(A), 'C':str(C), 'B_remainder':str(Bmod),
+                         'resultant':str(resultant)})
+assert len(records) == 414
+assert sum(v['degree'] >= 3 for v in records.values()) == 330
+assert collections.Counter(v['norm_index'] for v in base) == {0:16, 1:16}
+generic_base = [v for v in base if v['degree'] >= 3]
+assert len(generic_base) == 24
+assert len({v['key'] for v in generic_base}) == 24
+
+
+constraints = collections.defaultdict(set)
+permutation_checks = 0
+for v in generic_base:
+    source = records[v['key']]
+    for perm in itertools.permutations(range(3)):
+        new = []
+        for i, k in enumerate(source['tr']):
+            k = tuple(k[j] for j in perm)
+            if next(w for w in k if w) != -1:
+                k = tuple(-w for w in k)
+            new.append((k, i == source['hyp']))
+        new.sort()
+        key = label(tuple(v[0] for v in new), next(i for i,v in enumerate(new) if v[1]))
+        translated = source['F'].subs({variables[i]:variables[perm.index(i)]
+                                       for i in range(3)}, simultaneous=True)
+        assert s.expand(translated-records[key]['F']) == 0
+        assert records[key]['degree'] >= 3
+        constraints[key].add((perm.index(2), perm.index(v['norm_index'])))
+        permutation_checks += 1
+assert permutation_checks == 144
+assert len(constraints) == 72
+assert all(len(v) == 1 for v in constraints.values())
+order_empty = sorted(k for k,v in constraints.items() if any(i < j for i,j in v))
+survivors = sorted(set(constraints)-set(order_empty))
+q_gt_p_squared = sorted(k for k in survivors if constraints[k] == {(1,0)})
+assert (len(order_empty), len(survivors), len(q_gt_p_squared)) == (36,36,12)
+
+
+patterns = {}
+norm_sectors = collections.Counter()
+for key in sorted(constraints):
+    F = records[key]['F']
+    D = s.factor(s.discriminant(F, X))
+    numerator = s.fraction(s.factor(s.together(D.subs(t, 2*z/(1-z*z)))))[0]
+    degrees = sorted(int(s.degree(f,Y)) for f,e in s.factor_list(numerator)[1]
+                     if e % 2 and s.degree(f,Y) > 0)
+    assert degrees in ([1,1,1], [1,2], [1,1,1,1], [1,1,2], [2,2])
+    patterns[key] = degrees  # All are in retained FS's 246 two-torsion classes.
+    A,B,C = [s.Poly(F,Y).nth(i) for i in (2,1,0)]
+    S = s.factor((A-C)**2+B**2)
+    residual_degree = sum(int(s.degree(f,X)) for f,e in s.factor_list(S)[1]
+                          if e % 2 and s.degree(f,X)>0 and s.expand(f-(1+X*X)) != 0)
+    assert residual_degree in (0,2,4)
+    norm_sectors[{0:'198_square', 2:'42_linear', 4:'90_quartic'}[residual_degree]] += 1
+
+
+# Independent exact check of the live HG representative.
+Frep = records['000.002.010:0']['F']
+frep = s.expand(a*a*c*c*Frep.subs({t:b/a, X:d/c}))
+Q = c*c+d*d
+Brep = -2*a*b*c*c+4*(b*b-a*a)*c*d+6*a*b*d*d
+assert s.expand(frep-(a*a*Q*Y*Y+Brep*Y+b*b*Q)) == 0
+L = -2*a*b*c+(b*b-a*a)*d
+Ldual = (b*b-a*a)*c+2*a*b*d
+assert s.expand(L*L+Ldual*Ldual-(a*a+b*b)**2*Q) == 0
+assert s.rem(Brep-4*c*L,Q,d) == 0
+
+
+out = {
+    'stage':'229HH', 'source_codes':13, 'source_triples':138, 'source_biforms':414,
+    'retained_generic330_reproduced':330, 'base_norm_divisibility':base,
+    'generic_base24_keys':sorted(v['key'] for v in generic_base),
+    'exact_permutation_identity_checks':144,
+    'inequalities':{k:[list(v) for v in sorted(constraints[k])] for k in sorted(constraints)},
+    'notation':'indices0=p,1=q,2=r; [i,j] means norm_prime_i > norm_prime_j^2',
+    'generic72_all_balanced_empty':True, 'globally_order_empty36_keys':order_empty,
+    'unbalanced_surviving36_keys':survivors,
+    'q_gt_p_squared12_keys':q_gt_p_squared,
+    'FS_two_torsion_branch_patterns72':patterns,
+    'norm_sector_counts72':dict(sorted(norm_sectors.items())),
+    'physical_count72':'<= count of retained FS246 at p<B^(1/4): B^(1/4+o(1))',
+    'physical_count_q_gt_p_squared12':'B^(1/5+o(1)) by retained FS',
+    'representative_HG_all_height_count':'O_epsilon(B^(1/4+epsilon)) via old HG p^epsilon',
+    'balanced_generic_residual':'258=330-72; source-relative, NOT full closure',
+    'all_height_generic_residual':'294=330-36; 36 others counted, not globally empty',
+    'external_FJ_FS_HB_hostile_promoted':False,
+    'global_credit':0, 'formal_route_switch':False,
+    'finite_prime_enumeration':False, 'ranks_computed':False,
+}
+Path(__file__).with_suffix('.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+print(json.dumps({k:out[k] for k in ('stage','source_biforms','exact_permutation_identity_checks',
+      'norm_sector_counts72','balanced_generic_residual','all_height_generic_residual')},indent=2))
+CONTENT_END
+FILE_END prime_height.py
+FILE_BEGIN prime_height.json
+CONTENT_BEGIN
+{
+  "FS_two_torsion_branch_patterns72": {
+    "000.001.020:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.001.020:2": [
+      1,
+      1,
+      1
+    ],
+    "000.001.022:0": [
+      1,
+      1,
+      2
+    ],
+    "000.001.022:2": [
+      1,
+      2
+    ],
+    "000.002.010:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.002.010:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.002.011:0": [
+      2,
+      2
+    ],
+    "000.002.011:1": [
+      2,
+      2
+    ],
+    "000.002.012:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.002.012:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.002.100:0": [
+      1,
+      1,
+      1
+    ],
+    "000.002.100:1": [
+      1,
+      1,
+      1
+    ],
+    "000.002.101:0": [
+      1,
+      1,
+      1
+    ],
+    "000.002.101:1": [
+      1,
+      1,
+      1
+    ],
+    "000.002.102:0": [
+      1,
+      1,
+      1
+    ],
+    "000.002.102:1": [
+      1,
+      1,
+      1
+    ],
+    "000.010.022:0": [
+      2,
+      2
+    ],
+    "000.010.022:2": [
+      2,
+      2
+    ],
+    "000.011.020:0": [
+      2,
+      2
+    ],
+    "000.011.020:2": [
+      2,
+      2
+    ],
+    "000.012.022:0": [
+      2,
+      2
+    ],
+    "000.012.022:2": [
+      2,
+      2
+    ],
+    "000.020.021:0": [
+      1,
+      1,
+      1
+    ],
+    "000.020.021:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.020.100:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.020.100:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.020.102:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.020.102:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.020.110:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.020.110:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "000.021.022:0": [
+      1,
+      2
+    ],
+    "000.021.022:2": [
+      1,
+      1,
+      2
+    ],
+    "000.022.101:0": [
+      1,
+      1,
+      2
+    ],
+    "000.022.101:1": [
+      1,
+      1,
+      2
+    ],
+    "000.022.110:0": [
+      2,
+      2
+    ],
+    "000.022.110:1": [
+      2,
+      2
+    ],
+    "001.002.020:1": [
+      1,
+      1,
+      2
+    ],
+    "001.002.020:2": [
+      1,
+      2
+    ],
+    "001.002.022:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "001.002.022:2": [
+      1,
+      1,
+      1
+    ],
+    "002.010.020:0": [
+      2,
+      2
+    ],
+    "002.010.020:2": [
+      2,
+      2
+    ],
+    "002.011.022:0": [
+      2,
+      2
+    ],
+    "002.011.022:2": [
+      2,
+      2
+    ],
+    "002.012.020:0": [
+      2,
+      2
+    ],
+    "002.012.020:2": [
+      2,
+      2
+    ],
+    "002.020.021:0": [
+      1,
+      2
+    ],
+    "002.020.021:1": [
+      1,
+      1,
+      2
+    ],
+    "002.020.101:0": [
+      1,
+      1,
+      2
+    ],
+    "002.020.101:1": [
+      1,
+      1,
+      2
+    ],
+    "002.020.110:0": [
+      2,
+      2
+    ],
+    "002.020.110:1": [
+      2,
+      2
+    ],
+    "002.021.022:0": [
+      1,
+      1,
+      1
+    ],
+    "002.021.022:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "002.022.100:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "002.022.100:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "002.022.102:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "002.022.102:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "002.022.110:0": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "002.022.110:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "010.020.022:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "010.020.022:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "011.020.022:1": [
+      2,
+      2
+    ],
+    "011.020.022:2": [
+      2,
+      2
+    ],
+    "012.020.022:1": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "012.020.022:2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "020.022.100:0": [
+      1,
+      1,
+      1
+    ],
+    "020.022.100:1": [
+      1,
+      1,
+      1
+    ],
+    "020.022.101:0": [
+      1,
+      1,
+      1
+    ],
+    "020.022.101:1": [
+      1,
+      1,
+      1
+    ],
+    "020.022.102:0": [
+      1,
+      1,
+      1
+    ],
+    "020.022.102:1": [
+      1,
+      1,
+      1
+    ]
+  },
+  "all_height_generic_residual": "294=330-36; 36 others counted, not globally empty",
+  "balanced_generic_residual": "258=330-72; source-relative, NOT full closure",
+  "base_norm_divisibility": [
+    {
+      "A": "a**2*(c**2 + d**2)",
+      "B_remainder": "-8*a*b*c**2 + d*(-4*a**2*c + 4*b**2*c)",
+      "C": "b**2*(c**2 + d**2)",
+      "degree": 4,
+      "key": "000.002.010:0",
+      "norm_index": 1,
+      "resultant": "16*c**4*(a**2 + b**2)**2"
+    },
+    {
+      "A": "a**2*(c**2 + d**2)",
+      "B_remainder": "8*a*b*c**2 + d*(4*a**2*c - 4*b**2*c)",
+      "C": "b**2*(c**2 + d**2)",
+      "degree": 4,
+      "key": "000.002.010:1",
+      "norm_index": 1,
+      "resultant": "16*c**4*(a**2 + b**2)**2"
+    },
+    {
+      "A": "b**2*(c**2 + d**2)",
+      "B_remainder": "-8*a*b*c**2 + d*(-4*a**2*c + 4*b**2*c)",
+      "C": "b**2*(c**2 + d**2)",
+      "degree": 4,
+      "key": "000.002.011:0",
+      "norm_index": 1,
+      "resultant": "16*c**4*(a**2 + b**2)**2"
+    },
+    {
+      "A": "b**2*(c**2 + d**2)",
+      "B_remainder": "8*a*b*c**2 + d*(4*a**2*c - 4*b**2*c)",
+      "C": "b**2*(c**2 + d**2)",
+      "degree": 4,
+      "key": "000.002.011:1",
+      "norm_index": 1,
+      "resultant": "16*c**4*(a**2 + b**2)**2"
+    },
+    {
+      "A": "a**2*(c**2 + d**2)",
+      "B_remainder": "-8*a*b*c**2 + d*(-4*a**2*c + 4*b**2*c)",
+      "C": "b**2*(c**2 + d**2)",
+      "degree": 4,
+      "key": "000.002.012:0",
+      "norm_index": 1,
+      "resultant": "16*c**4*(a**2 + b**2)**2"
+    },
+    {
+      "A": "a**2*(c**2 + d**2)",
+      "B_remainder": "8*a*b*c**2 + d*(4*a**2*c - 4*b**2*c)",
+      "C": "b**2*(c**2 + d**2)",
+      "degree": 4,
+      "key": "000.002.012:1",
+      "norm_index": 1,
+      "resultant": "16*c**4*(a**2 + b**2)**2"
+    },
+    {
+      "A": "c**2*(a**2 + b**2)",
+      "B_remainder": "-8*a**2*c*d + b*(-4*a*c**2 + 4*a*d**2)",
+      "C": "d**2*(a**2 + b**2)",
+      "degree": 3,
+      "key": "000.002.100:0",
+      "norm_index": 0,
+      "resultant": "16*a**4*(c**2 + d**2)**2"
+    },
+    {
+      "A": "c**2*(a**2 + b**2)",
+      "B_remainder": "8*a**2*c*d + b*(4*a*c**2 - 4*a*d**2)",
+      "C": "d**2*(a**2 + b**2)",
+      "degree": 3,
+      "key": "000.002.100:1",
+      "norm_index": 0,
+      "resultant": "16*a**4*(c**2 + d**2)**2"
+    },
+    {
+      "A": "d**2*(a**2 + b**2)",
+      "B_remainder": "-8*a**2*c*d + b*(-4*a*c**2 + 4*a*d**2)",
+      "C": "d**2*(a**2 + b**2)",
+      "degree": 3,
+      "key": "000.002.101:0",
+      "norm_index": 0,
+      "resultant": "16*a**4*(c**2 + d**2)**2"
+    },
+    {
+      "A": "d**2*(a**2 + b**2)",
+      "B_remainder": "8*a**2*c*d + b*(4*a*c**2 - 4*a*d**2)",
+      "C": "d**2*(a**2 + b**2)",
+      "degree": 3,
+      "key": "000.002.101:1",
+      "norm_index": 0,
+      "resultant": "16*a**4*(c**2 + d**2)**2"
+    },
+    {
+      "A": "c**2*(a**2 + b**2)",
+      "B_remainder": "-8*a**2*c*d + b*(-4*a*c**2 + 4*a*d**2)",
+      "C": "d**2*(a**2 + b**2)",
+      "degree": 3,
+      "key": "000.002.102:0",
+      "norm_index": 0,
+      "resultant": "16*a**4*(c**2 + d**2)**2"
+    },
+    {
+      "A": "c**2*(a**2 + b**2)",
+      "B_remainder": "8*a**2*c*d + b*(4*a*c**2 - 4*a*d**2)",
+      "C": "d**2*(a**2 + b**2)",
+      "degree": 3,
+      "key": "000.002.102:1",
+      "norm_index": 0,
+      "resultant": "16*a**4*(c**2 + d**2)**2"
+    },
+    {
+      "A": "(a**2 + b**2)*(c**2 + d**2)",
+      "B_remainder": "-8*a**2*c*d + b*(-4*a*c**2 + 4*a*d**2)",
+      "C": "0",
+      "degree": 2,
+      "key": "000.002.110:0",
+      "norm_index": 0,
+      "resultant": "16*a**4*(c**2 + d**2)**2"
+    },
+    {
+      "A": "(a**2 + b**2)*(c**2 + d**2)",
+      "B_remainder": "-8*a*b*c**2 + d*(-4*a**2*c + 4*b**2*c)",
+      "C": "0",
+      "degree": 2,
+      "key": "000.002.110:0",
+      "norm_index": 1,
+      "resultant": "16*c**4*(a**2 + b**2)**2"
+    },
+    {
+      "A": "(a**2 + b**2)*(c**2 + d**2)",
+      "B_remainder": "8*a**2*c*d + b*(4*a*c**2 - 4*a*d**2)",
+      "C": "0",
+      "degree": 2,
+      "key": "000.002.110:1",
+      "norm_index": 0,
+      "resultant": "16*a**4*(c**2 + d**2)**2"
+    },
+    {
+      "A": "(a**2 + b**2)*(c**2 + d**2)",
+      "B_remainder": "8*a*b*c**2 + d*(4*a**2*c - 4*b**2*c)",
+      "C": "0",
+      "degree": 2,
+      "key": "000.002.110:1",
+      "norm_index": 1,
+      "resultant": "16*c**4*(a**2 + b**2)**2"
+    },
+    {
+      "A": "a**2*(c**2 + d**2)",
+      "B_remainder": "-8*a*b*c**2 + d*(4*a**2*c - 4*b**2*c)",
+      "C": "b**2*(c**2 + d**2)",
+      "degree": 4,
+      "key": "010.020.022:1",
+      "norm_index": 1,
+      "resultant": "16*c**4*(a**2 + b**2)**2"
+    },
+    {
+      "A": "a**2*(c**2 + d**2)",
+      "B_remainder": "8*a*b*c**2 + d*(-4*a**2*c + 4*b**2*c)",
+      "C": "b**2*(c**2 + d**2)",
+      "degree": 4,
+      "key": "010.020.022:2",
+      "norm_index": 1,
+      "resultant": "16*c**4*(a**2 + b**2)**2"
+    },
+    {
+      "A": "b**2*(c**2 + d**2)",
+      "B_remainder": "-8*a*b*c**2 + d*(4*a**2*c - 4*b**2*c)",
+      "C": "b**2*(c**2 + d**2)",
+      "degree": 4,
+      "key": "011.020.022:1",
+      "norm_index": 1,
+      "resultant": "16*c**4*(a**2 + b**2)**2"
+    },
+    {
+      "A": "b**2*(c**2 + d**2)",
+      "B_remainder": "8*a*b*c**2 + d*(-4*a**2*c + 4*b**2*c)",
+      "C": "b**2*(c**2 + d**2)",
+      "degree": 4,
+      "key": "011.020.022:2",
+      "norm_index": 1,
+      "resultant": "16*c**4*(a**2 + b**2)**2"
+    },
+    {
+      "A": "a**2*(c**2 + d**2)",
+      "B_remainder": "-8*a*b*c**2 + d*(4*a**2*c - 4*b**2*c)",
+      "C": "b**2*(c**2 + d**2)",
+      "degree": 4,
+      "key": "012.020.022:1",
+      "norm_index": 1,
+      "resultant": "16*c**4*(a**2 + b**2)**2"
+    },
+    {
+      "A": "a**2*(c**2 + d**2)",
+      "B_remainder": "8*a*b*c**2 + d*(-4*a**2*c + 4*b**2*c)",
+      "C": "b**2*(c**2 + d**2)",
+      "degree": 4,
+      "key": "012.020.022:2",
+      "norm_index": 1,
+      "resultant": "16*c**4*(a**2 + b**2)**2"
+    },
+    {
+      "A": "c**2*(a**2 + b**2)",
+      "B_remainder": "8*a**2*c*d + b*(-4*a*c**2 + 4*a*d**2)",
+      "C": "d**2*(a**2 + b**2)",
+      "degree": 3,
+      "key": "020.022.100:0",
+      "norm_index": 0,
+      "resultant": "16*a**4*(c**2 + d**2)**2"
+    },
+    {
+      "A": "c**2*(a**2 + b**2)",
+      "B_remainder": "-8*a**2*c*d + b*(4*a*c**2 - 4*a*d**2)",
+      "C": "d**2*(a**2 + b**2)",
+      "degree": 3,
+      "key": "020.022.100:1",
+      "norm_index": 0,
+      "resultant": "16*a**4*(c**2 + d**2)**2"
+    },
+    {
+      "A": "d**2*(a**2 + b**2)",
+      "B_remainder": "8*a**2*c*d + b*(-4*a*c**2 + 4*a*d**2)",
+      "C": "d**2*(a**2 + b**2)",
+      "degree": 3,
+      "key": "020.022.101:0",
+      "norm_index": 0,
+      "resultant": "16*a**4*(c**2 + d**2)**2"
+    },
+    {
+      "A": "d**2*(a**2 + b**2)",
+      "B_remainder": "-8*a**2*c*d + b*(4*a*c**2 - 4*a*d**2)",
+      "C": "d**2*(a**2 + b**2)",
+      "degree": 3,
+      "key": "020.022.101:1",
+      "norm_index": 0,
+      "resultant": "16*a**4*(c**2 + d**2)**2"
+    },
+    {
+      "A": "c**2*(a**2 + b**2)",
+      "B_remainder": "8*a**2*c*d + b*(-4*a*c**2 + 4*a*d**2)",
+      "C": "d**2*(a**2 + b**2)",
+      "degree": 3,
+      "key": "020.022.102:0",
+      "norm_index": 0,
+      "resultant": "16*a**4*(c**2 + d**2)**2"
+    },
+    {
+      "A": "c**2*(a**2 + b**2)",
+      "B_remainder": "-8*a**2*c*d + b*(4*a*c**2 - 4*a*d**2)",
+      "C": "d**2*(a**2 + b**2)",
+      "degree": 3,
+      "key": "020.022.102:1",
+      "norm_index": 0,
+      "resultant": "16*a**4*(c**2 + d**2)**2"
+    },
+    {
+      "A": "(a**2 + b**2)*(c**2 + d**2)",
+      "B_remainder": "8*a**2*c*d + b*(-4*a*c**2 + 4*a*d**2)",
+      "C": "0",
+      "degree": 2,
+      "key": "020.022.110:0",
+      "norm_index": 0,
+      "resultant": "16*a**4*(c**2 + d**2)**2"
+    },
+    {
+      "A": "(a**2 + b**2)*(c**2 + d**2)",
+      "B_remainder": "-8*a*b*c**2 + d*(4*a**2*c - 4*b**2*c)",
+      "C": "0",
+      "degree": 2,
+      "key": "020.022.110:0",
+      "norm_index": 1,
+      "resultant": "16*c**4*(a**2 + b**2)**2"
+    },
+    {
+      "A": "(a**2 + b**2)*(c**2 + d**2)",
+      "B_remainder": "-8*a**2*c*d + b*(4*a*c**2 - 4*a*d**2)",
+      "C": "0",
+      "degree": 2,
+      "key": "020.022.110:1",
+      "norm_index": 0,
+      "resultant": "16*a**4*(c**2 + d**2)**2"
+    },
+    {
+      "A": "(a**2 + b**2)*(c**2 + d**2)",
+      "B_remainder": "8*a*b*c**2 + d*(-4*a**2*c + 4*b**2*c)",
+      "C": "0",
+      "degree": 2,
+      "key": "020.022.110:1",
+      "norm_index": 1,
+      "resultant": "16*c**4*(a**2 + b**2)**2"
+    }
+  ],
+  "exact_permutation_identity_checks": 144,
+  "external_FJ_FS_HB_hostile_promoted": false,
+  "finite_prime_enumeration": false,
+  "formal_route_switch": false,
+  "generic72_all_balanced_empty": true,
+  "generic_base24_keys": [
+    "000.002.010:0",
+    "000.002.010:1",
+    "000.002.011:0",
+    "000.002.011:1",
+    "000.002.012:0",
+    "000.002.012:1",
+    "000.002.100:0",
+    "000.002.100:1",
+    "000.002.101:0",
+    "000.002.101:1",
+    "000.002.102:0",
+    "000.002.102:1",
+    "010.020.022:1",
+    "010.020.022:2",
+    "011.020.022:1",
+    "011.020.022:2",
+    "012.020.022:1",
+    "012.020.022:2",
+    "020.022.100:0",
+    "020.022.100:1",
+    "020.022.101:0",
+    "020.022.101:1",
+    "020.022.102:0",
+    "020.022.102:1"
+  ],
+  "global_credit": 0,
+  "globally_order_empty36_keys": [
+    "000.001.020:0",
+    "000.001.020:2",
+    "000.001.022:0",
+    "000.001.022:2",
+    "000.010.022:0",
+    "000.010.022:2",
+    "000.011.020:0",
+    "000.011.020:2",
+    "000.012.022:0",
+    "000.012.022:2",
+    "000.020.021:0",
+    "000.020.021:1",
+    "000.021.022:0",
+    "000.021.022:2",
+    "000.022.101:0",
+    "000.022.101:1",
+    "000.022.110:0",
+    "000.022.110:1",
+    "001.002.020:1",
+    "001.002.020:2",
+    "001.002.022:1",
+    "001.002.022:2",
+    "002.010.020:0",
+    "002.010.020:2",
+    "002.011.022:0",
+    "002.011.022:2",
+    "002.012.020:0",
+    "002.012.020:2",
+    "002.020.021:0",
+    "002.020.021:1",
+    "002.020.101:0",
+    "002.020.101:1",
+    "002.020.110:0",
+    "002.020.110:1",
+    "002.021.022:0",
+    "002.021.022:2"
+  ],
+  "inequalities": {
+    "000.001.020:0": [
+      [
+        1,
+        2
+      ]
+    ],
+    "000.001.020:2": [
+      [
+        1,
+        2
+      ]
+    ],
+    "000.001.022:0": [
+      [
+        0,
+        2
+      ]
+    ],
+    "000.001.022:2": [
+      [
+        0,
+        2
+      ]
+    ],
+    "000.002.010:0": [
+      [
+        2,
+        1
+      ]
+    ],
+    "000.002.010:1": [
+      [
+        2,
+        1
+      ]
+    ],
+    "000.002.011:0": [
+      [
+        2,
+        1
+      ]
+    ],
+    "000.002.011:1": [
+      [
+        2,
+        1
+      ]
+    ],
+    "000.002.012:0": [
+      [
+        2,
+        1
+      ]
+    ],
+    "000.002.012:1": [
+      [
+        2,
+        1
+      ]
+    ],
+    "000.002.100:0": [
+      [
+        2,
+        0
+      ]
+    ],
+    "000.002.100:1": [
+      [
+        2,
+        0
+      ]
+    ],
+    "000.002.101:0": [
+      [
+        2,
+        0
+      ]
+    ],
+    "000.002.101:1": [
+      [
+        2,
+        0
+      ]
+    ],
+    "000.002.102:0": [
+      [
+        2,
+        0
+      ]
+    ],
+    "000.002.102:1": [
+      [
+        2,
+        0
+      ]
+    ],
+    "000.010.022:0": [
+      [
+        0,
+        1
+      ]
+    ],
+    "000.010.022:2": [
+      [
+        0,
+        1
+      ]
+    ],
+    "000.011.020:0": [
+      [
+        1,
+        2
+      ]
+    ],
+    "000.011.020:2": [
+      [
+        1,
+        2
+      ]
+    ],
+    "000.012.022:0": [
+      [
+        0,
+        1
+      ]
+    ],
+    "000.012.022:2": [
+      [
+        0,
+        1
+      ]
+    ],
+    "000.020.021:0": [
+      [
+        1,
+        2
+      ]
+    ],
+    "000.020.021:1": [
+      [
+        1,
+        2
+      ]
+    ],
+    "000.020.100:0": [
+      [
+        1,
+        0
+      ]
+    ],
+    "000.020.100:1": [
+      [
+        1,
+        0
+      ]
+    ],
+    "000.020.102:0": [
+      [
+        1,
+        0
+      ]
+    ],
+    "000.020.102:1": [
+      [
+        1,
+        0
+      ]
+    ],
+    "000.020.110:0": [
+      [
+        1,
+        0
+      ]
+    ],
+    "000.020.110:1": [
+      [
+        1,
+        0
+      ]
+    ],
+    "000.021.022:0": [
+      [
+        0,
+        2
+      ]
+    ],
+    "000.021.022:2": [
+      [
+        0,
+        2
+      ]
+    ],
+    "000.022.101:0": [
+      [
+        0,
+        2
+      ]
+    ],
+    "000.022.101:1": [
+      [
+        0,
+        2
+      ]
+    ],
+    "000.022.110:0": [
+      [
+        0,
+        1
+      ]
+    ],
+    "000.022.110:1": [
+      [
+        0,
+        1
+      ]
+    ],
+    "001.002.020:1": [
+      [
+        0,
+        2
+      ]
+    ],
+    "001.002.020:2": [
+      [
+        0,
+        2
+      ]
+    ],
+    "001.002.022:1": [
+      [
+        1,
+        2
+      ]
+    ],
+    "001.002.022:2": [
+      [
+        1,
+        2
+      ]
+    ],
+    "002.010.020:0": [
+      [
+        0,
+        1
+      ]
+    ],
+    "002.010.020:2": [
+      [
+        0,
+        1
+      ]
+    ],
+    "002.011.022:0": [
+      [
+        1,
+        2
+      ]
+    ],
+    "002.011.022:2": [
+      [
+        1,
+        2
+      ]
+    ],
+    "002.012.020:0": [
+      [
+        0,
+        1
+      ]
+    ],
+    "002.012.020:2": [
+      [
+        0,
+        1
+      ]
+    ],
+    "002.020.021:0": [
+      [
+        0,
+        2
+      ]
+    ],
+    "002.020.021:1": [
+      [
+        0,
+        2
+      ]
+    ],
+    "002.020.101:0": [
+      [
+        0,
+        2
+      ]
+    ],
+    "002.020.101:1": [
+      [
+        0,
+        2
+      ]
+    ],
+    "002.020.110:0": [
+      [
+        0,
+        1
+      ]
+    ],
+    "002.020.110:1": [
+      [
+        0,
+        1
+      ]
+    ],
+    "002.021.022:0": [
+      [
+        1,
+        2
+      ]
+    ],
+    "002.021.022:2": [
+      [
+        1,
+        2
+      ]
+    ],
+    "002.022.100:0": [
+      [
+        1,
+        0
+      ]
+    ],
+    "002.022.100:1": [
+      [
+        1,
+        0
+      ]
+    ],
+    "002.022.102:0": [
+      [
+        1,
+        0
+      ]
+    ],
+    "002.022.102:1": [
+      [
+        1,
+        0
+      ]
+    ],
+    "002.022.110:0": [
+      [
+        1,
+        0
+      ]
+    ],
+    "002.022.110:1": [
+      [
+        1,
+        0
+      ]
+    ],
+    "010.020.022:1": [
+      [
+        2,
+        1
+      ]
+    ],
+    "010.020.022:2": [
+      [
+        2,
+        1
+      ]
+    ],
+    "011.020.022:1": [
+      [
+        2,
+        1
+      ]
+    ],
+    "011.020.022:2": [
+      [
+        2,
+        1
+      ]
+    ],
+    "012.020.022:1": [
+      [
+        2,
+        1
+      ]
+    ],
+    "012.020.022:2": [
+      [
+        2,
+        1
+      ]
+    ],
+    "020.022.100:0": [
+      [
+        2,
+        0
+      ]
+    ],
+    "020.022.100:1": [
+      [
+        2,
+        0
+      ]
+    ],
+    "020.022.101:0": [
+      [
+        2,
+        0
+      ]
+    ],
+    "020.022.101:1": [
+      [
+        2,
+        0
+      ]
+    ],
+    "020.022.102:0": [
+      [
+        2,
+        0
+      ]
+    ],
+    "020.022.102:1": [
+      [
+        2,
+        0
+      ]
+    ]
+  },
+  "norm_sector_counts72": {
+    "198_square": 32,
+    "42_linear": 12,
+    "90_quartic": 28
+  },
+  "notation": "indices0=p,1=q,2=r; [i,j] means norm_prime_i > norm_prime_j^2",
+  "physical_count72": "<= count of retained FS246 at p<B^(1/4): B^(1/4+o(1))",
+  "physical_count_q_gt_p_squared12": "B^(1/5+o(1)) by retained FS",
+  "q_gt_p_squared12_keys": [
+    "000.020.100:0",
+    "000.020.100:1",
+    "000.020.102:0",
+    "000.020.102:1",
+    "000.020.110:0",
+    "000.020.110:1",
+    "002.022.100:0",
+    "002.022.100:1",
+    "002.022.102:0",
+    "002.022.102:1",
+    "002.022.110:0",
+    "002.022.110:1"
+  ],
+  "ranks_computed": false,
+  "representative_HG_all_height_count": "O_epsilon(B^(1/4+epsilon)) via old HG p^epsilon",
+  "retained_generic330_reproduced": 330,
+  "source_biforms": 414,
+  "source_codes": 13,
+  "source_triples": 138,
+  "stage": "229HH",
+  "unbalanced_surviving36_keys": [
+    "000.002.010:0",
+    "000.002.010:1",
+    "000.002.011:0",
+    "000.002.011:1",
+    "000.002.012:0",
+    "000.002.012:1",
+    "000.002.100:0",
+    "000.002.100:1",
+    "000.002.101:0",
+    "000.002.101:1",
+    "000.002.102:0",
+    "000.002.102:1",
+    "000.020.100:0",
+    "000.020.100:1",
+    "000.020.102:0",
+    "000.020.102:1",
+    "000.020.110:0",
+    "000.020.110:1",
+    "002.022.100:0",
+    "002.022.100:1",
+    "002.022.102:0",
+    "002.022.102:1",
+    "002.022.110:0",
+    "002.022.110:1",
+    "010.020.022:1",
+    "010.020.022:2",
+    "011.020.022:1",
+    "011.020.022:2",
+    "012.020.022:1",
+    "012.020.022:2",
+    "020.022.100:0",
+    "020.022.100:1",
+    "020.022.101:0",
+    "020.022.101:1",
+    "020.022.102:0",
+    "020.022.102:1"
+  ]
+}
+CONTENT_END
+FILE_END prime_height.json
