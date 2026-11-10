@@ -1,0 +1,44 @@
+﻿STAGE37-229HI-A31 EXACT INTEGER GAUSSIAN DISCRIMINANT CERTIFICATE
+CARD=https://docs.google.com/document/d/191KpKCNblfEkbHU29whZ1WU1GVHnCzQVKKYU_2CHGMA/edit
+INPUT: live FJ necessary key 000.001.010:0, 0<b<a, first p<q<=262144 split primes p,q≡1mod4, third r unbounded. A28 F=A_Y Y²+B_Y Y+C_Y=0 with rational Y. Multiply by a²c²; integer A=b²(c²−d²)+4abcd+2a²d², B=2d[c(b²−a²)+2abd], C=b²(c²+d²)>0. Necessary integer Δ=B²−4AC>=0 and exact isqrt(Δ)^2=Δ. Exact SymPy independent symbolic coefficient comparison to A28 F produced zero discrepancies for A,B,C.
+STANDARD LIBRARY PYTHON3 REPLAY (no SymPy needed):
+from math import isqrt
+def sieve(n):
+ b=bytearray(b'\x01')*(n+1);b[0]=b[1]=0
+ for p in range(2,isqrt(n)+1):
+  if b[p]: b[p*p::p]=b'\x00'*(((n-p*p)//p)+1)
+ return b
+def legs(p):
+ for v in range(1,isqrt(p)+1):
+  u=isqrt(p-v*v)
+  if u*u+v*v==p:
+   a=abs(u*u-v*v);b=2*u*v
+   assert a*a+b*b==p*p and a%2 and b%4==0
+   return a,b
+ raise ValueError(p)
+def scan(lo,hi):
+ prime=sieve(hi)
+ ps=[(p,*legs(p)) for p in range(max(5,lo),hi+1) if prime[p] and p%4==1]
+ pp=[(p,a,b) for p,a,b in ps if b<a]
+ pairs=nonnegative=squares=0
+ for p,a,b in pp:
+  aa=a*a;bb=b*b;ab=a*b
+  for q,c,d in ps:
+   if q<=p:continue
+   pairs+=1
+   A=bb*(c*c-d*d)+4*ab*c*d+2*aa*d*d
+   B=2*d*(c*(bb-aa)+2*ab*d)
+   C=bb*(c*c+d*d)
+   D=B*B-4*A*C
+   if D>=0:
+    nonnegative+=1
+    if isqrt(D)**2==D:squares+=1
+ return len(ps),len(pp),pairs,nonnegative,squares
+for lo,hi in ((8200,30000),(8200,65536),(5,262144)):
+ print(lo,hi,scan(lo,hi))
+REPLAY RESULTS (actual executed):
+8200 30000 (1102,545,301547,113875,0)
+8200 65536 (2748,1374,1881415,703557,0)
+5 262144 (11472,5713,32775721,12074083,0)
+The exact loop includes EVERY p<q prime pair with b<a, no artificial cutoff on third r. Prime-square Gaussian identity uses p=u²+v² for split prime p, u,v positive, and a=|u²−v²|, b=2uv; each p has exactly one positive canonical (a odd,b even) representation. The condition Δ square is NECESSARY for any rational third Y and all actual same-P solutions. Since none survive, this one-key packet has exact TRUE PHYSICAL COUNT ZERO for every third r height.
+IMPORTANT LIMITS: q<=262144, t=b/a<1 only. A28 already proves 1<=t<=sqrt2 impossible for any height; t>sqrt2 not tested here. All other 329 live keys open. A24 all-414 first pair<=8192 OLD; A31 is only one-key larger finite census, not an asymptotic result or global counting credit.

@@ -1,0 +1,86 @@
+﻿STAGE37-229HI-A25 EXACT COMPLETE EXECUTABLE SYMPY CERTIFICATE
+Save following content as a .py text file and run with Python3/SymPy. Generated and independently executed in current batch 2026-10-12 JST. Source template mapping is inherited from FJ/FO and external hostile audit NOT_RUN; the function-field theorem itself is an exact coefficient calculation, NOT a full physical count.
+
+
+# Stage37 229HI-A25 exact proof certificate. Python3 + SymPy.
+# This is a complete executable exact-integer/symbolic audit, not a Monte Carlo test.
+# p=5,q=13 is a SINGLE specialized witness used to DISPROVE generic K-squareness,
+# not to prove all arithmetic moving primes empty.
+import sympy as S, hashlib
+from itertools import product, combinations
+from math import isqrt
+u,v,x,y=S.symbols('u v x y')
+p=u*u+v*v; q=x*x+y*y
+ap=u*u-v*v; bp=2*u*v; aq=x*x-y*y; bq=2*x*y
+P=[(ap,-bp),(p,0),(ap,bp)]
+Q=[(aq,-bq),(q,0),(aq,bq)]
+def mul(z,w):return (z[0]*w[0]-z[1]*w[1],z[0]*w[1]+z[1]*w[0])
+K=[t for t in product(range(3),repeat=3) if t!=(1,1,1) and t<tuple(2-w for w in t)]
+assert len(K)==13
+C=[]
+for i,j,k in K:
+ a,b=mul(P[i],Q[j])
+ C.append((b*b,0 if k==1 else (-2 if k==0 else 2)*a*b,b*b if k==1 else a*a))
+sub={u:2,v:1,x:3,y:2} # p=5, q=13, exact primitive split-prime data
+R=[(ap,bp),(aq,bq),
+   (ap*aq-bp*bq,ap*bq+bp*aq),
+   (ap*aq+bp*bq,ap*bq-bp*aq)]
+fs={}; squares=set(); diagonal=set(); linear=set()
+triple_count=0
+for ids in combinations(range(13),3):
+ if any(sum(K[z][j]==1 for z in ids)>1 for j in range(3)):continue
+ triple_count+=1
+ for h in range(3):
+  key='.'.join(''.join(map(str,K[z])) for z in ids)+':'+str(h)
+  A,B,D=[sum((-1 if m==h else 1)*C[z][j] for m,z in enumerate(ids)) for j in range(3)]
+  fs[key]=(A,B,D)
+  if S.expand(A)==0:
+   assert S.expand(B)!=0 and S.expand(D)!=0
+   linear.add(key)
+  aa,bb,dd=[int(s.subs(sub)) if hasattr(s,'subs') else int(s) for s in (A,B,D)]
+  disc=bb*bb-4*aa*dd
+  if disc>=0 and isqrt(disc)**2==disc: squares.add(key)
+  for T,W in R:
+   for sign in (-1,1):
+    if (A*T*T+sign*B*T*W+D*W*W).subs(sub)==0:
+     diagonal.add(key)
+assert triple_count==138 and len(fs)==414
+assert len(squares)==60 and len(diagonal)==52 and len(linear)==12
+extra=sorted(squares-diagonal)
+expected=[
+'000.001.110:0','000.002.110:0',
+'000.002.110:1','001.002.110:1',
+'020.021.110:0','020.022.110:0',
+'020.022.110:1','021.022.110:1']
+assert extra==expected and set(extra)==linear-diagonal
+for key in sorted(diagonal):
+ A,B,D=fs[key]
+ witness=False
+ for T,W in R:
+  for sign in (-1,1):
+   expr=A*T*T+sign*B*T*W+D*W*W
+   if expr.subs(sub)==0 and S.expand(expr)==0:
+    witness=True;break
+  if witness:break
+ assert witness, ('failed generic diagonal polynomial identity',key)
+not_square=sorted(set(fs)-squares)
+assert len(not_square)==354
+assert set(not_square).isdisjoint(linear|diagonal)
+sha=hashlib.sha256('\n'.join(not_square).encode()).hexdigest()
+assert sha=='8af883139beca7d8956d1c5b362c75f5cf48b41bb6f070a1dbefe88ff2c16563'
+print('PASS 13 macro / 138 triples / 414 homogeneous equations')
+print('PASS 52 symbolic GK diagonal identities, 12 A=0 (4 diagonal +8 extra)')
+print('PASS 8 extra linear generic rational-root classes:',extra)
+print('PASS 354 nonsquare generic discriminants, digest:',sha)
+
+
+# MATHEMATICAL JUSTIFICATION OF FINAL ASSERT:
+# For polynomial Δ∈Z[u,v,x,y], if Δ is a square in K=Q(u,v,x,y),
+# its rational-function square root is integral over Q[u,v,x,y].
+# The polynomial ring is integrally closed, so the root lies in Q[u,v,x,y].
+# Consequently Δ(2,1,3,2) must be a rational square. As it is an integer,
+# it must be a nonnegative INTEGER square. Each of 354 contradicted cases
+# is therefore genuinely nonsquare in K, independently of any other sample.
+# Crucial firewall: Δ may nevertheless specialize to an arithmetic square
+# at infinitely many special integer prime Gaussian parameter choices.
+# This gives NO uniform same-P moving prime-pair bound and NO global credit.

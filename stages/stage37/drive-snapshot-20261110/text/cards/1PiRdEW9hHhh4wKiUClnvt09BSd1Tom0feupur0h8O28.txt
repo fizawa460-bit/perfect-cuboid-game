@@ -1,0 +1,100 @@
+﻿STAGE37-A27 EXACT CROSSWALK REPLAY CERTIFICATE — complete executable Python3/SymPy script below.
+The code was executed using exact SymPy factorization and integer discriminant/isqrt over all 414 keys, no probabilistic sampling. It replays 229GN/GO FJ biform degree partition independently from A25 FO first-prime-pair numerical discriminant flags. It certifies an exact set inclusion; the 84 FJ-source eliminations, A26 Cohen–Serre estimate, FO true physical nonvanishing, and A23 physical fiber theorem are PREEXISTING separate inputs, not 'proved by script'. GitHub not used.
+
+
+# Stage37 A27 reproducible exact 414-key FO-vs-FJ crosswalk.
+# Requires Python 3.10+ and SymPy. NO randomness/finite-extrapolation.
+# Proof is unconditional at the symbolic/source-key level;
+# use of FJ84 eliminations for physical P retains their HISTORIC HOSTILE HOLD.
+import sympy as s
+from itertools import combinations, product
+from math import isqrt
+from collections import Counter
+from hashlib import sha256
+
+
+u,v,x,y=s.symbols("u v x y")
+t,X,Y=s.symbols("t X Y")
+K=[z for z in product(range(3),repeat=3) if z!=(1,1,1)
+   and z < tuple(2-w for w in z)]
+assert len(K)==13
+triples=[z for z in combinations(range(13),3)
+         if not any(sum(K[k][i]==1 for k in z)>1 for i in range(3))]
+assert len(triples)==138
+def key(ids,h):
+    return ".".join("".join(map(str,K[z])) for z in ids)+":"+str(h)
+# FO integer specialized Gaussian P^2, Q^2 values with p=5,q=13.
+p=5;q=13
+a=3;b=4;c=5;d=12
+P=[(a,-b),(p,0),(a,b)]
+Q=[(c,-d),(q,0),(c,d)]
+fo={}
+for i,j,k in K:
+    zr=P[i][0]*Q[j][0]-P[i][1]*Q[j][1]
+    zi=P[i][0]*Q[j][1]+P[i][1]*Q[j][0]
+    fo[i,j,k]=(zi*zi,0 if k==1 else (-2 if k==0 else 2)*zr*zi,
+                zi*zi if k==1 else zr*zr)
+j354=set(); j60=set()
+for ids in triples:
+    for h in range(3):
+        A,B,C=[sum((-1 if idx==h else 1)*fo[K[z]][n]
+                   for idx,z in enumerate(ids)) for n in range(3)]
+        Delta=B*B-4*A*C
+        (j60 if Delta>=0 and isqrt(Delta)**2==Delta else j354).add(key(ids,h))
+assert len(j354)==354 and len(j60)==60
+def digest(keys):return sha256("\n".join(sorted(keys)).encode()).hexdigest()
+assert digest(j354)=="8af883139beca7d8956d1c5b362c75f5cf48b41bb6f070a1dbefe88ff2c16563"
+assert digest(j60)=="5fccdbdd4a498a40c280e404d96df2f64e1c9230386f3cb1c8059780590a0597"
+# Independent FJ biform construction, not a copy of FO discriminant formula.
+def E(code):
+    i,j,k=code
+    aa=(i-1)*t
+    bb=(j-1)*X
+    cc=(k-1)*Y
+    return s.expand((1+t*t if i==1 else 1)*
+                    (1+X*X if j==1 else 1)*
+                    (1+Y*Y if k==1 else 1)*
+                    (aa+bb+cc-aa*bb*cc)**2)
+legs=[E(code) for code in K]
+degree={}; f330=set(); f84=set()
+for ids in triples:
+    for h in range(3):
+        label=key(ids,h)
+        f=s.expand(sum((-1 if pos==h else 1)*legs[z]
+                       for pos,z in enumerate(ids)))
+        d=s.discriminant(f.subs(t,s.Rational(4,3)),X)
+        if d==0:
+            deg=0
+        else:
+            fac=s.factor_list(d,Y)[1]
+            deg=sum(int(s.degree(g,Y)) for g,e in fac if e%2)
+        degree[label]=deg
+        (f330 if deg in (3,4) else f84).add(label)
+assert len(degree)==414 and len(f330)==330 and len(f84)==84
+counts=Counter((degree[k],"J354" if k in j354 else "J60") for k in degree)
+expect={(0,"J354"):16,(0,"J60"):52,
+        (2,"J354"):8,(2,"J60"):8,
+        (3,"J354"):40,(3,"J60"):0,
+        (4,"J354"):290,(4,"J60"):0}
+for k,v in expect.items():assert counts[k]==v,(k,counts[k],v)
+assert f330 <= j354
+assert j60 <= f84
+assert len(f84 & j354)==24
+assert len(f330 & j354)==330
+assert digest(f330)=="d4e3368b8e2a27230fce2e3497ff1069cf12161a0b7b22ef2e4f56b381534f88"
+extra={"000.001.110:0","000.002.110:0","000.002.110:1",
+       "001.002.110:1","020.021.110:0","020.022.110:0",
+       "020.022.110:1","021.022.110:1"}
+assert extra <= j60 and extra <= f84
+assert Counter(degree[k] for k in extra)=={0:4,2:4}
+print("PASS 13 codes, 138 admissible triples, 414 source/hyp keys")
+print("PASS A25 FO J354 / J60 original p=5 q=13 specialization")
+print("PASS FJ symbolic discriminant squarefree degrees",Counter(degree.values()))
+print("PASS exact 4x2 table: delta0 16/52, delta2 8/8, delta3 40/0, delta4 290/0")
+print("PASS FJ live330 ⊂ J354 and remaining J60 ⊂ historic FJ globally excluded84")
+print("PASS extra8 A25 linear keys = FJ degree0:4, degree2:4")
+print("SHA256 FJ330:",digest(f330))
+print("SHA256 J60:",digest(j60))
+print("FIREWALL: FJ84 physical emptiness is prior, not newly proved by this Python script.")
+print("FIREWALL: Q^(7/4)log Q comes from A26 classical Cohen-Serre + FO/A23 fibers.")
+print("FIREWALL: P(B)=o(B^(1/3)) and GOOD(p,r) occupied=o(Q) still OPEN.")

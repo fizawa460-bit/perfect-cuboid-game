@@ -1,0 +1,76 @@
+﻿STAGE37 229HI-A30 EXECUTABLE PRIMITIVE PELL + CHARACTER8 CRITICAL COUNT CERT
+CARD=https://docs.google.com/document/d/1zNpkYCfWvknLbsQgAtf_1JLR5TjChmJBLJbyKCkglgA/edit
+PROOF INPUT: actual original FJ live key 000.001.010:0 and prior A28 positive t<1 imposes d/c<k(a+b)/(2ab), k=a−b. Full signed F=E001+E010−E000 has constant t²(1+X²)>0 in Y.
+NEW UNCONDITIONAL ARITHMETIC LEMMA:
+If p rational prime, p²=a²+b² primitive, odd a>even b>0, k=a−b>0 and n=a+b, then k odd< p, p<n<sqrt2*p, norm(n+p√2)=−k², every odd ℓ|k has χ8(ℓ)=+1, and the primitive ideal (n+p√2) at ℓ lies on exactly ONE of ℓ's two split prime ideals with valuation2vℓ(k). Thus fixed k and dyadic p∈[Q,2Q] have ≤f(k)=2^ω(k)1_{χ8(ℓ)=+1 for all ℓ|k} possibilities: ε=3+2√2>4 dyadic unit-gap gives at most one generator per orientation ideal.
+ELEMENTARY CHARACTER MAJORANT: g(n)=(1*χ8)(n)=Σ_{d|n}χ8(d), where χ8(odd n)=+1 for n≡1,7 mod8, -1 for 3,5 mod8 and χ8(even)=0. g(ℓ^e)=e+1 on split ℓ, 1 or0 on inert ℓ as e is even or odd, and 1 on powers2. Therefore f(n)≤g(n) coefficientwise. Bounded partial sums χ8 and Dirichlet hyperbola give Σn≤H g(n)≤C H: split at d=√H in Σ_{dm≤H}χ8(d). NO Selberg-Delange is necessary.
+SECOND q EXACT EUCLID: any primitive c²+d²=q², q prime, c odd,d even has c=|u²−v²|,d=2uv,q=u²+v² with u,v coprime opposite parity. For fixed d, count q≤τ(d/2), not τ(d²). First positive F forces d<6k when Q≤p<q≤2Q and k≤Q/(4sqrt2). Thus Σ_{d<6k,2|d}τ(d/2)≤Ck log(2k).
+SAME-P TRUE PHYSICAL COUNT: per fixed(p,q) ≤2 primitive Y→r (any third height) because F nonzero quadratic with positive constant, and old A23 fixed R=pqr O(1) original P. Sum f(k) k log(2k) ≤H² log(2H). For H=floor(sqrtQ/(log(2Q))^(1/2+δ)) and δ>0, Oδ(Q/log^(2δ)Q)=o(Q). One key and narrow packet ONLY, no global one-third credit.
+
+
+EXACT STANDARD LIBRARY REPLAY CODE (run Python3; no internet):
+from math import isqrt
+from collections import defaultdict
+def spf_table(N):
+ a=list(range(N+1))
+ for i in range(2,isqrt(N)+1):
+  if a[i]==i:
+   for j in range(i*i,N+1,i):
+    if a[j]==j: a[j]=i
+ return a
+def f(n,spf):
+ out=1
+ while n>1:
+  p=spf[n]
+  if p%8 not in (1,7): return 0
+  out*=2
+  while n%p==0:n//=p
+ return out
+def g(n,spf):
+ out=1
+ while n>1:
+  p=spf[n];e=0
+  while n%p==0:n//=p;e+=1
+  if p==2:c=1
+  elif p%8 in (1,7):c=e+1
+  else:c=int(e%2==0)
+  out*=c
+ return out
+spf=spf_table(100000)
+for K in (100,1000,10000,100000):
+ F=sum(f(k,spf) for k in range(1,K+1))
+ G=sum(g(k,spf) for k in range(1,K+1))
+ assert all(f(k,spf)<=g(k,spf) for k in range(1,K+1))
+ print("mean",K,F,G)
+from sympy import primerange
+def hyp_prime_square(p):
+ for v in range(2,isqrt(p)+1,2):
+  z=p-v*v;u=isqrt(max(0,z))
+  if z>0 and u*u==z and u%2:
+   a=abs(u*u-v*v);b=2*u*v
+   assert a*a+b*b==p*p and a%2 and b%4==0
+   return a,b
+ raise ValueError(p)
+for Q in (500,5000,30000):
+ counts=defaultdict(int); n=0;bad=0
+ for p in primerange(Q,2*Q+1):
+  if p%8!=1:continue
+  a,b=hyp_prime_square(int(p))
+  if b<a:
+   k=a-b;counts[k]+=1;n+=1
+   if not f(k,spf):bad+=1
+ assert bad==0
+ assert all(v<=f(k,spf) for k,v in counts.items())
+ print("firstprime",Q,n,max((v/f(k,spf) for k,v in counts.items()),default=0))
+EXECUTED OUTPUT:
+mean 100 25 65
+mean 1000 255 623
+mean 10000 2519 6232
+mean 100000 25251 62317
+firstprime 500 7 0.5
+firstprime 5000 63 0.5
+firstprime 30000 361 1.0
+NOTE: original execution also used SymPy to enumerate prime ranges, arithmetic equalities tested with integer isqrt; replay requires SymPy for primerange, but standalone character8 portion is standard library. The printed numeric examples verify necessary arithmetic upper bounds only; no F=0, original physical P, or third r positive proof is inferred from sample.
+
+
+ANTI-LOOP/NEG: A28 log10 first-k count OLD, A7 primitive 2^omega(h) OLD on two different B0 keys, A29 local valuation OLD, A11 global16 RETRACTED A12, DT/DU/GW/GZ independence restrictions. New is SAME first prime angular k support χ8 with elementary O(H) mean, plus primitive Euclid q divisor count. External historic original FJ classifier audit HOLD; no authority/gate/credit/closure change.
