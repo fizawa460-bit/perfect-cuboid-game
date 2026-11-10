@@ -1,0 +1,263 @@
+﻿M3-T11-224 — Cross-gcd factor split and Stage14 stratification no-go
+
+
+STATUS: PROVED_C21_HYPOTENUSE_GCD_SQUARE_NEUTRALITY / PROVED_C12_DIRECT_TAIL / NO_GO_EXISTING_STAGE14_AUTOMATIC_STRATIFICATION / CROSS_GCD_SELECTED_ATTACK_HOLD / GLOBAL_CREDIT=0.
+Authority: current Stage37 MAIN through223, ROUTE-PORTFOLIO-AUDIT-223-R2, active CROSS-GCD route, M3-XG-005/008, Stage14 final R06, Stage14-X13, Stage14-4bm/4bn, s6-08/s6-09/s6-10. Gate OPEN. No retraction. Independent hostile audit186–224 NOT RUN. TI remains parked.
+
+
+1. Question
+
+
+ROUTE-PORTFOLIO-AUDIT-223-R2 selected one bounded test:
+retain the exact 4bn variable
+    q_red = H3/gcd(H2,H3) = R/c_raw
+on the same Stage14 physical raw-edge measure and ask whether the existing Stage14 B^(1/2+o(1)) proof can be refined at
+    C=B^(1/6+eta), 0<eta<1/12,
+to obtain a genuine c_raw>C saving.
+
+
+The answer is negative for the CURRENT proof architecture. The cross-gcd theorem itself is not disproved.
+
+
+2. Exact factor split
+
+
+Under M3-XG-008, on the exact 4bn positive cross-square pair:
+    c12 = gcd(H1,X2) = X2/gcd(X2,X3),
+    R = c12 H3,
+    c21 = gcd(H2,H3),
+    c_raw = c12 c21,
+and
+    q_red = R/c_raw = H3/c21.                 (224.1)
+
+
+Here H1 is the reconstructed first-face hypotenuse. Stage14-4bm's “true cross gcd”
+    c = gcd(H,X2)
+is exactly c12 in this notation.
+
+
+3. Uniform direct tail for c12
+
+
+For 1<=D<=B define E12(B;D) as the number of Stage14 physical raw ordered edges with R<=B and c12>=D.
+
+
+From R=c12 H3,
+    c12>=D  =>  H3<=B/D.
+For each fixed primitive oriented F3, Stage14-4bn/t36 gives only B^o(1) admissible physical F2 partners. The number of primitive oriented Pythagorean faces with hypotenuse <=Y is O(Y). Therefore uniformly:
+    E12(B;D) << (B/D) B^o(1).                 (224.2)
+
+
+This is the general-threshold form of the direct true-cross-gcd count used in Stage14-4bm BM.8.
+
+
+At the Stage37 threshold, splitting
+    c12 c21 > C
+gives
+    c12>sqrt(C)  or  c21>sqrt(C).             (224.3)
+
+
+The first branch from (224.2) is only
+    E12(B;sqrt(C)) << B C^(-1/2+o(1)).
+For C=B^(1/6+eta) this is
+    B^(11/12-eta/2+o(1)),
+which is much weaker than the unstratified Stage14 square-root ceiling B^(1/2+o(1)). Taking the minimum therefore gives no C-saving at all on the B^(1/2) scale.
+
+
+The desired large-c endpoint budget is roughly
+    B^(1/2+o(1)) C^(-1+o(1))
+= B^(1/3-eta+o(1)).
+Existing c12 counting is far from this.
+
+
+4. New exact c21 square-neutrality theorem
+
+
+Let the 4bn pair be written in half-angle coordinates:
+    H2-S2 = kappa2 a^2,   H2+S2 = kappa2 b^2,
+    H3-S3 = kappa3 c^2,   H3+S3 = kappa3 d^2,
+with gcd(a,b)=gcd(c,d)=1 and kappa_i in {1,2}.
+
+
+The Stage14 cross-square detector is
+    Delta0
+    =(ad-bc)(ad+bc)(bd-ac)(bd+ac).             (224.4)
+
+
+Put
+    h = gcd(H2,H3) = c21.
+Primitive Pythagorean hypotenuses are odd, so h is odd.
+
+
+Claim:
+    h^2 | Delta0.                                (224.5)
+
+
+Proof prime-power by prime-power.
+Let p^e|h. Since p is odd and p^e divides H2,H3,
+    a^2+b^2 == 0 mod p^e,
+    c^2+d^2 == 0 mod p^e.
+Primitivity gives p not dividing abcd. Hence p==1 mod4 and there is a root rho^2==-1 mod p^e such that, after choosing rho,
+    a == rho b mod p^e.
+The second face has
+    c == sigma d mod p^e
+with sigma=+rho or -rho.
+
+
+If sigma=+rho, then
+    ad-bc == 0 mod p^e,
+    bd+ac == bd(1+rho^2) == 0 mod p^e.
+
+
+If sigma=-rho, then
+    ad+bc == 0 mod p^e,
+    bd-ac == bd(1+rho^2) == 0 mod p^e.
+
+
+Thus p^e divides two distinct factors in (224.4), so p^(2e)|Delta0. Multiplying over all prime powers of h proves (224.5).
+
+
+More precisely, h admits a coprime orientation split
+    h=h_same h_opp
+such that
+    h_same | gcd(ad-bc,bd+ac),
+    h_opp  | gcd(ad+bc,bd-ac).                  (224.6)
+
+
+Therefore the second cross-gcd factor c21 is an AUTOMATIC SQUARE FACTOR of the raw square detector. Large c21 cannot be charged as an independent square-sieve/root-line density.
+
+
+This is analogous to, but distinct from, Stage14-s6-08's good half-angle gcd-matrix square factor. Here the divisor is the full common hypotenuse gcd gcd(H2,H3) appearing directly in M3-XG-008.
+
+
+5. Finite diagnostic
+
+
+A direct integer replay over all 753 coprime half-angle pairs 1<=a<b<50 and all 753 second pairs checked 567,009 pair-pairs. Among them 90,553 had gcd(H2,H3)>1, with maximum observed gcd 4705. Every case satisfied
+    gcd(H2,H3)^2 | Delta0.
+This is diagnostic only; the proof is the prime-power argument above.
+
+
+6. Where the Stage14 square-root proof actually gets exponent 1/2
+
+
+Stage14-X13 closes the full active-direction count by the outer quantifier order
+    common core C
+    -> primitive agreement pair (U,V)
+    -> reduced endpoint-linear column
+    -> M
+    -> reverse reciprocal reconstruction.
+
+
+On the low-core nonproportional region the fixed-power costs are
+    C: chi,
+    primitive (U,V): 2phi-chi,
+    reduced column: 1/4-chi,
+    reverse reciprocal completion after fixed (U,V,M): 0,
+giving
+    E_RRF <= 2phi+1/4-chi = 1-2theta.            (224.7)
+
+
+Together with the k-host this gives B^(1/2+o(1)). Saturation is confined to
+    theta=1/4,
+    5/24<=phi<=1/4,
+    chi=2phi-1/4 in [1/6,1/4].
+
+
+Crucially, Stage14-X13 proves:
+    fixed (U,V,M) => complete physical reconstruction multiplicity B^o(1).   (224.8)
+
+
+Thus any condition only known after choosing one of those B^o completions is merely a post-filter and cannot improve the outer polynomial exponent.
+
+
+7. The missing adapter
+
+
+The current Stage14 corpus contains no proved relation that forces
+    c_raw>C
+or equivalently
+    q_red=H3/gcd(H2,H3)<R/C
+to shrink the OUTER X13 support (C,U,V,M) by a fixed power.
+
+
+Existing exact facts do not supply it:
+- M3-XG-008 explicitly forbids identifying gcd(H2,H3) with the Stage14 X13 common core C without proof.
+- c12 has only the direct B/D tail (224.2), which is weaker than the global square-root ceiling at the needed D.
+- c21 is square-neutral by (224.5) and cannot be recharged as a square-sieve modulus.
+- Stage14-s6-08/4bm already show the analogous large good gcd cells are edge-relative and automatic square factors.
+- Stage14-s6-10 shows bounded fixed-direction multiplicity and collision control do not imply active-direction sparsity.
+
+
+Therefore the CURRENT Stage14 square-root proof cannot be automatically stratified to
+    E_raw,{c_raw>C}(B) << B^(1/2+o(1)) C^(-delta)
+for any fixed delta>0 merely by carrying c_raw or q_red through existing steps. A new outer-support/family-average theorem is required.
+
+
+This is a method-level no-go, not a theorem that the desired physical tail is false.
+
+
+8. Quantifier-level countermodel for the proof architecture
+
+
+Abstract the X13 ledger as:
+- N=B^(1/2) admissible outer states;
+- each outer state has exactly one completion, hence satisfies the B^o completion contract;
+- mark every completion as lying in the selected c_raw>C stratum.
+
+
+Then the stratified population still has B^(1/2) states. This respects exactly the cardinality information used by the existing outer-support-plus-finite-fiber proof.
+
+
+The model is NOT a physical cuboid family. It proves only that an unstratified outer count plus B^o completion fibers contains no logical conditional saving without an additional relation between the stratum and the outer state.
+
+
+9. Decision
+
+
+DECISION:
+    HOLD_CROSS_GCD_EXISTING_STAGE14_AUTOMATIC_STRATIFICATION.
+
+
+Retain:
+- M3-XG-005/008 exact cross-gcd structure;
+- threshold-specific physical tail itself remains OPEN;
+- (224.2) direct c12 tail;
+- (224.5)/(224.6) new c21 square-neutrality;
+- all prior scoped endpoint sectors.
+
+
+Do NOT:
+- multiply Stage14 B^(1/2) by c12 or c21 density;
+- identify c21 with X13 common core C;
+- use c21 as a fresh square-sieve modulus;
+- continue another cross-gcd identity chain without a new family-average/outer-support theorem.
+
+
+No endpoint upper bound improves. GLOBAL_COUNTING_CREDIT remains0.
+
+
+10. Next
+
+
+The route-audit fallback rule now triggers.
+
+
+NEXT225 = LOCAL_FIXED_BLOCK_PHYSICAL_TRANSFER_REASSESSMENT.
+
+
+Return to M3-LOCAL-GATE-001, but respect157–158:
+- do not recompute the inert-prime half-set;
+- do not restart generic interval character transfer;
+- do not restart the arbitrary-coefficient quadratic large sieve, which already pays unresolved squareclass energy;
+- inspect whether any retained exact M3 parametrization / Stage13-style fixed-set asymptotic / divisor-coordinate decomposition can produce an exact fixed finite-prime relative contraction on the M3 measure.
+
+
+GO only if a new same-M3 physical transfer mechanism is identified. Otherwise record LOCAL HOLD and return to the portfolio rather than opening another renamed character gate.
+
+
+LATEST_MATH=M3-T11-224.
+GATE=OPEN.
+GLOBAL_CREDIT=0.
+PERFECT_CUBOID_EXISTENCE_OR_NONEXISTENCE_CONCLUSION=NONE.
+INDEPENDENT_HOSTILE_AUDIT_186_224=NOT_RUN.

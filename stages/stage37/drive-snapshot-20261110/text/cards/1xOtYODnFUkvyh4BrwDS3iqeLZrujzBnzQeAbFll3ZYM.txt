@@ -1,0 +1,198 @@
+﻿M3-T11-222 — Bounded-radius raw-graph squareclass collision bound
+
+
+STATUS: PROVED_BOUNDED_RADIUS_GRAPH_COLLISION_BOUND / PROVED_LOCAL_TO_NONLOCAL_REDUCTION / ACTUAL_NONLOCAL_LONG_LONG_ENERGY_OPEN / GLOBAL_CREDIT=0.
+Authority: fresh Stage37 MAIN / operational CARD-INDEX / short RESULT-LEDGER / M3-T11-221, with retained M3-T11-212 raw-graph injection and degree bound, M3-T11-214 symmetric kernel, and ROUTE-SEARCH-220-R1. Gate OPEN. No retraction. Independent hostile audit186–222 NOT RUN; separate audit162–185 scope unchanged. TI parked;120 retracted;147–149 frozen.
+
+
+1. Scope and question
+
+
+Use exactly the endpoint-inclusive canonical raw population X*(B,C) of212/214/215/221: positive primitive edges, integral space diagonal R<=B, at least two integral faces, canonical eligible pair, c_chart>C=B^gamma, pairwise-distinct physical edges, M_2R, and every inherited content/height/local mask. For x in X*, let a be the shared edge of the selected pair and
+
+
+    M_x=R(x)^2-a(x)^2=b(x)^2+c(x)^2=kappa_x y_x^2,
+
+
+with kappa_x positive squarefree. Let N=|X*|.
+
+
+Card212 gives an injective map x -> e_x from X* into the Stage14 raw face graph G_B. Its vertices are primitive oriented Pythagorean faces and its edges are compatible physical two-face objects. The ambient graph has
+
+
+    |E(G_B)|<=B^(1/2+o(1)),    Delta(G_B)<=B^o(1),
+
+
+and the selected image has N<=B^(1/2+o(1)). This card uses that graph incidence as a genuinely additional physical restriction absent from221's N,D,height-only relaxation.
+
+
+Define the ordered off-value squareclass energy
+
+
+    E_off = #{(x,x') in X*^2:
+              M_x != M_x',
+              sf(M_x)=sf(M_x')}.
+
+
+For a fixed integer L>=1, let E_off,<=L be the same count restricted by
+
+
+    dist_{Line(G_B)}(e_x,e_x') <= L.
+
+
+Distance is in the ambient raw graph line graph; disconnected pairs have infinite distance.
+
+
+2. Bounded-radius collision theorem
+
+
+The line graph of a graph of maximum degree Delta has maximum degree at most 2(Delta-1). Hence for every raw edge e, the number of distinct raw edges within line-graph distance at most L is at most
+
+
+    sum_{j=1}^L [2(Delta-1)]^j
+    <= L(2Delta)^L.
+
+
+The squareclass and unequal-value conditions only delete pairs. Therefore, for every fixed L,
+
+
+    E_off,<=L
+      <= N * L(2Delta)^L
+      <= B^(1/2+o(1)).                         (222.1)
+
+
+This is uniform in kappa, y, contents and the inherited masks. It does not use the fixed-M multiplicity D, short multipliers, high-kappa, character cancellation, an endpoint assumption, or any independence heuristic.
+
+
+For L=1 there is a sharper direct incidence form. If d_X(F) is the degree of a face vertex inside the selected X* image, then
+
+
+    E_off,adj
+      <= sum_F d_X(F)(d_X(F)-1)
+      <= Delta * sum_F d_X(F)
+      = 2N Delta
+      <= B^(1/2+o(1)).                          (222.2)
+
+
+Thus all off-value same-squareclass pairs that reuse one primitive face are already paid.
+
+
+3. Comparison with the221 energy target
+
+
+The221 sufficient energy target is
+
+
+    E_off <= B^(1-2gamma-eta+o(1)),
+    0<eta<1/2-2gamma.
+
+
+Since L is fixed, (222.1) gives
+
+
+    E_off,<=L = o(B^(1-2gamma-eta))
+
+
+throughout that same eta window. At gamma=1/6 this is
+
+
+    E_off,<=L <= B^(1/2+o(1))
+               = o(B^(2/3-eta))
+    for every fixed 0<eta<1/6.
+
+
+Therefore bounded-radius raw-graph collisions are not the remaining obstruction to the215/221 endpoint-energy route.
+
+
+This is a scoped energy disposal only. It does not by itself improve the global endpoint count, so GLOBAL_CREDIT remains0.
+
+
+4. Exact local-to-nonlocal reduction
+
+
+For every fixed L,
+
+
+    E_off = E_off,<=L + E_off,>L.               (222.3)
+
+
+The first term is paid by (222.1). Consequently the actual unresolved theorem can be restricted to same-squareclass unequal-value pairs whose canonical raw graph edges are farther than L in the line graph.
+
+
+In particular, taking L=1 reduces the open energy to vertex-disjoint raw graph edge pairs. Taking any other fixed L shows more: every fixed-radius neighborhood contribution is B^(1/2+o(1)). A future argument that only counts collisions inside a bounded raw-face neighborhood cannot address the remaining potentially dominant term; a genuinely nonlocal relation or a separate receiver is required.
+
+
+5. Relation to221 and no-double-credit rule
+
+
+The formal coefficient countermodel in221 has values, host size, fixed-value multiplicity and height, but no raw-graph topology. It can therefore place N labels in one squareclass and create E_off~N^2~B without violating any bounded-degree incidence rule.
+
+
+The actual X* graph restriction changes that relaxation: only B^(1/2+o(1)) ordered collision pairs can lie within any fixed graph radius. This is the additional physical compatibility requested by NEXT222.
+
+
+It is still insufficient for full closure. Same-squareclass labels may in principle occur on many mutually distant graph edges, and (222.1) gives no saving for those pairs. The221 short-multiplier/high-kappa sectors and222 bounded-radius sector overlap and must not be multiplied or separately credited on their intersection. Charge the local graph sector once.
+
+
+6. Exact residual formulation with the214 kernel
+
+
+For a raw graph edge e={F1,F2}, Card214 defines
+
+
+    J(e)=S2^2 X1^2 + S1^2 X2^2 = g_e^2 M_e.
+
+
+Hence for two positive raw edges e,f,
+
+
+    sf(M_e)=sf(M_f)
+    iff J(e)J(f) is an integer square.           (222.4)
+
+
+After (222.1), the remaining energy problem may therefore be formulated on line-graph-distant, and in particular vertex-disjoint, edge pairs satisfying the square-product relation (222.4), with M_e != M_f and all original height/content/canonical masks retained.
+
+
+Equation (222.4) is only an exact adapter. It is not itself a density theorem and must not start another identity-only or generic large-sieve chain.
+
+
+7. Finite diagnostic on the221 census
+
+
+As a within-session finite consistency check, the221 R<=4,000,000 census was reconstructed from its two integral faces into the same primitive oriented raw-face graph. It gives:
+
+
+    raw edges = 473,
+    primitive face vertices = 654,
+    maximum observed degree = 9,
+    ordered edge pairs within line-graph radius1 = 896,
+    radius2 = 1918,
+    radius3 = 2656,
+    radius4 = 3140.
+
+
+The221 census has zero off-value same-squareclass pairs at all radii because all473 squarefree classes are distinct. These numbers check the incidence accounting only; they are not asymptotic evidence and do not prove any endpoint statement. The universal theorem is (222.1), inherited from212's asymptotic raw-graph degree contract.
+
+
+8. Decision and NEXT223
+
+
+DECISION: GRAPH_INCIDENCE_MECHANISM_ACCEPTED_SCOPED.
+
+
+NEXT223 = NONLOCAL_EDGE_COMPATIBILITY_PREFLIGHT.
+
+
+Work only on E_off,>L after paying (222.1), initially with L=1 if a sharper four-face relation is needed. Seek either:
+
+
+(a) a quantitative same-measure count for vertex-disjoint / fixed-distance-separated raw graph edge pairs satisfying J(e)J(f)=square, with all L,r,s/content/height/mask costs and kappa=1 retained; or
+
+
+(b) a legitimate actual raw family showing that the distant-pair energy can still be as large as the221 target forbids.
+
+
+A new identity without a quantitative reduction is not a GO condition. Do not reopen generic fixed-face L1 completion, the automatic219/220 chain, TI, or K1. If no nonlocal mechanism is obtained, record HOLD and compare the separately OPEN218 mixed-occupancy / large-c / K>1 / large-W receivers only with an explicit quantitative target.
+
+
+Mathematical latest222. Gate OPEN. GLOBAL_CREDIT=0. No perfect-cuboid existence or nonexistence conclusion. Independent proof audit186–222 NOT RUN.
