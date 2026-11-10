@@ -1,0 +1,85 @@
+﻿STAGE37 229HI-A21 EXACT CERTIFICATE — 2026-10-11 JST
+Independent native source: CARD_ID=1OizywkSgQwBSbGHK3awsieT1LCK0RwKf9smKKKwkDoU
+THEOREM: For odd R=product p^a, p=1 mod4, oriented positive non-axis representations of R² give LEG SET L(R) cardinality product(2a+1)-1. For canonical fixed-R full-square P, inject into unordered x<y in L(R); e positive unique from R²-x²-y², other diagonals unique. F(R)<=binom(|L|,2); intersect with old FB bound. k squarefree, F(R)<=min(20^k,binom(3^k-1,2)); k3:325; k4:3160. This is upper bound, not claimed positive lower count.
+
+
+EXACT R-FIRST COUNTS, raw run:
+B=50000: R=33882; leg pairs=651792; e2 positive=288298; e2 square=537; (x²+y²) square=145; BOTH=0; primitive BOTH=0.
+B=100000: R=68980; leg pairs=1565436; e2 positive=702000; e2 square=1127; xy2 square=319; BOTH=0.
+B=200000: R=140121; leg pairs=3702729; e2 positive=1678920; e2 square=2313; xy2 square=674; BOTH=0.
+Edge-first B=10000:18 unordered primitive face Euler bricks and zero full; 20000:24/0; 50000:42/0; 100000:60/0; 200000:82/0. At B=200000 edge-first 7,036,484 two-face pair combinations in R cutoff, 1,896,751 primitive pair tests, 82 unordered Euler bricks, 0 R² square.
+R-first scans ALL integer x,y legs for hypotenuse-R via scaled Euclid triples and the two remaining squares exactly; no sampling, no primality hypothesis, no precision rounding. Edge-first independently glues genuine face triples and canonical primitive unordered bricks. Existing A15 old B50000 42/0 reproduces; finite credit zero.
+Local original code SHA256: edge-first 8a307d2e46570f9aef376fc04e659e7a8b8b615d106e1328b0374be87e292678; R-first 507f77eb5559878c7e705b41bb38beac1569ef8a66534a8d2f714e823f9df814. The exact code used has additional intermediate tallies and candidate examples; the equivalent minimal Python3 algorithms below reproduce primary totals; SHA256 refer to original full local scripts, not the minimal embedded snippets. To reproduce: save snippets as *.py and python3 FILE 200000.
+
+
+EXACT MINIMAL PYTHON 3 EDGE-FIRST:
+from math import gcd,isqrt
+from collections import defaultdict
+import sys
+B=int(sys.argv[1]) if len(sys.argv)>1 else 200000
+edge=defaultdict(list)
+for m in range(2,isqrt(B)+2):
+ if m*m+1>B:break
+ for n in range(1,m):
+  if ((m-n)&1)==0 or gcd(m,n)>1:continue
+  h=m*m+n*n
+  if h>B:break
+  a=m*m-n*n;b=2*m*n
+  for k in range(1,B//h+1):
+   edge[k*a].append(k*b);edge[k*b].append(k*a)
+seen=set();found=[];candidate=primitive=0
+for e,edges in edge.items():
+ edges.sort()
+ for i,x in enumerate(edges):
+  for y in edges[i+1:]:
+   if x>=y:continue
+   R2=e*e+x*x+y*y
+   if R2>B*B:break
+   candidate+=1
+   if gcd(gcd(e,x),y)!=1:continue
+   primitive+=1
+   z=isqrt(x*x+y*y)
+   if z*z!=x*x+y*y:continue
+   t=tuple(sorted((e,x,y)))
+   if t in seen:continue
+   seen.add(t)
+   R=isqrt(R2)
+   found.append((t,R*R==R2))
+print(B,len(found),sum(ok for _,ok in found),candidate,primitive)
+
+
+EXACT MINIMAL PYTHON 3 R-FIRST:
+from math import gcd,isqrt
+from collections import defaultdict
+import sys
+B=int(sys.argv[1]) if len(sys.argv)>1 else 200000
+legs=defaultdict(set)
+for m in range(2,isqrt(B)+2):
+ if m*m+1>B:break
+ for n in range(1,m):
+  if ((m-n)&1)==0 or gcd(m,n)!=1:continue
+  h=m*m+n*n
+  if h>B:break
+  a=m*m-n*n;b=2*m*n
+  for k in range(1,B//h+1):
+   legs[k*h].update((k*a,k*b))
+count=[0]*6
+for R,L in legs.items():
+ rr=R*R;ls=sorted(L)
+ for i,x in enumerate(ls):
+  for y in ls[i+1:]:
+   count[0]+=1
+   e2=rr-x*x-y*y
+   if e2<=0:continue
+   count[1]+=1
+   e=isqrt(e2);u=e*e==e2
+   z=isqrt(x*x+y*y);v=z*z==x*x+y*y
+   if u:count[2]+=1
+   if v:count[3]+=1
+   if u and v:
+    count[4]+=1
+    if gcd(gcd(e,x),y)==1:count[5]+=1
+print(B,len(legs),count)
+
+
+CAVEAT: Integer finite scan through B200000 proves ONLY no full physical P of this finite R range. Source-map hostile HOLD; global Stage37 counting target and route gates unchanged.

@@ -1,0 +1,59 @@
+﻿STAGE37 229HI-A13 NATIVE EXACT CRT / AVERAGED SINGULAR CORRECTION / TRUE PRIME NORM GATE CERTIFICATE
+DATE 2026-10-11 JST. PARENT_RESEARCH_CARD=1tYHMVymwEOpaKVnYJ4ErwK2iZDYYlc9PJzUYlibkkJI; CURRENT=Stage37-NEW-INPUT-DELTA-AUDIT-229HI-A13; CANONICAL INDEX ROW694.
+FIRST-PART mathematical claim: For original signed FJ24 A12 odd-U necessary source, r²+k²=2pq, p<q<r<2p distinct primes1mod8, k odd. For fixed r and k there is at most one ordered prime pair p,q because pq=(r²+k²)/2. Every odd ℓ<r/2 has ℓ∤r(r²+k²). Apply dimensional-2 upper sieve on polynomial P_k(n)=n(n²+k²), excluding ℓ=2 intentionally.
+EXACT rho_k(ell)=#roots mod odd prime ell: rho=1 for ell≡3mod4 OR ell|k, otherwise rho=3 for ell≡1mod4 and ell∤k. CRT rho_k(d)=prod rho(ell). ℓ=3 has rho1; ℓ=5 at most rho3, no local obstruction rho≥ell. Average over odd primes by PNT modulo4 gives sieve dimension2.
+MOVING SINGULAR CORRECTION g(k)=product_(ell|k, ell≡1mod4) (ell−1)/(ell−3) = sum_(d|k, squarefree split) product_(ell|d)2/(ell−3).
+SUM_(k≤K, k odd)g(k) ≤ K product_(ell≡1mod4) (1+2/[ell(ell−3)]) ≤ C K (Euler product converges).
+Selberg standard dimension2 upper-bound sieve (compare native prior229GT for n(n+h)) for all 1≤k≤(log Q)² gives S_k(Q)=#n∈(Q,2Q) avoiding odd primes ℓ<Q^(1/20) dividing P_k(n) ≪Q g(k)/(log Q)² +Q^(1/2). CRT remainder for interval root classes O(rho_k(d)) independent of k, Selberg weights support ≤Q^(1/10) and O(Q^0.2 log^C Q) absorbed by Q^.5. Dimension2 denominator ≍(log Q)²/g(k) uniformly for polylog k. For each true prime triple with p,q>r/2 and r prime all sifted conditions hold. Thus #source triples with r dyadic Q and k≤K ≤∑_k S_k(Q). Sum k and dyadic Q∈[B^1/4,(2B)^1/3], small r trivially ≤Kπ(B^1/4), yields N24(B;k≤log²B/loglog(3B))≪B^1/3/loglog B.
+NOTE: this is a standard named sieve theorem with explicitly verified local data, not a derivation of a new analytic sieve theorem. A valid original signed source necessary condition is required. No independence of first p,q,r arithmetic densities; 24 labels and 8³ signed norm orientations bounded independently of B.
+EXACT INDEPENDENT RUN: local root count 1,395 (k odd1..61, odd primes ell<200) all PASS; k-factor arithmetic means for odd k≤K: K11 ->1.1666666667, K101 ->1.23538675674, K1001 ->1.23977781223, K10001 ->1.24035336854; local-check script SHA256 a42cae98567b916998c1389f4d4205051cb1b945d50d361f4c4d0395cced6130.
+TRUE ORIGINAL NORM GATE (not third rational F root) independent exact scan split p1mod8≤30000, p<q<2p, 272945 eligible prime pairs; odd k≤499, r split prime1mod8 q<r<2p, r²+k²=2pq; 846 quadruples (p,q,r,k) PASS. Examples (73,89,113,15), (241,449,457,87), (257,313,401,9), (313,577,601,1); no claim they yield physical original rational third root: prior A12 finite p≤100000 has zero rational F discriminant. Norm script SHA256 fdeaeca2e80e31483f88e1d413dd575ae58cfcd61eda59e028cfe24a7d50f6eb.
+STANDALONE Python3 for local roots/singular average (requires sympy solely for primality/factorint):
+from sympy import primerange, factorint
+from fractions import Fraction
+def rho(k,ell):
+    return sum(1 for n in range(ell) if n*(n*n+k*k)%ell==0)
+for k in range(1,62,2):
+    for ell in primerange(3,200):
+        expected=1 if ell%4==3 or k%ell==0 else 3
+        assert rho(k,ell)==expected
+        assert expected<ell
+def g(k):
+    ans=Fraction(1,1)
+    for ell in factorint(k):
+        if ell%4==1:ans*=Fraction(ell-1,ell-3)
+    return ans
+for K in (11,101,1001,10001):
+    odd=list(range(1,K+1,2))
+    mean=sum((g(k) for k in odd),Fraction(0))/len(odd)
+    print('K',K,'mean',float(mean))
+EXPECTED ALL CRT PASS 1395; sample means as above.
+
+
+STANDALONE Python3 true norm-gate finite replay:
+from bisect import bisect_left,bisect_right
+from math import isqrt
+from sympy import primerange
+ps=[int(p) for p in primerange(17,60000) if p%8==1]
+count_pairs=count_quadruples=0; witness=[]
+for i,p in enumerate(ps):
+    if p>30000:break
+    for q in ps[i+1:bisect_left(ps,2*p)]:
+        count_pairs+=1
+        X=2*p*q
+        lo=isqrt(max(0,X-499*499));hi=isqrt(X-1)
+        for r in ps[bisect_right(ps,max(q,lo)):bisect_right(ps,hi)]:
+            d=X-r*r
+            k=isqrt(d)
+            if d>0 and k*k==d and k%2==1:
+                count_quadruples+=1
+                if len(witness)<12:witness.append((p,q,r,k))
+assert count_pairs==272945 and count_quadruples==846
+print(count_pairs,count_quadruples,witness)
+EXPECTED 272945 846; first tuple (73,89,113,15). This is a necessary NORM constraint, NOT a physical original signed F-root or a counterexample perfect cuboid.
+
+
+GOVERNANCE: M3-T11-229 authoritative; construction228;230 not issued; Gate001 OPEN, global credit0, original FJ/FS/FW/HB hostile HOLD, independent A13 external hostile audit NOT_RUN, closure unchanged. A11 all-height16 RETRACTED by A12, current potential130 uncounted128 unchanged.
+
+
+NATIVE_CERT_DOC_ID=1KnRCtkEtUZThbxgz8tWz5slvc-idrx2ARcMByPPX9lk; Stage37 canonical research card 1tYHMVymwEOpaKVnYJ4ErwK2iZDYYlc9PJzUYlibkkJI; source row694, currentA13. Local exact tests and independently stated named standard Selberg upper-sieve input; no external hostile PASS.

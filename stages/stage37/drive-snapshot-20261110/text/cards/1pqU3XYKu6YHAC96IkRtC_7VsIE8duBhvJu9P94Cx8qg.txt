@@ -1,0 +1,30 @@
+﻿STAGE37 229HI-A19 INDEPENDENT BINOMIAL SMOOTH-ENVELOPE EXACT CERTIFICATE
+2026-10-11 JST. Parent A18; CARD_ID=1xKNz5bV-BI4j0QXIJ_2Ruz9QiOLg_LqBmm8mE-_dAlI; CERT_ID=1pqU3XYKu6YHAC96IkRtC_7VsIE8duBhvJu9P94Cx8qg.
+MATHEMATICAL CLAIM: E20(B,y)=sum_{n<=B,Pplus(n)<=y}d20(n) >= binom(pi(y),k)*20^k with k=floor(log B/log y), y=(log B)^alpha, alpha>1, k<=pi(y), where squarefree n formed by k distinct primes p<=y. Each such n<=y^k<=B; distinct sets give distinct n; d20(n)=20^k. Not a lower bound on the original full-four-square population F(R); original F(R)<=d20(R) runs in the OPPOSITE direction.
+ASYMPTOTIC: PNT pi(y)=(1+o(1))y/log y, k=(log B)/(alpha loglog B)+O(1), m/k=(log B)^(alpha-1)(1+o(1)); Stirling log binom(m,k)=k log(m/k)+k+o(k). Therefore log E20 >= (1-1/alpha)log B +[(1+log20)/alpha+o(1)](log B)/(loglog B). In particular alpha=3/2 => positive excess (2/3)(1+log20) relative to (log B)/3. For alpha>3/2 fixed exponent exceeds1/3. This is a METHOD lower-envelope obstruction only.
+PORTABLE PYTHON3 STANDARD LIBRARY REPLAYER:
+import math
+def prime_pi(n):
+    s=bytearray(b'\x01')*(n+1)
+    s[:2]=b'\x00\x00'
+    for p in range(2,math.isqrt(n)+1):
+        if s[p]: s[p*p:n+1:p]=b'\x00'*(((n-p*p)//p)+1)
+    return sum(s)
+for T in (6,12,24,48,96,192):
+    L=T*math.log(10)
+    y=L**1.5
+    m=prime_pi(math.floor(y))
+    k=math.floor(L/math.log(y))
+    assert 0<k<m
+    log_lower=math.lgamma(m+1)-math.lgamma(k+1)-math.lgamma(m-k+1)+k*math.log(20)
+    assert log_lower>L/3
+    print(T,m,k,round(log_lower/L,5),round((log_lower-L/3)/(L/math.log(L)),5))
+print('A19 DISTINCT-PRIME WEIGHTED ENVELOPE LOWER BARRIER PASS')
+EXPECTED (T,m,k,log_lower/L):
+(6,15,3,1.09352)
+(12,34,5,0.99580)
+(24,80,9,0.96144)
+(48,191,15,0.86186)
+(96,462,27,0.81979)
+(192,1151,48,0.77008)
+SCOPING: This is not a proof of any actual physical point. The 229FB original F(R)<=d20(R) remains imported and independently externally hostile HOLD. It proves no global one-third saving. Independent A19 hostile NOT_RUN. Governance: M3-T11-229 authority, construction228, gate OPEN, global counting credit0, production HOLD, formal route switch NONE, closure unchanged.
