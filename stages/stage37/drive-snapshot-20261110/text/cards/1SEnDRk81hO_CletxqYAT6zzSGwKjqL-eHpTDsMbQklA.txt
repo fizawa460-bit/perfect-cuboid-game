@@ -1,0 +1,103 @@
+﻿# Stage37 229GL — independent exact symbolic certificate, Python3 + sympy.
+# Source file belongs to Stage37 Drive; run python stage37_229GL.py. No floats.
+import sympy as S
+from collections import Counter
+t,X,Y=S.symbols("t X Y")
+K=lambda a,b:S.expand(a**4+18*a*a*b*b+b**4)
+codes=[]
+for i in range(3):
+ for j in range(3):
+  for k in range(3):
+   if (i,j,k)==(1,1,1):continue
+   if i*9+j*3+k>(2-i)*9+(2-j)*3+(2-k):continue
+   codes.append((i,j,k))
+assert len(codes)==13
+def E(c):
+ i,j,k=c
+ p=(1+t*t) if i==1 else 1
+ q=(1+X*X) if j==1 else 1
+ r=(1+Y*Y) if k==1 else 1
+ a=(i-1)*t if i!=1 else 0
+ b=(j-1)*X if j!=1 else 0
+ c=(k-1)*Y if k!=1 else 0
+ return S.expand(p*q*r*(a+b+c-a*b*c)**2)
+legs=list(map(E,codes))
+F={}
+for i in range(13):
+ for j in range(i+1,13):
+  for k in range(j+1,13):
+   cs=[codes[i],codes[j],codes[k]]
+   if any(sum(int(z[p]==1) for z in cs)>1 for p in range(3)):continue
+   for h in range(3):
+    key=".".join("".join(map(str,z)) for z in cs)+":"+str(h)
+    F[key]=S.expand(sum((-1 if m==h else 1)*legs[z]
+                            for m,z in enumerate((i,j,k))))
+assert len(F)==414 and all(v!=0 for v in F.values())
+factor={key:S.factor_list(f,gens=(X,Y),domain=S.QQ.frac_field(t))[1]
+        for key,f in F.items()}
+def shape(key):
+ return tuple(sorted((S.Poly(f,X,Y).degree(X),S.Poly(f,X,Y).degree(Y))
+             for f,e in factor[key]))
+linearonly={k for k,v in factor.items() if len(v)>1 and
+            all(S.Poly(f,X,Y).degree(X)<=1 and
+                S.Poly(f,X,Y).degree(Y)<=1 for f,e in v)}
+vertical={k for k in F if shape(k)==((0,1),(2,1))}
+horizgenus3={k for k in F if shape(k)==((1,0),(1,2))}
+irreducible={k for k,v in factor.items() if len(v)==1}
+assert (len(linearonly),len(vertical),len(horizgenus3),len(irreducible))==(52,8,8,346)
+sections=[
+ ("p+",t,1),("p-",-t,1),("q+",X,1),("q-",-X,1),
+ ("pqA+",t+X,1-t*X),("pqA-",-t-X,1-t*X),
+ ("pqB+",t-X,1+t*X),("pqB-",-t+X,1+t*X)]
+diagonal={}
+for key,f in F.items():
+ diagonal[key]=[lab for lab,num,den in sections
+   if S.expand(S.cancel(S.together(f.subs(Y,num/den))).as_numer_denom()[0])==0]
+diagonalset={key for key,z in diagonal.items() if z}
+double={key for key,z in diagonal.items() if len(z)==2}
+assert Counter(map(len,diagonal.values()))==Counter({0:362,1:40,2:12})
+assert len(diagonalset)==52 and len(diagonalset&linearonly)==48
+assert double.issubset(linearonly) and len(double)==12
+expected8=set("""
+000.002.110:0 000.002.110:1
+000.010.020:0 000.010.020:2
+002.012.022:0 002.012.022:2
+020.022.110:0 020.022.110:1""".split())
+assert vertical==expected8
+expectedDiagOutside=set("""
+000.010.020:0 000.010.020:2
+002.012.022:0 002.012.022:2""".split())
+assert diagonalset-linearonly==expectedDiagOutside
+oldOnly=set("""
+000.001.110:0 001.002.110:1
+020.021.110:0 021.022.110:1""".split())
+assert linearonly-diagonalset==oldOnly
+for key in sorted(vertical):
+ ff=factor[key]
+ g=next(f for f,e in ff if S.Poly(f,X,Y).degree(X)==2)
+ D=S.expand(S.diff(g,Y))
+ N=-S.expand(g.subs(Y,0))
+ assert S.expand(g-(D*Y-N))==0
+ actual=S.expand(D*D+N*N)
+ if key in expectedDiagOutside:
+  kind="q"
+  target=(1+t*t)*K(1,X)
+ elif key.startswith("000.002.110"):
+  kind="pq+"
+  target=K(1-t*X,t+X)
+ else:
+  kind="pq-"
+  target=K(1+t*X,t-X)
+ assert S.expand(actual-target)==0
+ print("EXACT_8",key,kind,"D=",S.factor(D),"N=",S.factor(N))
+print("CLASSIFICATION 414; linear-only 52; vertical degree2 8; horizontal genus3 8; irreducible 346")
+print("CROSSWALK GK diagonal52 vs FJ linear52 intersection48; 12 GK double ALL in old52")
+print("SCOPE published Bremner Kstar nonsquare rational Pythag triple must be supplied separately")
+# For physical p,q: t=b/a and X=T/S are positive slopes of Pyth triangles,
+# hence 1+t² and 1+X² rational squares. In q-group K(1,X)
+# nonsquare; in pq-group (1±tX,t∓X) has rational-square norm.
+# Nondegeneracy: b,T divisible4, a,S odd => tX !=1;
+# t!=X for p!=q by primitive Pyth representation uniqueness.
+# A²+B² square and A,B nonzero => |A|!=|B|.
+# Vertical Y=0 impossible, Y<0 impossible, Y=t implies r=p.
+# None of these assertions claims all 346 remaining configurations empty.

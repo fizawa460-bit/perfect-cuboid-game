@@ -1,0 +1,121 @@
+﻿Stage37 229GN INDEPENDENT REPRODUCIBLE EXACT SYMPY CERTIFICATE
+Run as Python3 with SymPy, e.g. python3 certificate.py. This enumerates entire original signed 13/138/414 FJ macro biform necessary conditions, extracts 8 still-open irreducible degree-two genus-one cases (after GL), asserts all exact polynomials, checks valuation theorem symbolically with substitutions t=4u,Y=4v, and tests exact sample grid. Python's rational-polynomial identities are exact, not finite evidence. Full FJ Gaussian UFD/source-completeness and original norm parity assumptions have independent hostile audit HOLD. All original high selectors remain SAME-P.
+
+
+import sympy as s
+t,X,Y,u,v=s.symbols("t X Y u v")
+codes=[]
+for i in range(3):
+ for j in range(3):
+  for k in range(3):
+   if (i,j,k)==(1,1,1): continue
+   if 9*i+3*j+k>9*(2-i)+3*(2-j)+(2-k): continue
+   codes.append((i,j,k))
+assert len(codes)==13
+
+
+def E(c):
+ i,j,k=c
+ a,b,z=(i-1)*t,(j-1)*X,(k-1)*Y
+ return s.expand((1+t*t if i==1 else 1)*(1+X*X if j==1 else 1)*(1+Y*Y if k==1 else 1)*(a+b+z-a*b*z)**2)
+
+
+legs=[E(c) for c in codes]
+F={}
+for i in range(13):
+ for j in range(i+1,13):
+  for k in range(j+1,13):
+   cs=[codes[i],codes[j],codes[k]]
+   if any(sum(int(z[h]==1) for z in cs)>1 for h in range(3)): continue
+   for hyp in range(3):
+    key=".".join("".join(map(str,z)) for z in cs)+":"+str(hyp)
+    F[key]=s.expand(sum((-1 if pos==hyp else 1)*legs[z] for pos,z in enumerate((i,j,k))))
+assert len(F)==414 and all(f!=0 for f in F.values())
+
+
+remaining=[
+ "000.001.002:1","020.021.022:1",
+ "000.002.110:2","020.022.110:2",
+ "000.010.020:1","002.012.022:1",
+ "000.020.101:2","002.022.101:2"]
+GL={
+ "000.002.110:0","000.002.110:1",
+ "020.022.110:0","020.022.110:1",
+ "000.010.020:0","000.010.020:2",
+ "002.012.022:0","002.012.022:2"}
+GM={
+ "000.020.101:0","000.020.101:1",
+ "002.022.101:0","002.022.101:1",
+ "020.021.022:0","020.021.022:2",
+ "000.001.002:0","000.001.002:2"}
+assert len(remaining)==8 and len(GL)==len(GM)==8
+assert not set(remaining)&(GL|GM) and not GL&GM
+expected={
+ remaining[0]:8*Y**2*(Y**2-1)*(1+t*t)**2,
+ remaining[1]:8*Y**2*(Y**2-1)*(1+t*t)**2,
+ remaining[2]:4*Y**2*(Y**2-2)*(1+t*t)**2,
+ remaining[3]:4*Y**2*(Y**2-2)*(1+t*t)**2,
+ remaining[4]:-4*(Y+t)**2*(2*Y**2*t**2-Y**2-6*Y*t-t*t+2),
+ remaining[5]:-4*(Y-t)**2*(2*Y**2*t**2-Y**2+6*Y*t-t*t+2),
+ remaining[6]:-8*(Y+t)**2*(Y*t-Y-t-1)*(Y*t+Y+t-1),
+ remaining[7]:-8*(Y-t)**2*(Y*t-Y+t+1)*(Y*t+Y-t+1)
+}
+for key in remaining:
+ f=F[key]
+ assert s.Poly(f,X).degree()==2
+ disc=s.factor(s.discriminant(f,X))
+ assert s.expand(disc-expected[key])==0,key
+ print("PASS symbol",key,s.factor(disc))
+# COMPLETE FJ 16 degree-2 stratum identified for admissible specialization t=4/3.
+deg2=[]
+for key,f in F.items():
+ d=s.discriminant(f.subs(t,s.Rational(4,3)),X)
+ if d==0:continue
+ fac=s.factor_list(d,Y)[1]
+ deg=sum(s.degree(h,Y) for h,e in fac if e%2)
+ if deg==2:deg2.append(key)
+assert len(deg2)==16
+assert set(deg2)==GL|set(remaining)
+print("PASS 16 exact FJ degree2 candidates = GL8 plus GN8")
+# Exact fixed mod16 reductions hold because t=4u,Y=4v.
+cplus=2*Y**2*t**2-Y**2+6*Y*t-t*t+2
+cminus=2*Y**2*t**2-Y**2-6*Y*t-t*t+2
+for c in (cplus,cminus):
+ c4=s.expand(c.subs({t:4*u,Y:4*v}))
+ assert s.expand((c4-2)/16).is_polynomial(u,v)
+for a in [Y*t-Y-t-1,Y*t+Y+t-1,Y*t-Y+t+1,Y*t+Y-t+1]:
+ a4=s.expand(a.subs({t:4*u,Y:4*v}))
+ assert s.expand((a4-a4.subs({u:0,v:0}))/2).is_polynomial(u,v)
+for key in remaining:
+ delta=expected[key]
+ for T0 in (4,8,12,16,20):
+  for Y0 in (4,8,12,20,24):
+   if T0==Y0:continue
+   d=int(delta.subs({t:T0,Y:Y0}))
+   assert d!=0
+   z=abs(d); val=0
+   while z%2==0:
+    val+=1;z//=2
+   assert val%2==1,(key,T0,Y0,val)
+print("PASS odd 2-adic valuations on 8 exact classes; analytical v2 proof in card")
+# FX positive-first 0-based triple indices to negative-first convention, reverse order and hyp.
+positive=[tuple(2-x for x in c) for c in codes[::-1]]
+triples=[]
+for i in range(13):
+ for j in range(i+1,13):
+  for k in range(j+1,13):
+   cs=[positive[i],positive[j],positive[k]]
+   if any(sum(int(z[h]==1) for z in cs)>1 for h in range(3)):continue
+   triples.append(cs)
+assert len(triples)==138
+FX=set()
+for idx in (1,12,47,52):
+ for hyp in (1,2):
+  cs=triples[idx]
+  flipped=[tuple(2-z for z in c) for c in cs[::-1]]
+  key=".".join("".join(map(str,c)) for c in flipped)+":"+str(2-hyp)
+  FX.add(key)
+assert len(FX)==8 and len(FX&GL)==4 and len(FX&GM)==4 and FX<=GL|GM
+print("PASS crosswalk FX8 overlaps GL4 GM4; history novel count corrected")
+print("OUTPUT: 84 of 414 exact SOURCE keys excluded relative FJ classification; 330 generic remain")
+print("DISCLAIMER: no overall unbounded physical count, independent full hostile audit HOLD")

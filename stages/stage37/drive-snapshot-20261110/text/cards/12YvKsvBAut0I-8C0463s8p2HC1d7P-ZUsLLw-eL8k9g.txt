@@ -1,0 +1,47 @@
+﻿Stage37-229GP REPRODUCIBLE GAUSSIAN PRIME PAIR CERTIFICATE
+Exact integer arithmetic JS (Node / browser console), no extra packages or online data. This only tests the GH fixed-(p,d) uniqueness in finite dyadic prime norm boxes and counts candidate pairs satisfying GP h2/h3 determinant thresholds; actual original full four-square points are NOT enumerated. Mathematical proof of unrestricted dyadic count in GP card uses GH.1 + FF.2 + prime upper bound.
+
+
+function sieve(N) {
+ const prime=Array(N+1).fill(true); prime[0]=prime[1]=false;
+ for(let p=2;p*p<=N;p++) if(prime[p])for(let m=p*p;m<=N;m+=p)prime[m]=false;
+ return prime;
+}
+const bound=4096, prime=sieve(bound), vectors=new Map();
+for(let v=1;v*v<bound;v++)
+ for(let u=v+1;u*u+v*v<=bound;u++){
+   const p=u*u+v*v;
+   if(prime[p] && p%4===1){
+      if(vectors.has(p))throw Error('nonunique canonical norm representation');
+      vectors.set(p,[u,v]);
+   }
+ }
+const expected=[
+ [128,10,45,5,3,25,13,0],
+ [256,21,210,6,4,40,48,0],
+ [512,38,703,7,16,63,132,0],
+ [1024,66,2145,10,33,101,333,0],
+ [2048,127,8001,12,71,161,1052,0]
+];
+for(let [Q,npr,npairs,D2,h2,D3,h3,nDup] of expected){
+ const pp=[...vectors.keys()].filter(p=>p>=Q&&p<=2*Q).sort((a,b)=>a-b);
+ const targets=[Math.floor(Q**(1/3)),Math.floor(Q**(2/3))];
+ const seen=new Map();let pc=0,c2=0,c3=0,duplicates=0;
+ for(let i=0;i<pp.length;i++)for(let j=i+1;j<pp.length;j++){
+    const p=pp[i],q=pp[j], [u,v]=vectors.get(p),[w,z]=vectors.get(q);
+    const d=u*z-v*w,A=u*w+v*z;
+    if(A*A+d*d!==p*q)throw Error('Lagrange identity fail');
+    if(d===0)throw Error('determinant zero for distinct canonical prime norms');
+    const key=p+':'+d;
+    if(seen.has(key))duplicates++;
+    seen.set(key,q);pc++;
+    if(Math.abs(d)<=targets[0])c2++;
+    if(Math.abs(d)<=targets[1])c3++;
+ }
+ const actual=[Q,pp.length,pc,...targets.map((x,i)=>i===0?[x,c2]:[x,c3]).flat(),duplicates];
+ if(JSON.stringify(actual)!==JSON.stringify([Q,npr,npairs,D2,h2,D3,h3,nDup]))
+    throw Error('failed box '+Q+' actual='+JSON.stringify(actual));
+ console.log('PASS dyadic Q='+Q+' split='+pp.length+' prime-pairs='+pc+
+   ' h2-window='+c2+' h3-window='+c3+' duplicate(p,d)='+duplicates);
+}
+console.log('PASS: 5 exact finite prime-pair boxes; NO assertion of physical P existence.');

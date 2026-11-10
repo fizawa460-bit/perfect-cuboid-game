@@ -1,0 +1,123 @@
+﻿// Stage37 229GJ — Node.js 18+ / exact arithmetic proof-checking script
+// Checks 95 split primes <=1193 and ALL p<q (4,465 pairs), all 414 allocations,
+// without imposing ANY bound on third prime r. Finite certificate, not an asymptotic proof.
+"use strict";
+function prime(n) {
+  if (!Number.isSafeInteger(n) || n < 2) return false;
+  for (let d = 2; d*d <= n; d++) if (n%d === 0) return false;
+  return true;
+}
+const PS=[];
+for (let p=5; p<=1200; p+=4) if (prime(p)) {
+  let found=null;
+  for (let v=1; 2*v*v<p; ++v) {
+    const u=Math.floor(Math.sqrt(p-v*v));
+    if (u>v && u*u+v*v===p) {found={p,u:BigInt(u),v:BigInt(v)};break;}
+  }
+  if (found===null) throw Error("split prime representation missing: "+p);
+  PS.push(found);
+}
+function multiply(a,b) { return [a[0]*b[0]-a[1]*b[1],a[0]*b[1]+a[1]*b[0]]; }
+function gcd(a,b) {
+  a=a<0n?-a:a; b=b<0n?-b:b;
+  while(b!==0n){const t=a%b;a=b;b=t;}
+  return a;
+}
+function isqrt(n){
+  if(n<0n)return null;
+  if(n<2n)return n;
+  let a=1n<<BigInt((n.toString(2).length+1)>>1);
+  for(;;){const b=(a+n/a)>>1n;if(b>=a)return a;a=b;}
+}
+const R16=new Set([0n,1n,4n,9n]);
+function exactSquare(n){
+  if(n<0n||!R16.has(n&15n)||n%3n===2n||n%5n===2n||n%5n===3n) return null;
+  const v=isqrt(n);
+  return v*v===n?v:null;
+}
+function macroCodes(P,Q){
+  const bp=[
+    [P.u*P.u-P.v*P.v,-2n*P.u*P.v],
+    [BigInt(P.p),0n],
+    [P.u*P.u-P.v*P.v,2n*P.u*P.v]
+  ];
+  const bq=[
+    [Q.u*Q.u-Q.v*Q.v,-2n*Q.u*Q.v],
+    [BigInt(Q.p),0n],
+    [Q.u*Q.u-Q.v*Q.v,2n*Q.u*Q.v]
+  ];
+  const out=[];
+  for(let i=0;i<3;i++)for(let j=0;j<3;j++)for(let k=0;k<3;k++){
+    if(i===1&&j===1&&k===1)continue;
+    const code=i*9+j*3+k, conj=(2-i)*9+(2-j)*3+2-k;
+    if(code>conj)continue; // conjugation gives same positive even leg
+    const [c,d]=multiply(bp[i],bq[j]);
+    out.push({
+      mixed:[i===1,j===1,k===1],
+      A:d*d,
+      B:k===1?0n:(k===2?2n:-2n)*c*d,
+      C:k===1?d*d:c*c
+    });
+  }
+  if(out.length!==13)throw Error("13 canonical even-leg codes expected");
+  return out;
+}
+const cnt={pairs:0,templates:0,primitiveSlope:0,squareNorm:0,
+  third_p:0,third_q:0,third_pq:0,third_other:0,primeGreaterThanQ:0};
+const survivors=[];
+for(let pi=0;pi<PS.length;pi++)for(let qi=pi+1;qi<PS.length;qi++){
+  const P=PS[pi],Q=PS[qi],c=macroCodes(P,Q);
+  let localTemplates=0;
+  for(let i=0;i<13;i++)for(let j=i+1;j<13;j++)for(let k=j+1;k<13;k++){
+    const cc=[c[i],c[j],c[k]];
+    // Original primitive 3-edge source: at most one mixed macro per prime.
+    if([0,1,2].some(pos=>cc.reduce((n,x)=>n+Number(x.mixed[pos]),0)>1)) continue;
+    for(let hyp=0;hyp<3;hyp++){
+      localTemplates++;cnt.templates++;
+      let A=0n,B=0n,C=0n;
+      for(let m=0;m<3;m++){
+        const sign=m===hyp?-1n:1n;
+        A+=sign*cc[m].A;B+=sign*cc[m].B;C+=sign*cc[m].C;
+      }
+      if(A===0n&&B===0n&&C===0n)throw Error("zero FO polynomial");
+      let roots=[];
+      if(A!==0n){
+        const delta=exactSquare(B*B-4n*A*C);
+        if(delta===null)continue;
+        roots=[[-B+delta,2n*A],[-B-delta,2n*A]];
+      } else if(B!==0n) roots=[[-C,B]];
+      for(let [u,v] of roots){
+        if(u*v<=0n)continue;
+        const g=gcd(u,v);
+        const T=(u<0n?-u:u)/g, W=(v<0n?-v:v)/g;
+        if(T%2n===0n||W%4n!==0n)continue;
+        cnt.primitiveSlope++;
+        const r=exactSquare(T*T+W*W);
+        if(r===null)continue;
+        cnt.squareNorm++;
+        if(r===BigInt(P.p))cnt.third_p++;
+        else if(r===BigInt(Q.p))cnt.third_q++;
+        else if(r===BigInt(P.p*Q.p))cnt.third_pq++;
+        else cnt.third_other++;
+        if(r>BigInt(Q.p)){
+          if(r>BigInt(Number.MAX_SAFE_INTEGER))throw Error("third prime too large for Number primality");
+          if(prime(Number(r))){
+            cnt.primeGreaterThanQ++;
+            if(survivors.length<12)survivors.push([P.p,Q.p,r.toString()]);
+          }
+        }
+      }
+    }
+  }
+  if(localTemplates!==414)throw Error("414 templates required per p,q");
+  cnt.pairs++;
+}
+console.log(JSON.stringify({splitPrimes:PS.length,largestPrime:PS.at(-1).p,...cnt,survivors},null,2));
+if(PS.length!==95||cnt.pairs!==4465||cnt.templates!==1848510
+||cnt.primitiveSlope!==169712||cnt.squareNorm!==142880
+||cnt.third_p!==44650||cnt.third_q!==44650||cnt.third_pq!==53580
+||cnt.third_other!==0||cnt.primeGreaterThanQ!==0)throw Error("229GJ certificate mismatch");
+// All polynomial/rational root checks exact BigInt; no r search-height cutoff.
+// Source exclusions inherit ORIGINAL P -> 3 macro EVEN legs -> necessary triangle;
+// reverse Gaussian virtual-code-to-physical gluing is NEVER assumed.
+// Independently check direct R^2 Gaussian 13 legs for all 138,415 p<q<r<=1193.
