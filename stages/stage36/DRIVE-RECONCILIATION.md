@@ -47,3 +47,17 @@ Drive `ROADMAP v3` の最新版コピーは [ROADMAP-CURRENT.md](ROADMAP-CURRENT
 - [36R-06 保留監査](https://drive.google.com/file/d/1BiHaaXkFgosWjzMj-AkxUwcMyuUiJgoK/view)
 - [Stage38 一時閉鎖記録](https://drive.google.com/file/d/1JG1k2WrQR_rSZLBogcMRC-kuf_067Yis/view)
 - [Stage38 → Stage36 継承台帳](https://drive.google.com/file/d/1pI9-eErCmdAGpAbcUz2cfY7mQkXj-qJ6/view)
+
+## 2026-11-10 source completeness reconciliation
+
+The earlier partial source manifest has been superseded: the [Stage36 full source manifest](36R-import-20261110/SOURCE-MANIFEST.json) now enumerates and locates **all 20/20 files** in the 36R Google Drive folder, including 36R-01/02 review bundles, open-problem versions, initial/updated state JSON, and original resume prompts. Its [README](36R-import-20261110/README.md) documents the source precedence and remaining cross-service limitation.
+
+Stage38 evidence is indexed in the [complete 83-file source inventory](../stage38/drive-snapshot-20261110/MANIFEST.json), with 80 text records, two fully reconstructable ZIPs, and one Google Docs review-log text snapshot. The [Stage38 README](../stage38/drive-snapshot-20261110/README.md) explains how to recover every file from the read-only bundles.
+
+The pre-Stage38 Drive frozen `MAIN-STATE`, `MAIN-START-HERE` and handoff were copied into `36R-import-20261110/historical-drive/`. Older GitHub 36-09FE proofs, source locks and its archived state remain unchanged.
+
+**Do not claim live Claude Docs parity.** The Drive 36R `00_START-HERE` explicitly identifies Claude Docs RESULTS / WORKING / INDEX / main LOG / L1 LOG as a separate authoritative service. Those five live texts are not obtainable from the connected Google Drive or GitHub contents in this session; historical Drive `CAMPEDELLI_RESULTS` (to R-14) and `WORKING` (to 0C) have been transferred and correctly labeled *historical*, not current.
+
+No newer item was found in the checked 36R folder after 2026-10-16 or in the Stage38 folder after 2026-10-14. This is a claim about the listed folders, not a claim about all other services or all private documents.
+
+**Bookkeeping sync status:** Drive Stage36/Stage38 folder content transfer complete; cross-service live Claude Docs results/index transfer NOT verified. Mathematical hostile audit is **not** a prerequisite for this copying.
