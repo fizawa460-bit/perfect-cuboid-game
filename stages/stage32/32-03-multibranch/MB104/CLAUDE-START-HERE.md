@@ -7,6 +7,7 @@
 ## 1. 読む順番
 
 1. この文書（全体の地図と、既知の食い違い）。
+   - **2026-11-10追記：現行の研究再開位置は `../STATE.json` の `next_obligation.operational_next` と `route_register.routes.E` を優先する。** 2026-11-02の地図は履歴スナップショット。
 2. **`MB104-STATUS-MAP-20261102.md`** — 2026-11-02 時点で、MB104 の何が片付き何が残っているかの一覧。route-E の E01〜E04 と、凍結した Drive の F69〜F82 との対応も載せている。
 3. `../STATE.json` — GitHub 側の MB の正本。`status`、`next_obligation`、`route_register`（ルートA〜E）、`retained_frontier`、`credit_firewall` を見る。
 4. （必要なときだけ）`drive-research/status/MB104-ROUTE-INDEX-V030.md` と `MB104-RESEARCH-OVERVIEW-V025.md` — 凍結した Drive 台帳の写し。過去の経緯やルートA〜Eの記録を調べるときの参考。
@@ -14,6 +15,14 @@
 6. 必要になった F 文書・監査文書だけ（`drive-research/research/`、`audits/`、`evidence/`）。
 
 Drive 側は凍結したので、`drive-research/` の内容が最終版として扱われる。
+
+## 2026-11-10 追記（新しい研究証拠と未解決範囲）
+
+- E11 §9（PR #1858）：余裕0・k=8の双次数 (2,2), (2,3), (3,3) の厳密証拠と2026-11-09読解＋実行監査PASS。**適用範囲だけPASS、MAIN credit 0**。
+- E12（PR #1856）：小双次数の計算・次数ごとの有限性の整理。ただし未監査であり、一様次数上限は未証明。**新しい数学的道具・着想があるまで保留**。
+- D16-ALL-CLASSES（PR #1859）：次数16の全クラスについて読解監査第3回PASSの記録。これは**固定次数の結論**であり、全次数の多枝問題を閉じない。
+- `STATE.json` のE05/E06/E07/E11のSHA256を2026-11-10時点のファイルに同期し、E12を登録した。旧 `active_leaf` は検証器互換の識別子で、現在の研究をそのまま再開する指示ではない。
+- すべての監査・成果は指定された範囲内のみ。`credit_firewall`、Stage32全体の完了判定、マージ許可は変更しない。
 
 ## 2. いまの状態
 
