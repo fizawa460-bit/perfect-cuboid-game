@@ -1,0 +1,45 @@
+﻿Stage37-229HB SELF-CONTAINED ORIGINAL PRIMITIVE THREE-MACRO REPLAY AND EXPLICIT CONSTANT 960
+RESEARCH_CARD=1f4Tw5HrYkCDvn2xrqqFHaWPkXcEgjjl1eKqoPbf35bo
+This is an arithmetic sanity audit for the rigorous proof in the card, NOT an exhaustive physical cuboid search and NOT an independent third-party hostile audit.
+
+
+PROOF CONTRACT:
+P positive primitive, e²+x²=U², e²+y²=V², x²+y²=z², R²=e²+x²+y², gcd(e,x,y)=1. Exactly one odd e/x/y; R odd; all primes dividing R split mod4. Gaussian Z_j=odd_j+i even_j norm R² across three macro hypotenuse triples. For each ell^a||s, Gaussian exponent j_{ell,j}∈[0,2a] and at most one j inside 1..2a−1. Count w_ell(a)=8+12(2a−1)=24a−4. Moving t||R has20 codes. Units ±i forbidden by odd real/even imaginary parity, leaving ≤8 sign triples. Three physically exact parity-class even-leg quadratic triangles each give nonzero binary quadratic F(T,S) for any positive P (A+C=s², 2d_j²>0, or2c_j²>0) and ≤2 projective primitive slopes. Physical reconstruction from even legs and R unique per parity class. Thus <=20*8*3*2=960 per s-primary allocation, F_1(s)<=960 W(s), t ANY relative prime order.
+
+
+STANDALONE ECMASCRIPT EXACT INTEGER TEMPLATE REPLAY:
+'use strict';
+function mul([a,b],[c,d]){return [a*c-b*d,a*d+b*c]}
+function pow(z,n){let a=[1,0];for(let i=0;i<n;i++)a=mul(a,z);return a}
+function codes(){let z=[];for(let i=0;i<3;i++)for(let j=0;j<3;j++)for(let k=0;k<3;k++)if([i,j,k].filter(v=>v===1).length<=1)z.push([i,j,k]);return z;}
+let pp=[1,4],rr=[5,4],s=17*41,all=codes(),patterns=0,viable=0,invalid=0,mintrace=Infinity,maxcoef=0,zeroMixedSkipped=0;
+for(let ac of all)for(let bc of all){
+ let al=ac.map((t,j)=>mul(mul(pow(pp,t),pow([pp[0],-pp[1]],2-t)),mul(pow(rr,bc[j]),pow([rr[0],-rr[1]],2-bc[j]))));
+ if(al.some(([c,d])=>c%2===0||d%2!==0||c*c+d*d!==s*s))throw Error('alpha parity or norm');
+ for(let qc of all)for(let mask=0;mask<8;mask++)for(let hyp=0;hyp<3;hyp++){
+  patterns++;let A=0,B=0,C=0,allow=true;
+  for(let j=0;j<3;j++){
+   let [c,d]=al[j],unit=(mask>>j)&1?1:-1;c*=unit;d*=unit;
+   let sg=j===hyp?-1:1,mixed=qc[j]===1;
+   if(mixed&&j!==hyp&&d===0){allow=false;break;}
+   A+=sg*d*d;C+=sg*(mixed?d*d:c*c);
+   if(!mixed)B+=sg*(qc[j]===0?-2:2)*c*d;
+  }
+  if(!allow){zeroMixedSkipped++;continue;}viable++;
+  if(A+C<=0||A===0&&B===0&&C===0)invalid++;
+  mintrace=Math.min(mintrace,A+C);maxcoef=Math.max(maxcoef,Math.abs(A),Math.abs(B),Math.abs(C));
+ }
+}
+if(all.length!==20||patterns!==192000||viable!==188928||zeroMixedSkipped!==3072||invalid!==0||mintrace!==46818||maxcoef!==1441440)throw Error('replay mismatch');
+console.log(JSON.stringify({s,localCodes:all.length,patterns,viable,excludedZeroMixedLeg:zeroMixedSkipped,traceFailures:invalid,minTrace:mintrace,maxCoeff:maxcoef,normSsq:s*s,explicitF1FactorPerW:20*8*3*2,status:'PASS'}));
+EXPECTED {"s":697,"localCodes":20,"patterns":192000,"viable":188928,"excludedZeroMixedLeg":3072,"traceFailures":0,"minTrace":46818,"maxCoeff":1441440,"normSsq":485809,"explicitF1FactorPerW":960,"status":"PASS"}
+
+
+INDEPENDENT DET-BAD FACTORS:
+D1=p²−4b²=(p−2b)(p+2b), for r>p only r=p+2|b| eligible =>≤1.
+D2=p²−4a² similarly would force r=p+2|a|≡3 or7mod8, impossible =>0.
+D3=p⁴−16a²b²=(p²−4|ab|)(p²+4|ab|), lower abs<p² supports≤1 r>p, upper<3p² supports≤2 r>p (p>=17) =>≤3.
+Thus ≤4 exceptional r per p. For every fixed(pr), F_1(pr)≤960*400=384000 original P over ALL q. N_bad(Q)≤1,536,000*pi(2Q)=O(Q/logQ).
+
+
+FIREWALL: no theorem for determinant-GOOD r; no proof that a perfect cuboid exists or not; external hostile independent audit of the new argument remains HOLD; no promotion of GLOBAL_CREDIT, ROUTE, GATE, CLOSURE.

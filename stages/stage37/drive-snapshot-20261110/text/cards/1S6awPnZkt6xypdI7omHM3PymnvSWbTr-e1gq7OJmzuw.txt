@@ -1,0 +1,449 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229BO — two-coordinate residual-core support and squareclass-preserving one-scalar receiver
+
+
+STATUS: POST_229BN_TWO_COORDINATE_RESIDUAL_CORE_SUPPORT / PROVED_FIXED_G0_KX_UNIFORM_B_O1_PHYSICAL_FIBER / PROVED_SYMMETRIC_FIXED_G0_KY_UNIFORM_B_O1_PHYSICAL_FIBER / PROVED_SQUARECLASS_PRESERVING_ONE_SCALAR_THETA_X_AND_THETA_Y / PROVED_FIXED_THETA_UNIFORM_B_O1_PHYSICAL_FIBER / PROVED_EXACT_LARGE_RADICAL_SCALAR_PUSHFORWARD / NO_COUNTING_PROMOTION / GLOBAL_CREDIT=0 / NO_GLOBAL_REOPEN
+
+
+TYPE: POST-229BN SUPPORT COMPRESSION / TWO-COORDINATE DIVISOR RECONSTRUCTION / ONE-SCALAR SQUARECLASS RECEIVER / SAME-PHYSICAL LARGE-RADICAL PUSHFORWARD
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229BN
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1S6awPnZkt6xypdI7omHM3PymnvSWbTr-e1gq7OJmzuw
+
+
+1. Scope
+
+
+229BN gave the four-coordinate support
+  Xi(P)=(G0,H0,H1,H2)
+with uniform B^o(1) physical fibers, where
+  G0=a b c12 c21,
+  H0=d0^2 X Y,
+  H1=b^2 E X,
+  H2=a^2 E Y,
+  E=g/h,
+  X=c/c21,
+  Y=f/c12.
+
+
+This card shows that the full H-triple is not needed for reconstruction.
+
+
+Define the stripped residual-core products
+  Kx:=E X=H1/b^2,
+  Ky:=E Y=H2/a^2.                                (229BO.1)
+
+
+Then either pair
+  (G0,Kx)
+or
+  (G0,Ky)
+already has uniformly B^o(1) physical fibers.
+
+
+Moreover define the scalar receivers
+  Theta_x:=G0 Kx^2,
+  Theta_y:=G0 Ky^2.                              (229BO.2)
+
+
+They preserve the preferred squarefree-kernel gate exactly:
+  sf(Theta_x)=sf(Theta_y)=sf(G0),                 (229BO.3)
+and each fixed scalar value has uniformly B^o(1) physical preimages.
+
+
+Thus Stage37 now has a one-scalar same-physical support receiver that simultaneously:
+- preserves the exact current large-sf(G0) threshold;
+- has solved B^o(1) source multiplicity.
+
+
+This is distinct from 229AR, whose scalar W_-=UV-eR has lower O(B^2) height but no proved B^o fixed-value physical fiber.
+
+
+2. Retained exact factorization
+
+
+Retain 229AD/229BN:
+  e=gab,
+  x=d0 b c=d0 b c21 X,
+  y=d0 a f=d0 a c12 Y,
+  z=d0 q,
+  q^2=(bc)^2+(af)^2,                             (229BO.4)
+with
+  h=gcd(g,q),
+  E=g/h,
+and
+  G0=a b c12 c21.                                (229BO.5)
+
+
+Retain all primitive/coprimality conditions from 229AD and all exact physical selectors.
+
+
+For later reconstruction set
+  A_x:=b c21 X,
+  C_y:=a c12.                                    (229BO.6)
+Then the primitive missing-face equation is
+  A_x^2+(C_y Y)^2=q^2.                           (229BO.7)
+
+
+The symmetric orientation uses
+  A_y:=a c12 Y,
+  C_x:=b c21,
+with
+  A_y^2+(C_x X)^2=q^2.                           (229BO.8)
+
+
+3. Fixed (G0,Kx) has B^o(1) physical fiber
+
+
+Fix a realized pair
+  (G0,Kx)
+on positive primitive Stage37 endpoints with R<=B.
+
+
+Step 1 — split G0.
+Every physical preimage gives an ordered factorization
+  G0=a b c12 c21.
+The number of ordered positive quadruple factorizations is
+  <=tau_4(G0)=B^o(1),                            (229BO.9)
+uniformly since G0<=B^2 on the physical locus.
+All coprimality and selector conditions only remove candidates.
+
+
+Step 2 — split Kx.
+For a fixed quadruple above, every preimage has
+  Kx=E X.
+Hence there are at most
+  tau(Kx)=B^o(1)                                 (229BO.10)
+ordered choices (E,X).
+Because Kx=H1/b^2 and H1=ex/G1<=B^2, Kx<=B^2 on the physical locus.
+
+
+Step 3 — recover Y and q by one factorization.
+Now A_x=b c21 X and C_y=a c12 are fixed.
+Equation (229BO.7) gives
+  (q-C_y Y)(q+C_y Y)=A_x^2.                      (229BO.11)
+
+
+Thus every positive solution (Y,q) determines an ordered factor pair of A_x^2.
+Consequently
+  #{(Y,q)} <= tau(A_x^2)=B^o(1).                 (229BO.12)
+
+
+Parity, positivity, divisibility by C_y, primitivity and physical conditions only remove factor pairs.
+
+
+Step 4 — recover h.
+Retain
+  h=gcd(g,q), g=hE.
+Therefore every physical h satisfies h|q and
+  gcd(E,q/h)=1.
+In particular
+  #{h}<=tau(q)=B^o(1).                            (229BO.13)
+
+
+Once h is chosen,
+  g=hE,
+  e=hEab                                          (229BO.14)
+are fixed.
+
+
+Step 5 — recover d0 and R by a second factorization.
+The outer face equation is
+  e^2+(d0 q)^2=R^2.
+Hence
+  (R-d0 q)(R+d0 q)=e^2.                          (229BO.15)
+
+
+For fixed e,q, positive physical solutions (d0,R) inject into factor pairs of e^2, so
+  #{(d0,R)}<=tau(e^2)=B^o(1).                    (229BO.16)
+
+
+The exact cutoff R<=B only removes candidates.
+
+
+Step 6 — finish the endpoint.
+For each surviving tuple,
+  x=d0 A_x,
+  y=d0 C_y Y,
+  z=d0 q                                          (229BO.17)
+are fixed.
+Then
+  U^2=e^2+x^2,
+  V^2=e^2+y^2                                    (229BO.18)
+give at most one positive U,V; nonintegral cases are discarded.
+All remaining canonical/primitive/selector checks are deterministic filters.
+
+
+Multiplying the fixed number of divisor-function losses gives
+  # {P:R(P)<=B, (G0(P),Kx(P))=(G,K)}
+    =B^o(1)                                      (229BO.19)
+uniformly for realized (G,K).
+
+
+RESULT_229BO_G0_KX_TWO_COORDINATE_UNIFORM_PHYSICAL_FIBER=B_O1_PROVED_EXACT.
+
+
+4. Symmetric fixed (G0,Ky) theorem
+
+
+Interchange the x/y roles in Section 3.
+
+
+Fix
+  Ky=E Y.
+After splitting
+  G0=a b c12 c21
+and
+  Ky=E Y,
+the leg
+  A_y=a c12 Y
+is fixed, and
+  (q-b c21 X)(q+b c21 X)=A_y^2.                 (229BO.20)
+
+
+This gives B^o(1) choices for (X,q), then h|q gives B^o(1), and
+  (R-d0 q)(R+d0 q)=e^2
+gives B^o(1) choices for (d0,R). The endpoint is then forced/check-only.
+
+
+Therefore
+  # {P:R(P)<=B, (G0(P),Ky(P))=(G,K)}
+    =B^o(1)                                      (229BO.21)
+uniformly.
+
+
+RESULT_229BO_G0_KY_TWO_COORDINATE_UNIFORM_PHYSICAL_FIBER=B_O1_PROVED_EXACT.
+
+
+5. Squareclass-preserving one-scalar compression
+
+
+Define
+  Theta_x:=G0 Kx^2,
+  Theta_y:=G0 Ky^2.                              (229BO.22)
+
+
+Because Kx^2 and Ky^2 are exact integer squares,
+  sf(Theta_x)=sf(G0),
+  sf(Theta_y)=sf(G0)                              (229BO.23)
+exactly, including the 2-adic squarefree bit.
+
+
+This is stronger than a radical-divisibility implication: the current squarefree kernel itself is unchanged.
+
+
+Physical height is polynomial:
+  G0<=B^2,
+  Kx<=B^2,
+  Ky<=B^2,
+so
+  Theta_x,Theta_y<=B^6.                           (229BO.24)
+
+
+No claim is made that B^6 is sharp.
+
+
+6. Fixed Theta_x has B^o(1) physical fiber
+
+
+Fix a realized scalar value
+  theta=Theta_x(P).
+
+
+Every preimage supplies a divisor
+  G0|theta
+such that
+  theta/G0=Kx^2
+is a positive square.
+
+
+The number of possible G0 is at most
+  tau(theta)=B^o(1),                              (229BO.25)
+because theta<=B^6 on the physical locus.
+For each admissible G0, Kx is uniquely
+  Kx=sqrt(theta/G0).
+
+
+Section 3 then gives B^o(1) physical endpoints for fixed (G0,Kx).
+
+
+Therefore
+  # {P:R(P)<=B, Theta_x(P)=theta}
+    =B^o(1)                                      (229BO.26)
+uniformly for realized theta.
+
+
+Identically,
+  # {P:R(P)<=B, Theta_y(P)=theta}
+    =B^o(1).                                     (229BO.27)
+
+
+RESULT_229BO_THETA_X_FIXED_VALUE_UNIFORM_PHYSICAL_FIBER=B_O1_PROVED_EXACT.
+RESULT_229BO_THETA_Y_FIXED_VALUE_UNIFORM_PHYSICAL_FIBER=B_O1_PROVED_EXACT.
+
+
+7. Exact large-radical scalar pushforward
+
+
+For fixed delta>0 define the current large-radical endpoint set
+  P_large(B;delta)
+   ={P:R(P)<=B,
+       sf(G0(P))>B^(1/3-delta)}.                 (229BO.28)
+
+
+Define the realized Theta_x value set
+  T_x(B;delta)
+   ={Theta_x(P):P in P_large(B;delta)}.           (229BO.29)
+
+
+By (229BO.23),
+  theta in T_x(B;delta)
+  => sf(theta)>B^(1/3-delta),                    (229BO.30)
+with exact equality of squarefree kernels endpoint-by-endpoint.
+
+
+By the fixed-value fiber theorem (229BO.26),
+  #P_large(B;delta)
+    <= B^o(1) #T_x(B;delta).                     (229BO.31)
+
+
+Thus any fixed-power realized-value estimate
+  #T_x(B;delta) << B^(1/3-epsilon)               (229BO.32)
+for some fixed epsilon>0 closes the current large-radical gate.
+
+
+The same statement holds with T_y.
+
+
+RESULT_229BO_EXACT_LARGE_RADICAL_ONE_SCALAR_PUSHFORWARD=PROVED_EXACT.
+
+
+8. Comparison with the current scalar and support receivers
+
+
+229AR:
+  W_-=UV-eR
+    =2^epsilon G0 r_-^2,
+  W_-=O(B^2),
+and the odd squarefree kernel equals that of G0.
+Strength: low scalar height and no one-third threshold loss.
+Remaining issue: no uniform B^o(1) fixed-W_- physical fiber has been proved.
+
+
+229BN:
+  Xi=(G0,H0,H1,H2)
+with uniform B^o(1) fibers.
+Strength: source reconstruction solved.
+Remaining issue: four-coordinate occupied-support count.
+
+
+229BO:
+  Theta_x=G0 Kx^2
+or symmetrically Theta_y=G0 Ky^2,
+with
+  sf(Theta)=sf(G0)
+and uniform B^o(1) fixed-value physical fibers.
+Strength: one scalar + exact squareclass preservation + solved source multiplicity.
+Cost: only the coarse polynomial bound Theta<=B^6 is presently certified.
+
+
+Therefore 229BO supplies a new theorem-facing interface not present in229AR or229BN.
+
+
+9. Current theorem interface
+
+
+NEW_CURRENT_PREFERRED_SUPPORT_INTERFACE:
+SQUARECLASS_PRESERVING_ONE_SCALAR_OCCUPIED_VALUE.
+
+
+Preferred scalar:
+  Theta_x=G0 (E X)^2.
+Symmetric scalar:
+  Theta_y=G0 (E Y)^2.
+
+
+Exact properties:
+- positive integer scalar on every physical endpoint;
+- Theta<=B^6;
+- sf(Theta)=sf(G0);
+- every fixed realized Theta fiber is B^o(1).
+
+
+Sufficient new input:
+for some fixed delta,epsilon>0,
+  #{theta realized as Theta_x(P), R(P)<=B,
+      sf(theta)>B^(1/3-delta)}
+    << B^(1/3-epsilon).                           (229BO.33)
+
+
+Parallel retained interfaces:
+(A)229AR low-height W_- scalar with unresolved fixed-value fiber;
+(B)229BN four-coordinate support;
+(C)229BM hard-remainder packet-square occupancy;
+(D)229BF outer-floor removal;
+(E)selector-conditioned squarefree-modulus radical sieve.
+
+
+CURRENT_BLOCKER:
+NO_FIXED_POWER_BOUND_FOR_REALIZED_SQUARECLASS_PRESERVING_THETA_X_SCALAR_VALUES_WITH_LARGE_SF_AT_ONE_THIRD_BUDGET.
+
+
+10. Firewalls
+
+
+DO NOT:
+- count arbitrary integers theta<=B^6 with large sf(theta) and call that a physical support bound;
+- infer sparsity from sf(Theta)=sf(G0) alone;
+- infer a fixed-power bound from B^o(1) fibers alone;
+- identify the new Theta scalar with229AR W_-; they are different receivers with different height/fiber tradeoffs;
+- multiply the x- and y-oriented scalar conditions as independent events; every physical endpoint deterministically carries both;
+- drop exact primitive/canonical/selector conditions in a theorem transfer;
+- change authority, credit, gate, closure, production HOLD, or P/M3 status from this support compression alone.
+
+
+11. State
+
+
+No endpoint count with a new fixed-power saving is proved.
+No perfect-cuboid existence/nonexistence conclusion is claimed.
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+Independent hostile audit of229BO NOT RUN.
+
+
+12. Dependencies
+
+
+Load-bearing retained inputs:
+- 229AD nested factorization, primitive missing-face triple and gcd conditions;
+- 229BI exact G0 content formula;
+- 229BN residual cores E,X,Y and dual cofactor identities.
+
+
+The new fiber bounds use only exact integer factorization:
+  (q-CY)(q+CY)=A^2
+and
+  (R-d0q)(R+d0q)=e^2,
+plus the standard fixed-degree divisor bound n^{o(1)} for polynomial-height integers.
+
+
+No external theorem is invoked.
+No physical perfect-cuboid endpoint enumeration is used.
+
+
+FINAL_READBACK_RECEIPT: PASS — card / INDEX row532 / guide / LEDGER current+change / MAIN current+override / active ROUTE POST-229BO all connector-readback verified
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true

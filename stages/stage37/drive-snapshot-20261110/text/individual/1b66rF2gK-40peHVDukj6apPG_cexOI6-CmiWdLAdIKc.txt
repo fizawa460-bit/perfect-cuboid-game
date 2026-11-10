@@ -1,0 +1,334 @@
+﻿M3-T11-216 — Double-unitary phase/full-S router and shared-gcd joint tail
+
+
+STATUS: PROVED_DOUBLE_UNITARY_PHASE_FULLS_ROUTER / PROVED_TAUS_EQUALS_GCD_C_D / PROVED_POWERFUL_QUOTIENT / PROVED_TAUQ_CUBIC_TAIL / PROVED_SHARED_GCD_JOINT_TAIL / LARGE_TAUS_OCCUPANCY_OPEN / GLOBAL_COUNTING_CREDIT=0.
+Authority: fresh Stage37 MAIN/CARD-INDEX/short RESULT-LEDGER/latest215, targeted active ROUTE, retained183–186 and203. Gate OPEN. No retraction. Independent hostile audit186–216 NOT RUN; separate audit162–185 unchanged. TI parked;120 retracted;147–149 frozen.
+
+
+1. Decision
+
+
+215 closed the automatic graph-character iteration and returned to the separate OPEN large-c_u/full-S-denominator same-physical occupancy problem.
+
+
+Retain
+    H=H_content=h1*h2*h3,
+    R=H*tau,
+    c=c_u,
+    D=D_S,
+    q=q_phase=R/D,
+with186
+    H*c*D^2=R^3,
+    c=tau*q^2,
+and203
+    H_Q=gcd(H,q) || H,
+    H_S=H/H_Q divides D.
+Here || means unitary divisor.
+
+
+The new result is that the phase/full-S split is simultaneously unitary on the entire tau coordinate, not only on H. This identifies the exact common factor gcd(c,D), converts the nonshared part of c into a square-cube form, and yields an actual threshold-specific joint occupancy bound.
+
+
+2. Double-unitary router
+
+
+Define
+    tau_Q := q/H_Q,
+    tau_S := D/H_S.                              (216.1)
+Both are positive integers by203 and q*D=R=H*tau.
+
+
+Primewise use the exact186/203 rows.
+
+
+For p^alpha||H and beta=v_p(tau)>0:
+(A) v_p(q)=alpha+beta, v_p(D)=0;
+(B) v_p(q)=alpha,      v_p(D)=beta;
+(C) v_p(q)=0,          v_p(D)=alpha+beta.
+
+
+Therefore the corresponding (H_Q,H_S,tau_Q,tau_S) p-depths are
+(A) (alpha,0,beta,0),
+(B) (alpha,0,0,beta),
+(C) (0,alpha,0,beta).                            (216.2)
+
+
+For beta=0 these collapse to the visible/hidden saturated rows.
+
+
+At p not dividing H, the retained186 fresh rows have either
+    v_p(q)=beta, v_p(D)=0
+or
+    v_p(q)=0,    v_p(D)=beta,
+so again the whole tau prime-power block goes to exactly one side.
+
+
+Hence globally
+    tau=tau_Q*tau_S,
+    gcd(tau_Q,tau_S)=1,                          (216.3)
+and tau_Q is a unitary divisor of tau.
+
+
+Together with203:
+    H=H_Q*H_S,
+    gcd(H_Q,H_S)=1.                              (216.4)
+
+
+Moreover a prime in H_S is necessarily a row(C) prime, so its tau block also lies on the S side. Thus
+    gcd(H_S,tau_Q)=1.                            (216.5)
+
+
+The exact phase/full-S factorization is therefore
+    q=H_Q*tau_Q,
+    D=H_S*tau_S.                                (216.6)
+
+
+This is stronger than the bare qD=R product and stronger than203's H-only unitary router.
+
+
+3. Exact shared gcd and square-cube quotient
+
+
+Substitute(216.3),(216.6) into c=tau*q^2:
+    c=tau_S * H_Q^2 * tau_Q^3.                 (216.7)
+
+
+Because D=H_S*tau_S and gcd(H_S,H_Q^2*tau_Q^3)=1 by(216.4)–(216.5),
+    gcd(c,D)=tau_S.                             (216.8)
+
+
+Put
+    g_S:=gcd(c,D).                               (216.9)
+Then exactly
+    g_S=tau_S,
+    D/g_S=H_S,
+    c/g_S=H_Q^2*tau_Q^3.                       (216.10)
+
+
+In particular c/g_S is powerful/squareful: every prime dividing it has exponent at least2.
+
+
+There is a sharper q-coordinate form. Since q=H_Q*tau_Q,
+    c/g_S=q^2*tau_Q,                            (216.11)
+and tau_Q divides q. Therefore
+    q^2 | c/g_S | q^3,                          (216.12)
+with exact recovery
+    tau_Q=(c/g_S)/q^2,
+    H_Q=q^3/(c/g_S).                            (216.13)
+
+
+Thus the nonshared part of the common-u denominator lies in a very thin divisor interval between the square and cube of the actual phase coordinate q.
+
+
+No density independence is used; these are identities on the same physical endpoint.
+
+
+4. Relation to203 and193
+
+
+203's visible content factor H_Q is only one component of q. The new theorem shows that the entire residual tau factor also splits unitarily.
+
+
+At every fresh all-same prime, the full tau block lies in tau_Q. Hence184/193's T0=tau_0^sharp divides tau_Q. The new tau_Q cubic receiver below therefore extends the193 T0^3|c mechanism to every q-side tau block, including content-supported row(A) contributions.
+
+
+Do not multiply the new tau_Q tail by193's T0 tail: T0 is a divisor of tau_Q and the latter is the stronger receiver.
+
+
+5. All-content tau_Q cubic tail
+
+
+Retain183's uniform global fixed-c endpoint fiber
+    m_c(C;B)<=B^o(1)
+on the finite nonzero-u physical population.
+
+
+From(216.7),
+    tau_Q^3 | c.                                (216.14)
+
+
+Let E_Q(Z,T) be retained physical endpoints with
+    c<=Z,
+    tau_Q>=T.
+For each integer t>=T, the possible c values are contained among multiples of t^3 up to Z, at most Z/t^3. Using the fixed-c fiber and summing,
+    #E_Q(Z,T)
+      <= B^o * sum_(t>=T) Z/t^3
+      <= (Z/T^2) B^o.                           (216.15)
+
+
+This is all-content and has no outer content multiplier.
+
+
+More generally, because H_Q^2*tau_Q^3 divides c,
+    #E(c<=Z,H_Q>=A,tau_Q>=T)
+      <= (Z/(A*T^2)) B^o.                       (216.16)
+
+
+The A=T=1 cases are not claimed as new. Equation(216.15) is the useful extension of the cubic receiver. It is not independent of186's q tail; it resolves the tau_Q-heavy portion of q more strongly.
+
+
+6. Small-shared-gcd occupancy compression
+
+
+Equation(216.7) is exact, not just divisibility:
+    c=g_S * H_Q^2 * tau_Q^3.                   (216.17)
+
+
+Fix thresholds Z,G>=1 and count endpoints with
+    c<=Z,
+    g_S<=G.
+
+
+For fixed g=g_S and t=tau_Q, the possible positive H_Q satisfy
+    H_Q <= sqrt(Z/(g*t^3)).
+Therefore the number of exact triples (g,H_Q,tau_Q) is
+    <= sum_(g<=G) sum_(t>=1) sqrt(Z/(g*t^3))
+    << sqrt(Z) * sum_(g<=G)g^(-1/2) * sum_(t>=1)t^(-3/2)
+    << sqrt(Z*G).                                (216.18)
+
+
+Each resulting c label has at most B^o physical endpoints by183. Hence
+    #E(c<=Z, gcd(c,D)<=G)
+      <= sqrt(Z*G) * B^o.                       (216.19)
+
+
+This is a genuine same-physical joint occupancy estimate. It is stronger than the old #E(c<=Z)<=Z B^o whenever G=o(Z).
+
+
+7. Add a large full-S denominator
+
+
+Now also impose
+    D>=L.
+
+
+From qD=R<=B,
+    q<=B/L.                                     (216.20)
+
+
+By(216.11), with d=tau_Q,
+    c=g_S*q^2*d,
+    d|q.                                        (216.21)
+
+
+For g<=G and q<=B/L, the number of exact (g,q,d) triples is at most
+    sum_(g<=G) sum_(q<=B/L) tau(q)
+    <= (G*B/L) B^o.                             (216.22)
+
+
+Again use183 fixed-c multiplicity. Combining(216.19) and(216.22),
+    #E(c<=Z, D>=L, gcd(c,D)<=G)
+      <= B^o * min( sqrt(Z*G), G*B/L ).         (216.23)
+
+
+This is the requested threshold-specific same-physical large-c/full-S joint receiver. It retains the actual c,D,q identities; no ambient denominator density or independent square-divisor probability is inserted.
+
+
+8. Scoped disposal windows
+
+
+Against the retained comparison scale B^(1/3), for any fixed eta>0 the small-shared-gcd subpopulation in(216.23) is negligible whenever either
+
+
+    Z*G <= B^(2/3-2eta),                         (216.24)
+
+
+or
+
+
+    G*B/L <= B^(1/3-eta).                       (216.25)
+
+
+The statement is intended dyadically: on a cell with c in a bounded-ratio interval and D>=L, use its upper endpoint as Z.
+
+
+Thus a cell that is not already negligible by(216.23) must push mass into a genuinely large shared factor
+    g_S=tau_S=gcd(c,D).                          (216.26)
+
+
+This is new structural localization. The hard part is no longer an undifferentiated pair of large labels c and D.
+
+
+9. What remains open
+
+
+The theorem does NOT close the full large-c_u/full-S residual.
+
+
+The surviving branch may have large
+    tau_S=gcd(c,D),
+which enters c only linearly:
+    c=tau_S*H_Q^2*tau_Q^3,
+while
+    D=H_S*tau_S.
+
+
+The exact identities alone permit the extreme subshape H_Q=tau_Q=1, so c=tau_S and D=H_S*tau_S. Therefore no further power saving on the large-tau_S branch follows from the square-cube quotient by itself.
+
+
+Likewise a large hidden content factor H_S can coexist with the same shared tau_S. Any next count must use original physical information beyond the denominator conservation: N_T, primitive space triangles, four-square/intrinsic-R reconstruction,171/174 sectors, or another same-measure global restriction.
+
+
+Do NOT:
+- count H_Q^2 and tau_Q^3 as independent density savings;
+- multiply216.15 by193's T0 tail;
+- multiply216.23 by186's q tail as independent credit;
+- identify q_phase with174 q_min;
+- restart K1 conductor177–181;
+- revive134-superseded fresh amplified C_u;
+- infer scarcity of large tau_S from the fact that it is a gcd.
+
+
+10. Verification
+
+
+The proof is an exact specialization/recombination of the186 local depth tables and203 H-unitary router.
+
+
+A deterministic exponent replay checked:
+- alpha=1..12, beta=0..12 for all realized content rows(A),(B),(C) with the saturated collapse;
+- beta=1..12 for both fresh q-side and fresh S-side rows.
+
+
+480 local exponent states were checked.
+
+
+PASS in every case:
+- tau=tau_Q*tau_S with a whole beta block on one side;
+- c-depth = v(tau_S)+2v(H_Q)+3v(tau_Q);
+- D-depth = v(H_S)+v(tau_S);
+- min(v(c),v(D))=v(tau_S);
+- gcd(H_S,H_Q^2*tau_Q^3)=1 primewise;
+- v(c/g_S)=2v(q)+v(tau_Q).
+
+
+This is a finite symbolic consistency audit of the exact retained tables, not an independent hostile audit and not an endpoint enumeration.
+
+
+11. NEXT217
+
+
+The q-side tau component now has a cubic summed tail, and the small-shared-gcd portion of the large-c/full-S problem has the joint bound(216.23).
+
+
+NEXT217 should restrict to the surviving large
+    tau_S=gcd(c_u,D_S)
+branch.
+
+
+Use the exact factorization
+    c=tau_S*H_Q^2*tau_Q^3,
+    D=H_S*tau_S,
+    q=H_Q*tau_Q,
+with203's original numerator bridge
+    H_Q=gcd(H,|N_T|),
+and the row(B)/(C)/fresh-S distinction on tau_S primes.
+
+
+Primary target: prove a same-physical summed bound for large tau_S, or split it into a part visible in N_T/space-triangle gcd data and a genuinely hidden part controlled by H_S/171/174/four-square reconstruction.
+
+
+Do not return to generic supported-integer counting alone: tau_S appears only to first power in c, so that route has no built-in cubic/square gain.
+
+
+Gate OPEN; global counting credit0.

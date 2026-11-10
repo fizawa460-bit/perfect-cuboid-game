@@ -1,0 +1,336 @@
+﻿M3-T11-225 — Fixed-Q M3 transfer rematch and natural-symmetry no-go
+
+
+STATUS: PROVED_FIXED_Q_FINITE_CHARACTER_REDUCTION / PROVED_NATURAL_DIVISOR_SYMMETRY_SELECTOR_INVARIANCE / NO_GO_STAGE13_POLE_SECTOR_IMPORT_WITHOUT_NEW_M3_TWISTED_ASYMPTOTIC / LOCAL_FIXED_BLOCK_SELECTED_ATTACK_HOLD / GLOBAL_CREDIT=0.
+
+
+Authority:
+- current Stage37 MAIN through M3-T11-224;
+- ROUTE-PORTFOLIO-AUDIT-224-R3;
+- active LOCAL route;
+- M3-DIV-001;
+- M3-LOCAL-001 / M3-XD-LOCAL-001;
+- M3-T11-157 / 158 firewalls;
+- legacy-cold Section109/110/112/114 exact divisor/four-variable adapters;
+- Stage13-13fg fixed inert-prime transfer (comparison input only, not Stage37 authority).
+
+
+Gate OPEN. No retraction. Independent hostile audit186–225 NOT RUN. TI remains parked.
+
+
+1. Question
+
+
+NEXT225 asks whether a fixed finite inert-prime block
+    S={p_1,...,p_k},
+    Q=product_{p in S} p
+can be pushed through the exact primitive/canonical M3 measure with exact R<=B, with Q fixed before B->infinity, so as to obtain a same-M3 relative contraction.
+
+
+The specific new rematch is:
+Can the successful Stage13 fixed-S finite-character / principal-pole-sector transfer be imported to Stage37 M3?
+
+
+Answer:
+Not from the current corpus. The Stage13 proof uses a pole-producing multiplicative counting engine that is absent after imposing the exact M3 square condition. Importing it would require proving the missing fixed-conductor twisted exact-M3 asymptotics themselves.
+
+
+This is a method-level NO_GO for that import, not a theorem that fixed-Q M3 contraction is false.
+
+
+2. Exact fixed-Q finite-character reduction on M3
+
+
+For E in exact primitive M3(B), put
+    T(E)=X(E)^2+D(E)^2
+where D^2=Y^2+Z^2.
+
+
+M3-T11-157 proves that for every inert prime p==3 mod4,
+    p does not divide T(E).                         (225.1)
+
+
+Hence chi_p(T(E)) is always +/-1.
+
+
+For a fixed finite inert set S define the simultaneous terminal-pass population
+    A_S(B)
+    = #{E in M3(B): chi_p(T(E))=+1 for every p in S}.
+
+
+Because there are no zero character values,
+    1_{all p pass}
+    = 2^(-k) product_{p in S} (1+chi_p(T)).         (225.2)
+
+
+Therefore, exactly at finite B,
+    A_S(B)
+    = 2^(-k) sum_{J subseteq S} W_J(B),             (225.3)
+where
+    W_J(B)
+    = sum_{E in M3(B)} chi_{m_J}(T(E)),
+    m_J=product_{p in J}p,
+and W_empty(B)=M3(B).
+
+
+Thus a fixed-Q local-to-global theorem is precisely a finite family of fixed-conductor TWISTED exact-M3 counting statements. No growing modulus is required.
+
+
+This is compatible with157's second-moment certificate, but is the full fixed-block formulation rather than only its pair-moment weakening.
+
+
+3. Exact divisor-coordinate realization
+
+
+Retain M3-DIV-001:
+for the unique odd edge X and divisors
+    A<C<X,
+    A,C | X^2,
+the even edges are
+    Y=(X^2-A^2)/(2A),
+    Z=(X^2-C^2)/(2C),
+with the exact primitive, M3-square and height masks.
+
+
+The legacy-cold Section109 identity is
+    4 A^2 C^2 T
+    = (A^2+C^2)(X^4+A^2C^2).                       (225.4)
+
+
+The exact M3 condition is
+    C^2(X^2-A^2)^2 + A^2(X^2-C^2)^2
+    = square.                                       (225.5)
+
+
+For an inert p:
+
+
+(a) If p|X, then by (225.1) p does not divide D and
+    T == D^2 mod p,
+so
+    chi_p(T)=+1.                                    (225.6)
+
+
+(b) If p does not divide X, then p does not divide AC because A,C|X^2. Therefore the factor 4A^2C^2 in (225.4) is a nonzero square and
+    chi_p(T)
+    = chi_p((A^2+C^2)(X^4+A^2C^2)).                 (225.7)
+
+
+Consequently fixed Q can be partitioned into finitely many X-divisibility strata. On every stratum the nonautomatic prime factors are explicit polynomial quadratic characters in exact one-object/one-count divisor coordinates.
+
+
+This removes denominator ambiguity. It does NOT estimate the twisted sums W_J(B).
+
+
+4. Why the Stage13 fixed-S transfer succeeds
+
+
+Stage13-13fg proves a fixed inert-prime transfer on a different host.
+
+
+Its essential mechanism is not merely “Q is fixed” or “finite characters exist”. It has all of the following:
+
+
+1. an unconditioned tagged host with an already-proved main asymptotic
+       A_q(B) ~ D_q B(log B)^3;
+2. a multiplicative Dirichlet/Gaussian-Hecke description with identified pole-producing unbounded channels;
+3. finite Fourier expansion of the fixed residue predicate;
+4. a PRINCIPAL POLE SECTOR whose total contribution has the same leading pole and acquires the exact product of local multipliers;
+5. every nonprincipal sector forces at least one pole-producing channel to become a fixed-conductor nonprincipal L-function;
+6. the pole order therefore drops, giving
+       o_S(B(log B)^3)
+   for all nonprincipal sectors.
+
+
+The conclusion follows because the residue refinement sits inside a counting problem whose principal term and all fixed-conductor twists are already controlled.
+
+
+5. Why that architecture does not currently transfer to M3
+
+
+The exact Stage37 denominator is not the Stage13 multiplicative host.
+
+
+In divisor coordinates, M3 imposes the global square equation (225.5).
+
+
+Equivalently, in the retained exact four-variable model of legacy Section110,
+    E4(a,b,c,f) = W^2                               (225.8)
+is the M3 condition, with primitive/canonical masks and exact physical height.
+
+
+The current Stage37 corpus does NOT contain:
+- an asymptotic formula for M3(B) with a proved pole-producing Dirichlet-series decomposition;
+- a principal-pole-sector theorem for exact M3;
+- fixed-conductor twisted asymptotics
+      W_J(B)=mu_J M3(B)+o_S(M3(B))
+  for the characters in (225.3);
+- a theorem showing that a nonprincipal fixed residue character removes a pole on the exact M3/K3 measure.
+
+
+The certified denominator input is a lower bound of B^(1/3)-scale, not a full main-term asymptotic supporting character-by-character residue transfer.
+
+
+Legacy Section112 gives strong COMPLETE LOCAL character cancellation for the ambient four-variable family before conditioning on the integer square E4=W^2. That does not supply the missing exact-M3 transfer.
+
+
+M3-T11-158 already gives the relevant sparse-conditioning firewall: ambient character cancellation cannot be transferred to a sparse physical subpopulation without controlling the physical weight/correlation.
+
+
+Therefore declaring a “principal M3 pole sector” and importing Stage13 pole loss would be circular. To justify that declaration one must first prove the fixed-conductor twisted exact-M3 asymptotics that constitute the missing LOCAL transfer theorem.
+
+
+Decision:
+    NO_GO_STAGE13_POLE_SECTOR_IMPORT_WITHOUT_NEW_M3_TWISTED_ASYMPTOTIC.     (225.9)
+
+
+This does not rule out a future height-zeta/adelic theorem specifically for the M3 K3. It says the existing Stage13 theorem is not a black-box bridge.
+
+
+6. Natural bounded-fiber correspondence test
+
+
+ROUTE-PORTFOLIO-AUDIT-224-R3 also allowed a fixed-Q bounded-fiber physical correspondence/involution.
+
+
+The natural exact divisor-coordinate symmetries do not mix the terminal selector.
+
+
+On the signed divisor extension define
+    iota_A: A -> X^2/A,
+    iota_C: C -> X^2/C,
+and the face swap
+    sigma: A <-> C.
+
+
+From
+    Y_A=(X^2/A-A)/2
+one has
+    Y_{X^2/A}=-Y_A,
+and similarly
+    Z_{X^2/C}=-Z_C.
+
+
+Thus iota_A and iota_C are only sign flips of Y and Z, while sigma swaps Y and Z.
+
+
+All three preserve
+    D^2=Y^2+Z^2
+and hence preserve exactly
+    T=X^2+D^2.                                     (225.10)
+
+
+Therefore every chi_p(T), every Omega_p endpoint-pass state, and every fixed-Q sign vector are invariant under the group generated by divisor complements and face swap.
+
+
+After returning to the positive canonical A<C<X representative, these transformations are sign/order symmetries, not a new population-mixing map.
+
+
+Decision:
+    NATURAL_DIVISOR_COMPLEMENT_FACE_SWAP_MIXING = NO_GO.                 (225.11)
+
+
+A successful bounded-fiber correspondence would have to change the physical projective pair [X:D], not merely signs/order of the two even-face divisor representatives.
+
+
+7. Fixed-Q mechanism audit result
+
+
+The concrete fixed-Q mechanisms selected in224-R3 now have the following status.
+
+
+A. Exact divisor-coordinate count:
+Exact adapter exists, including (225.3), (225.4), (225.6), (225.7), but no relative twisted-count theorem is available.
+
+
+B. Natural bounded-fiber physical correspondence:
+the divisor-complement/face-swap group preserves T exactly and supplies no selector mixing.
+
+
+C. Stage13 finite-character principal-pole transfer:
+cannot be imported without a new exact-M3 twisted main-term theorem.
+
+
+D. Ambient fixed-Q character/geometry counting:
+complete local cancellation is available in retained legacy work, but M3-T11-158 forbids dropping the exact M3 square weight without a new physical transfer estimate.
+
+
+Accordingly the selected LOCAL production attack is exhausted at the current theorem inventory.
+
+
+Canonical theorem gate M3-LOCAL-GATE-001 remains mathematically OPEN as a sufficient receiver.
+Operational production status becomes:
+    LOCAL_FIXED_BLOCK_CURRENT_MECHANISMS = HOLD.                         (225.12)
+
+
+No endpoint upper bound improves.
+GLOBAL_COUNTING_CREDIT remains0.
+
+
+8. What would legitimately reopen LOCAL
+
+
+Any one of the following is genuinely new input:
+
+
+1. a fixed-Q asymptotic for exact M3 residue blocks, with constants allowed to depend arbitrarily on Q;
+2. a height-zeta / adelic equidistribution theorem proven for this exact primitive/canonical M3 K3 measure and exact physical height;
+3. a nontrivial bounded-fiber physical correspondence that changes [X:D] and provably mixes the endpoint-pass block;
+4. fixed-conductor twisted exact-M3 asymptotics sufficient to evaluate (225.3);
+5. a new exact divisor-sum theorem handling the integer-square M3 mask rather than replacing it by an ambient box.
+
+
+More local half-set algebra, CRT, interval character estimates, generic quadratic large sieve, or Stage13 pole terminology without an M3 pole engine do not qualify.
+
+
+9. Decision and next
+
+
+DECISION:
+    LOCAL_FIXED_BLOCK_SELECTED_ATTACK_HOLD.
+    M3_LOCAL_GATE_001_RECEIVER_REMAINS_OPEN.
+    STAGE13_FIXED_S_BLACK_BOX_TRANSFER_TO_M3 = NO_GO.
+    NATURAL_DIVISOR_SYMMETRY_MIXING = NO_GO.
+    GLOBAL_CREDIT=0.
+
+
+The 224-R3 fallback now activates the secondary whole-population route.
+
+
+NEXT226 = CENTERED_DIRECTIONAL_PREENDPOINT_HOST_PREFLIGHT.
+
+
+Use M3-A-001 / M3-A-GATE-001.
+
+
+Target:
+on one exact directional two-face physical host, obtain
+    |rho_j(B)| << B^(-1/12-delta)
+for some fixed delta>0, or an equivalent same-host power deficit.
+
+
+The first task is NOT another complete character sum.
+
+
+Construct the actual PRE-ENDPOINT centered host and identify exactly which two selectors are being correlated before either is conditioned away.
+
+
+Respect:
+- M3-T11-159: the literal endpoint-conditioned Fourier coefficient is saturated and cannot yield a free thinning factor;
+- M3-T11-213/214: fixed-face complete character cancellation followed by sparse L1 completion does not transfer to the moving physical graph;
+- M3-T11-158: generic large-sieve energy must not be renamed as correlation progress;
+- full primitive/canonical/height/content/family costs must stay on the same physical measure.
+
+
+GO only if the centered score is defined on the exact pre-endpoint host and the moving-family sum has a theorem-compatible coefficient structure with an explicit 1/12-plus-margin budget.
+
+
+If the host construction itself collapses to an already-conditioned or sparse-L1 form, record A-HOLD and return to the portfolio.
+
+
+LATEST_MATH=M3-T11-225.
+GATE=OPEN.
+GLOBAL_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+PERFECT_CUBOID_EXISTENCE_OR_NONEXISTENCE_CONCLUSION=NONE.
+INDEPENDENT_HOSTILE_AUDIT_186_225=NOT_RUN.

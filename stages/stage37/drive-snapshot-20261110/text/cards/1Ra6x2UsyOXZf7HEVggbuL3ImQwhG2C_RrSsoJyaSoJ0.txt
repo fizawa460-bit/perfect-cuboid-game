@@ -1,0 +1,279 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229O — quotient-free homogeneous GCD adapter and 2026 GCD-theorem no-go
+
+
+STATUS: POST_229N_QUOTIENT_REMOVAL_COMPLETE / PROVED_GSTAR_EQUALS_GCD_eR_xy / PROVED_HOMOGENEOUS_QUADRATIC_GCD_ADAPTER / YASUFUKU_2026_DIRECT_APPLICATION_INELIGIBLE_AND_EXPONENT_TOO_WEAK / BARRIOS_2026_CORRECTED_COMPONENTWISE_BOUND_TOO_WEAK / LARGE_RADICAL_GCD_TAIL_OPEN / NO_REOPEN / GLOBAL_CREDIT=0
+
+
+TYPE: POST-229N EXACT PHYSICAL GCD SIMPLIFICATION / CURRENT GCD-THEOREM CONTRACT AUDIT / ANTI-LOOP FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229N
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+
+
+1. Scope
+
+
+229N reduced the full positive physical endpoint problem to the squarefree kernel
+  K_* = sf(G_*),
+  G_* = gcd(eR, x'y'),
+where
+  d0 = gcd(x,y),
+  x' = x/d0,
+  y' = y/d0,
+and showed that
+  K_* <= B^(1/3-delta)
+is o(M3) by the retained 229L fixed-twist B^o(1) fiber theorem.
+
+
+The remaining preferred quantitative gate was written as
+  sf(gcd(eR, xy/gcd(x,y)^2)) > B^(1/3-delta).
+
+
+This card proves that the quotient is unnecessary and then rematches the resulting homogeneous GCD against the strongest directly relevant unconditional 2026 GCD-height theorems found in the current scan.
+
+
+2. The missing-face common content is coprime to both e and R
+
+
+Let
+  d0 = gcd(x,y).
+The retained primitive physical condition is
+  gcd(e,x,y)=1.
+
+
+Since d0 divides x and y,
+  gcd(e,d0)=1.                                      (229O.1)
+
+
+Now suppose a prime p divides both R and d0. Then p divides R,x,y. The physical sphere equation
+  R^2 = e^2 + x^2 + y^2
+implies
+  e^2 == 0 mod p,
+hence p divides e. This contradicts gcd(e,x,y)=1.
+
+
+Therefore
+  gcd(R,d0)=1.                                      (229O.2)
+
+
+Combining (229O.1) and (229O.2),
+  gcd(eR,d0)=1.                                     (229O.3)
+
+
+RESULT_229O_D0_COPRIME_TO_eR=PROVED_EXACT.
+
+
+3. Exact quotient removal
+
+
+Because
+  x = d0 x',
+  y = d0 y',
+we have
+  xy = d0^2 x'y'.
+
+
+By (229O.3), d0^2 is coprime to eR. Therefore
+  gcd(eR,xy)
+    = gcd(eR,d0^2 x'y')
+    = gcd(eR,x'y')
+    = G_*.                                          (229O.4)
+
+
+Hence the 229N twist-support invariant has the quotient-free form
+  G_* = gcd(eR,xy),                                 (229O.5)
+  K_* = sf(gcd(eR,xy)),                             (229O.6)
+and
+  d = sf(2^epsilon gcd(eR,xy)).                     (229O.7)
+
+
+The preferred full-endpoint tail can therefore be rewritten exactly as
+  P_rad-tail(B)
+   = # {primitive positive physical endpoints R<=B:
+        sf(gcd(eR,xy)) > B^(1/3-delta)}.            (229O.8)
+
+
+No denominator, normalized leg, or rational polynomial is required in the theorem-facing GCD expression.
+
+
+RESULT_229O_GSTAR_EQUALS_GCD_eR_xy=PROVED_EXACT.
+RESULT_229O_QUOTIENT_FREE_RADICAL_GATE=PROVED_EXACT.
+
+
+4. Homogeneous quadratic GCD adapter
+
+
+For every primitive positive physical endpoint set
+  P = [e:R:x:y] in P^3(Q).
+
+
+Because gcd(e,x,y)=1, these four integral coordinates are primitive. Also
+  R^2=e^2+x^2+y^2
+gives
+  max(e,R,x,y)=R
+on the positive chamber, so the standard projective height is
+  H(P)=R,
+  h(P)=log R.
+
+
+Define the two homogeneous quadratic forms
+  F1 = eR,
+  F2 = xy.
+Then exactly
+  G_* = gcd(F1(P),F2(P)).                           (229O.9)
+
+
+Thus the remaining 229N obstruction is now an exact squarefree-kernel tail for the GCD of two degree-2 homogeneous forms at a highly constrained physical subset of primitive P^3(Q), with the ambient projective height identical to the Stage37 physical height R.
+
+
+RESULT_229O_HOMOGENEOUS_QUADRATIC_GCD_ADAPTER=PROVED_EXACT.
+RESULT_229O_AMBIENT_HEIGHT_EQUALS_PHYSICAL_R=true.
+
+
+This is a theorem-input simplification only. The physical points still lie on the retained simultaneous Pythagorean/square conditions, and no ambient-P^3 density statement may be substituted for the exact physical population.
+
+
+5. Yasufuku 2026 codimension-2 GCD inequality: direct route is closed
+
+
+Yu Yasufuku, “GCD inequalities arising from codimension-2 blowups,” Bulletin of the London Mathematical Society 58(4), 2026, DOI 10.1112/blms.70349, gives an unconditional codimension-2 GCD inequality for two homogeneous forms.
+
+
+For the 229O ambient adapter:
+  n=3,
+  d1=d2=2,
+  F1=eR,
+  F2=xy.
+
+
+The center
+  Y={eR=xy=0}
+is a codimension-2 complete intersection because F1 and F2 have no common polynomial factor. However Yasufuku Theorem 1.2 also requires every coordinate point of P^3 to lie outside Y. Here every coordinate point has eR=0 and xy=0, hence every coordinate point lies in Y.
+
+
+Therefore the theorem is not directly applicable to (F1,F2).
+
+
+Moreover, even if this coordinate-point hypothesis were ignored, the equal-degree coefficient allowed by Yasufuku is any number larger than
+  [-(n+1)-(n-1)d
+   +sqrt((n+1)^2 d^2+2(n^2-1)d+(n+1)^2)]/2.
+At n=3,d=2 this equals
+  (-8+sqrt(112))/2
+  = 2 sqrt(7)-4
+  = 1.2915... .
+
+
+Stage37 requires control at the B^(1/3-delta) radical scale. A pointwise logarithmic GCD coefficient already exceeding 1.29, before Yasufuku's additional nonnegative coordinate-boundary term, cannot provide that receiver.
+
+
+RESULT_229O_YASUFUKU_2026_DIRECT_MATCH=NO_GO.
+NO_GO_REASON_1=coordinate-point hypothesis fails maximally.
+NO_GO_REASON_2=even counterfactual main coefficient 2sqrt(7)-4 > 1/3.
+
+
+6. Barrios 2026 corrected generalized-GCD theorem: componentwise route is also too weak
+
+
+Benjamín Barrios, “An upper bound for the generalized greatest common divisor of rational points,” together with the published 2026 correction, gives a generalized GCD height bound outside a proper Zariski-closed exceptional set. The correction states that the height-bound results remain valid after adding the requirement that the relevant subvariety have ample normal bundle.
+
+
+The reducible center Y={eR=xy=0} is the union of four coordinate lines
+  Y_ex={e=x=0},
+  Y_ey={e=y=0},
+  Y_Rx={R=x=0},
+  Y_Ry={R=y=0}.
+
+
+Each component is a smooth line P^1 in P^3 and has ample normal bundle
+  N_{P^1/P^3}=O(1) direct-sum O(1).
+So the corrected Barrios theorem is eligible componentwise.
+
+
+For X=P^3, A=O(1), n=3, a line has d=1 and codimension c=2, while
+  (A^d . Y)=1,
+  (A^n)=1.
+The theorem's coefficient is therefore
+  [(1/1)*(3!/2!)]^(1/2)
+   = sqrt(3)
+   = 1.732...                                      (229O.10)
+plus epsilon.
+
+
+Thus even for one bucket such as gcd(e,x), the black-box pointwise bound is far above the 1/3 exponent scale needed by Stage37. Applying the theorem separately to four line components does not improve this exponent, and the theorem also excludes a proper Zariski-closed exceptional set whose intersection with the physical locus would require a separate count.
+
+
+RESULT_229O_BARRIOS_2026_COMPONENTWISE_MATCH=NO_GO_FOR_STAGE37_BUDGET.
+NO_GO_REASON=eligible after correction, but coefficient sqrt(3)>1/3 and exceptional-set count remains separate.
+
+
+7. Consequence for the current research gate
+
+
+The exact preferred gate after 229O is
+
+
+PHYSICAL_JOINT_RADICAL_GCD_ONE_THIRD_QUOTIENT_FREE:
+for some fixed delta>0,
+  # {primitive positive physical endpoints R<=B:
+       sf(gcd(eR,xy)) > B^(1/3-delta)}
+     = o(B^(1/3)).                                (229O.11)
+
+
+Together with 229L/229N this is sufficient for the full endpoint numerator:
+  P(B)
+   <= #large-radical-tail
+      + B^(1/3-delta+o(1)).
+
+
+229O removes an algebraic nuisance in the theorem interface but does not improve the endpoint exponent. The current 2026 ambient GCD-height black boxes inspected above do not meet the receiver.
+
+
+The next legal theorem input must exploit additional structure absent from ambient P^3 GCD inequalities, for example:
+- the exact physical simultaneous Pythagorean/square locus;
+- squarefree radical support rather than raw GCD size;
+- an average/counting theorem rather than a pointwise height inequality;
+- or a stronger sufficient raw branch that meets the same B^(1/3) budget on the exact physical measure.
+
+
+Do not next:
+- reinsert the quotient xy/gcd(x,y)^2;
+- treat Yasufuku 2026 as applicable despite its coordinate-point hypothesis;
+- use Barrios componentwise bounds as a power saving;
+- infer the radical tail from a raw pointwise GCD height bound with exponent >1/3;
+- discard the exceptional Zariski set without a physical count;
+- restart generic gcd heuristics, fixed-d/Kummer, LOCAL, PAIR, A, or FIB without a new matching quantitative input.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_GENUINELY_NEW_THEOREM_INPUT.
+
+
+8. Sources checked
+
+
+Internal:
+- Stage37-NEW-INPUT-DELTA-AUDIT-229N;
+- Stage37-NEW-INPUT-DELTA-AUDIT-229M;
+- Stage37-NEW-INPUT-DELTA-AUDIT-229D;
+- M3-T11-228;
+- current MAIN / RESULT-LEDGER / CARD-INDEX / active ROUTE.
+
+
+External:
+- Yu Yasufuku, “GCD inequalities arising from codimension-2 blowups,” Bulletin of the London Mathematical Society 58(4) (2026), DOI 10.1112/blms.70349.
+- Benjamín Barrios, “An upper bound for the generalized greatest common divisor of rational points,” arXiv:2411.06050 / Bulletin of the Australian Mathematical Society.
+- Benjamín Barrios, correction published online 22 July 2026, DOI 10.1017/S0004972726101543.
+
+
+AUDIT SCOPE
+
+
+This card proves an exact physical quotient-removal identity and performs a scoped current-theorem contract audit. It is not an independent hostile audit of cards 186–229. It gives no global P(B)/M3(B) limit and no perfect-cuboid existence/nonexistence conclusion.

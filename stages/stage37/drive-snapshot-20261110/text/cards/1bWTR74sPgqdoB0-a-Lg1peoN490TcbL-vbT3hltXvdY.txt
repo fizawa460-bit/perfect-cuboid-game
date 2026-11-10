@@ -1,0 +1,355 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229CQ — balanced sub-block square-modulus packing and quartic-radical tail ceiling
+STATUS: POST_229CP_BALANCED_COLOR_SUBBLOCK_EXTRACTION / FULL_GCD_NOT_REQUIRED_FOR_SQUARE_MODULUS_PACKING / FIXED_BALANCED_RADICAL_r_MINUS4 / J_B_TAIL_IMPROVED_TO_K_MINUS1_BUT_STILL_TOO_WEAK / GLOBAL_CREDIT=0 / NO_REOPEN
+CARD_DOC_ID=1bWTR74sPgqdoB0-a-Lg1peoN490TcbL-vbT3hltXvdY
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229CP
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope
+
+
+Work on the exact current S_B^hard13(delta) positive primitive Stage37 physical source, R<=B.
+
+
+Retain 229CP's balanced square block L_B. Because the three color supports lambda_U,lambda_V,lambda_z are pairwise coprime, L_B has a unique color factorization
+
+
+L_B=D_U D_V D_z,                                              (CQ.1)
+
+
+where D_U,D_V,D_z are pairwise coprime perfect squares, each D_i is the full balanced prime-power block inside the corresponding lambda_i, and
+
+
+J_B=r_U r_V r_z,
+r_i=rad(D_i).                                                  (CQ.2)
+
+
+For U color, balanced means every p^a||D_U satisfies
+
+
+v_p(A)=v_p(u)=v_p(S)=a,
+u=Bv+C,
+a even.                                                        (CQ.3)
+
+
+Since the p-support of lambda_U is absent from Bv and C individually, the same p-block appears in Pi only through u and in Omega only through A. Thus
+
+
+D_U||A,
+D_U||u,
+D_U||S.                                                       (CQ.4)
+
+
+Cyclically
+
+
+D_V||Bv,t,S,   t=A+C,
+D_z||C,s,S,    s=A+Bv.                                       (CQ.5)
+
+
+RESULT_229CQ_BALANCED_BLOCK_HAS_EXACT_COLOR_SQUARE_SUBBLOCK_FACTORIZATION=PROVED_EXACT.
+
+
+Since L_B=D_UD_VD_z||S and D_i>=r_i^2,
+
+
+J_B^2=(r_Ur_Vr_z)^2 | L_B | S < B.                           (CQ.6)
+
+
+Hence
+
+
+J_B < B^(1/2).                                                (CQ.7)
+
+
+RESULT_229CQ_BALANCED_RADICAL_HAS_DETERMINISTIC_SQUARE_ROOT_HEIGHT_CEILING=PROVED_EXACT.
+
+
+2. Sub-block square-modulus packing lemma
+
+
+The key point is that 229CG's lattice packing does not require the chosen modulus to equal the full opposite gcd.
+
+
+Fix a positive odd integer m and consider U-color endpoints satisfying
+
+
+m|A,
+m|u=Bv+C,
+gcd(m,2d)=1.                                                  (CQ.8)
+
+
+Put
+
+
+Xopp=Bv-C.
+
+
+The retained exact norm identity is
+
+
+Xopp^2+8d^2=u(u+4A).                                         (CQ.9)
+
+
+Therefore
+
+
+m^2 | Xopp^2+8d^2.                                           (CQ.10)
+
+
+Since 2d is invertible modulo m^2, define
+
+
+sigma == Xopp*(2d)^(-1) mod m^2.
+
+
+Then
+
+
+sigma^2 == -2 mod m^2,
+Xopp == 2sigma d mod m^2.                                    (CQ.11)
+
+
+For any fixed m, the number of possible roots sigma modulo m^2 occurring on endpoints is at most
+
+
+2^omega(m)=B^o(1).                                           (CQ.12)
+
+
+For each root, (Xopp,d) lies in the rank-two lattice
+
+
+Lambda(m,sigma)={(X,Y): X==2sigma Y mod m^2}
+
+
+of determinant m^2.
+
+
+Every nonzero lattice vector satisfies
+m^2 | X^2+8Y^2,
+so its weighted norm is at least m. The same ellipse/lattice packing argument as 229CG gives
+
+
+#{(Xopp,d): |Xopp|<B,0<d<B}
+ << 1+B^2/m^2.                                               (CQ.13)
+
+
+For fixed (Xopp,d), put N=Xopp^2+8d^2.
+From (CQ.9), u is a positive divisor of N and
+
+
+A=(N/u-u)/4,
+Bv=(u+Xopp)/2,
+C=(u-Xopp)/2.                                                 (CQ.14)
+
+
+There are tau(N)=B^o(1) divisor choices. Remaining integrality, positivity, chamber and physical selectors only delete candidates, and 229BU reconstructs at most one endpoint from a surviving labelled gap triple.
+
+
+Therefore uniformly for every fixed m satisfying (CQ.8),
+
+
+#{P:R<=B, m|A(P), m|u(P), gcd(m,2d(P))=1}
+ << B^o(1)(1+B^2/m^2).                                      (CQ.15)
+
+
+Cyclic versions hold for (Bv,t) and (C,s).
+
+
+RESULT_229CQ_FIXED_OPPOSITE_GCD_SUBBLOCK_SQUARE_MODULUS_PACKING=PROVED.
+
+
+This strictly generalizes the use of 229CG's packing mechanism: full-gcd equality m=lambda_i is sufficient but not necessary.
+
+
+3. Apply the lemma to balanced color blocks
+
+
+For a fixed U-balanced full block D_U, 229CP/229CG give gcd(D_U,2d)=1, so
+
+
+#{P:R<=B, D_U^bal(P)=D_U}
+ << B^o(1)(1+B^2/D_U^2).                                    (CQ.16)
+
+
+The same holds cyclically.
+
+
+Now fix the squarefree balanced color radical r=rad(D_U).
+Because D_U is a perfect square,
+
+
+D_U >= r^2.                                                   (CQ.17)
+
+
+By the retained 229BQ polynomial-height prescribed-support lemma, for fixed r there are only B^o(1) possible D_U<=B supported on r.
+Hence
+
+
+#{P:R<=B, r_U^bal(P)=r}
+ << B^o(1)(1+B^2/r^4).                                      (CQ.18)
+
+
+Cyclically for r_V,r_z.
+
+
+RESULT_229CQ_FIXED_BALANCED_COLOR_RADICAL_PACKING_HAS_QUARTIC_RADICAL_DENOMINATOR=PROVED.
+
+
+This improves the generic fixed full-lambda-radical denominator r^-2 from 229CG to r^-4 on the balanced color channel.
+
+
+4. Unrestricted large-J_B tail
+
+
+If
+
+
+J_B=r_U r_V r_z > K,                                        (CQ.19)
+
+
+then one color satisfies
+
+
+r_i > K^(1/3).                                                (CQ.20)
+
+
+Also r_i<B^(1/2) by D_i>=r_i^2 and D_i|S<B.
+
+
+Using (CQ.18) and a union bound over the three colors,
+
+
+N_B(B;K):=#{P:R<=B,J_B(P)>K}
+
+
+<< B^o(1) sum_{K^(1/3)<r<=B^(1/2)}
+   (1+B^2/r^4).                                              (CQ.21)
+
+
+The cardinality term is B^(1/2+o(1)).
+Since
+
+
+sum_{r>Y} r^(-4) << Y^(-3),
+
+
+with Y=K^(1/3),
+
+
+N_B(B;K)
+ << B^(1/2+o(1)) + B^(2+o(1))/K.                             (CQ.22)
+
+
+RESULT_229CQ_UNRESTRICTED_BALANCED_J_TAIL_BOUND_B_HALF_PLUS_B2_OVER_K=PROVED.
+
+
+This is a genuine quantitative improvement over applying 229CG to the full lambda radical, whose corresponding unrestricted term was only B^(2+o(1))K^(-1/3).
+
+
+5. Quantitative ceiling
+
+
+The improvement is still nowhere near the one-third target on the nonempty balanced range.
+
+
+By (CQ.7), J_B<B^(1/2), so the only nonempty polynomial thresholds satisfy K<B^(1/2).
+For every such K,
+
+
+B^2/K > B^(3/2).                                             (CQ.23)
+
+
+Thus (CQ.22) cannot imply o(B^(1/3)) anywhere in the nonempty polynomial J_B range.
+
+
+At the current balanced six-bucket threshold
+
+
+K=T^(1/5),
+T=B^(1/3-delta),
+
+
+(CQ.22) gives only
+
+
+N_B(B;K)
+ << B^(1/2+o(1))
+    +B^(29/15+delta/5+o(1)),                                 (CQ.24)
+
+
+still vastly above B^(1/3).
+
+
+RESULT_229CQ_BALANCED_SUBBLOCK_ROOT_LINE_TAIL_IS_QUANTITATIVELY_TOO_WEAK_FOR_ONE_THIRD=PROVED_METHOD_CEILING.
+
+
+Precision:
+this is a ceiling of the unrestricted sub-block square-modulus summation method. It is not a lower bound on the true physical endpoint population and not a no-go theorem for selector-aware balanced counting.
+
+
+6. Consequence for the balanced hard core
+
+
+229CQ closes one tempting retry:
+
+
+do not re-run 229CG merely replacing the full lambda_i by the balanced square sub-block and then sum its moduli unrestrictedly.
+
+
+That route improves r^-2 to r^-4 but still fails by a large power.
+
+
+The balanced block remains potentially useful only when coupled to genuinely additional same-physical structure, e.g.
+
+
+- 229CK colored square-gap budget;
+- 229CI dual-radical pair;
+- the exact common-unitary condition L_B||Pi,Omega,S;
+- or a new occupied-value theorem on the balanced color sub-block image.
+
+
+The preferred balanced contract is therefore sharpened to
+
+
+J_BALANCED_SELECTOR_AWARE_SUBBLOCK_OCCUPANCY:
+
+
+obtain a fixed-power count using the exact color blocks
+D_U||A,u,S,
+D_V||Bv,t,S,
+D_z||C,s,S
+together with the physical selectors, rather than unrestricted root-line summation.
+
+
+7. State
+
+
+CURRENT_BLOCKER remains
+NO_SELECTOR_AWARE_OR_OCCUPIED_SUPPORT_SAVING_FOR_THE_229CC_SIX_BUCKET_COVER_ON_THE_EXACT_HARD13_PHYSICAL_SOURCE.
+
+
+REFINED_BLOCKER=
+NO_ONE_THIRD_COUNT_FOR_LARGE_eta_OR_TAU_FULL_GCD_SQUARE_MODULI_OR_J_FOUR_STATE_COMMON_GCD_OCCUPANCY_WITH_SELECTOR_AWARE_BALANCED_SUBBLOCK_OCCUPANCY_OR_MATCHED_DISJOINT_M_U_M_V_M_z.
+
+
+J_FOUR_STATE_COMMON_GCD_OCCUPANCY=OPEN.
+J_BALANCED_SELECTOR_AWARE_SUBBLOCK_OCCUPANCY=OPEN.
+J_BALANCED_UNRESTRICTED_SUBBLOCK_SQUARE_MODULUS_TAIL=CLOSED_AS_TOO_WEAK_BY_229CQ.
+J_RHO_QUOTIENT_LIFT remains valid on R state.
+J_S_EXCESS_ABOVE_B_ONE_THIRD remains EMPTY_BY_229CP.
+KERNEL_BIAS_BRIDGE remains OPEN.
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+No perfect-cuboid existence/nonexistence conclusion and no new global endpoint exponent are claimed.
+INDEPENDENT_HOSTILE_AUDIT_229CQ=NOT_RUN.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

@@ -1,0 +1,62 @@
+﻿Stage37-229GZ EXACT REPLAY CERT — all22 determinant bad primes and complete balanced r²|H hostile audit.
+RIGOROUS SYMBOLIC THEOREM (no computer needed): For original split p<r, a²+b²=p² and r>p>|a|,|b|, b!=0 mod r. GY determinant D1=a²−3b², D2=b²−3a², D3=(a²−4ab+b²)(a²+4ab+b²). If r|D1 or D2, 3 square mod r. If r|D3, x=a/b solves x²±4x+1, discriminant 12=4*3, so 3 square mod r. For r≡1mod8, r mod24∈{1,17}; (3/r)=+1 iff r≡1mod24. Therefore r≡17mod24 is GOOD for all22 matrices and fixed(p,r) <=44 q unconditional within retained FO source.
+
+
+EXACT REPLAY PYTHON3:
+from sympy import primerange
+from math import isqrt
+P=[p for p in primerange(17,4001) if p%8==1]
+def sqgauss(p):
+ for v in range(2,isqrt(p)+1,2):
+  u=isqrt(p-v*v)
+  if u>0 and u*u+v*v==p:return (u*u-v*v,2*u*v)
+ raise ValueError(p)
+V={p:sqgauss(p) for p in P}
+hits=[];tested=0;triples=0
+for i,p in enumerate(P):
+ if p>2000:break
+ a,b=V[p]
+ for j in range(i+1,len(P)):
+  q=P[j]
+  if q>2*p:break
+  c,d=V[q]
+  for r in P[j+1:]:
+   if r>2*p:break
+   triples+=1
+   for typ in range(3):
+    U,Vv,M=((a,b,3) if typ==0 else ((a*a-b*b,2*a*b,3) if typ==1 else (p*p,4*a*b,1)))
+    for sign in [-1,1]:
+     for swap in [0,1]:
+      C,D=(d,c) if swap else (c,d)
+      H=(U*C+sign*M*Vv*D)**2+(Vv*C+sign*U*D)**2
+      tested+=1
+      if H%(r*r)==0:hits.append((p,q,r,typ,sign,swap,H//(r*r)))
+assert sum(p<=2000 for p in P)==68
+assert triples==37716 and tested==452592
+assert len(hits)==8 and len(set(x[:3] for x in hits))==4
+assert all(x[3]==2 for x in hits)
+print('PASS 68 p, 37716 balanced pqr, 452592 exact divisibility tests, 8 hits, 4 distinct pqr, all S family')
+for x in hits:print('HIT',*x)
+EXPECTED:
+(281,313,337,2,+1,0/1,21025812721)
+(857,1201,1249,2,-1,0/1,955932336001)
+(953,1201,1249,2,+1,0/1,3482912052481)
+(1049,1361,1801,2,+1,0/1,418166556721)
+Original signed FJ first discriminant rational square check:
+import sympy as s
+Y=s.symbols('Y')
+keys=['000.022.110:0','002.020.110:0','002.020.110:1']
+def E(code,t,X):
+ i,j,k=[int(z)-1 for z in code]
+ return s.expand((i*t+j*X+k*Y-i*j*k*t*X*Y)**2*((1+t*t) if i==0 else 1)*((1+X*X) if j==0 else 1)*((1+Y*Y) if k==0 else 1))
+for p,q,r in sorted(set(x[:3] for x in hits)):
+ a,b=V[p];c,d=V[q]
+ for key in keys:
+  codes,h=key.split(':');h=int(h)
+  F=s.Poly(sum(E(code,s.Rational(b,a),s.Rational(d,c))*(1 if i!=h else -1) for i,code in enumerate(codes.split('.'))),Y)
+  A,B,C=[F.nth(i) for i in (2,1,0)]
+  Delta=B*B-4*A*C
+  num,den=map(int,s.fraction(Delta))
+  assert not(num>=0 and isqrt(num)**2==num and isqrt(den)**2==den)
+print('PASS 4 distinct pqr x 3 original S keys = 12 first-discriminant NONSQUARE tests')
+FIREWALL: the 4 witnesses are NOT original physical roots, since first discriminant fails. The exact r²|H sieve alone is not sufficient. No global o(Q) count and no unconditional FO/FJ original necessity hostile audit promotion.

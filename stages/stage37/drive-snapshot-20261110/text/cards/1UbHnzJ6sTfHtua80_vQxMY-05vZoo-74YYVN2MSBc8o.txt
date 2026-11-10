@@ -1,0 +1,38 @@
+﻿Stage37 229HI-A4 — Portable exact derivation and replay certificate
+CURRENT=Stage37-NEW-INPUT-DELTA-AUDIT-229HI-A4; RESEARCH_CARD=1pG-vMgQld8X8BD5TDdV4qFq-uG4f4m96XYUnr_VEXtc; source keys 000.002.021:2 and 001.020.022:0; source grammar identical to parent native HI certificate 1P8LdtObaD36UR2B1rvrvaLeIOTGeIaKQ8pv5RWejOSw.
+REPRODUCIBLE symbolic coefficient and determinant audit (Python3 + SymPy), executed independently:
+import sympy as s
+t,X,Y,a,b,c,d=s.symbols('t X Y a b c d')
+def macro(word):
+ i,j,k=[int(z)-1 for z in word]
+ return s.expand((i*t+j*X+k*Y-i*j*k*t*X*Y)**2*(1+t*t if i==0 else 1)*(1+X*X if j==0 else 1)*(1+Y*Y if k==0 else 1))
+for key in ['000.002.021:2','001.020.022:0']:
+ code,h=key.split(':');h=int(h)
+ F=s.expand(sum((1 if i!=h else -1)*macro(w) for i,w in enumerate(code.split('.'))))
+ P=s.Poly(s.cancel(a*a*c*c*F.subs({t:b/a,X:d/c})),Y)
+ A,B,C=[s.factor(P.nth(i)) for i in (2,1,0)]
+ if key.startswith('000'):
+  U,V,D=b*d-a*c,b*c+a*d,a*c+b*d
+ else:
+  U,V,D=b*d+a*c,b*c-a*d,a*c-b*d
+ lp,lm=U+V,U-V
+ M=s.Matrix([[s.diff(D,c),s.diff(D,d)],[s.diff(lp,c),s.diff(lp,d)]])
+ N=s.Matrix([[s.diff(D,c),s.diff(D,d)],[s.diff(lm,c),s.diff(lm,d)]])
+ kp,km=s.expand(M.det()),s.expand(N.det())
+ K1=a*a-b*b+2*a*b;K2=-a*a+b*b+2*a*b
+ assert B==0 and s.expand(A+C-2*D**2)==0
+ assert s.expand(A-C-2*(U**2-V**2))==0
+ assert s.expand(U**2+V**2-(a*a+b*b)*(c*c+d*d))==0
+ assert {s.factor(kp**2),s.factor(km**2)}=={s.factor(K1**2),s.factor(K2**2)}
+ assert s.expand(K1**2+K2**2-2*(a*a+b*b)**2)==0
+ print(key,'EXACT PASS')
+print('ALL TWO EXACT PASS')
+NUMERIC REPLAY: finite independent Python signed prime norm pairs p,q≡1mod8, p<q<sqrt2p and p,q<1500, 12544 signed pair/key instances. Assert gcd(|D²+E|,|D²−E|)=2*gcd(D²,|E|), p,q∤g/2,gcd(U,V)=1 for all. This verifies algebraic examples, not an asymptotic physical theorem or a third-prime candidate claim.
+MATHEMATICAL DIVISOR PROOF:
+Given one physical primitive third W/T, B0=0, A0=g*eps*T²,C0=−g*eps*W²,g=2h odd h, E=eps*h*r²,D²=eps*h*(T²−W²). Primitive Gaussian U,V with odd U, even V satisfy gcd(U+V,U−V)=1. Since r² divides E, exactly one factor divisible r². |U±V|<=sqrt2 p q<2r² (r>q>p), so factor=±r² and the other=±h. Let L denote the other, D and L integer linear in (c,d); coefficient determinant is ±K1 or ±K2. For any integer pair gcd(c,d)=1, gcd(D,L)|det(D,L) by adjugate. h=|L|, h|D² ⇒ h|gcd(D,L)²⇒ h|Ki². Also h cannot be a perfect square: D²/h=(T²−W²) up to sign would be a nonzero square and contradict Fermat's no square-area integer right triangle.
+QUARTIC COUNT PROOF: (U+V)²+(U−V)²=2p²q² gives r⁴+h²=2p²q², hence r⁴≡−h² modp² and p∤h. Because derivative4r³ is nonzero mod odd prime p, at most4 root classes modp². Given p<r≤2Q≤2p<p² each root class contains at most one r. Fixed (p,h) supports ≤4 r, each determines q. For a fixed p at most 8 signed/permuted primitive (a,b) pairs with a²+b²=p²; two key choices and two complementary factors cost only constant. Bound O(tau(K1²)+tau(K2²)) per p, hence O_eps(Q^(1+eps)/logQ) global two-key NECESSARY-source prime triples, not oQ.
+CONFLICT/FIREWALL: old GH uniqueness of q at fixed (p,Gaussian determinant d) concerns different d, and old GX S0/r² tautology cannot supply this exact complementary factor divisor bound. NEGATIVE-REGISTER DT/DU forbids local density multiplication and finite search credit. FJ/FS/FW/HB hostile HOLD, independent A4 proof audit NOT_RUN, GATE OPEN, GLOBAL_CREDIT0, route switch NONE; all original signed selectors remain postfilters. No claims concerning other 140 residual labels, repeated powers or full closure.
+
+
+POSTWRITE REPRODUCIBILITY RECEIPT — 2026-10-10 JST
+Companion research card and this exact native certificate read back successfully. MAIN, INDEX physical source row685, AI00 live684, AI10, RESULT-LEDGER, lightweight active ROUTE, NEGATIVE-REGISTER, FASTPATH all current229HI-A4, card and NEXT readback PASS; both new docs parented Stage37 M3-Research-Cards. New source-quartic theorem is scoped NECESSARY source triple count only. Independent hostile audit NOT_RUN, all global stage authority/gate/credit/closure unchanged.

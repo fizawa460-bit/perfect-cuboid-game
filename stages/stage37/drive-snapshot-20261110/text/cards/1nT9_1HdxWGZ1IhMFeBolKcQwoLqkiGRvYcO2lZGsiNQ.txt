@@ -1,0 +1,407 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229CO — pair-sum/outer-product common-gcd valuation router
+STATUS: POST_229CN_SCALAR_VALUATION_COMPRESSION / EXACT_PAIR_SUM_AND_OUTER_PRODUCT_COMMON_GCD / RESIDUAL_UNITARY_PAIR_SUM_BLOCK / SATURATED_SQUARE_UNITARY_OUTER_BLOCK / GLOBAL_CREDIT=0 / NO_REOPEN
+CARD_DOC_ID=1nT9_1HdxWGZ1IhMFeBolKcQwoLqkiGRvYcO2lZGsiNQ
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229CN
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope
+
+
+Work on the exact current S_B^hard13(delta) positive primitive Stage37 physical source, R<=B.
+
+
+Retain the outer gaps
+A=R-U, Bv=R-V, C=R-z,
+S=A+Bv+C=R-2d,
+
+
+the pair sums
+s=A+Bv, t=A+C, u=Bv+C,
+
+
+and
+Pi:=s t u,
+Omega:=A Bv C.
+
+
+Retain 229CB:
+Pi+Omega=2 S d^2.                                             (CO.1)
+
+
+Retain 229CF:
+lambda_U=gcd(A,S)=gcd(A,u),
+lambda_V=gcd(Bv,S)=gcd(Bv,t),
+lambda_z=gcd(C,S)=gcd(C,s),
+
+
+the lambda_i are pairwise-coprime odd, and
+
+
+L_J:=gcd(Omega,S)=lambda_U lambda_V lambda_z.                 (CO.2)
+
+
+Retain 229CG:
+gcd(lambda_U lambda_V lambda_z,d)=1,
+and for every p>3 in the U-color J support, p|Y and
+v_p(A)=2v_p(Y); cyclically V uses X and z uses E.
+
+
+Retain 229CN's notation
+J_sharp=J/gcd(J,3)
+and its residual/saturated support split.
+
+
+The purpose of this card is to eliminate the twelve-packet bookkeeping from the preferred J interface. The full 3-free J valuation structure can be read directly from the three scalar integers Pi, Omega, S.
+
+
+2. Exact common-gcd identity
+
+
+From (CO.1),
+
+
+Pi == -Omega mod S.
+
+
+Therefore
+
+
+gcd(Pi,S)=gcd(Omega,S)=L_J
+          =lambda_U lambda_V lambda_z.                        (CO.3)
+
+
+In particular
+
+
+J=rad_odd(gcd(Pi,S))
+ =rad_odd(gcd(Omega,S)).                                      (CO.4)
+
+
+RESULT_229CO_PAIR_SUM_AND_OUTER_PRODUCT_HAVE_THE_SAME_FULL_GCD_WITH_S=PROVED_EXACT.
+
+
+There is also an exact common-product formulation away from 2d.
+For any integer N, write N_{perp 2d} for the maximal divisor of N supported on primes not dividing 2d.
+Then
+
+
+gcd(Pi,Omega)_{perp 2d}=L_J.                                 (CO.5)
+
+
+Proof primewise: let p not divide 2d and put
+x=v_p(Pi), y=v_p(Omega).
+From Pi+Omega=2Sd^2,
+if x!=y then v_p(S)=min(x,y), while if x=y then v_p(S)>=x.
+Hence
+min(y,v_p(S))=min(x,y).
+The left side is the p-adic valuation of gcd(Omega,S)=L_J, and the right side is that of gcd(Pi,Omega).
+Conversely every prime of L_J is odd and coprime to d by 229CG.
+Thus (CO.5) follows.
+
+
+RESULT_229CO_J_FULL_GCD_IS_THE_2d_COPRIME_COMMON_PART_OF_PI_AND_OMEGA=PROVED_EXACT.
+
+
+3. Primewise min-valuation router
+
+
+Work first in the U color.
+Let p>3 divide lambda_U and write
+
+
+n:=v_p(Y)>0,
+w:=v_p(u),
+a:=v_p(lambda_U).
+
+
+Because p|A and p|u, primitivity gcd(A,Bv,C)=1 implies p does not divide Bv or C.
+Hence p does not divide s=A+Bv or t=A+C.
+Therefore
+
+
+v_p(Pi)=w,
+v_p(Omega)=v_p(A).                                           (CO.6)
+
+
+The exact square identity
+y^2=A(R+U),
+together with 229CG exclusions, gives
+v_p(y)=n and p does not divide R+U.
+Thus
+
+
+v_p(A)=2n.                                                    (CO.7)
+
+
+Since lambda_U=gcd(A,u),
+
+
+a=min(2n,w).                                                  (CO.8)
+
+
+Also S=A+u.
+
+
+There are exactly two valuation regimes.
+
+
+RESIDUAL regime:
+w<2n.
+Then
+
+
+a=w,
+v_p(Pi)=a,
+v_p(S)=a,
+v_p(Omega)=2n>a.                                             (CO.9)
+
+
+SATURATED regime:
+w>=2n.
+Then
+
+
+a=2n,
+v_p(Omega)=a,
+v_p(Pi)>=a,
+v_p(S)>=a,                                                    (CO.10)
+
+
+and a is even.
+
+
+The V and z colors are cyclically identical.
+
+
+RESULT_229CO_EVERY_3FREE_J_PRIME_POWER_IS_ROUTED_BY_MINIMUM_OF_PI_AND_OMEGA_VALUATIONS=PROVED_EXACT.
+
+
+4. Scalar residual and saturated full blocks
+
+
+Write
+
+
+L_J^(3'):=L_J / 3^{v_3(L_J)}.
+
+
+Define two coprime full prime-power blocks by
+
+
+L_pair :=
+ product over p>3 with v_p(Pi)<v_p(Omega)
+ of p^{v_p(L_J)},
+
+
+L_outer :=
+ product over p>3 with v_p(Omega)<=v_p(Pi)
+ of p^{v_p(L_J)}.                                             (CO.11)
+
+
+Then
+
+
+L_J^(3')=L_pair L_outer,
+gcd(L_pair,L_outer)=1.                                       (CO.12)
+
+
+Use D || N to denote unitary divisibility:
+D|N and gcd(D,N/D)=1.
+
+
+By (CO.9),
+
+
+L_pair || Pi,
+L_pair || S.                                                  (CO.13)
+
+
+By (CO.10),
+
+
+L_outer || Omega,
+L_outer | S.                                                  (CO.14)
+
+
+Moreover every prime exponent in L_outer is a=2n, hence even. Therefore
+
+
+L_outer=W_outer^2                                            (CO.15)
+
+
+for an integer W_outer.
+The same valuation calculation shows colorwise
+sqrt(saturated U block)|Y,
+sqrt(saturated V block)|X,
+sqrt(saturated z block)|E.
+Since the color supports are pairwise coprime,
+
+
+W_outer | E X Y.                                              (CO.16)
+
+
+RESULT_229CO_RESIDUAL_BLOCK_IS_COMMON_UNITARY_DIVISOR_OF_PI_AND_S=PROVED_EXACT.
+RESULT_229CO_SATURATED_BLOCK_IS_SQUARE_UNITARY_DIVISOR_OF_OMEGA_AND_DIVIDES_S=PROVED_EXACT.
+RESULT_229CO_SATURATED_SQUARE_ROOT_DIVIDES_EXY=PROVED_EXACT.
+
+
+5. Exact identification with 229CN
+
+
+229CN defines packetwise rho_j and
+
+
+J_res=rad(product_j rho_j),
+J_sat=J_sharp/J_res.
+
+
+For a p^a block with core valuation n,
+229CN gives
+v_p(rho_j)>0 iff a<2n.
+
+
+By (CO.8)-(CO.10),
+
+
+a<2n
+iff v_p(Pi)<v_p(Omega).
+
+
+Therefore exactly
+
+
+J_res=rad(L_pair),
+J_sat=rad(L_outer).                                          (CO.17)
+
+
+Thus the 229CN dichotomy is not a separate twelve-packet phenomenon.
+It is the scalar min-valuation decomposition of the common gcd
+
+
+L_J^(3')=gcd(Pi,S)^(3')
+       =gcd(Omega,S)^(3').                                   (CO.18)
+
+
+On J>K,
+
+
+J_sharp> K/3,
+
+
+so
+
+
+max(rad(L_pair),rad(L_outer))>sqrt(K/3).                     (CO.19)
+
+
+The residual branch is a large common-unitary block of Pi and S.
+The saturated branch is a large-radical perfect-square block that is unitary in Omega and divides S.
+
+
+RESULT_229CO_229CN_RESIDUAL_SATURATED_SPLIT_EQUALS_SCALAR_PI_OMEGA_MIN_VALUATION_SPLIT=PROVED_EXACT.
+
+
+6. Consequence for the preferred J interface
+
+
+The preferred J representation is now
+
+
+J_PAIR_OUTER_COMMON_GCD_MIN_VALUATION_OCCUPANCY:
+
+
+on the exact hard13 source, retain simultaneously
+
+
+- Pi=(A+Bv)(A+C)(Bv+C), with fixed-Pi and fixed-rad(Pi) physical fibers B^o(1) from 229CB;
+- Omega=ABvC, with fixed-Omega and fixed-rad(Omega) physical fibers B^o(1) from 229BU;
+- Pi+Omega=2Sd^2;
+- L_J=gcd(Pi,S)=gcd(Omega,S);
+- L_pair || Pi and L_pair || S;
+- L_outer || Omega, L_outer=W_outer^2, L_outer|S, W_outer|EXY;
+- J_sharp=rad(L_pair)rad(L_outer).
+
+
+This is a strictly smaller theorem interface than the twelve signed packet system:
+the packet identities remain valid and may be reopened if a scalar theorem needs local signs, but they are no longer the preferred counting coordinates.
+
+
+229CN's quotient-level rho lift remains valid as a secondary refinement on the L_pair branch.
+Its support is exactly rad(L_pair).
+
+
+7. Quantitative firewall
+
+
+No one-third endpoint count is proved here.
+
+
+The fixed-radical B^o(1) fibers of Pi and Omega do not by themselves count endpoints with a LARGE common radical divisor.
+A large radical of a receiver is not a low-support event.
+
+
+Do not:
+- multiply the fixed-radical Pi and Omega fibers as independent gains;
+- count L_pair || Pi and L_pair || S as two independent divisibility densities;
+- count L_outer || Omega and L_outer|S as independent square densities;
+- revive the 229CM ambient m^3 density;
+- infer a global saving merely from W_outer^2|S.
+
+
+A genuinely new quantitative theorem must control the occupied same-physical common-gcd image, for example the realized triples
+
+
+(rad(Pi),rad(Omega),S)
+
+
+under the min-valuation routing (CO.13)-(CO.17), or an equivalent selector-aware count.
+
+
+8. Verification
+
+
+(CO.3) is immediate from the exact identity Pi+Omega=2Sd^2.
+
+
+(CO.5) is a primewise valuation consequence of the same identity away from 2d and 229CG's gcd(L_J,d)=1.
+
+
+For a J prime in one color, p does not divide the other two gaps, so only one pair-sum factor and one outer-gap factor carry p. Equations (CO.6)-(CO.10) then follow directly from
+lambda_i=gcd(gap_i,opposite_pair_sum)
+and the exact color-square valuation v_p(gap_i)=2v_p(core_i).
+
+
+No physical perfect-cuboid endpoint enumeration is used.
+
+
+9. State
+
+
+CURRENT_BLOCKER remains
+NO_SELECTOR_AWARE_OR_OCCUPIED_SUPPORT_SAVING_FOR_THE_229CC_SIX_BUCKET_COVER_ON_THE_EXACT_HARD13_PHYSICAL_SOURCE.
+
+
+REFINED_BLOCKER=
+NO_ONE_THIRD_COUNT_FOR_LARGE_eta_OR_TAU_FULL_GCD_SQUARE_MODULI_OR_J_PAIR_OUTER_COMMON_GCD_MIN_VALUATION_OCCUPANCY_OR_MATCHED_DISJOINT_M_U_M_V_M_z.
+
+
+J_PAIR_OUTER_COMMON_GCD_MIN_VALUATION_OCCUPANCY=OPEN.
+J_RHO_QUOTIENT_LIFT remains valid but is secondary under the L_pair branch.
+J_SATURATED_SUPPORT_SQUARE_DIVIDES_S is subsumed by the stronger square-unitary block L_outer=W_outer^2 || Omega with L_outer|S.
+J_FIRST_ORDER_MATCHED_m_CUBED_INDEPENDENT_DENSITY remains CLOSED_BY_229CN_ALGEBRAIC_DEPENDENCE.
+KERNEL_BIAS_BRIDGE remains OPEN.
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+No perfect-cuboid existence/nonexistence conclusion and no new global endpoint exponent are claimed.
+INDEPENDENT_HOSTILE_AUDIT_229CO=NOT_RUN.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

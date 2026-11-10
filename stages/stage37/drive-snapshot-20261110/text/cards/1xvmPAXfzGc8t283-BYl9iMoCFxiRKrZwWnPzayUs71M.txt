@@ -1,0 +1,62 @@
+﻿Stage37 229HI-A5 — Exact cyclotomic16 proof and executable character/divisor support replay
+PARENT_CARD=10Vkn3Km2E71751HnggtGzs8XhBhMFzRwtBviNcOVJyQ; PREVIOUS_PARENT_A4=1pG-vMgQld8X8BD5TDdV4qFq-uG4f4m96XYUnr_VEXtc; NEW_SOURCE_INDEX_ROW686.
+Exact formulas:
+K1=a*a-b*b+2*a*b=(a+b)^2-2*b*b.
+K2=-a*a+b*b+2*a*b=(a+b)^2-2*a*a.
+Given primitive a²+b²=p² and an odd prime ell|K1, b≠0 modell and t=(a+b)/b, z=p/b in F_ell. t²=2, z²=4-2t, u=z/t satisfies u²=2-t. Let λ+λ^{-1}=u in F_ell². Then λ²+λ^{-2}=-t, λ⁴+λ^{-4}=t²-2=0, λ⁸=-1 => order(λ)=16. Since u∈F_ell, λ^ell=λ or λ^{-1}, so ell≡±1 mod16. K2 case exchange a,b. Every odd prime divisor of K1K2 is 1 or15 mod16. It is NOT a separate mod16 saving after h|K². Verify gcd(K1,K2)=1 by gcd(a,b)=1 and K1+K2=4ab,K1−K2=2(a²−b²). Signed/swap transformations preserve multiset abs(K1),abs(K2).
+For p≡1mod8 and p∤h, χ_p(h)=+1 is necessary and sufficient for r⁴≡−h² modp: choose i²=−1; both ±i are quadratic residues since 8|p−1, so x²=±ih soluble iff h QR. There are exactly4 roots modp in ± pairs. Prior A2 aspect implies r<sqrt2 p; interval residue (0,(sqrt2−1)p) length less than p/2 contains at most2 roots. Each fixes q²=(r⁴+h²)/(2p²). This is a coefficient-filter theorem not a full physical point count.
+For K=∏ℓ^e odd with p∤K, define T=∏(2e+1),R=∏_{χ_p(ell)=1}(2e+1),S=∏(e+1). Exactly E=(T+R)/2−S positive nonsquare h|K² are χ_p(h)=+1. Proof char sum ∑_{d|K²}χ(d)=R because χ=-1 local sum1, and there are S square divisors. Thus N_p(two-key source triple)≤2[E(K1;p)+E(K2;p)]. This holds all heights for both signed FJ keys, all first-two gaussian sign/swap orientations; actual high filters only reduce. E1=E2=0⇒zero triples. p17: legs(8,15), K1=79,K2=401, both prime nonres mod17 ⇒E0. p89: legs(39,80), K1=1361,K2=11119, both prime nonres mod89 ⇒E0.
+PORTABLE finite replay Python3 + sympy (separate direct signed test below). All finite statements are sanity checks, not the infinite arithmetic theorem:
+from sympy import primerange,divisors,factorint,legendre_symbol,isprime
+from math import gcd,isqrt
+from collections import defaultdict
+P=[int(x) for x in primerange(17,20000) if x%8==1]
+legs={}
+for p in P:
+  for a in range(1,p):
+    b=isqrt(p*p-a*a)
+    if a*a+b*b==p*p and gcd(a,b)==1:legs[p]=(a,b);break
+  assert p in legs
+assert len(P)==556
+countH=countGood=countInc=countQ=0;empty=[]
+for p in P:
+  a,b=legs[p]
+  K=[a*a-b*b+2*a*b,-a*a+b*b+2*a*b]
+  H=set()
+  for k in K:
+    factors=factorint(abs(k))
+    assert all(int(ell)%16 in (1,15) for ell in factors)
+    T=1;R=1;S=1
+    for ell,e in factors.items():
+      T*=2*e+1;S*=e+1
+      if legendre_symbol(ell,p)==1:R*=2*e+1
+    E=(T+R)//2-S
+    ds=[int(h) for h in divisors(k*k)]
+    assert E==sum(isqrt(h)**2!=h and legendre_symbol(h,p)==1 for h in ds)
+    H.update(h for h in ds if 1<h<2*p*p and isqrt(h)**2!=h)
+  good={h for h in H if legendre_symbol(h,p)==1}
+  countH+=len(H);countGood+=len(good)
+  if not good:empty.append(p)
+  mp=defaultdict(list)
+  for h in good:mp[(-h*h)%p].append(h)
+  for r in P:
+    if r<=p:continue
+    if r*r>=2*p*p:break
+    for h in mp.get(pow(r,4,p),()):
+      countInc+=1
+      z=r**4+h*h
+      if z%(2*p*p):continue
+      q2=z//(2*p*p);q=isqrt(q2)
+      if q*q==q2 and p<q<r:countQ+=1
+assert (countH,countGood,len(empty),countInc,countQ)==(5578,2552,19,92,0)
+print('p',len(P),'H',countH,'QR',countGood,'empty',len(empty),'p-r-h incidence',countInc,'exact q',countQ)
+print('first-p empty list',empty)
+DIRECT ORIGINAL SIGNED FJ ALTERNATE full replay (independent search mapping):
+For each p in P, get canonical (a,b), form eight signed/permuted (±a,±b),(±b,±a), then for all p<q<sqrt2p in P and all orientation pairs, for key+ take U=bd-ac,V=bc+ad,D=ac+bd and for key- U=bd+ac,V=bc-ad,D=ac-bd. For each |U+V|,|U−V|, set r=isqrt(absValue), test r²=absValue, r>q, prime r≡1mod8. If yes construct A0=D²+U²−V²,C0=D²−U²+V² and g=gcd(A0,C0); require A0/g and −C0/g nonnegative squares T²,W², gcd(T,W)=1 and T²+W²=r². The exact local independently run script tested p<20000, first-prime set556, prime p,q cone pairs41496, signed coefficient records5311488, raw square signed records128, eligible prime third r0, primitive third signed physical root0. RESULT below.
+FULL LOCAL AUDIT CODE SHA256=5622f89838a21221cd9b767c0e22eee5b18c7fd79df8d2cd5185f5d83471ff0a
+JSON RESULT SHA256=8cf120ed86f22ac737ee54d850651b12fafb4aa1b4deb97b2fb87d6f978c44d6
+Original 'citable' finite table P556(17..19993), cone p<q<sqrt2p 41496, signed records5311488, raw signed square factors128, prime third norm0, original FJ third primitive root0, H nonsquare5578, H QR2552, p with no QR h19, quartic admissible(p,r,h)92, integral q0. No asymptotic claim from this.
+STRATEGY FIREWALL: Prior 229GZ chi(3/r) concerns exceptional Gaussian matrices, NOT new chi(h/p); prior 229FG 2-adic biform concerns omega>=3; historical 229EX signed p||e medium buckets and 229EZ norm tube do NOT imply original full o(Q). These were compared; direct sign/swap branch was actually executed as alternate but was FINITE ONLY. No formal route switch, FJ/FS/FW/HB hostile HOLD. SOURCE residual142, original full count OPEN, authority229/gateOPEN/globalcredit0.
+
+
+POSTWRITE PORTABLE CERT READBACK — 2026-10-10 JST. Exact cyclotomic16/F_ell Frobenius proof and character divisor formula persist. MAIN current A5, native INDEX row686/AI00 live685, LEDGER/active ROUTE/NEG/FAST all A5 readback PASS, card/cert parent Stage37 M3-Research-Cards. Finite negative p<20000 sanity does not certify infinite emptiness, no global o(Q) or stage gate/credit promotion. Independent hostile audit NOT_RUN.

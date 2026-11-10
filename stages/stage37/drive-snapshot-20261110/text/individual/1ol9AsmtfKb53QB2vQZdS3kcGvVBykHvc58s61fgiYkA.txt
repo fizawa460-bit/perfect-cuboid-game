@@ -1,0 +1,358 @@
+﻿M3-T11-180 — Unit-median fresh-Sigma divisor compression and symmetric conductor amplification
+
+
+CARD_ID: M3-T11-180
+CANONICAL_CARD_KEY: M3-T11-180
+STATUS: PROVED_K1_FIXED_FRESH_SIGMA_FIBER / PROVED_K1_SUMMED_SMALL_FRESH_SIGMA_SECTOR / QUANTIFIED_SYMMETRIC_CONDUCTOR_ROUTER / GLOBAL_COUNTING_CREDIT=0
+PRIMARY_GATE: M3-T11-GATE-001, OPEN
+GLOBAL_OPERATION: ACTIVE_T11_RESEARCH_WITH_SCOPED_DECOMPOSITION
+GLOBAL_COUNTING_CREDIT: 0
+AUDIT_MODE: WITHIN_SESSION_DEDUCTIVE_FROM_RETAINED_015_016_036_039_040_042A_171_176_177_179
+
+
+1. Current authority and decision
+
+
+Fresh MAIN, CARD-INDEX, current short RESULT-LEDGER, active ROUTE and M3-T11-179 were read first. Retained M3-T11-015/016/019/023/024/029/030/035/036/039/040/041/042-A/042-B/043/171/176/177 were checked only where needed.
+
+
+Direct multiplication of the two large one-core M3-T11-026 root-line densities is not allowed. M3-T11-019/023/024 and M3-T11-040/041 already impose no-double-charge constraints on precisely these shared endpoint selectors.
+
+
+Instead, the K=1 structure gives a canonical physical divisor coordinate that absorbs the moving content and the two-smallest fresh relative cores at once.
+
+
+For every K=1 endpoint, after deterministic relabeling,
+(h_1,h_2,h_3)=(1,1,h),
+R=h*tau,
+1<=h<=R<=B.
+
+
+Write the relative norms
+tau_i=m_i*n_i, i=1,2,3,
+where m_i=tau_i^sharp is the relative fresh part supported outside the rational prime support of h, and n_i is h-supported. Sort
+m_(1)<=m_(2)<=m_(3)
+with deterministic tie breaking by original relative-core label.
+
+
+Define the fresh content-weighted two-core divisor
+Sigma_sharp := h*m_(1)*m_(2).                       (180.1)
+
+
+The main result is:
+- Sigma_sharp is an actual divisor of the physical R;
+- every fixed Sigma_sharp fiber has B^o(1) exact physical endpoints;
+- therefore the whole sector Sigma_sharp<=B^(1/3-delta) is negligible for every fixed delta>0.
+
+
+On the remaining small-c K=1 branch this forces a stronger full fresh conductor and quantitatively activates the retained symmetric S/u conductor router.
+
+
+No global endpoint upper bound or closure of M3-T11-GATE-001 is claimed.
+
+
+2. Sigma_sharp is a physical divisor
+
+
+Since m_(1) and m_(2) divide two of the pairwise-coprime relative norms tau_1,tau_2,tau_3, their product divides
+tau_1*tau_2*tau_3 | tau.
+
+
+Therefore
+Sigma_sharp=h*m_(1)*m_(2) | h*tau=R.                (180.2)
+
+
+In particular
+1<=Sigma_sharp<=R<=B.                                (180.3)
+
+
+This is not an auxiliary root-line modulus. It is a canonical same-endpoint integer divisor of the terminal diagonal.
+
+
+3. Uniform fixed-Sigma_sharp endpoint fiber
+
+
+Fix
+Sigma_sharp=N<=B.
+
+
+Choose the two original relative-core labels a,b that realize the deterministic two-smallest fresh norms. There are at most three label-pair choices.
+
+
+The positive integers
+(h,m_a,m_b)
+satisfy
+h*m_a*m_b=N.                                         (180.4)
+
+
+Hence the number of ordered triples is at most d_3(N)=N^o(1).
+
+
+For each such h,m_a,m_b, write
+tau_a=m_a*n_a,
+tau_b=m_b*n_b,
+with rad(n_a*n_b)|h and physical polynomial height.
+
+
+The support-restricted integer lemma proved in M3-T11-177 gives uniformly
+#{n<=B^A:rad(n)|h}=B^o(1)                            (180.5)
+for every fixed A and all h<=B. Thus the pair (n_a,n_b), hence the full norm pair (tau_a,tau_b), has only B^o(1) possibilities.
+
+
+For K=1 the coefficient norms are (h,h,1). Their primitive Gaussian representations, unit choices and parity/orientation choices cost B^o(1).
+
+
+After the coefficient packet and the two full relative cores G_a,G_b are fixed, retained M3-T11-016 gives only B^o(1) endpoint-compatible possibilities for the third relative core G_j. Retained M3-T11-015 then gives only O(1) compatible all-same core G_0. The degenerate phase pairs excluded in M3-T11-016 remain physically empty.
+
+
+All sphere, triple-spin, torus double-lift, face-integrality, M3-T11-176 denominator, primitivity and canonical-order conditions remain exact post-filters.
+
+
+Consequently, uniformly for N<=B,
+m_SigmaSharp(N;B)
+:=#{exact primitive canonical K=1 endpoints R<=B with Sigma_sharp=N}
+<=B^o(1).                                            (180.6)
+
+
+No outer content factor remains. The content h has been absorbed into the divisor label N.
+
+
+4. Summed small-Sigma_sharp sector
+
+
+For every 1<=Z<=B,
+P_K1,SigmaSharp<=Z(B)
+<=Z*B^o(1).                                          (180.7)
+
+
+Choose any fixed delta_sharp>0 and set
+Z=B^(1/3-delta_sharp).                               (180.8)
+
+
+Using the retained lower benchmark M3(B)>>B^(1/3),
+P_K1,SigmaSharp<=Z(B)
+<=B^(1/3-delta_sharp+o(1))
+=o(M3(B)).                                           (180.9)
+
+
+This disposal is valid on the entire K=1 population, before imposing c_max<=C.
+
+
+It strictly strengthens the M3-T11-179 summation receiver. M3-T11-179 paid the outer h<=C factor and removed
+m_(1)m_(2)<=B^(1/6-xi-epsilon_2).
+Here the condition is
+h*m_(1)m_(2)<=B^(1/3-delta_sharp),                   (180.10)
+which can allow much larger m_(1)m_(2) when h is small. M3-T11-179 remains correct but its small-two-fresh-product sector is subsumed by the fresh-Sigma receiver after compatible parameter choices.
+
+
+5. Residual fresh-core balance on the live small-c K=1 branch
+
+
+Now impose the live small-c bound
+h<=C=B^(1/6+xi).
+
+
+After removing (180.9), every remaining K=1 endpoint satisfies
+h*m_(1)m_(2)>B^(1/3-delta_sharp).                    (180.11)
+
+
+Hence exactly
+m_(1)m_(2)
+>B^(1/3-delta_sharp)/h.                              (180.12)
+
+
+Uniformly using h<=C,
+m_(1)m_(2)
+>B^(1/6-delta_sharp-xi).                             (180.13)
+
+
+Therefore
+m_(2),m_(3)
+>B^(1/12-delta_sharp/2-xi/2).                        (180.14)
+
+
+More importantly, because m_(3)>=m_(2)>=sqrt(m_(1)m_(2)),
+M_rel=m_1*m_2*m_3
+> (B^(1/3-delta_sharp)/h)^(3/2).                    (180.15)
+
+
+Thus the exact h-sensitive full-fresh lower bound is
+M_rel
+>B^(1/2-(3/2)delta_sharp)/h^(3/2),                  (180.16)
+and uniformly on h<=C,
+M_rel
+>B^(1/4-(3/2)delta_sharp-(3/2)xi).                  (180.17)
+
+
+This explicit full-M_rel amplification was not recorded in M3-T11-179.
+
+
+6. Quantified symmetric S/u conductor router
+
+
+Retained M3-T11-036 is hostile-audit-passed and gives B^o(1) physical multiplicity on fixed realized S and fixed realized u inside one content/coefficient packet.
+
+
+Retained M3-T11-039/040 define
+Q_S=gcd(Den(S),M_rel^2),
+C_u=gcd(A_u^2+B_u^2,M_rel^4)/M_rel^2
+for reduced u=A_u/B_u, and prove exactly
+Q_S*C_u=M_rel^2.                                     (180.18)
+
+
+Therefore every endpoint on the residual satisfies the deterministic dichotomy
+max(Q_S,C_u)>=M_rel.                                 (180.19)
+
+
+By (180.16), at the exact h-sensitive level,
+max(Q_S,C_u)
+>B^(1/2-(3/2)delta_sharp)/h^(3/2).                  (180.20)
+
+
+Uniformly on h<=C,
+max(Q_S,C_u)
+>B^(1/4-(3/2)delta_sharp-(3/2)xi).                  (180.21)
+
+
+Thus the K=1 residual routes to one of two canonical same-measure extreme branches:
+
+
+S-branch:
+Q_S>=M_rel, so the reduced denominator of S contains a fresh divisor exceeding the bound in (180.20)/(180.21).
+
+
+u-branch:
+C_u>=M_rel. Retained M3-T11-039 gives
+gcd(A_u^2+B_u^2,M_rel^4)
+=M_rel^2*C_u
+>=M_rel^3.                                           (180.22)
+
+
+Hence on the u-branch the common-u Gaussian norm carries fresh content
+>B^(3/2-(9/2)delta_sharp)/h^(9/2)                   (180.23)
+in the exact h-sensitive form, and uniformly
+>B^(3/4-(9/2)delta_sharp-(9/2)xi).                  (180.24)
+
+
+These are conductor statements, not support-counting savings.
+
+
+7. Fourth-power middle-denominator marker
+
+
+Retained M3-T11-042-A proves exactly
+M_rel^4 | Den(E)                                    (180.25)
+for the symmetric middle coefficient E.
+
+
+Combining with (180.16),
+Den(E)
+>B^(2-6delta_sharp)/h^6.                             (180.26)
+
+
+Uniformly on h<=C,
+Den(E)
+>B^(1-6delta_sharp-6xi).                             (180.27)
+
+
+This near-B-scale denominator is a useful quantitative marker of the residual when delta_sharp+xi is small.
+
+
+However M3-T11-042-A explicitly states that M_rel^4|Den(E) is a recombination of the same S/u conductor allocation, not an independent saving. Equation (180.27) receives zero extra counting credit.
+
+
+8. Why the direct dual-root-line density route is not credited
+
+
+M3-T11-179 guarantees two large distinct one-core squared moduli. That remains true.
+
+
+But:
+- M3-T11-019 gives charged-once Plucker eliminants and explicitly forbids multiplying its determinant by already-paid core spacing;
+- M3-T11-023 uses one shared auxiliary modulus and forbids tensorizing it into independent core moduli;
+- M3-T11-024 reduces the selector to one paired-Gaussian common-core principal-squareclass problem, not two independent detectors;
+- M3-T11-040/041 prove that the symmetric S/u allocations are complementary pieces of one M_rel^2 conductor.
+
+
+Therefore no valid fixed-power gain follows merely by multiplying the two large M3-T11-026 root-line densities. The new progress in this card is instead the exact fresh-Sigma divisor fiber and the resulting quantitative conductor amplification.
+
+
+The two large relative moduli remain available as structural selectors for any future genuinely same-endpoint correlation theorem.
+
+
+9. Occupied-support formulation
+
+
+Let S_SigmaSharp(B) be the actually occupied values of Sigma_sharp on the K=1 endpoint population.
+
+
+Because every occupied value has at least one endpoint and (180.6) gives B^o(1) multiplicity,
+|S_SigmaSharp(B)|
+<= #E_K1(B)
+<= B^o(1)|S_SigmaSharp(B)|.                          (180.28)
+
+
+Thus K=1 endpoint counting and occupied fresh-Sigma support have the same power exponent.
+
+
+A rigorously sufficient support target is
+|S_SigmaSharp(B)| << B^(1/3-epsilon)                 (180.29)
+for some fixed epsilon>0.
+
+
+No such large-Sigma_sharp support deficit is proved here.
+
+
+10. Novelty and limits
+
+
+CARD-INDEX searches for fresh Sigma, Sigma sharp, content-weighted fresh, fresh divisor coordinate, two-smallest fresh divisor, fixed fresh Sigma, Q_S C_u K=1 and large symmetric conductor K=1 found no prior card stating (180.1)-(180.9) or the quantified K=1 specialization (180.20)-(180.27).
+
+
+M3-T11-171 is the closest retained theorem, but it uses the two smallest FULL relative norms and Sigma=H*tau_(1)*tau_(2). The present coordinate uses FRESH relative parts and exploits the K=1 content-supported nonfresh compression from M3-T11-177.
+
+
+No large-Sigma_sharp support deficit, no S-denominator tail, no amplified-u norm tail and no global endpoint bound are proved. No independent hostile audit and no physical endpoint enumeration are claimed.
+
+
+NEW_K1_FIXED_FRESH_SIGMA_BO1=true
+NEW_K1_SMALL_FRESH_SIGMA_ENDPOINT_SECTOR=true
+K1_FRESH_SIGMA_DIVIDES_R=true
+K1_FULL_MREL_LOWER_BOUND_AMPLIFIED=true
+K1_SYMMETRIC_SU_CONDUCTOR_QUANTIFIED=true
+K1_E_DENOMINATOR_NEAR_B_MARKER=true
+DUAL_ROOTLINE_INDEPENDENCE_CREDIT=false
+NEW_GLOBAL_ENDPOINT_BOUND=false
+PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+GLOBAL_COUNTING_CREDIT=0
+
+
+11. Drive-only handoff
+
+
+LATEST_RESEARCH_CARD=M3-T11-180
+NEXT_CANDIDATE=M3-T11-181
+CURRENT_ATTACK=LargeFreshSigmaSupportOrSymmetricExtremeTail
+
+
+181 should work on the residual
+Sigma_sharp=h*m_(1)m_(2)>B^(1/3-delta_sharp)
+with exact Sigma_sharp|R.
+
+
+Two legitimate next routes are:
+(A) a same-measure occupied-support deficit for the canonical divisor Sigma_sharp;
+(B) the symmetric extreme router from (180.18)-(180.24): large Q_S denominator support versus large C_u amplified common-u Gaussian norm.
+
+
+For route (B), fixed-S and fixed-u fibers are already B^o(1) by audited M3-T11-036, but a moving-support/tail theorem is still required. The M3-T11-042-A fourth-power E denominator is only a marker and cannot be charged independently.
+
+
+Retain M3-T11-176 exact two-unit denominator filters, large Sigma/large D_min, full triple-spin and torus double-lift selectors, and the two large relative M3-T11-026 moduli from179.
+
+
+Do not multiply one-core densities, do not resurrect the common-v CRT, do not independently charge M3-T11-019 determinant or M3-T11-032/033 product packaging, and do not treat M_rel^4|Den(E) as a second saving.
+
+
+The separate threshold-specific large-c branch remains OPEN. K>1 low-median averaging remains OPEN. M3-T11-171/174 sector disposals, M3-T11-170 fixed-pair theorem and M3-T11-171 support quantifier corrections remain retained.

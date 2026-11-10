@@ -1,0 +1,605 @@
+﻿M3-T11-228 — Full directional four-chart linked-square adapter and centered Poisson preflight
+
+
+STATUS: PROVED_FULL_DIRECTIONAL_FOUR_CHART_PARAMETERIZATION / PROVED_ALL_CHART_LOCAL_FOURIER_TRANSFER / NO_GO_CURRENT_CENTERED_SQUARE_SIEVE_POISSON_ADAPTER / A_R1_TF_CURRENT_IMPLEMENTATION_HOLD / GLOBAL_CREDIT=0
+
+
+AUTHORITY
+Current Stage37 MAIN through M3-T11-227.
+Operational predecessor: M3-T11-227.
+Mathematical predecessor: M3-T11-226.
+Retained inputs used here:
+- exact directional host H_j=M2,j disjoint_union M3 and OneTwelfthCorrelationReceiver;
+- Stage15/18 shared-edge double-Pythagorean toric host and exact physical height;
+- M3-FOUR-001 four-variable E4/H4 dictionary;
+- M3-FOUR-LOCAL-001 complete mixed-character bounds;
+- M3-FOURIER-001 additive Fourier hierarchy and incomplete-box bound;
+- M3-FOUR-NEG-001 elementary double-square-sieve ceiling;
+- Stage15-6bu moving-gcd physical-measure firewall;
+- Stage15-6ct exact cross-gcd cell/product-height factorization.
+Independent hostile audit186–228: NOT RUN.
+No endpoint count improvement and no perfect-cuboid existence/nonexistence conclusion.
+
+
+1. Question fixed by 227
+
+
+NEXT228 asks whether the A/R1-TF route can be made into one exact Poisson-compatible centered expansion on the full directional host H_j, satisfying all seven conditions:
+1) one-object parameterization;
+2) exact physical height/no hidden power loss;
+3) square/character expansion preserving centering;
+4) zero mode exactly equal to product of global marginals;
+5) moving separated trace-function coefficients;
+6) exceptional loci cheap enough;
+7) final Pearson saving stronger than B^(-1/12).
+
+
+The answer is mixed:
+- the full host and all four parity charts can be made exact;
+- the finite-field Fourier input extends to all four charts;
+- the presently retained square-sieve + absolute Section113 completion architecture still fails before a global centered Poisson theorem can be invoked.
+
+
+This is a scoped method result, not an impossibility theorem for every future Poisson/delta/switching method.
+
+
+2. Full directional host: four exact primitive-face charts
+
+
+Fix one directional host H_j(B). Use physical edges (e,x,y), where e is the labeled shared edge and the two already-integral faces are
+
+
+    e^2+x^2=u^2,
+    e^2+y^2=v^2.
+
+
+Neither x^2+y^2 nor e^2+x^2+y^2 is imposed.
+
+
+For coprime positive odd parameters a<b define the primitive Pythagorean functions
+
+
+    O(a,b)=ab,
+    E(a,b)=(b^2-a^2)/2,
+    N(a,b)=(a^2+b^2)/2.
+
+
+Every primitive Pythagorean triple occurs uniquely with odd leg O, even leg E and hypotenuse N in this form.
+
+
+Take a second coprime positive odd pair c<f. For a chart
+
+
+    theta=(theta_1,theta_2) in {O,E}^2
+
+
+let
+
+
+    L1=theta_1(a,b),
+    M1=the other member of {O(a,b),E(a,b)},
+    L2=theta_2(c,f),
+    M2=the other member of {O(c,f),E(c,f)},
+
+
+and N1=N(a,b), N2=N(c,f).
+
+
+Here L1,L2 are the primitive shared-leg values in the two faces. Put
+
+
+    g=gcd(L1,L2).
+
+
+For a primitive physical three-edge object the two face scales d1,d2 are coprime. From
+
+
+    d1 L1=d2 L2
+
+
+it follows exactly that
+
+
+    d1=L2/g,
+    d2=L1/g.
+
+
+Hence the physical state is
+
+
+    e = L1 L2/g,
+    x = L2 M1/g,
+    y = L1 M2/g,
+    u = L2 N1/g,
+    v = L1 N2/g.                                  (228.1)
+
+
+Conversely a primitive labeled two-face state has unique primitive reductions in its two faces; the parity of each primitive shared leg determines theta, and coprimality of the physical face scales forces (228.1). Thus the four theta charts form an exact disjoint finite partition of the labeled directional host, before the usual canonical-order/direction chamber mask is imposed.
+
+
+No polynomial chart multiplicity is introduced.
+
+
+RESULT_228_1:
+FULL_DIRECTIONAL_FOUR_CHART_PARAMETERIZATION=PROVED_EXACT.
+ONE_OBJECT_ONE_CHART_AFTER_LABELS=true.
+
+
+3. Exact linked-square polynomials and physical height
+
+
+Define on one theta chart
+
+
+    E_theta
+      := (L2 M1)^2+(L1 M2)^2,                      (228.2)
+
+
+    H_theta
+      := E_theta+(L1 L2)^2.                        (228.3)
+
+
+Using (228.1),
+
+
+    E_theta = g^2 (x^2+y^2),
+    H_theta = g^2 (e^2+x^2+y^2).                   (228.4)
+
+
+Therefore the two selectors on the same pre-endpoint H_j measure are exactly
+
+
+    F=1  iff E_theta is an integer square,
+    S=1  iff H_theta is an integer square.          (228.5)
+
+
+Moreover
+
+
+    H_theta-E_theta=(L1 L2)^2                      (228.6)
+
+
+is an explicit square, and the exact physical height is
+
+
+    R<=B  iff H_theta<=g^2 B^2.                    (228.7)
+
+
+Thus the linked-square structure from226 has a complete integer/Pythagorean parameter formula on the full directional host, not only on one parity subchart.
+
+
+RESULT_228_2:
+FULL_DIRECTIONAL_LINKED_SQUARE_POLYNOMIALS=PROVED_EXACT.
+EXACT_PHYSICAL_HEIGHT_FORMULA=PROVED_EXACT.
+
+
+4. Relation to the retained E4/H4 chart
+
+
+For theta=(O,O),
+
+
+    L1=ab,
+    M1=(b^2-a^2)/2,
+    L2=cf,
+    M2=(f^2-c^2)/2.
+
+
+Then the retained Section110 polynomials satisfy exactly
+
+
+    E4 = 4 E_(O,O),
+    H4 = 4 H_(O,O).                                (228.8)
+
+
+So the old E4/H4 finite-field machinery is the O,O chart of the full directional construction.
+
+
+5. All four charts inherit the Section112/113 finite-field bounds
+
+
+For one face define the linear change, valid over every odd characteristic,
+
+
+    T(a,b)=((b-a)/2,(a+b)/2).                      (228.9)
+
+
+Then
+
+
+    O(T(a,b)) = E(a,b)/2,
+    E(T(a,b)) = O(a,b)/2.                          (228.10)
+
+
+The determinant of T is nonzero at every odd prime.
+
+
+If a chart uses E as its primitive shared leg in m of the two faces, apply T to precisely those m parameter pairs. The resulting chart is O,O and
+
+
+    E_(O,O)(T_theta variables) = 4^(-m) E_theta,
+    H_(O,O)(T_theta variables) = 4^(-m) H_theta.   (228.11)
+
+
+Because 4^m is a square modulo every good odd prime, the quadratic characters of E_theta, H_theta and E_theta H_theta are unchanged after the invertible linear variable substitution.
+
+
+The additive Fourier transform is also merely reindexed by the inverse-transpose linear map. Since T acts inside one variable pair, the Section113 frequency classes are preserved:
+- zero frequency remains zero;
+- one-pair-degenerate remains one-pair-degenerate;
+- generic nonzero remains generic nonzero.
+
+
+Therefore, for every one of the four theta charts and every good odd prime p, the retained complete-sum hierarchy extends verbatim in exponent:
+
+
+    complete zero-frequency character sum: O(p^(7/2)),
+    one-pair-degenerate Fourier coefficient: O(p^(5/2)),
+    generic nonzero Fourier coefficient: O(p^2),    (228.12)
+
+
+and the corresponding squarefree incomplete-box estimate has the same exponent shape after the linear chart change.
+
+
+Caveat:
+T need not preserve the integral parity chamber. This theorem is a statement about complete finite-field/Fourier sums at odd p. It does not identify the physical integral domains between charts.
+
+
+RESULT_228_3:
+ALL_FOUR_CHART_LOCAL_CHARACTER_BOUNDS_TRANSFER=true.
+ALL_FOUR_CHART_FOURIER_HIERARCHY_TRANSFER=true.
+NEW_GLOBAL_SAVING_FROM_THIS_TRANSFER=false.
+
+
+6. Centered score to be represented
+
+
+On H_j let
+
+
+    alpha=M3/H_j,
+    beta=(N2,j+P)/H_j,
+
+
+and
+
+
+    Z_j
+      = sum_{E in H_j} (F(E)-alpha)(S(E)-beta).
+
+
+By226,
+
+
+    rho_j = Z_j/sqrt(V_F V_S),                     (228.13)
+
+
+and a sufficient target is
+
+
+    |rho_j| << B^(-1/12-delta)                     (228.14)
+
+
+for one fixed delta>0.
+
+
+The Poisson adapter therefore must approximate or represent the INTEGER-square indicators in (228.5), not merely the mod-p quadratic-residue indicators.
+
+
+7. Seven-condition preflight
+
+
+7.1 Condition 1 — one-object/bounded multiplicity parameterization
+
+
+PASS.
+
+
+The four theta charts are exact and disjoint after the labeled physical direction is fixed. Primitive face reductions and scale recovery are unique. Finite chart count is four.
+
+
+7.2 Condition 2 — exact physical height / no semantic height loss
+
+
+PASS at the algebraic population level.
+
+
+Equation (228.7) is the exact physical R<=B cutoff. No raw-height substitution is needed to state the host.
+
+
+However this does NOT yet give a theorem-compatible rectangular Poisson weight. The cutoff contains the moving
+
+
+    g=gcd(L1,L2).
+
+
+Stage15-6bu already proves the relevant firewall in the raw toric variables: using the raw lattice index against raw height counts the wrong primitive physical measure because the moving gcd normalizer is part of the height normalization.
+
+
+Stage15-6ct supplies an exact cross-gcd cell/product-height factorization, so this is not a semantic mystery. What is absent is a signed Poisson/trace estimate on that exact moving-cell measure.
+
+
+Thus:
+EXACT_HEIGHT_SEMANTICS=PASS.
+SEPARATED_SMOOTH_POISSON_WEIGHT_WITH_NO_POWER_LOSS=NOT_PROVED.
+
+
+7.3 Condition 3 — square/finite-character expansion preserving centering
+
+
+FAIL for the currently retained square-sieve architecture.
+
+
+For an integer n,
+
+
+    1_{n is an integer square}
+
+
+is not equal to any fixed finite average of Legendre/Jacobi characters. A finite-prime character score detects necessary local quadratic-residue conditions and has false positives.
+
+
+The standard square-sieve identities/inequalities are designed for nonnegative square counts. Applying them separately to the four terms obtained by expanding
+
+
+    (F-alpha)(S-beta)
+
+
+does not preserve the signed cancellation defining the empirical global marginals alpha and beta.
+
+
+No retained identity supplies an exact bounded-conductor character expansion of both global integer-square selectors on H_j with a controlled centered remainder.
+
+
+An exact delta/circle representation would be a different method species and would require a fresh conductor/range theorem; it is not contained in Section112/113.
+
+
+Therefore
+
+
+    R1_CENTERED_PHYSICAL_SQUARE_SELECTOR_EXPANSION=false.   (228.15)
+
+
+7.4 Condition 4 — zero mode equals product of GLOBAL marginals
+
+
+FAIL under the same retained finite-character substitution.
+
+
+The zero/principal term of a complete finite-field character expansion is a local residue mean, including its zero-divisor corrections. It is not identically
+
+
+    alpha*beta
+
+
+where alpha and beta are the empirical integer-square marginals on the physical H_j(B) population.
+
+
+Centering the local character functions by their mod-p means only produces a locally centered statistic. It does not prove that the global physical zero mode is
+
+
+    E_H[F] E_H[S].
+
+
+Promoting that equality would itself require the missing same-measure transfer/equidistribution theorem.
+
+
+Thus the key R1-TF requirement
+
+
+    ZERO_FREQUENCY_EXACT_GLOBAL_PRODUCT_OF_MARGINALS
+
+
+is not certified.
+
+
+7.5 Condition 5 — nonzero bounded-conductor trace family in genuinely moving separated variables
+
+
+LOCAL POLYNOMIAL PART: PASS.
+
+
+Section112/113 now applies to all four chart polynomials by Section5 above.
+
+
+GLOBAL PHYSICAL COEFFICIENT PART: FAIL / NOT PROVED.
+
+
+The exact physical coefficient contains:
+- primitive pair conditions;
+- the canonical/directional chamber;
+- the moving gcd g;
+- the exact cutoff H_theta<=g^2 B^2.
+
+
+No retained adapter separates these moving physical weights into one-variable or theorem-compatible coefficient blocks at subpolynomial cost.
+
+
+Stage15-6bu is a direct warning that an index-q^2 lattice count in the raw four parameters against raw height changes the measure. Stage15-6ct repairs the exact arithmetic bookkeeping but does not provide the needed signed trace-function average over the resulting moving cells.
+
+
+Therefore the local trace family exists, but the global coefficient-space theorem match does not.
+
+
+7.6 Condition 6 — diagonal/coincidence/zero-divisor loci cheap enough
+
+
+NOT PASSED.
+
+
+Section113 already isolates a one-pair-degenerate contribution in the incomplete bound
+
+
+    q^(1/2)(AB+CF)
+
+
+in addition to the generic q^2 remainder. Those strata are controlled locally, but no full physical summation with the square-detector family, moving gcd cells and canonical masks has been shown to fit the 1/12 Pearson budget.
+
+
+This is not a claim that the exceptional loci are intrinsically large. It is a statement that their required full-family budget is still missing.
+
+
+7.7 Condition 7 — can the retained square-sieve + Section113 range certify B^(-1/12-delta)?
+
+
+NO.
+
+
+There is a useful scoped budget calculation.
+
+
+Suppose one tries to approximate one square selector by a normalized character score over K distinct primes and controls the replacement in L2 by the standard absolute square-sieve/character second-moment architecture.
+
+
+The diagonal contribution in that available L2 upper-bound mechanism is on the scale
+
+
+    H_j/K.                                         (228.16)
+
+
+To make replacement of F harmless at Pearson scale B^(-1/12), Cauchy requires the squared L2 replacement error to be at most on the scale
+
+
+    B^(-1/6) V_F.                                  (228.17)
+
+
+Since alpha->0, V_F is asymptotic in scale to M3. The certified corridor gives only
+
+
+    M3 >> B^(1/3),
+    H_j ~ C_j B(log B)^5.
+
+
+Thus a proof that works uniformly at the currently certified worst normalization can force the diagonal term (228.16) below (228.17) only after roughly
+
+
+    K >= B^(5/6-o(1)).                             (228.18)
+
+
+This is a METHOD-BUDGET statement: smaller K is not mathematically impossible, but the retained absolute L2 estimate does not certify the required replacement error there.
+
+
+A family of K distinct primes necessarily reaches prime scale at least K^{1-o(1)}. The pair-character moduli appearing in the standard square sieve therefore reach/typically occupy scale at least
+
+
+    q >= B^(5/3-o(1))                              (228.19)
+
+
+at the cardinality forced by (228.18).
+
+
+But the retained Section113 squarefree incomplete-box estimate contains an absolute generic remainder
+
+
+    q^2,
+
+
+which at (228.19) is at least
+
+
+    B^(10/3-o(1)),                                 (228.20)
+
+
+far above the H_j~B polylog host scale, before the one-pair-degenerate and moving-physical-weight costs are even paid.
+
+
+Therefore the CURRENT combination
+
+
+    standard character-score/square-sieve replacement
+      + absolute Section113 completion
+      + current physical weight handling
+
+
+cannot certify the 1/12 Pearson receiver.
+
+
+This does not rule out a new switching theorem, a relative/centered trace theorem, a delta-symbol argument with new cancellation, or another exact global square detector.
+
+
+8. Consolidated verdict
+
+
+Seven tests:
+1 one-object parameterization: PASS.
+2 exact physical height semantics: PASS; separated smooth Poisson weight NOT PROVED.
+3 centering-preserving integer-square character expansion: FAIL.
+4 zero mode exactly global product-of-marginals: FAIL.
+5 local trace family: PASS; global moving coefficient separation: FAIL.
+6 exceptional-locus full-family budget: NOT PASSED.
+7 1/12 Pearson range with current square-sieve + Section113: FAIL.
+
+
+Thus the 227 GO condition is not met.
+
+
+A/R1-TF is returned to HOLD, but with two new exact assets:
+- full four-chart directional linked-square parameterization;
+- all-chart transfer of the Section112/113 local Fourier hierarchy.
+
+
+The failed step is now sharply located AFTER local finite-field cancellation and BEFORE a valid global centered square-selector transfer.
+
+
+9. What can reopen A/R1-TF
+
+
+Reopen only on genuinely new input of one of these forms:
+
+
+A. Exact/relative global square detector:
+an identity or theorem that represents the integer-square selectors on the exact H_j measure with centered remainder already normalized to V_F,V_S, rather than ambient H_j.
+
+
+B. Centered physical Poisson/trace theorem:
+a theorem operating directly on the moving-gcd/cross-cell physical weight whose principal term is the empirical product of marginals and whose error is <=B^(-1/12-delta) in Pearson normalization.
+
+
+C. New switching/delta method:
+a conductor/range transformation that avoids the q^2 Section113 completion remainder and proves the necessary signed physical covariance estimate.
+
+
+D. Genuine coefficient separation:
+an exact decomposition of the full moving-gcd physical coefficient into theorem-compatible blocks with total energy and family count already within the 1/12 budget.
+
+
+More complete local character sums, another fixed-prime bound, or another fixed shared-edge sparse-L1 completion do not reopen the route.
+
+
+10. State and next
+
+
+M3-T11-GATE-001 remains OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+
+
+A/R1-TF current implementation:
+HOLD_AFTER_BOUNDED_228_PREFLIGHT.
+
+
+LOCAL fixed-Q mechanisms remain HOLD from225.
+PAIR remains receiver-only.
+CROSS-GCD existing automatic stratification remains HOLD.
+TQ automatic graph-energy extension remains HOLD.
+FIB remains paused without a moving-family theorem.
+Fixed-degree geometry is not reopened.
+TI remains parked.
+216–220 pay sectors remain auxiliary.
+
+
+NEXT229:
+POST_228_NEW_THEOREM_INPUT_ROUTING.
+
+
+Return to the whole-population portfolio, but compare only routes for which a genuinely new theorem species or internal adapter is now available. Do not issue another A covariance identity/reformulation card. In particular, distinguish:
+- new exact global centered-square/trace input;
+- new exact-M3 fixed-modulus distribution input;
+- new moving-fiber energy input;
+- new occupied-image incidence input;
+- genuinely new terminal-cover family-uniform geometry.
+
+
+LATEST_MATH=M3-T11-228.
+INDEPENDENT_HOSTILE_AUDIT_186_228=NOT_RUN.
+PERFECT_CUBOID_EXISTENCE_OR_NONEXISTENCE_CONCLUSION=NONE.

@@ -1,0 +1,288 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229D — nested primitive Pythagorean content factorization
+
+
+STATUS: POST_229C_DELTA_RESEARCH_COMPLETE / PROVED_EXACT_NESTED_CONTENT_FACTORIZATION / PROVED_SECONDARY_H_ROOT_LINE / NO_CURRENT_POWER_SAVING_TRANSFER / PRODUCTION_HOLD_RETAINED / GLOBAL_CREDIT=0
+
+
+AUTHORITY AND SCOPE
+Current Stage37 operational authority remains M3-T11-229.
+Latest mathematical construction remains M3-T11-228.
+Latest prior post-229 delta research is 229C.
+M3-T11-230 remains unissued.
+TI remains parked.
+Independent hostile audit186–229 remains NOT RUN.
+
+
+This card derives a new exact endpoint-side factorization from the 228/229C four-chart coordinates. It is not a new endpoint bound and it does not by itself reopen production.
+
+
+1. Four-chart primitive content decomposition
+
+
+Fix one 228 directional chart.
+Write
+    L1=g a,
+    L2=g b,
+    g=gcd(L1,L2),
+    gcd(a,b)=1.
+
+
+Define
+    d=gcd(M1,M2),
+    M1=d c,
+    M2=d f,
+    gcd(c,f)=1.
+
+
+The primitive-face conditions
+    gcd(L1,M1)=1,
+    gcd(L2,M2)=1
+imply
+    gcd(g,d)=1,
+    gcd(g,c)=gcd(g,f)=1,
+    gcd(a,d)=gcd(a,c)=1,
+    gcd(b,d)=gcd(b,f)=1.                         (229D.1)
+
+
+M3-T11-228 gives
+    e=L1L2/g = g a b,
+    x=L2M1/g = d b c,
+    y=L1M2/g = d a f.                            (229D.2)
+
+
+Therefore the three pairwise physical gcds are exactly
+    gcd(e,x)=b=L2/g,
+    gcd(e,y)=a=L1/g,
+    gcd(x,y)=d=gcd(M1,M2).                       (229D.3)
+
+
+Proof of gcd(e,x)=b:
+    gcd(gab,dbc)=b*gcd(ga,dc)=b
+by (229D.1).
+The other two identities are identical.
+
+
+This is strictly sharper than 229C's common-content identity
+    gcd(e,x,y)=1:
+229D resolves all three pairwise contents exactly.
+
+
+RESULT_229D_PAIRWISE_CONTENT=PROVED_EXACT.
+
+
+2. Missing-face square becomes a primitive Pythagorean triple
+
+
+The missing-face selector is
+    F=1 iff x^2+y^2 is a square.
+
+
+Using (229D.2),
+    x^2+y^2
+      = d^2[(bc)^2+(af)^2].
+
+
+From (229D.1),
+    gcd(bc,af)=1.                                (229D.4)
+
+
+Hence F=1 iff there is a unique positive integer q with
+    q^2=(bc)^2+(af)^2,
+    z:=sqrt(x^2+y^2)=d q,                        (229D.5)
+and
+    (bc,af,q)
+is a primitive Pythagorean triple.
+
+
+Consequences:
+    q is odd;
+    gcd(q,abcf)=1;
+    every prime divisor of q is congruent to 1 mod 4.
+
+
+The last statement is the standard sum-of-two-coprime-squares consequence for a primitive Pythagorean hypotenuse.
+
+
+RESULT_229D_FIRST_NESTED_TRIPLE=PROVED_EXACT.
+
+
+3. Space-square content after the first selector
+
+
+Assume F=1 and let z=dq as above.
+The space selector is
+    S=1 iff e^2+z^2 is a square.
+
+
+Define
+    h=gcd(e,z).
+
+
+Then exactly
+    h=gcd(g,q).                                  (229D.6)
+
+
+Proof:
+    e=gab,
+    z=dq,
+    gcd(gab,d)=1 by (229D.1),
+and q is coprime to a,b by primitiveness of (bc,af,q). Therefore
+    gcd(gab,dq)=gcd(g,q).
+
+
+In particular
+    h|g,
+    h|q,
+    gcd(h,dabcf)=1,
+and every prime divisor of h is congruent to 1 mod 4.
+
+
+After dividing by h, the second square condition is exactly
+    ((g/h)ab)^2 + (d(q/h))^2 = (R/h)^2,          (229D.7)
+with
+    gcd((g/h)ab, d(q/h))=1.
+
+
+Thus, conditional on F=1, S=1 is equivalent to a second primitive Pythagorean triple:
+    ((g/h)ab, d(q/h), R/h).
+
+
+The endpoint therefore carries a nested pair of primitive Pythagorean triples:
+    (bc, af, q),
+    ((g/h)ab, d(q/h), R/h),
+with the coupling
+    h=gcd(g,q).                                  (229D.8)
+
+
+RESULT_229D_NESTED_PRIMITIVE_PYTHAGOREAN_FACTORIZATION=PROVED_EXACT.
+
+
+4. Secondary h^2 root-line obstruction
+
+
+Because h|q and
+    q^2=(bc)^2+(af)^2,
+we have
+    (bc)^2+(af)^2 == 0 mod h^2.                  (229D.9)
+
+
+Also
+    gcd(h,bc)=gcd(h,af)=1.
+
+
+Therefore
+    af == rho * bc mod h^2                       (229D.10)
+for a root
+    rho^2 == -1 mod h^2.
+
+
+Since every prime divisor of h is 1 mod 4, there are exactly
+    2^omega(h)
+such roots modulo h^2.
+
+
+Thus the nested simultaneous-square locus has an exact secondary Gaussian root-line condition at the content
+    h=gcd(g,q).
+
+
+RESULT_229D_H_SQUARED_ROOT_LINE=PROVED_EXACT.
+
+
+5. Why this does not yet reopen Stage37
+
+
+The new h-structure is real, but it is not an independent global saving by itself.
+
+
+First, the sector h=1 is allowed. On h=1, the congruence (229D.10) is vacuous.
+Therefore no fixed-power endpoint deficit follows merely from the existence of h.
+
+
+Second, for large h, the h^2 root-line suggests a lattice-density saving of order h^-2, but Stage37 already has a frozen warning against multiplying a congruence-lattice density into an unrelated global endpoint ceiling without a same-measure transfer theorem. The analogous firewall is M3-XG-NEG-001 / cross-gcd tail machinery.
+
+
+Third, the nested parameterization is endpoint-side. It does not produce the empirical centered principal term required by A/R1-TF, nor the exact-M3 moving-base second moment required by FIB, nor the occupied-image expansion required by PAIR.
+
+
+Hence:
+    A_REOPEN=false.
+    FIB_REOPEN=false.
+    PAIR_REOPEN=false.
+    CROSS_GCD_REOPEN=false.
+    LOCAL_REOPEN=false.
+    TQ_REOPEN=false.
+    GEOMETRY_REOPEN=false.
+    DEN_REOPEN=false.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+
+
+6. Precise usable future interfaces
+
+
+229D gives a new exact coordinate package that a future theorem may exploit. A useful theorem would need at least one of:
+
+
+(A) Same-measure h-tail transfer:
+a uniform physical count on the exact 228 host turning the h^2 root-line into a summable h-tail saving without double charging existing cross-gcd savings.
+
+
+(B) h-small nested-triple incidence:
+a fixed-power bound for the h<=H sector of the simultaneous primitive system
+    q^2=(bc)^2+(af)^2,
+    ((g/h)ab)^2+(d(q/h))^2=s^2
+under the exact physical height and primitive/canonical masks.
+
+
+(C) Centered version:
+a theorem on the same physical host giving signed cancellation between the first primitive-square event and the second primitive-square event, strong enough to meet the 228 Pearson receiver.
+
+
+This is a genuine new structural reduction, but not a production theorem.
+
+
+7. Relation to prior cards
+
+
+229C:
+proved g is the common projective content of the raw three-coordinate edge map.
+229D:
+refines that statement to all pairwise physical gcds and then factors the two simultaneous square selectors into two coupled primitive Pythagorean triples.
+
+
+M3-XG-006:
+already gives a different endpoint c^2 root-line in the physical (X,D) variables. 229D does not claim independence from that saving and does not multiply the two.
+
+
+M3-TERM-001:
+already gives a terminal product Pythagorean allocation. 229D is a different four-chart local normal form. No new global credit is assigned without a count-preserving comparison or a new saving theorem.
+
+
+8. Literature delta
+
+
+A targeted current search for 2025–2026 results on simultaneous/shared-leg Pythagorean counting, intersection-of-quadrics counting, and toric/Cox large-sieve transfers found no direct theorem matching the exact 229D same-physical-measure receiver.
+
+
+Huang's toric geometric sieve remains relevant to the ambient Stage15 toric measure but does not supply the endpoint-conditioned nested-triple count above.
+Browning–Loughran type rational-point sieves remain theorem-species background, not a direct 229D quantitative transfer.
+
+
+No absence theorem is claimed from this search.
+
+
+9. Final state
+
+
+M3-T11-229 remains latest operational T11 card.
+M3-T11-228 remains latest mathematical construction card.
+229D is the latest post-229 delta research card.
+
+
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_GENUINELY_NEW_THEOREM_INPUT.
+M3_T11_230_ISSUED=false.
+GLOBAL_COUNTING_CREDIT=0.
+M3_T11_GATE_001=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+NO_PERFECT_CUBOID_EXISTENCE_OR_NONEXISTENCE_CONCLUSION=true.

@@ -1,0 +1,134 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229BX — exact square overlap conductors and desaturated outer-gap cone budget
+
+
+STATUS: POST_229BW_EXACT_ODD_PAIR_GCD_SQUARES / EXACT_CHI_2_ADIC_BIT / OVERLAP_CONDUCTOR_DESATURATION / PAIRWISE_ODD_COPRIME_RESIDUES / QUARTIC_PRODUCT_COST / COARSE_LARGE_OVERLAP_COUNT_TOO_WEAK / NO_ADDITIONAL_SECTOR_DISPOSAL / GLOBAL_CREDIT=0 / NO_REOPEN
+CARD_DOC_ID=15a2CiepPnUTEgKayohCZ2S5OsO-SPsWVrRsb2v8-L7s
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229BW
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope and notation
+Use exactly the current positive primitive Stage37 physical endpoints, with all selectors and R<=B:
+x²+y²=z², e²+z²=R², e²+x²=U², e²+y²=V², gcd(e,x,y)=1.
+Retain A=R-U, C=R-z, and write Bv=R-V to avoid confusion with the height bound B. All are positive.
+Retain229BU D=R-A-Bv-C>0, D²=2(ABv+AC+BvC), R=A+Bv+C+D.
+For positive n, odd(n)=n/2^v2(n). Retain229BW chi and unique atoms u_U,u_V,u_z. Retain d0=gcd(x,y), a=gcd(e,y), b=gcd(e,x).
+
+
+2. Exact odd pair-gcd square theorem
+Define
+q_UV=sqrt(odd(gcd(A,Bv))),
+q_Uz=sqrt(odd(gcd(A,C))),
+q_Vz=sqrt(odd(gcd(Bv,C))).
+These square roots are integers, not merely formal radicals.
+
+
+Proof for q_UV:
+An odd prime p dividing A and Bv divides y and x because
+A(R+U)=y² and Bv(R+V)=x².
+Such p cannot divide R: otherwise e²=R²-x²-y² implies p|e, contradicting primitive edges. Hence R,U,V are units modulo p and R+U,R+V are units modulo p. Consequently
+v_p(A)=2v_p(y), v_p(Bv)=2v_p(x),
+v_p(gcd(A,Bv))=2v_p(d0).
+This proves that the odd gcd is square and that q_UV is the full prime-power subproduct of odd(d0) on precisely those primes for which R≡U≡V mod p. In particular q_UV|d0 and gcd(q_UV,R)=1.
+The other two cases are identical:
+at p|gcd(A,C), v_p(A)=2v_p(y), v_p(C)=2v_p(e), giving q_Uz|a;
+at p|gcd(Bv,C), v_p(Bv)=2v_p(x), v_p(C)=2v_p(e), giving q_Vz|b.
+By229BW/229BI, these three odd conductors are pairwise coprime. They need not be squarefree. They select full valuations from d0,a,b; they do not equal the whole buckets in general.
+RESULT_229BX_ODD_OUTER_PAIR_GCDS_ARE_EXACT_SQUARES=PROVED.
+RESULT_229BX_ODD_OVERLAP_CONDUCTORS_SELECT_FULL_CONTENT_VALUATIONS=PROVED.
+
+
+3. Exact prime-2 bit and common support
+The face equations modulo4 allow at most one odd edge among e,x,y. Primitivity forces at least one odd edge. Therefore exactly one edge is odd and R is odd.
+Exactly two of U,V,z are odd and one is even. Thus exactly two of A,Bv,C are even, and the third is odd.
+There is no odd triple overlap by229BW. Therefore
+gcd(A,Bv,C)=1,
+chi=2 rad(Q), where Q=q_UV q_Uz q_Vz.                         (BX.1)
+This refines229BW's previously unspecified prime-2 bit. It does not assert that the even part of any individual pair gcd is square.
+RESULT_229BX_CHI_EQUALS_TWO_TIMES_ODD_OVERLAP_CONDUCTOR_RADICAL=PROVED.
+
+
+4. Remove shared square conductors from the exact cone
+Write canonically
+A=q_UV² q_Uz² A0,
+Bv=q_UV² q_Vz² B0,
+C=q_Uz² q_Vz² C0.                                           (BX.2)
+Each residual is a positive integer. The residuals are pairwise coprime at odd primes:
+odd(gcd(A0,B0))=odd(gcd(A0,C0))=odd(gcd(B0,C0))=1.            (BX.3)
+Indeed, for any shared odd prime the full minimum valuation was removed from both affected gaps. No new common prime can be introduced by division.
+
+
+Every term ABv,AC,BvC is divisible by Q², so the exact cone gives Q²|D² and hence Q|D. Put D0=D/Q, a positive integer. Dividing yields
+D0²=2(q_UV² A0 B0 + q_Uz² A0 C0 + q_Vz² B0 C0),            (BX.4)
+R=q_UV² q_Uz² A0+q_UV² q_Vz² B0+q_Uz² q_Vz² C0+Q D0.       (BX.5)
+This is a canonical injective endpoint representation: the six labelled integers q_UV,q_Uz,q_Vz,A0,B0,C0 determine D0 if it exists, then the original gaps, R,U,V,z, and e,x,y uniquely on the positive physical chamber by229BU.
+
+
+Important precision: (BX.3) does NOT imply gcd(Q,A0B0C0)=1. If the two original gap valuations are unequal, the larger gap retains an excess valuation after removing the common square. These excess primes may still divide Q.
+With rad_odd(n) the odd support, the unique atom is exactly
+u_U=rad_odd(A0)/gcd(rad_odd(A0),rad(Q)),
+and cyclically for u_V from B0 and u_z from C0. All unique atoms are odd since 2 lies in chi.
+RESULT_229BX_EXACT_DESATURATED_WEIGHTED_OUTER_GAP_CONE=PROVED.
+RESULT_229BX_RESIDUES_PAIRWISE_ODD_COPRIME_WITH_CONDUCTOR_EXCESS_FIREWALL=PROVED.
+
+
+5. Exact quartic cost and height bounds
+Multiplication of (BX.2) gives
+Omega=ABvC=Q^4 A0B0C0.                                      (BX.6)
+Since A+Bv+C<R, AM-GM yields
+Q^4 A0B0C0 < R³/27 <= B³/27,
+Q < B^(3/4)/27^(1/4),
+D0 < B/Q.                                                  (BX.7)
+Thus large overlap has an exact quartic cost in the gap-product budget, stronger than support-only localization. These are deterministic inequalities; no density factor is inferred.
+
+
+6. Attempted large-overlap count: valid but insufficient
+Let N_chi(B;K) count whole physical endpoints R<=B with chi>K, K>=2. The same upper bound applies to the hard10 subsource.
+By (BX.1), Q>K/2. For each Q, the number of labelled conductor factorizations is at most d3(Q). For each such factorization, (BX.7) bounds the number of positive labelled residual triples by
+sum_{n<=B³/(27Q^4)} d3(n) << (B³/Q^4) B^o(1).
+Endpoint injectivity from section4 then gives, for every fixed epsilon>0,
+N_chi(B;K) <<_epsilon B^(3+epsilon) K^(-3).                 (BX.8)
+We intentionally drop the weighted cone equation and physical selectors only in deriving this upper bound; it is not a replacement source.
+
+
+At the229BW branch cutoff K=T^alpha, T=B^(1/3-delta), the resulting exponent is
+3-alpha+3alpha*delta+epsilon.
+At alpha=1/3 this is 8/3+delta+epsilon, vastly above1/3.
+For K=B^kappa, this coarse bound would require kappa>8/9 to yield a fixed-power bound below B^(1/3), whereas nonempty conductors satisfy Q<<B^(3/4), and chi<=2Q. Therefore the product-budget-only summation cannot meet the one-third target in its nonempty polynomial-scale range. This is a diagnosis of (BX.8), not a no-go theorem for a sharper weighted-cone/selector count.
+RESULT_229BX_COARSE_OVERLAP_PRODUCT_BUDGET_COUNT=PROVED_BOUND_QUANTITATIVELY_TOO_WEAK.
+No additional o(B^(1/3)) sector is disposed.
+
+
+7. Current contract
+The source remains exactly S_B^hard10(delta) from229BV; no condition is removed or newly charged.
+Retain large sf(G0), all seven physical-length radicals high, and the exact229BW pair condition chi*u_(1)*u_(2)>T.
+CURRENT_PREFERRED_SUPPORT_INTERFACE=229BX_EXACT_SQUARE_OVERLAP_CONDUCTOR_DESATURATED_CONE_ON_HARD10.
+CURRENT_BLOCKER=NO_SELECTOR_AWARE_COUNTING_SAVING_ON_HARD10_LARGE_SF_G0_PHYSICAL_SOURCE.
+REFINED_BLOCKER=NO_ONE_THIRD_COUNT_FOR_SELECTOR_CONDITIONED_DESATURATED_WEIGHTED_CONE_OR_TWO_LARGE_UNIQUE_ATOMS_ON_HARD10.
+NEXT: exploit the actual equation(BX.4), exact height(BX.5), full physical reconstruction/selectors and conductor/content localization to count the large-common-overlap branch; count the complementary two-large-unique-atoms branch; or prove retained rho/sigma fixed-power occupied support on this exact source.
+DO_NOT_REPEAT: claim saving from Q^4|Omega alone; multiply pair-support masks independently; replace q conductors by all of d0,a,b; assume Q is coprime to residuals; use the coarse bound(BX.8) as one-third closure.
+
+
+8. Verification and scope
+Within-session elementary proof review completed.
+Arithmetic replay of all oriented shared-hypotenuse Pythagorean pairs at R<=3000 satisfying gcd(R,x,y)=1:
+11364 pairs checked;1417 nontrivial odd-overlap cases;228 cases retain conductor primes in a residual. All odd pair-gcd-square and q|odd(gcd(x,y)) assertions passed.
+These are lemma fixtures, not perfect-cuboid endpoints or evidence of endpoint population sparsity. Physical perfect-cuboid endpoints enumerated=0.
+No external theorem is invoked. No claim of independent hostile audit is made.
+Load-bearing dependencies:229BW support triangle/localization;229BI physical equations and gcd bucket meanings;229BU positive outer-gap cone and injective reconstruction; elementary valuations, parity, AM-GM, and divisor bounds.
+Dependence on retained229BQ uniform prescribed-support lemma is not needed for these new square-conductor identities or(BX.8).
+
+
+9. State
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED; PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+INDEPENDENT_HOSTILE_AUDIT_229BX=NOT_RUN.
+No perfect-cuboid existence/nonexistence conclusion or new global endpoint exponent is claimed.
+
+
+FINAL_READBACK_RECEIPT=PASS. Card content103 nonempty paragraphs matched the authored proof, budget and state; title and nine section styles verified. Card parent M3-Research-Cards verified. CARD-INDEX row541 has229BX, exact CARD_DOC_ID and working hyperlink; row542 empty at verification. 案内 latest/current-operation/startup point to229BX. MAIN canonical current/doc ID, row541 startup, support interface, unchanged primary blocker and refined blocker/next contract agree with LEDGER current and appended229BX change record. Active ROUTE latest header and POST-229BX agree. LEDGER and ROUTE native richLink elements resolve to the229BX card. Verification confirms exact square odd pair-gcd conductors, chi=2rad(Q), pairwise odd-coprime residuals, exact weighted cone and quartic product cost; coarse overlap count remains quantitatively too weak. No additional o(B^(1/3)) sector, no global exponent promotion. OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED; PRIMARY_GATE OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; production HOLD; existing closure and INTEGRATED_AUDIT_186_229O scope unchanged. INDEPENDENT_HOSTILE_AUDIT_229BX=NOT_RUN. NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

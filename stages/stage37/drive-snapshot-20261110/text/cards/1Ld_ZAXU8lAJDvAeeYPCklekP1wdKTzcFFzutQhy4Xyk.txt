@@ -1,0 +1,114 @@
+﻿Stage37-229GW exact independent 22-key nonlocal norm-product Kummer certificate and finite same-height test.
+Requirements Python3/SymPy; NO web. Executed symbolic proof: 22 cases, 12 H kernels, discrim_X(H) always -4*polynomial_square, generic degree4 Kummer. Executed GU 30-pair arithmetic: 62 extra primitive FO rational roots, all third norms nonsquare, six primitive roots from balanced q<=2p and NONE of six has hypothetic norm length q<=r<=2p. Source-level original FJ necessity remains hostile HOLD. No cuboid proved/disproved.
+
+
+A. FULL EXECUTABLE SYMPY CERTIFICATE for all22:
+import sympy as s
+from collections import defaultdict
+t,X,Y=s.symbols('t X Y')
+keys=('000.010.022:0 000.010.022:2 000.010.100:0 000.010.100:1 000.010.100:2 '
+'000.012.022:0 000.012.022:2 000.022.110:0 002.010.020:0 002.010.020:2 '
+'002.012.020:2 002.012.102:0 002.012.102:1 002.012.102:2 002.020.110:0 '
+'002.020.110:1 010.020.102:0 010.020.102:1 010.020.102:2 '
+'012.022.100:0 012.022.100:1 012.022.100:2').split()
+def E(code):
+ a,b,c=[int(z)-1 for z in code]
+ return s.expand((a*t+b*X+c*Y-a*b*c*t*X*Y)**2*
+ ((1+t*t) if a==0 else 1)*((1+X*X) if b==0 else 1)*
+ ((1+Y*Y) if c==0 else 1))
+Hgroup=defaultdict(list)
+for key in keys:
+ cs,hs=key.split(':');hs=int(hs);F=s.expand(sum(E(co)*(1 if i!=hs else -1) for i,co in enumerate(cs.split('.'))))
+ p=s.Poly(F,Y);A=p.nth(2);B=p.nth(1);C=p.nth(0)
+ D=s.factor(B*B-4*A*C);S=s.factor((A-C)**2+B**2)
+ f=s.factor_list(S)[1]
+ assert all(e==1 for poly,e in f)
+ # 1+t² and 1+X² are already rational squares on actual split-prime norm representations.
+ coeff,fac=s.factor_list(S)
+ assert coeff==1
+ assert any(s.expand(poly-(X*X+1))==0 for poly,e in fac)
+ pure=[poly for poly,e in fac if not any(s.expand(poly-w)==0 for w in [1+t*t,1+X*X])]
+ assert len(pure)==1
+ H=s.factor(pure[0])
+ assert s.Poly(H,X).degree()==2
+ disc=s.factor(s.discriminant(H,X))
+ assert disc!=0 and disc.could_extract_minus_sign()
+ coeff2,fs=s.factor_list(s.factor(-disc/4))
+ assert coeff2==1 and all(e%2==0 for poly,e in fs)
+ assert s.degree(s.Poly(D,t,X),X)>=0
+ # Δ is nonsquare in Q(t,X) and its squarefree kernel κ from GV is nonconstant.
+ Hgroup[str(H)].append(key)
+ print('PASS',key,'S=',S,'H=',H,'disc_X(H)=',disc)
+assert len(keys)==22 and len(Hgroup)==12
+assert sorted(len(z) for z in Hgroup.values())==sorted([1,1]+[2]*10)
+print('PASS: 22 exact norm-product decompositions and 12 second-norm kernels')
+print('PROVED [Q(t,X)(sqrt(D),sqrt(Nplus)):Q(t,X)]=4 when D nonsquare, A nonzero')
+AA,BB,CC=s.symbols('AA BB CC')
+DD=BB**2-4*AA*CC
+U=(BB**2+DD+4*AA**2)**2-4*BB**2*DD
+assert s.factor(U)==16*AA**2*((AA-CC)**2+BB**2)
+print('PASS universal Nplus*Nminus=16*A²*((A-C)²+B²)')
+
+
+B. FINITE GU30 PRIME-PAIR HEIGHT / SPECIALIZED S TEST, full executable source:
+from math import isqrt,gcd
+pairs=[(13,29),(13,37),(13,101),(13,149),(13,409),(13,1129),(13,2549),
+(17,113),(17,257),(17,1193),(29,149),(37,409),(37,1129),(41,1321),
+(61,137),(61,1877),(89,449),(113,257),(137,541),(137,1877),(157,281),
+(173,1777),(197,1117),(277,853),(293,401),(557,1733),(593,1217),
+(809,2689),(1013,1277),(1381,3301)]
+def normvec(p):
+ for v in range(1,isqrt(p)+1):
+  u=isqrt(p-v*v)
+  if u>v and u*u+v*v==p:return u,v
+ raise ValueError(p)
+def gaussfactor(p,i):
+ u,v=normvec(p);return [(u*u-v*v,-2*u*v),(p,0),(u*u-v*v,2*u*v)][i]
+def macro(p,q,code):
+ i,j,k=map(int,code);aa,bb=gaussfactor(p,i);cc,dd=gaussfactor(q,j)
+ re=aa*cc-bb*dd;im=aa*dd+bb*cc
+ return im*im,0 if k==1 else (2 if k==2 else -2)*re*im,im*im if k==1 else re*re
+rooted=[];normSsquare=0
+for pp,qq in pairs:
+ up,vp=normvec(pp);uq,vq=normvec(qq)
+ a,b=up*up-vp*vp,2*up*vp;c,d=uq*uq-vq*vq,2*uq*vq
+ for key in keys:
+  cs,hs=key.split(':');hs=int(hs);ms=[macro(pp,qq,co) for co in cs.split('.')]
+  A=sum((1 if i!=hs else -1)*v[0] for i,v in enumerate(ms))
+  B=sum((1 if i!=hs else -1)*v[1] for i,v in enumerate(ms))
+  C=sum((1 if i!=hs else -1)*v[2] for i,v in enumerate(ms))
+  # With primitive Gaussian data these are INTEGER FO quadratic coefficients.
+  # The specialized norm-product S=(A-C)^2+B^2 is independent of sqrt(discriminant).
+  SN=(A-C)**2+B*B
+  if isqrt(SN)**2==SN:normSsquare+=1
+  disc=B*B-4*A*C
+  if disc<0:continue
+  root=isqrt(disc)
+  if root*root!=disc:continue
+  roots=[(-B+root,2*A),(-B-root,2*A)] if A else ([(-C,B)] if B else [])
+  for num,den in roots:
+   if num*den<=0:continue
+   g=gcd(abs(num),abs(den));T=abs(num)//g;W=abs(den)//g
+   if T%2==0 or W%4!=0:continue
+   r2=T*T+W*W
+   assert isqrt(r2)**2!=r2
+   rooted.append((pp,qq,key,T,W,r2))
+assert len(rooted)==62
+assert normSsquare==0
+withinPQ=[z for z in rooted if z[1]<=2*z[0]]
+assert len(withinPQ)==6
+assert set((z[0],z[1]) for z in withinPQ)=={(157,281),(293,401),(1013,1277)}
+insideDyadic=[z for z in withinPQ if z[1]**2<=z[5]<=(2*z[0])**2]
+assert len(insideDyadic)==0
+nearQ=[z for z in rooted if z[1]**2<=z[5]<=(2*z[1])**2]
+assert len(nearQ)==3
+print('PASS exactly 30 distinct exceptional prime norm pairs, 660 key valuations S nonsquare')
+print('PASS 62 extra rational third slopes, 0 third norm-square; 6 q<=2p slopes, 0 dyadic balanced r-height admissible')
+print('PASS 3 slopes q<=hypothetical r<=2q only from p<q/2, outside common dyadic p,q,r')
+
+
+C. Theorem scope / historical overlap / negative:
+GK already proved universal diagonals; GL crosswalk old FN52; FL already proved fixed-p genus3 norm lifts for 330; GW independently proves explicit 22 GU keys have TWO-MOVING Q(t,X) quadratic Kummer tower of degree4, with a non-square norm of Nplus. This does NOT supply a physical upper bound because a P requires norm-square for ONE sign only; nonsquareness of product is not sufficient to exclude either sign. Finite balanced height test over 30 small pairs is not a uniform moving p,q height theorem. Exact source 414 necessity remains hostile HOLD; global credit0 Gate OPEN.
+
+
+ADDENDUM GW.3 (specialization-safe irreducibility): For ALL TWELVE H polynomials, discrim_X(H) is exactly -4 times the square of one of L(t)=(3t²−1), (t²−3), or (t²−4t+1)(t²+4t+1). None of these L has ANY rational zero: t²=1/3 and t²=3 are irrational; roots of t²±4t+1 are ±2±sqrt3 irrational. All H have strictly positive leading X² coefficients for real t. Thus for EVERY RATIONAL first norm slope t, not merely generic, H(t,X) is a strictly positive irreducible polynomial of X degree2 over Q, with no repeated X-root and no zero real X. This is NOT the claim that each H(t,Xq) value is nonsquare for all rational second slopes Xq; specialized square VALUES may exist. The same-P quantitative prime-norm average remains OPEN.

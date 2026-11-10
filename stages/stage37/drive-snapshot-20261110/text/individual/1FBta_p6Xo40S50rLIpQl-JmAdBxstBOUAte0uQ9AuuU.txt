@@ -1,0 +1,330 @@
+﻿M3-T11-180 — Dual-fresh Plucker common-coordinate CRT and content-supported norm quotient
+
+
+CARD_ID: M3-T11-180
+CANONICAL_CARD_KEY: M3-T11-180
+STATUS: PROVED_K1_DUAL_FRESH_PLUCKER_COMMON_COORDINATE / PROVED_CONTENT_SUPPORTED_PLUCKER_NORM_QUOTIENT / ROOTLINE_DENSITY_FIREWALL / GLOBAL_COUNTING_CREDIT=0
+PRIMARY_GATE: M3-T11-GATE-001, OPEN
+GLOBAL_OPERATION: ACTIVE_T11_RESEARCH_WITH_SCOPED_DECOMPOSITION
+GLOBAL_COUNTING_CREDIT: 0
+AUDIT_MODE: WITHIN_SESSION_DEDUCTIVE_FROM_RETAINED_015_018_019_026_029_030_033_176_177_179
+
+
+1. Current authority and decision
+
+
+Fresh MAIN, CARD-INDEX, current short RESULT-LEDGER, active ROUTE and M3-T11-179 were read first. Retained M3-T11-015/018/019/023/024/026/029/030/032/033/176/177 were checked only where needed.
+
+
+Work on the exact K=1 residual of M3-T11-179:
+c_max<=C=B^(1/6+xi),
+h_middle=1,
+m_(1)m_(2)>B^(1/6-xi-epsilon_2),
+with large Sigma, large D_min, full Gaussian orientation, triple-spin, torus double-lift, M3-T11-176 denominator filters and all physical endpoint masks retained.
+
+
+Let a,b be the deterministic labels of the two largest fresh relative cores, so
+m_a,m_b are distinct relative fresh norms,
+M_ab:=m_a*m_b,
+and
+M_ab^2>B^(1/3-2xi-2epsilon_2).                      (180.1)
+
+
+The new result is that the two large fresh cores can be combined LEGALLY on one pre-existing physical coordinate from the M3-T11-019 Plucker factor pair. This does not identify the distinct anti-roots of M3-T11-029 and does not use the withdrawn common-v CRT.
+
+
+Moreover, after the full dual fresh modulus is removed from the primitive Plucker norm, the remaining integer cofactor has rational-prime support contained in 2h. Thus the dual-large fresh residual is routed to one common-coordinate primitive Gaussian root line with content-supported norm quotient.
+
+
+No independent root-line density saving is claimed.
+
+
+2. Torus homogenization and exact fresh valuation in H_i
+
+
+Use the retained M3-T11-018/019 homogenization
+t_i=y_i/x_i,
+gcd(x_i,y_i)=1,
+H_i=x_i^2+y_i^2,
+r_i=(x_i+i*y_i)^2/H_i=(x_i+i*y_i)/(x_i-i*y_i).     (180.2)
+
+
+Retained M3-T11-015 gives, up to bounded unit/parity normalization,
+r_i=
+conj(epsilon_i)*conj(B_i/conj(B_i))*q_i^2,
+q_i=G_i/conj(G_i),                                  (180.3)
+with N(B_i)=c_i and N(G_i)=tau_i.
+
+
+On K=1, after deterministic relabeling,
+(c_1,c_2,c_3)=(h,h,1)
+up to bounded permutation, so every odd prime in the coefficient packet divides h.
+
+
+Let p^alpha||m_i=tau_i^sharp. By definition p is an odd split prime outside the content support. Choose the oriented Gaussian prime pi over p occurring in G_i^sharp. In (180.3) the pi-adic valuation of r_i is exactly 2alpha: the coefficient packet is a p-unit and G_i^2 contributes pi^(2alpha), while the conjugate orientation contributes none.
+
+
+Because (x_i,y_i) is primitive, writing P_i=x_i+i*y_i gives
+r_i=P_i/conj(P_i),
+and min(v_pi(P_i),v_conj(pi)(P_i))=0.
+Therefore
+v_pi(P_i)=2alpha,
+v_conj(pi)(P_i)=0,
+so
+v_p(H_i)=2alpha.                                    (180.4)
+
+
+Hence exactly on the fresh support,
+m_i^2 | H_i,
+and if
+K_i:=H_i/m_i^2,                                     (180.5)
+then every odd prime divisor of K_i lies in the content support. Safely including the bounded 2-adic normalization,
+rad(K_i)|2h.                                         (180.6)
+
+
+This is stronger than merely saying the determinant 2H_i of M3-T11-019 is large: it identifies the entire nonfresh quotient of H_i on K=1.
+
+
+3. The shared Plucker factor pair
+
+
+For the selected pair a,b define the exact M3-T11-019 quantities
+A_ab=x_a*x_b+y_a*y_b,
+B_ab=y_a*x_b-x_a*y_b,
+F_ab^+=A_ab+B_ab,
+F_ab^-=A_ab-B_ab.                                   (180.7)
+
+
+The standard dot/cross identity gives
+A_ab^2+B_ab^2=H_a*H_b,
+hence
+(F_ab^+)^2+(F_ab^-)^2
+=2H_aH_b.                                           (180.8)
+
+
+This pair is one of the actual six bilinear factors in the retained triple-spin square cover. It is not an auxiliary ambient coordinate.
+
+
+4. Each large fresh core acts on the same factor ratio
+
+
+For m_a, equation (180.4) gives an oriented square root omega_a modulo m_a^2 such that
+y_a == omega_a*x_a mod m_a^2,
+omega_a^2 == -1 mod m_a^2.                          (180.9)
+
+
+Because x_a is an m_a-unit, direct substitution into (180.7) yields
+F_ab^+ == omega_a*F_ab^- mod m_a^2.                 (180.10)
+
+
+Similarly, for the b-core there is omega_b^2==-1 mod m_b^2 with
+y_b == omega_b*x_b mod m_b^2.
+Now the antisymmetry of B_ab reverses the orientation, giving
+F_ab^+ == -omega_b*F_ab^- mod m_b^2.                (180.11)
+
+
+These are congruences on the SAME rational coordinate F_ab^+/F_ab^-.
+
+
+They are not the distinct anti-root coordinates v_a,v_b of M3-T11-029. Thus combining (180.10)-(180.11) by CRT is legal.
+
+
+5. Primitivity at both fresh moduli
+
+
+Let p be an odd prime dividing m_a. Suppose p divided both F_ab^+ and F_ab^-.
+Then p divides A_ab and B_ab.
+
+
+But
+A_ab+i*B_ab
+=(x_a+i*y_a)*(x_b-i*y_b).                           (180.12)
+
+
+At p, the first factor contains exactly one Gaussian orientation above p by (180.4), while p does not divide H_b because the relative fresh supports are pairwise coprime and p is outside the content support. Hence the second factor is a unit at both primes over p.
+
+
+Therefore the product in (180.12) cannot be divisible by the rational prime p, which would require both Gaussian orientations. Contradiction.
+
+
+Thus
+gcd(F_ab^-,m_a)=gcd(F_ab^+,m_a)=1,
+and cyclically the same holds for m_b. In particular,
+gcd(F_ab^-,M_ab)=1.                                 (180.13)
+
+
+Let
+g_ab=gcd(F_ab^+,F_ab^-),
+X_ab=F_ab^+/g_ab,
+Y_ab=F_ab^-/g_ab.                                   (180.14)
+
+
+Then
+gcd(X_ab,Y_ab)=1,
+gcd(g_ab,M_ab)=1,
+gcd(Y_ab,M_ab)=1.                                   (180.15)
+
+
+6. Legal dual-core CRT on one primitive coordinate
+
+
+Since gcd(m_a,m_b)=1, CRT gives a unique class rho_ab modulo M_ab^2 satisfying
+rho_ab == omega_a mod m_a^2,
+rho_ab == -omega_b mod m_b^2.                       (180.16)
+
+
+Both local classes square to -1, hence
+rho_ab^2 == -1 mod M_ab^2.                          (180.17)
+
+
+After reduction by g_ab, equations (180.10)-(180.11) become the primitive common root line
+X_ab == rho_ab*Y_ab mod M_ab^2,
+gcd(Y_ab,M_ab)=1.                                   (180.18)
+
+
+Therefore
+M_ab^2 | X_ab^2+Y_ab^2.                             (180.19)
+
+
+By (180.1), the common rational modulus satisfies the explicit K=1 residual lower bound
+M_ab^2
+>B^(1/3-2xi-2epsilon_2).                            (180.20)
+
+
+This is the first legal single-coordinate CRT combination of the TWO guaranteed large fresh cores from M3-T11-179.
+
+
+7. Content-supported primitive norm quotient
+
+
+From (180.8) and (180.14),
+X_ab^2+Y_ab^2
+=
+2H_aH_b/g_ab^2.                                     (180.21)
+
+
+Any odd prime p not dividing h that divides g_ab would divide both A_ab and B_ab. By the same Gaussian-orientation argument as in Section 5, such a p cannot lie in exactly one of H_a,H_b; and outside h the two relative fresh supports are disjoint. Hence
+rad(g_ab)|2h.                                       (180.22)
+
+
+Combining (180.5)-(180.6), (180.19), (180.21) and (180.22), define
+K_ab:=(X_ab^2+Y_ab^2)/M_ab^2.                       (180.23)
+
+
+Then K_ab is a positive integer and
+rad(K_ab)|2h.                                       (180.24)
+
+
+Thus the complete fresh dual modulus has been peeled off the primitive Plucker norm; the residual norm cofactor is content-supported only.
+
+
+For fixed h<=C, the support-restricted integer lemma of M3-T11-177 implies that the possible K_ab of polynomial physical height form a B^o(1) set. Therefore for fixed (h,M_ab), the possible primitive Plucker ratios
+z_ab:=X_ab/Y_ab                                     (180.25)
+are B^o(1): for each allowed K_ab,
+X_ab^2+Y_ab^2=M_ab^2*K_ab
+has divisor-many primitive sum-of-two-squares representations.
+
+
+This is a coordinate-support compression, not yet an endpoint count.
+
+
+8. Relation to M3-T11-032/033 and no-double-charge firewall
+
+
+M3-T11-032/033 already packages all three DISTINCT anti-root root lines into the cubic coefficient pair
+X_sym+iY_sym=product_i(iB_i-A_i),
+with full M_rel^2 modulus.
+
+
+The present construction is different:
+- it uses the actual M3-T11-019 Plucker factor pair between two torus directions;
+- it combines only the two large fresh cores guaranteed by M3-T11-179;
+- the CRT is on one pre-existing common coordinate F_ab^+/F_ab^- and never identifies anti-roots;
+- its norm quotient after removing M_ab^2 is explicitly 2h-supported on K=1.
+
+
+However the norm identity
+(F_ab^+)^2+(F_ab^-)^2=2H_aH_b
+shows that the divisibility (180.19) ultimately packages the same fresh valuations already present in H_a and H_b. Therefore AR-009/root-line density on (X_ab,Y_ab) may NOT be charged as an independent saving on top of the two one-core conditions.
+
+
+The new value is the same-measure common-coordinate and support compression, not a second probability factor.
+
+
+9. What this changes in the live K=1 problem
+
+
+M3-T11-179 left two distinct large relative anti-root coordinates.
+
+
+M3-T11-180 replaces the minimal structural receiver by ONE primitive Plucker coordinate z_ab inside the retained triple-spin six-bilinear cover, carrying:
+M_ab=m_(2)m_(3)>B^(1/6-xi-epsilon_2),               (180.26)
+M_ab^2>B^(1/3-2xi-2epsilon_2),                      (180.27)
+X_ab == rho_ab Y_ab mod M_ab^2,                     (180.28)
+rho_ab^2==-1 mod M_ab^2,                            (180.29)
+rad((X_ab^2+Y_ab^2)/M_ab^2)|2h.                     (180.30)
+
+
+All M3-T11-176 denominator filters, large Sigma/D_min, triple-spin square relation, torus double-lift, positivity, primitivity, canonical ordering and exact R<=B remain retained.
+
+
+The remaining theorem gate is now:
+
+
+UnitMedianLargePluckerRootlineOccupiedSupport.
+
+
+A future counting theorem must control the occupied (h,z_ab) or an equivalent exact physical pushforward. It may use the other four M3-T11-019 factors/eliminants or the M3-T11-023/024 principal-incidence structure, but it must preserve the physical weights and may not re-charge (180.19) as an independent local density.
+
+
+10. Novelty and limits
+
+
+CARD-INDEX searches for Plucker common-coordinate root line, two-core Plucker modulus, fresh Plucker root line, F_ij root line, content-supported Plucker quotient and dual fresh CRT Plucker found no prior card stating (180.18)-(180.24).
+
+
+M3-T11-019 had the bilinear factor pair and determinant 2H_i but did not identify the exact fresh square valuation in H_i or combine two large fresh cores on one factor ratio.
+M3-T11-033 had a primitive full-M_rel^2 cubic coefficient root line but its product-factorization addendum freezes independent density credit and does not give the K=1 content-supported Plucker quotient (180.24).
+
+
+No endpoint support deficit is proved here. No independent AR-009 saving is claimed. No physical perfect endpoint was enumerated. The proof is exact Gaussian valuation plus retained endpoint structure.
+
+
+NEW_K1_DUAL_FRESH_PLUCKER_COMMON_COORDINATE=true
+NEW_K1_CONTENT_SUPPORTED_PLUCKER_QUOTIENT=true
+NEW_K1_COMMON_COORDINATE_MODULUS_EXPONENT_ONE_THIRD=true
+PLUCKER_ROOTLINE_INDEPENDENT_DENSITY_CREDIT=false
+NEW_GLOBAL_ENDPOINT_BOUND=false
+PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+GLOBAL_COUNTING_CREDIT=0
+
+
+11. Drive-only handoff
+
+
+LATEST_RESEARCH_CARD=M3-T11-180
+NEXT_CANDIDATE=M3-T11-181
+CURRENT_ATTACK=UnitMedianLargePluckerRootlineOccupiedSupport
+
+
+181 should stay on the exact K=1 residual and the canonical selected pair a,b from M3-T11-180.
+
+
+Use:
+- the primitive common Plucker coordinate z_ab=X_ab/Y_ab;
+- M_ab^2>B^(1/3-2xi-2epsilon_2);
+- the content-supported quotient rad(K_ab)|2h;
+- the other four nonzero M3-T11-019 bilinear factors and charged-once eliminants;
+- M3-T11-023/024 principal-incidence structure if exact pushforward weights remain unchanged;
+- M3-T11-176 two-unit denominator filters;
+- large Sigma / large D_min and exact physical R<=B.
+
+
+The preferred next target is a fixed-power deficit for occupied (h,z_ab) support, or an exact reconstruction showing that z_ab plus a subpolynomial content-supported datum determines the endpoint up to B^o(1) with a one-dimensional support range below the K=1 budget.
+
+
+Do not count all roots modulo M_ab^2 in an ambient box, do not charge the Plucker root line independently from its H_aH_b provenance, do not resurrect common-v CRT, and do not charge the M3-T11-032/033 product pair again.
+
+
+The separate threshold-specific large-c branch remains OPEN. K>1 low-median averaging remains OPEN. M3-T11-171/174 sector disposals, M3-T11-170 fixed-pair theorem and M3-T11-171 support quantifier corrections remain retained.

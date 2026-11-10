@@ -1,0 +1,258 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229AH — selector-cover codimension-two saturation and radical four-bucket special fiber
+
+
+STATUS: POST_229AG_SELECTOR_COVER_LOCAL_GEOMETRY_COMPLETE / PROVED_FULL_SELECTOR_COVER_FINITE_OVER_4A1_BASE / PROVED_RADICAL_CENTER_REMAINS_CODIM2 / PROVED_EXACT_32_GEOMETRIC_SPECIAL_POINTS / PROVED_Fp_COUNT_16_OR_32_BY_p_MOD4 / PROVED_FOUR_RADICAL_BUCKET_BRANCH_IDENTIFICATION / SELECTOR_COVER_CODIMENSION_ONLY_SIEVE_HOLD / NO_COUNTING_PROMOTION / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229AG SAME-PHYSICAL LOCAL GEOMETRY / FULL DOUBLE-COVER RADICAL CENTER / FOUR-BUCKET SPECIAL FIBER / GEOMETRIC-SIEVE FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229AG
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1-QtXW18wZVc7uzyhqXOeyu-Nx2UgkJu2wl6cMBfj5YY
+
+
+1. Scope
+
+
+229P proved that an ordinary codimension-two modulus density on the fixed physical 4A1 base cannot meet the current one-third radical tail budget through a divisor union. It left open the possibility that lifting to the actual two-square selector cover might raise the effective local codimension.
+
+
+229F identifies the exact physical base
+  X0: x^2+y^2=z^2,
+      z^2+e^2=R^2
+in P^4, with exact physical height R, and the endpoint locus is obtained by imposing
+  U^2=e^2+x^2,
+  V^2=e^2+y^2.
+
+
+This card computes the common-divisor center on that full selector cover. No external theorem is used.
+
+
+2. Full selector cover remains a surface
+
+
+Define the projective endpoint selector cover Y in P^6 by
+  x^2+y^2=z^2,
+  z^2+e^2=R^2,
+  U^2=e^2+x^2,
+  V^2=e^2+y^2.                                  (229AH.1)
+
+
+The projection
+  pi:Y -> X0,
+  [x:y:z:e:R:U:V] -> [x:y:z:e:R]
+has finite fibers of size at most four over the algebraic closure, because U and V satisfy two monic quadratic equations over each base point.
+
+
+Therefore pi is finite set-theoretically on geometric fibers and
+  dim Y = dim X0 = 2.                              (229AH.2)
+
+
+RESULT_229AH_FULL_SELECTOR_COVER_DIMENSION=2_EXACT.
+
+
+3. Exact radical center on the full selector cover
+
+
+The current preferred radical is
+  K_*=sf(gcd(eR,xy)).
+For an odd prime ell, the corresponding mod-ell common-divisor center on Y is
+  Z_Y := Y ∩ {eR=0} ∩ {xy=0}.                    (229AH.3)
+
+
+Over an algebraically closed field of characteristic not two, (229AH.3) splits into four disjoint branches.
+
+
+(A) e=0, x=0.
+Then y^2=z^2, R^2=z^2, U=0, V^2=y^2.
+After projective scaling y=1 there are
+  z=±1, R=±1, V=±1,
+hence exactly 8 geometric points.
+
+
+(B) e=0, y=0.
+Symmetrically, after x=1 there are exactly 8 geometric points.
+
+
+(C) R=0, x=0.
+Then y^2=z^2, e^2=-z^2, U^2=e^2, V=0.
+After z=1 there are
+  y=±1, e=±i, U=±i,
+hence exactly 8 geometric points.
+
+
+(D) R=0, y=0.
+Symmetrically there are exactly 8 geometric points.
+
+
+The four branches have no projective intersection: e=R=0 forces z=0 and then x=y=0; x=y=0 forces z=0 and then e=R=0. Thus
+  #Z_Y(over algebraic closure)=32                   (229AH.4)
+as a set of geometric points, in particular Z_Y is zero-dimensional.
+
+
+Since dim Y=2,
+  codim_Y(Z_Y)=2.                                  (229AH.5)
+
+
+RESULT_229AH_SELECTOR_RADICAL_CENTER_CODIM2=PROVED_EXACT.
+RESULT_229AH_SELECTOR_RADICAL_CENTER_GEOMETRIC_POINTS=32_EXACT.
+
+
+4. Exact F_ell point count and split/inert dichotomy
+
+
+For odd rational ell, branches (A) and (B) are defined over F_ell for every ell and contribute 8 points each.
+
+
+Branches (C) and (D) require e^2=-z^2 with z nonzero, hence require -1 to be a square mod ell. Therefore
+  #Z_Y(F_ell)=16, if ell==3 mod4,
+  #Z_Y(F_ell)=32, if ell==1 mod4.                  (229AH.6)
+
+
+In particular the full selector lift does not make the radical center locally empty at inert primes: the two e=0 branches survive for every odd ell.
+
+
+RESULT_229AH_RADICAL_CENTER_Fp_COUNT=16_INERT_32_SPLIT_EXACT.
+
+
+5. The four local branches are exactly the four K_* physical buckets
+
+
+Retain229D/229AD:
+  gcd(e,x)=b,
+  gcd(e,y)=a,
+and with the endpoint face hypotenuses
+  U^2=e^2+x^2,
+  V^2=e^2+y^2,
+229AD gives
+  c12=gcd(U,y),
+  c21=gcd(V,x),
+together with
+  gcd(eR,xy)=a b c12 c21.                          (229AH.7)
+
+
+For every odd ell:
+  ell|e and ell|x  iff ell|b;
+  ell|e and ell|y  iff ell|a.                     (229AH.8)
+
+
+Also
+  R^2=U^2+y^2,
+  R^2=V^2+x^2.
+Hence
+  ell|R and ell|y  iff ell|U and ell|y iff ell|c12,
+  ell|R and ell|x  iff ell|V and ell|x iff ell|c21. (229AH.9)
+
+
+Thus the four geometric branches are not an auxiliary decomposition; they are exactly the four physical radical buckets:
+  (e=0,x=0) <-> b,
+  (e=0,y=0) <-> a,
+  (R=0,y=0) <-> c12,
+  (R=0,x=0) <-> c21.                              (229AH.10)
+
+
+The F_ell existence rule in (229AH.6) therefore geometrically recovers229AD:
+  a,b are unrestricted at odd primes;
+  c12,c21 can contain only ell==1 mod4.
+The base-packet buckets h,d0 do not occur in K_*=sf(gcd(eR,xy)), exactly as229AD records.
+
+
+RESULT_229AH_FOUR_BRANCH_RADICAL_BUCKET_IDENTIFICATION=PROVED_EXACT.
+RESULT_229AH_SPLIT_BUCKET_GEOMETRY_MATCHES_229AD=PROVED_EXACT.
+
+
+6. Method consequence: finite selector lifting does not repair the 229P codimension deficit
+
+
+229P's divisor-union budget requires squarefree-modulus decay stronger than ordinary codimension two; in its notation, sigma=2 is insufficient and even sigma=3 misses the target for positive delta.
+
+
+The present calculation shows that merely replacing the 4A1 base X0 by the actual simultaneous double-cover Y does not raise the geometric codimension of the common-divisor center:
+  codim_X0({eR=xy=0})=2 at the relevant base level,
+  codim_Y(Z_Y)=2 exactly.                          (229AH.11)
+
+
+Moreover Z_Y(F_ell) is nonempty for every odd ell, with the unrestricted a/b branches present even for ell==3 mod4. Therefore no extra prime-support exclusion or third independent local congruence is created solely by passing to the selector cover.
+
+
+Consequently a standard Ekedahl/geometric-sieve continuation whose entire modulus gain is supplied only by the codimension of the common-divisor center on Y can still certify only the ordinary codimension-two local-density scale, up to harmless ell- or m^{o(1)} factors. It cannot by that mechanism alone supply the sigma>3-type decay demanded by229P's current divisor-union budget.
+
+
+This is a method firewall, not a lower bound for the actual physical endpoint count and not a theorem excluding cancellation, global reciprocity, packet correlations, support compression, or a stronger analytic sieve on the same physical measure.
+
+
+RESULT_229AH_FINITE_SELECTOR_LIFT_CODIMENSION_GAIN=NONE.
+RESULT_229AH_SELECTOR_COVER_GEOMETRIC_SIEVE_CODIMENSION_ONLY_ROUTE=HOLD_NO_GO_AT_CURRENT_BUDGET.
+
+
+7. Operational consequence
+
+
+No counting promotion follows from229AH.
+
+
+CURRENT_PREFERRED_GATE remains
+  #{positive primitive physical endpoints R<=B :
+      sf(gcd(eR,xy)) > B^(1/3-delta)}
+    = o(B^(1/3))
+for some fixed delta>0.
+
+
+CM_PAIR_DEPENDENCE_SUBGATE remains CLOSED_FOR_ONE_THIRD_BUDGET by229AB.
+CM_PAIR_INDEPENDENT_BRANCH remains OPEN.
+CM_INDEPENDENT_PAIR_GENERIC_RANK_STATISTICS_ROUTE remains HOLD by229AC.
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+PRIMARY_GATE_STATUS=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Integrated audit186-229O remains unchanged in scope and is not silently extended to229P-229AH.
+
+
+NEXT_USEFUL_INPUT:
+(A) a genuinely global same-physical support theorem using correlations among the a,b,c12,c21 allocations across many primes, rather than local codimension alone;
+(B) a full three-packet physical count preserving229AG corrected canonical tau and split/inert reciprocity;
+(C) direct realized K_*=sf(gcd(eR,xy)) or moving-twist support counting reaching o(B^(1/3));
+(D) a cancellation/large-sieve mechanism on the selector cover whose gain is demonstrably stronger than its codimension-two local center.
+
+
+DO_NOT_REPEAT:
+- do not claim that simply lifting the 229P base sieve to U,V raises local codimension;
+- do not infer a power saving from the exact 16/32 local point counts;
+- do not discard229AG canonical tau corrections or the base packet in theorem matching;
+- do not reopen generic rank/Selmer routes barred by229AC;
+- do not reopen CM dependence unless229AB fails audit.
+
+
+8. Dependencies and verification scope
+
+
+Internal load-bearing inputs:
+-229F fixed physical 4A1 base and exact simultaneous double cover;
+-229P codimension-two divisor-union budget;
+-229D exact pairwise physical gcd identities;
+-229AD six-bucket factorization and G_*=a b c12 c21;
+-229AG corrected canonical packet state;
+-current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+No external theorem is used. The finite-field count in (229AH.6) is an exact direct solution of the four branches and was independently spot-checked for small odd primes.
+
+
+9. Component audit against 229K
+
+
+229K independently proves that the two selector squareclasses are linearly independent over the geometric function field and therefore that the simultaneous selector cover is generically degree 4 and geometrically integral on the dense torus.
+
+
+Thus the 229AH codimension-two center is not an artifact of a reducible four-sheet union with the physical generic cover living on a different component. The local special points lie in the closure of one geometrically integral selector surface. No component-escape correction to Sections 2–6 is required.
+
+
+RESULT_229AH_COMPONENT_ESCAPE_FIREWALL=DISCHARGED_BY_229K.
+FINAL_READBACK_RECEIPT: PASS. Card parent=M3-Research-Cards; card body contains the full selector cover Y, finite-over-X0 dimension2 proof, exact 32-point geometric radical center, F_ell count 16 inert / 32 split, exact b,a,c21,c12 branch identification, and codimension-only selector-sieve firewall. INDEX row499 and 案内 latest/read-order point to229AH; MAIN current override229AH, LEDGER229AH change record, and active ROUTE POST-229AH block were all read back from Drive. Operational authority remains M3-T11-229; latest mathematical construction remains M3-T11-228; preferred radical-gcd gate OPEN; CM dependence CLOSED by229AB; CM-independent branch OPEN; generic rank/Selmer HOLD by229AC; selector-cover codimension-only route HOLD by229AH; T11-230 unissued; production HOLD; GLOBAL_COUNTING_CREDIT=0; integrated audit186-229O scope unchanged.

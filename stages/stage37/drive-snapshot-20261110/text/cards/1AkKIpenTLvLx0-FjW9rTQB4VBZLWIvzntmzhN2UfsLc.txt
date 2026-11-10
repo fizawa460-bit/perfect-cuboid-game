@@ -1,0 +1,465 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229CG — opposite-difference norm square-modulus lift and J residual-core/cubic-support compression
+STATUS: POST_229CF_OPPOSITE_DIFFERENCE_NORM / FULL_LAMBDA_SQUARE_MODULUS / IMPROVED_FIXED_LAMBDA_PACKING / J_SQUARE_GAP_SUPPORT / J_RESIDUAL_CORE_CROSSWALK / CUBIC_KXI_FIXED_FIBER / J_TAIL_STILL_TOO_WEAK / GLOBAL_CREDIT=0 / NO_REOPEN
+CARD_DOC_ID=1AkKIpenTLvLx0-FjW9rTQB4VBZLWIvzntmzhN2UfsLc
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229CF
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope
+
+
+Work on the exact current S_B^hard13(delta) physical source with all positive primitive Stage37 selectors and R<=B.
+
+
+Retain
+A=R-U, Bv=R-V, C=R-z,
+S=A+Bv+C,
+Omega=ABvC,
+ABv+AC+BvC=2d^2,
+D=2d,
+and 229CF
+lambda_U=gcd(A,S)=gcd(A,Bv+C),
+lambda_V=gcd(Bv,S)=gcd(Bv,A+C),
+lambda_z=gcd(C,S)=gcd(C,A+Bv),
+with lambda_U,lambda_V,lambda_z pairwise-coprime odd,
+gcd(Omega,S)=lambda_U lambda_V lambda_z,
+J=rad(lambda_U)rad(lambda_V)rad(lambda_z).
+
+
+Retain 229AD/229BN nested physical factorization
+e=gab,
+x=d0 b c,
+y=d0 a f,
+h=gcd(g,q),
+c12|f,
+c21|c,
+E=g/h,
+X=c/c21,
+Y=f/c12,
+G0=ab c12 c21,
+and
+H0=d0^2 X Y,
+H1=b^2 E X,
+H2=a^2 E Y.
+
+
+This card strengthens the J router from modulus lambda_i to square modulus lambda_i^2, identifies the p>3 J support inside the residual cores E,X,Y, and compresses the simultaneous large-sf(G0)+large-J branch into one cubic-height fixed-fiber radical scalar.
+
+
+2. Exact opposite-difference norm identities
+
+
+Put
+u=Bv+C,
+t=A+C,
+s=A+Bv.
+
+
+From the cone equation
+A u+Bv C=2d^2.
+Therefore
+(Bv-C)^2+8d^2
+ =u^2-4BvC+8d^2
+ =u^2+4Au
+ =u(u+4A).                                                    (CG.1)
+
+
+Cyclically,
+(A-C)^2+8d^2=t(t+4Bv),                                      (CG.2)
+(A-Bv)^2+8d^2=s(s+4C).                                      (CG.3)
+
+
+These are exact positive-integer factorizations on the same physical source.
+
+
+RESULT_229CG_OPPOSITE_DIFFERENCE_NORM_FACTORIZATIONS=PROVED_EXACT.
+
+
+3. Full lambda-square modulus lift
+
+
+Because lambda_U divides both A and u, (CG.1) gives
+lambda_U^2 | (Bv-C)^2+8d^2.                                 (CG.4)
+
+
+Also
+gcd(lambda_U,d)=1.
+Indeed if an odd prime p divided lambda_U and d, then p|A and p|u=Bv+C. The cone equation gives Bv C==0 mod p. Since u==0 mod p, this forces p|Bv and p|C, contradicting gcd(A,Bv,C)=1.
+
+
+Hence 2d is invertible modulo lambda_U^2. Define
+sigma_U == (Bv-C)(2d)^(-1) mod lambda_U^2.
+Dividing (CG.4) by 4d^2 gives
+sigma_U^2 == -2 mod lambda_U^2,                              (CG.5)
+and
+Bv-C == 2 sigma_U d mod lambda_U^2.                          (CG.6)
+
+
+Cyclically there are exact roots sigma_V,sigma_z modulo lambda_V^2,lambda_z^2:
+A-C == 2 sigma_V d mod lambda_V^2,
+A-Bv == 2 sigma_z d mod lambda_z^2,
+with sigma_i^2==-2 modulo the corresponding full square modulus.
+
+
+Thus 229CF's modulo-lambda_i root line is strictly strengthened to a square-modulus root line modulo lambda_i^2, on the opposite-gap difference.
+
+
+For each lambda_i=m, the number of possible roots sigma mod m^2 is
+2^omega(m)=B^o(1)
+because every odd prime divisor of m admits -2 and Hensel lifting gives exactly two roots at each prime power.
+
+
+RESULT_229CG_J_FULL_GCD_SQUARE_MODULUS_ROOT_LINE=PROVED_EXACT.
+
+
+4. Physical gap-square support and J^2|Omega
+
+
+Let p|rad(lambda_U)=r_U.
+Then p|A and p|S, and by the previous section p does not divide d. Since
+R=S+2d,
+p does not divide R.
+
+
+Now
+y^2=A(R+U).
+Because p|A gives U==R mod p and p does not divide R,
+R+U==2R is a p-unit.
+Therefore
+v_p(A)=2v_p(y),
+so v_p(A) is positive even and in particular
+p^2|A.
+
+
+Thus
+r_U^2|A.
+Cyclically,
+r_V^2|Bv,
+r_z^2|C.                                                     (CG.7)
+
+
+Since the r_i are pairwise coprime,
+J^2=(r_U r_V r_z)^2 | Omega=ABvC.                            (CG.8)
+
+
+As A,Bv,C<R<=B,
+r_U,r_V,r_z < B^(1/2).                                      (CG.9)
+
+
+RESULT_229CG_J_MATCHED_RADICALS_SQUARE_DIVIDE_THEIR_OUTER_GAPS=PROVED_EXACT.
+RESULT_229CG_J_SQUARED_DIVIDES_OMEGA=PROVED_EXACT.
+
+
+5. Improved fixed-lambda physical packing
+
+
+Fix lambda_U=m and one root sigma modulo m^2.
+Set
+Xopp=Bv-C.
+Then (CG.6) puts (Xopp,d) in the lattice
+Lambda(m,sigma)={(X,Y) in Z^2 : X==2 sigma Y mod m^2}.       (CG.10)
+
+
+Its determinant is m^2.
+For every nonzero vector (X,Y) in this lattice,
+m^2 | X^2+8Y^2,
+so
+X^2+8Y^2 >= m^2.
+Therefore the shortest weighted lattice vector has scale at least m, and standard ellipse/lattice packing in
+|X|<B, 0<Y<B
+gives
+#{(Xopp,d) in Lambda(m,sigma)} << 1+B^2/m^2.                 (CG.11)
+
+
+For fixed (Xopp,d), put
+N=Xopp^2+8d^2.
+By (CG.1),
+N=u(u+4A).
+There are at most tau(N)=B^o(1) positive divisor choices for u. Each choice forces
+A=(N/u-u)/4,
+Bv=(u+Xopp)/2,
+C=(u-Xopp)/2.
+Integrality, positivity, chamber conditions and the remaining physical square selectors only delete candidates; the retained outer-gap reconstruction gives at most one labelled endpoint from each surviving triple.
+
+
+Summing the B^o(1) roots,
+#{P:R<=B, lambda_U(P)=m}
+ << B^o(1)(1+B^2/m^2).                                      (CG.12)
+
+
+The same estimate holds cyclically.
+
+
+This strictly supersedes the weaker quantitative bound
+B^o(1)(1+B^2/m)
+from 229CF. The 229CF full-gcd factorization and all its structural statements remain retained.
+
+
+RESULT_229CG_FIXED_FULL_OPPOSITE_GCD_SQUARE_MODULUS_PACKING=PROVED.
+
+
+6. Unrestricted J-large tail remains far too weak
+
+
+Fix a squarefree r.
+The retained 229BQ prescribed-support lemma implies only B^o(1) possible m<=B with rad(m)=r.
+Combining with (CG.12),
+#{P:R<=B, rad(lambda_i(P))=r}
+ << B^o(1)(1+B^2/r^2).                                      (CG.13)
+
+
+If J>K, one of the three pairwise-coprime radicals r_i exceeds K^(1/3).
+By (CG.9), r_i<B^(1/2).
+Hence unrestricted summation gives only
+#{P:R<=B, J(P)>K}
+ << B^(1/2+o(1)) + B^(2+o(1)) K^(-1/3).                     (CG.14)
+
+
+At the balanced 229CC threshold K=T^(1/5), T=B^(1/3-delta), this is still vastly above B^(1/3).
+In particular even the cardinality term from unrestricted radical summation has a B^(1/2+o(1)) floor.
+
+
+Thus the square-modulus lift is a genuine structural improvement but does not create global counting credit by unrestricted modulus summation.
+
+
+RESULT_229CG_UNRESTRICTED_J_SQUARE_MODULUS_TAIL_TOO_WEAK=PROVED_QUANTITATIVE_FIREWALL.
+
+
+7. J support crosswalk into the 229BN residual cores
+
+
+Retain
+e=gab,
+x=d0 b c,
+y=d0 a f,
+E=g/h,
+X=c/c21,
+Y=f/c12.
+
+
+We now localize every p>3 in J.
+
+
+7.1 U-label
+
+
+Let p>3 divide r_U.
+Then p|A and p|Bv+C.
+As above p does not divide R and p|y.
+Thus p divides one of d0,a,f.
+
+
+It cannot divide d0:
+then p|x,y,z. Since p|A, U==R. Because Bv is a p-unit and x^2=Bv(R+V), p|x forces V==-R. Then
+Bv+C=2R-V-z==3R,
+contradicting p|Bv+C for p>3.
+
+
+It cannot divide a:
+then p|e,y, so V==0. From Bv+C=2R-V-z==0, z==2R. But R^2=e^2+z^2 and e==0 give 1==4 mod p, forcing p=3.
+
+
+It cannot divide c12:
+c12|U, while p|A=R-U; hence p|R, contradiction.
+
+
+Therefore p|f but p does not divide c12, so
+p|Y=f/c12.
+Thus
+r_U/gcd(r_U,3) | Y.                                         (CG.15)
+
+
+7.2 V-label
+
+
+The cyclic argument gives
+r_V/gcd(r_V,3) | X=c/c21.                                   (CG.16)
+
+
+Explicitly, p|r_V implies p|Bv and p|A+C, hence p|x. For p>3 the possibilities p|d0 and p|b force the same 3R or 4R^2==R^2 contradiction, while p|c21 together with c21|V and Bv=R-V forces p|R.
+
+
+7.3 z-label
+
+
+Let p>3 divide r_z.
+Then p|C and p|A+Bv, hence p|e.
+The possibilities p|a or p|b force, through the two face-square equations and A+Bv=0, the same p=3 contradiction.
+Also p cannot divide h: h|e,z, and p|C=R-z would then force p|R.
+Therefore p divides g/h=E:
+r_z/gcd(r_z,3) | E.                                         (CG.17)
+
+
+Since E,X,Y are pairwise coprime and r_U,r_V,r_z are pairwise coprime, this is a color-preserving injection of all p>3 J-support into the three residual cores.
+
+
+Define
+J_sharp := J/gcd(J,3).
+Then
+J_sharp | E X Y.                                             (CG.18)
+
+
+Moreover the exclusions above, together with c12|f, c21|c, gcd(c,f)=1 and the retained content coprimalities, give
+gcd(J_sharp,G0)=1,
+where
+G0=ab c12 c21.                                               (CG.19)
+
+
+RESULT_229CG_J_ODD_GT3_SUPPORT_COLOR_INJECTS_INTO_Y_X_E=PROVED_EXACT.
+RESULT_229CG_J_SHARP_DIVIDES_EXY_AND_IS_COPRIME_TO_G0=PROVED_EXACT.
+
+
+8. Cubic one-scalar receiver for simultaneous large sf(G0) and large J
+
+
+Define
+K_Xi := rad(G0 H0 H1 H2).                                    (CG.20)
+
+
+Retain 229BN
+H0H1H2=(a b d0 E X Y)^2.
+Therefore exactly
+K_Xi=rad(G0 d0 E X Y).                                      (CG.21)
+
+
+Using
+G0=ab c12 c21,
+E=g/h,
+X=c/c21,
+Y=f/c12,
+we have
+G0 d0 E X Y
+ = d0 (e/h) c f.                                             (CG.22)
+
+
+The primitive missing-face equation gives
+q^2=(bc)^2+(af)^2 >= 2abcf,
+and z=d0 q.
+Hence
+d0(e/h)cf
+ <= e z^2/(2 h a b d0).                                     (CG.23)
+
+
+Under e^2+z^2=R^2,
+e z^2 <= 2R^3/(3 sqrt(3)).
+Thus
+K_Xi
+ <= R^3/(3 sqrt(3) h a b d0)
+ <= B^3/(3 sqrt(3)).                                         (CG.24)
+
+
+So K_Xi has genuine cubic physical height.
+
+
+Fixed-value fiber:
+for fixed squarefree k=K_Xi, each of G0,H0,H1,H2 is <=B^2 and has all prime divisors in supp(k). The retained 229BQ uniform prescribed-prime-support/Rankin lemma gives only B^o(1) possible values for each coordinate. For each fixed quadruple Xi=(G0,H0,H1,H2), 229BN gives B^o(1) physical endpoints. Therefore uniformly
+#{P:R<=B, K_Xi(P)=k}=B^o(1).                                (CG.25)
+
+
+Now combine the current preferred large-radical source with (CG.18)-(CG.19).
+Since sf(G0) and J_sharp are coprime and both divide K_Xi,
+sf(G0) J_sharp | K_Xi.                                      (CG.26)
+
+
+On the exact current source,
+sf(G0)>T.
+On a J-large branch J>K,
+J_sharp> K/3.
+Therefore
+K_Xi > T K/3.                                                (CG.27)
+
+
+In particular on the balanced 229CC J branch
+J>T^(1/5),
+one has the deterministic compression
+K_Xi > (1/3) T^(6/5).                                       (CG.28)
+
+
+RESULT_229CG_CUBIC_KXI_RECEIVER_FIXED_FIBER_B_O1=PROVED.
+RESULT_229CG_LARGE_SF_G0_AND_LARGE_J_FORCE_KXI_GT_TK_OVER3=PROVED_EXACT.
+RESULT_229CG_BALANCED_J_BRANCH_COMPRESSES_TO_KXI_GT_T_6_OVER5_OVER3=PROVED_EXACT.
+
+
+This is a new same-physical one-scalar target, not a tail theorem.
+
+
+9. Quantitative and independence firewalls
+
+
+The following are NOT proved:
+- no occupied-value estimate for large K_Xi;
+- no selector-aware saving for the family of lambda_i^2 moduli;
+- no one-third count for the J branch;
+- no new independence between K_Xi and the other 229CC buckets.
+
+
+Cubic height plus B^o fixed fiber does not imply a power-saving occupied-value count.
+Likewise (CG.14) shows that unrestricted square-modulus summation remains far too weak.
+
+
+The openai/math common-base and sparse-incidence obstructions from 229CE remain. The 229CF fixed-Q firewall also remains.
+
+
+10. Updated research contract
+
+
+For the J branch, replace the weaker 229CF quantitative router by the two new exact interfaces:
+(A) lambda_U^2,lambda_V^2,lambda_z^2 opposite-difference -2 root lines with fixed-lambda count B^o(1)(1+B^2/lambda^2);
+(B) K_Xi=rad(G0H0H1H2), cubic height, fixed K_Xi fiber B^o, and on J>K the lower bound K_Xi>TK/3.
+
+
+Highest-value next theorem is one of:
+1. SELECTOR_AWARE_OCCUPIED_LAMBDA_SQUARE_MODULUS_SAVING:
+count realized lambda_i^2 moduli on the exact S_B^hard13 source strongly enough to beat the unrestricted B^(1/2) radical-summation floor;
+2. SELECTOR_AWARE_KXI_OCCUPIED_TAIL:
+prove a fixed-power occupied-value/tail bound for the actual K_Xi values realized by S_B^hard13, especially above T^(6/5)/3 on the balanced J branch;
+3. if neither is accessible, return to direct K_cross or the remaining h/tau/M_i branches.
+
+
+For tau, TAU_FIXED_BASE_COLLISION_AMPLIFICATION remains open, with the 229CF rule that fixing Q alone is not the common-base mechanism.
+
+
+Do not infer saving from:
+- split-prime support alone;
+- J^2|Omega alone;
+- cubic height plus fixed K_Xi fiber alone;
+- unrestricted lambda/radical modulus summation.
+
+
+11. Verification and state
+
+
+Algebraic replay over 4854 positive cone fixtures with A,Bv,C<120, gcd(A,Bv,C)=1, exactly two even gaps and integral d satisfying ABv+AC+BvC=2d^2 checked (CG.1)-(CG.6), gcd(lambda_i,d)=1 and lambda_i^2 divisibility in all three labels with zero failures.
+These are cone-lemma fixtures only, not perfect-cuboid endpoints or endpoint-density evidence.
+
+
+The residual-core crosswalk is proved directly from the exact physical square equations and retained 229AD/229BN content divisibility/coprimality relations; no finite endpoint enumeration is claimed for it.
+
+
+CURRENT_BLOCKER remains
+NO_SELECTOR_AWARE_OR_OCCUPIED_SUPPORT_SAVING_FOR_THE_229CC_SIX_BUCKET_COVER_ON_THE_EXACT_HARD13_PHYSICAL_SOURCE.
+
+
+REFINED_BLOCKER=
+NO_ONE_THIRD_COUNT_FOR_LARGE_h_OR_TAU_FULL_GCD_SQUARE_MODULI_OR_J_LAMBDA_SQUARE_MODULI_CUBIC_KXI_OCCUPIED_TAIL_OR_MATCHED_DISJOINT_M_U_M_V_M_z.
+
+
+TAU_FIXED_BASE_COLLISION_AMPLIFICATION=OPEN_BUT_FIXED_Q_MECHANISM_RULED_OUT_AT_CONE_LEVEL.
+J_SPARSE_MATCHED_INCIDENCE_BILINEARIZATION=OPEN.
+J_OCCUPIED_FULL_GCD_MODULUS_SAVING is sharpened to J_OCCUPIED_LAMBDA_SQUARE_MODULUS_SAVING=OPEN.
+KXI_OCCUPIED_TAIL=OPEN.
+KERNEL_BIAS_BRIDGE=OPEN.
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+No perfect-cuboid existence/nonexistence conclusion and no new global endpoint exponent are claimed.
+INDEPENDENT_HOSTILE_AUDIT_229CG=NOT_RUN.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

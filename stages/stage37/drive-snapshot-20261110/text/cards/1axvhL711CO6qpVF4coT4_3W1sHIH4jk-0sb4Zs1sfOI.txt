@@ -1,0 +1,229 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229Q — CM rationalization and small-point twist budget ceiling
+
+
+STATUS: POST_229P_CM_TWIST_AUDIT_COMPLETE / PROVED_QI_TO_Q_TRACE_ANTITRACE_RATIONALIZATION / PROVED_PHYSICAL_TAIL_TWIST_POINT_NONTORSION_FOR_d_GT_1 / LE_BOUDEC_RATIONAL_SMALL_POINT_THEOREM_NOW_CONTRACT_MATCHES_FIELD_BUT_EXPONENT_NO_GO_AT_CURRENT_d_SCALE / CHAN_INTEGRAL_POINT_THEOREMS_NOT_DIRECTLY_APPLICABLE / NO_REOPEN / GLOBAL_CREDIT=0
+
+
+TYPE: POST-229P MOVING-TWIST SUPPORT AUDIT / CM DESCENT / TORSION FIREWALL / CURRENT SMALL-POINT THEOREM BUDGET CHECK
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229P
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+
+
+1. Scope
+
+
+229L gives, for every positive physical endpoint, a canonical positive squarefree twist d and a point
+  P in E_d(Q(i)),   E_d: Y^2=X^3-d^2 X,
+with inherited exponential height B^O(1), O(1) endpoint-to-point multiplicity, and uniform fixed-d endpoint fiber B^o(1). 229M/N/O identify d up to the harmless 2-adic squareclass with
+  K_*=sf(gcd(eR,xy)),
+and give d <= 2B^2. 229P shows that ordinary base codimension-two sieving cannot close the large-K_* tail.
+
+
+The first question here is whether the field Q(i) blocks the strong literature on rational points in congruent-number twist families. It does not: the j=1728 CM automorphism gives an exact rationalization to Q. The second question is whether current small-point theorems then meet the Stage37 B^(1/3) budget. They do not at the current twist scale.
+
+
+No endpoint saving is claimed.
+
+
+2. Exact CM trace/anti-trace rationalization
+
+
+Let K=Q(i), let sigma be complex conjugation, and let
+  iota:E_d -> E_d,
+  iota(X,Y)=(-X,iY).
+Then sigma(iota)=-iota and iota^2=[-1].
+
+
+For P in E_d(K), define
+  A=P+sigma(P),
+  C=iota(P-sigma(P)).
+Then A is sigma-invariant, hence A in E_d(Q). Also
+  sigma(C)=(-iota)(sigma(P)-P)=iota(P-sigma(P))=C,
+so C in E_d(Q).
+
+
+Moreover
+  2P = A - iota(C).
+Indeed -iota(C)=P-sigma(P).
+
+
+Therefore if P is non-torsion, at least one of A,C is a non-torsion Q-rational point. Otherwise A and C would both be torsion and the displayed identity would force 2P, hence P, to be torsion.
+
+
+Canonical height is preserved by sigma and by the degree-one automorphism iota. The parallelogram inequality gives
+  hhat(A) <= 2(hhat(P)+hhat(sigma P)) = 4 hhat(P),
+  hhat(C) = hhat(P-sigma P) <= 4 hhat(P).
+Thus a non-torsion physical P of exponential height <=B^C produces a non-torsion Q-rational point on the same E_d of exponential canonical height <=B^(4C).
+
+
+RESULT_229Q_CM_RATIONALIZATION=PROVED_EXACT.
+RESULT_229Q_Q_RATIONAL_HEIGHT_TRANSFER=PROVED_WITH_FACTOR_4_IN_CANONICAL_HEIGHT.
+
+
+This is stronger than merely using the quadratic-extension rank formula: it gives explicit rational points and a height comparison on the same twist.
+
+
+3. Physical tail points are non-torsion over Q(i)
+
+
+For positive squarefree d, the rational torsion of the congruent-number curve is
+  E_d(Q)_tors={O,(0,0),(d,0),(-d,0)}.
+
+
+We prove that for d>1,
+  E_d(Q(i))_tors=E_d[2].
+
+
+First, there is no odd-order torsion over Q(i). If T has odd order, then
+  T+sigma(T) in E_d(Q),
+  iota(T-sigma(T)) in E_d(Q)
+are odd-order rational torsion, hence both O. The identity
+  2T=(T+sigma T)-iota(iota(T-sigma T))
+then forces 2T=O, so T=O.
+
+
+Second, there is no point of order 4 for squarefree d>1. A 2-torsion point (r,0) on
+  Y^2=(X-0)(X-d)(X+d)
+is divisible by 2 over a field of characteristic not 2 only if the two root differences from r are squares in that field. Thus:
+- halving (0,0) requires d and -d square in Q(i);
+- halving (d,0) requires d and 2d square in Q(i);
+- halving (-d,0) requires -d and -2d square in Q(i).
+For a positive rational d, d is a square in Q(i) iff it is a rational square. Hence for positive squarefree d>1 none of these conditions can hold. Any torsion of 2-power order >2 would contain a point of order 4, so no such torsion exists.
+
+
+The 229L physical image is never 2-torsion: X/d=p^2, while p=0 is outside the physical torus and p^2=1 or -1 forces a zero physical edge, already proved impossible in 229L. Therefore every physical 229L point with d>1 is non-torsion.
+
+
+On the current preferred large-radical tail, d is comparable to K_* up to a factor of 2 through d=sf(2^epsilon K_*), so for B large the tail automatically has d>1.
+
+
+RESULT_229Q_PHYSICAL_TAIL_POINT_NONTORSION=PROVED.
+RESULT_229Q_QI_TORSION_FIREWALL=FOR_SQUAREFREE_d_GT_1_ONLY_FULL_2_TORSION.
+
+
+4. Le Boudec 2016 now matches the field, but not the Stage37 exponent
+
+
+Le Boudec studies the Q-rational congruent-number twist family in the equivalent model
+  d y^2=x^3-x
+and defines N_alpha^*(X) by summing non-torsion rational points of exponential canonical height at most d^(1/8+alpha) over squarefree d<=X. For the full rational 2-torsion family he proves, for fixed alpha>0 and epsilon>0,
+  N_alpha^*(X) << X^(1/2+alpha+epsilon).
+
+
+Sections 2-3 remove the previous Q(i)-versus-Q quantifier mismatch: every physical tail twist d now genuinely contributes a non-torsion Q-rational point on E_d, with polynomial physical-B height.
+
+
+However the exponent budget is still wrong. Current Stage37 only has
+  d <= 2B^2.
+Even in the formally best possible limit alpha -> 0+, the Le Boudec bound at X~B^2 is only
+  B^(1+o(1)),
+far above the required o(B^(1/3)) twist-support budget.
+
+
+The actual physical height transfer is weaker still: if hhat(P)<=C log B and the large-radical tail begins at d >= c B^kappa with kappa=1/3-delta, then a uniform use of Le Boudec over the whole tail requires a fixed
+  alpha >= 4C/kappa - 1/8
+(up to harmless constants), which only increases the exponent.
+
+
+A useful budget corollary is exact at the method level. If an independent argument truncated every realized physical twist to
+  d <= B^beta
+and one could work in the near-minimal alpha->0 regime, Le Boudec's X^(1/2+alpha) mechanism could beat B^(1/3) only if
+  beta < 2/3.
+More generally the condition is
+  beta(1/2+alpha) < 1/3.
+The current beta=2 envelope is far outside this range.
+
+
+RESULT_229Q_LE_BOUDEC_FIELD_CONTRACT=NOW_MATCHES_AFTER_CM_DESCENT.
+RESULT_229Q_LE_BOUDEC_DIRECT_STAGE37_MATCH=NO_GO_AT_CURRENT_TWIST_SCALE.
+RESULT_229Q_LE_BOUDEC_BETA_THRESHOLD=beta(1/2+alpha)<1/3; OPTIMISTIC_ALPHA_TO_0_REQUIRES_beta<2/3.
+
+
+This is a theorem-budget no-go, not an impossibility theorem for a new small-point estimate on the much thinner physical 2-descent image.
+
+
+5. Integral-point results do not black-box transfer
+
+
+Chan's current congruent-number result bounds the total number of non-trivial integral points on E_D for squarefree D<=N by
+  O_epsilon(N (log N)^(-0.137061...+epsilon))
+(and in the abstract by the weaker displayed O(N(log N)^(-1/4+epsilon)) formulation across versions).
+
+
+This is a strong average theorem on integral points, but the CM rationalization in Section 2 uses elliptic-curve addition. The resulting rational points A or C are not proved integral, or even uniformly S-integral with bounded S, on the Stage37 physical image. Therefore Chan's theorem does not currently count the realized Stage37 twists.
+
+
+Even if integrality were granted for free, substituting the present N~B^2 twist envelope yields only B^2 times a logarithmic saving, still far above B^(1/3). The 2025 Browning-Chan “almost all twists have no integral points” theorem has the same integrality mismatch for this route and does not supply the required Stage37 fixed-power exceptional-set rate.
+
+
+RESULT_229Q_CHAN_INTEGRAL_ADAPTER=NOT_ESTABLISHED.
+RESULT_229Q_INTEGRAL_AVERAGE_DIRECT_BUDGET=NO_GO_AT_N_SIM_B2.
+
+
+6. Consequence for the theorem watch
+
+
+The CM field mismatch is retired for non-torsion physical tail points. The moving-twist route can now be phrased entirely over Q:
+
+
+Every endpoint in the current large-K_* tail yields a squarefree d comparable to K_* and a non-torsion rational point on E_d(Q), with a distinguished inherited 2-descent origin and polynomial physical-B height.
+
+
+What remains missing is not “Q(i) rational points” but a quantitatively much thinner twist-support theorem. A sufficient new input may take one of these forms:
+
+
+(A) PHYSICAL/DESCENT-CONDITIONED SMALL-POINT TWIST COUNT:
+count the squarefree d actually arising from the 229L/229M distinguished physical 2-descent image by o(B^(1/3)), rather than all twists with a small rational point.
+
+
+(B) LARGE-d DISPOSAL PLUS SMALL-POINT THEOREM:
+first prove that all but o(B^(1/3)) physical endpoints have d<=B^(beta) with beta<2/3 (or beta satisfying beta(1/2+alpha)<1/3 at the available height exponent), then Le Boudec-type bounds become budget-compatible in principle.
+
+
+(C) STRONGER RATIONAL-POINT EXCEPTIONAL-SET THEOREM:
+a theorem over Q whose exceptional twist count at the inherited polynomial physical height is itself o(B^(1/3)) over d<=2B^2.
+
+
+Integral-point sparsity alone is not a restart trigger without an exact integrality/quasi-integrality adapter and a fixed-power rate meeting the Stage37 budget.
+
+
+The preferred gate remains
+  #{primitive positive physical endpoints R<=B:
+      sf(gcd(eR,xy))>B^(1/3-delta)}
+    = o(B^(1/3))
+for some fixed delta>0.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+PRIMARY_GATE_STATUS=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+
+
+7. Sources checked
+
+
+Internal:
+- Stage37-NEW-INPUT-DELTA-AUDIT-229P;
+- Stage37-NEW-INPUT-DELTA-AUDIT-229L;
+- retained 229M/N/O twist-to-radical identification and d<=2B^2 envelope;
+- current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+External theorem rematch:
+- Pierre Le Boudec, “Height of rational points on quadratic twists of a given elliptic curve,” Bull. London Math. Soc. 48 (2016), arXiv:1404.7738. In the congruent-number/full-2-torsion case, N_alpha^*(X)<<X^(1/2+alpha+epsilon).
+- Pierre Le Boudec, “Height of rational points on congruent number elliptic curves,” arXiv:1802.07136. Positive-proportion large-minimal-height result; no Stage37-rate exceptional-set transfer obtained here.
+- Stephanie Chan, “The average number of integral points on the congruent number curves,” Adv. Math. 457 (2024), arXiv:2112.01615, current arXiv text dated 2026-03-22.
+- Tim Browning and Stephanie Chan, “Almost all quadratic twists of an elliptic curve have no integral points,” JEMS, published online 2025, arXiv:2401.04375.
+
+
+AUDIT SCOPE
+
+
+This card proves a new exact CM descent and torsion firewall, then performs a quantitative theorem-contract audit. It does not prove a new endpoint saving, does not change the preferred radical-gcd gate, does not retract 229L-P, and does not issue M3-T11-230. Integrated audit 186-229O is not silently extended to 229P-Q.

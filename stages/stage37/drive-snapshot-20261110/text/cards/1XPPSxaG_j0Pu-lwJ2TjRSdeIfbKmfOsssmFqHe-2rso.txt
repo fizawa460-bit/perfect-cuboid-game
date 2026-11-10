@@ -1,0 +1,388 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229AC — CM independent-pair regulator identity and generic rank-two theorem budget firewall
+
+
+STATUS: POST_229AB_CM_INDEPENDENT_PAIR_AUDIT / PROVED_EXACT_CM_PAIR_GRAM_DETERMINANT / PROVED_INDEPENDENT_BRANCH_RANK_GE_2_SMALL_PAIR_ROUTING / PROVED_SMITH_THEOREM_SPECIES_APPLIES_TO_CONGRUENT_BASE_CURVE / SMITH_RANK_GE_2_oX_TOO_WEAK_AT_d_LE_2B2_SCALE / TWO_SELMER_DISTRIBUTION_NOT_A_ONE_THIRD_COUNT / PETIT_DETERMINANT_METHOD_BLACK_BOX_MISMATCH_AND_IDEALIZED_EXPONENT_TOO_WEAK / GENERIC_RANK_STATISTICS_ROUTE_HOLD / PREFERRED_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229AB CM-INDEPENDENT-PAIR STRUCTURAL REDUCTION / NERON-TATE GRAM IDENTITY / GENERIC RANK-TWO THEOREM BUDGET AUDIT / DETERMINANT-METHOD FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229AB
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1XPPSxaG_j0Pu-lwJ2TjRSdeIfbKmfOsssmFqHe-2rso
+
+
+1. Scope
+
+
+229AB closes the CM-pair DEPENDENCE locus on the preferred large-radical tail:
+  dependent endpoints = B^{o(1)}=o(B^{1/3}).
+The remaining CM route is therefore the physical population for which
+  A=P+sigma(P),
+  C=iota(P-sigma(P))
+are independent modulo E_d(Q)_tors.
+
+
+This card does two things:
+(1) compresses independence into one exact Neron-Tate Gram-determinant condition tied directly to the physical point P;
+(2) audits the strongest generic rank>=2 / two-small-point theorem species found against the exact Stage37 d<=2B^2 and B^(1/3) budget.
+
+
+The result is a route firewall, not a closure of the independent branch.
+
+
+2. Exact CM pair Gram determinant
+
+
+Work on
+  E_d: Y^2=X^3-d^2X,
+  K=Q(i),
+with complex conjugation sigma and CM automorphism
+  iota=[i],  iota(X,Y)=(-X,iY).
+
+
+Use the symmetric Neron-Tate bilinear pairing
+  <Q1,Q2>
+with
+  <Q,Q>=hhat(Q).
+
+
+Put
+  H=hhat(P),
+  T=<P,sigma(P)>,
+  U=<P,iota sigma(P)>.
+
+
+Retain229R:
+  A=P+sigma(P) in E_d(Q),
+  C=iota(P-sigma(P)) in E_d(Q),
+  hhat(A)+hhat(C)=4H.                            (229AC.1)
+
+
+Under the principal polarization the Rosati adjoint of iota=[i] is
+  iota^dagger=[-i].
+Hence
+  <Q,iota Q>=0                                   (229AC.2)
+for every Q, because symmetry and the adjoint identity give
+  <Q,iota Q>=<iota^dagger Q,Q>=<-iota Q,Q>=-<Q,iota Q>.
+
+
+Therefore
+  hhat(A)=2H+2T,
+  hhat(C)=2H-2T.                                 (229AC.3)
+
+
+For the cross term,
+  <A,C>
+   =<P+sigma P, iota P-iota sigma P>
+   =-2U.                                         (229AC.4)
+
+
+Thus the exact Gram determinant of the rational CM pair is
+
+
+  Delta_CM(P)
+   := det [[hhat(A), <A,C>],
+           [<A,C>, hhat(C)]]
+    =4(H^2-T^2-U^2).                             (229AC.5)
+
+
+RESULT_229AC_CM_PAIR_GRAM_DETERMINANT=PROVED_EXACT.
+
+
+Because the Neron-Tate form is positive definite on E_d(Q)/torsion,
+  Delta_CM(P)=0
+iff A,C are dependent modulo torsion,
+and
+  Delta_CM(P)>0
+iff A,C are independent modulo torsion.          (229AC.6)
+
+
+Combined with229AB, the Delta_CM(P)=0 physical locus on the preferred large-radical tail is B^{o(1)}.
+
+
+RESULT_229AC_DEPENDENCE_EQUALS_ZERO_GRAM_LOCUS=PROVED_EXACT.
+RESULT_229AC_INDEPENDENT_BRANCH_EQUALS_POSITIVE_GRAM_LOCUS=PROVED_EXACT.
+
+
+3. What the independent branch gives exactly
+
+
+On the surviving independent branch:
+- A and C are independent non-torsion points in E_d(Q);
+- therefore rank E_d(Q)>=2;
+- their total canonical height is not arbitrary but
+    hhat(A)+hhat(C)=4hhat(P)=O(log B),            (229AC.7)
+  using retained229L/229R;
+- the pair comes from the distinguished physical Gaussian selector/descent packet, not from an arbitrary rank-two twist.
+
+
+Thus the exact theorem target is substantially thinner than generic rank>=2 support:
+count squarefree d and physical pairs (A,C) with
+  rank span{A,C}=2,
+  hhat(A)+hhat(C)=O(log B),
+  Delta_CM(P)>0,
+plus the inherited selector/radical realization.
+
+
+RESULT_229AC_INDEPENDENT_BRANCH_RANK2_SMALL_PAIR_ROUTING=PROVED_EXACT.
+
+
+No lower bound for Delta_CM(P) beyond positivity is proved. In particular, no regulator saving is claimed from (229AC.5) alone.
+
+
+4. Smith 2-infinity-Selmer theorem applies to the base twist family
+
+
+The fixed base curve
+  E: y^2=x^3-x
+has full rational 2-torsion.
+
+
+It also has no rational cyclic subgroup of order4. Indeed the duplication formula is
+  x(2Q)=(x(Q)^2+1)^2/[4x(Q)(x(Q)^2-1)].
+Halving the three rational 2-torsion points would require respectively
+  x(Q)=+/-i,
+  x(Q)=1+/-sqrt(2),
+  x(Q)=-1+/-sqrt(2),
+so no order-four cyclic subgroup is Galois-stable over Q.
+
+
+The quadratic twist model
+  d y^2=x^3-x
+is Q-isomorphic to the Stage37 congruent-number model
+  Y^2=X^3-d^2X
+via
+  X=d x,  Y=d^2 y.                               (229AC.8)
+
+
+Therefore Alexander Smith's theorem species applies: among squarefree twists |d|<X, the number with Mordell-Weil rank at least2 is o(X).
+
+
+RESULT_229AC_SMITH_RANK2_THEOREM_SPECIES=APPLICABLE_TO_BASE_TWIST_FAMILY.
+
+
+But this is quantitatively insufficient for Stage37. Retain
+  d<=2B^2
+and the uniform fixed-d endpoint fiber B^{o(1)} from229L.
+An o(X) rank-two support theorem at X asymptotic to B^2 yields only
+  o(B^2)*B^{o(1)},
+which does NOT imply o(B^{1/3}).
+
+
+RESULT_229AC_SMITH_oX_DIRECT_STAGE37_MATCH=NO_GO_AT_CURRENT_TWIST_SCALE.
+
+
+5. Exact exponent contract for any generic rank-two support theorem
+
+
+Suppose a future generic theorem gives
+  R_2(X):=#{squarefree d<=X: rank E_d(Q)>=2}
+    << X^{gamma+o(1)}.                            (229AC.9)
+
+
+At the current Stage37 envelope X~B^2, retained229L gives
+  independent physical endpoints
+    << B^{2gamma+o(1)}.                           (229AC.10)
+
+
+To beat the one-third budget one needs
+  2gamma<1/3,
+i.e.
+  gamma<1/6.                                      (229AC.11)
+
+
+Equivalently, a bound R_2(X)<<X^{1-eta+o(1)} requires
+  eta>5/6.
+
+
+RESULT_229AC_GENERIC_RANK2_REQUIRED_EXPONENT=gamma<1/6.
+RESULT_229AC_GENERIC_RANK2_REQUIRED_SAVING=eta>5/6.
+
+
+This is a method-level necessary threshold under the current d<=2B^2 envelope and fixed-d B^{o(1)} fiber. It is not a lower bound on the true physical population.
+
+
+6. Two-Selmer distribution is not the missing count
+
+
+Modern distribution theorems for full-rational-2-torsion twist families determine positive-density distributions of 2-Selmer ranks.
+
+
+But
+  rank E_d(Q) <= dim Sel_2(E_d)-dim E_d(Q)[2],
+so using a high 2-Selmer-rank condition as an upper envelope for rank>=2 leaves positive-density Selmer strata. Such information alone supplies no X^{gamma} upper bound with gamma<1, much less the required gamma<1/6.
+
+
+Smith's 2-infinity-Selmer theorem is stronger because it gives actual rank>=2 support o(X), but Section4 shows even that is far too weak at X~B^2.
+
+
+RESULT_229AC_TWO_SELMER_DISTRIBUTION_ALONE=NO_GO_FOR_ONE_THIRD_BUDGET.
+
+
+7. Petit determinant-method two-small-point route: contract mismatch
+
+
+Joachim Petit's second-moment method is much closer in shape to the Stage37 independent-pair problem: it controls off-diagonal pairs of small rational points on the same quadratic twist by a determinant-method estimate.
+
+
+However the theorem is not a black-box match.
+
+
+First mismatch: Petit's setup assumes
+  F(x,z)=x^3+A x z^2+B z^3
+is irreducible over Z, equivalently the base curve has trivial rational 2-torsion in the relevant line-locus argument. Stage37 has
+  F(x,z)=x^3-x z^2=x(x-z)(x+z),
+with full rational 2-torsion.
+
+
+In Petit's proof irreducibility is used to identify rational points on the line locus of the determinant-method surface with the excluded diagonal. For the congruent-number curve extra line components must be re-audited; the theorem cannot simply be quoted.
+
+
+Second mismatch: Petit's almost-minimal regime requires the small-point parameter alpha<1/120. Stage37 currently has only the coarse physical adapter hhat(P)=O(log B) and no theorem placing both A,C uniformly in Petit's near-minimal d^{1/8+alpha} window.
+
+
+RESULT_229AC_PETIT_BLACKBOX_APPLICABILITY=NO.
+
+
+8. Even an idealized Petit transfer misses the Stage37 exponent
+
+
+Petit's off-diagonal determinant-method term has the exponent
+  X^{13/32+45 alpha/4+epsilon}.                  (229AC.12)
+
+
+Ignore, counterfactually, both mismatches of Section7 and grant the same exponent directly to the relevant physical independent-pair support.
+
+
+At alpha tending to 0, the best power is
+  gamma_Petit=13/32.
+
+
+With X~B^2 this becomes
+  B^{13/16+o(1)},                                (229AC.13)
+still far above B^{1/3}.
+
+
+More generally, if an independent argument first improved the twist envelope to
+  d<=B^beta,
+the idealized Petit exponent would meet the one-third target only if
+  beta(13/32+45 alpha/4)<1/3.                    (229AC.14)
+
+
+In the optimistic alpha->0 limit this requires
+  beta<32/39 approximately 0.8205128.            (229AC.15)
+
+
+Current beta=2 is far outside this range.
+
+
+RESULT_229AC_PETIT_IDEALIZED_CURRENT_SCALE=NO_GO.
+RESULT_229AC_PETIT_OPTIMISTIC_TWIST_CUTOFF_THRESHOLD=beta<32/39.
+
+
+For comparison, retained229Q's one-small-point Le Boudec route needs the even stronger optimistic cutoff beta<2/3. Neither cutoff is currently available.
+
+
+9. Route consequence
+
+
+The 229AB closure materially changes the logic: dependence is no longer the obstruction. But generic rank>=2 statistics do not become sufficient merely because independence is now available.
+
+
+CM_PAIR_INDEPENDENT_BRANCH remains OPEN.
+
+
+The generic route
+  physical independent pair
+    -> forget selectors and count all rank>=2 twists
+is now placed on
+  HOLD_NO_GO_AT_CURRENT_d_LE_2B2_SCALE,
+because:
+- Smith gives actual rank>=2 support only o(X), with no Stage37-sufficient power;
+- 2-Selmer distribution is too broad;
+- Petit's two-small-point determinant method is not directly applicable to full rational 2-torsion and, even under an idealized transfer of its best exponent, gives B^{13/16+o(1)} at the current twist scale.
+
+
+RESULT_229AC_GENERIC_CM_INDEPENDENT_PAIR_RANK_STATISTICS_ROUTE=HOLD_NO_GO_AT_CURRENT_SCALE.
+
+
+The preferred whole-population gate remains unchanged:
+  #{positive primitive physical endpoints R_phys<=B:
+      sf(gcd(e R_phys, x y))>B^(1/3-delta)}
+    =o(B^(1/3))
+for some fixed delta>0.
+
+
+GAUSSIAN_TWIST_RADICAL_GCD remains CONDITIONAL_RESERVE/THEOREM_WATCH.
+
+
+10. Next useful input
+
+
+NEXT_USEFUL_INPUT:
+(A) DIRECT_SAME_PHYSICAL_RADICAL_SUPPORT theorem for sf(gcd(eR,xy)), still preferred;
+(B) SELECTOR_CONDITIONED_CM_INDEPENDENT_PAIR theorem that retains the physical Gaussian/2-descent/radical structure and proves o(B^(1/3)) directly, rather than passing through all rank>=2 twists;
+(C) a genuinely sharper physical twist bound d<=B^beta. For the idealized Petit-type exponent alone one would need beta<32/39, together with a new full-2-torsion/off-diagonal adaptation and the near-minimal-height contract;
+(D) another support-level theorem giving the same one-third budget.
+
+
+DO_NOT_CONTINUE:
+- do not reopen CM dependence unless229AB fails audit;
+- do not iterate generic rank>=2 density/Selmer theorems without an explicit gamma<1/6 equivalent at the current twist scale;
+- do not treat Petit's irreducible-cubic theorem as directly applicable to x^3-x;
+- do not infer a regulator lower bound from Delta_CM(P)>0 alone.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+PRIMARY_GATE_STATUS=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+
+
+Integrated audit186-229O remains unchanged in scope and is not silently extended to229P-229AC.
+
+
+11. Verification scope
+
+
+This is a within-session exact CM-pair identity plus external theorem-contract/budget audit. It is not an independent hostile audit of229P-229AC.
+
+
+Load-bearing internal checks:
+- Rosati adjoint [i]^dagger=[-i];
+- exact 229R definitions of A,C and height sum;
+- positive definiteness of the Neron-Tate pairing modulo torsion;
+- 229AB dependence locus already B^{o(1)};
+- 229L fixed-d endpoint fiber B^{o(1)};
+- current exact twist envelope d<=2B^2 from retained229Q/229M-N-O chain.
+
+
+External theorem use is scoped only to theorem species and exponent budgets below.
+
+
+12. Sources checked
+
+
+Internal:
+- Stage37-NEW-INPUT-DELTA-AUDIT-229AB;
+- 229R exact CM pair and height identity;
+- 229Q small-point twist budget ceiling;
+- 229L congruent-number router / physical height / fixed-d B^{o(1)};
+- current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+External:
+- Alexander Smith, “2^infinity-Selmer groups, 2^infinity-class groups, and Goldfeld's conjecture”, arXiv:1702.02325. Used for actual rank>=2 support o(X) under full rational 2-torsion/no rational cyclic order4.
+- Jinzhao Pan and Ye Tian, “On the Distribution of 2-Selmer ranks of Quadratic Twists of Elliptic Curves over Q”, arXiv:2503.21462. Used only for the current full-2-torsion 2-Selmer distribution theorem species / positive-density Selmer-strata firewall.
+- Joachim Petit, “Average rank of quadratic twists with a rational point of almost minimal height”, arXiv:2011.13195. Used for the irreducible-cubic contract and determinant-method off-diagonal exponent 13/32+45alpha/4+epsilon.
+- Pierre Le Boudec, “Height of rational points on quadratic twists of a given elliptic curve”, arXiv:1404.7738. Reused only through retained229Q for the one-point beta<2/3 comparison.
+
+
+FINAL_READBACK_RECEIPT: PASS. Card, CARD-INDEX row494 and 案内, RESULT-LEDGER, MAIN current override, and active ROUTE were read back from Drive and agree on 229AC. CM-pair dependence remains closed by229AB; the CM-pair independent branch remains OPEN; only the forgetful generic rank>=2/statistics route is HOLD at the current d<=2B^2 scale. Preferred same-physical radical-gcd gate remains OPEN; GLOBAL_COUNTING_CREDIT=0; M3-T11-230 remains unissued; production HOLD and integrated-audit186-229O scope are unchanged.

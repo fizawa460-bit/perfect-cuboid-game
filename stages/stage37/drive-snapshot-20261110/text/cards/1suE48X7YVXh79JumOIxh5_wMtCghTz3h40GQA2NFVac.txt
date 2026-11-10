@@ -1,0 +1,52 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229FU
+CUBIC-RESOLVENT DEGREE-THREE COVER: POWER-SAVING COUNT OF RATIONAL-2-TORSION EXCEPTIONAL LEAST PRIMES
+CARD_DOC_ID=1suE48X7YVXh79JumOIxh5_wMtCghTz3h40GQA2NFVac
+PREVIOUS_CURRENT=Stage37-NEW-INPUT-DELTA-AUDIT-229FT / 1IDf1WpGBGXBknmNbfVPNSqayyVG282BMxYheDK3HPlY
+STATUS=PROVED_SCOPED_84_EXC_JACOBIAN_RATIONAL_2TORSION_PRIME_SUPPORT_O(P^(1/3)) / p<=B^(1/3)_EXCEPTIONAL_SUPPORT_O(B^(1/9)) / NO_ORIGINAL_PHYSICAL_POINT_COUNT / GLOBAL_CREDIT0
+AUTHORITY=M3-T11-229; LAST_MATH_CONSTRUCTION=228; 230_NOT_ISSUED; GATE_OPEN; GLOBAL_CREDIT0; PRODUCTION_HOLD; ROUTE_SWITCH_NONE; CLOSURE_UNCHANGED.
+
+
+1. BOOT / ANTI-LOOP
+MAIN latest229FT; canonical CARD-INDEX row640; RESULT-LEDGER/active ROUTE/NEG latest229FT; original research card229FT; FJ and FS scoped inputs. Explicit search of CARD-INDEX for RESOLVENT, HILBERT, THIN and negative flags shows M3-T11-105/108 is a DIFFERENT genus-2 squareclass quartic; 229G/H/I warns that qualitative thinness on M3 ambient base without exact source multiplicity is NOT a same-M3 counting theorem. Here a NEW, independently quantified theorem counts one clearly defined arithmetic SUPPORT variable: the split LEAST PRIME p in a necessary FJ pqr package. It is NOT a theorem about the weighted M3 pushforward or number of physical P. Prior229FT proved generic cubic resolvent irreducible but did not quantify exceptional p.
+
+
+2. EXACT THEOREM FU.1 (UNCONDITIONAL SUPPORT COUNT)
+Let J_84 be the 84 labeled FJ macro allocations whose discriminant-X odd squarefree Y-branch quartic is irreducible over Q(t), with t=v/u for a primitive split prime p=u²+v², a=u²-v²,b=2uv, p≡1 (mod4), u,v coprime opposite parity. For each label j, let R_j(t,W)∈Q(t)[W] be the MONIC standard cubic 2-torsion resolvent of its smooth quartic branch polynomial, and let E_{p,j} be the Jacobian at a smooth arithmetic specialization. Assume the 229FT exactly checked good-specialization modular certificate: all 84 R_j(1/2,W) irreducible over Q; consequently each R_j(t,W) is irreducible in Q(t)[W]. (The 229FT certificate was independently rechecked with the seven FJ squared-leg rules and F17/F19 polynomial root tests.)
+For real P>=2 define
+Exc_84(P)={p split prime ≤P : at least one j∈J_84 has smooth specialized quartic E_{p,j} with E_{p,j}(Q)[2] nontrivial}.
+Then
+       #Exc_84(P) = O(P^(1/3)),
+where the implicit constant depends only on the FINITE fixed collection of 84 polynomial families. In particular
+       #Exc_84(B^(1/3)) = O(B^(1/9)).
+This is a genuine quantitative exceptional-PRIME-SUPPORT exponent deficit, not an estimate of the number of original full-four-square objects over those primes. Bad/singular-specialization parameters in the fixed 84 models are finite and do not invalidate the claim.
+
+
+3. SELF-CONTAINED PROOF
+(a) Each smooth genus-one quartic double cover has a Q-rational nonidentity Jacobian 2-torsion point iff its four branch points admit a Galois-stable unordered partition into two pairs, iff R_j(t,W) has a Q-rational root.
+(b) For every j, let C_j be the smooth projective normalization of the irreducible cubic plane curve R_j(t,W)=0. The rational function t defines a morphism π_j:C_j→P1_Q of DEGREE EXACTLY 3 because [Q(C_j):Q(t)]=3. Ignore finitely many pole/leading-coefficient/bad-model parameters. If C_j is not geometrically integral, its smooth Q-rational locus is empty (otherwise the constant field embeds in Q at a rational point); exceptional singular affine values remain finite.
+(c) Set N_j(H) = #{t∈π_j(C_j(Q)): H(t)≤H}, H(r/s)=max(|r|,|s|) for coprime integers. Classical genus case distinction, on this FIXED curve:
+  genus≥2: Faltings ⇒ C_j(Q) finite, N_j(H)=O_j(1);
+  genus1: if C_j(Q) nonempty, it is an elliptic torsor trivialized by a Q point. Mordell-Weil lattice counting + functorial heights for π_j of degree3 ⇒ N_j(H)=O_j((1+log H)^A_j) for some fixed A_j, dominated by O_j(H^(2/3));
+  genus0: if C_j(Q) nonempty, C_j≅P1_Q and π_j is a fixed rational morphism of degree3. Standard projective height functoriality yields H(π_j(s)) ≍_j H(s)^3. Thus H(π_j(s))≤H implies H(s)≪_j H^(1/3), and #s∈P1(Q) with H(s)≤const·H^(1/3) is O_j(H^(2/3)). If no Q points, count zero.
+Thus for ALL j, N_j(H)≪_j H^(2/3). Sum finite 84 labels: #exceptional t of height≤H ≪ H^(2/3). No effectiveness of the implicit constant is asserted (Faltings branch).
+(d) For an actual split prime p=u²+v² with coprime integers u,v, t=v/u in reduced terms has H(t)=max(|u|,|v|)≤sqrt(p)≤sqrt(P). Conversely a reduced t with numerator and denominator from such primitive representation determines p=u²+v² uniquely (up to harmless sign/order multiplicity). Therefore
+       #Exc_84(P) ≤ Σ_j N_j(sqrt(P)) + O(1) ≪ P^(1/3).
+Any additional original positive primitive SAME-P, HIGH, sf(G0), Kcross/rad(Sd), q/Gres, 229EX conditions only RESTRICT which p occur; none were incorrectly multiplied as independent densities. This proves FU.1.
+
+
+4. CHECKS / DISTINCT METHODOLOGY
+Exact FJ count at p5 checked independently: 13 nonzero ±-reduced Gaussian k codes, 138 admissible triples, 414 hyp choices; 84 residual irreducible quartic labels. Nine p5 cubic resolvents have no root mod the stated F17/F19, with leading coefficients nonzero. Independently recomputed all 84 cubic resolvents at each split prime p≤1000 (80 primes, 6720 labelled specializations): zero found rational resolvent roots and no quartic splitting for these labels; this is a FINITE sanity check, NOT a proof of the theorem or of an all-p impossibility. Proof of FU.1 instead uses exact generic irreducibility from FT and the degree3-cover height argument. Published background: Jean-Pierre Serre, Topics in Galois Theory, Chapter 3 §3.4.2 (thin P1 sets and genus-stratified counting); Broberg, Rational points on finite covers of P1 and P2, Journal of Number Theory 101(2003),195–207; Mordell-Weil and Faltings. Source text available as Serre Topics in Galois Theory and related rational-cover point counting literature.
+
+
+5. LIMITS AND CONDITIONAL POPULATION BRIDGE — DO NOT PROMOTE TO PROVED
+(1) FU.1 counts only least-prime SUPPORT p for which a residual quartic Jacobian acquires rational 2-torsion. On the COMPLEMENT of these p, the 84 Jacobians still GENERICALLY LACK rational 2-torsion; the Dujella rational-2torsion theorem cannot count those curves.
+(2) FU.1 does NOT bound the number of original P supported on the exceptional p: multiplicity of original objects per p is not proven uniform. No P(B)=o(M3(B)) or pqr global theorem, no counting Credit.
+(3) CONDITIONAL COROLLARY: if the 84 specialized original four-square curves have an independently audited coefficient-uniform B^A height model/map to their Jacobians WHEN a physical point exists and J has rational2torsion, Dujella's uniform Q-rational2torsion bound gives ≤B^o(1) original physical objects per exceptional (p,j), and FU.1 then gives O(B^(1/9+o(1))) exceptional-sector population for p≤B^(1/3). Such full84 height/multiplicity adapters have NOT been hostile audited and this corollary is NOT granted proven status.
+(4) 229FS claim for 246 rational2torsion families still faces its independent 245-map/pole-height and all-p special-fiber hostile audit HOLD. FU.1 does not validate that claim.
+(5) Fixed exceptional cubic-cover rational-point loci might have genus>=1 or2 yielding stronger polylog/finite p counts, but none were individually certified here. The O(P^(1/3)) general bound does not depend on this classification.
+
+
+6. NEXT EXECUTABLE / ROUTE CHOICE
+Priority A (goal-facing): derive and hostile-audit a uniform explicit rational Jacobian height/degree bound for the finite 84 residual genus-one quartic classes, INCLUDING non-torsion case where Dujella 2torsion cannot apply, OR a selector-aware dyadic occupied (p,q), third r-prime Gaussian norm collision saving for balanced squarefree pqr. Do NOT recycle the blocked 2torsion theorem on the generic no-2torsion packet or qualitative thinness as a weighted physical count.
+Priority B (direct FU followup): compute genera of the nine/20 generic cubic resolvent-root covers and, when genus≥1, sharpen FU.1 to polylog/finite exceptional-p support by exact curve normalization and genus proof; if genus0, derive explicit degree3 parametrization and count. Check special quartic model degeneracy and full84 height/multiplicity adapter, and 16 degree2 genus1 +8 genus3 residual. The balanced generic pqr packet, ω≥4 and repeated prime powers remain OPEN.
+NEVER alter M3-T11-229 mathematical authority, Gate OPEN, Credit0, production HOLD, formal route status or closure on the strength of FU.1.

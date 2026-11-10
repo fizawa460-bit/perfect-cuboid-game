@@ -1,0 +1,108 @@
+# M3-T11-125 — Physical theta denominator parity and a joint b-height label tail
+DATE=2026-09-30
+STATUS=PROVED_PHYSICAL_NECESSARY_DENOMINATOR_STRUCTURE / PROVED_SCOPED_ENDPOINT_BOUND / WITHIN_SESSION_ADVERSARIAL_AUDIT_PASS
+AUDIT_MODE=Within-session adversarial rederivation, not external or independent-agent audit.
+CURRENT_AUTHORITY=Drive MAIN/INDEX/RESULT-LEDGER/active ROUTE latest124.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN
+DEPENDENCIES=audited092 homogeneous endpoint square equation;093 fixed-theta B^o(1) and fourth-power carrier;094 theta cofactor/theta0 elimination;124 reduced cofactor and label tail. Preserve095/096/098–105 firewalls, withdrawn120, retained123 and TIparked.
+
+## 1. Exact physical equations and notation
+Take u=a/b and S=s/t reduced, b,t>0, a*b*s!=0, gcd(a,b)=gcd(s,t)=1. Put N=a²+b² and
+Phi=N*s^4-16ab*s³t+(44a²-4b²)s²t²+48ab*st³-16a²t^4.
+Every retained physical endpoint satisfies the audited necessary equation Omega²=-N*Phi with integral Omega. A rational square root of an integer is integral. This necessary square locus may contain nonphysical states; no converse is asserted.
+
+Define
+Q=N*s²-12ab*st+4a²t²,
+J=N*s²-16ab*st+48a²t²,
+Hden=(2abs)².
+Then theta=N*Q/Hden, and the exact identity is
+Phi+4t²Q=s²J.
+It follows either by direct expansion or from audited092 Phi=-4t²Pell+s³(Ns-16abt) with Pell=Q-12a²s².
+
+On audited full-S branch, N=M²N0,t=M²t0 and Q=M²Psi, with
+Psi=N0*s²-12ab*st0+4a²M²t0².
+Writing F=N0*Psi and g=gcd(|F|,Hden), theta=A/C is reduced with
+A=M^4*F/g, C=Hden/g.
+The full fraction gcd gcd(|NQ|,Hden) equals g because gcd(M,Hden)=1. Thus the new theorem controls the actual cancellation retained by124.
+
+## 2. Odd denominator parity theorem
+THEOREM: For every reduced theta=A/C!=0 on the necessary physical square locus above, every odd prime p not dividing b has v_p(C) even.
+
+Proof. It suffices to show gcd(|NQ|,Hden) has even valuation at those p, since Hden is a square. Let h=v_p(a),k=v_p(s); p is odd and b is a unit.
+(a) If h=k=0, p does not divide Hden.
+(b) If h>0,k=0, N and Q are units; the gcd valuation is0.
+(c) If h=0,k>0, t is a unit and Q=4a²t² modp is a unit. If p does not divide N the gcd valuation is0. If p divides N, Phi=-16a²t^4 modp is a unit, so Omega²=-N Phi forces v_p(N) even. The gcd valuation min(v_p(N),2k) is even.
+(d) If h,k>0, N and t are units. If h!=k, the first and last terms of Q have distinct valuations2k and2h, while the middle term has valuation at leasth+k. Consequently v_p(Q)=2min(h,k), giving even gcd valuation.
+If h=k=e, v_p(Q)>=2e and v_p(s²J)>=4e. If v_p(Q)<4e, Phi=-4t²Q+s²J has that same valuation; Omega² with N a unit forces v_p(Q) even. If v_p(Q)>=4e, the gcd is capped at v_p(Hden)=4e. Both cases give even gcd valuation. No division by3 or11 was used; those odd primes are included. theta=0 is excluded.
+
+## 3. The only possible odd-parity primes and their residue conditions
+If an odd prime p has v_p(C) odd, then p|b by Section2. Thus p does not divide a or N.
+If p|s then Q=4a²t² modp is a unit and v_p(C)=2v_p(b*s), which is even; hence s is a unit.
+Odd v_p(C) then requires
+0<v_p(Q)<2v_p(b), v_p(Q) odd,
+v_p(C)=2v_p(b)-v_p(Q).
+Modulo p, Q=a²(s²+4t²), so s²+4t²=0. Since s is a unit, t is a unit too. Hence -1 is a square modulo p and p=1 mod4.
+
+Under b=0 and s²=-4t² modulo p,
+Phi=a²(s^4+44s²t²-16t^4)=-176a²t^4.
+Therefore -N Phi=16*11*a^4*t^4 modulo p. Since p=1 mod4 excludes p=11, this is a nonzero unit. The necessary physical square equation forces 11 to be a quadratic residue modulo p.
+
+COROLLARY: There is a UNIQUE decomposition
+C=2^epsilon*d*k², epsilon in{0,1}, k>=1,
+where d is odd squarefree, d|b, and every p|d has p=1 mod4 and (11|p)=+1.
+No statement fixing epsilon is made. d need not be1. The complete necessary square equation remains stronger than this denominator consequence.
+
+A local caution: (a,b,s,t)=(1,5,1,1) gives theta=-39/5, and -N Phi=-2964 is a unit square in Q_5 (its residue is1 mod5). Thus an odd b-prime may have odd denominator valuation compatibly with the local square equation. This tuple fails the real square condition and is NOT a physical endpoint. It only blocks strengthening the LOCAL argument to all denominators being squares; no global nonsquare-denominator endpoint is asserted.
+
+## 4. Actual b-height denominator occupancy
+Restrict the original exact R<=B, fixed content/coefficient packet, generic full-S theta!=0 population further by b<=H, |A|<=U,C<=V,M_rel>=L, where U,V,H,L>=1 are integers and physical-induced heights remain polynomial in B.
+Let D(V,H) be the number of positive denominators admitted by Section3 for SOME b<=H. Since d|b, d<=H. Dropping squarefreeness, oddness and the residue restrictions for an upper bound gives
+D(V,H) <= sum_{1<=d<=H} (floor(sqrt(V/d))+floor(sqrt(V/(2d))))
+<= 2(1+1/sqrt2)*sqrt(VH) <4sqrt(VH).
+Also D(V,H)<=V. A denominator might be counted several times in this enlarged sum; this is safe. There is NO sum of endpoint multiplicities over b: denominators are first unioned and each theta is counted once.
+
+For a single fixed b, the analogous bound is
+D_b(V) <= (1+1/sqrt2)*sqrt(V)*sum_{d|b,d odd squarefree} d^(-1/2)
+<=2*tau(b)*sqrt(V).
+This fixed-b estimate is an auxiliary denominator statement, not an extra fixed-u endpoint saving.
+
+Replacing124's denominator factor V by the UNION count above yields
+E_theta(B;U,V,H,L)
+<= B^o(1)*(8/3)*(U/L³)*min(V,4sqrt(VH)).
+This is a same-exact-R<=B endpoint bound for the stated subset, using audited093 fixed-theta multiplicity exactly ONCE. It is not a density product. If U<L^4 the subset is empty. Restrictions on admissible M or coprimality can only shrink the set.
+
+In power notation U=B^u,V=B^v,H=B^h,L=B^m,
+E_theta <= B^[u+min(v,(v+h)/2)-3m+o(1)].
+The denominator improvement is a factor sqrt(V/H) when H is smaller than V at fixed-power scale. No theorem imposing such a scale on the WHOLE physical population is promoted.
+
+## 5. Feasibility and hard-branch boundary
+A sufficient scoped one-twelfth window is
+u+min(v,(v+h)/2)-3m <1/12-delta
+with a fixed strict margin.
+Nonemptiness still requires u>=4m and v,h>=0. Hence the displayed exponent is at leastm.
+On the actual hard threshold M_rel>B^(1/12-eta), the receiver alone cannot guarantee the required B^(1/12-delta) with delta>eta: its sufficient power exponent cannot fall below the conductor scale. This is a limitation of this receiver, NOT a lower bound for actual endpoints.
+
+124's relaxed labels theta=p^4,C=1,M=p=5mod12 also satisfy the new coarse denominator consequence (epsilon=0,d=1,k=1), for any H>=1. They are still NOT physical homogeneous realizations. Thus adding just this denominator consequence to the coarse fourth-power/saturation constraints does not remove124's barrier. This does not rule out using the FULL Omega²=-N Phi equation, v=u², rational-r, actual cancellation/cofactor relation or other physical constraints to obtain a sparse realized numerator image.
+
+## 6. Audit, verification and restart
+Within-session hostile rederivation checked every overlapping-prime case, the odd/2 separation, the b-prime residue argument, full-S gcd equivalence, denominator union before counting theta, polynomial-height uniformity and the hard threshold eta/delta distinction.
+Exact replay checks130047 primitive tuples;144640 odd-prime parity cases;117692 local-square cases;5743 locally compatible odd-b denominator cases;25 denominator boxes. Six necessary global square-locus tuples in the bounded check are NOT asserted physical cuboids. Finite checks verify implementation and sanity; the proofs above establish the lemmas.
+Wolfram expansion returns identity0 and resultant
+Res_t(Q,Phi)=256a^8*N*(121a²-7b²)*s^8;
+the resultant is recorded as a symbolic check, not independent counting credit.
+
+NEXT_RESEARCH_CARD_ID=M3-T11-126
+CURRENT_ATTACK=ThetaRealizedNumeratorCofactorOccupancyBeyondDenominatorParity
+NEXT_LEGAL_ACTION=Exploit the full normalized equation Omega0²=-N0*Phi0 together with F/g=N0*Psi/g, v=u² and rational-r on the exact physical population to bound ACTUALLY occupied (M,q=A/M^4) support. Denominator parity and pure height-box refinements alone retain a conductor-scale barrier; do not merely attempt to force their impossible hard-branch sufficient window. Retain125's scoped b-height bound for unions where applicable. Nonlocal S4 realized norm-kernel/cross-u remains an alternative. TI stays parked.
+DO_NOT_REPEAT=Do not drop g; do not claim C square; do not count the denominator residue tests as independent probabilities; do not multiply fixed-theta with fixed-u/ell/x; do not revive ordinary Kummer/split bracket savings or withdrawn120; do not call local test tuples physical.
+
+PHYSICAL_NECESSARY_DENOMINATOR_STRUCTURE=true
+SCOPED_ENDPOINT_UPPER_BOUND=true
+WHOLE_FULL_S_DENOMINATOR_SUPPORT_BOUND_PROVED=false
+NEW_GLOBAL_COUNTING_CREDIT=false
+GLOBAL_FIXED_POWER_SAVING=false
+PRIMARY_GATE_CLOSED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+

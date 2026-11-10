@@ -1,0 +1,234 @@
+﻿# M3-T11-117 — hostile audit PASS with scope correction
+
+
+STATUS=PROVED_EXACT / HOSTILE_AUDIT_PASS_WITH_SCOPE_CORRECTION / NO_GLOBAL_POWER_SAVING
+AUDIT_KIND=Within-session hostile rederivation; no independent external reviewer is claimed.
+POPULATION=Exact nondegenerate physical Stage37 psi/A4 endpoints with R<=B in one fixed content/coefficient packet. One endpoint is one count.
+
+
+## 1. Normalized carrier algebra — PASS
+
+
+Retain
+C_u=kappa*T^2,
+M=M_rel,
+S_sq=M*T,
+Rrel=M*Nrel.
+
+
+The capped conductor range 0<=v_p(C_u)<=2v_p(M) gives T|M. Since M|Rrel,
+M*T | M^2 | Rrel^2.
+Therefore
+
+
+A_car=tau0^3*Rrel^2/(M*T)
+     =tau0^3*Nrel^2*(M/T)
+
+
+is a positive integer.
+
+
+Audited 116 gives
+K_car=2*L*tau0^6*Rrel^4/(M^2*T^2),
+hence exactly
+
+
+K_car=2*L*A_car^2.
+
+
+No probability, density, or independence input occurs here.
+
+
+## 2. Fixed-A_car physical fiber — PASS
+
+
+Fix A_car=A in one packet. Then K_car=2*L*A^2 is fixed.
+Every endpoint satisfies
+V_norm*J_car=K_car
+with V_norm,J_car positive integers.
+Thus J_car runs through positive divisors of K_car, at most
+
+
+tau(K_car)=B^o(1)
+
+
+values in the retained polynomial physical range.
+
+
+Each J_car fixes
+d=sf(2*L*J_car),
+and audited 113 gives B^o(1) physical psi endpoints for fixed d.
+Therefore
+
+
+# {physical endpoints admitting fixed A_car=A} << B^o(1).
+
+
+Consequently, if A_A(B) is the number of active A_car values,
+
+
+E_psi(B) <= B^o(1)*A_A(B).
+
+
+This upper bound is the only direction needed if a future theorem proves A_A(B)<<B^(1/12-delta).
+
+
+## 3. Scope correction: exact A_A<=E_psi is not justified
+
+
+The original provisional card wrote
+A_A(B) <= E_psi(B).
+That exact inequality silently assumes one retained A_car value per endpoint. Earlier cards explicitly allow nonunique retained core representations, so that exact inequality is not licensed.
+
+
+It is replaced by a power-scale statement.
+
+
+For fixed canonical tau, the number of possible A_car values is B^o(1):
+- the four-core norm partition tau=tau0*tau1*tau2*tau3 has at most 4^omega(tau)=B^o(1) prime-power allocations;
+- M_rel and Nrel are then determined by the fresh/content split of the relative cores;
+- T|M_rel, so the number of possible T values is at most tau(M_rel)=B^o(1).
+
+
+Hence
+
+
+A_A(B) <= B^o(1)*A_tau(B).
+
+
+Conversely, choose one endpoint and one retained A_car representation for each active canonical tau. For a fixed A_car, Section 2 gives only B^o(1) endpoints, and each physical endpoint has one canonical tau from the Stage37 physical data. Therefore
+
+
+A_tau(B) <= B^o(1)*A_A(B).
+
+
+Section 19 already gives
+
+
+A_tau(B) <= E_psi(B) <= B^o(1)*A_tau(B)
+
+
+on the fixed packet. Thus
+
+
+A_A(B), A_tau(B), and E_psi(B)
+
+
+have the same polynomial exponent.
+
+
+This restores the intended power-scale equivalence, but it also changes the interpretation: A_car is an alternate one-dimensional arithmetic coordinate for the already-existing active-tau gate, not a newly smaller support set by itself.
+
+
+## 4. Extreme odd surplus packet support — PASS
+
+
+At p^lambda||M_rel with extreme capped depth c_p=2lambda, corrected 111 gives
+
+
+v_p(N_u)>=4lambda.
+
+
+Because p is a fresh relative prime, p does not divide tau0 and does not divide the content-supported quotient Nrel=Rrel/M_rel.
+From audited 115,
+
+
+N_u | 2*L*tau0^6*Rrel^4,
+
+
+so
+
+
+v_p(N_u) <= 4lambda+v_p(2L).
+
+
+Therefore any positive odd extreme excess forces p|2L. Hence
+
+
+e_ext | rad(2L).
+
+
+This does not imply e_ext=1. It proves only that e_ext is supported on the fixed packet factor.
+
+
+Because Delta_pkt already contains rad(2L), the 115 support relation sharpens to
+
+
+d | Delta_pkt*Xi0,
+Xi0=rad(tau0^sharp)*kappa,
+kappa=sf(C_u).
+
+
+Thus extreme surplus is no longer an independent moving-support coordinate.
+
+
+## 5. Xi0 support inside A_car — PASS
+
+
+If p|kappa, then c_p is odd. Since c_p<=2lambda_p, oddness forces c_p<2lambda_p, so
+
+
+floor(c_p/2)<lambda_p
+
+
+and therefore p|M_rel/T.
+Hence
+
+
+kappa | rad(M_rel/T).
+
+
+Also
+rad(tau0^sharp)|rad(tau0).
+
+
+Since
+A_car=tau0^3*Nrel^2*(M_rel/T),
+
+
+we obtain
+
+
+Xi0 | rad(A_car).
+
+
+Thus the moving support variable from 115 is subordinate to A_car. The converse is not asserted.
+
+
+## 6. Audit verdict and anti-loop consequence
+
+
+PASS WITH SCOPE CORRECTION.
+
+
+Promoted:
+PSI_NORMALIZED_SQRT_CARRIER_FIXED_FIBER_UNIFORM_BO1=true
+PSI_EXTREME_SURPLUS_PACKET_SUPPORTED=true
+PSI_XI0_SUPPORT_SUBORDINATE_TO_A_CAR=true
+PSI_ACTIVE_A_CAR_POWER_EQUIVALENT_TO_ACTIVE_TAU=true
+
+
+Retracted/superseded:
+the literal inequality A_A<=E_psi without a B^o(1) representation factor.
+
+
+No new exponent saving follows merely from changing coordinates from tau to A_car. A future A_car attack is useful only if the exact factorization
+
+
+A_car=tau0^3*Nrel^2*(M_rel/T)
+
+
+or
+K_car=2L*A_car^2
+
+
+exposes a same-measure theorem not already available for active tau. Otherwise this route would be a reparameterization loop and should be abandoned in favor of phi global-root allocation, genuinely nonlocal S4, or theta!=0.
+
+
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-117
+NEXT_RESEARCH_CARD_ID=M3-T11-118
+NEXT_LEGAL_ACTION=Preflight whether the conductor-defect factor U=M_rel/T yields a genuinely new same-measure counting/correlation theorem for active A_car. Do not create a new card for a mere renaming of active tau. If no new theorem species appears, pivot to PhiOnePlusThreeGlobalRootAllocationSupport, InteriorS4EtaleGlobalNonlocalSupport, or GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth.
+GLOBAL_FIXED_POWER_SAVING=false
+PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false

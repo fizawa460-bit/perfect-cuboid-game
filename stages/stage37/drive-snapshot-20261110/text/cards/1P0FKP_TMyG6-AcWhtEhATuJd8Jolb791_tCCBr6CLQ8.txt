@@ -1,0 +1,256 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229Y — norm-seventeen fixed genus-fifteen selector closure
+
+
+STATUS: POST_229X_NORM17_FIXED_SELECTOR_CLOSED / PROVED_NORM17_EXACT_CM_X_MAP / PROVED_NORM17_BASE_NORM_TO_FIXED_SMOOTH_GENUS15_CURVE / FALTINGS_GIVES_FINITE_NORM17_PARAMETER_AND_TWIST_SUPPORT / PROVED_NORM17_DEPENDENT_ENDPOINT_COUNT_Bo1 / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229X ODD-NORM FIXED BASE-SELECTOR AUDIT / EXACT CM ADDITION FORMULA / FIXED HYPERELLIPTIC RECEIVER / SUBGATE CLOSURE
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229X
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+
+
+1. Scope
+
+
+229W proved for EVERY odd Gaussian norm that a dependent physical point admits a rational preimage
+  Q in E_d(Q),
+with
+  P=[alpha]Q,
+  r=X(Q)/d=epsilon*t^2,  epsilon in {+1,-1},
+and that the remaining task for a fixed odd alpha is only its fixed base-selector curve.
+
+
+229W closed norm13. After 229X closed norm10, the next unresolved odd primitive norm is 17. This card treats alpha=4+i (all primitive norm17 slopes are associates/conjugates) and closes the entire norm17 branch at B^{o(1)}.
+
+
+No global Stage37 gate is closed.
+
+
+2. Exact norm17 CM x-map
+
+
+Work on
+  E_d: Y^2=X^3-d^2 X,
+and normalized coordinate
+  r=X(Q)/d.
+
+
+For alpha=4+i, exact duplication/addition on the normalized j=1728 model gives
+
+
+  X([4+i]Q)/d
+    = -r * (A(r)/B(r))^2
+    = r * H_17(r)^2,                              (229Y.1)
+
+
+where one may take
+  H_17(r)=i A(r)/B(r),
+
+
+  A(r)
+   = r^8 +(12+20i)r^6 +(-10-28i)r^4
+     +(-20+12i)r^2 +(1-4i),                      (229Y.2)
+
+
+  B(r)
+   = (1-4i)r^8 +(-20+12i)r^6 +(-10-28i)r^4
+     +(12+20i)r^2 +1.                            (229Y.3)
+
+
+The identity was derived directly from [4]Q+[i]Q on Y^2=X^3-X after normalization; the factor -1 is i^2 and is therefore absorbed into H_17.
+
+
+Associates of 4+i only multiply the normalized x-coordinate by a sign and/or conjugate the coefficients. The physical norm-square conditions are invariant under these finite operations, so one representative suffices.
+
+
+RESULT_229Y_NORM17_EXACT_CM_X_MAP=PROVED_EXACT.
+
+
+3. Physical base selector becomes one fixed curve
+
+
+Retain 229W:
+  r=epsilon*t^2,   t in Q^*,
+and choose eta in {1,i} with eta^2=epsilon.
+
+
+From (229Y.1),
+  p=plus/minus eta*t*H_17(r)
+is a Gaussian square root of X(P)/d on the physical branch. Hence
+  N(p)=t^2 N(H_17(r)).                            (229Y.4)
+
+
+The physical 229J base condition N(p) in Q^{*2} is therefore equivalent to
+  N(H_17(r)) in Q^{*2}.                           (229Y.5)
+
+
+Exact conjugate multiplication gives
+  N(H_17(r))=A_17(r)/B_17(r),                    (229Y.6)
+
+
+where
+
+
+  A_17(r)
+   = r^16 +24r^14 +524r^12 -1400r^10
+     +886r^8 -408r^6 +748r^4 -136r^2 +17,        (229Y.7)
+
+
+  B_17(r)
+   =17r^16 -136r^14 +748r^12 -408r^10
+     +886r^8 -1400r^6 +524r^4 +24r^2 +1.         (229Y.8)
+
+
+Thus every physical norm17 dependent endpoint maps to the fixed hyperelliptic curve
+
+
+  C_17:
+  U^2=A_17(r) B_17(r).                            (229Y.9)
+
+
+The sign epsilon does not create a separate receiver because A_17 and B_17 are even polynomials in r.
+
+
+RESULT_229Y_NORM17_BASE_SELECTOR_TO_FIXED_CURVE=PROVED_EXACT.
+
+
+4. C_17 is smooth of genus 15
+
+
+Exact polynomial arithmetic gives
+
+
+  Disc(A_17)=Disc(B_17)=2^240 * 17^7 !=0,
+  Res(A_17,B_17)=2^264 !=0.                      (229Y.10)
+
+
+Therefore A_17 and B_17 are individually squarefree and coprime. Their product is squarefree of degree 32.
+
+
+Hence the smooth projective model of C_17 has genus
+  g=(32-2)/2=15.                                  (229Y.11)
+
+
+RESULT_229Y_NORM17_FIXED_CURVE_SMOOTH=PROVED_EXACT.
+RESULT_229Y_NORM17_FIXED_CURVE_GENUS=15.
+
+
+5. Faltings closes norm17 support and count
+
+
+Retain the Faltings input already accepted in 229U/229W/229X: a smooth projective curve of genus >1 over Q has finitely many Q-rational points.
+
+
+Since C_17 has genus 15,
+  C_17(Q)
+is finite. Hence only finitely many rational r occur in physical norm17 dependence.
+
+
+For Q=(dr,y_Q) in E_d(Q),
+  (y_Q/d)^2=d*r*(r^2-1),
+so
+  [d]=[r(r^2-1)]
+in Q^*/Q^{*2}.                                    (229Y.12)
+
+
+Each surviving r therefore fixes at most one canonical positive squarefree twist d. Norm17 dependence realizes only finitely many canonical d.
+
+
+Retain 229L: for every fixed canonical d, the number of positive physical endpoints with R_phys<=B mapping to E_d is uniformly B^{o(1)}.
+
+
+There are only finitely many associate/conjugate norm17 slopes. Consequently
+
+
+  #{positive physical endpoints R_phys<=B
+      in CM dependence with N(alpha)=17}
+    =B^{o(1)}
+    =o(B^{1/3}).                                  (229Y.13)
+
+
+RESULT_229Y_NORM17_RATIONAL_r_SUPPORT=FINITE_BY_FALTINGS.
+RESULT_229Y_NORM17_REALIZED_TWIST_SUPPORT=FINITE.
+RESULT_229Y_NORM17_DEPENDENT_ENDPOINT_COUNT=B^{o(1)}.
+RESULT_229Y_NORM17_BRANCH=CLOSED_FOR_STAGE37_ONE_THIRD_BUDGET.
+
+
+6. Updated CM dependence status
+
+
+- norm2: physically empty by 229S;
+- norm5: B^{o(1)}, closed by 229U;
+- norm10: B^{o(1)}, closed by 229X;
+- all odd norms: preimages rationalized by 229W;
+- norm13: B^{o(1)}, closed by 229W;
+- norm17: B^{o(1)}, closed by 229Y;
+- next unresolved odd primitive norm: 25;
+- remaining even norms >10: parity-aware bounded-image analysis remains open.
+
+
+This is subgate counting credit only. It does not change the preferred whole-population radical-gcd gate.
+
+
+7. Global route status
+
+
+CURRENT_PREFERRED_GATE remains
+  #{positive primitive physical endpoints R_phys<=B:
+      sf(gcd(e R_phys, x y))>B^(1/3-delta)}
+    =o(B^(1/3))
+for some fixed delta>0.
+
+
+GAUSSIAN_TWIST_RADICAL_GCD remains CONDITIONAL_RESERVE/THEOREM_WATCH.
+
+
+Useful next inputs:
+(A) norm25 fixed base-selector audit, using 229W directly;
+(B) a uniform theorem for all remaining bounded odd CM slopes;
+(C) remaining even-norm parity analysis;
+(D) direct same-physical radical-support theorem, which remains preferable to indefinite slope-by-slope closure.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+PRIMARY_GATE_STATUS=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+
+
+8. Verification scope
+
+
+Within-session exact symbolic verification:
+- [4+i] normalized x-map factors as -r times an exact square of the degree-8 ratio in (229Y.2)-(229Y.3).
+- Exact norms give (229Y.7)-(229Y.8).
+- Disc(A_17)=Disc(B_17)=2^240*17^7.
+- Res(A_17,B_17)=2^264.
+- Hence C_17 has squarefree degree-32 branch polynomial and genus15.
+
+
+This is not an independent hostile audit. Integrated audit186–229O remains unchanged in scope and is not silently extended to 229P–Y.
+
+
+9. Sources checked
+
+
+Internal:
+- Stage37-NEW-INPUT-DELTA-AUDIT-229X;
+- 229W all-odd rationalization and fixed-selector pattern;
+- 229L fixed-d B^{o(1)} fiber;
+- 229J physical Gaussian base selector;
+- current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+External theorem:
+- no new theorem species. Faltings is reused through the already accepted earlier Stage37 input.
+
+
+FINAL_READBACK_RECEIPT: PASS. Card, CARD-INDEX row490, 案内 latest/read-order, RESULT-LEDGER, MAIN current override, and active ROUTE were read back from Drive and agree on 229Y. Norm17 is closed only for the Stage37 one-third CM-dependence budget at B^o(1); preferred whole-population radical-gcd gate remains OPEN, GLOBAL_COUNTING_CREDIT=0, M3-T11-230 unissued, production HOLD retained. Integrated audit186–229O scope unchanged.

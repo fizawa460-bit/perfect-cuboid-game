@@ -1,0 +1,190 @@
+﻿M3-T11-200 — All-content fixed-W divisor fiber and small intrinsic-W sector
+
+
+STATUS: PROVED_ALL_CONTENT_FIXED_W_DIVISOR_FIBER / PROVED_SMALL_INTRINSIC_W_SUM / ACTUAL_INTEGER_RECEIVER / GLOBAL_COUNTING_CREDIT=0.
+Authority: Stage37 MAIN, operational CARD-INDEX, short RESULT-LEDGER, active ROUTE §17.3–17.4, latest199 with actual-receiver dependencies196 and192. Gate OPEN. NEXT201. Independent hostile audit NOT RUN; separate-chat audit162–185 scope unchanged. TI parked;120 retracted;147–149 frozen. No retraction.
+
+
+1. Result and scope
+
+
+Return from199's pre-third-face relaxation to the actual192/196 integer receiver. The key point is that196 contains TWO nested integer difference-of-squares factorizations:
+B_Q^2-B_T^2=W^4,
+B_Q^2+B_P^2=L^4.
+The first fixes the pair-phase trace data divisor-theoretically from W; the second fixes L and B_P divisor-theoretically from B_Q. Then192's
+W^2=L^2-n_face^2 D0^2
+returns to the original integer full-lift receiver.
+
+
+This yields a new all-content fixed-W endpoint fiber:
+m_W(w;B) <= B^{o(1)}
+uniformly for every positive occupied integer w of polynomial height. Consequently
+#E(W<=Z) <= Z B^{o(1)}.
+In particular W<=B^(1/3-epsilon_W), fixed epsilon_W>0, is o(M3) on the retained B^(1/3) benchmark.
+
+
+This is a genuine actual-receiver theorem, unlike199. It is nevertheless only a scoped small-W disposal. Large W remains open, so global counting credit stays0.
+
+
+2. First divisor reconstruction: W fixes B_Q and B_T up to divisor-many choices
+
+
+For an actual physical point196 gives
+B_Q^2-B_T^2=W^4,
+hence
+C_-:=B_Q-B_T,
+C_+:=B_Q+B_T,
+C_- C_+=W^4.
+
+
+Fix W=w>0. Every signed ordered pair (C_-,C_+) is chosen from the integer divisors of w^4, with the necessary same-parity condition. Then
+B_Q=(C_++C_-)/2,
+B_T=(C_+-C_-)/2.
+Thus the number of possible signed (B_Q,B_T) is O(tau(w^4)), up to an absolute sign factor. Zero/degenerate values are rejected by the retained physical masks.
+
+
+No local density is used: this is exact integer factorization of196.5.
+
+
+3. Second divisor reconstruction: B_Q fixes L and B_P up to divisor-many choices
+
+
+The other196 identity is
+B_Q^2+B_P^2=L^4.
+Write
+E_-:=L^2-B_P,
+E_+:=L^2+B_P.
+Then
+E_- E_+=B_Q^2.
+
+
+For fixed B_Q, choose a signed ordered factor pair of B_Q^2 with the required parity. It gives
+L^2=(E_++E_-)/2,
+B_P=(E_+-E_-)/2.
+Require L^2 to be a positive perfect square and take L>0. Hence there are O(tau(B_Q^2)) possibilities for (L,B_P). Again this is a reconstruction identity, not an independent square-density charge.
+
+
+On physical points W<L because L^2-W^2=(n_face D0)^2>0.
+
+
+4. Return to192: L and W recover the face-scale product
+
+
+Define
+K_face=sqrt(L^2-W^2).
+Require L^2-W^2 to be a positive square. On an actual endpoint
+K_face=n_face D0.
+
+
+Choose a positive divisor n_face|K_face and set
+D0=K_face/n_face.
+Require D0 even. The primitive face satisfies
+A^2+F^2=n_face^2,
+gcd(A,F)=1,
+A odd, F even
+under192's canonical routing. For fixed n_face the number of primitive Pythagorean representations (A,F) is divisor-many, O(tau(n_face^2)) and in particular B^{o(1)} at polynomial height.
+
+
+Next192 has
+D0=2 N_y d.
+Choose N_y*d=D0/2. There are at most tau(D0/2) positive choices. For each (N_y,d,A,F,L),192.5 requires
+X^2=L+A^2 F^2 d^4.
+Require the right side to be a positive square; then X is uniquely determined.
+
+
+Now form
+J0=X,
+J1=X-A^2 d^2,
+J2=X-F^2 d^2
+and require all192 reduced/gcd conditions and
+N_y^2=J0 J1 J2.
+These are checks, not new summation variables.
+
+
+Finally set
+k0=gcd(L,D0),
+g=D0/k0,
+R=L/k0,
+e3=W/k0,
+e1=gA,
+e2=gF,
+L1=X^2-2A^2 X d^2+A^2F^2d^4,
+L2=X^2-2F^2 X d^2+A^2F^2d^4,
+and require k0|L1,L2. This recovers the physical diagonals exactly as192.8. Recompute all h_i/content, signs,196 B_Q,B_P,B_T, the original U,V,N_T/Den(S),134 four-square/intrinsic-R masks, canonical routing and positivity. Remaining tests only discard candidates.
+
+
+Therefore a fixed W has only divisor-many physical preimages across ALL faces, contents, denominators and phase labels. No outer h, kappa, Theta or Phi cost appears.
+
+
+5. Uniform fiber bound and polynomial height
+
+
+For R<=B, e3<=R<=B and W=k0 e3. From192,
+k0<=D0=2N_y d,
+N_y<8B^3,
+d|g<=R<=B.
+Hence W<16B^5. All reconstructed integers B_Q,B_T,L,D0,n_face,N_y,d,X are bounded by fixed powers of B once W is fixed and the physical R<=B tests are imposed. Standard divisor estimates therefore absorb every factor count into B^{o(1)}.
+
+
+Uniformly on the canonical physical population,
+m_W(w;B)
+:=#{primitive canonical original endpoints R<=B with intrinsic receiver W=w}
+<=B^{o(1)}.
+
+
+The proof is elementary integer factorization. It does not invoke uniform elliptic rational-point bounds, Mordell-Weil rank, Kummer density, or the five197 elliptic factors.
+
+
+Summing the fixed-W fibers gives, for Z>=1,
+#E(W<=Z)<=Z B^{o(1)}.
+
+
+Thus for every fixed epsilon_W>0,
+#E(W<=B^(1/3-epsilon_W))=o(B^(1/3))
+at the retained M3 comparison scale. This is a scoped new sector disposal. It is not a claim that the surviving residual has small W.
+
+
+6. Relation to earlier coordinates and no-double-charge rules
+
+
+W is192's intrinsic integer quartic-square root, not the rational z of197/199 and not an independently chosen negative elliptic point. On physical points e3=W/k0, but k0 moves; therefore the fixed-W theorem is not merely a fixed-edge theorem.
+
+
+The nested factorizations are already consequences of the same physical receiver. Do NOT multiply the W-fiber saving by fixed-Theta196, fixed-Phi195, fixed-N_y192 or fixed-c183 fibers as independent densities. They are alternate bounded-fiber coordinates on the same endpoint set.
+
+
+The theorem does not cap the occupied W support in the large-W residual. Since W may be as large as a fixed power of B, the trivial full support is far too large. It also does not solve K=1 unshared conductor or K>1 large-c/low-median averaging.
+
+
+7. NEXT201
+
+
+Restrict henceforth to the surviving actual population
+W>B^(1/3-epsilon_W)
+for any chosen fixed epsilon_W>0, together with the previously retained large-Phi/Theta and large-c/full-S residual conditions.
+
+
+Seek a same-physical relation forcing a large W to consume one of the already conserved denominator/content resources, rather than treating W as an independent large label. The most concrete interfaces are:
+- W=k0 e3 with k0=gcd(L,D0), D0=2N_y d and192 lost factor g/d=2N_y/k0;
+-196 G=kappa H^2, Phi=L/H and P_minus=(-W^2/H^2,-W B_T/H^3);
+-186 H_content*c_u*Den(S)=R^3 with c_u=tau q_phase^2;
+-196 K=1 split gcd(N_y,s)=gcd(|A-eta F|,s), gcd(N_y,R/s)=gcd(|A+eta F|,R/s).
+
+
+A productive201 must turn one of these into a summed occupied-support/correlation bound on LARGE W, with moving content and conductor costs paid. Fixed-W, fixed-N_y, fixed-Phi, fixed-Theta, fixed-c and199 rank arguments cannot be recharged.
+
+
+Gate OPEN; global credit0. Restart from200 ->196/192 ->186 and only necessary ROUTE17 sections. Full history unnecessary.
+
+
+8. Verification and audit scope
+
+
+The proof is direct divisor reconstruction from exact identities already verified in192/196. Algebraic replay:
+(C_-C_+=W^4) gives B_Q,B_T and B_Q^2-B_T^2=W^4 identically;
+(E_-E_+=B_Q^2) gives L^2,B_P and B_Q^2+B_P^2=L^4 identically;
+K_face^2=L^2-W^2 and K_face=n_face D0 return exactly to192.6.
+All subsequent reconstruction formulas are192.4–192.8.
+
+
+Within-session deductive review PASS. No physical endpoints enumerated. Independent hostile audit NOT RUN. Separate-chat audit162–185 scope unchanged. No authority/credit/closure flag retracted.

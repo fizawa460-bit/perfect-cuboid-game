@@ -1,0 +1,244 @@
+﻿M3-T11-177 — Unit-median occupied-tau collapse and small-fresh sector disposal
+
+
+CARD_ID: M3-T11-177
+CANONICAL_CARD_KEY: M3-T11-177
+STATUS: PROVED_K1_OCCUPIED_TAU_RECEIVER_COLLAPSE / PROVED_K1_SMALL_FRESH_ENDPOINT_SECTOR / LARGE_FRESH_CONDUCTOR_REDUCTION / GLOBAL_COUNTING_CREDIT=0
+PRIMARY_GATE: M3-T11-GATE-001, OPEN
+GLOBAL_OPERATION: ACTIVE_T11_RESEARCH_WITH_SCOPED_DECOMPOSITION
+GLOBAL_COUNTING_CREDIT: 0
+AUDIT_MODE: WITHIN_SESSION_DEDUCTIVE_FROM_RETAINED_014_017_027_169_171_174_176
+
+
+1. Current authority and decision
+
+
+Fresh MAIN, CARD-INDEX, current short RESULT-LEDGER, active ROUTE and M3-T11-176 were read first. Retained M3-T11-014/017/027/169/171/174 were checked only where needed.
+
+
+Work on the exact K=1 subpopulation of the live small-c branch:
+c_max<=C=B^(1/6+xi),
+h_middle=1,
+R>B^(2/3-eta),
+Sigma>B^(1/3-delta_Sigma),
+D_min>B^(1/3-delta_D),
+with all full Gaussian orientations, triple-spin, torus double lift, M3-T11-176 denominator filters and physical endpoint masks retained.
+
+
+Since contents are positive and h_middle=1, after deterministic relabeling the sorted content triple is
+(h_a,h_b,h_c)=(1,1,h), 1<=h<=C.
+Thus H=h, c_max=h, and M3-T11-174 gives
+q_min=tau,
+D_min=tau,
+R=h*tau.                                             (177.1)
+
+
+The first new point is that the K=1 receiver can be indexed by tau alone: the outer h<=C factor in the M3-T11-176 content-packet receiver is not intrinsic once M3-T11-174 is used.
+
+
+The second new point is a genuine endpoint-sector disposal. In the K=1 packet, the old/nonfresh part of tau has prime support inside 2h. Such integers have only B^o(1) possibilities for fixed h. Therefore a small fresh part can be summed with its full content cost, producing a power-saving endpoint sector.
+
+
+No global endpoint upper bound follows. The large-fresh K=1 residual remains open.
+
+
+2. Fixed-tau receiver collapse at K=1
+
+
+M3-T11-174 proves uniformly for every integer d<=B
+#{primitive positive canonical endpoints R<=B with D_min=d} <= B^o(1).       (174.1)
+
+
+By (177.1), every K=1 endpoint with common residual tau=n lies in the fixed-D_min fiber d=n. Hence uniformly
+m_tau^(K=1)(n;B)
+:=#{K=1 endpoints with tau=n}
+<=B^o(1).                                             (177.2)
+
+
+Let S_tau^(1)(B;C) be the actually occupied tau values in the exact K=1 small-c branch, with all retained large-Sigma, large-D_min and physical masks. Then
+|S_tau^(1)| <= #E_K1(B;C) <= B^o(1)|S_tau^(1)|.       (177.3)
+
+
+Thus K=1 endpoint counting and occupied-tau support have the same power exponent. A rigorously sufficient support target is
+|S_tau^(1)(B;C)| << B^(1/3-epsilon)
+for some fixed epsilon>0.                              (177.4)
+
+
+This supersedes only the choice of receiver in M3-T11-176 Section 5 for K=1. Its per-content target B^(1/6-xi-epsilon) remains sufficient, but it is not minimal after (177.2). No analogous collapse is claimed for K>1, where D_min=q_min*h_middle retains the median-content coordinate.
+
+
+3. Two strengthened lower bounds on the K=1 residual
+
+
+First, retained large R and R=h*tau with h<=C give
+tau=R/h > B^(2/3-eta)/C
+           = B^(1/2-eta-xi).                          (177.5)
+
+
+This is stronger than the general small-c tau lower bound on the current fixed-small-parameter branch.
+
+
+Second, M3-T11-171 gives on the residual
+Sigma=H*tau_(1)*tau_(2)>B^(1/3-delta_Sigma),
+where tau_(1)<=tau_(2)<=tau_(3) are the three relative-core norms. Since H=h<=C,
+tau_(1)*tau_(2)
+> B^(1/3-delta_Sigma)/C
+= B^(1/6-delta_Sigma-xi).                              (177.6)
+
+
+Therefore
+tau_(2), tau_(3)
+> B^(1/12-delta_Sigma/2-xi/2).                        (177.7)
+
+
+This is the unit-median specialization of the full-relative-core balance, improving the general small-c exponent from M3-T11-171. It is a necessary condition only; no independent savings are multiplied.
+
+
+4. Fresh/nonfresh factorization at unit median
+
+
+For contents (1,1,h), the three coefficient norms in M3-T11-176 are
+(c_1,c_2,c_3)=(h,h,1)
+up to relabeling, so
+c_1*c_2*c_3=h^2.                                      (177.8)
+
+
+Use the exact M3-T11-027 definition: tau^sharp is the part of tau supported on odd split rational primes not dividing the fixed content product. Retained M3-T11-014 says every odd prime dividing tau (indeed every odd prime dividing R) is 1 mod 4. Therefore if
+tau=tau^sharp*tau_old,                                 (177.9)
+then
+rad(tau_old) | 2h.                                     (177.10)
+
+
+The factors in (177.9) are the canonical support split; tau^sharp is odd and coprime to h.
+
+
+5. Uniform support-restricted integer lemma
+
+
+Lemma. Fix any constant A>0. Uniformly for integers 1<=m<=B^A,
+#{n<=B : rad(n)|m}=B^o(1).                            (177.11)
+
+
+Proof. Put k=omega(m). Since the product of the first k primes is at least k!, m<=B^A implies
+k=O_A(log B/log log B).
+
+
+Take sigma=(log log B)^(-1/2). Rankin's trick gives
+#{n<=B:rad(n)|m}
+<= B^sigma * sum_{rad(n)|m} n^(-sigma)
+= B^sigma * product_{p|m}(1-p^(-sigma))^(-1).
+
+
+Uniformly for p>=2 and small positive sigma,
+(1-p^(-sigma))^(-1) <= C0/sigma
+with an absolute C0. Hence the logarithm of the Euler product is
+O(k log(1/sigma))=o(log B),
+while sigma log B=o(log B). This proves (177.11).
+
+
+Only this elementary support count is used. No distribution of primes or independent local density is asserted.
+
+
+6. Small-fresh K=1 endpoint sector
+
+
+Fix h<=C and s=tau^sharp. By (177.10)-(177.11), the number of possible tau_old<=B, hence the number of possible tau=s*tau_old<=B, is B^o(1), uniformly in h and s.
+
+
+For each fixed labeled content triple (1,1,h) and fixed tau, retained M3-T11-017 gives B^o(1) exact endpoint candidates. Equivalently, after tau is fixed one may also use the stronger K=1 fixed-D_min fiber (177.2).
+
+
+Therefore for every 1<=F<=B,
+#E_K1,tau^sharp<=F(B;C)
+<= C * F * B^o(1).                                    (177.12)
+
+
+At C=B^(1/6+xi), choose a fixed epsilon_f>0 and
+F=B^(1/6-xi-epsilon_f).                               (177.13)
+
+
+Then
+#E_K1,tau^sharp<=F
+<=B^(1/3-epsilon_f+o(1))
+=o(M3(B)),                                             (177.14)
+using the retained benchmark M3(B)>>B^(1/3).
+
+
+This is a genuine scoped endpoint disposal on the exact physical measure. It includes the entire moving nonfresh prime-power part of tau, the content sum h<=C, all coefficient orientations and every retained endpoint mask. It does not use the R502 raw carrier.
+
+
+7. Large-fresh residual and M3-T11-027 reactivation
+
+
+After removing (177.14), every remaining K=1 endpoint satisfies
+tau^sharp > B^(1/6-xi-epsilon_f).                     (177.15)
+
+
+Retained M3-T11-027 decomposes
+tau^sharp=tau_0^sharp*tau_1^sharp*tau_2^sharp*tau_3^sharp
+into pairwise coprime fresh core factors and gives
+max_j tau_j^sharp >= (tau^sharp)^(1/4).
+
+
+Hence on the new residual,
+max_j tau_j^sharp
+> B^(1/24-xi/4-epsilon_f/4).                          (177.16)
+
+
+If a maximal fresh core is relative, j in {1,2,3}, M3-T11-027 supplies the squared Gaussian ideal modulus
+M_j=(G_j^sharp)^2
+with
+N(M_j)>=(tau^sharp)^(1/2)
+> B^(1/12-xi/2-epsilon_f/2).                          (177.17)
+
+
+If the maximal fresh core is the all-same core j=0, the retained valuation identity instead supplies a square divisor (G_0^sharp)^2 of the normalized Gaussian numerator with the same norm lower bound (177.17).
+
+
+Thus the K=1 small-fresh branch from M3-T11-027 is now disposed at an explicit power threshold. The remaining unit-median problem has a guaranteed polynomial fresh conductor and splits into the retained relative-squared-modulus or all-same-square-divisor cases.
+
+
+This is not yet an analytic counting theorem. In particular, do not discard the triple-spin / torus-double-lift principal-incidence selector to obtain a relaxed separated count, and do not multiply the two M3-T11-027 branches.
+
+
+8. Scope, novelty and limits
+
+
+CARD-INDEX searches for D_min=tau, unit median, low median, occupied tau and moving tau found no prior card stating the K=1 receiver collapse or the small-fresh endpoint sector. M3-T11-174 contains the fixed-D_min theorem; M3-T11-176 contains the K=1 chart and content outer budget; their combination (177.2)-(177.4) was not previously recorded.
+
+
+M3-T11-027 explicitly left the small-fresh branch open pending a cover-conditioned friable/support theorem. Equation (177.11) supplies such a support theorem only because K=1 forces the nonfresh support into 2h with h<=C. No analogous conclusion is claimed for general low median K>1.
+
+
+The proof is deductive from retained exact identities and an elementary Rankin bound. No physical endpoint enumeration and no independent hostile audit are claimed.
+
+
+NEW_K1_OCCUPIED_TAU_RECEIVER_COLLAPSE=true
+NEW_K1_SMALL_FRESH_ENDPOINT_SECTOR=true
+NEW_K1_LARGE_FRESH_CONDUCTOR=true
+NEW_GLOBAL_ENDPOINT_BOUND=false
+PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+GLOBAL_COUNTING_CREDIT=0
+
+
+9. Drive-only handoff
+
+
+LATEST_RESEARCH_CARD=M3-T11-177
+NEXT_CANDIDATE=M3-T11-178
+CURRENT_ATTACK=UnitMedianLargeFreshPrincipalIncidence
+
+
+178 should stay on c_max<=C=B^(1/6+xi), K=1, after the small-fresh sector (177.14) is removed. Preserve large Sigma, large D_min, the full Gaussian triple-spin/double-lift selector, the exact M3-T11-176 denominator tests, and the fresh/nonfresh support split.
+
+
+Treat separately:
+(A) maximal relative fresh core: exact squared Gaussian ideal modulus with norm >B^(1/12-xi/2-epsilon_f/2);
+(B) maximal all-same fresh core: exact square-divisor event with the same norm lower bound.
+
+
+The next substantive target is a same-physical-measure count with a fixed power margin. Do not repeat small-fresh counting, raw R502 masks, fixed-fiber-only arguments, or a pre-endpoint relaxation that throws away the principal-incidence selector.
+
+
+The separate threshold-specific large-c branch remains OPEN. K>1 low-median averaging remains OPEN. M3-T11-174 small-D_min, M3-T11-171 small-Sigma, M3-T11-170 fixed-pair and M3-T11-171 support quantifier corrections are retained.

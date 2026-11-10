@@ -1,0 +1,134 @@
+﻿Stage37-229HF NATIVE EXACT CERTIFICATE
+CARD_DOC_ID=1CSTxvsxOmMQmcg5XbtFQIhi5gGVJXbCfu9Ru54SmVEA; CERT_DOC_ID=1Z9AzAv7wpchOalGDaOcodDuBSOa64PdWZ40pID4LAdQ
+RUN=Python3.12 with SymPy1.14; python descent_joint.py. No finite-prime cutoff. Proof and scope are in card; this code checks polynomial adapters only, not the moving physical theorem.
+FILE_BEGIN descent_joint.py
+SHA256 50e47e0039e383ae32a6a064eba312c32ea6c36a21c28fe301e1ec8dc4a86f33
+"""Stage37 229HF exact symbolic checks, not a finite-prime search.
+Run with Python >=3.10 and SymPy. The accompanying card proves the
+arithmetic gcd, squareclass, Fermat descent and physical scope statements.
+"""
+from pathlib import Path
+import json
+import sympy as s
+
+
+a,b,c,d,p,q=s.symbols('a b c d p q')
+L=[d,a*d+b*c,b*d-a*c,(b*b-a*a)*c+2*a*b*d]
+P2=a*a+b*b
+identities={
+ 'rotation_norm':L[1]**2+L[2]**2-P2*(c*c+d*d),
+ 'inverse_d':a*L[1]+b*L[2]-P2*d,
+ 'inverse_c':b*L[1]-a*L[2]-P2*c,
+ 'fourth_form':b*L[1]+a*L[2]-L[3],
+ 'p_mod_fourth':L[3]-2*b*L[1]+P2*c,
+}
+for name,expr in identities.items():
+    assert s.expand(expr)==0,name
+coeff=[(s.diff(v,c),s.diff(v,d)) for v in L]
+dets=[s.expand(u[0]*v[1]-u[1]*v[0])
+      for i,u in enumerate(coeff) for v in coeff[i+1:]]
+assert all(s.expand(u-v)==0 for u,v in zip(dets,[-b,a,a*a-b*b,P2,a*P2,-b*P2]))
+norm_coeff=[s.expand(u*u+v*v) for u,v in coeff]
+assert all(s.expand(u-v)==0 for u,v in zip(norm_coeff,[1,P2,P2,P2**2]))
+
+
+# Verify the exact first discriminant without reading any former bundle.
+Y=s.symbols('Y')
+f=a*a*(c*c+d*d)*Y*Y+(-2*a*b*c*c+4*(b*b-a*a)*c*d+6*a*b*d*d)*Y+b*b*(c*c+d*d)
+assert s.expand(s.discriminant(f,Y)-16*s.prod(L))==0
+
+
+# Diagonal-quadrics descent and inverse reconstruction, INCLUDING signs.
+k=s.symbols('k1:5');z=s.symbols('z1:5')
+ell=[ki*zi*zi for ki,zi in zip(k,z)]
+quad1=a*ell[1]+b*ell[2]-P2*ell[0]
+quad2=b*ell[1]+a*ell[2]-ell[3]
+crec=(b*ell[1]-a*ell[2])/P2
+drec=ell[0]
+# Direct algebra avoids assuming twist variables are independent coefficients.
+assert s.cancel(P2*(a*drec+b*crec-ell[1])+a*quad1)==0
+assert s.cancel(P2*(b*drec-a*crec-ell[2])+b*quad1)==0
+assert s.cancel(P2*((b*b-a*a)*crec+2*a*b*drec-ell[3])+2*a*b*quad1-P2*quad2)==0
+
+
+# The joint shared-prime reconstruction is an identity on ORIGINAL faces.
+E,gamma,Uprim=s.symbols('E gamma Uprim')
+assert s.expand((Uprim-gamma)*(Uprim+gamma)-(Uprim**2-gamma**2))==0
+# Gap signs must remain coupled, not given independent density factors.
+R,V,Z,ee,xx,yy=s.symbols('R V Z ee xx yy')
+assert s.expand((R-V)*(R+V)-(R*R-V*V))==0
+assert s.expand((R-Z)*(R+Z)-(R*R-Z*Z))==0
+for sig in [-1,1]:
+    for tau in [-1,1]:
+        # Necessary shared-p signed congruences R+sig*V=R+tau*Z=0:
+        # V = -sig*R, Z = -tau*R mod p^2. Exactly retained channels.
+        assert s.expand((R+sig*V).subs(V,-sig*R))==0
+        assert s.expand((R+tau*Z).subs(Z,-tau*R))==0
+
+
+out={
+ 'stage':'229HF','symbolic_identities':list(identities),
+ 'pairwise_determinants':[str(x) for x in dets],
+ 'linear_coefficient_squared_norms':[str(x) for x in norm_coeff],
+ 'first_discriminant_equals_16_product':True,
+ 'signed_diagonal_quadrics_exact_inverse':True,
+ 'gcd_L2_L3':'1 for primitive p^2,q^2 norms with distinct primes; card proof',
+ 'twist_support':'rad(ab(a^2-b^2)); p excluded; card proof',
+ 'empty_central_unit_twists':'abs(kappa2)=abs(kappa3)=1; Fermat infinite descent in card',
+ 'global_heights':['z1^2 <= q/abs(kappa1)','z2^2 <= pq/abs(kappa2)',
+                   'z3^2 <= pq/abs(kappa3)','z4^2 <= p^2 q/abs(kappa4)'],
+ 'joint_actual_bound':'N(E<=X, exists shared odd singleton p>=P0, any sign) <= C_epsilon B^epsilon X/P0 via retained163; NO prime summation',
+ 'joint_new_asymptotic_debit':False,
+ 'good_moving_pr_average_oQ_proved':False,
+ 'other_329_generic_branches_covered':False,
+ 'governance_changed':False,
+ 'finite_prime_cutoff_run':False,
+}
+path=Path(__file__).with_name('descent_joint.json')
+path.write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n')
+print(json.dumps(out,ensure_ascii=False,indent=2))
+FILE_END descent_joint.py
+FILE_BEGIN descent_joint.json
+SHA256 3acec3add270dc1b1955d48f9266360ef2f32e8686f2e5432e5d5b8cec5965ab
+{
+  "stage": "229HF",
+  "symbolic_identities": [
+    "rotation_norm",
+    "inverse_d",
+    "inverse_c",
+    "fourth_form",
+    "p_mod_fourth"
+  ],
+  "pairwise_determinants": [
+    "-b",
+    "a",
+    "a**2 - b**2",
+    "a**2 + b**2",
+    "a**3 + a*b**2",
+    "-a**2*b - b**3"
+  ],
+  "linear_coefficient_squared_norms": [
+    "1",
+    "a**2 + b**2",
+    "a**2 + b**2",
+    "a**4 + 2*a**2*b**2 + b**4"
+  ],
+  "first_discriminant_equals_16_product": true,
+  "signed_diagonal_quadrics_exact_inverse": true,
+  "gcd_L2_L3": "1 for primitive p^2,q^2 norms with distinct primes; card proof",
+  "twist_support": "rad(ab(a^2-b^2)); p excluded; card proof",
+  "empty_central_unit_twists": "abs(kappa2)=abs(kappa3)=1; Fermat infinite descent in card",
+  "global_heights": [
+    "z1^2 <= q/abs(kappa1)",
+    "z2^2 <= pq/abs(kappa2)",
+    "z3^2 <= pq/abs(kappa3)",
+    "z4^2 <= p^2 q/abs(kappa4)"
+  ],
+  "joint_actual_bound": "N(E<=X, exists shared odd singleton p>=P0, any sign) <= C_epsilon B^epsilon X/P0 via retained163; NO prime summation",
+  "joint_new_asymptotic_debit": false,
+  "good_moving_pr_average_oQ_proved": false,
+  "other_329_generic_branches_covered": false,
+  "governance_changed": false,
+  "finite_prime_cutoff_run": false
+}
+FILE_END descent_joint.json

@@ -1,0 +1,35 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229DS
+Exact p-adic intersection of the 229BX square-conductors Q with G0; coprime primitive macro-content residual
+STATUS=PROVED_SCOPED_EXACT_VALUATION_SUPPORT_THEOREM / G0_Q_FACTOR_SPLIT / HIGH_POPULATION_COUNT_OPEN / CREDIT0
+CARD_DOC_ID=1uPKYNMG3OUzMvwvAHIqTIyx5QROOTqmk6kpNsa5R_L4
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229DR
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230=NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+INDEPENDENT_HOSTILE_AUDIT_229DS=NOT_RUN.
+1. Original exact physical source and conductor notation
+Keep e²+x²=U², e²+y²=V², x²+y²=z², e²+x²+y²=R², e,x,y,U,V,z,R positive integers, gcd(e,x,y)=1, original full selectors/orientation/chamber, R<=B, and sf(G0)>B^(1/3-delta) for fixed 0<delta<1/3, where G0=gcd(eR,xy). Do NOT substitute cone-only integer points for physical endpoints.
+Put A=R-U, Bv=R-V, C=R-z. By 229BX, q_UV²=odd(gcd(A,Bv)), q_Uz²=odd(gcd(A,C)), q_Vz²=odd(gcd(Bv,C)); q_UV,q_Uz,q_Vz are odd, pairwise coprime, and Q=q_UV*q_Uz*q_Vz. All three are actual exact full odd prime-power roots, not squarefree radicals. By 229DP, eta=rad_odd(Q)=gcd(K,d), J=gcd(K,S) (K=rad_odd(Omega Pi), S=A+Bv+C, R=S+2d), gcd(eta,J)=1.
+2. THEOREM 229DS.1 — full Q-adic valuation of physical macro-content
+Define C_G=q_Uz*q_Vz. Then exact integer identities hold on the original primitive physical source:
+gcd(G0,Q)=q_Uz*q_Vz=C_G, and gcd(G0,q_UV)=1.
+In particular C_G divides G0 to its COMPLETE q_Uz and q_Vz prime-power valuations, with no excess G0 valuation at any prime of Q.
+Proof by primes. Let odd p|q_UV. Then p|A and p|Bv, so p|y and p|x from y²=A(R+U), x²=Bv(R+V). Also z²=x²+y² gives p|z. If p|R, then R²=e²+z² forces p|e, contradicting gcd(e,x,y)=1. Thus p∤R and e is a p-unit (by primitivity and p|x,y); hence v_p(G0)=min(v_p(eR),v_p(xy))=0.
+Let odd p|q_Uz. Then p|A,C, hence p|y,e, and primitivity forces p∤x; also p∤R, since R²=x²+V² and e,y multiples of p imply V multiple p and x is a p-unit. Because U≡z≡R mod p and p is odd, R+U and R+z are p-units. Consequently v_p(A)=2v_p(y), v_p(C)=2v_p(e) and v_p(q_Uz)=min(v_p(y),v_p(e)). Moreover v_p(G0)=min(v_p(eR),v_p(xy))=min(v_p(e),v_p(y))=v_p(q_Uz).
+Similarly for odd p|q_Vz: p|Bv,C, so p|x,e, p∤y,R; v_p(Bv)=2v_p(x), v_p(C)=2v_p(e), and v_p(G0)=min(v_p(e),v_p(x))=v_p(q_Vz).
+Since the three odd q-conductors are pairwise coprime by 229BX, these valuations at every p|Q establish gcd(G0,Q)=q_Uz*q_Vz exactly. QED.
+3. THEOREM 229DS.2 — coprime G0 residual, exact eta share and joint J exclusion
+Set G_res:=G0/(q_Uz*q_Vz), a positive integer. Then gcd(G_res,Q)=1 and
+G0=(q_Uz*q_Vz)*G_res, gcd(q_Uz*q_Vz,G_res)=1.
+Since eta=rad_odd(Q), gcd(eta,G0)=rad(q_Uz*q_Vz); the q_UV component of eta never intersects G0, whereas every odd prime in q_Uz*q_Vz necessarily occurs in G0. In the standard meaning sf(n)=product of distinct prime divisors, sf(G0)=rad(q_Uz*q_Vz)*sf(G_res). These identities include all q prime-power valuations, not merely squarefree support.
+Combining 229DR gcd(J,G0)|3 with gcd(J,Q)=1 gives gcd(J,G_res)|3. For any odd p>=5, if p|G0 and p|K then p either belongs to the q_Uz/q_Vz part of eta or to Kfree=K/(eta J); it can neither lie in q_UV nor J. This is a deterministic disjoint routing of the occupied physical supports, not an independence assertion.
+Since gcd(K,d)=eta and gcd(K,S)=J, all primes of rad(q_Uz*q_Vz) also divide d and are excluded from S. The possibly large G_res support is coprime to Q and may still meet Kfree or R; no additional disjointness is inferred.
+4. Explicit threshold interface and quantitative firewall
+For any real T>1 and 0<theta<1, the original sf(G0)>T implies rad(q_Uz*q_Vz)>T^theta OR sf(G_res)>T^(1-theta), since their product equals sf(G0). This is an exact two-branch cover without any loss of the original physical masks or independent-density multiplication.
+Retain 229BX Q^4*A0*B0*C0=Omega<B³/27 and 229DQ Q^4*J²|Omega, together with the moving low-sector exclusions 229DO/DP. None of these deterministic identities counts the actual high-Kcross/high-rad(Sd) population. The new threshold split is NOT an o(B^(1/3)) result, not a new low-sector disposal, and not evidence of positive global counting credit.
+CURRENT_COUNTING_RECEIVER_UNCHANGED: #S_B(delta)<=B^(1/3)exp(-Lambda)+#H_B^DP(delta) with Lambda=logB/loglogB; H_B^DP preserves all 229DO synchronized moving auxiliary tests, high Kcross, high rad(Sd), original square selectors, positivity, primitive conditions, R<=B and sf(G0) gate.
+5. Next research contract / dependencies / unchanged status
+NEXT_RESEARCH_INPUT_CONTRACT=Give an actual all-selector occupied physical count #H_B^DP(delta)=o(B^(1/3)), respecting the exact content decomposition G0=q_Uz*q_Vz*G_res with G_res coprime Q, the prior gcd(J,G_res)|3, square conductor budget, eta/d and J/S split, and real 229BU reconstruction/height; alternatively use the 229AR full-G0 macro-Pythagorean receiver. Do not treat the two threshold branches as independent events or count arbitrary congruence classes as original endpoints.
+Dependencies: 229BX exact full odd square conductor q_UV,q_Uz,q_Vz and pairwise coprimality; 229DP eta/d and J/S support; 229DR selector-primitive J/G0 exclusion; 229AR definition of macro G0; elementary valuation deductions from all FOUR physical squares. No new computational or existence claim.
+Existing operational M3-T11-229, latest construction M3-T11-228, M3-T11-230 NOT_ISSUED, gate OPEN, global CREDIT0, P_OVER_M3_LIMIT_PROVED=false, production HOLD, prior closure/retractions and integrated audit186–229O scope unchanged. 229DI eta-free dual remains RETRACTED; 229DJ eta² mandatory. Independent hostile audit of229DS NOT_RUN.
+NEXT_NEW_CHAT=MAIN top229DS -> CARD-INDEX row588 -> RESULT-LEDGER top229DS -> active ROUTE top229DS -> 229DS card; targeted229BX/229DP/229DR/229AR only as needed.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

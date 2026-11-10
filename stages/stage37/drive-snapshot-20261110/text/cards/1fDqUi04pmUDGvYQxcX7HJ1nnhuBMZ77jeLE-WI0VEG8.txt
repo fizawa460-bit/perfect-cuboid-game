@@ -1,0 +1,144 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229CW — positive anisotropy double norm and Eisenstein gcd conductor
+CARD_DOC_ID=1fDqUi04pmUDGvYQxcX7HJ1nnhuBMZ77jeLE-WI0VEG8
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229CV
+STATUS: POST_229CV_POSITIVE_ANISOTROPY_DOUBLE_NORM / QUADRATIC_HEIGHT_FIXED_VALUE_B_O_PHYSICAL_FIBER / FULL_R_S_GCD_EISENSTEIN_SPLITTING / ORTHOGONAL_J_KERNEL_SUPPORT / NO_GLOBAL_COUNTING_CREDIT / NO_REOPEN
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope and exact identities
+
+
+Work only on the exact positive primitive Stage37 S_B^hard13(delta) physical source with R<=B and all selectors:
+e^2+x^2=U^2, e^2+y^2=V^2, x^2+y^2=z^2, e^2+x^2+y^2=R^2.
+A=R-U, Bv=R-V, C=R-z; S=A+Bv+C=R-2d, d>0.
+By 229BU/229CB, A Bv + A C + Bv C=2d^2; S and R are odd (229BX).
+Let Omega=A Bv C, s=A+Bv, t=A+C, u=Bv+C, Pi=s t u.
+Retain 229CF/CG: lambda_U=gcd(A,S), lambda_V=gcd(Bv,S), lambda_z=gcd(C,S) are odd pairwise coprime; L_J=lambda_U lambda_V lambda_z=gcd(Omega,S)=gcd(Pi,S), J=rad(L_J), and gcd(L_J,d)=1.
+Retain all existing 229CC six buckets, 229CT full-J norm-S gcd primary, 229CV geometric height adapter and 229BY Sections2-4; 229BY Section5 radical triangle remains retracted by 229BZ.
+
+
+2. New quadratic-height positive anisotropy receiver
+
+
+Define
+N_an := S^2 - 6d^2.                                          (CW.1)
+Let X=A-Bv and Y=A+Bv-2C=S-3C.
+The cone identity sum(A_i^2)=S^2-4d^2 gives
+Y^2 + 3X^2
+ = 6(A^2+Bv^2+C^2)-2S^2
+ = 4(S^2-6d^2)
+ = 4 N_an.                                                     (CW.2)
+Since X and Y have the same parity, alpha=(Y+X sqrt(-3))/2 is an algebraic integer of the Eisenstein ring Z[(1+sqrt(-3))/2], with
+Norm_{Q(sqrt(-3))/Q}(alpha)=N_an.                              (CW.3)
+N_an>=0. Equality would give X=Y=0, hence A=Bv=C, U=V=z and e=x=y; then U^2=2e^2, impossible for positive integers. Therefore actual physical endpoints satisfy
+0<N_an<S^2<R^2<=B^2.                                        (CW.4)
+On the other hand
+N_an=Norm_{Q(sqrt(6))/Q}(S+d sqrt(6))                        (CW.5)
+is simultaneously a real quadratic norm.
+RESULT_229CW_POSITIVE_QUADRATIC_HEIGHT_DOUBLE_NORM_ANISOTROPY_SCALAR=PROVED_EXACT.
+The two norm descriptions are the SAME scalar of ONE physical endpoint. They are not independent sieve factors.
+
+
+3. Uniform B^o(1) fixed-N physical fiber
+
+
+Fix n=N_an>0, n<B^2.
+Step A (real norm): S^2-6d^2=n with 0<S<R<=B and 0<d<B. In the fixed real quadratic field Q(sqrt(6)), each algebraic integer S+d sqrt(6) of norm n generates an integral ideal of norm n. There are at most tau(n)^O(1) such ideals (prime-ideal factorization in a fixed degree-2 field); generators of one ideal differ by units. The norm-positive real units are generated up to sign by a fixed fundamental unit (5+2sqrt(6)); restricting both positive embeddings and 0<S,d<B leaves O(1+log B) unit translates. Therefore uniformly
+# {(S,d): S^2-6d^2=n, 0<S,d<B} << tau(n)^O(1)(1+log B) = B^o(1).  (CW.6)
+No class-number-one assumption is needed for this upper bound: count only principal ideals among all norm-n ideals.
+
+
+Step B (imaginary norm): for each fixed (S,d), (CW.2) gives Y^2+3X^2=4n with Y==X mod 2. Since Z[(1+sqrt(-3))/2] is the Eisenstein UFD, the number of algebraic integers alpha of norm n is <=6 tau(n), so there are B^o(1) possible ordered (X,Y).
+The gaps are uniquely recovered from
+C=(S-Y)/3,
+A=(2S+Y+3X)/6,
+Bv=(2S+Y-3X)/6.                                        (CW.7)
+Nonintegral, nonpositive or nonphysical candidates are discarded. Each surviving labelled positive gap triple determines at most one positive physical endpoint by retained 229BU reconstruction (R=S+2d, U=R-A, V=R-Bv, z=R-C, then e,x,y from the squares).
+Combining yields uniformly
+#{P:R(P)<=B, N_an(P)=n} = B^o(1).                         (CW.8)
+RESULT_229CW_FIXED_ANISOTROPY_N_HAS_UNIFORM_SUBPOWER_PHYSICAL_FIBER=PROVED.
+
+
+The Eisenstein norm also implies N_an is odd, and every p==2 mod 3 has EVEN exponent in N_an; equivalently sf(N_an) is supported only on 3 and primes p==1 mod 3. These are necessary support restrictions, not a fixed-power occupied-value estimate.
+RESULT_229CW_ANISOTROPY_N_INERT_PRIMES_HAVE_EVEN_VALUATION=PROVED_EXACT.
+
+
+4. New full gcd conductor q and exact local splitting
+
+
+Define
+q:=gcd(R,S).                                                (CW.9)
+Because R is odd and R=S+2d, exactly
+q=gcd(R,S)=gcd(R,d)=gcd(S,d).                              (CW.10)
+In particular q is odd and q|R, q|S, q|d, so
+q^2|N_an.                                                    (CW.11)
+Since gcd(L_J,d)=1, gcd(q,L_J)=1.
+
+
+For every prime p|q, p|R,S,d. If p divided any gap A,Bv,C, then p would divide its lambda color as well, contradicting gcd(L_J,d)=1. Thus p divides none of A,Bv,C. Since U=R-A, V=R-Bv, z=R-C, p divides none of U,V,z. Then the face equations
+y^2=R^2-U^2, x^2=R^2-V^2, e^2=R^2-z^2
+show p does not divide e,x,y, and -1 is a quadratic residue modulo p. Therefore p==1 mod4.
+
+
+Also the exact identities
+U+V+z=3R-S,
+U^2+V^2+z^2=2R^2
+give, modulo q,
+U+V+z==0,
+U^2+V^2+z^2==0.
+As U is a q-unit, t:=V U^(-1) mod q satisfies
+t^2+t+1==0 mod q, and z==-(1+t)U mod q.                (CW.12)
+Modulo p, p!=3 (as p==1 mod4) and t has multiplicative order exactly 3; hence p==1 mod3. Therefore EVERY prime p|q satisfies
+p==1 mod 12,  and q==1 mod 12.                            (CW.13)
+The two roots of t^2+t+1 modulo each p^a||q are simple and lift uniquely, giving exactly 2^omega(q) admissible global root classes modulo q.
+RESULT_229CW_FULL_R_S_GCD_EISENSTEIN_ROOT_LINE_AND_MOD12_SUPPORT=PROVED_EXACT.
+
+
+Moreover q is coprime to the full physical outer and pair-sum products: if p|q then p∤A Bv C and, since s=S-C, t=S-Bv, u=S-A, p∤s t u. Thus
+gcd(q,Omega Pi)=1.                                         (CW.14)
+Also gcd(q,e x y U V z)=1, and gcd(q,G0)=1 for G0=gcd(eR,xy).
+In addition for p>3 dividing J, p|S and p∤d (229CF/CG), so
+N_an== -6d^2 mod p and p∤N_an.
+Thus with J_sharp=J/gcd(J,3),
+gcd(N_an,J_sharp)=1.                                        (CW.15)
+RESULT_229CW_Q_CONDUCTOR_IS_COPRIME_TO_OMEGA_PI_AND_KERNEL_G0=PROVED_EXACT.
+RESULT_229CW_ANISOTROPY_N_SUPPORT_IS_DISJOINT_FROM_THREE_FREE_J=PROVED_EXACT.
+
+
+This makes q an OPTIONAL orthogonal Eisenstein conductor, not a seventh guaranteed-large six-bucket. q may equal 1.
+
+
+5. Quantitative ceiling and safe continuation
+
+
+The fixed-N fiber (CW.8) is a new low-height pushforward: N_an<B^2, each occupied value contains only B^o actual physical endpoints. It does NOT bound the number of actually occupied n. The standard unrestricted ambient count O(B^2) is enormously above the one-third target.
+
+
+Fix q=m. Since m|R and m|d, there are at most O((B/m)^2) candidate integer pairs (R,d); each fixed pair has B^o physical fiber from Section 3 (its N is determined), so
+#{P:R<=B,q(P)=m} << B^o(1)(B/m)^2.                   (CW.16)
+This is a charged-once deterministic upper bound, not a claimed independent quadratic-density sieve. Unrestricted summation over q>Q gives only <<B^o B^2/Q, too large to prove o(B^(1/3)) for any admissible Q<=B. The Eisenstein root-class restriction is not independently multiplied into (CW.16).
+No large-q, large-N, or mixed J/kernel occupied-support theorem has been established.
+
+
+New optional theorem interface:
+ANISOTROPY_DOUBLE_NORM_OCCUPANCY:
+count the ACTUALLY REALIZED N_an values on the exact hard13 source with sf(G0)>T and all retained selectors, using simultaneous real Q(sqrt(6)) and imaginary Q(sqrt(-3)) norm representations and N_an<B^2, fixed-N B^o.
+EISENSTEIN_Q_CONDUCTOR_OCCUPANCY (optional): q=gcd(R,S)=gcd(R,d)|R,d, q^2|N_an, q==1 mod12, gcd(q,G0 Omega Pi)=1; count only if a genuinely large q branch is independently forced. A theorem on unrestricted Eisenstein norm values alone is not sufficient.
+
+
+CURRENT_PRIMARY_J_INTERFACE=229CT_FULL_J_NORM_S_GCD_TRIANGLE_OCCUPANCY_OPEN.
+SECONDARY_NEW_INPUT_229CW=POSITIVE_DOUBLE_NORM_ANISOTROPY_WITH_FIXED_VALUE_SUBPOWER_FIBER_AND_OPTIONAL_Q_EISENSTEIN_CONDUCTOR.
+CURRENT_BLOCKER=NO_SELECTOR_AWARE_OR_OCCUPIED_SUPPORT_SAVING_FOR_THE_229CC_SIX_BUCKET_COVER_ON_THE_EXACT_HARD13_PHYSICAL_SOURCE.
+NEXT: seek actual occupied N_an support saving correlated with large sf(G0)>T and the six-bucket cover, or prove it cannot give one-third. Preserve 229CT full-J primary; 229CV height adapter; 229CU/CS B-state; 229CP R/P/S and eta/tau/M_i/K_cross fallback. Do not treat real and imaginary norms as independent probabilities. Do not use retracted 229BY Section5.
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+INDEPENDENT_HOSTILE_AUDIT_229CW=NOT_RUN.
+No global exponent improvement and no perfect-cuboid existence/nonexistence claim.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

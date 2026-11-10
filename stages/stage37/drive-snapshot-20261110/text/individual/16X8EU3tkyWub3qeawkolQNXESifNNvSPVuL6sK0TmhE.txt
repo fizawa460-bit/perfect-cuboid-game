@@ -1,0 +1,296 @@
+﻿M3-T11-202 — Original-phase homogeneity cancellation and conductor-support firewall
+
+
+STATUS: PROVED_ORIGINAL_PHASE_K0_HOMOGENEITY / PROVED_FORCED_CLEARED_GCD_POWERS / PROVED_K1_CONDUCTOR_SUPPORT_FIREWALL / DIRECT_K0_PHASE_ROUTE_NO_NEW_SAVING / GLOBAL_COUNTING_CREDIT=0.
+Authority: Stage37 MAIN, operational CARD-INDEX, short RESULT-LEDGER, active ROUTE only as needed, latest201 with dependencies192/196/186/184. Gate OPEN. NEXT203. Independent hostile audit NOT RUN; separate-chat audit162–185 scope unchanged. TI parked;120 retracted;147–149 frozen. No retraction.
+
+
+1. Result and scope
+
+
+201 proved that the normalized196 two-point receiver and186 denominator conservation are blind to the halfpoint normalization scale k0. NEXT202 asked whether returning BEFORE that normalization to the ORIGINAL phase polynomials
+U,V,N_T,G_phase
+could recover a non-homogeneous k0 or ell_lost=g/d relation.
+
+
+It does not. The original phase polynomials are exactly homogeneous in the192 cleared receiver:
+U,V have degree3 in the physical edge/diagonal coordinates and N_T has degree2. Clearing the common k0 denominator therefore inserts forced powers k0^3 and k0^2. Those powers disappear exactly in G_phase reduction and in Den(S). Thus the original product/common-u phase is also normalization-scale blind.
+
+
+A second exact firewall holds on K=1: d and ell_lost=g/d divide g while gcd(g,R)=1, so they are p-units at every conductor prime p|R. They cannot contribute any gcd support to s or v, which divide R. Moreover the R-supported valuations of k0 are exactly the R-supported valuations of N_y. Hence196.9 merely transports the already-known shared N_y conductor to k0; it does not control the remaining conductor depth.
+
+
+This is a route obstruction, not a proof that actual endpoints with freely varying k0 exist and not a global large-W disposal. 200's small-W sector remains the only W counting credit in this branch; global credit remains0.
+
+
+2. Exact cleared receiver for the ORIGINAL phase
+
+
+Use192's signed physical reconstruction. Let epsilon_i in {+1,-1} be the retained original diagonal signs and define integer cleared coordinates
+
+
+E1=D0*A,
+E2=D0*F,
+E3=W,
+
+
+F1=epsilon1*L1,
+F2=epsilon2*L2,
+F3=epsilon3*D0*n_face.                       (202.1)
+
+
+Because
+D0=k0*g,
+W=k0*e3,
+L1=k0*|f1|,
+L2=k0*|f2|,
+D0*n_face=k0*|f3|,
+the actual signed coordinates are
+
+
+e_i=E_i/k0,
+f_i=F_i/k0,
+R=L/k0.                                      (202.2)
+
+
+Define the cleared original phase polynomials
+
+
+U0=E1*E2*E3-E1*F2*F3-E2*F1*F3-E3*F1*F2,
+V0=F1*E2*E3+F2*E1*E3+F3*E1*E2-F1*F2*F3,
+N0=E1*F1+E2*F2+E3*F3.                        (202.3)
+
+
+Using192's ORIGINAL definitions
+
+
+U=e1*e2*e3-e1*f2*f3-e2*f1*f3-e3*f1*f2,
+V=f1*e2*e3+f2*e1*e3+f3*e1*e2-f1*f2*f3,
+N_T=e1*f1+e2*f2+e3*f3,
+
+
+we get identically
+
+
+U0=k0^3*U,
+V0=k0^3*V,
+N0=k0^2*N_T.                                 (202.4)
+
+
+No valuation or existence argument is involved; these are pure homogeneous substitutions.
+
+
+3. The apparent k0^3 in the phase gcd is forced and cancels
+
+
+Let
+G_phase=gcd(U,V)>0,
+G0=gcd(U0,V0)>0.
+From(202.4),
+
+
+G0=k0^3*G_phase.                              (202.5)
+
+
+Thus every p-adic factor 3*v_p(k0) seen in the cleared gcd G0 is forced solely by clearing the common coordinate denominator. It is NOT a new phase collision or selector.
+
+
+192 reduces the actual phase by
+
+
+b_phi=U/G_phase,
+a_phi=V/G_phase,
+c_phase=R^3/G_phase.
+
+
+Substituting(202.2),(202.5) gives the exact cleared formulas
+
+
+b_phi=U0/G0,
+a_phi=V0/G0,
+c_phase=L^3/G0.                              (202.6)
+
+
+Therefore k0 disappears completely from the reduced product phase. On the physical population c_phase is the same actual reduced product/common-u phase coordinate routed downstream to the184/186 phase analysis; no extra k0 divisibility may be charged.
+
+
+Equivalently, under the common normalization scaling
+(E_i,F_i,L,k0) -> (lambda E_i,lambda F_i,lambda L,lambda k0),
+U0,V0,G0 scale by lambda^3 while every reduced phase coordinate in(202.6) is invariant.
+
+
+4. N_T and Den(S): the apparent k0^2 also cancels
+
+
+184/186 use
+
+
+T=sum_i (e_i/R)(f_i/R)=N_T/R^2,
+S=2T.
+
+
+By(202.2),(202.4),
+
+
+T=N0/L^2,
+S=2N0/L^2.                                   (202.7)
+
+
+Hence the reduced denominator is
+
+
+Den(S)=L^2/gcd(L^2,2N0).                     (202.8)
+
+
+But
+L^2=k0^2 R^2,
+2N0=2k0^2 N_T,
+so
+
+
+gcd(L^2,2N0)=k0^2*gcd(R^2,2N_T),             (202.9)
+
+
+and therefore
+
+
+Den(S)=R^2/gcd(R^2,2N_T).                    (202.10)
+
+
+Again every k0^2 visible before reduction is forced and cancels exactly. The186 square denominator D_S^2=Den(S), q_phase=R/D_S, and
+H_content*c_u*Den(S)=R^3
+therefore receive no new k0 resource from the192 cleared receiver.
+
+
+Do NOT count k0^2|gcd(L^2,2N0) or k0^3|G0 as fresh divisibility conditions. They are identities caused by homogeneous clearing.
+
+
+5. The lost factor has disjoint conductor support
+
+
+192 proves
+gcd(R,g)=1,
+d|g,
+ell_lost:=g/d,
+and
+k0*ell_lost=2N_y.                            (202.11)
+
+
+Therefore
+
+
+gcd(R,d)=gcd(R,ell_lost)=1.                  (202.12)
+
+
+On the retained186 population R is odd. For every prime p|R, p does not divide 2*ell_lost, so(202.11) gives the exact valuation identity
+
+
+v_p(k0)=v_p(N_y), for every p|R.              (202.13)
+
+
+Consequently, for every divisor r|R,
+
+
+gcd(k0,r)=gcd(N_y,r).                         (202.14)
+
+
+This is a useful exact transfer, but it does not create a new saving.
+
+
+On K=1,196 writes s*v=R, gcd(s,v)=1 and proves
+
+
+gcd(N_y,s)=gcd(|A-eta*F|,s),
+gcd(N_y,v)=gcd(|A+eta*F|,v).                 (202.15)
+
+
+Combining(202.14),(202.15),
+
+
+gcd(k0,s)=gcd(|A-eta*F|,s),
+gcd(k0,v)=gcd(|A+eta*F|,v).                  (202.16)
+
+
+Meanwhile(202.12) gives
+
+
+gcd(d,s)=gcd(d,v)=1,
+gcd(ell_lost,s)=gcd(ell_lost,v)=1.           (202.17)
+
+
+Thus the proposed202 alternative "use d or ell_lost to control the unshared conductor" has no gcd support at all: d and ell_lost are units at every prime of s*v=R. The only k0 conductor sharing is exactly the already-known N_y sharing from196.9. Any excess conductor valuation beyond that shared part remains OPEN.
+
+
+This does not rule out a genuinely new non-gcd congruence involving d or ell_lost, but no retained theorem supplies one.
+
+
+6. Combined firewall for the large-W route
+
+
+The following apparent routes are now closed as NEW-saving sources unless an additional non-homogeneous theorem is introduced:
+
+
+(a) normalized196: closed by201 because W/H and WB_T/H^3 cancel k0;
+(b) original U,V,G_phase: closed by(202.4)-(202.6), where k0^3 is forced clearing content;
+(c) original N_T/Den(S): closed by(202.7)-(202.10), where k0^2 is forced clearing content;
+(d) K1 conductor gcd via d or ell_lost: closed by(202.12),(202.17);
+(e) K1 conductor gcd via k0: reduces exactly to196.9 through(202.13)-(202.16).
+
+
+Accordingly, existing192/196/184/186 identities do not force a large k0 component of
+W=k0*e3
+to consume the phase denominator/conductor resource. Large W remains an OPEN actual-receiver residual. This result only prevents repeated work on an algebraically homogeneous coupling.
+
+
+No statement here says k0 is freely scalable among actual primitive endpoints; the receiver variables satisfy the full192 quartic and original masks. The theorem is only that the current phase reductions cannot distinguish the common normalization scale.
+
+
+7. No-double-charge rules
+
+
+Do not:
+- use k0^3|G0 as a fresh gcd probability or divisor saving;
+- use k0^2|gcd(L^2,2N0) as a fresh Den(S) selector;
+- multiply fixed-W200 by fixed-c_u183, fixed-N_y192, fixed-Phi195 or fixed-Theta196 fibers;
+- claim d or ell_lost shares conductor primes with s or v;
+- reinterpret(202.16) as a new K1 condition independent of196.9.
+
+
+All are exact consequences of the same physical endpoint data.
+
+
+8. NEXT203 — return to the K>1 low-median gate
+
+
+Per201's fallback rule, the direct large-W/phase coupling has now been exhausted through both normalized and original phase coordinates. Return to the separate all-content low-median problem that remained OPEN in174-176.
+
+
+Work on the surviving exact physical population with:
+- large Sigma from171,
+- large D_min from174,
+- h_middle>1 (the K>1 branch left outside176-180's unit-median K=1 development),
+- all original Gaussian/triple-spin/four-square/intrinsic-R masks,
+- and186 full-content conservation
+  H_content*c_u*D_S^2=R^3,
+  c_u=tau*q_phase^2.
+
+
+The first target is a SAME-PHYSICAL summed receiver that pays the moving median-content multiplicity rather than fixing q_min. Use174's
+D_min=q_min*h_middle
+with q_min kept distinct from186 q_phase. Seek a content-prime relation between h_middle or D_min and D_S/q_phase/c_u, or prove a new firewall if their valuation tables are independent after exact content allocation.
+
+
+Do not restart the K1-only fresh-conductor chain177-181, do not use fixed-q_min B^o (not proved), and do not revive the134-superseded fresh amplified C_u branch.
+
+
+Gate OPEN; global credit0. 200 small-W disposal retained. Physical endpoints enumerated=0.
+
+
+9. Verification and audit scope
+
+
+(202.4)-(202.10) are exact symbolic homogeneous substitutions into the retained192/184/186 definitions.
+(202.12)-(202.17) follow from retained192 gcd(R,g)=1, d|g, k0*ell_lost=2N_y, retained186 odd R, and retained196 K1 split.
+
+
+Within-session exact symbolic/deductive review PASS. No independent hostile audit was run. Separate-chat audit162-185 remains the only independent audit scope. No retraction, authority, closure or global-credit flag changes.

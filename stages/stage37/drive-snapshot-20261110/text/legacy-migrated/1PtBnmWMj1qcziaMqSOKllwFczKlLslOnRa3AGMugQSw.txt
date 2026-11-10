@@ -1,0 +1,248 @@
+﻿M3-T11-119 — Phi Q0 Gaussian square-conductor lattice tail and Q1 cube saturation
+
+
+STATUS=PROVED_EXACT / HOSTILE_AUDIT_PASS / EXACT_SAME_MEASURE_MOVING_MODULUS_COUNT / PHI_Q0_GAUSSIAN_SQUARE_DIVISOR / PHI_Q1_CUBE_ANTI_LOOP / NO_GLOBAL_POWER_SAVING\nAUDIT_DOC_ID=1aN_8wZPIP8kRIOoPyJnjzgJvnmVRU3kju-M7qRcobGU
+TYPE=THEOREM_CANDIDATE / SAME_MEASURE_PARAMETER_LATTICE_SUM / CONDUCTOR_HEIGHT_ROUTER / ANTI_LOOP_FIREWALL
+POPULATION=Exact nondegenerate Stage37 physical endpoints with R<=B in one fixed content/coefficient packet, restricted to the audited phi/1+3 image. One endpoint is one count.
+DEPENDENCIES=M3-T11-036 HOSTILE_AUDIT_PASS fixed-u B^o(1) physical multiplicity; M3-T11-109 HOSTILE_AUDIT_PASS phi parametrization; M3-T11-110 HOSTILE_AUDIT_PASS Q0*Q1^3 norm factorization and odd coprimality; M3-T11-118 HOSTILE_AUDIT_PASS definition of M_phi,0 and current residual split.
+ALIASES=PhiQ0GaussianSquareDivisorTail; PhiMovingSquareConductorLatticeSum; PhiQ1GaussianCubeSaturation; PhiTotalRelativeConductorHeightWindow.
+DUPLICATE_SEARCH=RESULT-LEDGER, active ROUTE, NEGATIVE-REGISTER and Drive search checked for M_phi,0 Gaussian lattice, Phi Q0 square conductor lattice, H^2/M phi Q0, H+H^2/M, Q0 square-divisor tail, and PhiQ0AllocationConductorTail lattice. No matching same-population theorem found. Older Gaussian determinant/lattice cards concern different carriers or lack the fixed-u physical adapter. DUPLICATE_OF=NONE.
+
+
+1. Exact Gaussian linear-cube factorization
+
+
+For primitive t=r/s define
+A0=r+i*s,
+B1=(r-2*s)+i*s,
+Q0=N(A0)=r^2+s^2,
+Q1=N(B1)=(r-2*s)^2+s^2,
+and retain
+U=-2*s*(r-s)*(r^2-2*r*s-s^2),
+V=r^4-6*r^3*s+12*r^2*s^2-14*r*s^3+11*s^4.
+
+
+Exact expansion gives
+U+i*V = i*conj(A0)*B1^3,
+U-i*V = -i*A0*conj(B1)^3.
+
+
+Hence N(U+iV)=Q0*Q1^3, recovering audited M3-T11-110, but now with the Gaussian orientations exposed before taking norms. Also
+Res_r(Q0,Q1)=32*s^4,
+so for primitive (r,s) every common odd rational prime divisor of Q0 and Q1 is impossible.
+
+
+This factorization is structural. It is not by itself a saving.
+
+
+2. Q0 allocation gives an actual Gaussian square-conductor divisor
+
+
+Retain
+M_phi,0 = product_{p^lambda || M_rel, p|Q0} p^lambda.
+
+
+Every relative-fresh prime is odd split. Audited common-u saturation gives M_rel^2 | a^2+b^2. On the phi image, reduction of U/V cancels only powers of 2 and p|Q0 is odd-coprime to Q1, so
+v_p(Q0)>=2*lambda.
+
+
+Because gcd(r,s)=1, for p=pi*conj(pi) exactly one of pi,conj(pi) divides A0. Therefore for the actual orientation there is a Gaussian integer alpha_0 such that
+alpha_0 | A0,
+N(alpha_0)=M_phi,0^2.
+
+
+For a fixed integer m=M_phi,0, the possible associated alpha_0 up to associates are at most 2^omega(m), up to the bounded unit factor. Since H=max(|r|,|s|),
+|A0|=sqrt(Q0)<=sqrt(2)*H.
+Writing A0=alpha_0*z gives
+|z|<=sqrt(2)*H/m.
+
+
+Thus for fixed m and orientation,
+# {primitive phi parameters (r,s) of height <=H compatible with alpha_0}
+<= # {z in Z[i]: |z|<=sqrt(2)*H/m}
+<< 1+H^2/m^2.
+Dropping primitivity only enlarges the count.
+
+
+Summing over all moving m>=M and all orientations gives
+sum_{M<=m<=sqrt(2)H} 2^omega(m)*(1+H^2/m^2)
+<< H*log(2H) + (H^2/M)*log(2M),
+using 2^omega(n)=sum_{d|n} mu^2(d), dyadic summation, and the standard elementary divisor-sum bounds.
+
+
+Audited M3-T11-036 gives B^o(1) exact physical endpoints for each realized u in one fixed packet. Since u=phi(t) and counting primitive t values only overcounts distinct u values, for every fixed A with H<=B^A,
+
+
+E_phi,0(B;H,M)
+:= # {exact physical phi endpoints admitting primitive t of height <=H and M_phi,0>=M}
+
+
+satisfies
+
+
+E_phi,0(B;H,M)
+<<_A B^o(1) * min(H^2, H + H^2/M).
+
+
+This is one replacement count on the same physical measure. No determinant factor is multiplied into a pre-existing endpoint bound.
+
+
+3. Genuine exponent window and scope correction to the usefulness of the 118 tail
+
+
+Since M_phi,0^2 | Q0 and Q0<=2H^2,
+M_phi,0<=sqrt(2)*H.
+Thus in exponent notation H<=B^h, M_phi,0>=B^m0, every nonempty asymptotic shell has m0<=h+o(1).
+
+
+The audited 118 bound
+E_phi<<B^o(1)*min(H^2,H^4/M_phi,0^2)
+is correct, but on the feasible range M_phi,0<=sqrt(2)H its second term does not improve the ambient H^2 exponent. Its one-twelfth condition 4h-2m0<1/12 can only beat the one-twelfth target when the ambient 2h is already at least as good.
+
+
+The new Gaussian moving-modulus sum gives instead
+E_phi,0 << B^{min(2h, max(h,2h-m0))+o(1)}.
+For m0>0 this is a genuine improvement over the ambient 2h exponent, down to the floor h when m0 approaches h.
+
+
+A sufficient one-twelfth window is
+h<1/12
+and
+2h-m0<1/12.
+This can hold while 2h>=1/12, so it is strictly stronger than ambient parameter counting.
+
+
+No statement of M3-T11-118 is retracted; only the exponent usefulness of its H^4/M0^2 term on the actual feasible Q0-allocation range is clarified.
+
+
+4. Q1 allocation has only an ordinary Gaussian divisor and a height cap
+
+
+Define the complementary fresh allocation
+M_phi,1 = product_{p^lambda || M_rel, p|Q1} p^lambda.
+
+
+Odd coprimality of Q0,Q1 and M_rel^2|a^2+b^2 imply
+M_rel=M_phi,0*M_phi,1
+on the retained relative-fresh support.
+
+
+For p^lambda|M_phi,1, write e_p=v_p(Q1). Audited M3-T11-110 gives
+3*e_p=v_p(a^2+b^2)>=2*lambda,
+so e_p>=ceil(2*lambda/3).
+
+
+Equivalently, if pi_p is the unique Gaussian prime above p dividing B1, then
+Gamma_1=product pi_p^ceil(2*lambda/3)
+divides B1.
+Its norm
+K_1=N(Gamma_1)=product p^ceil(2*lambda/3)
+satisfies
+K_1>=M_phi,1^(2/3)
+and
+K_1|Q1.
+
+
+Since
+Q1=(r-2s)^2+s^2<=10H^2,
+one gets the deterministic cap
+M_phi,1 <= Q1^(3/2) <= 10^(3/2)*H^3.
+
+
+The exact identity U+iV=i*conj(A0)*B1^3 shows why the local Q1 cubic orientations are globally compatible: they are the local prime factors of the single global cube B1^3. Therefore a cross-prime argument that only combines those Gaussian orientations or the already-audited cubic-resonance labels supplies no additional rarity event. A new Q1 theorem must use information beyond this universal cube divisibility.
+
+
+5. Combined total-relative-conductor window
+
+
+Let R0>=1 and restrict to physical phi endpoints with H(t)<=H and M_rel>=R0.
+From
+M_rel=M_phi,0*M_phi,1
+and
+M_phi,1<=10^(3/2)H^3,
+one has
+M_phi,0 >= R0/(10^(3/2)H^3).
+
+
+Insert this lower bound into Section 2. Uniformly for polynomial H,R0,
+
+
+E_phi(B; H(t)<=H, M_rel>=R0)
+<< B^o(1) * min(
+H^2,
+H + H^5/R0
+),
+
+
+with the fixed numerical constants absorbed.
+
+
+Equivalently, for H<=B^h and M_rel>=B^m,
+
+
+E_phi << B^{min(2h, max(h,5h-m))+o(1)}.
+
+
+The deterministic caps M_phi,0<<H and M_phi,1<<H^3 also give
+M_rel<<H^4,
+so asymptotically nonempty shells satisfy m<=4h+o(1).
+
+
+On the previously hard Q1-dominant side m>3h, the exponent becomes
+max(h,5h-m).
+A sufficient one-twelfth window there is
+h<1/12
+and
+5h-m<1/12.
+
+
+This is a scoped physical saving only. No theorem here forces the total phi population into m>3h or h<1/12.
+
+
+6. Remaining minimal phi receiver
+
+
+The new count removes a real part of the small-M_phi,0 residual: high total relative conductor compared with H^3 forces enough Q0 square conductor to be sparse after summing every moving modulus.
+
+
+What remains hard is the genuinely Q1-dominant region in which
+M_rel is at most about H^3,
+M_phi,0 is small,
+and the conductor can be carried by the ordinary divisor structure of B1 and its universal cube B1^3.
+
+
+The exact global cube factorization shows that merely CRT-combining Q1 prime orientations or replaying primewise cubic resonance cannot close this residual. A future phi attack must correlate the Q1 divisor/cube with another exact physical coordinate or invariant on the same R<=B measure, or pivot to the independent genuinely nonlocal S4 / theta!=0 routes.
+
+
+FIREWALL:
+- Do not multiply the Gaussian lattice tail by the audited 118 fixed-d tail; take the minimum of valid replacement counts.
+- Do not charge 2^omega(M_phi,0) as a saving; it is a subpolynomial orientation cost already summed.
+- Do not treat Gamma_1|B1 or the B1^3 cube as a probability: every Q1-allocated endpoint has it.
+- Do not infer a global lower bound for M_rel, M_phi,0, or parameter height.
+- Do not infer resonance=>Q1; only audited Q1=>resonance remains licensed.
+- Do not promote a global fixed-power saving, primary-gate closure, P(B)/M3(B), endpoint theorem, or Perfect Cuboid nonexistence credit.
+
+
+VERIFICATION:
+Exact symbolic expansion independently returned
+(U+iV)-i*(r-is)*((r-2s)+is)^3=0,
+(U-iV)+i*(r+is)*((r-2s)-is)^3=0,
+Q0*Q1^3-(U^2+V^2)=0,
+Res_r(Q0,Q1)=32*s^4.
+A finite supporting screen over 1111 primitive pairs with |r|<=30,1<=s<=30 verified the deterministic M_phi,0<<H and synthetic maximal Q1-allocation M_phi,1<<H^3 inequalities. Finite checks are supporting only.
+
+
+CREDIT=Hostile-audit-promoted exact same-measure Q0 moving-square-conductor lattice tail; Q1 Gaussian-cube saturation/height cap; combined total-conductor scoped window. Zero global fixed-power/primary-gate/P-over-M3/Perfect-Cuboid credit.
+NEXT_LEGAL_ACTION=Continue phi only on the residual Q1-dominant regime not covered by the new total-conductor/height window, using a genuinely independent same-R<=B correlation beyond the universal B1^3 cube/resonance structure. Preserve genuinely nonlocal S4 and theta!=0 as independent live routes.
+NEXT_RESEARCH_CARD_ID=M3-T11-120
+
+
+PHI_Q0_GAUSSIAN_MOVING_MODULUS_TAIL_PROVED=true
+PHI_Q0_GAUSSIAN_TAIL_EXPONENT=min(2h,max(h,2h-m0))
+PHI_Q1_GAUSSIAN_CUBE_FACTORIZATION_PROVED=true
+PHI_Q1_MPHI1_LE_H3_PROVED=true
+PHI_TOTAL_MREL_HEIGHT_WINDOW_PROVED=true
+GLOBAL_FIXED_POWER_SAVING=false
+PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false

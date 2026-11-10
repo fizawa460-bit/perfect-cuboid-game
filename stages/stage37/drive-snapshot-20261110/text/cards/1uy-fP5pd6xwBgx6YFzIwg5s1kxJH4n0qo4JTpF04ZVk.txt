@@ -1,0 +1,330 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229U — norm-five selector saturation and fixed genus-three finiteness
+
+
+STATUS: POST_229T_NORM5_GATE_CLOSED_UP_TO_Bo1 / PROVED_NORM5_ENDPOINT_SELECTORS_AUTOMATIC_EXCEPT_BASE_NORM / PROVED_BASE_NORM_REDUCES_TO_FIXED_SMOOTH_GENUS3_CURVE / FALTINGS_GIVES_FINITE_RATIONAL_r / PROVED_NORM5_REALIZED_TWIST_SUPPORT_FINITE / PROVED_NORM5_DEPENDENT_ENDPOINT_COUNT_Bo1 / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229T NORM5_RATIONAL_QUARTIC_GATE CLOSURE / EXACT SELECTOR FACTORIZATION / FIXED GENUS-3 DIOPHANTINE RECEIVER / SUBGATE COUNTING CREDIT
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229T
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+
+
+1. Scope
+
+
+229T reduced every physical norm-five dependence point to
+  P=[alpha]Q,
+  Q in E_d(Q),
+  alpha of Gaussian norm 5,
+with
+  r:=x(Q)/d = epsilon t^2,
+  epsilon in {+1,-1},
+  t in Q^*,
+and the rational quartic carrier
+  W^2=d(t^4-1)        for epsilon=+1,
+or
+  W^2=d(1-t^4)        for epsilon=-1.
+
+
+The remaining question was whether the retained 229J physical selector conditions cut this genus-one carrier enough to give a same-physical bound.
+
+
+This card proves that the two endpoint selectors N(p^2 plus/minus 1) become AUTOMATIC squares on the norm-five CM image, while the base condition N(p) square cuts the carrier by one fixed smooth genus-three curve independent of d. Faltings then makes the rational r-support finite. Combined with 229L fixed-d fiber B^o(1), the entire norm-five dependent endpoint contribution is B^o(1).
+
+
+This is genuine subgate counting credit only. It does not prove the global Stage37 gate.
+
+
+2. Exact norm-five Lattes coordinate
+
+
+Take alpha=2+i. Retain 229T:
+  p^2 = x(P)/d = F(r)=r H(r)^2,
+where
+  H(r)=(((2-i)r^2+i)(r^2-1+2i))
+       /(5r^4-2r^2+1).                          (229U.1)
+
+
+Set
+  D(r)=5r^4-2r^2+1,
+  A(r)=r^4-2r^2+5.                              (229U.2)
+
+
+For real rational r,
+  H(r) conjugate(H(r)) = A(r)/D(r).             (229U.3)
+
+
+The other norm-five slopes are obtained from 2+i by conjugation, sign, or multiplication by the unit i. Conjugation leaves all norms below unchanged; sign leaves x unchanged; multiplication by i changes F to -F and swaps the plus/minus endpoint selectors. Hence it is enough to compute for alpha=2+i.
+
+
+RESULT_229U_NORM5_NORM_FACTOR=PROVED_EXACT.
+
+
+3. Endpoint selector saturation: N(p^2 plus/minus 1) are automatic squares
+
+
+A direct exact factorization gives
+
+
+  N(F(r)+1)
+   = [
+       (r-1)(r^4+4r^3+10r^2+4r+1)
+       /D(r)
+     ]^2,                                        (229U.4)
+
+
+  N(F(r)-1)
+   = [
+       (r+1)(r^4-4r^3+10r^2-4r+1)
+       /D(r)
+     ]^2.                                        (229U.5)
+
+
+Therefore for every rational r at which the non-torsion norm-five map is defined,
+  N(p^2+1) in Q^{*2},
+  N(p^2-1) in Q^{*2}
+hold identically.
+
+
+Thus the two endpoint selectors that were nontrivial on the ambient 229J torus give NO further arithmetic thinning on the norm-five rational CM carrier.
+
+
+RESULT_229U_NORM5_ENDPOINT_PLUS_SELECTOR=AUTOMATIC_SQUARE.
+RESULT_229U_NORM5_ENDPOINT_MINUS_SELECTOR=AUTOMATIC_SQUARE.
+RESULT_229U_NORM5_ENDPOINT_SELECTOR_SATURATION=PROVED_EXACT.
+
+
+This is an important firewall: norm-five dependence cannot be disposed by reusing only the two endpoint norm-square tests.
+
+
+4. The base norm condition is the surviving selector
+
+
+229J also requires
+  N(p) in Q^{*2}.
+
+
+Since r=epsilon t^2 and p is a square root of F=rH^2, one may take
+  p=tH(r)          when epsilon=+1,
+  p=i t H(r)       when epsilon=-1,
+up to the harmless sign.
+
+
+In either case
+  N(p)=t^2 A(r)/D(r).                            (229U.6)
+
+
+Because t^2 is already a rational square, the physical base condition is equivalent to
+  A(r)/D(r) in Q^{*2}.                           (229U.7)
+
+
+Equivalently, with U in Q,
+  C_5:
+  U^2=A(r)D(r)
+     =(r^4-2r^2+5)(5r^4-2r^2+1).               (229U.8)
+
+
+RESULT_229U_NORM5_BASE_SELECTOR_EQUIVALENT_TO_FIXED_CURVE=PROVED_EXACT.
+
+
+Crucially, C_5 is independent of d, B, alpha, and the endpoint packet.
+
+
+5. C_5 is a smooth genus-three curve
+
+
+Let
+  f(r)=(r^4-2r^2+5)(5r^4-2r^2+1).
+
+
+Exact polynomial calculation gives
+  gcd(f,f')=1,
+and
+  Disc(f)=2^60 * 5^2 != 0.                      (229U.9)
+
+
+Hence f is squarefree of degree 8. The smooth projective model of
+  U^2=f(r)
+is therefore a hyperelliptic curve of genus
+  g=(8-2)/2=3.                                  (229U.10)
+
+
+RESULT_229U_FIXED_CURVE_SMOOTH=PROVED_EXACT.
+RESULT_229U_FIXED_CURVE_GENUS=3.
+
+
+6. Faltings gives finite rational r-support
+
+
+By Faltings' theorem (Mordell conjecture), a smooth projective curve of genus greater than 1 over Q has only finitely many Q-rational points.
+
+
+Applying this to C_5 gives
+  C_5(Q) finite.                                 (229U.11)
+
+
+Therefore the set of rational r that can occur in a norm-five physical dependence endpoint is finite.
+
+
+No effective enumeration of C_5(Q) is claimed or needed for the exponent statement.
+
+
+RESULT_229U_NORM5_RATIONAL_r_SUPPORT=FINITE_BY_FALTINGS.
+
+
+7. Finite r implies finite realized twist support
+
+
+For every surviving rational r, 229T also has
+  r=epsilon t^2
+with at most finitely many rational t.
+
+
+The rational point Q=(dr,y_Q) on E_d satisfies
+  (y_Q/d)^2=d*r*(r^2-1).                        (229U.12)
+
+
+Thus the squareclass of d in Q^*/Q^{*2} is uniquely determined by r:
+  [d]=[r(r^2-1)]                                (229U.13)
+because inversion is identical in the squareclass group.
+
+
+The canonical positive squarefree representative d is therefore unique if it exists. Hence the norm-five physical dependence branch realizes only finitely many canonical twists d.
+
+
+RESULT_229U_NORM5_REALIZED_TWIST_SUPPORT=FINITE.
+
+
+This is stronger than the 229T finite-degree/genus-one carrier statement: the surviving physical base selector has converted the moving norm-five branch into a finite twist-support set.
+
+
+8. Endpoint count on the norm-five dependence branch
+
+
+Retain 229L: for every fixed canonical twist d, the number of positive physical endpoints of height R_phys<=B mapping to E_d is uniformly
+  B^{o(1)}.
+
+
+Section 7 leaves only finitely many d on the norm-five dependence branch. Therefore
+
+
+  #{positive physical endpoints R_phys<=B
+      in CM dependence with N(alpha)=5}
+    = B^{o(1)}
+    = o(B^{1/3}).                                (229U.14)
+
+
+All finitely many norm-five associates/conjugates and physical signs are absorbed into the constant.
+
+
+RESULT_229U_NORM5_DEPENDENT_ENDPOINT_COUNT=B^{o(1)}.
+RESULT_229U_NORM5_RATIONAL_QUARTIC_GATE=CLOSED_FOR_STAGE37_ONE_THIRD_BUDGET.
+
+
+This is genuine local/subgate counting credit.
+
+
+It does NOT change
+  GLOBAL_COUNTING_CREDIT=0,
+because the bounded CM dependence slopes of norms >5 and the independent CM-pair population remain unresolved.
+
+
+9. Consequence for CM_PAIR_DEPENDENCE_GATE
+
+
+229S reduced dependence to finitely many Gaussian norms
+  5<=N(alpha)<=M_delta.
+
+
+229U removes the entire first surviving norm:
+  N(alpha)=5 contributes only B^{o(1)} endpoints.
+
+
+Therefore the active dependence remainder is
+
+
+  BOUNDED_CM_IMAGE_GATE_GT5:
+  primitive Gaussian alpha with
+    5<N(alpha)<=M_delta,
+  together with the same physical measure.
+
+
+For odd higher norms, reuse 229T odd-norm pullback. For even norms, retain 229S bounded-image formulation.
+
+
+A useful next attack is the smallest surviving norm after 5 allowed by
+  a^2+b^2,
+  gcd(a,b)=1,
+  ab!=0,
+rather than returning to norm 5.
+
+
+Do not reopen norm-five selector algebra unless an audit rejects (229U.4)-(229U.10), the Faltings application, or the fixed-d fiber adapter.
+
+
+10. Global route status
+
+
+The preferred whole-endpoint theorem gate remains unchanged:
+
+
+  #{positive primitive physical endpoints R_phys<=B:
+      sf(gcd(eR_phys,xy))>B^(1/3-delta)}
+    =o(B^(1/3))
+for some fixed delta>0.
+
+
+GAUSSIAN_TWIST_RADICAL_GCD remains CONDITIONAL_RESERVE/THEOREM_WATCH.
+
+
+CM_PAIR_DEPENDENCE substatus:
+- norm 2: physically empty by 229S;
+- norm 5: B^o(1), closed for one-third budget by 229U;
+- bounded norms >5: OPEN;
+- independent A,C population: no rank>=2 production theorem currently credited.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+PRIMARY_GATE_STATUS=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+
+
+11. Sources checked
+
+
+Internal:
+- Stage37-NEW-INPUT-DELTA-AUDIT-229T;
+- 229S bounded Gaussian dependence reduction;
+- 229L fixed-twist B^o(1) fiber theorem adapter;
+- 229J one-Gaussian-variable selector normal form;
+- current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+External theorem:
+- Faltings' theorem / Mordell conjecture: smooth projective curves of genus >1 over Q have finitely many rational points. Standard original source: G. Faltings, “Endlichkeitssätze für abelsche Varietäten über Zahlkörper,” Invent. Math. 73 (1983), 349–366. A current Encyclopedia of Mathematics entry also records this consequence.
+
+
+New exact algebra:
+- factorizations (229U.3)-(229U.5);
+- squarefree/discriminant calculation (229U.9).
+
+
+AUDIT SCOPE
+
+
+This card closes only the N(alpha)=5 dependence branch at the Stage37 one-third counting budget. It does not close all CM dependence, does not prove rank>=2 on the complement, does not prove the global radical-gcd gate, does not change global counting credit, does not retract 229L-T, and does not issue M3-T11-230. Integrated audit186–229O remains unchanged in scope.
+
+
+
+
+FINAL_READBACK_RECEIPT: PASS.
+Card identity/title/body read back from Drive. CARD-INDEX row486 and 案内 latest/read-order point to 229U. MAIN contains CURRENT AUTHORITY OVERRIDE=229U with unchanged preferred sf(gcd(eR,xy)) gate, T11-230 unissued, PRIMARY_GATE OPEN and GLOBAL_COUNTING_CREDIT=0. RESULT-LEDGER contains the 229U change record and card pointer. Active ROUTE contains the POST-229U selector-saturation/genus3 finiteness block. Exact norm5 selector factorization, fixed smooth genus3 C5, Faltings finite-r support, finite realized twist support, and B^o(1) norm5 dependent endpoint count are all present. This is subgate counting credit only; global counting credit remains 0. Integrated audit186–229O remains limited to its stated scope and is not silently extended to 229P–U. Production HOLD retained; P/M3 limit unproved.

@@ -1,0 +1,79 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229ED
+Uniform moving INNER face-slope population bound via uniform Mordell-Lang + Gaussian 2-descent
+
+
+STATUS=PROVED_UNIFORM_MOVING_FACE_SLOPE_M_1_PLUS_EPS / PROVED_B_POWER_SAVED_LOW_SLOPE / LARGE_SLOPE_OPEN / GLOBAL_COUNTING_CREDIT=0
+CARD_DOC_ID=1Vc7NU_MdM1OrhX5ND5BE2a7JsUdpF04ocrXNVvM0ti4
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229EC
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230=NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+INDEPENDENT_HOSTILE_AUDIT_229ED=NOT_RUN.
+
+
+1. ACTUAL GOAL AND DIRECTLY RELATED ANTI-LOOP
+
+
+Original physical positive primitive seven-tuples P=(e,x,y,U,V,z,R), e²+x²=U², e²+y²=V², x²+y²=z², e²+x²+y²=R², gcd(e,x,y)=1, original chamber, R<=B and exact 229DP high masks (sf(G0)>B^(1/3-delta), high Kcross/rad(Sd), K-null, positivity and selectors). Let a=gcd(e,y), E=e/a, Y=y/a, W=V/a; (E,Y,W) is primitive Pythagorean; max(E,Y)<=M is the low INNER face-slope sector. By229EB every such physical P maps injectively to C_{E,Y}(Q) with t=x/a and u=U/a,v=z/a,w=R/a; C_{E,Y} has genus5 and is Q-isogenous in its Jacobian to E12,E13,E23,E4,E5. 229EB counted only FIXED M as O_M(1);229EC proved E4 rank>=1 uniformly and hence forbade uniform rank-zero premise. Prior229BF fixed OUTER genus5 is a different slice, 229AB a different bounded-CM source. Current rows594–598 and NEGATIVE-REGISTER229EC/229DT-A1 checked, plus targeted INDEX search for 'Dimitrov','uniform Mordell' (none) and genus-five (only229BF,229EB); no previous uniform moving inner face-slope bound found. Do not count local filters as independent. This card supplies the genuinely NEW moving-M bound without assuming any rank<5.
+
+
+2. EXTERNAL THEOREM, PRECISELY APPLIED
+
+
+Dimitrov–Gao–Habegger, 'Uniformity in Mordell–Lang for curves', Annals of Mathematics 194 (2021), Theorem 1.1, DOI 10.4007/annals.2021.194.1.4, https://annals.math.princeton.edu/2021/194-1/p04.
+For all smooth geometrically connected genus5 curves C/Q, there exists an ABSOLUTE c=c(5,1)>=1 (independent of coefficients, heights and individual C) such that
+ #C(Q) <= c^(1+rank Jac(C)(Q)).               (229ED.1)
+This is unconditional, no rank<g assumption, no conjecture. It is a point-count theorem, not a height bound; the constant may be ineffective.
+
+
+3. UNIFORM RANK BOUND THROUGH K=Q(i)
+
+
+Set D=2 E Y W |E²-Y²|. This is a positive nonzero integer because E,Y>0,E!=Y,W²=E²+Y². Put K=Q(i), class number one; primes over rational factors of D number at most 2 omega(D). We prove every one of the FIVE elliptic quotient factors (over Q) has rank over K at most O(1+omega(D)), with an absolute uniform constant.
+
+
+(i) The pair quotients Eij: h²=(t²+m²)(t²+n²), m,n distinct in {E,Y,W}. Over K, the four branch points t=+/-i m,+/-i n are K-rational. Choosing a K-rational branch point as origin on the smooth genus-one model yields full rational 2-torsion over K: the four ramification points are precisely its four 2-torsion points. An integral quartic model has good reduction away from primes of K over 2mn(m²-n²). For (m,n)=(E,Y),(E,W),(Y,W), differences m²-n² equal E²-Y², -Y², -E² respectively. Thus every bad prime lies over a rational divisor of D.
+(ii) The E4 quotient has Weierstrass model T²=X(X-E²)(X-Y²), with rational full 2-torsion; discriminant 16 E^4 Y^4 (E²-Y²)² and good reduction away from D.
+(iii) E5 has genus-one quartic k²=s(s+E²)(s+Y²)(s+W²), four distinct Q-rational branch points 0,-E²,-Y²,-W²; with (0,0) as origin these are the complete rational 2-torsion. The quartic branch discriminant only involves 2, E,Y,W and E²-Y², hence good reduction away from D.
+(iv) At any factor over K all 2-torsion is K-rational. For S=primes of K over 2D together with its archimedean place, standard 2-descent embeds Sel_2(F/K) in K(S,2)^2, where K(S,2) consists of squareclasses with even valuations outside S. Since Z[i] is a PID and its unit group modulo squares has dimension one, dim_F2 K(S,2) <= |S_fin|+1 <=2 omega(D)+O(1). Consequently rank F(K) <= dim Sel_2(F/K) <= 4 omega(D)+O(1), independently of the face slope or factor. The Q-isogeny from229EB and rank_Q F <= rank_K F imply
+ rank Jac(C_{E,Y})(Q) <=20 omega(D)+O(1).    (229ED.2)
+References for the exact Kummer/Selmer inclusion and good reduction condition: James Parson, 'Mazur's Eisenstein descent', section 2.1, https://math.stanford.edu/~conrad/vigregroup/vigre03/eisendescent.pdf. The K=Q(i) class-number-one specialization above is elementary and shown explicitly; no hidden class-group rank.
+
+
+5. NEW THEOREM 229ED.3: UNIFORM POINTS AND PHYSICAL POPULATION FOR MOVING SLOPES
+
+
+For all primitive positive (E,Y,W) with max(E,Y)<=M (M>=2), W<=sqrt(2)M and
+ 0<D=2EYW|E²-Y²| <= C M^5.
+The elementary distinct-prime-divisor bound omega(n)=O(log n/loglog n) therefore gives, uniformly in the slope,
+ rank Jac(C_{E,Y})(Q) = O(log M/loglog M).
+Apply (229ED.1):
+ #C_{E,Y}(Q) <= exp(O(log M/loglog M))=M^{o(1)}; rigorously, for EVERY fixed epsilon>0, #C_{E,Y}(Q) <= C_epsilon M^epsilon uniformly for all primitive E,Y and M>=2.    (229ED.3)
+
+
+Euclid's primitive-Pythagorean parametrization, W=m²+n² and max(E,Y)<=M, implies m²+n²<=sqrt(2)M. There are O(M) ordered integer m,n pairs and only O(M) primitive ordered face slopes (E,Y,W) in this range. Since each positive primitive FULL physical point maps injectively to a rational C_{E,Y}-point, it follows WITHOUT any R-height relaxation:
+ #{P in X_phys(B):max(e/gcd(e,y),y/gcd(e,y))<=M} <= C_epsilon M^(1+epsilon) for ALL B>=1 and M>=2.   (229ED.4)
+Same exact bound holds for every subset satisfying original high229DP masks. This is a genuine UNIFORM moving-slope physical population theorem; unlike Faltings fixed-M O_M(1), the constant is independent of M and B. It may be non-effective but is rigorous.
+
+
+In particular fix sigma with 0<sigma<1/3 and take M(B)=B^(1/3-sigma) (for large B), epsilon=sigma/[2(1/3-sigma)]. Then low-slope high full-selector physical population is
+ #H_B^DP(delta; max(E,Y)<=B^(1/3-sigma)) = O_sigma(B^(1/3-sigma/2))=o(B^(1/3)).  (229ED.5)
+The coefficient in O_sigma is independent of B. For example sigma=1/12 gives M=B^1/4, choose epsilon=1/6 and count O(B^(7/24)) (below 1/3). No physical mask has been removed or multiplied; we upper-bound a whole original exact physical sector by a larger full curve point set.
+
+
+6. DIRECT IMPACT, LIMITS, AND ALTERNATIVE METHOD TESTED
+
+
+The old229EB receiver is now rigorously sharpened for any fixed 0<sigma<1/3:
+ #S_B(delta) <= B^(1/3)exp(-Lambda)+O_sigma(B^(1/3-sigma/2))+#H_B^ED,large(delta,sigma),   (229ED.6)
+where H_B^ED,large is exactly 229DP high original positive primitive source with max(E,Y)>B^(1/3-sigma). Previously valid229DZ/EA physical small-R exceptional subsets can be removed from the large remainder once, never multiplied as probabilities.
+
+
+This is a substantive power saving for a MOVING unbounded family; it does NOT prove the all-high remainder, does NOT provide any high-selector Gres/K-null bound in the large-slope region, and does NOT certify the global o(B^(1/3)) target. GLOBAL_COUNTING_CREDIT=0, primary gate OPEN, no authority/closure promotion.
+
+
+METHOD A (rank<5-dependent Chabauty) was audited:229EC forbids uniformly rank zero and no rank<5 uniform hypothesis is certified. It therefore cannot be assumed. METHOD B was actually executed using the unconditional uniform Mordell–Lang theorem plus an explicit all-five-factor K=Q(i) 2-descent rank bound; proof closes the moving low-slope sector. Its novelty versus229EB is replacing an unknown C_M by uniform M^(1+epsilon), and versus229EC is turning positive-rank structural data into an actual height-uniform physical count independent of Chabauty.
+
+
+NEXT_PRIMARY=Concentrate on complementary large INNER primitive face slope max(E,Y)>B^(1/3-sigma) within all full high229DP selectors. Use the exact relation a=gcd(e,y), R>=aW, W>max(E,Y), so a<=B/W but do not assume this height inequality alone counts points. Test (i) a-structured same-x Gres/K-null dyadic occupied population conditioned on W>B^(1/3-sigma), including medium e<=B^1/2 and e>B^1/2 229AR whole-G0; (ii) a genuinely uniform large-slope tail theorem or an exact factor-congruence counting theorem giving o(B^(1/3)). No formal route switch. 229BF remains secondary until BOTH229CY deficits addressed.
+HOSTILE_AUDIT=NOT_RUN; REVIEW_REQUIRED_FOR_GATE_CREDIT; keep existing unchanged.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

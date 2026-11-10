@@ -1,0 +1,465 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229AS — crossed low-height raw-G gcd matchings and d0-square nuisance firewall
+
+
+STATUS: POST_229AR_CROSSED_LOW_HEIGHT_RAW_G_GCD_MATCHINGS_COMPLETE / PROVED_CENTRAL_AND_SHIFTED_COMMON_GCD_NUISANCE_LIVES_IN_d0_SQUARED / PROVED_TWO_EXACT_COPRIME_RAW_G_ODD_MATCHINGS / PROVED_FOUR_ATOMIC_LINEAR_LINEAR_GCD_BUCKETS / PROVED_EDGE_AND_SPACE_RAW_CONTENT_SPLIT_BY_CENTRAL_SIGN / PROVED_SIMULTANEOUS_TWO_MATCHING_HALF_THRESHOLD / DEPENDENCE_FIREWALL_NO_DENSITY_MULTIPLICATION / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229AR LOW-HEIGHT RAW-CONTENT GCD ADAPTER / CROSSED TWO-MATCHING PACKETIZATION / d0-SQUARE NUISANCE FIREWALL / LINEAR-LINEAR ATOMIC CONTENT SPLIT / METHOD FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229AR
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1GAG78Tv0-GMlThFGWkY1rXj24HBnY6-ENIb2nZUryR8
+
+
+1. Scope
+
+
+229AR supplies the no-threshold-loss quadratic-height receiver
+  W_- = UV-eR,
+with
+  G_* = gcd(eR,UV) = gcd(eR,W_-),
+  K_odd = sf_odd(W_-),
+and
+  2W_- = lambda S,
+where
+  lambda := U+V-R-e > 0,
+  S      := e+U+V+R.
+
+
+229AQ also uses the shifted positive linear pair
+  L_- := e+U+V-R = lambda+2e,
+  L_+ := R+U+V-e = lambda+2R,
+for which
+  L_- L_+ = 2(UV+eR).
+
+
+This card proves that the odd raw content G_* itself, not only its squareclass, splits exactly into two coprime O(B)-height gcd packets in each of these two linear pairings. The two pairings are crossed matchings of four pairwise-coprime atomic linear-linear gcd buckets.
+
+
+The result strengthens the low-height theorem interface while preserving the 229AR no-threshold-loss receiver and the 229AQ central divisor chart.
+
+
+Notation:
+  d0 := gcd(x,y).
+Retain 229O:
+  gcd(eR,d0)=1.
+For an integer n, n_odd denotes its odd part; gcd_odd means the odd part of a gcd.
+
+
+2. The common odd gcd of lambda and S is d0-square-supported
+
+
+Set
+  h_0 := gcd_odd(lambda,S).                       (229AS.1)
+
+
+Let an odd prime power p^j divide h_0. Then p^j divides
+  lambda+S = 2(U+V),
+  S-lambda = 2(R+e).
+Since p is odd,
+  p^j | U+V,
+  p^j | R+e.
+
+
+Therefore
+  p^j | U^2-V^2 = x^2-y^2,
+and
+  p^j | R^2-e^2 = x^2+y^2.
+Hence
+  p^j | 2x^2,
+  p^j | 2y^2.
+Again p is odd, so
+  p^j | gcd(x^2,y^2)=d0^2.
+
+
+Thus
+  h_0 | d0^2.                                    (229AS.2)
+
+
+Retain gcd(eR,d0)=1. Therefore
+  gcd(eR,h_0)=1.                                 (229AS.3)
+
+
+RESULT_229AS_CENTRAL_COMMON_GCD_DIVIDES_d0_SQUARED=PROVED_EXACT.
+RESULT_229AS_CENTRAL_COMMON_GCD_COPRIME_TO_eR=PROVED_EXACT.
+
+
+In particular the common odd factors of lambda and S are pure missing-face-scale nuisance. They do not carry any odd prime of G_*.
+
+
+3. The shifted pair has the same nuisance firewall
+
+
+Let
+  h_1 := gcd_odd(L_-,L_+).                       (229AS.4)
+
+
+If p^j is an odd prime power dividing h_1, then
+  p^j | L_-+L_+ = 2(U+V),
+  p^j | L_+-L_- = 2(R-e).
+Thus
+  p^j | U+V,
+  p^j | R-e.
+
+
+As above,
+  p^j | x^2-y^2,
+  p^j | x^2+y^2,
+so
+  p^j | d0^2.
+
+
+Hence
+  h_1 | d0^2,                                    (229AS.5)
+and by 229O
+  gcd(eR,h_1)=1.                                 (229AS.6)
+
+
+RESULT_229AS_SHIFTED_COMMON_GCD_DIVIDES_d0_SQUARED=PROVED_EXACT.
+RESULT_229AS_229AQ_gL_IS_d0_SQUARE_SUPPORTED_AND_GSTAR_FREE=PROVED_EXACT.
+
+
+This sharpens the role of the 229AQ common odd divisor: it is not an uncontrolled moving part of the K_* support.
+
+
+4. First exact raw-G odd matching: lambda versus S
+
+
+Define
+  Q_- := gcd_odd(eR,lambda),
+  Q_+ := gcd_odd(eR,S).                           (229AS.7)
+
+
+Any common odd divisor of Q_- and Q_+ divides both eR and h_0. By (229AS.3),
+  gcd(Q_-,Q_+)=1.                                (229AS.8)
+
+
+Using 229AR,
+  lambda S = 2W_-,
+  W_-=UV-eR,
+and
+  gcd(eR,W_-)
+   =gcd(eR,UV)
+   =G_*.
+
+
+Therefore
+  Q_- Q_+
+   =gcd_odd(eR,lambda S)
+   =gcd_odd(eR,W_-)
+   =(G_*)_odd.                                   (229AS.9)
+
+
+RESULT_229AS_CENTRAL_TWO_GCD_MATCHING_RAW_GODD=PROVED_EXACT.
+
+
+Thus the complete odd raw content is exactly the product of two coprime gcd values, each involving eR and one O(B)-height positive linear form.
+
+
+Height:
+  0<lambda<R-e<B,
+  R<S<4R<=4B.                                    (229AS.10)
+
+
+5. Second exact raw-G odd matching: L_- versus L_+
+
+
+Define
+  P_- := gcd_odd(eR,L_-),
+  P_+ := gcd_odd(eR,L_+).                         (229AS.11)
+
+
+By (229AS.6),
+  gcd(P_-,P_+)=1.                                (229AS.12)
+
+
+Retain
+  L_-L_+ = 2W_+,
+  W_+ := UV+eR.
+Also
+  gcd(eR,W_+)
+   =gcd(eR,UV)
+   =G_*.
+
+
+Hence
+  P_-P_+
+   =gcd_odd(eR,L_-L_+)
+   =gcd_odd(eR,W_+)
+   =(G_*)_odd.                                   (229AS.13)
+
+
+RESULT_229AS_SHIFTED_TWO_GCD_MATCHING_RAW_GODD=PROVED_EXACT.
+
+
+The packet heights are
+  0<L_-<2B,
+  R<L_+<3B.                                      (229AS.14)
+
+
+Thus 229AS produces two distinct exact two-packet raw-G factorizations, both with linear-height packet values.
+
+
+6. Four atomic linear-linear gcd buckets
+
+
+Define
+  A_- := gcd_odd(e,lambda),
+  A_+ := gcd_odd(e,S),
+  C_- := gcd_odd(R,lambda),
+  C_+ := gcd_odd(R,S).                            (229AS.15)
+
+
+We first split the central matching:
+  Q_- = A_- C_-,
+  Q_+ = A_+ C_+.                                 (229AS.16)
+
+
+To justify the products, note that an odd prime dividing e,R and lambda would satisfy
+  U+V ≡ 0 mod p,
+  R ≡ e ≡ 0 mod p.
+Then
+  x^2-y^2 = U^2-V^2 ≡0 mod p,
+  x^2+y^2 = R^2-e^2 ≡0 mod p,
+so p divides x and y, contradicting the primitive physical condition gcd(e,x,y)=1.
+The same argument works with S in place of lambda.
+
+
+Hence the e- and R-parts of each Q packet are coprime and (229AS.16) is exact.
+
+
+Now retain the exact physical contents
+  gcd(e,U)=b,
+  gcd(e,V)=a,
+and gcd(a,b)=1.
+Therefore
+  gcd(e,UV)=ab.                                   (229AS.17)
+
+
+Likewise the Pythagorean triples (U,y,R) and (V,x,R) have contents c12 and c21, so their pairwise gcds satisfy
+  gcd(R,U)=c12,
+  gcd(R,V)=c21.
+Since gcd(c12,c21)=1,
+  gcd(R,UV)=c12 c21.                              (229AS.18)
+
+
+Using lambda S=2W_- and the same d0-square common-gcd firewall,
+  A_-A_+
+   =gcd_odd(e,W_-)
+   =(ab)_odd,                                     (229AS.19)
+and
+  C_-C_+
+   =gcd_odd(R,W_-)
+   =(c12 c21)_odd.                                (229AS.20)
+
+
+Since the four physical contents a,b,c12,c21 are pairwise coprime, and the central sign packets on each side are coprime, the four atomic buckets
+  A_-, A_+, C_-, C_+
+are pairwise coprime.
+
+
+Consequently
+  (G_*)_odd
+   = A_- A_+ C_- C_+.                            (229AS.21)
+
+
+RESULT_229AS_FOUR_ATOMIC_LINEAR_LINEAR_GCD_BUCKETS=PROVED_EXACT.
+RESULT_229AS_EDGE_RAW_CONTENT_SPLIT_BY_CENTRAL_SIGN=PROVED_EXACT.
+RESULT_229AS_SPACE_RAW_CONTENT_SPLIT_BY_CENTRAL_SIGN=PROVED_EXACT.
+RESULT_229AS_FOUR_ATOMIC_BUCKETS_PAIRWISE_COPRIME=PROVED_EXACT.
+
+
+Each atomic bucket is a gcd of two O(B)-height linear integer coordinates/forms.
+
+
+7. The second matching is the crossed pairing of the same four atoms
+
+
+Use
+  L_- = lambda+2e,
+  L_+ = lambda+2R,
+  S-L_+ = 2e,
+  S-L_- = 2R.
+
+
+Therefore
+  gcd_odd(e,L_-)=A_-,
+  gcd_odd(e,L_+)=A_+,
+  gcd_odd(R,L_-)=C_+,
+  gcd_odd(R,L_+)=C_-.                             (229AS.22)
+
+
+Hence the shifted matching is exactly
+  P_- = A_- C_+,
+  P_+ = A_+ C_-.                                 (229AS.23)
+
+
+Together with the central matching
+  Q_- = A_- C_-,
+  Q_+ = A_+ C_+,                                 (229AS.24)
+this is a crossed 2x2 matching of the same four pairwise-coprime raw-content atoms.
+
+
+RESULT_229AS_CROSSED_TWO_MATCHING_IDENTITY=PROVED_EXACT.
+
+
+This is not the 229AN event-equivalent reparameterization: the two matchings are genuinely different pairings. However, every possible choice of one Q packet and one P packet shares exactly one atomic bucket:
+  Q_- with P_- shares A_-,
+  Q_- with P_+ shares C_-,
+  Q_+ with P_- shares C_+,
+  Q_+ with P_+ shares A_+.
+
+
+Therefore the two matching incidences must not be multiplied as independent local densities.
+
+
+RESULT_229AS_CROSSED_MATCHING_DEPENDENCE_FIREWALL=PROVED_EXACT.
+
+
+8. Simultaneous half-threshold statement
+
+
+Let
+  K_odd := sf_odd(G_*).
+
+
+By the coprime exact products,
+  K_odd
+   =sf(Q_-) sf(Q_+)
+   =sf(P_-) sf(P_+).                              (229AS.25)
+
+
+If
+  K_*>T,
+then
+  K_odd>T/2.
+Therefore simultaneously:
+- at least one of Q_-,Q_+ has squarefree kernel > (T/2)^(1/2);
+- at least one of P_-,P_+ has squarefree kernel > (T/2)^(1/2).
+
+
+At the current threshold
+  T=B^(1/3-delta),
+the common low-height packet threshold is
+  2^(-1/2) B^(1/6-delta/2).                     (229AS.26)
+
+
+RESULT_229AS_SIMULTANEOUS_CROSSED_HALF_THRESHOLD=PROVED_EXACT.
+
+
+This matches the exponent of the 229AQ two-packet receiver but upgrades the packet objects to exact raw-content gcds:
+  gcd_odd(eR, positive O(B)-height linear form).
+
+
+No counting gain follows merely from having both crossed matchings, because of the atomic shared-factor dependence in Section 7.
+
+
+9. Current theorem interface after 229AS
+
+
+CURRENT_PREFERRED_GATE remains:
+  #{positive primitive physical endpoints R<=B :
+      sf(gcd(eR,xy))>B^(1/3-delta)}
+    =o(B^(1/3))
+for some fixed delta>0.
+
+
+CURRENT_PREFERRED_NO_THRESHOLD_LOSS_RECEIVER remains:
+  229AR W_-=UV-eR,
+  sf_odd(W_-)=K_odd,
+  full B^(1/3-delta) threshold,
+  O(B^2) scalar height.
+
+
+CURRENT_PREFERRED_LOW_HEIGHT_RAW_G_RECEIVER:
+  229AS crossed exact matchings
+    (Q_-,Q_+)=(gcd_odd(eR,lambda),gcd_odd(eR,S)),
+    (P_-,P_+)=(gcd_odd(eR,L_-),gcd_odd(eR,L_+)),
+  each pair coprime with product (G_*)_odd,
+  each packet O(B),
+  squarefree threshold B^(1/6-delta/2) up to the fixed factor 2^(-1/2).
+
+
+CURRENT_PREFERRED_ATOMIC_LINEAR_GCD_SPLIT:
+  A_-=gcd_odd(e,lambda),
+  A_+=gcd_odd(e,S),
+  C_-=gcd_odd(R,lambda),
+  C_+=gcd_odd(R,S),
+with
+  (ab)_odd=A_-A_+,
+  (c12c21)_odd=C_-C_+,
+  (G_*)_odd=A_-A_+C_-C_+.
+
+
+229AQ remains retained for:
+- the exact central divisor identity lambda(2e+lambda)=2(R-U)(R-V);
+- the four-short-gap squarefree collapse;
+- the scoped o(B^(1/3)) disposal of (R-U)(R-V)<=B^(1/3-eta).
+
+
+229AP remains retained for finer sign-resolved edge-prime gap divisibility.
+
+
+NEXT_USEFUL_INPUT:
+(A) same-physical large-squarefree-gcd count for one 229AS Q or P packet at threshold B^(1/6-delta/2), using that the second argument is a positive linear form of exact R-height;
+(B) a genuine joint theorem for the crossed Q/P matching which handles the shared atomic bucket instead of multiplying densities;
+(C) combine the 229AS atomic e/R split with the 229AP sign-resolved edge packets;
+(D) combine 229AS packet divisibility with the 229AQ central divisor chart and hard outer-gap-product remainder;
+(E) retain 229AR W_- as the alternative full-threshold quadratic-height theorem interface.
+
+
+10. Firewalls and unchanged state
+
+
+Do not:
+- regard h_0 or h_1 as K_* support; their odd parts divide d0^2 and are coprime to eR;
+- multiply the Q and P matching probabilities independently;
+- infer codimension-two saving merely from the gcd representation;
+- replace the physical endpoint population by arbitrary solutions to the linear divisibility conditions;
+- discard the 229AR full-threshold receiver, 229AQ divisor chart, or 229AP sign refinement.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_OPERATION=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+INTEGRATED_AUDIT_186_229O_SCOPE=UNCHANGED_NOT_EXTENDED_TO_229P_THROUGH_229AS.
+
+
+11. Dependencies and verification scope
+
+
+Load-bearing internal inputs:
+- 229O: d0=gcd(x,y), gcd(eR,d0)=1, G_*=gcd(eR,xy);
+- 229M/229N: G_*=ab c12 c21 with pairwise-coprime physical content buckets;
+- 229AP: gcd(e,U)=b and gcd(e,V)=a;
+- elementary pairwise-content property of the physical Pythagorean triples (U,y,R) and (V,x,R);
+- 229AQ: lambda,S,L_-,L_+ definitions and positivity/height bounds;
+- 229AR: macro identity, G_*=gcd(eR,UV), lambda S=2(UV-eR), L_-L_+=2(UV+eR);
+- current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+All new statements are direct integer deductions from retained physical identities. No external theorem is invoked.
+
+
+Independent hostile audit of229AS has not been run. Existing operational authority, latest mathematical construction, global counting credit, primary gate, closure states, retractions, production HOLD and integrated-audit scope are otherwise unchanged.
+
+
+
+
+FINAL_READBACK_RECEIPT: PASS
+READBACK_CONFIRMED: 229AS card body / CARD-INDEX row510 / 案内 latest routing / RESULT-LEDGER 229AS change record / MAIN current authority override=229AS / active ROUTE POST-229AS block.
+DRIVE_LOCATION_CONFIRMED: M3-Research-Cards folder (parent 1PTFrohNcPTyhLT-b51IT3VUy-tikkxLz).
+AUTHORITY_CREDIT_GATE_CLOSURE_CHECK: unchanged except latest post-229 delta pointer advanced to229AS; M3-T11-229 operational authority, M3-T11-228 latest mathematical construction, PRIMARY_GATE OPEN, GLOBAL_COUNTING_CREDIT=0, M3-T11-230 unissued, production HOLD, P_OVER_M3_LIMIT_PROVED=false, integrated audit186-229O scope unchanged.
+LOW_HEIGHT_RAW_G_CHECK: Q_-Q_+=P_-P_+=(G_*)_odd with each matching coprime; four atomic A_-,A_+,C_-,C_+ buckets pairwise coprime; common linear-pair odd gcd nuisance divides d0^2 and is coprime to eR.
+DEPENDENCE_CHECK: crossed Q/P large events share an atomic bucket in every pairing; no density multiplication or counting promotion assigned.
+COMPLEMENTARY_RECEIVER_CHECK:229AR full-threshold W_- receiver,229AQ central divisor/scoped count, and229AP sign-resolved edge refinement remain active.
+CONCURRENCY_CHECK: no 229AT row found in final CARD-INDEX readback.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

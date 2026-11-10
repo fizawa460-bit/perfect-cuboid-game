@@ -1,0 +1,203 @@
+﻿Stage37 229HI-A10-CANDIDATE — portable exact certificate
+PARENT_CARD=11hHwJ3Ba7ZWmJXUAjDfvZToI2862W-xju3DZZ24kk1M ; A9 card 1etkkBkNbtFnyj5hQKeg5_1D5FPDXM8O0GMSSXPVeH1o ; A9 cert 1hIIV3oDTpQvSBSpb047BYxqVygd3z4fXySWEZKehl7o.
+Status: symbolic + finite replay by Claude only; independent hostile audit NOT_RUN; GLOBAL_CREDIT0; governance unchanged; index/ledger writeback HOLD (connector cannot edit existing docs).
+Environment note: SymPy could not be installed (PyPI blocked by egress policy). Symbolic part was executed in Wolfram Language; finite part in pure Python 3.13 standard library.
+
+
+A. WOLFRAM LANGUAGE SYMBOLIC REPLAY (executed; output reproduced below)
+macro[{i_,j_,k_}]:=Expand[(i t+j x+k y-i j k t x y)^2 If[i==0,1+t^2,1] If[j==0,1+x^2,1] If[k==0,1+y^2,1]];
+dec[s_]:=Module[{cc,h},{cc,h}=StringSplit[s,":"];{Map[ToExpression[Characters[#]]-1&,StringSplit[cc,"."]],ToExpression[h]}];
+ff[s_]:=Module[{cs,h},{cs,h}=dec[s];Expand[Sum[If[n-1!=h,1,-1] macro[cs[[n]]],{n,3}]]];
+qq=StringSplit["000.001.020:1 000.011.020:1 000.020.021:2 001.002.022:0 002.011.022:1 002.021.022:1"];
+pp=StringSplit["000.001.022:1 000.021.022:1 000.022.101:2 001.002.020:0 002.020.021:2 002.020.101:2"];
+normQ[s_]:=Module[{f=ff[s],cl,D},cl=CoefficientList[f,t];D=cl[[2]]^2-4cl[[1]]cl[[3]];Factor[Together[(D/.{x->d/c,y->W/T}) c^4 T^4/(8(T^2+W^2))]]];
+normP[s_]:=Module[{f=ff[s],cl,D},cl=CoefficientList[f,x];D=cl[[2]]^2-4cl[[1]]cl[[3]];Factor[Together[(D/.{t->b/a,y->W/T}) a^4 T^4/(8(T^2+W^2))]]];
+lead[s_,v_,sub_,m_]:=Factor[Together[(Coefficient[ff[s],v,2]/.sub) m]];
+{Table[{s,normQ[s],lead[s,t,{x->d/c,y->W/T},c^2 T^2]},{s,qq}],Table[{s,normP[s],lead[s,x,{t->b/a,y->W/T},a^2 T^2]},{s,pp}]}
+
+
+OUTPUT (normalized discriminant N = D·c⁴T⁴/(8(T²+W²)), leading coefficient × c²T²):
+000.001.020:1  N=(c−d)(c+d)W(−2cdT+c²W−d²W)   lead=c²T²−c²W²+2d²W²
+000.011.020:1  N=(c−d)(c+d)(−dT+cW)(dT+cW)     lead=(c−d)(c+d)(T−W)(T+W)
+000.020.021:2  N=(c−d)(c+d)W(2cdT+c²W−d²W)    lead=c²T²−c²W²+2d²W²
+001.002.022:0  N=(c−d)(c+d)W(2cdT+c²W−d²W)    lead=c²T²−c²W²+2d²W²
+002.011.022:1  N=(c−d)(c+d)(−dT+cW)(dT+cW)     lead=(c−d)(c+d)(T−W)(T+W)
+002.021.022:1  N=(c−d)(c+d)W(−2cdT+c²W−d²W)   lead=c²T²−c²W²+2d²W²
+000.001.022:1  N=(a−b)(a+b)W(−2abT+a²W−b²W)   lead=a²T²−a²W²+2b²W²
+000.021.022:1  N=(a−b)(a+b)W(2abT+a²W−b²W)    lead=a²T²−a²W²+2b²W²
+000.022.101:2  N=(a−b)(a+b)(−bT+aW)(bT+aW)     lead=(a−b)(a+b)(T−W)(T+W)
+001.002.020:0  N=(a−b)(a+b)W(2abT+a²W−b²W)    lead=a²T²−a²W²+2b²W²
+002.020.021:2  N=(a−b)(a+b)W(−2abT+a²W−b²W)   lead=a²T²−a²W²+2b²W²
+002.020.101:2  N=(a−b)(a+b)(−bT+aW)(bT+aW)     lead=(a−b)(a+b)(T−W)(T+W)
+Also re-confirmed A9 claims with the same macro: all 12 S0 identities True, free-variable degree 2, Groebner basis of free-variable coefficients = {1+y², x²−1} (Q-DIFF) and {1+y², t²−1} (P-DIFF).
+
+
+B. HAND PROOF OF PARITY (no computer needed once N is known)
+With D·c⁴T⁴ = 8r²·N (Q-DIFF), v_r(D)=2+v_r(N). Lemma: v_r(c²−d²)=1, r∤c,d,q,T,W.
+Type I: c²W²−d²T² = c²r² − q²T² ≡ −q²T² (mod r), nonzero. v_r(N)=1.
+Type II: c²W−d²W±2cdT ≡ ±2cdT (mod r), nonzero. v_r(N)=1.
+v_r(D)=3 odd => D not a rational square; lead≠0 (card §5) => no rational free slope. P-DIFF same with (a,b,p).
+
+
+C. FINITE REPLAY (consistency only, not proof). File qdiff_search.py, SHA256 cf4961138647d73d03ac0b7406e9affdbb593157a9b1d43c35c2e9f3eaeabd6d.
+Outputs: RMAX 2000 -> gate r 16, rational-discriminant events 0, hits 0. RMAX 30000 -> 130, 0, 0. RMAX 100000 -> 343, 0, 0.
+FILE_BEGIN qdiff_search.py
+"""Stage37 229HI-A9 Q-DIFF follow-up: exhaustive search for actual signed
+source triples (p,q,r) for the six Q-DIFF keys, r up to RMAX.
+
+
+For each prime r = 1 mod 8, enumerate (k,q) with r^2 + k^2 = 2 q^2, q prime = 1 mod 8,
+q < r, gcd(k,q)=1 (reverse-Pell gate of A9).  Recover (c,d) from c+d, c-d = +-r, +-k.
+For every signed orientation of (c,d) and every primitive signed (T,W) with T^2+W^2=r^2,
+solve the exact quadratic in t for each key and record rational roots t=b/a with
+a^2+b^2 = p^2 a perfect square.  Report p (prime / =1 mod 8 / p<q flags).
+"""
+import sys
+from fractions import Fraction as Fr
+from math import isqrt, gcd
+
+
+RMAX = int(sys.argv[1]) if len(sys.argv) > 1 else 20000
+
+
+
+
+def sieve(n):
+    s = bytearray([1]) * (n + 1)
+    s[0] = s[1] = 0
+    for i in range(2, isqrt(n) + 1):
+        if s[i]:
+            s[i * i::i] = bytearray(len(s[i * i::i]))
+    return s
+
+
+
+
+PR = sieve(RMAX + 10)
+
+
+
+
+def isprime(n):
+    if n <= RMAX + 10:
+        return n >= 2 and PR[n] == 1
+    if n < 2:
+        return False
+    for d in range(2, isqrt(n) + 1):
+        if n % d == 0:
+            return False
+    return True
+
+
+
+
+def reps(n2):
+    """primitive (u,v), u,v != 0, with u^2+v^2 = n2, all signs/orders"""
+    out = []
+    for u in range(1, isqrt(n2) + 1):
+        v2 = n2 - u * u
+        v = isqrt(v2)
+        if v > 0 and v * v == v2 and gcd(u, v) == 1:
+            for su in (1, -1):
+                for sv in (1, -1):
+                    out.append((su * u, sv * v))
+    return out
+
+
+
+
+def keys(x, y):
+    A1 = 1 - y * y + 2 * x * x * y * y
+    C1 = x * x + 2 * y * y - x * x * y * y
+    A2 = (x * x - 1) * (y * y - 1)
+    C2 = 2 * (x * x + y * y)
+    return {
+        "000.001.020:1": (A1, -2 * (x - 2 * y + 2 * x * x * y + x * y * y), C1),
+        "000.011.020:1": (A2, -4 * (x * x - 1) * y, C2),
+        "000.020.021:2": (A1, -2 * (-x - 2 * y + 2 * x * x * y - x * y * y), C1),
+        "001.002.022:0": (A1, 2 * (-x - 2 * y + 2 * x * x * y - x * y * y), C1),
+        "002.011.022:1": (A2, 4 * (x * x - 1) * y, C2),
+        "002.021.022:1": (A1, 2 * (x - 2 * y + 2 * x * x * y + x * y * y), C1),
+    }
+
+
+
+
+def ratsqrt(q):
+    if q < 0:
+        return None
+    n, d = q.numerator, q.denominator
+    a, b = isqrt(n), isqrt(d)
+    if a * a == n and b * b == d:
+        return Fr(a, b)
+    return None
+
+
+
+
+def main():
+    gate_r = 0
+    hits = []
+    disc_square = 0
+    for r in range(17, RMAX + 1, 8):
+        if not PR[r]:
+            continue
+        rr = reps(r * r)
+        found_gate = False
+        for k in range(1, r):
+            q2, rem = divmod(r * r + k * k, 2)
+            if rem:
+                continue
+            q = isqrt(q2)
+            if q * q != q2 or q >= r or q % 8 != 1 or not isprime(q) or gcd(k, q) != 1:
+                continue
+            found_gate = True
+            # c+d, c-d in {+-r, +-k} with one equal to +-r
+            cds = set()
+            for s1 in (r, -r):
+                for s2 in (k, -k):
+                    for (pl, mi) in ((s1, s2), (s2, s1)):
+                        if (pl + mi) % 2 == 0:
+                            c, d = (pl + mi) // 2, (pl - mi) // 2
+                            if c and d and c * c + d * d == q * q:
+                                cds.add((c, d))
+                                cds.add((d, c))
+            for (c, d) in cds:
+                x = Fr(d, c)
+                for (T, W) in rr:
+                    y = Fr(W, T)
+                    for key, (A, B, C) in keys(x, y).items():
+                        if A == 0:
+                            roots = [-C / B] if B != 0 else []
+                        else:
+                            D = B * B - 4 * A * C
+                            sq = ratsqrt(D)
+                            if sq is None:
+                                continue
+                            disc_square += 1
+                            roots = [(-B + sq) / (2 * A), (-B - sq) / (2 * A)]
+                        for t in roots:
+                            a, b = t.denominator, t.numerator
+                            p2 = a * a + b * b
+                            p = isqrt(p2)
+                            if p * p == p2 and b != 0:
+                                hits.append((r, q, k, c, d, T, W, key, a, b, p,
+                                             isprime(p), p % 8 == 1, p < q))
+        if found_gate:
+            gate_r += 1
+    print("RMAX", RMAX, "reverse-Pell gate nonempty r:", gate_r,
+          "rational-discriminant events:", disc_square, "p-integral hits:", len(hits))
+    seen = set()
+    for h in hits:
+        tag = (h[0], h[1], h[10], h[7])
+        if tag in seen:
+            continue
+        seen.add(tag)
+        print(h)
+
+
+
+
+if __name__ == "__main__":
+    main()
+FILE_END qdiff_search.py

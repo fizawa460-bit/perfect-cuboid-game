@@ -1,0 +1,37 @@
+﻿A38 ADDENDUM — EXACT M!=0 DEGENERACY CLOSED (OVERRIDES HISTORIC CONDITIONAL CAVEAT BELOW).
+For first split prime p=u²+v² with u>v>0, gcd(u,v)=1, a=u²−v²>0,b=2uv>0 and p²=a²+b², suppose M=2acd+b(c²−d²)=0 with c,d>0 and q²=c²+d² rational prime q. Put z=d/c>0. Then b z²−2az−b=0, hence z=(a+sqrt(a²+b²))/b=(a+p)/b (negative alternative discarded). Consequently
+(q/c)²=1+z²=1+(a+p)²/b²=2p(p+a)/b²=4pu²/(4u²v²)=p/v².
+Thus q/c=sqrt(p)/v, impossible since p is a rational prime, not a rational square, while q,c,v are positive integers. Therefore M!=0 for EVERY admissible first split prime and second split prime. The prior 229GX r|M implies at most THREE distinct third split primes r>q per fixed p,q in THIS source: |M|<3pq²<q⁴ (p<q, q>=5), and product of any four distinct r>q exceeds q⁴. This is an exact uniform ALL-HEIGHT bound on third-prime candidates per pair, but is still a norm-divisor corollary of historic 229GX/HC and does NOT produce an averaged first-pair saving or global P(B) count. Original A38 conditional M!=0 caveat below is RESOLVED by this addendum. No credit/gate/route change.
+STAGE37-NEW-INPUT-DELTA-AUDIT-229HI-A38 — GENUINE SOURCE 2-ADIC PRIME-PAIR SIEVE + NEGATIVE ASYMPTOTIC AUDIT
+DATE=2026-10-12. PREVIOUS A37 INDEX718. EXPECTED NEW INDEX719. CARD_ID=1tbKCJjwgzSnAKVNM9CTXizaZjq99dS4NnMIwPZTBRl4.
+CURRENT AUTHORITY: M3-T11-229; construction M3-T11-228; 230 NOT_ISSUED; GATE M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD; potential130/unaccounted128 unchanged; formal route switch NONE; hostile FJ/FO NOT_RUN; GitHub NOT_USED.
+STARTUP MAIN current A37, INDEX718, LEDGER, active ROUTE, A37 card/certificate read; INDEX full rows2:718 717 previous source records searched for discriminant, local square, Gaussian primes, norm receiver, HI150 and physical GOOD; NEG current A37 and historic DT/DU/GW/GZ, GO661, GV668, A11→A12 retraction and A36 invalid source. NO direct source-independent hostile audit.
+SCOPE: Original primitive full-four-square P, squarefree R=pqr with split 5<=p<q<r and the TRUE admissible 414/FJ330 signed source j=000.011.102:0, historically in HI remaining150 (not invalid A36, not HI-globally-empty A35). F/2=t(X+t)Y²+(tX²−2X−t)Y+tX(tX−1). With p²=a²+b²,q²=c²+d², a,c positive odd, b,d divisible4 and positive, f cleared a²c² gives A=bc(ad+bc), B=−a(2acd+bc²−bd²), C=−bd(ac−bd). D=B²−4AC. For any rational third slope Y, D MUST be a nonnegative rational square, and as integer it must be a perfect integer square.
+ACTUALLY EXECUTED ALTERNATIVE METHOD: exact 2-adic local square sieve on GENUINE Gaussian prime input pairs, NOT a generic free t,X Q2 test. Enumerated all split rational primes p≡1mod4 <=1999: 147 split primes, 10731 p<q pairs, all Gaussian u>v>0, gcd(u,v)=1, p=u²+v², a=u²−v², b=2uv. Exact integer D computed. D>0 for 6323 pairs; of these, 5850 have D a nonzero Q2-square (even v2(D) and D/2^v2 ≡1 mod8), 473 FAIL the 2-adic square test. Examples: (p,q)=(17,29), v2(D)=12 and odd unit3 mod8; (17,37), v2(D)=12 odd unit7; (17,109), v2(D)=10 unit5. This is an EXACT finite arithmetic local exclusion of 473 candidate pairs that pass the REAL D>0 necessary gate, but does NOT exclude the 5850 survivors and does NOT imply rational Y exists for any survivor. In fact A37 exact rational-square count is ZERO across all 10731 pairs (and all 84,233,710 pairs q<=300000). Thus the 2-adic sieve is STRICTLY WEAKER than the already completed A37 full integer-square sieve on its finite overlap. It supplies no new physical P exclusions or asymptotic exponent. This local test is distinct from old GO generic Q2 existence (which permits arbitrary Q2 t,X and does not enforce p,q Gaussian split prime), but is related to old GV exact local κ3 and old negative independence no-go; DO NOT treat 473/6323 as a limiting density or multiply local densities independently.
+REPRODUCIBLE PYTHON 3 EXACT STANDARD LIBRARY:
+from math import isqrt,gcd
+P=[]
+for p in range(5,2000,4):
+    if any(p%d==0 for d in range(3,isqrt(p)+1,2)):continue
+    for u in range(1,isqrt(p)+1):
+        vv=p-u*u
+        if vv>0 and isqrt(vv)**2==vv and u>isqrt(vv):
+            v=isqrt(vv);P.append((p,u*u-v*v,2*u*v));break
+assert len(P)==147
+total=nonneg=local_yes=local_no=0
+for i,(p,a,b) in enumerate(P):
+    for q,c,d in P[i+1:]:
+        total+=1
+        A=b*c*(a*d+b*c);B=-a*(2*a*c*d+b*c*c-b*d*d);C=-b*d*(a*c-b*d)
+        D=B*B-4*A*C
+        if D<=0:continue
+        nonneg+=1
+        val=(D&-D).bit_length()-1
+        if val%2==0 and (D>>val)%8==1:local_yes+=1
+        else:local_no+=1
+assert (total,nonneg,local_yes,local_no)==(10731,6323,5850,473)
+print('PASS',total,nonneg,local_yes,local_no)
+END CERTIFICATE.
+SECOND ALTERNATIVE NONLOCAL TEST: prior 229GX one-sign norm identity for THIS key: S0=(A−C)²+B²=(a²+b²)M² with M=2acd+b(c²−d²), and original r>q prime requires r|M. Crude triangle inequality |M| <=2acd+b(c²+d²) < 2p q² + p q² =3p q²<3q³. Thus every such r>q must be among prime divisors of M exceeding q, and there are at most THREE such DISTINCT r, since four distinct r_i>q would have product >q^4 while |M|<3q³<q^4 for q>3. This is a true all-height per-(p,q) bound for THIS necessary source, but old 229GX/HC already contains the norm divisibility mechanism, and 3 choices per p,q does NOT pay the first-two-prime-pair floor and cannot yield GOOD(p,r)=o(Q) or P(B)=o(B^(1/3). Do not count as new global physical saving. If M=0, r|M vacuous; M=0 requires 2acd+b(c²−d²)=0. This degenerate possibility must be separately audited before interpreting the <=3 bound. Since A37 finite D-square already zero, no actual finite physical endpoint affected. Therefore treat <=3 as CONDITIONAL ON M!=0 only; not a proved unconditional bound.
+LOOP/STRATEGY AUDIT: 717 historical INDEX records scanned, selected relevant 229HI old 108, remaining150, 229GO generic Q2, GV κ3 local, GX/HC one-sign norm, A24 finite all414, A31 old HI-empty key, A36 retracted and A37 correct. NEG DT/DU/GW/GZ: independent local density is NOT a same-P count. A11 retracted A12. >=5 runs without improvement of unrestricted physical occupied GOOD(p,r). Compared finite cutoff inflation, 2-adic arithmetic sieve, old norm-resultant receiver, generic Cohen-Serre Q^(7/4), and formal-gated 229AR Wminus route: EXECUTED 2-adic test and nonlocal norm-divisor cap, neither solves actual physical occupancy. NO ROUTE SWITCH. No unearned credit.
+NEXT: FIRST analyze M=0 on primitive Gaussian p<q to validate or reject any proposed uniform per-pair r bound; then do not return to finite/local-density proxies. Choose a nonfinite SAME-P occupancy argument for surviving HI150 source and actual R<=B, HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/K-null/EX, or formal 229AR Wminus route-switch preflight if primary route stalls. Need actual quantitative GOOD(p,r)=o(Q), not another identity. GATE OPEN CREDIT0 HOLD.

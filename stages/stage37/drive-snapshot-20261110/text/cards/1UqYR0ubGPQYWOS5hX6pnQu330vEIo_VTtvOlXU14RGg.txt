@@ -1,0 +1,125 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229BE — shared-t lattice packing and two-selector radical-tail no-go
+
+
+STATUS: POST_229BD_UNIFORM_SHARED_t_DIVISOR_SWITCH_PROVED / INNER_NORM_ROOT_LINE_PACKING_PROVED / FIXED_OUTER_TRIPLE_INNER_FIBER_Bo1_TIMES_B_OVER_H / AMBIENT_TWO_SELECTOR_TOTAL_B_1_PLUS_o1 / DIAGONAL_TWO_SELECTOR_LARGE_RADICAL_TAIL_LOWER_BOUND / FULL_M3_GATE_NOT_CLOSED / NO_COUNTING_PROMOTION / NO_GLOBAL_REOPEN
+TYPE: POST-229BD EXACT-MEASURE QUANTITATIVE LEMMA / PRIMITIVE GAUSSIAN-NORM LATTICE PACKING / DIVISOR SWITCH / SELECTOR-MASK NECESSITY FIREWALL
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229BD
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1UqYR0ubGPQYWOS5hX6pnQu330vEIo_VTtvOlXU14RGg
+
+
+1. Scope, notation and point of novelty
+Retain 229BD's exact bijection for the positive primitive two-selector ambient population P_square(B):
+ inner ordered primitive Pythagorean triple (X,Y,q), X^2+Y^2=q^2;
+ outer primitive Pythagorean triple (E,Z,H), E^2+Z^2=H^2;
+ t=gcd(q,Z), h=q/t, d0=Z/t;
+ (e,x,y,R)=(qE/t,ZX/t,ZY/t,qH/t), R=qH/t<=B.
+The current Stage37 M3 endpoint population has EXTRA physical face/chamber/canonical/selector host masks; the present card does not discard those masks or equate the two populations.
+Retain G_*=gcd(EH,XY) and K_*=sf(G_*) from 229BD.
+This card proves a uniform t-divisor switch after FIXING the outer primitive triple, then proves an explicit large-radical lower-bound counterfamily in the unrestricted two-selector ambient receiver. The second result shows that no bound of the desired one-third order can be proved on P_square(B) without invoking more than the two selectors. It does NOT refute the desired bound on the true masked Stage37 measure.
+
+
+2. Uniform short-vector lemma for a norm-zero projective root line
+Fix a positive odd integer t all of whose prime divisors are 1 modulo 4. For each root rho modulo t of rho^2=-1 mod t, define
+  Lambda(t,rho)={(r,s) in Z^2 : r=rho*s (mod t)}.
+For every nonzero vector v=(r,s) in this lattice,
+  r^2+s^2 = (rho^2+1)s^2 (mod t) =0 (mod t),
+so its positive integer squared Euclidean length is at least t.
+Consequently DISTINCT lattice points in Lambda(t,rho) have mutual Euclidean separation >=sqrt(t).
+A disjoint-disc packing argument gives, for every real Q>=0,
+  #{(r,s) in Lambda(t,rho): r^2+s^2<=Q}
+   <= (2*sqrt(Q/t)+1)^2
+   << 1+Q/t.                                                   (229BE.1)
+This bound is UNIFORM in t and rho. The point is that the norm-congruence itself forces the shortest nonzero vector to have length >=sqrt(t); no generic lattice-shape assumption or independently charged CRT density is used.
+The number of roots rho^2=-1 mod t is 2^{omega(t)} when t is odd and all p|t split, and zero otherwise. For primitive Euclid parameters gcd(r,s)=1, t|r^2+s^2 forces gcd(s,t)=1; hence r/s mod t exists and selects precisely one such rho. Therefore, after summing projective roots,
+  #{primitive (r,s), opposite parity, r>s>0,
+     r^2+s^2<=Q, t|r^2+s^2}
+   << 2^{omega(t)}(1+Q/t)                               (229BE.2)
+for odd t (zero if a forbidden prime occurs).
+Proof does not rely on an unspecified external counting theorem.
+
+
+3. Fixed outer triple: an exact shared-t divisor switch with no moving-scale loss
+Fix any positive primitive outer triple (E,Z,H), H<=B, and count compatible positive primitive inner triples (X,Y,q) yielding qH/gcd(q,Z)<=B.
+Every inner triple has unique coprime opposite-parity Euclid parameters r>s>0 and one of two leg orientations:
+  q=r^2+s^2, {X,Y}={2rs,r^2-s^2}.
+Set t=gcd(q,Z). Necessarily t|Z, t|q, and
+  q<= (B/H)*t.                                             (229BE.3)
+For each possible t|Z, apply (229BE.2) with Q=(B/H)*t. That produces at most
+  O(2^{omega(t)}(1+B/H))
+inner parameter pairs, with a factor at most two for the ordered leg orientation.
+Summing over the DIVISORS of the FIXED outer leg Z gives
+  N_inner(E,Z,H;B)
+    << (1+B/H)*sum_{t|Z}2^{omega(t)}
+    <= (1+B/H)*tau(Z)^2
+    <<_eps B^eps(1+B/H),                                  (229BE.4)
+uniformly in the outer triple and B>=2, because Z<H<=B.
+Important: the condition t=gcd(q,Z) is relaxed to t|q and t|Z solely to obtain an UPPER bound. No possibility is lost, and any pair may be redundantly counted at most through the divisor sum.
+The factor q/t in the physical height is CANCELLED by the root-line packing factor 1/t. The output does not sum h or t as a freely moving modulus; it fixes the outer triple and charges only divisors of Z.
+RESULT_229BE_FIXED_OUTER_INNER_FIBER=B_Oeps_TIMES_1_PLUS_B_OVER_H_PROVED.
+This count is true for the two-selector population and hence remains a safe upper bound after postfiltering by Stage37 masks. It does not enforce any large-G or large-K saving.
+
+
+4. Entire unrestricted two-selector ambient population: exponent one
+Primitive positive outer triples of hypotenuse H<=T are parameterized by coprime opposite-parity m>n>0 with m^2+n^2<=T, plus two leg orientations. There are O(T) such triples. In a dyadic H block (D,2D], there are O(D) outer triples. Sum (229BE.4) over H<=B, by dyadic blocks:
+  #P_square(B)
+  <<_eps B^eps * sum_{D dyadic<=B} D*(1+B/D)
+  <<_eps B^{1+eps} log B
+  = B^{1+o(1)}.                                           (229BE.5)
+Conversely, fix inner (X,Y,q)=(3,4,5). Every primitive outer triple with H<=B/5 gives R=5H/gcd(5,Z)<=B, hence by the 229BD bijection produces a DISTINCT positive primitive two-selector physical point. There are Omega(T) outer primitive triples with H<=T, from the standard positive density of coprime opposite-parity Euclid pairs in a planar sector.
+Thus
+  #P_square(B) >= cB                                      (229BE.6)
+for some absolute c>0 and sufficiently large B. Together:
+  #P_square(B)=B^{1+o(1)}.                                (229BE.7)
+This is strictly an AMBIENT two-selector statement, not a count of M3's selected physical host.
+
+
+5. Explicit diagonal pair counterfamily for the UNMASKED large-radical tail
+Take two distinct odd primes p and ell with
+  N<=p<=2N, N/4<=ell<=N/2.
+Set r=p, s=2ell. Then r>s>0, gcd(r,s)=1, and parity is opposite. The primitive inner triple is
+  X=2rs=4p ell,
+  Y=r^2-s^2=p^2-4ell^2>0,
+  q=r^2+s^2=p^2+4ell^2.
+Choose the OUTER primitive triple to be the same oriented triple:
+  (E,Z,H)=(X,Y,q).
+Because gcd(q,Y)=1, the 229BD shared gcd is
+  t=gcd(q,Z)=1.
+The corresponding physical two-selector quadruple is
+  e=qX, x=YX, y=Y^2, R=q^2.                         (229BE.8)
+It is primitive and satisfies x^2+y^2=(Yq)^2 and e^2+(Yq)^2=R^2 by the exact 229BD bijection.
+Moreover
+  G_*=gcd(EH,XY)=gcd(Xq,XY)=X=4p ell,
+  K_*=sf(G_*)=p ell.                                    (229BE.9)
+The last equality uses the SQUAREFREE PART convention sf(4p ell)=p ell; if radical rad is used instead, rad(4p ell)=2p ell, which is even larger.
+Since q<=5N^2 and R=q^2<=25N^4, set B=25N^4. Then
+  K_*>=N^2/4.
+For any fixed 0<delta<1/3 and sufficiently large N,
+  K_*>B^{1/3-delta}.                                    (229BE.10)
+The prime number theorem gives Omega(N/log N) primes p and ell in the specified disjoint proportional intervals. All resulting ordered inner/outer triple pairs are distinct, hence by the bijection yield distinct physical two-selector points. Therefore, for all sufficiently large B (choosing N=floor((B/25)^{1/4})),
+  #{P_square(B): sf(gcd(eR,xy))>B^{1/3-delta}}
+    >>_delta B^{1/2}/(log B)^2.                         (229BE.11)
+In particular the unrestricted two-selector ambient large-radical tail is NOT o(B^{1/3}).
+This is a positive family of legitimate TWO-SELECTOR primitive integer points. The construction does not establish the retained additional Stage37 face-square, direction, chamber, canonical and host masks, and must NOT be presented as a family of perfect cuboids or of actual Stage37 M3 endpoints.
+RESULT_229BE_UNMASKED_RADICAL_ONE_THIRD_TAIL_FALSE=PROVED_SCOPE_EXACT.
+
+
+6. Interpretation, non-double-charge check, and theorem gate
+229BE.4 is a genuine uniform t-divisor-switch upper bound: the gcd scale can be summed as divisors of the fixed outer primitive leg at only B^o(1) cost, using the special norm-root lattice shortest-vector property. This is useful as a conditional fiber lemma when one manages to first restrict the outer support to an admissible small family.
+However 229BE.11 proves that the unrestricted two-selector population alone has a large radical tail MUCH bigger than B^{1/3}. Thus no proof of the Stage37 preferred gate can be obtained by simply applying the fixed-outer inner bound and discarding the other physical masks. Their arithmetic correlations are essential.
+Do not combine (229BE.4) multiplicatively with 229BC's fixed-(G,h) outer modulus-G saving as if independent: they count overlapping parameters and consume shared support.
+Do not interpret (229BE.11) as a counterexample to the actual masked Stage37 radical theorem gate.
+The required missing input is a NEW joint estimate incorporating exact M3 host/selector conditions (equivalently a selector-aware restriction on outer/inner pairs) AND large K support, ideally using the fixed-outer packing bound as a charged-once fiber inequality.
+Preferred follow-up: fix outer primitive Euclid (m,n), impose the full Stage37 remaining face-square/canonical masks on inner (r,s), and test whether a genuine selector-aware lattice/curve theorem yields a power deficit for those inner fibers. Separately, search a supported dyadic outer decomposition for large K that does not reuse the 229BC G-density.
+No new theorem input closes the one-third gate at present.
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+No authority/credit/gate/closure/HOLD/integrated-audit-scope changes.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

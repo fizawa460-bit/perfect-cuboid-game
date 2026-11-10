@@ -1,0 +1,86 @@
+﻿STAGE37-229HI-A14 — PORTABLE EXACT CRT + ORIGINAL THIRD-ROOT DISCRIMINANT REPLAY CERTIFICATE
+2026-10-11 JST. RESEARCH_CARD=1EOVhU_7o9Fpd8ZTOCOnlHQJjd-9N4BMZ_C3wRoqlm-U. CURRENT=Stage37-NEW-INPUT-DELTA-AUDIT-229HI-A14, CANONICAL CARD INDEX ROW695. DATE 2026-10-11 JST. ALL SOURCE/GOVERNANCE from A13 unchanged.
+MATHEMATICAL SOURCE: original 24 signed FJ330 necessary keys, one ACTUAL signed primitive Gaussian third Y=W/T norm r², p<q<r odd split primes1mod8. A12 proves k odd,0<k<r,r²+k²=2pq. Define h=2k−r, then 8pq=5r²+2rh+h², h≡1mod4,5∤h on true sources. Each (r,h) determines at most one ordered prime pair.
+LOCAL CRT 2250/2250 exact PASS: for odd ell, ell=5 ν=2 if h not0mod5 (else ν=5 IMPOSSIBLE actual true source); ell≡3mod4 ν=1; ell≡1mod4,ell≠5 ν=3 when ell∤h,ν=1 when ell|h; poly n(5n²+2hn+h²). Divisibility mod5 rule immediately excludes 5|h. Moving g5(h)=prod_{ell|h split,ell≠5}(ell−1)/(ell−3), average ≪H by expansion to squarefree split d and convergent Euler factor prod(1+2/[ell(ell−3)]). Standard unconditional dimension2 Selberg upper-sieve for h≤log²Q supplies #sifted r in Q..2Q≪Q g5(h)/log²Q+Q^(.5), uniformly h; true r and product p q avoid all odd primes< Q^(.05). Sum h≤H_B=floor(log²B/loglog(3B)) and dyadic r plus small r trivial => N24 middle affine k/r≈1/2 ≪ B^(1/3)/loglog B. Do not mistake this for full all-k P count or independence.
+SELF-CONTAINED EXECUTABLE EXACT SMALL-PRIME CRT / TRUE NORM-GATE SCRIPT Python3+sympy:
+import math, sympy as s, collections, hashlib
+primes=[int(p) for p in s.primerange(17,50000) if p%8==1]; S=set(primes)
+hs=[h for h in range(-99,100,2) if h%4==1]
+ps=list(s.primerange(3,200));count=0; hist=collections.Counter()
+for h in hs:
+ for ell in ps:
+  rho=sum(n*(5*n*n+2*h*n+h*h)%ell==0 for n in range(ell));count+=1
+  if ell==5:
+   expect=5 if h%5==0 else 2
+  elif ell%4==3 or h%ell==0:
+   expect=1
+  else:
+   expect=3
+  assert rho==expect,(h,ell,rho,expect)
+  hist[expect]+=1
+print('CRT_PASS',count,hist)
+get=lambda h:math.prod((ell-1)/(ell-3) for ell in s.factorint(abs(h)) if ell%4==1 and ell!=5)
+for hbound in [31,99,499]:
+ v=[h for h in range(-hbound,hbound+1) if h and h%4==1 and h%5]
+ print('AVG_G',hbound,len(v),sum(get(h) for h in v)/len(v))
+pairs=[]; tested=0
+for r in primes:
+ for h in hs:
+  if h%5==0 or r+h<=0:continue
+  k=(r+h)//2
+  if k<=0 or k>=r or (r+h)%2:continue
+  val=5*r*r+2*h*r+h*h
+  if val%8:continue
+  product=val//8
+  if product<2:continue
+  factors=s.factorint(product);tested+=1
+  if len(factors)==2 and set(factors.values())=={1}:
+   p,q=sorted(factors)
+   if p%8==1 and q%8==1 and p<q<r and p*q==product and r*r+k*k==2*p*q:
+    pairs.append((p,q,r,k,h))
+print('NORMGATE',len(primes),len(hs),tested,len(pairs),pairs[:18])
+
+
+REPLAY EXPECTED: CRT_PASS 2250, hist ν1=1216 ν2=40 ν3=984 ν5=10. AVG_G H31 (13 h)1.03229078613694; H99 (40 h)1.0324650536202467; H499(200 h)1.0336426383351671. NORMGATE split r≤49999 1257 primes,50 h,50204 factor attempts,101 (p,q,r,k,h) norm candidates. One witness (281,401,409,241,73) with q-p=120 is NOT original third F root. Compiled/independently executed full script local SHA256 dbfd262a5890ed36a7e81f7de2f48317fcd1b3c60fb87a5c7a2340e665e65f42.
+SELF-CONTAINED INDEPENDENT HIGHER-R ORIGINAL 24-SIGNED DISCRIMINANT CHECK Python3+sympy:
+import sympy as s,math,collections,time
+RMAX=180000; H=99
+ps=[int(x) for x in s.primerange(17,RMAX+1) if x%8==1]
+def sqlegs(p):
+ for u in range(1,math.isqrt(p)+1,2):
+  v=math.isqrt(p-u*u)
+  if u*u+v*v==p and v%2==0:return abs(u*u-v*v),2*u*v
+ raise ValueError(p)
+hs=[h for h in range(-H,H+1) if h and h%4==1 and h%5]
+ct=collections.Counter();found=[];new=[]
+for r in ps:
+ for h in hs:
+  k=(r+h)//2
+  if k<=0 or k>=r:continue
+  num=5*r*r+2*h*r+h*h
+  if num%8:continue
+  pq=num//8
+  f=s.factorint(pq);ct['tested']+=1
+  if len(f)!=2 or any(v!=1 for v in f.values()):continue
+  p,q=sorted(f)
+  if not (p%8==q%8==1 and p<q<r):continue
+  ct['semiprime']+=1
+  a,b=sqlegs(p);c,d=sqlegs(q)
+  opts=[(a*d+b*c,a*d-b*c),(a*d-b*c,a*d+b*c),(a*c+b*d,a*c-b*d),(a*c-b*d,a*c+b*d)]
+  squ=[]
+  for j,(U,Z) in enumerate(opts):
+   D=(p*q*U)**2-Z**4
+   if D>=0 and math.isqrt(D)**2==D:squ.append(j)
+  if squ:found.append((p,q,r,k,h,squ))
+  if p>100000 and len(new)<10:new.append((p,q,r,k,h))
+  ct['D_exacts']+=4
+print('COMPLETE',ct,'p_above100000',new,'rational_roots',found)
+assert len(ps)==4064 and ct['tested']==162484 and ct['semiprime']==279 and ct['D_exacts']==1116 and found==[]
+
+
+REPLAY EXPECTED: 4064 split r1mod8≤180000, 40 eligible h with |h|≤99,h≡1mod4,5∤h; factor attempts162484, semiprime norm gates279, exact original 4 discriminant class tests1116, squares ZERO. Witness candidate p>100000: (113657,114161,144073,72065,57); NOT an actual original F root. The full locally executed script included timing progress and had SHA256=064d226de2a852dc4a5b3447c5cac058f05915f6a0e0b850e8a631e88f191847; above code is compact exact equivalent, NOT claimed byte-identical SHA.
+INDEPENDENT NEGATIVE 2ADIC FIREWALL: primitive split p41,q73 (p<q<2p), orientation j2 U=2415,Z=-1425 original Δ_y/4=(pq U)^2-Z^4 >0 with v2=6, odd unit ≡1mod8. Therefore local Q2 square obstruction fails for a permitted p/q aspect and original formula; not an actual rational F root. No global parity elimination.
+GOVERNANCE AUTHORITY=M3-T11-229; CONSTRUCTION=M3-T11-228; 230 NOT_ISSUED; GATE001 OPEN; GLOBAL_CREDIT0; FJ/FS/FW/HB hostile source map HOLD; A14 independent external hostile NOT_RUN; formal route switch NONE; closure unchanged; all previous A11 globally empty16 remain RETRACTED. Original 128 globally uncounted unchanged. NEXT true coupled discriminant+Gaussian prime norm large-k, not another local sieve in tiny ray.
+
+
+CERT_NATIVE_DOC_ID=1uJfxSJ9bRUPXbsQHW0ygT2WGU219oMChXjvR-RHJnOc; finalized Stage37 current 229HI-A14; research-card=1EOVhU_7o9Fpd8ZTOCOnlHQJjd-9N4BMZ_C3wRoqlm-U, card-index row695 and readback PASS. Original exact local replay and certified standard-sieve reduction, not independent external hostile PASS.\n

@@ -1,0 +1,461 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229M — twist class as four physical Pythagorean contents and complementary one-sixth tail reduction
+
+
+STATUS: POST_229L_CONTENT_CROSSWALK_COMPLETE / PROVED_EXPLICIT_HILBERT_CLASS_FORMULA / PROVED_TWIST_CLASS_FOUR_PHYSICAL_CONTENTS / PROVED_PAIRWISE_COPRIME_CONTENT_SUPPORT / PROVED_TWIST_CONTENT_PRODUCT_IDENTITY / PROVED_SMALL_SMALL_CONTENT_SECTOR_o_M3 / PROVED_COMPLEMENTARY_ONE_SIXTH_TWO_TAIL_REDUCTION / MOVING_LARGE_CONTENT_TAILS_OPEN / NO_REOPEN / GLOBAL_CREDIT=0
+
+
+TYPE: POST-229L EXACT CONTENT CROSSWALK / PYTHAGOREAN GAP SQUARECLASSES / GAUSSIAN-TWIST TO CROSS-GCD ROUTER / SCOPED ENDPOINT SECTOR DISPOSAL / ANTI-LOOP FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229L
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+
+
+1. Scope
+
+
+229L reduced the full positive physical endpoint count to a moving congruent-number twist support:
+  P(B) <= T_tw(B) B^{o(1)},
+where T_tw(B) counts canonical positive squarefree twist classes d realized by
+  E_d: Y^2=X^3-d^2 X.
+The fixed-d fiber is uniformly B^{o(1)}.
+
+
+The remaining question is whether d is a genuinely new moving parameter or is already encoded by retained Stage37 physical contents. This card gives the exact answer: d is the squarefree kernel of four existing physical Pythagorean triangle contents, up to one 2-adic parity bit.
+
+
+Notation on the 229F/229J physical chart:
+  x^2+y^2=z^2,
+  e^2+z^2=R^2,
+  U^2=e^2+x^2,
+  V^2=e^2+y^2,
+with all x,y,z,e,U,V,R positive and R<=B.
+
+
+2. Explicit rational squareclass representative for a norm-square element
+
+
+LEMMA 229M.1.
+Let K=Q(i), let zeta in K^* be non-real, and suppose
+  N(zeta)=r^2
+with r in Q_{>0}.
+Then the rational squareclass in the Hilbert-90 descent of 229L may be represented by
+  2r+Tr(zeta).
+
+
+Proof.
+Set
+  w=r+zeta.
+Since zeta is non-real, w is nonzero. From zeta*conj(zeta)=r^2,
+  zeta/r = (r+zeta)/(r+conj(zeta)) = w/conj(w).
+Hence
+  zeta = [r/N(w)] w^2.
+But
+  N(w)=r(2r+Tr(zeta)),
+so the rational coefficient is
+  1/(2r+Tr(zeta)).
+An element and its inverse have the same class in Q^*/Q^{*2}, proving the claim.
+
+
+RESULT_229M_EXPLICIT_HILBERT_CLASS=PROVED_EXACT.
+
+
+For the positive physical p of 229J, both p^2+1 and p^2-1 are non-real because p has positive real and imaginary parts, so the lemma applies without an exceptional real branch.
+
+
+3. The two selector squareclasses are physical diagonal-gap products
+
+
+Retain 229J:
+  p=u v,
+  q=conj(p),
+  v=(R+e)/z,
+and normalized coordinates
+  X0=x/z, Y0=y/z, T=e/z, S=R/z,
+  U0=U/z, V0=V/z.
+
+
+For
+  zeta_+=p^2+1,
+229J gives
+  sqrt(N(zeta_+)) = 2 v U0.
+A direct calculation using
+  X0^2+Y0^2=1,
+  U0^2=T^2+X0^2,
+  S=(v+v^{-1})/2,
+  T=(v-v^{-1})/2
+gives
+  2 sqrt(N(zeta_+)) + Tr(zeta_+)
+    =4 v^2 (U0-T)(U0+S).
+
+
+The factor 4v^2 is a rational square and z^{-2} is a rational square, therefore the 229L rational squareclass delta_+ satisfies
+  [delta_+]
+    =[(U-e)(U+R)]
+    =[(U-e)(R-U)],                              (229M.1)
+because
+  (U+R)(R-U)=R^2-U^2=y^2.
+
+
+Similarly, for
+  zeta_-=p^2-1,
+229J gives
+  sqrt(N(zeta_-)) = 2 v V0,
+and
+  2 sqrt(N(zeta_-)) + Tr(zeta_-)
+    =4 v^2 (S-V0)(T+V0).
+Hence
+  [delta_-]
+    =[(R-V)(V+e)]
+    =[(R-V)(V-e)],                              (229M.2)
+because
+  (V+e)(V-e)=V^2-e^2=y^2.
+
+
+Thus the 229L twist squareclass D=delta_+ delta_- satisfies
+  [D]
+   =[(U-e)(R-U)(V-e)(R-V)].                    (229M.3)
+
+
+RESULT_229M_SELECTOR_CLASSES_AS_PHYSICAL_GAPS=PROVED_EXACT.
+RESULT_229M_TWIST_CLASS_AS_FOUR_DIAGONAL_GAPS=PROVED_EXACT.
+
+
+4. Elementary Pythagorean content-squareclass lemma
+
+
+LEMMA 229M.2.
+Let
+  A^2+B^2=C^2
+be a positive integral Pythagorean triple with content
+  c=gcd(A,B)=gcd(A,B,C).
+Write A=c A0, B=c B0, C=c C0 with the primitive triple (A0,B0,C0).
+Then
+  [C-A]=[c]        if A0 is even,
+  [C-A]=[2c]       if A0 is odd
+in Q^*/Q^{*2}.
+
+
+Proof.
+For a primitive triple:
+- if A0 is the even leg, A0=2mn and C0-A0=(m-n)^2;
+- if A0 is the odd leg, A0=m^2-n^2 and C0-A0=2n^2.
+Multiplying by c proves the claim.
+
+
+5. Exact twist class equals four existing physical triangle contents
+
+
+Define the four physical Pythagorean contents
+  b   = gcd(e,x)   for (e,x,U),
+  c12 = gcd(U,y)   for (U,y,R),
+  a   = gcd(e,y)   for (e,y,V),
+  c21 = gcd(V,x)   for (V,x,R).                 (229M.4)
+
+
+The first two pairwise edge contents are exactly 229D:
+  gcd(e,x)=b,
+  gcd(e,y)=a.
+The last two are exactly the two space-triangle contents of M3-XG-007.
+
+
+Apply Lemma 229M.2 to the four triples
+  (e,x,U),
+  (U,y,R),
+  (e,y,V),
+  (V,x,R)
+and use (229M.1)-(229M.3). There is a parity bit
+  epsilon in {0,1}
+determined by the four primitive leg orientations such that
+  [D]=[2^epsilon a b c12 c21].                 (229M.5)
+
+
+Therefore the canonical positive squarefree twist class of 229L is exactly
+  d = sf(2^epsilon a b c12 c21).               (229M.6)
+
+
+No Gaussian prime outside these four physical contents can enter the rational twist support.
+
+
+RESULT_229M_TWIST_CLASS_FOUR_PHYSICAL_CONTENTS=PROVED_EXACT.
+
+
+6. Pairwise coprimality and four-chart realization
+
+
+Use 229D:
+  L1=g a, L2=g b,
+  M1=d0 c, M2=d0 f,
+with
+  e=gab, x=d0 bc, y=d0 af,
+and primitive face triples
+  (ga, d0 c, n1),
+  (gb, d0 f, n2).
+
+
+From M3-T11-228 the physical face diagonals are
+  U=b n1,
+  V=a n2.
+
+
+Because gcd(b,d0 a f)=1 and n1 is coprime to both legs ga,d0c,
+  c12=gcd(U,y)
+      =gcd(b n1,d0 a f)
+      =gcd(n1,f).                                (229M.7)
+Thus c12|f and gcd(c12,ab)=1.
+
+
+Similarly
+  c21=gcd(V,x)
+      =gcd(a n2,d0 b c)
+      =gcd(n2,c),                                (229M.8)
+so c21|c and gcd(c21,ab)=1.
+
+
+Since gcd(c,f)=1,
+  gcd(c12,c21)=1.
+Together with gcd(a,b)=1, the four contents
+  a,b,c12,c21
+are pairwise coprime.
+
+
+In particular the odd-prime support of d is the disjoint union of the odd-prime squarefree supports of these four physical contents. There is no cancellation between separate content buckets.
+
+
+RESULT_229M_FOUR_CONTENTS_PAIRWISE_COPRIME=PROVED_EXACT.
+
+
+7. Collapse to two retained moving content products
+
+
+Define
+  A_edge := a b,
+  C_raw  := c12 c21.
+
+
+By 229D,
+  A_edge=ab=e/g.
+Because gcd(e,x,y)=1 and a=gcd(e,y), b=gcd(e,x), one also has exactly
+  A_edge=gcd(e,xy).                              (229M.9)
+
+
+By M3-XG-007,
+  C_raw=c12 c21
+is the existing raw cross-gcd / product of the two coprime space-triangle contents, and there is an integer t>=1 with
+  R=C_raw t.                                     (229M.10)
+
+
+Hence
+  C_tw := a b c12 c21
+        = A_edge C_raw
+        = (e/g) C_raw
+        = eR/(g t).                              (229M.11)
+
+
+The twist class satisfies
+  d=sf(2^epsilon C_tw),
+so in particular
+  d <= 2 C_tw <= 2 e R <= 2 B^2.                (229M.12)
+
+
+This sharpens 229L's coarse d<=B^{O(1)} height statement to an explicit quadratic bound, but B^2 by itself is far above the Stage37 support target.
+
+
+RESULT_229M_TWIST_CONTENT_PRODUCT=PROVED_EXACT.
+RESULT_229M_A_EDGE_EQUALS_GCD_E_XY=PROVED_EXACT.
+RESULT_229M_CTW_EQUALS_AEDGE_TIMES_CRAW=PROVED_EXACT.
+RESULT_229M_TWIST_SIZE_D_LE_2B2=PROVED.
+
+
+8. New scoped counting theorem: the small-small content sector is negligible
+
+
+Let alpha,beta>0 with
+  alpha+beta < 1/3.
+Consider full positive physical endpoints satisfying
+  A_edge <= B^alpha,
+  C_raw  <= B^beta.                              (229M.13)
+
+
+By (229M.6)/(229M.11),
+  d <= 2 B^{alpha+beta}.
+Thus the number of possible positive squarefree twist classes in this sector is
+  O(B^{alpha+beta}).
+
+
+By the 229L uniform fixed-d endpoint fiber theorem, each such d contributes
+  B^{o(1)}
+physical endpoints, uniformly in d. Therefore
+  # endpoints satisfying (229M.13)
+    <= B^{alpha+beta+o(1)}
+    = o(B^{1/3}).                                (229M.14)
+
+
+Since the retained denominator lower bound is
+  M3(B) >> B^{1/3},
+this entire sector is o(M3).
+
+
+RESULT_229M_SMALL_SMALL_CONTENT_SECTOR=o_M3.
+RESULT_229M_SMALL_SMALL_CONTENT_SECTOR_ENDPOINT_BOUND=B^{alpha+beta+o(1)}.
+
+
+This is genuine new scoped counting credit, but it is not a full numerator bound and does not change GLOBAL_COUNTING_CREDIT from 0.
+
+
+9. Complementary one-sixth two-tail reduction
+
+
+The most useful specialization preserves the existing CROSS-GCD useful threshold.
+
+
+Choose
+  0<xi<1/12
+and a fixed eta>0 small enough that
+  alpha = 1/6-xi-2eta >0,
+  beta  = 1/6+xi.
+Then
+  alpha+beta = 1/3-2eta.
+
+
+By Section 8, endpoints outside the union
+  A_edge > B^(1/6-xi-2eta),                     (A-tail)
+or
+  C_raw  > B^(1/6+xi)                           (C-tail)
+contribute only
+  O(B^(1/3-2eta+o(1)))=o(M3).                   (229M.15)
+
+
+Equivalently,
+  P(B)
+   <= P_A-tail(B)
+      + P_C-tail(B)
+      + B^(1/3-2eta+o(1)).                       (229M.16)
+
+
+The C-tail is exactly the retained useful-threshold raw cross-gcd problem emphasized after M3-T11-156:
+  C_raw > B^(1/6+xi).
+The A-tail is the complementary pairwise-edge-content product problem
+  A_edge=ab=gcd(e,xy)>B^(1/6-xi-2eta).
+
+
+RESULT_229M_COMPLEMENTARY_ONE_SIXTH_TWO_TAIL_REDUCTION=PROVED_EXACT.
+RESULT_229M_C_TAIL_IS_EXISTING_CROSS_GCD_USEFUL_THRESHOLD=true.
+RESULT_229M_A_TAIL_IS_PAIRWISE_EDGE_CONTENT_PRODUCT_THRESHOLD=true.
+
+
+10. Route consequences and anti-loop firewall
+
+
+The 229L moving twist support is NOT an independent fifth mechanism after this card.
+
+
+Its exact arithmetic support is already the squarefree kernel of
+  A_edge*C_raw,
+where
+- A_edge is the 229D pairwise physical edge-content product;
+- C_raw is the M3-XG-007 / CROSS-GCD product of the two physical space-triangle contents.
+
+
+Therefore a future proof of either of the following would close the Gaussian/twist route after the complementary sector split:
+- both large-content tails in (229M.15) are o(B^{1/3});
+- a direct same-measure joint theorem for occupied (A_edge,C_raw) squarefree-kernel support gives o(B^{1/3});
+- a stronger theorem controls the union in (229M.15) directly.
+
+
+What does NOT suffice:
+- another fixed-d point count;
+- another proof that E_d is a congruent-number twist;
+- generic Selmer-density information not transferred to the exact physical occupied support;
+- independent multiplication of a CROSS-GCD saving and an A_edge saving without a same-measure union/joint theorem.
+
+
+The existing 156 firewall remains: a uniform raw 1/C tail is false on the enlarged carrier; the useful threshold C_raw>B^(1/6+xi) was not refuted but is still unproved. The A_edge complementary tail is likewise currently unproved.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+GEOMETRY_REOPEN=false.
+CROSS_GCD_REOPEN=false.
+LOCAL_REOPEN=false.
+PAIR_REOPEN=false.
+A_REOPEN=false.
+FIB_REOPEN=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_GENUINELY_NEW_THEOREM_INPUT.
+
+
+11. Current theorem rematch
+
+
+A targeted literature scan after 229L found work on integral points and 2-descent in the congruent-number family, including Chan–Zhang's uniform/coset bounds for integral points. Those results control point multiplicity inside a fixed twist family or average integral-point counts; they do not bound the number of Stage37-realized twist classes, nor the exact physical large-content tails in (229M.15).
+
+
+Santens 2026 still supplies the non-split toric base/fixed-local framework but not a growing-gcd/level-of-distribution theorem for A_edge or C_raw. Huang's effective toric geometric sieve remains split-over-Q. Thus no inspected theorem closes either large tail on the exact physical measure.
+
+
+RESULT_229M_CURRENT_EXTERNAL_THEOREM_MATCH=NO_DIRECT_LARGE_CONTENT_TAIL_BOUND.
+
+
+12. Next legal research target
+
+
+Do not continue Gaussian norm identities or fixed-d elliptic geometry.
+
+
+The next exact target is now one of:
+
+
+(A) A_EDGE_LARGE_TAIL:
+  # {endpoint: gcd(e,xy)>B^(1/6-xi-2eta)}
+    = o(B^(1/3));
+
+
+(B) C_RAW_USEFUL_THRESHOLD_TAIL:
+  # {endpoint: C_raw>B^(1/6+xi)}
+    = o(B^(1/3));
+
+
+(C) JOINT_CONTENT_SUPPORT:
+a same-physical-measure theorem for the occupied pair
+  (A_edge,C_raw)
+or its squarefree kernel
+  sf(2^epsilon A_edge C_raw)
+that directly gives o(B^(1/3)) realized support.
+
+
+Because (B) is a pre-existing CROSS-GCD gate and (A) is now the exact complementary gate forced by the twist crosswalk, a future route audit should compare those two, not reopen fixed-d or generic Kummer work.
+
+
+13. Sources checked
+
+
+Internal:
+- Stage37-NEW-INPUT-DELTA-AUDIT-229L;
+- Stage37-NEW-INPUT-DELTA-AUDIT-229J;
+- Stage37-NEW-INPUT-DELTA-AUDIT-229D;
+- Stage37-NEW-INPUT-DELTA-AUDIT-229E;
+- M3-T11-228;
+- M3-XG-007;
+- M3-T11-004 / retained CROSS-GCD threshold history;
+- M3-T11-080 as the earlier scoped fixed-D/moving-support analogue.
+
+
+External theorem scan:
+- Chan–Zhang, “Integral points on the congruent number curve,” Trans. AMS / arXiv:2004.03331;
+- retained Santens 2026 non-split toric height theorem;
+- retained Huang arXiv:2111.01509 effective split-toric geometric sieve.
+
+
+AUDIT SCOPE
+
+
+This is an exact algebraic/content crosswalk plus a scoped counting deduction using the already-proved 229L uniform fixed-twist fiber. It is not an independent hostile audit of cards 186–229, and it gives no global P(B)/M3(B) limit or perfect-cuboid conclusion.
+
+
+FINAL_READBACK_RECEIPT: PASS. Card parent=M3-Research-Cards; exact twist-content formula, pairwise-coprime four-content support, small-small o(M3) sector, and complementary one-sixth two-tail reduction present; MAIN latest delta=229M and card pointer present; active ROUTE latest229M/result block/doc pointer present; current LEDGER 229M control and change record present; CARD-INDEX row477 and 案内 latest/read-order updated. M3-T11-230 remains unissued; production HOLD; global credit0; independent hostile audit186–229 NOT RUN.

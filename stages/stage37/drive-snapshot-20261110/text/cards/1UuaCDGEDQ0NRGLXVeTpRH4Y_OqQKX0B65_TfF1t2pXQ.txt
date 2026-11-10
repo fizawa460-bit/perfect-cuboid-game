@@ -1,0 +1,37 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229DU
+Exact odd-p singular-node tube counts for 229DS q_Uz / q_Vz full-four-square conductor; p-adic method ceiling
+STATUS=PROVED_SCOPED_PADIC_ALL_FOUR_SQUARE_LOCAL_COUNT / NO_PHYSICAL_HEIGHT_COUNT / GLOBAL_COUNTING_CREDIT=0 / NO_GLOBAL_REOPEN
+CARD_DOC_ID=1UuaCDGEDQ0NRGLXVeTpRH4Y_OqQKX0B65_TfF1t2pXQ
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229DT
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230=NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+INDEPENDENT_HOSTILE_AUDIT_229DU=NOT_RUN.
+1. Research entry and non-duplication audit
+Fastpath synchronized MAIN current override229DT, INDEX row589, LEDGER latest229DT, active ROUTE top229DT, and 229DT research card. Queried entire CARD-INDEX rows1-589 for p-adic local masses, Hensel, singular nodes, q_Uz/q_Vz, squarefree-modulus counts, selector cover and retractions. NEGATIVE-REGISTER and audit229DT-A1 Sections6-8 read. The latest five mathematics cards DP/DQ/DR/DS/DT do not bound 229DP H_B^DP=o(B^(1/3)). No same-modulus/all-selector singular-node p^k exact count located. 229AH only geometric codimension-two and Fp special points; 229BG establishes 48 A1 nodes; 229DS exact q conductor and229DT (++ sign); 229DT-A1 Section7 forbids double-counting two gap-square divisibilities but did not give the local p^k mass. 229DF Hensel counts concern distinct gap-cone N_an∩Kcross lines and do not apply to this node cone. Historic 229BY section5 corrected by229BZ,229DI retracted/229DJ eta² retained.
+2. THEOREM 229DU.1 — exact node-cone congruence counts
+Let p be an ODD prime. For k>=0 let N_k(p)=# {(e,y,V) in (Z/p^kZ)^3 : e²+y²=V² (mod p^k)}, where N_0=1. Over Fp the rank-three isotropic quadratic cone has exactly p² points: its nonzero cone has (p+1)(p-1)=p²-1 points, each nonsingular; origin is the unique singular point. Therefore N_1=p² and, for k>=2,
+N_k=(p²-1) p^(2k-2)+p³ N_(k-2).   (229DU.1)
+Proof: every nonzero mod-p solution lifts through k−1 levels with p² free residue choices at each step by Hensel/implicit function theorem. For origin, e=p e',y=p y',V=p V' and quadratic homogeneity reduces the modulus to p^(k-2), with p³ final free lifts.
+Solving the recurrence yields EXACTLY, for every k>=0,
+N_k=p^(2k) [1+p^(-1)-p^(-floor(k/2)-1)].   (229DU.2)
+For k>=2n, impose p^n|e,y,V and let N_(k;n) count these cone solutions. Scaling by p^n and noting k−2n remaining congruence digits gives
+N_(k;n)=p^(3n) N_(k-2n).   (229DU.3)
+Thus for every fixed n>=1, lim_(k→infty) N_(k;n)/p^(2k)=(1+p^(-1))p^(-n), and lim N_(k;n)/N_(k;1)=p^(-(n-1)).   (229DU.4)
+3. THEOREM 229DU.2 — lift to the ACTUAL four square selector equations
+Keep all original equations e²+x²=U², e²+y²=V², x²+y²=z², e²+x²+y²=R² over Z/p^kZ. Restrict to the primitive p-local chart x a p-adic UNIT, and its singular-node residue tube p|e,y,V. The coordinates U,z,R must solve U²=x²+e²,z²=x²+y²,R²=x²+e²+y². Since e,y=0 mod p and x is a unit, each right side equals x² modp and has exactly TWO distinct square roots modulo p^k by odd-p Hensel; all choices are independent. Hence for k>=2, the exact tube count including all four-square selectors and gcd(e,x,y) a p-local unit is
+T_k(p)=8 phi(p^k) p³ N_(k-2).   (229DU.5)
+Among these eight local sign branches for (U,z,R), the 229DT sign (++): U/R=z/R=+1 modp is exactly TWO choices (one per R sign). In this (++ ) branch, R+U and R+z are p-units, while the exact square identities y²=(R-U)(R+U) and e²=(R-z)(R+z) give v_p(R-U)=2v_p(y) and v_p(R-z)=2v_p(e). With q_Uz²=odd gcd(R-U,R-z) from229BX/DS, the local condition p^n|q_Uz is EXACTLY p^n|e,y,V in the ++ branch, for p odd and k>=2n.
+Therefore the exact count of four-square mod-p^k node-tube points with p^n|q_Uz (k>=2n,n>=1) is
+L_(k,n)(p)=2 phi(p^k) p^(3n) N_(k-2n).   (229DU.6)
+Consequently, for fixed p odd and n>=1,
+lim_(k→infty) L_(k,n)(p)/T_k(p) = 1/(4 p^(n-1)).   (229DU.7)
+In particular q_Uz divisible by p occurs on exactly 1/4 of the ALL-sign node tube for every finite k>=2; and increasing the conductor depth n by one costs p^(-1), NOT p^(-2). The q_Vz branch is symmetric under x↔y and U↔V, using the p-local unit chart y and the cone e²+x²=U². 2-adic cases excluded.
+4. Direct quantified obstacle to old counting approaches
+At the node tube e,y,V=0 modp, the mod-p geometric slice has dimension zero as in229AH/229BG, which might tempt a codimension-two p^(-2n) density per extra full conductor depth. On the singular all-four-selector Z_p solution space the exact p^k normalization instead gives p^(-n) for simultaneous e,y,V divisibility (eq.229DU.4), and conditional p^(-(n-1)) on a fixed initial node tube (eq.229DU.7). Treating the two gap-square divisibilities p^(2n)|R-U and p^(2n)|R-z as independent sieve events is provably invalid in this LOCAL MODEL. This explains an explicit p-adic source of 229DT-A1 Section7's no-double-charge warning and 229AH codimension-only firewall.
+Important quantifier firewall: these counts apply to residue classes satisfying all four square equations over Z/p^kZ, with primitive local x-unit and specified sign/tube. They are NOT counts of positive integer perfect-cuboid endpoints, do not impose the exact global chamber, R<=B, 229DO/DP high constraints or sf(G0)>B^(1/3-delta), and cannot yield a GLOBAL counting lower bound (nor upper bound) by themselves. No probability product over independent primes, no physical-point existence and no improvement of #H_B^DP claimed.
+5. Internal independent finite-modulus check
+Brute enumeration of ALL triples (e,y,V) mod p^k verified N_k against eq.229DU.1 for p=3,5 and k=1,2,3: p3 counts 9,99,891; p5 counts 25,725,18125; all six matched. Further exact recurrence calculations for p=3,5,7 and n=1,2,3 verified p^(3n) N_(k-2n) with k=2n+2 and convergence toward (1+p^-1)p^-n. This finite arithmetic is a check only; the proof is the recurrence/Hensel argument above.
+6. Strategy choice / next effective counting proof contract
+NO NEW 229DP high population saving. The newly proved local p-adic mass calculation eliminates the proposed independent p^(-2n) or p^(-4n) payment from the ++ q_Uz/q_Vz singular branches. Continue current M3-T11-229 operational route with higher priority to the FIXED X_pc GLOBAL ALL-SELECTOR OFF-DIAGONAL/OCCUPIED-MODULUS count; use229AR entire G0 and229DS exact content as labels, NOT independent local densities.
+Concrete next attempt: construct a global count N_exact(B;D)=#{P in H_B^DP: D<=sf(G0(P))<2D}, preserving four integer squares, primitive positivity, R<=B and 229DT K-null packet, and prove dyadic SUM_D N_exact(B;D)=o(B^(1/3)). To make local treatment honest, separate the 229DU node-tube strata from smooth residue classes and seek a selector-conditioned signed/collision/height saving GLOBAL across multiple primes. A local Ekedahl/codim2 union, per-prime node mass multiplication or 229BF fixed-outer floor alone fails at the known exponent threshold. The distinct 229BF two-quartic outer route still needs BOTH 229CY terms saved.
+Authority/credit/gate/closure unchanged; integrated audits186–229O unchanged; 229DI retracted and229DJ correction retained. No Stage37 gate promotion, physical solution existence claim, or independent hostile audit. NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

@@ -1,0 +1,95 @@
+﻿STAGE37 229HI-A15 NATIVE ALL-k ORIGINAL SIGNED GAUSSIAN ROOT AND INDEPENDENT ACTUAL PHYSICAL EULER REPLAY CERTIFICATE
+Date 2026-10-11 JST; current Stage37-NEW-INPUT-DELTA-AUDIT-229HI-A15; PARENT_CARD_DOC_ID=1_1DoUSbRZDOEELY9jvosuhMkVhqnNkz-aPI2TYrbWEY; canonical native CARD-INDEX row696, previous row695, AI00 expected source_count_live695.
+STATUS: finite, exact, rigorously scoped; independent EXTERNAL hostile NOT_RUN. Source-map original FJ/FS/FW/HB hostile HOLD, gate OPEN, global counting credit0, authority229, closure unchanged.
+MATHEMATICAL REDUCTION (retained A12): p<q<r≡1mod8 prime norm p²=a²+b²,q²=c²+d²,r²=T²+W² (primitive signed) and one ORIGINAL f(Y) physical signed root; S0=4p²q²U², so r|U. U²+V²=(pq)² primitive. If U even, Euclid contradicts pq<r². After normalizing signs and swaps, canonical a,c odd,b,d even and U odd necessarily ac±bd, with Z=ac∓bd; necessary Δ_Y/4=(pqU)²−Z⁴ must be an integer square. This covers all ORIGINAL 24 signed FJ necessary labels with true prime norm-r third root, and ALL k, not every rational f(Y) root if U even and no norm-r condition.
+EXECUTED exact source SHA256=6edfe70611cac6f7809a4bc2b338a3cf06488244bfa92574c946d07b72417f99; full standalone *equivalent* runnable source:
+import math,time,bisect,json
+from sympy import primerange
+P=300000
+primes=[int(p) for p in primerange(17,2*P+1) if p%8==1]
+legs={}
+for p in primes:
+    for u in range(1,math.isqrt(p)+1,2):
+        t=p-u*u
+        v=math.isqrt(t)
+        if v%2==0 and v*v==t:
+            a,b=abs(u*u-v*v),2*u*v
+            assert a*a+b*b==p*p and a%2==1 and b%2==0 and math.gcd(a,b)==1
+            legs[p]=(a,b)
+            break
+    else: raise AssertionError(p)
+MOD=64*3*5*7*11*13
+is_sq=bytearray(MOD)
+for j in range(MOD):is_sq[j*j%MOD]=1
+cnt={'p':0,'pairs':0,'tests_oddU':0,'neg':0,'mod_pass':0,'sqrt_pass':0}
+for i,p in enumerate(primes):
+    if p>P:break
+    cnt['p']+=1
+    a,b=legs[p]
+    hi=bisect.bisect_left(primes,2*p)
+    for q in primes[i+1:hi]:
+        c,d=legs[q]
+        H=p*q
+        x=a*c;y=b*d
+        for U,Z in ((x+y,x-y),(x-y,x+y)):
+            D=(H*U)**2-Z**4
+            cnt['tests_oddU']+=1
+            if D<0:
+                cnt['neg']+=1
+                continue
+            if not is_sq[D%MOD]:continue
+            cnt['mod_pass']+=1
+            if math.isqrt(D)**2==D:
+                cnt['sqrt_pass']+=1
+                print('HIT',p,q,U,Z,D)
+        cnt['pairs']+=1
+print('FINAL',json.dumps(cnt))
+assert cnt=={'p':6457,'pairs':18439795,'tests_oddU':36879590,'neg':14304128,'mod_pass':13555144,'sqrt_pass':0}
+
+
+EXPECTED 6457 first primes, 18439795 eligible (p,q), 36879590 odd-U tests, 14304128 negative,13555144 modular-square residues (MOD=960960),0 genuine integer squares. For p≤100000 a separate INDEPENDENT four-case replay PASS matches A12 exact totals (2384,2494003,9976012,3877263,0); independent source SHA e1f62a03a00676a1889f45b72a6952d274aa3a6fc78894aa0372af20ae64be84:
+# Independent A12 parity-unrestricted four-discriminant replay, P=100000.
+# For each p,q from first source script, take (a,b)=legs[p],(c,d)=legs[q].
+# Test all four ordered pairs below with *integer* isqrt:
+classes=((a*d+b*c,a*d-b*c),(a*d-b*c,a*d+b*c),
+         (a*c+b*d,a*c-b*d),(a*c-b*d,a*c+b*d))
+# Baseline exact: 2384 split p,2494003 prime pairs,
+# 9976012 quartic tests,3877263 negative discriminants,zero squares.
+# SHA256 of independently executed baseline source:
+# e1f62a03a00676a1889f45b72a6952d274aa3a6fc78894aa0372af20ae64be84
+
+
+DIRECT ORIGINAL PHYSICAL EULER-BRICK route alternative (not new analytic progress): generate EVERY face triple e²+x²=U²,e²+y²=V² with face hypotenuses≤B and check third face z²=x²+y², primitive gcd(e,x,y)=1 and real space diagonal norm sqrt(e²+x²+y²)≤B. These are actual same-P original conditions, WITHOUT using FJ source map. Executed script SHA256 dec55ebb136f92fceed6bbb1fc49dd95e83089d96236432226ae4e5d8155a981 (equivalent compact code):
+import math,collections
+B=50000
+partner=collections.defaultdict(set)
+for m in range(2,math.isqrt(B)+2):
+    for n in range(1,m):
+        if (m-n)%2!=1 or math.gcd(m,n)!=1:continue
+        c=m*m+n*n
+        if c>B:continue
+        a=m*m-n*n;b=2*m*n
+        for t in range(1,B//c+1):
+            x,y=t*a,t*b
+            partner[x].add(y)
+            partner[y].add(x)
+euler=[]
+triple_tests=0;squareR=0
+for e,partners in partner.items():
+    pp=sorted(partners)
+    for i,x in enumerate(pp):
+        for y in pp[i+1:]:
+            R2=e*e+x*x+y*y
+            if R2>B*B:continue
+            triple_tests+=1
+            if math.isqrt(x*x+y*y)**2!=x*x+y*y:continue
+            if math.gcd(math.gcd(e,x),y)>1:continue
+            euler.append((e,x,y))
+            if math.isqrt(R2)**2==R2:squareR+=1
+print('two-face pair tests',triple_tests,'Euler-brick oriented',len(euler),'unordered',len(euler)//3,'full 4-square',squareR)
+assert (triple_tests,len(euler),squareR)==(1120778,126,0)
+
+
+Expected B=50000,1120778 two-face pair checks,126 oriented primitive brick endpoints=42 unordered bricks,zero with space diagonal R integer; first edges (44,117,240). Historical Stage19 Euler brick census N2(500000000)=3495 is larger; these finite brick numbers are merely a **distinct route check**, not mathematical research first claim, not a formal route switch.
+NUMERIC MODULAR LIMITATION: of 36,879,590 odd-U tests, MOD960960 allowed13,555,144 nonnegative residue candidates, all false for actual square in the finite scan. A fixed modular test cannot be assumed to give density→0 for unbounded prime p,q; NO all-k asymptotic count was proved. Squareclass local and independent-norm product probability multiplication remain NEG NO_GO.
+NEXT STOP FINITE HORIZON LOOPS. Attack complete 24 signed source coupled Diophantine equality Δ square, U²+V²=(pq)², r²=T²+W² and F(Y)=0 via uniform genus1/descent or formal EX/OFF-G0 actual P route audit. Other104 uncounted signed FJ, prime powers, omega4 and full original Stage37 goal OPEN.

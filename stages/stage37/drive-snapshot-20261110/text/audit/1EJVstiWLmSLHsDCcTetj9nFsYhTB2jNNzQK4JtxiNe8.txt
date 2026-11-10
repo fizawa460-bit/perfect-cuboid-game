@@ -1,0 +1,160 @@
+﻿Stage37 HOSTILE AUDIT — M3-T11-118
+
+
+VERDICT=PASS / EXACT_SAME_MEASURE_THEOREM_ADAPTER / NO_GLOBAL_POWER_SAVING
+AUDITED_CARD=M3-T11-118
+PRIOR_AUDITED_FRONTIER=M3-T11-117
+AUDIT_MODE=Within-session hostile rederivation with independent Wolfram symbolic recomputation plus dependency/measure audit; not a separately staffed external review.
+POPULATION=Exact nondegenerate Stage37 physical endpoints with R<=B in one fixed content/coefficient packet, restricted to the audited phi/1+3 image.
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+
+
+1. Exact algebra audit — PASS
+
+
+For primitive phi parameter t=r/s retain
+Q0=r^2+s^2,
+Q1=r^2-4rs+5s^2,
+F_phi=Q0*Q1
+=r^4-4r^3s+6r^2s^2-4rs^3+5s^4.
+
+
+Audited M3-T11-110 gives
+U^2+V^2=Q0*Q1^3=Q1^2 F_phi.
+If u=a/b is reduced from U/V by common factor g, then
+a^2+b^2=Q1^2 F_phi/g^2.
+Both Q1^2 and g^2 are squares, so
+sf(a^2+b^2)=sf(F_phi)
+exactly. No odd-coprimality assumption is needed for this squareclass identity; audited 110's odd-coprimality is used later for the Q0-allocation valuation.
+
+
+Independent Wolfram recomputation gives the binary-quartic coefficient tuple
+(1,-4,6,-4,5),
+I=48,
+J=0,
+4I^3-J^2=442368 !=0.
+
+
+With the retained Stage37 convention,
+H_F=(F_rs^2-F_rr F_ss)/3
+=-192s^2(r-s)^2,
+K_F=(F_s(H_F)_r-F_r(H_F)_s)/12
+=128s(r-s)(r^2-2rs-s^2)(r^2-2rs+3s^2),
+and independent expansion gives the exact identity
+27K_F^2=H_F^3-48I F_phi^2 H_F-64J F_phi^3.
+The remainder is identically zero.
+
+
+Thus for F_phi=dq^2 the standard audited covering coordinates
+x=3dH_F/(4F_phi),
+y=27K_F/(8q^3)
+satisfy
+E_d:y^2=x^3-1296d^2x
+=x(x-36d)(x+36d).
+
+
+The cubic roots 0,36d,-36d are distinct for d>0, so E_d has full rational 2-torsion.
+
+
+2. Height/fixed-d audit — PASS
+
+
+F_phi=(r^2+s^2)((r-2s)^2+s^2)>0 for every nonzero parameter pair.
+For H=max(|r|,|s|),
+F_phi<=20H^4.
+Also
+|H_F|=192 s^2(r-s)^2<=768H^4.
+Hence the naive x-height from the displayed covering map is bounded polynomially by O(dH^4), and d<=F_phi<=20H^4. On the retained polynomial physical parameter-height range the induced elliptic height and model height are O(log B).
+
+
+This is the same theorem interface already hostile-audited in M3-T11-113: a smooth binary quartic 2-cover with a polynomial-height map to E_d, while E_d has a rational exact-order-2 point. The audited Dujella bounded-height theorem therefore yields B^o(1) elliptic points uniformly for realized d, and the degree-four covering gives B^o(1) primitive phi parameters. Audited M3-T11-036 then gives B^o(1) physical endpoints per canonical d.
+
+
+No new torsion or multiplicity saving is charged.
+
+
+3. Q0-allocation conductor divisor — PASS
+
+
+Define
+M_phi,0=product_{p^lambda||M_rel, p|Q0}p^lambda
+for one primitive phi representation.
+
+
+At every p in this product, p is an odd relative-fresh prime. Audited M3-T11-110 gives gcd(Q0,Q1) odd-trivial, so p does not divide Q1. Its reduced-u cancellation is supported only at 2. Therefore
+v_p(a^2+b^2)=v_p(Q0).
+
+
+The audited common-u conductor contains M_rel^2, hence
+v_p(a^2+b^2)>=2lambda.
+Consequently
+v_p(F_phi)=v_p(Q0)>=2lambda
+for every p^lambda in M_phi,0, and therefore
+M_phi,0^2|F_phi.
+
+
+This is deterministic and same-measure. No allocation frequency is used.
+
+
+4. Joint tail and measure audit — PASS
+
+
+For exact physical phi endpoints admitting a primitive phi parameter of height <=H and M_phi,0>=M0,
+M_phi,0^2|F_phi and square removal leaves the canonical squareclass unchanged. Thus
+d=sf(F_phi/M_phi,0^2)
+<=F_phi/M_phi,0^2
+<=20H^4/M0^2.
+
+
+Routing by canonical d merges all moving conductor values and all eligible representations. Nonuniqueness only overcounts. The fixed-d physical fiber bound therefore gives
+E_phi(B;H,M0)<<B^o(1)H^4/M0^2.
+The direct primitive-parameter bound gives
+E_phi(B;H,M0)<<B^o(1)H^2.
+Hence
+E_phi(B;H,M0)<<B^o(1)min(H^2,H^4/M0^2).
+
+
+This is an upper bound on the exact R<=B population. No ambient density is substituted, no per-conductor +1 term is summed, and no independence assumption is used.
+
+
+5. Exponent and scope audit — PASS
+
+
+On H<=B^h and M_phi,0>=B^m0,
+E_phi<<B^(min(2h,4h-2m0)+o(1)).
+The displayed Q0-allocation tail is below the one-twelfth scale if
+4h-2m0<1/12.
+
+
+This is not a global phi theorem because the card does not prove either a global upper bound on H strong enough for the inequality or a lower bound on M_phi,0 for all phi endpoints.
+
+
+The correct residual receiver is therefore the complementary small-M_phi,0 population. On audited interior fresh primes, M3-T11-110 supplies only
+Q1 allocation => cubic resonance.
+No converse and no resonance probability may be charged.
+
+
+6. Promotion and firewall
+
+
+PROMOTED:
+PHI_FIXED_NORM_SQUARECLASS_UNIFORM_BO1=true
+PHI_Q0_ALLOCATION_CONDUCTOR_TAIL=true
+PHI_Q0_ALLOCATION_ONE_TWELFTH_WINDOW=true
+
+
+RETAIN:
+GLOBAL_FIXED_POWER_SAVING=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+
+
+DO_NOT_REPEAT:
+Do not multiply the M3-T11-118 replacement count by the common-u conductor, selector, determinant, d-splitting, local squareclass, Q0/Q1 allocation frequency or cubic-resonance frequency.
+Do not infer cubic resonance=>Q1.
+Do not infer the full phi image is negligible.
+Do not identify the global rational root vartheta with physical z=S/2.
+
+
+NEXT_LEGAL_ACTION=Attack the complementary small-M_phi,0 / Q1-dominant residual conductor on the exact physical measure. Any use of cubic resonance must be global/cross-prime or otherwise nonlocal; primewise resonance receives no new density or squareclass credit. Interior nonlocal S4 and theta!=0 remain independent live routes.

@@ -1,0 +1,447 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229AD — third Hilbert squareclass and six-bucket coprime selector packet
+
+
+STATUS: POST_229AC_SELECTOR_PACKET_REFINEMENT / PROVED_EXPLICIT_BASE_HILBERT_CLASS_DELTA0 / PROVED_THREE_HILBERT_CLASSES_FACTOR_THROUGH_SIX_PHYSICAL_CONTENT_BUCKETS / PROVED_SIX_BUCKETS_PAIRWISE_COPRIME / PROVED_THREE_SPLIT_ONLY_HYPOTENUSE_BUCKETS / PROVED_ODD_SUPPORT_DISJOINTNESS_OF_DELTA0_DELTA_PLUS_DELTA_MINUS / PROVED_TWIST_ODD_SUPPORT_COPRIME_TO_BASE_HILBERT_ODD_SUPPORT / SELECTOR_CONDITIONED_COUNT_STILL_OPEN / PREFERRED_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229AC EXACT SELECTOR-HILBERT PACKET / NESTED PYTHAGOREAN CONTENT FACTORIZATION / ODD-PRIME SUPPORT LOCALIZATION / THEOREM-INPUT SHARPENING
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229AC
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1byAfUpYWBOHo6jQhrkD5faNZUytMNi7UmLp6PH_YS3Q
+
+
+1. Scope
+
+
+229M explicitly resolved the two selector Hilbert squareclasses delta_+, delta_- into physical Pythagorean gap/content data and used their product to identify the moving congruent-number twist.
+229N/O then collapsed that product to
+  G_* = gcd(eR,xy),
+  d_tw = sf(2^epsilon G_*).
+
+
+The base norm-square condition N(p) square also has its own rational Hilbert squareclass delta_0 from229L:
+  p = delta_0 s_0^2,
+  p^2+1 = delta_+ s_+^2,
+  p^2-1 = delta_- s_-^2,
+with delta_j in Q^* and s_j in Q(i)^*.
+
+
+Until now Stage37 did not push delta_0 through the same physical content crosswalk. This card does so and proves that the three rational squareclasses split, away from2, into six mutually coprime physical content buckets.
+
+
+No endpoint power saving is claimed.
+
+
+2. Retained exact physical factorization
+
+
+Use229D notation but rename its common missing-face content d as d0 to avoid collision with the canonical elliptic twist.
+
+
+The exact four-chart/nested factorization is
+  e = g a b,
+  x = d0 b c,
+  y = d0 a f,                                    (229AD.1)
+with
+  gcd(a,b)=1,
+  gcd(c,f)=1,
+  gcd(g,d0)=1,
+  gcd(g,c)=gcd(g,f)=1,
+  gcd(a,d0)=gcd(a,c)=1,
+  gcd(b,d0)=gcd(b,f)=1.
+
+
+The missing-face primitive triple is
+  (b c)^2 + (a f)^2 = q^2,
+  z=d0 q,                                        (229AD.2)
+with
+  gcd(bc,af)=1,
+  q odd,
+  gcd(q,abcf)=1.
+
+
+Set
+  h=gcd(e,z)=gcd(g,q).                            (229AD.3)
+Then
+  h|g,
+  h|q,
+  gcd(h,d0abcf)=1,
+and every prime divisor of h is 1 mod4.
+
+
+The two primitive face triples are
+  (g a, d0 c, n1),
+  (g b, d0 f, n2),                               (229AD.4)
+with
+  U=b n1,
+  V=a n2.
+
+
+Retain229M:
+  c12=gcd(U,y)=gcd(n1,f),
+  c21=gcd(V,x)=gcd(n2,c).                        (229AD.5)
+
+
+3. Explicit base Hilbert squareclass delta_0
+
+
+Retain229J:
+  p=((x+i y)(R+e))/z^2,
+  v=(R+e)/z,
+  N(p)=v^2.                                      (229AD.6)
+
+
+Because x,y>0, p is non-real, so the exact Hilbert-class lemma229M.1 applies to zeta=p:
+if N(p)=v^2 then the rational squareclass of p is represented by
+  2v+Tr(p).
+
+
+Now
+  Tr(p)=2x(R+e)/z^2,
+hence
+  2v+Tr(p)
+    =2(R+e)/z + 2x(R+e)/z^2
+    =2(R+e)(z+x)/z^2.                            (229AD.7)
+
+
+The denominator z^2 is a rational square, so
+  [delta_0]=[2(R+e)(z+x)].                       (229AD.8)
+
+
+Use
+  (R+e)(R-e)=z^2,
+  (z+x)(z-x)=y^2.
+Therefore
+  [R+e]=[R-e],
+  [z+x]=[z-x]
+in Q^*/Q^{*2}, and
+  [delta_0]=[2(R-e)(z-x)].                       (229AD.9)
+
+
+RESULT_229AD_BASE_HILBERT_CLASS_PHYSICAL_GAP_FORMULA=PROVED_EXACT.
+
+
+4. Apply the Pythagorean gap-squareclass lemma
+
+
+Retain229M.2:
+for a positive integral Pythagorean triple
+  A^2+B^2=C^2
+with content m,
+  [C-A] is [m] or [2m]
+depending only on the primitive-leg parity.
+
+
+Apply it first to
+  (e,z,R),
+whose content is h by (229AD.3):
+  [R-e]=[2^{r0} h],  r0 in {0,1}.                (229AD.10)
+
+
+Apply it to
+  (x,y,z),
+whose content is d0:
+  [z-x]=[2^{s0} d0], s0 in {0,1}.                (229AD.11)
+
+
+Combining with (229AD.9), there exists
+  epsilon_0 in {0,1}
+such that
+  [delta_0]=[2^{epsilon_0} h d0].                (229AD.12)
+
+
+This is the exact missing third-content crosswalk.
+
+
+RESULT_229AD_DELTA0_EQUALS_HD0_UP_TO_2ADIC_BIT=PROVED_EXACT.
+
+
+5. Put delta_+, delta_- in the same packet
+
+
+Retain229M:
+  [delta_+]=[(U-e)(R-U)],
+  [delta_-]=[(V-e)(R-V)].                        (229AD.13)
+
+
+The triples
+  (e,x,U),
+  (U,y,R)
+have contents b,c12 respectively, so the same gap lemma gives
+  [delta_+]=[2^{epsilon_+} b c12],
+  epsilon_+ in {0,1}.                            (229AD.14)
+
+
+The triples
+  (e,y,V),
+  (V,x,R)
+have contents a,c21 respectively, hence
+  [delta_-]=[2^{epsilon_-} a c21],
+  epsilon_- in {0,1}.                            (229AD.15)
+
+
+Thus the three rational Hilbert classes have the uniform physical packet
+
+
+  delta_0 : h * d0,
+  delta_+ : b * c12,
+  delta_- : a * c21,                             (229AD.16)
+
+
+up to independent harmless 2-adic parity bits.
+
+
+RESULT_229AD_THREE_HILBERT_CLASS_CONTENT_PACKET=PROVED_EXACT.
+
+
+The canonical twist remains
+  d_tw=sf(delta_+ delta_-)
+      =sf(2^epsilon a b c12 c21),                (229AD.17)
+consistent with229M/N/O.
+
+
+6. The six physical content buckets are pairwise coprime
+
+
+We prove pairwise coprimality for
+  h, d0, a, b, c12, c21.                         (229AD.18)
+
+
+From229D,
+  gcd(h,d0abcf)=1,
+so h is coprime to d0,a,b and, because c12|f and c21|c, also to c12,c21.
+
+
+Also from229D,
+  gcd(d0,a)=gcd(d0,b)=1.
+
+
+Because c12|n1 and (ga,d0c,n1) is primitive,
+  gcd(c12,d0)=gcd(c12,a)=1.
+Because c12|f and gcd(b,f)=1,
+  gcd(c12,b)=1.
+
+
+Similarly c21|n2 and (gb,d0f,n2) primitive give
+  gcd(c21,d0)=gcd(c21,b)=1,
+while c21|c and gcd(a,c)=1 give
+  gcd(c21,a)=1.
+
+
+Finally
+  c12|f,
+  c21|c,
+  gcd(c,f)=1,
+so
+  gcd(c12,c21)=1.
+
+
+Together with gcd(a,b)=1, all six entries in (229AD.18) are pairwise coprime.
+
+
+RESULT_229AD_SIX_CONTENT_BUCKETS_PAIRWISE_COPRIME=PROVED_EXACT.
+
+
+Consequently the odd-prime supports of delta_0, delta_+, delta_- are pairwise disjoint:
+  supp_odd(delta_0)=supp(h) disjoint-union supp(d0),
+  supp_odd(delta_+)=supp(b) disjoint-union supp(c12),
+  supp_odd(delta_-)=supp(a) disjoint-union supp(c21).  (229AD.19)
+
+
+In particular,
+  gcd( oddpart(delta_0), oddpart(d_tw) )=1.       (229AD.20)
+
+
+RESULT_229AD_THREE_HILBERT_ODD_SUPPORTS_PAIRWISE_DISJOINT=PROVED_EXACT.
+RESULT_229AD_BASE_CLASS_ODD_SUPPORT_COPRIME_TO_TWIST_ODD_SUPPORT=PROVED_EXACT.
+
+
+7. Three of the six buckets are split-prime only
+
+
+The integer q is the hypotenuse of the primitive Pythagorean triple (bc,af,q), so every odd prime divisor of q is 1 mod4.
+Since h|q,
+  p|h => p=1 mod4 for every odd p.                (229AD.21)
+
+
+Likewise n1,n2 are hypotenuses of the primitive face triples in (229AD.4). Therefore every odd prime divisor of n1 or n2 is 1 mod4.
+Since
+  c12|n1,
+  c21|n2,
+we have
+  p|c12 c21 => p=1 mod4 for every odd p.         (229AD.22)
+
+
+Thus the six-bucket packet has an alternating structure:
+
+
+  unrestricted leg/common-content buckets:
+    d0, b, a;
+
+
+  Gaussian-split hypotenuse-overlap buckets:
+    h, c12, c21,
+    supported only on odd primes p=1 mod4.        (229AD.23)
+
+
+RESULT_229AD_H_C12_C21_SPLIT_PRIME_SUPPORT=PROVED_EXACT.
+
+
+A useful corollary for the preferred twist radical is:
+every odd prime p=3 mod4 dividing
+  K_*=sf(gcd(eR,xy))
+must lie in a or b, hence in the e-side content
+  A_edge=ab=gcd(e,xy).                            (229AD.24)
+
+
+Equivalently, the odd 3 mod4 support of the R-side content
+  C_raw=c12 c21
+is empty.
+
+
+RESULT_229AD_INERT_PRIME_TWIST_SUPPORT_LOCALIZED_TO_E_SIDE=PROVED_EXACT.
+
+
+8. Relation to the preferred radical gate
+
+
+Retain229O:
+  G_*=gcd(eR,xy)=a b c12 c21,
+  K_*=sf(G_*).                                    (229AD.25)
+
+
+229AD does not make K_* small. It refines its arithmetic support:
+- the twist packet delta_+ and delta_- have disjoint odd support;
+- each packet contains exactly one unrestricted content bucket and one split-only bucket;
+- the unused base Hilbert class delta_0 is odd-coprime to the twist support and itself has the same unrestricted/split-only pattern.
+
+
+Therefore the selector-conditioned theorem input can be stated more sharply than “count arbitrary twists d”:
+
+
+count physical packets
+  (kappa_0,kappa_+,kappa_-)
+with
+  kappa_0=sf(2^{e0} h d0),
+  kappa_+=sf(2^{e+} b c12),
+  kappa_-=sf(2^{e-} a c21),                      (229AD.26)
+whose odd parts are pairwise coprime, whose h,c12,c21 prime support is entirely split in Q(i), and which arise from the exact nested primitive Pythagorean system and physical height R<=B.
+
+
+The preferred twist is
+  d_tw=sf(kappa_+ kappa_-).
+
+
+RESULT_229AD_SELECTOR_CONDITIONED_THEOREM_INTERFACE=THREE_PAIRWISE_ODD_COPRIME_HILBERT_PACKETS_WITH_SPLIT_SUPPORT_HALF_BUCKETS.
+
+
+9. What this does not prove
+
+
+No fixed-power saving follows solely from support localization.
+
+
+The sectors
+  h=1,
+  c12=1,
+  c21=1
+are all arithmetically allowed by the retained exact parameterization, so the split-only factors may disappear entirely.
+The unrestricted buckets d0,a,b can still carry arbitrary odd prime support subject to the existing physical equations.
+
+
+Therefore:
+  PHYSICAL_JOINT_RADICAL_GCD_ONE_THIRD remains OPEN.
+  CM_PAIR_INDEPENDENT_BRANCH remains OPEN.
+  GLOBAL_COUNTING_CREDIT remains0.
+
+
+The result is a theorem-interface sharpening, not a numerator bound.
+
+
+10. Route consequence
+
+
+The generic-rank route remains HOLD by229AC.
+
+
+The highest-value next input is now one of:
+
+
+(A) THREE_PACKET_SELECTOR_SUPPORT_COUNT:
+a same-physical theorem counting the exact packet (kappa_0,kappa_+,kappa_-) of (229AD.26), preserving pairwise odd coprimality, the split-only h/c12/c21 supports, and the exact R-height, with o(B^{1/3}) large-twist output;
+
+
+(B) TWO_PACKET_TWIST_SUPPORT_COUNT:
+a theorem directly counting kappa_+,kappa_- under their disjoint odd support and one-split-one-unrestricted bucket structure, strong enough to control
+  sf(kappa_+ kappa_-)>B^{1/3-delta};
+
+
+(C) DIRECT_SAME_PHYSICAL_RADICAL_SUPPORT:
+the existing preferred theorem for
+  sf(gcd(eR,xy));
+
+
+(D) any sharper physical twist cutoff or selector-aware two-point theorem meeting the already recorded229AC exponent contracts.
+
+
+DO_NOT_CONTINUE:
+- do not treat split-prime support alone as a power saving;
+- do not discard delta_0: it is now an exact third rational squareclass packet, although it is not part of d_tw;
+- do not merge the six buckets and lose their pairwise-coprime structure before theorem matching;
+- do not reopen generic rank>=2 statistics without229AC's gamma<1/6 equivalent;
+- do not reopen CM dependence unless229AB fails audit.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+PRIMARY_GATE_STATUS=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+
+
+Integrated audit186-229O remains unchanged in scope and is not silently extended to229P-229AD.
+
+
+11. Verification scope
+
+
+This is a within-session exact algebra/content deduction from retained229D/J/L/M/N/O. It is not an independent hostile audit of those cards.
+
+
+Load-bearing checks:
+- explicit Hilbert-class representative 2r+Tr(zeta) from229M.1;
+- p=((x+iy)(R+e))/z^2 and N(p)=((R+e)/z)^2 from229J;
+- nested factorization e=gab, x=d0bc, y=d0af, z=d0q and h=gcd(g,q) from229D;
+- face hypotenuses n1,n2 and c12=gcd(n1,f), c21=gcd(n2,c) from229M;
+- Pythagorean gap-squareclass lemma229M.2;
+- quotient-free twist radical G_*=gcd(eR,xy) from229O.
+
+
+No new external theorem is used.
+
+
+12. Sources checked
+
+
+Internal:
+- Stage37-NEW-INPUT-DELTA-AUDIT-229AC;
+- Stage37-NEW-INPUT-DELTA-AUDIT-229O;
+- Stage37-NEW-INPUT-DELTA-AUDIT-229N;
+- Stage37-NEW-INPUT-DELTA-AUDIT-229M;
+- Stage37-NEW-INPUT-DELTA-AUDIT-229L;
+- Stage37-NEW-INPUT-DELTA-AUDIT-229J;
+- Stage37-NEW-INPUT-DELTA-AUDIT-229D;
+- current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+A targeted current web scan for a theorem directly counting this exact pairwise-coprime three-Hilbert-packet configuration returned no direct match. No absence theorem is claimed.
+
+
+FINAL_READBACK_RECEIPT: PASS. Card, CARD-INDEX row495 and 案内, RESULT-LEDGER, MAIN current override, and active ROUTE were read back from Drive and agree on 229AD. The three Hilbert classes factor through six pairwise-coprime physical buckets; h,c12,c21 have odd support only on primes congruent to 1 mod4. This is structural theorem-interface sharpening only. Preferred same-physical radical-gcd gate and CM-pair independent branch remain OPEN; CM dependence remains closed by229AB; generic rank-statistics route remains HOLD by229AC; GLOBAL_COUNTING_CREDIT=0; M3-T11-230 remains unissued; production HOLD and integrated-audit186-229O scope are unchanged.

@@ -1,0 +1,370 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229AP — full-odd edge-content gap-gcd square matrix and four-packet extension
+
+
+STATUS: POST_229AO_FULL_ODD_EDGE_PACKETIZATION_COMPLETE / PROVED_GCD_eV_EQUALS_a / PROVED_GCD_eU_EQUALS_b / PROVED_EXACT_FULL_ODD_GAP_GCD_SQUARE_MATRIX / PROVED_229AK_INERT_PACKETIZATION_IS_SPECIALIZATION / PROVED_FULL_ODD_AB_FOUR_PACKET_RECEIVER / PROVED_229AO_CUBIC_SHORT_GAP_CARRIER_EXTENDS_TO_FULL_ODD_a_b / SPLIT_SUPPORT_NARROWED_TO_c12_c21_OUTSIDE_EDGE_PACKETS / NO_COUNTING_PROMOTION / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229AO SAME-PHYSICAL FULL-ODD EDGE SUPPORT / EXACT GAP-GCD SQUARE MATRIX / FOUR-PACKET THRESHOLD-PRESERVING EXTENSION / SPLIT-SUPPORT NARROWING / METHOD FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229AO
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1ckNKRRU3UDiOT98tESsQ9skB_SNFZxvulruSfbpaCZw
+
+
+1. Scope
+
+
+229AJ packetized only the odd inert p≡3 mod4 part of the edge contents a,b. 229AK then refined those inert packets by face/space signs, while 229AO extracted deterministic gap-size information without paying the eight-packet threshold loss.
+
+
+The same sign geometry is in fact exact for every odd prime dividing a or b, not only inert primes. The missing input is the exact pairwise-content structure from 229D.
+
+
+This card proves an all-odd gap-gcd square matrix for the edge contents a=gcd(e,y) and b=gcd(e,x). Its p≡3 mod4 restriction is exactly the retained 229AK packetization. Aggregating by the space-gap sign gives a four-packet receiver for rad_odd(ab), including split primes carried by a,b, and extends the 229AO cubic short-gap carrier from a_(3),b_(3) to the complete odd parts a_odd,b_odd.
+
+
+This is a structural extension only. It does not count the packets and does not control the separate split-only contents c12,c21.
+
+
+2. Retained exact physical factorization
+
+
+Retain 229D/229M:
+  e = g a b,
+  x = d0 b c,
+  y = d0 a f,
+with
+  gcd(a,b)=1,
+  gcd(e,x)=b,
+  gcd(e,y)=a,
+and primitive face triples
+  T_a=(g a,d0 c,n1),
+  T_b=(g b,d0 f,n2).
+
+
+Retain
+  U=b n1,
+  V=a n2.
+
+
+Because T_a and T_b are primitive,
+  gcd(g a,n1)=1,
+  gcd(g b,n2)=1.
+Therefore
+  gcd(e,U)=b*gcd(g a,n1)=b,                    (229AP.1)
+  gcd(e,V)=a*gcd(g b,n2)=a.                    (229AP.2)
+
+
+RESULT_229AP_GCD_eU_EQUALS_b=PROVED_EXACT.
+RESULT_229AP_GCD_eV_EQUALS_a=PROVED_EXACT.
+
+
+These two identities are the full-odd analogue of the inert-support localization used implicitly in 229AJ/229AK.
+
+
+3. Exact full-odd a-side gap-gcd square matrix
+
+
+For positive integers A,B write gcd_odd(A,B) for the largest odd divisor of gcd(A,B).
+
+
+For sigma,tau in {-,+}, define alpha_{sigma,tau} by
+  alpha_{sigma,tau}^2
+    := gcd_odd(U+sigma x, R+tau x).              (229AP.3)
+
+
+We prove that the right side is always a perfect square and that the four alpha packets partition a_odd exactly.
+
+
+First let an odd prime p divide both U+sigma x and R+tau x. Then
+  p | U^2-x^2 = e^2,
+  p | R^2-x^2 = V^2.
+Hence p|e and p|V, so by (229AP.2),
+  p | gcd(e,V)=a.                                (229AP.4)
+
+
+Conversely fix p^k || a, p odd. Since p|e and gcd(e,x)=b with gcd(a,b)=1,
+  p does not divide x.
+Then U^2=e^2+x^2 and R^2=V^2+x^2 show p does not divide U or R.
+
+
+Thus exactly one of U-x,U+x is divisible by p, and exactly one of R-x,R+x is divisible by p. Let their signs be sigma(p),tau(p). Since the opposite factors are p-units,
+  v_p(U+sigma(p)x)=v_p(e^2)=2v_p(e),
+  v_p(R+tau(p)x)=v_p(V^2)=2v_p(V).
+
+
+Using gcd(e,V)=a,
+  min(v_p(e),v_p(V))=v_p(a)=k.
+Therefore
+  v_p(gcd_odd(U+sigma(p)x,R+tau(p)x))=2k.         (229AP.5)
+
+
+For the other three sign pairs the p-adic valuation is zero.
+
+
+Consequently every gcd in (229AP.3) is a square and
+  a_odd = product_{sigma,tau} alpha_{sigma,tau}, (229AP.6)
+with the four alpha_{sigma,tau} pairwise coprime.
+
+
+RESULT_229AP_A_FULL_ODD_GAP_GCD_SQUARE_MATRIX=PROVED_EXACT.
+
+
+4. Exact full-odd b-side gap-gcd square matrix
+
+
+Define beta_{sigma,tau} by
+  beta_{sigma,tau}^2
+    := gcd_odd(V+sigma y, R+tau y).               (229AP.7)
+
+
+The same argument uses
+  V^2-y^2=e^2,
+  R^2-y^2=U^2,
+  gcd(e,U)=b,
+  gcd(e,y)=a,
+  gcd(a,b)=1.
+
+
+For every odd p^k||b there is a unique sign pair (sigma(p),tau(p)) and
+  v_p(gcd_odd(V+sigma(p)y,R+tau(p)y))=2k.
+Hence
+  b_odd = product_{sigma,tau} beta_{sigma,tau},  (229AP.8)
+and the four beta packets are pairwise coprime.
+
+
+Since gcd(a,b)=1, all eight alpha/beta packets are pairwise coprime.
+
+
+RESULT_229AP_B_FULL_ODD_GAP_GCD_SQUARE_MATRIX=PROVED_EXACT.
+RESULT_229AP_EIGHT_FULL_ODD_EDGE_PACKETS_PAIRWISE_COPRIME=PROVED_EXACT.
+
+
+5. 229AK is exactly the inert specialization
+
+
+For p≡3 mod4, the sign allocation in Sections 3–4 is the same unique allocation used in 229AK:
+- the face-space sign is determined by which face gap contains p^k;
+- the space sign is determined by which R±x or R±y gap contains p^k.
+
+
+Therefore the p≡3 mod4 part of alpha_{sigma,tau} is exactly the retained 229AK packet a_{sigma,tau}, and the p≡3 mod4 part of beta_{sigma,tau} is exactly b_{sigma,tau}.
+
+
+RESULT_229AP_229AK_INERT_PACKETS_ARE_FULL_ODD_PACKET_SPECIALIZATION=PROVED_EXACT.
+
+
+No 229AK statement is retracted. 229AP enlarges its support from inert edge primes to every odd edge-content prime.
+
+
+6. Four aggregated full-odd edge packets
+
+
+Aggregate by the space-gap sign:
+  alpha_tau = alpha_{-,tau} alpha_{+,tau},
+  beta_tau  = beta_{-,tau} beta_{+,tau}.          (229AP.9)
+
+
+Then
+  a_odd = alpha_- alpha_+,
+  b_odd = beta_- beta_+,                          (229AP.10)
+and alpha_-,alpha_+,beta_-,beta_+ are pairwise coprime.
+
+
+There are also exact aggregated gcd identities:
+  alpha_tau^2 = gcd_odd(e^2,R+tau x),             (229AP.11)
+  beta_tau^2  = gcd_odd(e^2,R+tau y).             (229AP.12)
+
+
+Proof of (229AP.11): any odd common prime of e and R+tau x also divides
+  R^2-x^2=V^2,
+so it lies in gcd(e,V)=a. The p-adic valuation is
+  2 min(v_p(e),v_p(V)) = 2v_p(a),
+and the unique tau sign partitions the odd primes of a. The b-side is identical using gcd(e,U)=b.
+
+
+Set
+  Abar_tau=rad(alpha_tau),
+  Bbar_tau=rad(beta_tau).
+Then
+  rad_odd(ab)
+    = Abar_- Abar_+ Bbar_- Bbar_+.                (229AP.13)
+
+
+Hence for every T>=1,
+  rad_odd(ab)>T
+    =>
+  max(Abar_-,Abar_+,Bbar_-,Bbar_+)>T^(1/4).       (229AP.14)
+
+
+RESULT_229AP_FULL_ODD_AB_FOUR_PACKET_RECEIVER=PROVED_EXACT.
+
+
+At a threshold T=B^(1/3-delta), the corresponding packet threshold is again
+  B^(1/12-delta/4).
+This is the same quarter-threshold as 229AJ, now for all odd primes in a,b rather than only inert primes.
+
+
+No endpoint count is asserted.
+
+
+7. Full-odd extension of the 229AO short-gap carrier
+
+
+From the definitions,
+  alpha_-^2 | R-x,
+  beta_-^2  | R-y.                                (229AP.15)
+
+
+For the plus aggregates, alpha_{-,+}^2 divides U-x and alpha_{+,+}^2 divides both U+x and R+x. Their difference gives
+  alpha_{+,+}^2 | R-U.
+Since alpha_{-,+} and alpha_{+,+} are coprime,
+  alpha_+^2 | (U-x)(R-U).                         (229AP.16)
+
+
+Similarly
+  beta_+^2 | (V-y)(R-V).                          (229AP.17)
+
+
+Using a_odd=alpha_-alpha_+ and b_odd=beta_-beta_+,
+  a_odd^2 | (R-x)(U-x)(R-U),                     (229AP.18)
+  b_odd^2 | (R-y)(V-y)(R-V).                     (229AP.19)
+
+
+Retain positivity x<U<R and y<V<R from 229AO. Since
+  (U-x)+(R-U)=R-x,
+  (V-y)+(R-V)=R-y,
+AM-GM yields
+  4 a_odd^2 <= (R-x)^3,                           (229AP.20)
+  4 b_odd^2 <= (R-y)^3.                           (229AP.21)
+
+
+In particular, for every M>0,
+  Abar_->M => R-x>M^2,
+  Abar_+>M => R-x>2M,
+  Bbar_->M => R-y>M^2,
+  Bbar_+>M => R-y>2M.                             (229AP.22)
+
+
+RESULT_229AP_229AO_CUBIC_SHORT_GAP_CARRIER_EXTENDS_TO_FULL_ODD_EDGE_CONTENT=PROVED_EXACT.
+RESULT_229AP_FULL_ODD_FOUR_PACKET_HEIGHT_LOCALIZATION=PROVED_EXACT.
+
+
+8. Split-support consequence
+
+
+Retain 229M:
+  K_* = sf(a b c12 c21),
+and a,b,c12,c21 are pairwise coprime.
+
+
+Retain 229AI:
+- every odd prime of c12 or c21 is split, p≡1 mod4;
+- the inert part of K_* lies entirely in a,b.
+
+
+229AP now adds that every odd prime in a,b, including split primes, is captured by the four aggregated edge packets (229AP.9).
+
+
+Therefore, outside the 2-adic bit, the only K_* support not represented by the full-odd edge four-packet receiver is the pair of split-only physical contents
+  c12, c21.                                       (229AP.23)
+
+
+RESULT_229AP_SPLIT_SUPPORT_OUTSIDE_EDGE_PACKETS_LOCALIZED_TO_c12_c21=PROVED_EXACT.
+
+
+This is a structural narrowing only. It does not show that c12 or c21 is small, sparse, or negligible, and it does not convert the whole K_* tail to the edge four-packet tail.
+
+
+The raw-content large-tail problem of 229M also remains distinct: a large a or b can arise from repeated prime powers while rad_odd(ab) is smaller. No 229M raw-size gate is declared closed.
+
+
+9. Quantitative firewall and next theorem interface
+
+
+What 229AP improves:
+- 229AJ/229AK inert packetization is upgraded to all odd edge-content primes;
+- the same T^(1/4) four-packet threshold is preserved for rad_odd(ab);
+- 229AO height localization and cubic short-gap carriers now hold for the complete odd edge contents;
+- split support is separated into split edge primes already inside the new packets versus the residual split-only contents c12,c21.
+
+
+What 229AP does NOT prove:
+- no same-physical packet counting estimate;
+- no polynomial saving;
+- no independence between gap divisibilities;
+- no large-c12/c21 tail estimate;
+- no closure of the full sf(gcd(eR,xy)) one-third gate;
+- no counting promotion.
+
+
+CURRENT_PREFERRED_GATE remains:
+  #{positive primitive physical endpoints R<=B :
+      sf(gcd(eR,xy)) > B^(1/3-delta)}
+    = o(B^(1/3))
+for some fixed delta>0.
+
+
+CURRENT_PREFERRED_EDGE_CONTENT_STRUCTURAL_RECEIVER:
+  229AP full-odd four packets for rad_odd(ab), threshold T^(1/4), with 229AP height localization.
+
+
+CURRENT_PREFERRED_INERT_STRUCTURAL_RECEIVER remains:
+  229AJ four inert packets, now identified as the p≡3 mod4 specialization of 229AP.
+
+
+NEXT_USEFUL_INPUT:
+(A) same-physical count for the 229AP full-odd four edge packets exploiting exact R-height and gap localization;
+(B) a genuine count/tail theorem for the residual split-only c12,c21 contents, preferably coupled to the 229AP edge packets;
+(C) direct realized K_* or moving-twist support counting;
+(D) cross-prime cancellation/dispersion across edge packets and c12,c21.
+
+
+Do not infer density from the exact gcd-square identities themselves. Do not multiply sign incidences as independent. Do not identify raw content size with squarefree radical size.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_OPERATION=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+INTEGRATED_AUDIT_186_229O_SCOPE=UNCHANGED_NOT_EXTENDED_TO_229P_THROUGH_229AP.
+
+
+10. Dependencies and verification scope
+
+
+Internal load-bearing inputs:
+- 229D exact physical factorization and pairwise contents;
+- 229M four physical contents and pairwise coprimality;
+- 229AJ inert four-packet receiver;
+- 229AK sign-resolved inert face/space packets;
+- 229AM forced third-gap sign law;
+- 229AO short-gap height coupling;
+- current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+No external theorem is required for the exact algebraic statements in this card.
+
+
+A targeted literature rematch found general toric bounded-height, rational-point sieve, and recent thin-set counting results, but no theorem was identified that directly supplies the required same-physical 229AP packet count with exact R-height. This is not an absence theorem and no literature-based no-go is claimed.
+
+
+Independent hostile audit of 229AP has not been run. Existing operational authority, latest mathematical construction, counting credit, primary gate, closure states, retractions, production HOLD and integrated-audit scope are otherwise unchanged.
+
+
+
+
+FINAL_READBACK_RECEIPT: PASS
+READBACK_CONFIRMED: 229AP card body / CARD-INDEX row507 / 案内 latest routing / RESULT-LEDGER 229AP change record / MAIN current authority override=229AP / active ROUTE POST-229AP block.
+DRIVE_LOCATION_CONFIRMED: M3-Research-Cards folder (parent 1PTFrohNcPTyhLT-b51IT3VUy-tikkxLz).
+AUTHORITY_CREDIT_GATE_CLOSURE_CHECK: unchanged except latest post-229 delta pointer advanced to229AP; M3-T11-229 operational authority, M3-T11-228 latest mathematical construction, PRIMARY_GATE OPEN, GLOBAL_COUNTING_CREDIT=0, M3-T11-230 unissued, production HOLD, P_OVER_M3_LIMIT_PROVED=false, integrated audit186-229O scope unchanged.
+STRUCTURAL_RECEIVER_CHECK:229AP full-odd a,b four-packet receiver is current edge-content structural refinement;229AJ remains its inert p==3 mod4 specialization. Residual odd split support outside edge packets is c12,c21; no tail/count closure assigned.
+CONCURRENCY_CHECK: no Stage37-NEW-INPUT-DELTA-AUDIT-229AQ found at final readback.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

@@ -1,0 +1,154 @@
+﻿M3-T11-175 — Large primitive-space-direction masks retain the R502 raw moment obstruction
+CARD_ID=M3-T11-175
+STATUS=PROVED_JOINT_RAW_MASK_OBSTRUCTION / ENDPOINT_CORRELATION_OPEN
+PRIMARY_GATE=OPEN / GLOBAL_COUNTING_CREDIT=0
+Authority: fresh MAIN, INDEX through174, short RESULT-LEDGER, active ROUTE control and174. Only the retained R502 formulas,156 carrier and173/174 scope are used.
+
+
+1. Decision and new statement
+174 removes the endpoint sector D_min<=B^(1/3-delta_D). The remaining two-direction correlation must therefore be tested on large primitive-space directions, rather than assuming that the new cutoff automatically removes the raw obstructions.
+This card proves a quantitative negative result on the exact physical RAW measure:
+for every fixed delta_D>0,delta_H>0 and s>0,
+sum_{e in E(B):
+       D_min(e)>B^(1/3-delta_D),
+       H_raw(e)>B^(1/3-delta_H)} c_raw(e)^s
+>= const_s B^(1/4+s/2).                          (175.1)
+D_min on a raw object means min_i R/gcd(R,e_i). A direction whose complementary face is not integral is not being called a primitive Pythagorean triangle. On the retained R502 carrier, the minimizing direction DOES have an integral complementary face; the second integral space direction is also above the cutoff.
+
+
+More precisely, a subfamily of >=k B^(1/4) distinct primitive raw edges with R in [kappa_0 B,B] has two actual primitive-space hypotenuses
+D_A asymp B^(1/2), D_B asymp B,                   (175.2)
+and
+c_raw asymp B^(1/2), R/c_raw asymp B^(1/2),
+D_min asymp B^(1/2), H_raw asymp B^(1/2).          (175.3)
+All constants are independent of B. The constants below are intentionally coarse.
+Thus the ordinary square-root-budget raw moment method remains impossible after BOTH large-D and high-H raw masks. No endpoint lower population, no failure of the useful single-threshold tail, and no endpoint upper improvement is proved.
+
+
+2. R502 notation and existing height bound
+For coprime m,n in7/2<m/n<4, put
+J=(m^2+n^2)(m^2+9n^2),
+L=(m^2-n^2)(m^2-9n^2),
+F_-=m^4-2m^2n^2+9n^4,
+F_+=m^4+2m^2n^2+9n^4,
+K=4mn(m^2-3n^2).
+Then the retained raw edges and space diagonal are
+A=JL, B0=KF_+, C0=16m^2n^2(m^4-9n^4), D=F_- J.
+Write g=gcd(A,B0,C0), R=D/g and
+h_A=gcd(D,A)/g, h_B=gcd(D,B0)/g, h_C=gcd(D,C0)/g.
+The original source proves g<=2592 and D>=m^8 on the cone. Also D<=240m^8 since n<m. Therefore
+m^8/2592<=R<=240m^8.                             (175.4)
+The physical faces AC and BC are integral. XG-007 gives
+c_raw=h_A h_B, D_A=R/h_A, D_B=R/h_B.              (175.5)
+
+
+3. New uniform gcd ceilings for the three space contents
+The elementary inequality gcd(U,VW)<=gcd(U,V)gcd(U,W) is used throughout.
+Because gcd(m,n)=1, n is a unit modulo any divisor of the homogeneous polynomials appearing below.
+
+
+First,
+gcd(D,A)=J*gcd(F_-,L).
+Reducing F_- modulo m^2-n^2 and m^2-9n^2 gives8n^4 and72n^4 respectively, so
+gcd(F_-,L)<=8*72=576,
+h_A<=576J.                                      (175.6)
+
+
+For B0:
+gcd(D,K)<=4*81*576.
+Here gcd(D,m)<=81, gcd(D,n)=1, and D modulo m^2-3n^2 is576n^8.
+Also
+gcd(F_-,F_+)<=36, gcd(J,F_+)<=72,
+since the polynomial differences are4m^2n^2 and8m^2n^2, while gcd(F_+,m^2)<=9 and gcd(F_+,n)=1.
+Thus
+h_B<=gcd(D,B0)
+<=4*81*576*36*72=483729408=:K_B.                  (175.7)
+
+
+For C0 let W=m^4-9n^4. We have
+gcd(D,m^2)<=81, gcd(D,n)=1.
+Modulo W,
+F_- =2n^2(9n^2-m^2),
+J=2n^2(5m^2+9n^2).
+The gcd of W with9n^2-m^2 divides72. The gcd of W with5m^2+9n^2 divides144: reduce25W modulo that latter linear expression in m^2, obtaining-144n^4.
+Therefore
+gcd(F_-,W)<=144, gcd(J,W)<=288,
+h_C<=16*81*144*288=53747712=:K_C.                 (175.8)
+
+
+Since J<=20m^4 and m>=1, (175.6)-(175.8) yield
+h_max<=K_B m^4.
+Together with(175.4),
+D_min=R/h_max
+>=m^4/(2592 K_B)
+>=sqrt(R)/(2592 K_B sqrt(240)).                  (175.9)
+This is a uniform lower bound for the raw D_min, not a statement about a missing irrational face.
+
+
+4. The accumulating carrier lies in a physical height shell
+Use exactly156's retained parameter subset:
+T=floor((B/240)^(1/8)),
+n in(T/8,T/4],
+m=4n-k,1<=k<n/2,gcd(k,n)=1.
+It has >>T^2 coprime parameters and m>7T/16. The same bounded primitive-object multiplicity<=8 from156 gives >>T^2 distinct raw edges.
+Equation(175.4) places them in
+const*T^8<=R<=240T^8<=B,
+so for sufficiently large B, R>=const*B.
+156 gives c_raw>=const*T^4, and the new ceilings give c_raw<=const*T^4. Thus c_raw asymp T^4 asymp sqrt(B).
+
+
+Since h_B<=K_B, h_A=c_raw/h_B>=const*T^4. Also h_A<=576J<=11520T^4. For large T, h_A exceeds the bounded h_B and h_C. Consequently
+h_max=h_A,
+D_min=D_A=R/h_A asymp T^4,
+D_B=R/h_B asymp T^8.                             (175.10)
+Both D_A and D_B are primitive Pythagorean hypotenuses, because their complementary faces BC and AC are integral.
+The third D_C need not correspond to an integral face and is not assumed to do so.
+Furthermore H_raw=h_A h_B h_C asymp T^4 and R/c_raw asymp T^4, proving(175.2)-(175.3).
+
+
+Pairwise coprimality of the contents follows from primitive integer edges and the space equation: a prime dividing R and two edges would divide the third edge. Thus exactly
+lcm(D_A,D_B)=R, gcd(D_A,D_B)=R/c_raw.              (175.11)
+The new carrier therefore inhabits the actual physical two-direction lcm-height window, not an ambient norm-pair box. It is highly unbalanced in direction sizes; its two nonmaximal contents remain bounded.
+
+
+5. Masked moment consequence and endpoint firewall
+Equations(175.3) and(175.10) show that all of these >>B^(1/4) raw edges eventually have D_min>B^(1/3-delta_D) and H_raw>B^(1/3-delta_H). Summing c_raw^s over them proves(175.1).
+As in172, a conjectural upper budget B^(1/2+o(1)) for this masked raw moment is impossible for every fixed s>1/2. At C=B^(1/6+xi),0<xi<1/12, Markov needs s>1/(1+6xi)>2/3 to get a fixed-power exponent below1/3. These orders still cannot coexist.
+This is new preservation of the obstruction after174's large-D filter; it does not retract174's endpoint small-D theorem.
+
+
+For actual endpoints, D_i=R/h_i and the174 residual are valid. But the R502 endpoint exceptions are finite by the already-retained source genus-seven argument, as173 records. Hence(175.1) CANNOT be transferred to an endpoint-masked moment.
+Sigma is only defined through171's endpoint four-core packet. This card neither defines it on the raw carrier nor claims that the carrier satisfies the actual large-Sigma population. H_raw large is merely a compatible content-size proxy, not that population.
+
+
+The useful single-threshold raw bound at C=B^(1/6+xi),xi<1/12 remains unrefuted: this quarter-power population is smaller than B^(1/3-xi). A capped moment or a direct tail estimate is not ruled out. No counting gain follows just from the lcm/gcd identities(175.11).
+
+
+6. Verification and novelty
+Fresh INDEX searches for R502 with D_min, two large primitive-space directions and high-content masks found156/173 carrier results and174's new cutoff, but no uniform D_min floor or joint-mask moment lower bound.
+Original source height/gcd and156's positive-power carrier count are reused. The new content ceilings and physical-direction profile certify survival after the actual new cutoff. No fixed R502 rational-point classification is attempted.
+Exact integer replay checked4939 coprime pairs with n<=180 in7/2<m/n<4 for the three gcd ceilings, R height lower bound, h_max bound and lcm(D_A,D_B)=R. All passed.
+The symbolic reductions above prove the ceilings for all coprime cone parameters; replay is supporting verification, not an asymptotic proof. No perfect endpoints were enumerated. Within-session review only; no independent hostile audit.
+
+
+7. Handoff
+LATEST_RESEARCH_CARD=M3-T11-175 / NEXT_CANDIDATE=M3-T11-176
+NEXT_ATTACK=EndpointLowMedianContentCorrelationPreflight
+The new large-D residual alone does not force two large nonmaximal contents: the raw carrier has bounded nonmaximal contents and large directions.176 should inspect the endpoint-specific low-median-content regime first, starting with h_middle=1, which forces h_min=1. Keep both171 large-Sigma and174 large-D conditions, and test the actual missing-third-face/sphere compatibility with the retained full Gaussian orientations. Find a genuine uniform or summed endpoint count, or identify the exact moving-norm cost. Do not transfer a raw lower population to endpoint scope and do not prolong fixed R502 curve classification.
+For all moving contents, the needed same-measure two-direction/support theorem remains OPEN; no such theorem was found in this batch. The quarter-power raw obstruction is insufficient to decide the endpoint gate.
+NEW_JOINT_LARGE_D_HIGH_H_RAW_MOMENT_OBSTRUCTION=true
+NEW_ENDPOINT_UPPER_SAVING=false
+NEW_NEGLIGIBLE_ENDPOINT_SECTOR=false
+P_OVER_M3_LIMIT_PROVED=false
+GLOBAL_COUNTING_CREDIT=0
+TI=PARKED /120=RETRACTED /147-149=FROZEN
+
+
+Drive dependencies:
+R502 original certificate:1uxSIaPHC6Xgg8c4iazY2wPz1MLdfIMFb
+156 canonical:1A8E7wd31A8gHg5fM4zi9ZRpSX4ukV6wr
+172:18-pHnywlh8sDQLcAGtMxd6MR6pRlwXPDXvimc2Pa71Q
+173:1PNtdjPWr1SrMBV8uUxc2g8ofdglrjQiLqzindUJTWYM
+174:1_ic-h_X9wS8EZwpNflXzGZEDPEKg2qCAgHveaOwLyeE
+171:1cIVglf5RjsFKYBdzy5suR1JSTpKs35bp-8Ga5Pb4-u4
+XG-007/008: CARD-INDEX canonical rows; CROSS-GCD route exact physical-content sections

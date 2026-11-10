@@ -1,0 +1,268 @@
+﻿Stage37 HOSTILE AUDIT — M3-T11-081 and M3-T11-082
+
+
+HOSTILE_AUDIT=PASS
+AUDITED_CARDS=M3-T11-081,M3-T11-082
+CURRENT_LATEST_AUDITED_RESEARCH_CARD=M3-T11-096
+AUDIT_SCOPE=x=-1/8 Sophie-Germain residual-kernel router, distinguished congruent-number point, standard Weierstrass denominator root, exact naive x-height window, and no-double-charge relation between 081 and 082.
+GITHUB_ACCESSED=false
+
+
+1. Executive verdict
+
+
+M3-T11-081: PASS.
+M3-T11-082: PASS.
+
+
+This closes historical audit debt only. It does not move the live research frontier backward from M3-T11-096 and does not change NEXT_RESEARCH_CARD_ID=M3-T11-097.
+
+
+Promoted exact structure:
+- F(r,s)=r^4+4*s^4=D*(epsilon*M_rel*h)^2 on the exact x=-1/8 physical carrier;
+- the explicit non-2-torsion point on E_D:y^2=x^3-D^2*x;
+- every realized D lies in the corresponding distinguished negative-square 2-descent/congruent-number class;
+- the same point written in primitive physical coordinates is P_D=(-b^2/q^2,a*b*c/q^3), q=M_rel*h;
+- q is exactly the standard denominator root in the integral model;
+- M_rel divides that standard denominator root;
+- H_x(P_D)=max(b^2,q^2) with q^2<=H_x(P_D)<=D*q^2;
+- on M_rel>B^(1/12-eta), C_D>B^(1/12-eta) and H_x(P_D)>B^(1/6-2*eta).
+
+
+Not promoted:
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_D_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+2. M3-T11-081 — Sophie-Germain residual kernel: PASS
+
+
+On the primitive x=-1/8 conic,
+a=(r^2-2*s^2)/epsilon,
+b=2*r*s/epsilon,
+c=(r^2+2*s^2)/epsilon,
+with gcd(r,s)=1 and epsilon in {1,2} according to the primitive parity normalization.
+
+
+Direct expansion gives
+epsilon^2*(a^2+b^2)=r^4+4*s^4
+=(r^2-2*r*s+2*s^2)*(r^2+2*r*s+2*s^2).
+
+
+Hostile-audit-passed M3-T11-080 supplies
+D=sf(N_u/M_rel^2)=sf(N_u),
+gcd(D,M_rel)=1,
+with N_u=a^2+b^2.
+
+
+Write
+N_u=D*q^2,
+q=M_rel*h,
+h>=1.
+Then with
+W=epsilon*q=epsilon*M_rel*h,
+one has exactly
+F(r,s)=D*W^2.
+
+
+This is a valid same-measure router to one fixed decomposable binary quartic with an actual square-divisor witness. No determinant-density or ambient squarefree-value saving follows.
+
+
+3. M3-T11-081 — distinguished negative-square point: PASS
+
+
+Define
+alpha=2*r*s/W,
+beta=(r^2-2*s^2)/W,
+gamma=(r^2+2*s^2)/W.
+
+
+Because W=epsilon*q,
+alpha=b/q,
+beta=a/q,
+gamma=c/q.
+
+
+The conic identities imply
+gamma^2-alpha^2=D,
+gamma^2-beta^2=2*alpha^2.
+
+
+Thus
+P_D=(X,Y)=(-alpha^2,alpha*beta*gamma)
+satisfies
+X+D=beta^2,
+X-D=-gamma^2,
+and therefore
+Y^2=X*(X+D)*(X-D)=X^3-D^2*X.
+
+
+On the nondegenerate physical carrier alpha*beta*gamma is nonzero, so Y is nonzero and the point is not rational 2-torsion. Hence every realized positive squarefree D is a congruent number in the standard elliptic-curve sense.
+
+
+The sign pattern
+X=-square,
+X+D=+square,
+X-D=-square
+is the claimed distinguished negative-square 2-descent pattern.
+
+
+No density consequence is promoted from the word "congruent number".
+
+
+4. M3-T11-082 — explicit moving-twist point: PASS
+
+
+Using the same primitive physical coordinates,
+N_u=a^2+b^2=D*q^2,
+c^2=a^2+2*b^2,
+define
+P_D=(x_D,y_D)=(-b^2/q^2,a*b*c/q^3).
+
+
+Then
+x_D+D=a^2/q^2,
+x_D-D=-c^2/q^2,
+so
+y_D^2=x_D*(x_D+D)*(x_D-D)
+=x_D^3-D^2*x_D.
+
+
+This is exactly the same rational point as in M3-T11-081 under
+alpha=b/q,
+beta=a/q,
+gamma=c/q.
+
+
+Therefore M3-T11-081 and M3-T11-082 are compatible descriptions of one point, not two independent arithmetic savings.
+
+
+5. M3-T11-082 — exact standard denominator root: PASS
+
+
+On the primitive x=-1/8 carrier,
+gcd(a,b)=1,
+a,c are odd,
+b is even.
+Hence N_u=a^2+b^2 is odd, so D and q are odd.
+
+
+If p divides q, then p divides a^2+b^2. Since gcd(a,b)=1, p divides neither a nor b.
+
+
+Modulo p,
+a^2==-b^2,
+and from c^2=a^2+2*b^2 one gets
+c^2==b^2 mod p.
+Therefore p does not divide c.
+
+
+Hence
+gcd(q,a*b*c)=1.
+
+
+So
+x_D=A_D/C_D^2,
+y_D=B_D/C_D^3
+with
+A_D=-b^2,
+B_D=a*b*c,
+C_D=q
+is already reduced in the integral Weierstrass model y^2=x^3-D^2*x.
+
+
+Thus
+C_D=q=M_rel*h,
+and in particular
+M_rel | C_D.
+
+
+This point/standard-denominator sublemma agrees with the independent recheck already recorded inside the hostile audit of M3-T11-083.
+
+
+6. M3-T11-082 — naive x-height window: PASS
+
+
+For
+H_x(P_D)=max(|A_D|,C_D^2),
+one has exactly
+H_x(P_D)=max(b^2,q^2).
+
+
+Since
+a^2+b^2=D*q^2
+and a is nonzero on the primitive physical carrier,
+b^2<D*q^2.
+
+
+Therefore
+q^2<=H_x(P_D)<=D*q^2.
+
+
+On the hard branch
+M_rel>B^(1/12-eta),
+q=M_rel*h with h>=1 gives
+C_D=q>B^(1/12-eta)
+and
+H_x(P_D)>=q^2>B^(1/6-2*eta).
+
+
+These are exact lower/relative height statements. They do not by themselves imply that the moving squarefree support D is sparse.
+
+
+The physical upper window required for a usable twist-counting theorem is supplied later by hostile-audit-passed M3-T11-083:
+D*q^2 | L_vee*tau^2
+with R=H_c*tau<=B.
+
+
+7. No-double-charge and route relation: PASS
+
+
+M3-T11-081 and M3-T11-082 must not be counted as two separate saving mechanisms.
+
+
+M3-T11-081 contributes the Sophie-Germain quartic presentation and the distinguished squareclass pattern.
+M3-T11-082 rewrites the same point in the primitive physical coordinates and exposes its exact standard denominator root and naive x-height.
+
+
+Thus:
+- the 081 point and 082 point are identical;
+- the congruent-number label gives no independent density saving;
+- q>=M_rel gives no independent density saving;
+- the old M_rel^-2 determinant is not recharged;
+- ambient binary-form squarefree-value density and all-points-on-all-twists counts are not substituted for the exact Stage37 physical measure.
+
+
+8. Canonical promoted flags
+
+
+M3_T11_081_HOSTILE_AUDIT=PASS
+M3_T11_082_HOSTILE_AUDIT=PASS
+M3_T11_X_MINUS_ONE_EIGHTH_SOPHIE_GERMAIN_KERNEL_ROUTER=true
+M3_T11_X_MINUS_ONE_EIGHTH_NEGATIVE_SQUARE_2DESCENT_POINT=true
+M3_T11_X_MINUS_ONE_EIGHTH_REALIZED_D_CONGRUENT=true
+M3_T11_X_MINUS_ONE_EIGHTH_MOVING_D_POINT_EXPLICIT=true
+M3_T11_X_MINUS_ONE_EIGHTH_MOVING_D_POINT_STANDARD_DENOMINATOR_EXACT=true
+M3_T11_X_MINUS_ONE_EIGHTH_MOVING_D_POINT_DENROOT_MULTIPLE_OF_MREL=true
+M3_T11_X_MINUS_ONE_EIGHTH_MOVING_D_POINT_NAIVE_HEIGHT_WINDOW=true
+M3_T11_081_082_SAME_RATIONAL_POINT=true
+M3_T11_081_082_INDEPENDENT_SAVINGS=false
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_D_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+9. Current frontier unchanged
+
+
+LATEST_RESEARCH_CARD=M3-T11-096
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-096
+PROVISIONAL_FRONTIER_CARD=NONE
+PROVISIONAL_FRONTIER_AUDIT_STATUS=NOT_APPLICABLE
+NEXT_RESEARCH_CARD_ID=M3-T11-097
+
+
+The historical x=-1/8 chain is now audit-complete through 081/082 as well as the already-audited 080 and 083 onward. The current live Stage37 theorem task remains the post-096 theta moving-support/global-dispersion frontier.

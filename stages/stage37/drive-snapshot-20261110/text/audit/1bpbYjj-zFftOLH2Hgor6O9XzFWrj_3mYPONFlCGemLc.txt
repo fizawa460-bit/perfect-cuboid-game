@@ -1,0 +1,177 @@
+﻿Stage37 HOSTILE AUDIT — M3-T11-109
+
+
+HOSTILE_AUDIT=PASS
+AUDITED_CARD=M3-T11-109
+PRIOR_AUDITED_FRONTIER=M3-T11-108
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-109
+GITHUB_ACCESSED=false
+AUDIT_BASIS=Google Drive Stage37 current authority + independent exact symbolic recomputation and specialization/Galois audit
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+
+
+1. Executive verdict
+
+
+M3-T11-109 survives hostile audit.
+
+
+Promotable:
+- for every nonzero rational u, the rational 1+3 specialization locus of Q_u is exactly the explicit degree-4 image phi(P^1(Q)) minus the u=0 image;
+- the quartic-discriminant-square locus is exactly the explicit degree-2 image psi(P^1(Q));
+- the two images are disjoint over Q;
+- combined with audited M3-T11-108, every u in Q^* has exactly one specialization type: 1+3/S3 on phi, irreducible/A4 on psi, irreducible/S4 on the complement;
+- the stated O(H^(1/2)) and O(H) estimates are valid ambient multiplicative-projective-u-height counts only.
+
+
+Not promoted:
+- any same-physical-measure R<=B fixed-power saving;
+- any primary-gate closure;
+- endpoint theorem;
+- P(B)/M3(B)->0;
+- Perfect Cuboid nonexistence credit.
+
+
+2. Rational-root locus — PASS
+
+
+Retain
+Q_u(z)=(1+u^2)z^4-8u z^3+(11u^2-1)z^2+6u z-u^2.
+
+
+Regarded as a quadratic in u, independent exact expansion gives
+Disc_u(Q_u(z))=-4z^2(z^2-2)^3=4z^2(2-z^2)^3.
+
+
+For u!=0, a rational root has z!=0. The leading quadratic coefficient z^4+11z^2-1 has no rational zero because its equation in z^2 has discriminant 125. Hence a rational root exists exactly when
+z^2+w^2=2
+for rational z,w.
+
+
+The standard rational parametrization
+z=(t^2-2t-1)/(t^2+1),
+w=-(t^2+2t-1)/(t^2+1)
+substitutes identically into Q after
+u=phi(t)
+=-2(t-1)(t^2-2t-1)/(t^4-6t^3+12t^2-14t+11).
+
+
+Changing w to -w exchanges the two quadratic roots in u, so the parametrization is complete rather than one-sided.
+
+
+In homogeneous coordinates t=r/s,
+U_13=-2s(r-s)(r^2-2rs-s^2),
+V_13=r^4-6r^3s+12r^2s^2-14rs^3+11s^4,
+and independent resultant recomputation gives
+Res_r(U_13,V_13)=-4096s^16.
+Thus all reduction cancellation for primitive (r,s) is supported at 2, the map has degree 4, and
+h(phi(t))=4h(t)+O(1).
+Consequently the ambient u-height image count is O(H^(1/2)).
+
+
+3. A4 discriminant-square locus — PASS
+
+
+Independent discriminant recomputation gives
+Disc_z(Q_u)=-16u^2(1+u^2)^2(25u^2-2)^3,
+so its squareclass for u!=0 is [2-25u^2].
+
+
+Therefore the square-discriminant locus is the conic
+y^2=2-25u^2.
+With X=5u this is X^2+y^2=2, giving the complete parametrization
+u=psi(t)=(t^2-2t-1)/(5(t^2+1)).
+
+
+Homogeneously,
+U_A4=r^2-2rs-s^2,
+V_A4=5(r^2+s^2),
+and independent resultant recomputation gives
+Res_r(U_A4,V_A4)=200s^4.
+Hence psi has degree 2, h(psi(t))=2h(t)+O(1), and the ambient u-height image count is O(H).
+
+
+4. Disjointness — PASS
+
+
+Independent substitution verifies
+2-25phi(t)^2
+=
+2(t^2+2t-1)^2
+(t^4-16t^3+72t^2-124t+71)
+/
+(t^4-6t^3+12t^2-14t+11)^2.
+
+
+Thus an intersection point would give
+Y^2=2F(r,s),
+F=r^4-16r^3s+72r^2s^2-124rs^3+71s^4.
+
+
+On P^1(F_5), direct evaluation gives 2F values
+2,3,3,2,3
+at finite t=0,1,2,3,4 and 2 at infinity.
+These are nonzero nonsquares modulo 5. Hence the two rational images are disjoint.
+
+
+5. Galois trichotomy — PASS
+
+
+Audited M3-T11-108 proves that the standard cubic resolvent is irreducible over Q for every u in Q^*, so no 2+2 factorization exists.
+
+
+On the phi image, Q_u has a rational linear factor. The remaining cubic cannot be reducible without producing a forbidden additional quartic factorization/resolvent reduction. Disjointness from psi makes the quartic discriminant nonsquare. Therefore the cubic factor is irreducible with Galois group S3.
+
+
+On the psi image, there is no linear factor and no 2+2 factor, hence Q_u is irreducible. Its cubic resolvent is irreducible and its discriminant is square, so the quartic Galois group is A4.
+
+
+Off both images, Q_u is irreducible, the cubic resolvent is irreducible, and the discriminant is nonsquare, so the quartic Galois group is S4.
+
+
+Therefore every nonzero rational specialization has exactly one of:
+- phi image: 1+3 / S3;
+- psi image: irreducible / A4;
+- complement: irreducible / S4.
+
+
+6. Firewall — PASS
+
+
+The degree-4 and degree-2 image counts are ambient rational-height statements. They do not by themselves control the exact Stage37 physical population with R<=B. No measure/height/multiplicity change is silently made.
+
+
+No fixed-power saving, full S4-etale Selmer collapse, primary-gate closure, endpoint theorem, P(B)/M3(B) limit, or Perfect Cuboid nonexistence credit follows from this audit.
+
+
+7. Canonical promotion
+
+
+Promote:
+M3_T11_109_HOSTILE_AUDIT=PASS
+M3_T11_RATIONAL_U_REDUCIBLE_IFF_PHI_IMAGE=true
+M3_T11_RATIONAL_U_ONE_PLUS_THREE_PARAMETER_DEGREE4=true
+M3_T11_RATIONAL_U_A4_PARAMETER_DEGREE2=true
+M3_T11_RATIONAL_U_ONE_PLUS_THREE_AND_A4_DISJOINT=true
+M3_T11_RATIONAL_U_GALOIS_TRICHOTOMY_S3_A4_S4=true
+M3_T11_RATIONAL_U_ONE_PLUS_THREE_AMBIENT_HEIGHT_COUNT=O(H^(1/2))
+M3_T11_RATIONAL_U_A4_AMBIENT_HEIGHT_COUNT=O(H)
+
+
+Retain:
+M3_T11_EXCEPTIONAL_SPECIALIZATION_PHYSICAL_POWER_SAVING_PROVED=false
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+
+
+LATEST_RESEARCH_CARD=M3-T11-109
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-109
+PROVISIONAL_FRONTIER_CARD=NONE
+PROVISIONAL_FRONTIER_AUDIT_STATUS=NOT_APPLICABLE
+NEXT_RESEARCH_CARD_ID=M3-T11-110
+
+
+NEXT_LEGAL_ACTION=Continue only with an exact same-measure physical adapter/count for phi or psi, genuinely global/nonlocal S4 etale-Selmer information beyond the audited primewise local tuple, or the independent theta!=0 moving-support route.

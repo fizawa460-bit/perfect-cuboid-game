@@ -1,0 +1,334 @@
+﻿M3-T11-167 — Euclid-root saturation firewall and retained large-R dual conductor
+
+
+CARD_ID: M3-T11-167
+CANONICAL_CARD_KEY: M3-T11-167
+STATUS: PROVED_EXACT_EUCLID_ROOT_SATURATION / ROOTLINE_DENSITY_FIREWALL / RETAINED_LARGE_R_DUAL_CONDUCTOR
+GLOBAL_OPERATION: ACTIVE_T11_RESEARCH_WITH_SCOPED_DECOMPOSITION
+PRIMARY_GATE: M3-T11-GATE-001, OPEN
+GLOBAL_COUNTING_CREDIT: 0
+AUDIT_MODE: WITHIN_SESSION_NOT_INDEPENDENT
+
+
+1. Current authority and scope
+
+
+Current MAIN, CARD-INDEX, RESULT-LEDGER, active ROUTE and M3-T11-166 were read first. The current ROUTE was also checked at its retained large-factor section: the small-R disposal and complementary branch R>B^(2/3-eta) are still active. M3-T11-013 therefore remains a live dependency, not historical dead text.
+
+
+Targeted INDEX searches for Euclid root / fixed root / space-triangle parameter / r^2*tau / Euclid-root tau found no prior card for the exact six-root statement or the joint r^2*tau router below.
+
+
+This card sharpens 166 structurally and corrects its next-attack interpretation. It does not prove a global power saving.
+
+
+2. Every normalized factor in 166 is already a perfect square
+
+
+Retain one primitive space triangle
+u^2+v^2=D^2,
+gcd(u,v,D)=1.
+
+
+If u is odd, then v is even and D is odd. Define
+F_- = D-v,
+F_+ = D+v.
+Then F_-F_+=u^2. Both factors are odd and
+gcd(F_-,F_+)=1:
+a common divisor divides 2D and 2v, hence is 1 because it is odd and gcd(D,v)=1.
+Since the product of two coprime positive integers is a square, there are unique positive coprime integers a,b with
+F_-=a^2,
+F_+=b^2,
+u=a*b.
+
+
+If u is even, primitive parity gives v,D odd. Define
+F_-=(D-v)/2,
+F_+=(D+v)/2.
+Again F_-F_+=(u/2)^2 and gcd(F_-,F_+)=1, so there are unique positive coprime integers a,b with
+F_-=a^2,
+F_+=b^2,
+u/2=a*b.
+
+
+Thus in the notation of166, every normalized linear factor is not merely divisible by a square: it is exactly a square.
+
+
+Write
+hat_u=u for odd u,
+hat_u=u/2 for even u.
+Then always
+hat_u=a*b,
+gcd(a,b)=1.
+
+
+Equivalently, these are the exact Euclid-root coordinates of the primitive space triangle.
+
+
+3. Exact six-root LCM identity
+
+
+For an endpoint, write the three primitive space triangles as
+(u_i,v_i,D_i)
+and their coprime Euclid roots as
+(a_i,b_i).
+
+
+Because a primitive Euler brick has exactly one odd edge and two even edges, while R and h_i=gcd(R,e_i) are odd, exactly one u_i is odd and two are even.
+
+
+Let
+Lambda=L_free=lcm(u_1,u_2,u_3)
+as in164-166 and
+hat_Lambda=lcm(hat_u_1,hat_u_2,hat_u_3).
+
+
+Dividing each of the two even u_i by2 lowers the global 2-adic LCM exponent by exactly one and changes no odd valuation, so
+
+
+hat_Lambda=Lambda/2.
+
+
+Since gcd(a_i,b_i)=1 inside every pair and hat_u_i=a_i*b_i, primewise
+
+
+lcm(a_1,b_1,a_2,b_2,a_3,b_3)
+=
+lcm(hat_u_1,hat_u_2,hat_u_3)
+=
+Lambda/2.
+
+
+Therefore one of the six full Euclid roots, chosen canonically by maximum value and then face/sign order, satisfies
+
+
+r >= (Lambda/2)^(1/6),
+
+
+hence
+
+
+r^2 >= (Lambda/2)^(1/3).
+
+
+This strengthens the presentation of166: no prime-by-prime sub-bucket q is needed merely to obtain one large square factor. The complete factor itself is r^2.
+
+
+4. Root-line density firewall
+
+
+For the selected root r, the corresponding normalized factor is exactly r^2.
+
+
+If u_i is odd, either
+D_i-v_i=r^2
+or
+D_i+v_i=r^2.
+
+
+If u_i is even, either
+D_i-v_i=2r^2
+or
+D_i+v_i=2r^2.
+
+
+Consequently the congruence
+v_i == +/- D_i mod r^2
+is automatic from the exact Euclid factorization.
+
+
+Moreover r divides hat_u_i and hence u_i. Since the space triangle is primitive,
+gcd(u_i,D_i)=1.
+With D_i=c_i*tau this gives
+
+
+gcd(r,c_i*tau)=1.
+
+
+Therefore the 166 square-modulus root-line is NOT an independent 1/r^2-density event on the endpoint measure. It is the exact algebraic restatement of divisibility of one Euclid root. Any future counting theorem must control the distribution/support of large Euclid roots on physical endpoints; it may not charge the congruence itself as a new modulus-density saving.
+
+
+This is analogous in spirit to the firewall of M3-T11-014: local root labels forced by an already-satisfied norm equation are not independent sieve events.
+
+
+5. Retained large-R branch restores the strong tau threshold
+
+
+The active ROUTE retains the generic endpoint ceiling
+
+
+P(R<=B^(2/3-eta))
+<<
+B^(1/3-eta/2+o(1)),
+
+
+so for fixed eta>0 the small-R subfamily is M3-negligible. The live endpoint core may therefore be restricted to
+
+
+R>B^(2/3-eta).
+
+
+Retain the exact identities from004/013:
+c_1*c_2*c_3=(R/tau)^2.
+
+
+If
+max_i c_i<=C,
+then
+tau>=R/C^(3/2).
+
+
+Taking
+C=B^(1/6+xi)
+on the retained large-R branch gives
+
+
+tau > B^(5/12-eta-(3/2)xi).
+
+
+This is the active strong residual threshold from M3-T11-013. It is much stronger than the auxiliary lower bound tau>E/C^(3/2) recorded in164. The latter remains correct but is not the governing threshold on the live large-R core.
+
+
+6. New dual-conductor product on branch B
+
+
+Retain the 164/166 small-c branch
+max_i c_i<=C
+and the 163 interior condition
+Lambda>L_free>E^3/C^(3/2).
+
+
+Section3 gives
+
+
+r^2
+>=
+(Lambda/2)^(1/3)
+>
+2^(-1/3)*E/C^(1/2).
+
+
+At the standard scales
+E=B^(1/3-delta),
+C=B^(1/6+xi),
+
+
+r^2
+>
+const * B^(1/4-delta-xi/2).
+
+
+Together with the retained large-R tau threshold,
+
+
+tau
+>
+B^(5/12-eta-(3/2)xi),
+
+
+and with gcd(r,tau)=1, every endpoint in branch B carries a canonical coprime pair satisfying
+
+
+r^2*tau
+>
+const * B^(2/3-delta-eta-2xi).
+
+
+Thus, after the already-negligible small-R and 162/163 sectors, the current core has the exact two-gate form:
+
+
+(A) some c_i>B^(1/6+xi):
+    threshold-specific cross-gcd tail, OPEN;
+
+
+(B) max c_i<=B^(1/6+xi):
+    a canonical Euclid root r and common residual tau with
+    gcd(r,tau)=1,
+    r^2>B^(1/4-o(1)),
+    tau>B^(5/12-o(1)),
+    r^2*tau>B^(2/3-o(1)).
+
+
+The exponents here are simultaneous statements on the same endpoint. No independence multiplication is used.
+
+
+7. What this does and does not buy
+
+
+Positive progress:
+- the 166 selected square divisor is upgraded to a full Euclid-square factor;
+- the exact six-root LCM identity identifies the true moving support variable;
+- the retained large-R authority is restored explicitly into the current branch;
+- branch B now has a single canonical coprime dual-conductor pair (r,tau) whose weighted product is already at the B^(2/3-o(1)) scale.
+
+
+Negative firewall:
+- the congruence v_i==+/-D_i mod r^2 is tautological after fixing the Euclid root and gives no standalone 1/r^2 density;
+- the three tau root signs remain locally automatic as in014;
+- therefore a proof must use joint physical support/correlation of the large pair (r,tau), or close branch(A), rather than multiplying local congruence densities.
+
+
+No endpoint power-saving theorem is proved in this card.
+
+
+8. Verification and audit limits
+
+
+The exact square-factor statement was exhaustively replayed on every primitive Pythagorean triple with hypotenuse D<=200000.
+
+
+There are 31819 unordered triples and 63638 oriented choices of the leg u. For every oriented choice the replay verified:
+- each normalized F_- and F_+ is a perfect square;
+- the two square roots are coprime;
+- their product equals hat_u.
+
+
+A deterministic set of 10000 synthetic three-face parity bundles, each consisting of one odd-leg and two even-leg primitive triples, also verified:
+- hat_Lambda=Lambda/2;
+- lcm of the six full Euclid roots equals hat_Lambda;
+- max(root)^6>=hat_Lambda.
+
+
+These synthetic bundles are not physical cuboids. Physical endpoints enumerated=0. The retained large-R and tau thresholds are sourced from the active ROUTE/M3-T11-013, not from finite replay.
+
+
+9. Handoff
+
+
+LATEST_RESEARCH_CARD=M3-T11-167
+NEXT_CANDIDATE=M3-T11-168
+CURRENT_ATTACK=LargeEuclidRootHugeTauJointPhysicalSupportOrThresholdCrossGcdTail
+
+
+Current live core after negligible deletions:
+
+
+(A) threshold-specific large-c_i tail at C=B^(1/6+xi), still OPEN and subject to the156 uniform-tail firewall;
+
+
+(B) max c_i<=C, retained R>B^(2/3-eta), with a canonical full Euclid root r such that
+    r^2>const*B^(1/4-delta-xi/2),
+    tau>B^(5/12-eta-(3/2)xi),
+    gcd(r,tau)=1,
+    r^2*tau>const*B^(2/3-delta-eta-2xi).
+
+
+Next research should test a same-measure theorem for the JOINT support of the coprime pair (r,tau), not the tautological root-line congruence. A second legal route is the still-open threshold-specific cross-gcd tail in (A).
+
+
+Do not charge v_i==+/-D_i mod r^2 as 1/r^2 density.
+Do not multiply the three tau root signs.
+Do not forget the retained large-R branch.
+Do not use the false uniform raw cross-gcd tail rejected by156.
+
+
+NEW_EUCLID_ROOT_LCM_IDENTITY=true
+ROOTLINE_DENSITY_SAVING=false
+RETAINED_LARGE_R_RESTORED_TO_CURRENT=true
+NEW_DUAL_CONDUCTOR_ROUTER=true
+NEW_GLOBAL_ENDPOINT_BOUND=false
+P_OVER_M3_LIMIT_PROVED=false
+GLOBAL_COUNTING_CREDIT=0
+TI=PARKED
+120=RETRACTED
+147-149=FROZEN

@@ -1,0 +1,53 @@
+﻿STAGE37-229HI-A32 EXACT CERTIFICATE: SELF-PRIME SQUARE CONGRUENCE
+DATE 2026-10-12 JST; parent A32 https://docs.google.com/document/d/1hvKbweLEG05Sh9mHHyZNRRSpQxjKyDuBOOudweyIQwc/edit
+SCOPE: single signed FJ necessary key E001+E010−E000; primitive a²+b²=p²,c²+d²=q² and p≠q rational primes 1mod4. The full original selector mask is not independently verified here.
+SYMBOLIC INTEGER IDENTITIES:
+A=b²(c²−d²)+4abcd+2a²d²;
+B=2d[c(b²−a²)+2abd]; C=b²(c²+d²);
+D=(B²−4AC)/4=H_q²−AC;
+H_p=ab(d²−c²)+2b²cd, H_q=B/2.
+D−H_p²=(a²+b²)*(a²c²d²−4abcd³−b²c⁴−3b²c²d²+b²d⁴);
+D−H_q²=−b²(c²+d²)*(2a²d²+4abcd+b²(c²−d²)).
+p∤H_p proof modulo p: H_p≡b/a*(ad+bc)²; if zero then ad+bc≡0, hence q²=c²+d²≡c²[1+(b/a)²]≡0. Distinct p,q contradiction. q∤H_q proof modulo q: H_q≡−d/c*(ac−bd)²; if zero then ac−bd≡0, hence p²=a²+b²≡b²[1+(d/c)²]≡0. Thus Hensel applies for all p,q-adic depths.
+Executed SymPy expands BOTH differences to ZERO; integer prime sample p,q≤2000 and b<a: split primes=147, eligible pairs=5238, p-unit/q-unit congruence failures=0, D≥0 count=1786, ordinary Q2 squareclass count=1335, D integer-square=0. All sample pairs included old A31 q≤262144.
+REFERENCE EXECUTABLE Python 3:
+import sympy as s
+a,b,c,d=s.symbols('a b c d')
+A=b*b*(c*c-d*d)+4*a*b*c*d+2*a*a*d*d
+Hq=d*(c*(b*b-a*a)+2*a*b*d)
+C=b*b*(c*c+d*d)
+D=s.expand(Hq**2-A*C)
+Hp=a*b*(d*d-c*c)+2*b*b*c*d
+Lp=a*a*c*c*d*d-4*a*b*c*d**3-b*b*c**4-3*b*b*c*c*d*d+b*b*d**4
+assert s.expand(D-Hp**2-(a*a+b*b)*Lp)==0
+assert s.expand(D-Hq**2+b*b*(c*c+d*d)*A)==0
+from math import isqrt,gcd
+P=[p for p in range(5,2001,4) if all(p%j for j in range(2,isqrt(p)+1))]
+def gauss(p):
+    for v in range(1,isqrt(p//2)+2):
+        u=isqrt(p-v*v)
+        if u*u+v*v==p:return abs(u*u-v*v),2*u*v
+    raise AssertionError(p)
+pairs=nonneg=twosq=square=0
+for i,p in enumerate(P):
+    av,bv=gauss(p)
+    if bv>=av:continue
+    for q in P[i+1:]:
+        cv,dv=gauss(q)
+        aa=bv*bv*(cv*cv-dv*dv)+4*av*bv*cv*dv+2*av*av*dv*dv
+        hq=dv*(cv*(bv*bv-av*av)+2*av*bv*dv)
+        hp=av*bv*(dv*dv-cv*cv)+2*bv*bv*cv*dv
+        D0=hq*hq-aa*bv*bv*(cv*cv+dv*dv)
+        assert (D0-hp*hp)%(p*p)==0 and (D0-hq*hq)%(q*q)==0
+        assert hp%p!=0 and hq%q!=0
+        pairs+=1
+        if D0>=0:
+            nonneg+=1
+            square+=int(isqrt(D0)**2==D0)
+            if D0:
+                v2=(D0&-D0).bit_length()-1
+                twosq+=int(v2%2==0 and (D0>>v2)%8==1)
+assert (len(P),pairs,nonneg,twosq,square)==(147,5238,1786,1335,0)
+print('PASS',len(P),pairs,nonneg,twosq,square)
+END.
+FIREWALL: Hensel local roots at p and q do not produce a rational/global integer root; prime factors ℓ external to p,q may detect nonresiduosity but character cancellation and correlation to r norm remain unproved. No original physical count saving, no global credit, no route change.

@@ -1,0 +1,53 @@
+﻿Stage37-229GY REPRODUCIBLE EXACT CERTIFICATE. Python3 SymPy. ALL22 Gaussian norm matrix identities, determinants, and numeric ideal-lattice check. All22 exact identities independently executed PASS.
+from sympy import symbols,expand,Poly,factor,cancel,factor_list
+from collections import Counter
+from math import gcd
+t,X,Y,a,b,c,d=symbols('t X Y a b c d')
+keys=('000.010.022:0 000.010.022:2 000.010.100:0 000.010.100:1 000.010.100:2 '
+'000.012.022:0 000.012.022:2 000.022.110:0 002.010.020:0 002.010.020:2 '
+'002.012.020:2 002.012.102:0 002.012.102:1 002.012.102:2 002.020.110:0 '
+'002.020.110:1 010.020.102:0 010.020.102:1 010.020.102:2 '
+'012.022.100:0 012.022.100:1 012.022.100:2').split()
+def E(code):
+ i,j,k=[int(z)-1 for z in code]
+ return expand((i*t+j*X+k*Y-i*j*k*t*X*Y)**2*
+ ((1+t*t) if i==0 else 1)*((1+X*X) if j==0 else 1)*((1+Y*Y) if k==0 else 1))
+counter=Counter()
+for key in keys:
+ codes,h=key.split(':');h=int(h)
+ F=expand(sum(E(code)*(1 if i!=h else -1) for i,code in enumerate(codes.split('.'))))
+ P=Poly(F,Y);A,B,C=[P.nth(i) for i in (2,1,0)]
+ S=factor((A-C)**2+B**2)
+ eps=next((e for f,e in factor_list(S)[1] if expand(f-(1+t*t))==0),0)
+ H=cancel(S/((1+X*X)*(1+t*t)**eps))
+ HI=expand(cancel(a**(4-2*eps)*c*c*H.subs({t:b/a,X:d/c})))
+ assert Poly(HI,c,d).total_degree()==2
+ matches=[]
+ for typ in ['G','S']:
+  for U,V in ([(a,b),(b,a)] if eps else [(a*a-b*b,2*a*b),(a*a+b*b,4*a*b)]):
+   for sign in [-1,1]:
+    for swap in [False,True]:
+     C,D=(d,c) if swap else (c,d)
+     z=(U*C+sign*(3 if typ=='G' else 1)*V*D)**2+(V*C+sign*U*D)**2
+     if expand(HI-z)==0:matches.append((typ,U,V,sign,swap))
+ assert matches,key
+ typ,U,V,sign,swap=matches[0]
+ determinant=factor((U*U-(3 if typ=='G' else 1)*V*V))
+ D1=a*a-3*b*b;D2=b*b-3*a*a
+ D3=(a*a+b*b)**2-16*a*a*b*b
+ assert expand(determinant-D1)==0 or expand(determinant-D2)==0 or expand(determinant-D3)==0
+ counter[(eps,typ)]+=1
+ print('PASS',key,'eps',eps,'type',typ,'U',U,'V',V,'sign',sign,'swap',swap,'det',determinant)
+assert len(keys)==22 and counter==Counter({(1,'G'):12,(0,'G'):7,(0,'S'):3})
+print('PASS 22/22 all22 H_int = Gaussian norm of explicit integer 2x2 matrix, exactly three p-only determinant polynomials')
+# Numerical lattice verification: p=17 (a,b)=(15,8), r=29, pi=5+2i, pi^2=21+20i, det33 coprime29.
+r=29;rr=r*r;L=[]
+for C in range(-r+1,r):
+ for D in range(-r+1,r):
+  Re=15*C+24*D;Im=8*C+15*D
+  if (21*Re+20*Im)%rr==0 and (21*Im-20*Re)%rr==0:L.append((C,D))
+assert all((C*dd-D*cc)%rr==0 for i,(C,D) in enumerate(L) for cc,dd in L[i+1:])
+prim=[(C,D) for C,D in L if C*C+D*D<rr and gcd(C,D)==1]
+assert len(prim)<=2
+print('PASS 11 kernel lattice points, all pair determinants divisible 841; exactly ±one primitive vector with norm<29')
+THEOREM (fully rigorous beyond finite test): For each key and fixed p,r with r not dividing its matrix determinant, primitive q<r and r²|Norm(M(c,d)) implies pi²|M(c,d) or conjugate pi². Each kernel is index r² lattice in Z². Any two vectors of Euclidean norm q<r have determinant multiple r² and absolute determinant <r², hence zero; primitive collinear vectors differ only by sign. Thus <=2 distinct q per fixed p,r,key. All22 => <=44 distinct q. Bad r divide D1D2D3, <=2+2+4=8 distinct r>p since p>=17, |D1|,|D2|<=3p², |D3|<=5p⁴. This theorem is relative to original FJ/FO necessary source completeness HOSTILE HOLD and does not prove global o(Q).

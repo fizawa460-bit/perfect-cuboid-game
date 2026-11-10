@@ -1,0 +1,60 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229FT
+EXACT FINITE MODULAR CUBIC-RESOLVENT CERTIFICATE FOR 84 RESIDUAL FJ QUARTIC GENUS-ONE ALLOCATIONS
+CARD_DOC_ID=1IDf1WpGBGXBknmNbfVPNSqayyVG282BMxYheDK3HPlY
+PREVIOUS_CURRENT=Stage37-NEW-INPUT-DELTA-AUDIT-229FS / 1oVtcb0ryBy2srTIN7NraCFTNs3erMBf9QSAM4mGKzsI
+STATUS=PROVED_SCOPED_SPECIALIZED_p5_84_CUBIC_RESOLVENTS_IRREDUCIBLE / GENERIC_Q(z)_2TORSION_OBSTRUCTION_VIA_GOOD_SPECIALIZATION / 246_FS_HEIGHT_CERT_SAMPLE_ONLY / GLOBAL_COUNT_CREDIT0
+OPERATIONAL_AUTHORITY=M3-T11-229; LAST_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT ISSUED; GATE OPEN; CREDIT0; P_OVER_M3 UNPROVED; HOLD; FORMAL_ROUTE_SWITCH NONE.
+
+
+1. SCOPE AND PRIOR ART / NEGATIVE HISTORY
+MAIN current 229FS, native CARD-INDEX source row639, LEDGER/active ROUTE/NEG current229FS, FS and FJ cards consulted. All previous 414 macro classes and 84 residual generic degree-4 irreducible factors are taken from FJ/FS. Prior M3-T11-105 and M3-T11-108 discuss a DIFFERENT fixed-squareclass genus-2 quartic, not these 84 FJ pqr genus-one classes. FS had proposed cubic-resolvent classification but no finite certificate for these 84. This card is NOT a restatement of those genus-2 quartic no-go tests, and does not create a global density theorem.
+
+
+2. REPLAYABLE INPUT AND STANDARD RESOLVENT
+Original P=(e,x,y,U,V,z,R) positive primitive four-square SAME-P, R=pqr<=B, p<q<r distinct split primes, including HIGH, sf(G0), Kcross/rad(Sd), q/Gres, 229EX masks as additional filters. The FJ necessary (not sufficient) Gaussian macro model uses X=T/S,Y=V0/U0 and p²=a²+b² with p=u²+v², a=u²-v², b=2uv.
+Set p=5, u=2,v=1,a=3,b=4, p²=25. Enumerate K={k in {-1,0,1}³\{0}: first nonzero k coordinate is +1}: 13 codes; T={unordered triples of distinct K having at most one zero code in each prime coordinate}: 138 triples. Each triple has 3 choices of hypotenuse h; 414 exact polynomials F=L_i²+L_j²-L_h².
+For k=(kp,kq,kr), use the FJ even-leg squared formulas:
+kp=1,kq*kr!=0: (b+a*kq*X+a*kr*Y-b*kq*kr*X*Y)^2;
+kp=1,kq!=0,kr=0: (1+Y²)(b+a*kq*X)^2;
+kp=1,kq=0,kr!=0: (1+X²)(b+a*kr*Y)^2;
+kp=1,kq=kr=0: b²(1+X²)(1+Y²);
+kp=0,kq*kr!=0: p²(kq*X+kr*Y)^2;
+kp=0,kq!=0,kr=0: p²(1+Y²)X²;
+kp=0,kq=0,kr!=0: p²(1+X²)Y².
+For each F compute D(Y)=disc_X F as a polynomial with exact rational coefficients, factor over Q[Y], retain every Y-dependent irreducible factor of ODD multiplicity, and classify degree patterns. At p=5 the irreducible degree-4 pattern occurs 84 times. For each monic odd squarefree quartic g(Y)=Y⁴+b0 Y³+c0 Y²+d0 Y+e0, calculate the standard pair-partition cubic resolvent
+R(w)=w³-c0*w²+(b0*d0-4*e0)*w+(4*c0*e0-d0²-b0²*e0).
+Its roots encode the 3 unordered pair-partitions of the 4 branch points. The smooth quartic double cover Jacobian has a nonzero rational 2-torsion point iff R has a rational root.
+
+
+3. EXACT FINITE MODULAR CERTIFICATE (p=5)
+All 84 cubic resolvents are irreducible over Q: they collapse to NINE distinct primitive integer cubic polynomials; the coefficient sequence is (w³,w²,w,1), and mult is the number of the 84 FJ allocations:
+mult=4;   coeff=(576,-625,2500,-2500); witness F_19.
+mult=8;   coeff=(576,625,2500,2500); witness F_19.
+mult=24;  coeff=(144,239,9228,-21348); witness F_19.
+mult=16;  coeff=(157216,69071,472192,-136672); witness F_19.
+mult=8;   coeff=(512,-478,6944,4271); witness F_17.
+mult=8;   coeff=(32,-239,27776,136672); witness F_17.
+mult=4;   coeff=(8000,5975,69440,-34168); witness F_17.
+mult=8;   coeff=(32,-239,2576,-12512); witness F_19.
+mult=4;   coeff=(8000,5975,6440,3128); witness F_19.
+Totals 4+8+24+16+8+8+4+8+4=84. For EACH witness prime l, leading coefficient is nonzero mod l and the indicated cubic has NO roots for any w in {0,...,l-1}. A cubic over F_l is irreducible iff it has no root. Gauss lemma then proves the integer primitive cubic is irreducible over Q. No floating point factorization, random sampling, rank oracle or conjecture is involved. The generic 84 original classes' p=5 quartics retain degree4 (none is singular/reduced-degree in this packet). Therefore these 84 FJ genus-one quartic covers over Q at p=5 do NOT have a rational Jacobian point of order2.
+
+
+SPECIALIZATION LEMMA: For a monic cubic R_z(w) in Q(z)[w] with coefficients regular at a rational z0, if its specialized cubic R_z0(w) is irreducible over Q, then R_z(w) is irreducible over Q(z). Indeed an alleged Q(z)-rational root is integral over the local integrally closed ring Q[z] localized at z-z0, so has no pole there and specializes to a rational root. This applies to the 84 templates with nonzero quartic leading coefficient at physical z0=v/u=1/2. Hence the corresponding GENERIC Jacobians over Q(z) have NO nonzero Q(z)-rational 2-torsion. This is a generic-family statement and does NOT prove irreducibility for every specialized p, where exceptional arithmetic rational roots may occur.
+
+
+4. SPECIALIZATION CHECK AND COMPARISON WITH PREVIOUS FS
+At p=5, the entire 414-pattern specialized factorization is:
+degree0=68; degree2=(1,1):12, (2):4; degree3=(1,1,1):32,(1,2):8; degree4=(1,1,1,1):74,(2,2):82,(1,1,2):50,(4):84.
+This differs in the split subtypes from the GENERIC FS count degree4=(2,2):98 and (1,1,2):34; sixteen classes change specialization factor type. Thus NEVER replace the generic 246 count by the p=5 factorization, or extrapolate the p=5 quartic claim to ALL p without a separate specialization argument. The 84 quartic irreducible remain 84 at p=5 and all their resolvents are certified as above.
+
+
+5. SEPARATE EXECUTED HEIGHT-AUDIT TEST (ONE FS SAMPLE ONLY)
+For FS sample E_{a,b}: y²=x(x-2a²)(x-2b²) and rational map x=2a²X² with X=T/S in lowest terms, H(X)<=B; p<=B^(1/3), |a|,|b|<=p. Therefore H(x)<=2a² max(T²,S²)<=2 B^(8/3), and integral Weierstrass coefficients (-2(a²+b²),4a²b²,0) have height h(E)<=log(4p^4)<=4/3 logB+log4. Thus take H0=B^4 for B sufficiently large: both H(x)<=H0 and log H0>=max{h(E),e}. Dujella's 2025 theorem/corollary for rational2torsion yields exp(O(logB/loglogB)) uniformly for this SINGLE explicitly mapped sample. This fills its simple model-height preflight but does NOT supply the 245 remaining explicit uniform Jacobian/Abel-Jacobi height certificates demanded by the FS independent hostile audit; FS historical broad claim remains HOLD for independent certification.
+
+
+6. MATHEMATICAL CONSEQUENCE, LIMITS AND NEXT
+NEW: exact 84-case modular certificate at physical p=5 and the 84-template generic no-rational-2torsion obstruction. Thus an automatic extension of Dujella's rational-2torsion counting argument to these generic remaining 84 FJ genus-one classes is IMPOSSIBLE by that direct torsion hypothesis; this does not prove absence of points, prohibit other isogeny/descent methods, or settle exceptional specialized p.
+UNRESOLVED: special-p rational-resolvent-root locus, 84 general non-2torsion uniform/averaged height count; 16 biquadratic genus1 norm lifts, 8 genus3; 245 independent FS map/height certificates and FJ exact-source hostile audit; occupied selector-aware dyadic (p,q), third prime r for high-least-p balanced pqr; omega>=4 and prime powers. All original full-four-square physical filters retained.
+NEXT_EXECUTABLE: compute exact symbolic nine generic cubic-resolvent parametrizations, eliminate R_z(w)=0 to determine whether physical z=v/u from p=u²+v² admits exceptional specialized rational 2-torsion; if nonempty, test their counting with original same-P masks. Independently seek a published unconditional coefficient-uniform bound for genus-one WITHOUT rational torsion, or an audited physical prime-pair incidence gain, rather than rerunning the now-obstructed generic 2torsion route. Continue under M3-T11-229 authority; no route switch, gate or credit promotion.
+REPRODUCIBILITY: the complete finite calculation is given by the seven squared-leg formulas, K/T enumeration, discriminant, odd-part factorization, standard cubic resolvent, nine integer cubics and modular no-root witnesses above. Symbolic recomputation can use exact SymPy polynomial rings over Q.

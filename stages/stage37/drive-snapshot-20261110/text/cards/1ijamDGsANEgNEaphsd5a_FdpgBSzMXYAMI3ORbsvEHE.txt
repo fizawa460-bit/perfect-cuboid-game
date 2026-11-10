@@ -1,0 +1,405 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229BK — full 2-adic macro-gap squareclass closure and eight square-product identities
+
+
+STATUS: POST_229BJ_FULL_MACRO_GAP_2ADIC_CLOSURE_COMPLETE / PROVED_PRIMITIVE_EDGE_PARITY_EXACTLY_ONE_ODD / PROVED_UNIQUE_EVEN_RAW_HILBERT_CONTENT_PACKET / PROVED_MACRO_GAP_EPSILON_SUM_EVEN / PROVED_ALL_EIGHT_SIGNED_MACRO_GAP_PRODUCTS_ARE_INTEGER_SQUARES / PROVED_FULL_SQUAREFREE_KERNEL_TRIANGLE_INCLUDING_2 / PROVED_W0_IS_STRICT_GLOBAL_MINIMUM_AND_W1_W2_ORDER_FOLLOWS_y_x / NEW_SCALAR_ONLY_GLOBAL_PACKET_INTERFACE / NO_COUNTING_PROMOTION / GLOBAL_CREDIT=0 / NO_GLOBAL_REOPEN
+TYPE: POST-229BJ PARITY COMPLETION / THREE-MACRO-PYTHAGOREAN 2-ADIC SYNCHRONIZATION / GLOBAL INTEGER-SQUARE PRODUCT / FULL SQUAREFREE-PACKET TRIANGLE / ARCHIMEDEAN GAP ORDER
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229BJ
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1ijamDGsANEgNEaphsd5a_FdpgBSzMXYAMI3ORbsvEHE
+
+
+1. Scope
+229BI proved the exact odd-support/content triangle for the three macro Pythagorean triples
+  T0: (eR, xy, UV),
+  T1: (ex, yR, zV),
+  T2: (ey, xR, zU),
+with contents
+  G0=C+ C-,
+  G1=C- C0,
+  G2=C+ C0,
+where
+  C0=h d0,
+  C+=b c12,
+  C-=a c21,
+and G0 G1 G2=(C0 C+ C-)^2.
+
+
+229BJ proved that the associated odd-prime node colors give no fixed-power local sieve improvement.
+
+
+The remaining unresolved structural issue is the 2-adic part. The 229BI theorem was deliberately stated primarily on odd squarefree kernels because the three independent Pythagorean gap parity bits were not synchronized there.
+
+
+This card synchronizes those bits using only primitive physical parity. The result is stronger than an odd-support statement: all eight products obtained by independently choosing the plus or minus Euclid gap in the three macro triples are exact positive integer squares.
+
+
+2. Primitive physical parity: exactly one edge is odd
+The primitive positive physical endpoint has
+  gcd(e,x,y)=1
+and the three face-square equations
+  e^2+x^2=U^2,
+  e^2+y^2=V^2,
+  x^2+y^2=z^2.
+
+
+No two of e,x,y can be odd, because the sum of two odd squares is 2 mod4 and cannot be a square.
+
+
+They also cannot all be even by primitivity.
+
+
+Therefore exactly one of
+  e,x,y
+is odd.                                                (229BK.1)
+
+
+Then
+  R^2=e^2+x^2+y^2
+is odd, hence R is odd.
+
+
+If the unique odd edge is e, then x,y are even and U,V,R are odd while z is even.
+If the unique odd edge is x, then e,y are even and x,U,R are odd while V is even.
+If the unique odd edge is y, then e,x are even and y,V,R are odd while U is even.
+
+
+RESULT_229BK_EXACTLY_ONE_PHYSICAL_EDGE_ODD=PROVED.
+
+
+3. Exactly one raw Hilbert content packet is even
+Retain229AD:
+  h|q with q odd,
+  c12|n1 and c21|n2 with n1,n2 primitive Pythagorean hypotenuses.
+Thus
+  h,c12,c21
+are all odd.
+
+
+Hence the parities of
+  C0=h d0,
+  C+=b c12,
+  C-=a c21
+are exactly the parities of
+  d0,b,a
+respectively.
+
+
+Using the physical gcd meanings:
+  d0=gcd(x,y),
+  b=gcd(e,x),
+  a=gcd(e,y),
+and (229BK.1):
+
+
+- if e is odd, x,y are even, so d0 is even while a,b are odd:
+    C0 even, C+ odd, C- odd;
+- if x is odd, e,y are even, so a is even while d0,b are odd:
+    C- even, C0 odd, C+ odd;
+- if y is odd, e,x are even, so b is even while d0,a are odd:
+    C+ even, C0 odd, C- odd.
+
+
+Therefore exactly one of
+  C0,C+,C-
+is even.                                               (229BK.2)
+
+
+Consequently exactly one of
+  G0=C+C-,
+  G1=C-C0,
+  G2=C+C0
+is odd: it is the product of the two odd C-packets, i.e. the macro content opposite the unique even packet.
+
+
+RESULT_229BK_UNIQUE_EVEN_RAW_HILBERT_PACKET=PROVED_EXACT.
+RESULT_229BK_EXACTLY_ONE_MACRO_CONTENT_ODD=PROVED_EXACT.
+
+
+4. Macro Euclid-gap parity bits
+For j=0,1,2 write the first two legs of Tj as
+  (Aj,Bj):
+  (A0,B0)=(eR,xy),
+  (A1,B1)=(ex,yR),
+  (A2,B2)=(ey,xR).
+
+
+Normalize by the exact content Gj. Retain229AR's primitive Pythagorean gap lemma in the form:
+there is epsilon_j in {0,1} such that
+  Hj-Aj = 2^epsilon_j Gj (r_j^-)^2,
+  Hj+Aj = 2^epsilon_j Gj (r_j^+)^2,               (229BK.3)
+where Hj is UV,zV,zU respectively.
+
+
+In the retained Euclid proof,
+  epsilon_j=0 exactly when Aj/Gj is the even primitive leg,
+  epsilon_j=1 exactly when Aj/Gj is the odd primitive leg.  (229BK.4)
+
+
+Let
+  E=v2(e), X=v2(x), Y=v2(y).
+Since R is odd, v2(R)=0.
+
+
+Case A: e odd.
+Then E=0 and X,Y>0. Because x^2+y^2=z^2, X and Y cannot be equal: after removing the common 2-adic factor, equal valuations would leave two odd legs.
+Thus
+  epsilon_0=1,
+  epsilon_1=1 iff X<Y,
+  epsilon_2=1 iff Y<X.
+Exactly one of epsilon_1,epsilon_2 is1, so
+  epsilon_0+epsilon_1+epsilon_2=2.
+
+
+Case B: x odd.
+Then X=0 and E,Y>0, with E!=Y because e^2+y^2=V^2.
+Here
+  epsilon_2=0,
+and both T0 and T1 compare the same 2-adic leg valuations E versus Y, so
+  epsilon_0=epsilon_1 in {0,1}.
+Hence the total epsilon sum is0 or2.
+
+
+Case C: y odd.
+Symmetrically
+  epsilon_1=0,
+  epsilon_0=epsilon_2,
+so again the total is0 or2.
+
+
+Therefore universally
+  epsilon_0+epsilon_1+epsilon_2 is even.          (229BK.5)
+
+
+RESULT_229BK_THREE_MACRO_GAP_EPSILON_SUM_EVEN=PROVED_EXACT.
+
+
+5. Eight exact integer-square products
+Define the six positive macro Euclid gaps
+  W0^-:=UV-eR,   W0^+:=UV+eR,
+  W1^-:=zV-ex,   W1^+:=zV+ex,
+  W2^-:=zU-ey,   W2^+:=zU+ey.                    (229BK.6)
+
+
+Each minus gap is positive because it is hypotenuse minus a positive leg in an integral Pythagorean triple.
+
+
+By (229BK.3),
+  Wj^sigma = 2^epsilon_j Gj (r_j^sigma)^2
+for sigma in {-,+}.
+
+
+Therefore for ANY independent sign choice
+  (sigma0,sigma1,sigma2) in {-,+}^3,
+we have
+  W0^sigma0 W1^sigma1 W2^sigma2
+   = 2^(epsilon0+epsilon1+epsilon2)
+     (G0G1G2)
+     (r_0^sigma0 r_1^sigma1 r_2^sigma2)^2.
+
+
+Using229BI
+  G0G1G2=(C0C+C-)^2
+and (229BK.5), the right side is an exact square:
+  W0^sigma0 W1^sigma1 W2^sigma2
+   =
+  [ 2^((epsilon0+epsilon1+epsilon2)/2)
+    C0 C+ C-
+    r_0^sigma0 r_1^sigma1 r_2^sigma2 ]^2.         (229BK.7)
+
+
+Thus all eight positive integers obtained by choosing plus/minus independently are perfect squares.
+
+
+In particular
+  (UV-eR)(zV-ex)(zU-ey) is a square,              (229BK.8)
+and
+  (UV+eR)(zV+ex)(zU+ey) is a square.              (229BK.9)
+
+
+RESULT_229BK_ALL_EIGHT_MACRO_SIGN_PRODUCTS_ARE_INTEGER_SQUARES=PROVED_EXACT.
+
+
+This is a full 2-adic completion of the odd squareclass triangle, not merely an odd-prime support statement.
+
+
+6. Full squarefree-kernel triangle including the prime 2
+Set
+  kappa_j := sf(Wj^-), j=0,1,2.                   (229BK.10)
+
+
+Because W0^- W1^- W2^- is a square, the product
+  kappa_0 kappa_1 kappa_2
+is a square. Since the kappa_j are squarefree, every prime, including2, occurs in either zero or exactly two of the kappa_j.
+
+
+Define
+  D_- := gcd(kappa_0,kappa_1),
+  D_+ := gcd(kappa_0,kappa_2),
+  D_0 := gcd(kappa_1,kappa_2).                    (229BK.11)
+
+
+Then D_0,D_+,D_- are pairwise coprime squarefree positive integers and exactly
+  kappa_0 = D_+ D_-,
+  kappa_1 = D_- D_0,
+  kappa_2 = D_+ D_0.                              (229BK.12)
+
+
+The odd parts of D_0,D_+,D_- are exactly the229BI squarefree packet contents coming from C0,C+,C- respectively. Equation (229BK.12) canonically routes the prime2 as well, without identifying it with the separately normalized canonical Hilbert 2-adic bits of229AG.
+
+
+RESULT_229BK_FULL_SQUAREFREE_MACRO_GAP_TRIANGLE_INCLUDING_2=PROVED_EXACT.
+
+
+Operationally, the three scalar gaps alone recover the complete squarefree packet incidence:
+  D_- = gcd(sf(W0^-),sf(W1^-)),
+  D_+ = gcd(sf(W0^-),sf(W2^-)),
+  D_0 = gcd(sf(W1^-),sf(W2^-)).                  (229BK.13)
+
+
+This gives a scalar-only theorem interface that no longer requires node labels to reconstruct the full squarefree support triangle.
+
+
+7. Exact archimedean ordering of the three minus gaps
+The current receiver
+  W0^-=UV-eR
+has a further global property: it is always the strict minimum of the three minus gaps.
+
+
+Use the rationalized Pythagorean-gap forms:
+  W0^- = x^2 y^2/(UV+eR),
+  W1^- = y^2 R^2/(zV+ex),
+  W2^- = x^2 R^2/(zU+ey).                        (229BK.14)
+
+
+For W0^-<W1^-, after cancelling y^2 it suffices to show
+  x^2(zV+ex) < R^2(UV+eR).
+The UV/V term is strict because
+  R>x, R>z, U>x
+imply
+  R^2 U > x^2 z,
+hence
+  R^2UV > x^2zV.
+Also
+  eR^3 > ex^3.
+Thus the displayed inequality is strict.
+
+
+Symmetrically
+  W0^-<W2^-.
+
+
+Moreover
+  W1^- - W2^-
+    = z(V-U)+e(y-x).                              (229BK.15)
+Since
+  V^2-U^2=y^2-x^2,
+V-U has the same sign as y-x. Therefore
+  sign(W1^--W2^-)=sign(y-x).                      (229BK.16)
+
+
+Hence:
+  W0^- < min(W1^-,W2^-),
+and among W1^-,W2^- the ordering exactly follows y versus x.
+
+
+RESULT_229BK_W0_IS_STRICT_GLOBAL_MINIMUM_MACRO_MINUS_GAP=PROVED.
+RESULT_229BK_W1_W2_ORDER_EQUALS_y_x_ORDER=PROVED.
+
+
+8. Consequence for the current theorem interface
+The current large-K gate still uses
+  sf_odd(W0^-)=sf_odd(G0)
+from229AR and is not closed by229BK.
+
+
+However229BK adds a new exact global receiver:
+positive physical endpoints map to ordered scalar triples
+  (W0^-,W1^-,W2^-)
+satisfying simultaneously
+  W0^-<min(W1^-,W2^-),
+  W0^-W1^-W2^-=square,
+  full squarefree packet decomposition (229BK.12),
+  exact R-height inherited from the original endpoint.
+
+
+A future theorem may therefore attack REALIZED scalar triples on this square-product locus rather than arbitrary two-color CRT assignments.
+
+
+This is genuinely global information: the square relation includes the 2-adic place and couples all three macro triples simultaneously.
+
+
+But it does NOT itself provide a population saving. The odd-prime support part is compatible with229BI/BJ, so one must not recharge it as an independent sieve condition.
+
+
+CURRENT_PREFERRED_NEW_INTERNAL_INTERFACE:
+FULL_MACRO_GAP_SQUARE_PRODUCT_OCCUPANCY:
+count physical ordered triples
+  W0<W1,W2,
+  W0W1W2=square,
+whose full squarefree-kernel triangle is generated by the physical endpoint and whose W0 odd kernel exceeds the one-third threshold, preserving exact R-height and selector equations.
+
+
+Parallel retained routes:
+(A)229BJ global realized-modulus/selector-height saving beyond local color entropy;
+(B)229BF removal of the one-per-outer floor;
+(C)229AX occupied-support count;
+(D)229AR direct W0 tail.
+
+
+9. Firewalls
+DO NOT:
+- treat the square-product relation as an independent odd-prime local sieve on top of229BI; its odd support is the same triangle;
+- replace the exact physical image by all positive integer triples with square product;
+- infer a count merely from W0 being the smallest gap;
+- identify the full D_0,D_+,D_- 2-adic routing with229AG canonical Hilbert parity bits without a separate adapter;
+- alter authority/credit/gate/closure from this structural theorem.
+
+
+10. State
+No perfect-cuboid existence/nonexistence conclusion is claimed.
+No endpoint population exponent is claimed.
+No global counting credit is assigned.
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+Independent hostile audit of229BK NOT RUN.
+
+
+11. Dependencies and verification scope
+Load-bearing internal inputs:
+- primitive positive physical endpoint equations and primitivity;
+-229AD exact six content buckets, h,c12,c21 odd, pairwise coprimality;
+-229AR primitive macro-gap Euclid factorization and epsilon convention;
+-229BI exact three macro contents and G0G1G2 square;
+-229BJ local-color exponent firewall.
+
+
+The parity proof and eight square-product identities are direct deductions from these retained exact statements. No external theorem is used.
+No physical perfect-cuboid endpoint enumeration is used.
+
+
+
+
+FINAL_READBACK_RECEIPT: PASS
+READBACK_CONFIRMED:
+- 229BK card body and CARD_DOC_ID.
+- CARD-INDEX row528 contains229BK with working card hyperlink; 案内 latest/current-operation/start-reading pointers all advance to229BK.
+- RESULT-LEDGER latest change record is229BK.
+- MAIN latest CURRENT AUTHORITY OVERRIDE is229BK with PREVIOUS_POST_229_DELTA=229BJ.
+- active ROUTE contains POST-229BK after POST-229BJ with the full 2-adic macro-gap square-product closure and current blocker.
+- 229BK parent folder is M3-Research-Cards, parent id 1PTFrohNcPTyhLT-b51IT3VUy-tikkxLz.
+CONCURRENCY_CHECK: no229BL row found in CARD-INDEX at final readback.
+AUTHORITY_CREDIT_GATE_CLOSURE_CHECK: OPERATIONAL_AUTHORITY=M3-T11-229 unchanged; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged; M3-T11-230 NOT_ISSUED; PRIMARY_GATE OPEN; GLOBAL_COUNTING_CREDIT=0; production HOLD; P_OVER_M3_LIMIT_PROVED=false; existing closure and integrated-audit186-229O scope unchanged.
+MATHEMATICAL_RESULT_CHECK: exactly one physical edge is odd; the three macro Euclid epsilon bits have even total; all eight signed macro-gap products are exact integer squares; the minus-gap squarefree kernels form a full prime-2-inclusive packet triangle; W0-=UV-eR is the strict minimum and W1-/W2- order follows y/x.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

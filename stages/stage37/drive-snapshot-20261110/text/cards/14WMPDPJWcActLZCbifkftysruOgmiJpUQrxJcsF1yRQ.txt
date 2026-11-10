@@ -1,0 +1,61 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229FH
+FIXED-FIVE SQUAREFREE THREE-PRIME GAUSSIAN INCIDENCE: COMPLETE 414-ALLOCATION GENUS STRATIFICATION AND POLYLOG HEIGHT COUNT OF ALL GENUS-ONE BRANCHES
+CARD_DOC_ID=14WMPDPJWcActLZCbifkftysruOgmiJpUQrxJcsF1yRQ
+PREVIOUS_CURRENT=Stage37-NEW-INPUT-DELTA-AUDIT-229FG; PREVIOUS_DOC_ID=15t7YSLw3X8d7epo3DAQOTp3-zOBeD3gsnMn-0-zlQHA
+STATUS=PROVED_SCOPED_FIXED_5_GENUS1_PHYSICAL_COUNT_O((LOG B)^C5) / VERIFIED_FINITE_ENUMERATION_330_OF_414 / NEW_6_LOCAL_EMPTY_GENUS0_CODES / GLOBAL_CREDIT_0
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED; PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT; FORMAL_ROUTE_SWITCH=NONE; CLOSURE_UNCHANGED; HOSTILE_AUDIT_229FH=NOT_RUN.
+
+
+1. STARTUP / ANTI-LOOP / SCOPE.
+Synced MAIN current229FG, CARD-INDEX existing Excel row627 (0-based csv row625), RESULT-LEDGER current229FG, active ROUTE current229FG, NEG current229FG; read current229FG and mathematical inputs229FF and229FD. Related prior 229EB fixed-face-slope genus-five and historical fixed-fiber positive-rank firewall were checked. Those do NOT establish the present exhaustive squarefree R=5qr Gaussian-ALLOCATION partition nor its complete fixed-5 smooth-part height count. This is a fixed-prime slice, NOT a uniform-in-smallest-prime replacement for high omega>=3. Avoid re-running only a congruence test or falsely concluding all omega3 is empty. The exact original positive primitive full-four-square physical P=(e,x,y,U,V,z,R), R<=B, is the source; all Stage37 high sf(G0),Kcross/rad(Sd), 229DS q/Gres K-null, six ordinary+two macro HIGH flags and 229EX medium-e signed OFF-G0/q(-,-)/Gres filters remain applied to these SAME P.
+
+
+2. COMPLETE EXACT ALLOCATION FAMILY FOR R=5qr.
+Fix distinct primes q,r !=5 with q,r ≡1 mod4 and R=5qr. Let q²=S²+T², r²=U²+V², S,U odd, T,V positive multiples of 4, gcd(S,T)=gcd(U,V)=1, X=T/S, Y=V/U. Every nontrivial positive R² two-square representation has an EVEN leg L. Gaussian factorization of R² with three distinct prime factors 5,q,r gives exactly (3³−1)/2=13 distinct positive EVEN legs, indexed by Gaussian exponent vectors k=(k5,kq,kr) in {-1,0,1}³{0} modulo simultaneous sign reversal. k_j=0 means j-imprimitive. At most ONE of the three original macro R-hypotenuse representations may be j-imprimitive for EACH j=5,q,r, since gcd(e,x,y)=1. Thus enumerate unordered triples of distinct representatives with <=1 zero coordinate in each of three positions; there are 138. Choice of which leg is hypotenuse gives 414 ordered-up-to-exchange-of-two-legs biform allocation patterns. This independent exponent-vector combinatorial enumeration was checked against 13 explicit squared-leg forms.
+
+
+Use p-factor alpha=3+4i (p-primitive) and alpha=5 (p-imprimitive), conjugating globally to absorb p-sign. Put s,t in {-1,0,+1}, where zero denotes imprimitive q or r:
+ For p-primitive (alpha=3+4i):
+  s*t !=0: L²/(S²U²)=[4+3sX+3tY−4stXY]²;
+  s!=0,t=0: (1+Y²)(4+3sX)²;
+  s=0,t!=0: (1+X²)(4+3tY)²;
+  s=t=0: 16(1+X²)(1+Y²).
+ For p-imprimitive (alpha=5):
+  s*t!=0: 25(sX+tY)²;
+  s!=0,t=0: 25(1+Y²)X²;
+  s=0,t!=0: 25(1+X²)Y²;
+  s=t=0 excluded (zero even leg).
+Take any three DISTINCT even-leg codes permitted by the at-most-one-zero conditions and form F(X,Y)=L1²/(S²U²)+L2²/(S²U²)−L3²/(S²U²). The ORIGINAL same-P identity L1²+L2²=L3² forces F=0. All F have bidegree <=(2,2), integer coefficients.
+
+
+3. EXACT EXHAUSTIVE DISCRIMINANT CERTIFICATE.
+For each of the 414 F compute Delta(Y)=disc_X(F) and factor over Q[Y]. Remove repeated square factors and take degree in Y of the squarefree part. Verified results:
+  degree 4: 290 patterns (geometric genus 1);
+  degree 3: 40 patterns (geometric genus 1);
+  degree 2: 16 patterns (geometric genus 0);
+  degree 0: 68 patterns (genus 0 / split or geometrically split, requiring separate treatment).
+Total 414; in particular 330 GENUS-ONE code patterns and 84 genus-zero/split code patterns. Every listed Delta is nonzero; degree3/4 squarefree part yields a nonsingular genus-one normalization of the quadratic-in-X double cover of P¹_Y. This is not an assumption that all (2,2) biforms have genus one. An independently generated exponent-vector count gave 13 distinct classes, 138 admissible unordered triples and 414 hypotenuse-labeled cases, matching direct explicit leg-polynomial enumeration. Symbolic squarefree quartic example from codes (p-primitive,q−,r0), (p-primitive,q0,r−), (p-primitive,q−,r−):
+ F=2[X²Y²−24X²Y+8X²−24XY²+7XY+8Y²+8].
+ Delta_X=4(544Y^4+432Y³−239Y²+768Y−256).
+ gcd(544Y^4+432Y³−239Y²+768Y−256, derivative)=1, so a genuine geometric genus-one case.
+
+
+Minimal reproducible exact classifier (no floating point):
+ V=({−1,0,+1}^3\{0})/simultaneous_negation; |V|=13.
+ For every 3-combination C⊂V with max_i #{v∈C:v_i=0}<=1, and each choice of hyp h∈C, reconstruct polynomial F from formulas above (conjugation normalization), form Delta=disc_X(F); compute factor_list(Delta) over Q[Y]; count deg(prod(factors with odd exponent)). Output {0:68,2:16,3:40,4:290}. Polynomial arithmetic exact. The finite classification is computationally VERIFIED, not independently hostile-audited.
+
+
+4. THEOREM FH.1 — ALL GENUS-ONE R=5qr PHYSICAL POINTS ARE POLYLOGARITHMIC IN B.
+Let P^(g1)_5(B) be all ORIGINAL positive primitive full-four-square P with R=5qr<=B, q,r distinct split primes !=5, whose three actual macro even-leg Gaussian allocation lies among the 330 genus-one patterns. There exist fixed finite C5,c5>0 such that
+ #P^(g1)_5(B) <= c5 (1+log B)^C5 = o(B^(1/3)).
+Proof: Each fixed pattern defines a fixed genus-one normalization C/Q by §3. If C(Q)=empty then no P; otherwise choose any rational point to identify C with an elliptic curve E/Q. Mordell-Weil yields finite rank r_C and finite torsion. Because 0<|S|,|T|<=q<=B, 0<|U|,|V|<=r<=B, rational projective heights H([S:T]),H([U:V])<=B; hence h([X:1])+h([Y:1])<=2log B. Their pullbacks on C form a positive-degree ample divisor, comparable to a canonical height on E (up to bounded and square-root errors), so for physical points canonical height <= O_C(1+log B). Lattice counting on E(Q)/torsion gives O_C((1+log B)^(r_C/2)) points. The 330 ranks and constants are finite because all 330 curves are FIXED; take their finite maximum. The map from primitive fractions X=T/S,Y=V/U to q,r is injective once signs/orientation are canonical, and reconstructing original macro roles has only bounded multiplicity. This proves the stated true-original count. No rank-0 or explicit numerical C5 is asserted. Since HIGH and signed-medium masks are filters, the same bound applies to their intersection in this slice. This estimate gives NO saving uniform as p varies; the fixed-prime constant/rank may grow arbitrarily with p.
+
+
+5. ACTUALLY TESTED DIFFERENT GENUS-ZERO METHOD / NEW LOCAL EXCLUSIONS.
+Among the 84 nong1 allocations, exact discriminant histogram contains four distinct codes with Delta=1280(1+Y²)^2 and two with Delta=5000Y²(Y²−1). For any actual q,r Gaussian Y=V/U∈4Z_2 with Y>0. In the first class Delta has 2-adic unit squareclass 5 (1280=2^8*5), not a Q_2 square. In the second class v2(Delta)=3+2v2(Y) odd (Y²−1 odd), also not a Q_2 square. Thus all SIX of these allocation patterns are provably empty on the original source. The previously known 229FG two cases Delta=2500Y²(Y²−2), empty by mod8, are separate and not counted as new. This is an exhaustive additional local test of concrete genus-zero branches, NOT an exclusion of the remaining 78 patterns (or, including the FG two, 76), and not a completed fixed-5 R packet. Simple finite-modulus F(X,Y) tests miss points trapped near singular Y=0 and cannot substitute for the exact discriminant-squareclass test.
+
+
+6. OBSTRUCTION / COUNTERCHECK / NEXT.
+The residual 84 genus0/split assignments (78 after the SIX additional exclusions; 76 if the TWO prior229FG local-empty branches are also subtracted) are still NOT uniformly counted by rational-curve height or actual prime-square Gaussian incidence. More critically, p=5 is fixed: summing unspecified elliptic ranks/heights over variable smallest p<=B^(1/3) is NOT allowed. Global source with omega(R)>=3 and p varying remains OPEN, and 229AR Wminus route requires formal audit.
+NEXT=First derive an exact factorization/resultant and original prime-norm-square congruence/height classification for the residual fixed-five genus-zero 76 allocation codes; look for another WHOLE scoped fixed-five saving, not isolated restated necessary conditions. In parallel quantify the geometric-genus-one family as p varies: try a provable uniform-in-p average rational-height / occupied-prime-norm count strong enough that the sum over p up to B^(1/3) is o(B^(1/3)); merely fixed-p Mordell-Weil finiteness cannot do so. Keep all original R<=B selectors and signed medium-e branches; do not credit rank or local density independently.
+GOVERNANCE UNCHANGED: authority229, mathematical construction228, Gate OPEN, global credit0, P_OVER_M3_LIMIT_PROVED=false, production HOLD, closure unchanged, no formal route switch, independent hostile audit not run.

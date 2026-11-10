@@ -1,0 +1,412 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229W — all odd-norm rationalization and norm-thirteen genus-eleven closure
+
+
+STATUS: POST_229V_ALL_ODD_NORM_RATIONALIZATION_COMPLETE / PROVED_ODD_CM_X_RATIO_IS_SQUARE / PROVED_ALL_ODD_DEPENDENCE_PREIMAGES_RATIONAL / PROVED_ALL_ODD_DEPENDENCE_REDUCES_TO_RATIONAL_QUARTIC_CARRIERS / PROVED_NORM13_FIXED_SMOOTH_GENUS11_RECEIVER / FALTINGS_GIVES_FINITE_NORM13_SUPPORT / PROVED_NORM13_DEPENDENT_ENDPOINT_COUNT_Bo1 / NORM10_REMAINS_OPEN / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229V ODD-NORM UNIFICATION / DIVISOR-THEORETIC CM SQUARE FACTOR / 2-ADIC COCYCLE ELIMINATION / NORM13 FIXED HYPERELLIPTIC RECEIVER / SUBGATE CLOSURE
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229V
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+
+
+1. Scope
+
+
+229T proved for odd norm that dependence admits an alpha-preimage Q with
+  P=[alpha]Q,
+  2Q in E_d(Q),
+and proved for norm5 by explicit formula that x([alpha]Q)/x(Q) is a square, forcing Q itself to be rational after a 2-adic cocycle audit.
+
+
+229U then closed norm5 at B^o(1).
+229V showed that norm10 is different because the ramified factor 1+i leaves a genus-zero residual carrier.
+
+
+This card proves that the norm5 square-factor/rationalization phenomenon is not special to norm5: it holds for EVERY Gaussian alpha of odd norm. It then applies this general result to the next odd primitive norm 13 and closes that entire dependence branch at B^o(1) through an explicit fixed genus-11 curve.
+
+
+No global Stage37 gate is closed.
+
+
+2. General odd-norm CM square-factor theorem
+
+
+Let
+  K=Q(i),
+  E_d:Y^2=X^3-d^2X,
+  T0=(0,0),
+and let
+  phi=[alpha], alpha=a+bi in Z[i],
+with N(alpha) odd.
+
+
+The divisor of X on E_d is
+  div(X)=2(T0)-2(O).                             (229W.1)
+
+
+Consider
+  F_alpha = (X composed with [alpha])/X in K(E_d)^*.
+Then
+  div(F_alpha)
+   =2D_alpha,
+where
+  D_alpha=[alpha]^*(T0-O)-(T0-O).               (229W.2)
+
+
+Under Pic^0(E_d)≅E_d and the principal polarization, pullback by [alpha] acts as the dual endomorphism [bar(alpha)]. Hence
+  [D_alpha]=[bar(alpha)]T0-T0.                   (229W.3)
+
+
+Now [i] fixes T0. Since N(alpha)=a^2+b^2 is odd, a and b have opposite parity, so a-b is odd. Therefore
+  [bar(alpha)]T0=[a-bi]T0=(a-b)T0=T0.
+Thus
+  [D_alpha]=0.
+
+
+Hence D_alpha is principal over K. Choose h_alpha in K(E_d)^* with
+  div(h_alpha)=D_alpha
+and normalize h_alpha(O)=1.
+
+
+Using the standard formal parameter at O, the differential of [alpha] is multiplication by alpha, so
+  F_alpha(O)=alpha^(-2).
+Therefore
+  F_alpha=(h_alpha/alpha)^2.                    (229W.4)
+
+
+Equivalently, for every nonexceptional Q,
+  X([alpha]Q)/X(Q) is a square in K.             (229W.5)
+
+
+RESULT_229W_ODD_CM_X_RATIO_IS_K_SQUARE=PROVED_EXACT.
+
+
+This proof is intrinsic and does not require an explicit division polynomial.
+
+
+3. All odd-norm dependence preimages are rational
+
+
+Take a physical dependent endpoint with primitive odd-norm alpha. Retain 229T:
+  P=[alpha]Q,
+  2Q in E_d(Q).                                  (229W.6)
+
+
+Write
+  r=X(Q)/d,
+  X(P)/d=p^2.
+
+
+By (229W.5),
+  X(P)/d = r * h^2
+for some h in K^* at Q. Since the left side is the physical K-square p^2,
+  r is a square in K:
+  r=s^2.                                         (229W.7)
+
+
+Because 2Q is rational,
+  sigma(Q)=Q+S,
+  S in E[2].
+Retain the exact 2-torsion translation packet from 229T:
+  S=O:   bar(r)=r;
+  S=T0:  bar(r)=-1/r;
+  S=T+:  bar(r)=(r+1)/(r-1);
+  S=T-:  bar(r)=(1-r)/(1+r).                    (229W.8)
+
+
+If S=T0 then N(r)=-1, impossible for r=s^2.
+
+
+If S=T+ then N(r-1)=2.
+If S=T- then N(r+1)=2.
+The 229T (1+i)-adic lemma gives, for every s in K,
+  v_(1+i)(s^2 plus/minus 1) != 1,
+hence
+  N(s^2 plus/minus 1) !=2.
+
+
+Therefore S=O and
+  Q in E_d(Q).                                   (229W.9)
+
+
+RESULT_229W_ALL_ODD_NORM_CM_PREIMAGES_RATIONAL=PROVED_EXACT.
+
+
+4. Universal rational quartic carrier for odd dependence
+
+
+Now
+  r in Q
+and r=s^2 in K.
+A rational K-square is plus or minus a rational square, so
+  r=epsilon t^2,
+  epsilon in {+1,-1},
+  t in Q^*.                                      (229W.10)
+
+
+Write Q=(d r,y_Q). The curve equation yields
+  (y_Q/(dt))^2 = d(t^4-1)       for epsilon=+1,
+  (y_Q/(dt))^2 = d(1-t^4)       for epsilon=-1.  (229W.11)
+
+
+Thus EVERY odd-norm dependence branch lies over the same two rational quartic twist carriers
+  W^2=d(t^4-1),
+  W^2=d(1-t^4),                                  (229W.12)
+with the alpha-dependent physical pullback condition
+  P=[alpha]Q
+and the retained 229J selector conditions.
+
+
+RESULT_229W_ALL_ODD_DEPENDENCE_REDUCES_TO_RATIONAL_QUARTIC_CARRIERS=PROVED_EXACT.
+
+
+This does not itself count the odd branches; the alpha-dependent base selector remains decisive.
+
+
+5. Norm13 explicit CM map
+
+
+The next primitive odd norm after the already-closed norm5 is 13. Up to unit and conjugation take
+  alpha=3+2i.
+
+
+On normalized coordinate
+  r=X(Q)/d,
+direct exact addition on E_d gives
+
+
+  X([3+2i]Q)/d
+    = -r * (A(r)/B(r))^2
+    = r * H_13(r)^2,                             (229W.13)
+
+
+where
+  A(r)=r^6+(-11+10i)r^4+(7-4i)r^2+(3+2i),
+
+
+  B(r)=(2-3i)r^6+(-4-7i)r^4+(10+11i)r^2-i,
+
+
+and
+  H_13(r)=i A(r)/B(r).                           (229W.14)
+
+
+The unit factor i has norm 1.
+
+
+All primitive norm13 Gaussian slopes are associates/conjugates of 3+2i. Unit multiplication changes normalized X only by a sign and conjugation conjugates the formula, so the rational norm condition below is the same for the entire norm13 packet.
+
+
+RESULT_229W_NORM13_EXACT_CM_X_MAP=PROVED_EXACT.
+
+
+6. The physical base selector becomes a fixed genus-11 curve
+
+
+By Sections 3-4, Q is rational and
+  r=epsilon t^2.
+
+
+Choose eta in {1,i} with eta^2=epsilon. From (229W.13),
+  p=plus/minus eta*t*H_13(r).
+Hence
+  N(p)=t^2 * N(H_13(r)).                         (229W.15)
+
+
+The physical 229J base condition
+  N(p) in Q^{*2}
+is therefore equivalent to
+  N(H_13(r)) in Q^{*2}.                          (229W.16)
+
+
+Exact multiplication gives
+  N(H_13(r))=A_13(r)/B_13(r),                    (229W.17)
+where
+
+
+  A_13(r)
+   =r^12-22r^10+235r^8-228r^6
+     +39r^4+26r^2+13,
+
+
+  B_13(r)
+   =13r^12+26r^10+39r^8-228r^6
+     +235r^4-22r^2+1.                            (229W.18)
+
+
+Therefore every physical norm13 dependent endpoint yields a rational point on the fixed curve
+
+
+  C_13:
+  U^2=A_13(r)B_13(r).                            (229W.19)
+
+
+The physical non-torsion locus avoids A_13 B_13=0/poles, so no endpoint boundary correction is created here.
+
+
+RESULT_229W_NORM13_BASE_SELECTOR_TO_FIXED_CURVE=PROVED_EXACT.
+
+
+7. C_13 is smooth of genus 11
+
+
+Exact polynomial calculations give
+
+
+  Disc(A_13)=2^132 * 13^5 !=0,
+  Disc(B_13)=2^132 * 13^5 !=0,
+  Res(A_13,B_13)=2^150 !=0.                     (229W.20)
+
+
+Thus A_13 and B_13 are individually squarefree and coprime.
+Their product is squarefree of degree 24.
+
+
+Hence the smooth projective model of C_13 is hyperelliptic of genus
+  g=(24-2)/2=11.                                 (229W.21)
+
+
+RESULT_229W_NORM13_FIXED_CURVE_SMOOTH=PROVED_EXACT.
+RESULT_229W_NORM13_FIXED_CURVE_GENUS=11.
+
+
+8. Faltings closes the norm13 r-support
+
+
+Retain the Faltings theorem input already used and audited in 229U:
+a smooth projective curve of genus greater than 1 over Q has finitely many Q-rational points.
+
+
+Since C_13 has genus 11,
+  C_13(Q) is finite.                             (229W.22)
+
+
+Therefore only finitely many rational r can occur in physical norm13 dependence.
+
+
+RESULT_229W_NORM13_RATIONAL_r_SUPPORT=FINITE_BY_FALTINGS.
+
+
+No effective enumeration of C_13(Q) is claimed or needed.
+
+
+9. Finite r implies finite norm13 twist support and B^o(1) endpoint count
+
+
+For rational Q=(dr,y_Q),
+  (y_Q/d)^2=d*r*(r^2-1).
+Therefore
+  [d]=[r(r^2-1)]
+in Q^*/Q^{*2}.                                   (229W.23)
+
+
+Each surviving rational r fixes at most one canonical positive squarefree twist d. Hence norm13 dependence realizes only finitely many canonical twists.
+
+
+Retain 229L:
+for every fixed canonical d, the number of positive physical endpoints with R_phys<=B mapping to E_d is uniformly B^o(1).
+
+
+Consequently
+
+
+  #{positive physical endpoints R_phys<=B
+      in CM dependence with N(alpha)=13}
+    =B^o(1)
+    =o(B^(1/3)).                                 (229W.24)
+
+
+RESULT_229W_NORM13_REALIZED_TWIST_SUPPORT=FINITE.
+RESULT_229W_NORM13_DEPENDENT_ENDPOINT_COUNT=B^{o(1)}.
+RESULT_229W_NORM13_BRANCH=CLOSED_FOR_STAGE37_ONE_THIRD_BUDGET.
+
+
+This is subgate counting credit only.
+
+
+10. Updated CM dependence status
+
+
+- norm2: physically empty by 229S;
+- norm5: B^o(1), closed by 229U;
+- norm10: exact ramified-prime/genus-zero reduction by 229V, COUNT OPEN;
+- ALL odd norms: preimage rationalization and universal quartic reduction proved by 229W;
+- norm13: B^o(1), closed by 229W;
+- remaining bounded odd norms >=17: no cocycle work is needed; attack only the fixed alpha-dependent base-selector curve;
+- remaining even norms: retain 229S/229V parity-aware bounded-image analysis.
+
+
+The next odd target is norm17, not a repetition of the norm5 cocycle calculation.
+
+
+11. Global route status
+
+
+The preferred whole-endpoint gate remains unchanged:
+
+
+  #{positive primitive physical endpoints R_phys<=B:
+      sf(gcd(eR_phys,xy))>B^(1/3-delta)}
+    =o(B^(1/3))
+for some fixed delta>0.
+
+
+GAUSSIAN_TWIST_RADICAL_GCD remains CONDITIONAL_RESERVE/THEOREM_WATCH.
+
+
+Useful next inputs:
+(A) direct same-physical control of NORM10_RAMIFIED_DIVISION_GATE;
+(B) norm17 fixed base-selector curve audit using the new all-odd rationalization;
+(C) a uniform theorem covering the finitely many remaining odd alpha at once;
+(D) selector-conditioned support or direct radical-support theorem.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+PRIMARY_GATE_STATUS=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+
+
+12. Sources checked
+
+
+Internal:
+- Stage37-NEW-INPUT-DELTA-AUDIT-229V;
+- 229U norm5 fixed-genus3/Faltings closure;
+- 229T odd-norm pullback and 2-adic cocycle lemma;
+- 229S bounded Gaussian dependence slopes;
+- 229L fixed-d B^o(1) fiber and Hilbert-90 twist adapter;
+- 229J physical Gaussian norm-selector packet;
+- current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+External theorem:
+- no new external theorem species. Faltings is reused only through the already-recorded 229U theorem input.
+
+
+New exact mathematics in this card:
+- divisor-theoretic all-odd CM x-ratio square theorem;
+- all-odd rational-preimage theorem;
+- norm13 exact CM map;
+- A_13/B_13 norm factor;
+- discriminant/resultant audit establishing the fixed genus-11 receiver.
+
+
+AUDIT SCOPE
+
+
+This card closes only the norm13 dependence branch and globally rationalizes all odd-norm dependence preimages. It does not close norm10 or all remaining bounded slopes, does not prove rank>=2 on the complement, does not prove the global radical-gcd gate, does not change global counting credit, does not retract 229L-V, and does not issue M3-T11-230. Integrated audit186–229O remains unchanged in scope.
+
+
+
+
+FINAL_READBACK_RECEIPT: PASS.
+Card identity/title/body read back from Drive. CARD-INDEX row488 and 案内 latest/read-order point to 229W. MAIN contains CURRENT AUTHORITY OVERRIDE=229W with unchanged preferred sf(gcd(eR,xy)) gate, T11-230 unissued, PRIMARY_GATE OPEN and GLOBAL_COUNTING_CREDIT=0. RESULT-LEDGER contains the 229W change record and card pointer. Active ROUTE contains the POST-229W all-odd rationalization / norm13 genus11 block. The all-odd CM x-ratio square theorem, all-odd rational-preimage reduction, universal odd rational quartic carriers, norm13 fixed smooth genus11 receiver, finite norm13 r/d support, and B^o(1) norm13 dependent endpoint count are all present. Norm10 remains count-open under the 229V genus-zero ramified gate. This is subgate counting credit only; global counting credit remains 0. Integrated audit186–229O remains limited to its stated scope and is not silently extended to 229P–W. Production HOLD retained; P/M3 limit unproved.

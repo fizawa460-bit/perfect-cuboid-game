@@ -1,0 +1,439 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229BC — outer primitive Pythagorean modulus-G router and fixed-(G,h) support count
+
+
+STATUS: POST_229BB_OUTER_EUCLID_ROUTER_COMPLETE / PROVED_PRIMITIVE_OUTER_EUCLID_PARAMETERIZATION / PROVED_SPLIT_HYPOTENUSE_CONTENT_C_GIVES_FULL_RAW_C_ROOT_LINE / PROVED_EDGE_CONTENT_A_GIVES_COMPLEMENTARY_RAW_A_ROUTER_IN_BOTH_PARITY_CASES / PROVED_COMBINED_OUTER_MODULUS_G / PROVED_FIXED_G_h_OUTER_SUPPORT_COUNT_1_PLUS_B_OVER_hG / PELL_COMPLETION_COMPOSED_ONCE / MOVING_h_SCALE_REMAINS_BLOCKER / NO_COUNTING_PROMOTION / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_GLOBAL_REOPEN
+
+
+TYPE: POST-229BB ROOT-FREE OUTER SUPPORT / PRIMITIVE PYTHAGOREAN EUCLID ROUTER / RAW-CONTENT CRT ROOT LINE / AR-009 REENTRY / FIXED-(G,h) SAME-MEASURE COUNT / SCALE-SUM FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229BB
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1te0VBREA_Uw-fWdbo_HXzdpTiw8UTBrSl0o1n7blnu4
+
+
+1. Scope
+
+
+229BB removed all central root coordinates from the fixed-power outer support by proving B^o(1) completion for fixed normalized endpoint quotient.
+
+
+The remaining root-free physical receiver contains
+  A := A_-A_+,
+  C := C_-C_+,
+  G := AC=(G_*)_odd,
+  h,
+  E0,
+  R0,
+with
+  e/h=A E0,
+  R/h=C R0,
+and
+  (A E0)^2 + Z0^2 = (C R0)^2,                    (229BC.1)
+where
+  Z0=z/h.
+
+
+Retain229BB:
+  gcd(AE0,CR0)=1,                                 (229BC.2)
+so (229BC.1) is a primitive Pythagorean triple.
+
+
+Retain229AD/AS:
+- A,C are odd and coprime;
+- every prime of C is 1 mod4;
+- A may contain primes 1 or3 mod4;
+- h is odd, split-prime-only and coprime to G.
+
+
+This card parameterizes (229BC.1) and pushes the exact A/C divisibility into the primitive Euclid parameters.
+
+
+2. Primitive Euclid parameterization
+
+
+There exist unique positive coprime integers
+  m>n,
+  gcd(m,n)=1,
+  m not congruent n mod2,
+such that
+  C R0 = m^2+n^2,                                 (229BC.3)
+and exactly one of the following two cases holds.
+
+
+EDGE-EVEN:
+  A E0 = 2mn,
+  Z0   = m^2-n^2.                                 (229BC.4)
+
+
+EDGE-ODD:
+  A E0 = m^2-n^2,
+  Z0   = 2mn.                                     (229BC.5)
+
+
+The finite interchange of the two primitive legs is exactly this two-case router.
+
+
+Since
+  R=h C R0=h(m^2+n^2),
+the physical cutoff is
+  h(m^2+n^2)<=B.                                  (229BC.6)
+
+
+RESULT_229BC_PRIMITIVE_OUTER_EUCLID_PARAMETERIZATION=PROVED_EXACT.
+
+
+3. Full raw C is a modular square-root line
+
+
+From (229BC.3),
+  C | m^2+n^2.                                    (229BC.7)
+
+
+Because gcd(m,n)=1, every prime p|C is coprime to mn.
+Because every p|C is 1 mod4, for each prime power p^k||C the congruence
+  t^2 == -1 mod p^k
+has exactly two solutions.
+
+
+Therefore, after charging at most
+  2^omega(C)=B^o(1)
+orientations, there is a fixed unit rho_C modulo C such that
+  m == rho_C n mod C,
+  rho_C^2 == -1 mod C.                            (229BC.8)
+
+
+RESULT_229BC_FULL_RAW_C_HYPOTENUSE_ROOT_LINE=PROVED_EXACT.
+
+
+This uses the complete raw powers in C, not only sf(C).
+
+
+4. EDGE-ODD: A supplies the complementary root-of-one line
+
+
+Assume
+  A E0=m^2-n^2.
+
+
+Then
+  A | (m-n)(m+n).                                 (229BC.9)
+
+
+Because gcd(m,n)=1 and m,n have opposite parity,
+  gcd(m-n,m+n)=1
+for odd prime support.
+
+
+Thus for each odd prime power p^k||A, the whole p^k lies in exactly one of
+  m-n,
+  m+n.
+
+
+After at most
+  2^omega(A)=B^o(1)
+orientation choices,
+  m == rho_A n mod A,
+  rho_A^2 == 1 mod A.                             (229BC.10)
+
+
+Since gcd(A,C)=1, (229BC.8) and (229BC.10) combine by CRT into one line
+  m == rho_G n mod G=AC,                          (229BC.11)
+with the prescribed root-of-one behavior on A and root-of-minus-one behavior on C.
+
+
+RESULT_229BC_EDGE_ODD_COMBINED_MODULUS_G_ROOT_LINE=PROVED_EXACT.
+
+
+5. EDGE-EVEN: A is charged as coordinate divisibility and still yields modulus G density
+
+
+Assume
+  A E0=2mn.
+
+
+Because A is odd,
+  A | mn.                                         (229BC.12)
+
+
+Since gcd(m,n)=1, every prime power of A occurs wholly in exactly one of m,n.
+Thus after at most
+  2^omega(A)=B^o(1)
+allocations there is a factorization
+  A=A_m A_n,
+  gcd(A_m,A_n)=1,
+with
+  A_m|m,
+  A_n|n.                                          (229BC.13)
+
+
+Write
+  m=A_m r,
+  n=A_n s.
+Then gcd(r,s)=1.
+
+
+The C-line (229BC.8) becomes
+  A_m r == rho_C A_n s mod C.                    (229BC.14)
+
+
+Since gcd(A,C)=1, A_m and A_n are units modulo C. Therefore (r,s) lie on one fixed line modulo C.
+
+
+For dyadic boxes
+  m~M,
+  n~N,
+the scaled variables have side lengths
+  M/A_m,
+  N/A_n.
+The ordinary root-line lattice count gives
+  # {(r,s)}
+   << 1 + MN/(A_m A_n C)
+   = 1 + MN/G.                                    (229BC.15)
+
+
+RESULT_229BC_EDGE_EVEN_COORDINATE_SPLIT_PLUS_C_LINE=PROVED_EXACT.
+
+
+Thus the even-leg branch loses the same full raw factor G from the two-dimensional Euclid-parameter area, although A acts by coordinate divisibility rather than by a root-of-one slope.
+
+
+6. Unified fixed-(atoms,h) outer parameter count
+
+
+In EDGE-ODD, (229BC.11) gives for each charged orientation
+  # {(m,n) in a dyadic MxN box}
+   << 1+MN/G.                                     (229BC.16)
+
+
+In EDGE-EVEN, (229BC.15) gives the identical bound.
+
+
+The physical cutoff (229BC.6) implies
+  MN <= (m^2+n^2)/2 <= B/(2h).                    (229BC.17)
+
+
+There are only B^o(1) parity, orientation/allocation and dyadic decorations.
+
+
+Therefore, for fixed
+  A_-,A_+,C_-,C_+,h,
+the number of outer primitive Euclid pairs is
+  << B^o(1)(1+B/(hG)).                            (229BC.18)
+
+
+RESULT_229BC_FIXED_ATOMS_h_OUTER_PAIR_COUNT=PROVED_EXACT.
+
+
+7. Compose with229BB Pell completion
+
+
+Each primitive Euclid pair (m,n) determines
+  E0
+from (229BC.4) or (229BC.5), and
+  R0=(m^2+n^2)/C.                                 (229BC.19)
+
+
+229BB proves that fixed atom,h,E0 data have only B^o(1) complete central-root fibers, and then only finite physical endpoint reconstruction.
+
+
+Therefore the positive primitive physical endpoint population with fixed atoms and h satisfies
+  N_{atoms,h}(B)
+   << B^o(1)(1+B/(hG)).                            (229BC.20)
+
+
+For fixed raw G and h, the number of pairwise-coprime ordered atom allocations
+  G=A_-A_+C_-C_+
+is at most
+  4^omega(G)=G^o(1).
+
+
+Hence
+  N_{G,h}(B)
+   << B^o(1)(1+B/(hG)).                            (229BC.21)
+
+
+RESULT_229BC_FIXED_G_h_SAME_PHYSICAL_COUNT=PROVED_SCOPED.
+
+
+This improves the fixed-(G,h) theorem interface from229BA/BB by using the exact primitive outer Pythagorean geometry after root completion has been compressed.
+
+
+8. Why the modulus G is structurally natural
+
+
+The two raw content halves have complementary Euclid roles:
+
+
+  C=C_-C_+:
+    divides the primitive hypotenuse m^2+n^2,
+    so every prime gives a root of -1;
+
+
+  A=A_-A_+:
+    divides the selected primitive leg.
+    In EDGE-ODD it gives roots of +1.
+    In EDGE-EVEN its prime powers split between the two coprime coordinates.
+
+
+Thus both parity cases consume the entire raw product
+  G=AC
+once and only once.
+
+
+This is not a multiplication of independent densities:
+- in EDGE-ODD it is one CRT line modulo G;
+- in EDGE-EVEN it is one coordinate-divisibility charge of total size A followed by one C-line.
+
+
+RESULT_229BC_FULL_RAW_G_OUTER_EUCLID_ROUTER=PROVED_EXACT.
+
+
+9. Quantitative meaning at the preferred radical threshold
+
+
+The preferred gate concerns
+  sf(G_*)>B^(1/3-delta).
+
+
+The odd raw content satisfies
+  G=(G_*)_odd >= sf_odd(G_*).
+
+
+Thus, up to the fixed prime2 issue, the large-radical sector has
+  G >> B^(1/3-delta).                             (229BC.22)
+
+
+For each fixed (G,h), the nonconstant term in (229BC.21) is at most
+  B^(2/3+delta+o(1))/h.                            (229BC.23)
+
+
+This is a genuine fixed-(G,h) improvement, but it is not close enough by itself to the required global o(B^(1/3)) tail and cannot be summed over moving G,h without further information.
+
+
+RESULT_229BC_FIXED_G_h_COUNTING_CREDIT=0.
+
+
+10. The moving h-scale is now isolated as a distinct blocker
+
+
+The outer primitive pair uses the height
+  R=h(m^2+n^2).                                   (229BC.24)
+
+
+For fixed h the full raw G gives the correct root-line/divisibility saving.
+
+
+However summing (229BC.21) naively over all h is illegal/too weak:
+the boundary term 1 per h is uncontrolled, and h is a self-generated physical scale, not an independent random modulus.
+
+
+Retain
+  h=gcd(e,R)=gcd(g,q)
+from229AD and
+  gcd(h,G)=1.
+
+
+Therefore the next missing theorem can be stated sharply as a scale-support problem rather than a root-completion problem:
+
+
+  count realized triples
+    (G,h,(m,n))
+  with
+    h(m^2+n^2)<=B,
+    the full modulus-G outer router,
+    h=gcd(e,R) arising from the nested physical system,
+    and the229AY/BA local-character filters,
+  with enough saving after summing h and G.
+
+
+CURRENT_BLOCKER=MOVING_BASE_HILBERT_SCALE_h_ON_MODULUS_G_PRIMITIVE_EUCLID_SUPPORT.
+
+
+11. Arsenal consequence
+
+
+AR-009:
+  now has a cleaner outer application than the central-root application:
+  after229BB root completion compression, the entire C hypotenuse content produces a raw modulus-C root line on primitive Euclid parameters, and EDGE-ODD combines it with A to modulus G.
+
+
+AR-010:
+  remains consumed correctly by229BB. Root completions are subpower after fixing the outer quotient; do not recount them.
+
+
+SR-STR-090:
+  Pell completion is charged exactly once through229BB.
+
+
+S36-PW07:
+ 229AY atom rows and229BA h rows remain admissibility filters on the same outer support.
+
+
+AR-023/024 measure firewall:
+  the outer pair count is on the exact primitive physical outer triple with R=h(m^2+n^2)<=B; no ambient unrestricted slope density is multiplied into an endpoint count.
+
+
+12. Next research inputs
+
+
+Priority A:
+  exploit h=gcd(g,q) inside the nested229AD factorization to count the moving h-scale on the exact outer Euclid support.
+
+
+Priority B:
+  derive a second modulus or complementary divisor switch involving h without recharging the already-consumed G root line.
+
+
+Priority C:
+  combine the split-only h support with the h-character rows of229BA and the modulus-G outer router in one same-measure sieve.
+
+
+Priority D:
+  seek an external theorem only after S37-WF02 confirms it controls the weighted sum over h and G, not merely fixed moduli.
+
+
+Priority E:
+  retain229AR W_-=UV-eR as the parallel full-threshold receiver.
+
+
+13. Firewalls and unchanged state
+
+
+Do not:
+- sum the fixed-(G,h) bound over h as if h had bounded support;
+- multiply the EDGE-ODD A and C conditions as probabilities; they are one CRT line mod G;
+- charge A twice in EDGE-EVEN after scaling m,n;
+- recharge229BB Pell completion;
+- replace raw G with sf(G) inside the line modulus;
+- infer that p==1 mod4 support of h gives a fixed-power saving;
+- claim the fixed-(G,h) estimate closes the one-third gate.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=OUTER_AR009_MODULUS_G_REENTRY.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_OPERATION=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+INTEGRATED_AUDIT_186_229O_SCOPE_UNCHANGED=true.
+
+
+14. Writeback
+
+
+This card adds:
+- exact primitive Euclid parameterization of the229BB root-free support;
+- full raw-C root-of-minus-one lines;
+- full raw-A complementary routing in both edge parity cases;
+- a unified effective raw modulus G on the outer primitive pair;
+- fixed-(atoms,h) and fixed-(G,h) same-physical bounds B^o(1)(1+B/(hG));
+- isolation of the moving base-Hilbert scale h as the next quantitative blocker.
+
+
+No authority, global counting credit, primary gate, closure, HOLD state, or integrated-audit scope changes.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

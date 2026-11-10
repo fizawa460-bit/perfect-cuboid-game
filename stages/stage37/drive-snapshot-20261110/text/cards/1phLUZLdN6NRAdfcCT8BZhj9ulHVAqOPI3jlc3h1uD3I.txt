@@ -1,0 +1,75 @@
+﻿Stage37-229GX EXACT REPLAY — One-sign prime-square resultant + 22-key H_int integral proof + reciprocal source-coordinate audit.
+REPRODUCTION: Python3 SymPy, no web. Exact identity for any f∈Z[Y] with primitive rational root W/T and T²+W²=r²: Gauss lemma f=(TY−W)g, g∈Z[Y], hence f(i)f(−i)=r²*g(i)g(−i), r² divides S0=(A0−C0)²+B0². This theorem is purely algebraic and valid for all original nonzero FO 414 source biforms, not inferred from finite tests.
+
+
+=== A: ALL22 SYMBOLIC HOMOGENIZED SECOND NORM DIVISIBILITY REPLAY ===
+import sympy as s
+from math import isqrt
+t,X,Y=s.symbols('t X Y')
+a,b,c,d=s.symbols('a b c d')
+keys=('000.010.022:0 000.010.022:2 000.010.100:0 000.010.100:1 000.010.100:2 '
+'000.012.022:0 000.012.022:2 000.022.110:0 002.010.020:0 002.010.020:2 '
+'002.012.020:2 002.012.102:0 002.012.102:1 002.012.102:2 002.020.110:0 '
+'002.020.110:1 010.020.102:0 010.020.102:1 010.020.102:2 '
+'012.022.100:0 012.022.100:1 012.022.100:2').split()
+def E(code):
+ aa,bb,cc=[int(z)-1 for z in code]
+ return s.expand((aa*t+bb*X+cc*Y-aa*bb*cc*t*X*Y)**2*
+ ((1+t*t) if aa==0 else 1)*((1+X*X) if bb==0 else 1)*
+ ((1+Y*Y) if cc==0 else 1))
+epscounts={0:0,1:0}
+for key in keys:
+ codes,h=key.split(':');h=int(h)
+ F=s.expand(sum(E(co)*(1 if i!=h else -1) for i,co in enumerate(codes.split('.'))))
+ P=s.Poly(F,Y);A,B,C=[s.factor(P.nth(i)) for i in (2,1,0)]
+ S=s.factor((A-C)**2+B**2)
+ fac=s.factor_list(S)[1]
+ eps=next((ex for pol,ex in fac if s.expand(pol-(1+t*t))==0),0)
+ qeps=next((ex for pol,ex in fac if s.expand(pol-(1+X*X))==0),0)
+ assert eps in (0,1) and qeps==1
+ H=s.cancel(S/((1+X*X)*(1+t*t)**eps))
+ H_int=s.cancel(a**(4-2*eps)*c*c*H.subs({t:b/a,X:d/c}))
+ assert s.denom(H_int)==1
+ assert s.Poly(H_int,a,b,c,d).total_degree()==6-2*eps
+ assert s.Poly(H_int,c,d).total_degree()==2
+ epscounts[eps]+=1
+ print('PASS',key,'eps',eps,'H_INT=',s.factor(H_int))
+assert len(keys)==22 and epscounts=={0:10,1:12}
+print('PASS ALL22: exact integer H_int, 10 eps0 +12 eps1, deg_c,d 2, S0=q²*p^(2eps)*H_int')
+# Verify exact example:
+H3=(a*c+3*b*d)**2+(a*d+b*c)**2
+p2=a*a+b*b;q2=c*c+d*d
+assert s.expand(H3-(p2*q2+8*b*d*(a*c+b*d)))==0
+print('PASS κ3 H_int=(ac+3bd)^2+(ad+bc)^2=p²q²+8bd(ac+bd)')
+# For any actual root with T²+W²=r² and distinct prime r>q, r²|S0 and r coprime p,q => r²|H_int.
+
+
+=== B: SOURCE MACRO RECIPROCITY COORDINATE AUDIT, exact 13 codes x3 prime pairs ===
+codes=[f'{i}{j}{k}' for i in range(3) for j in range(3) for k in range(3)
+ if 9*i+3*j+k<=13 and (i,j,k)!=(1,1,1)]
+assert len(codes)==13
+def normvec(p):
+ for v in range(1,isqrt(p)+1):
+  u=isqrt(p-v*v)
+  if u>v and u*u+v*v==p:return u*u-v*v,2*u*v
+ raise ValueError(p)
+def macro(p,q,code):
+ i,j,k=map(int,code);aa,bb=normvec(p);cc,dd=normvec(q)
+ u,v=[(aa,-bb),(p,0),(aa,bb)][i]
+ w,z=[(cc,-dd),(q,0),(cc,dd)][j]
+ R=u*w-v*z;I=u*z+v*w
+ return (I*I,0 if k==1 else (2 if k==2 else -2)*R*I,I*I if k==1 else R*R)
+for p,q in [(13,29),(61,137),(593,1217)]:
+ aa,bb=normvec(p);cc,dd=normvec(q)
+ for code in codes:
+  PP=s.Poly(E(code),Y)
+  original=[int(PP.nth(i).subs({t:s.Rational(bb,aa),X:s.Rational(dd,cc)})*aa*aa*cc*cc) for i in (2,1,0)]
+  M=macro(p,q,code)
+  assert original==[M[2],M[1],M[0]]
+ print('PASS source 13 macro original vs reciprocal coefficients for split primes',p,q)
+print('PASS 39/39: ORIGINAL physical Y=W/T is reciprocal of GU/GW macro Y=T/W, but norm T²+W² and r-height invariant')
+# Generic proof: for each Gaussian code let z_i(p) z_j(q)=R+iI. The original source code k0/2 has coefficients (R², ±2RI, I²) and GU macro has (I², ±2RI, R²). For k1 both equal (I²,0,I²). Thus polynomial reciprocal identity holds identically for ALL 13 codes and their 414 F linear combinations, not only 39 tests.
+
+
+=== C: RIGOROUS SCOPE ===
+All414 source labels: any nonzero integer F quadratic (including A=0 and discriminant=0) with actual rational root of primitive third Gaussian norm r² implies r²|S0. For22 GU keys S0=q² p^(2eps) H_int with H_int integer polynomial, so r²|H_int. NO unconditional prime squarefull sieve bound, no global physical count saving. The 30-pair/62-root old finite GU/GW results remain numerically invariant under coordinate reciprocal. If F identically zero, S0=0 and no bound; bad fibers require audit. Source 414 necessity independent hostile audit HOLD. Credit0 Gate OPEN.

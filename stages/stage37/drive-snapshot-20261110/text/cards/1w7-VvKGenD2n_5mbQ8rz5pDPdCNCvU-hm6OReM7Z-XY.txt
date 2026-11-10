@@ -1,0 +1,228 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229AL — threshold-preserving four-packet face-product common-root adapter
+
+
+STATUS: POST_229AK_THRESHOLD_PRESERVING_COMMON_ROOT_ADAPTER / PROVED_EXACT_FOUR_AGGREGATED_FACE_PRODUCT_GCD_IDENTITIES / PROVED_229AJ_THRESHOLD_PRESERVED_WITH_JOINT_FACE_INFORMATION / 229AK_SIGN_RESOLVED_INTERFACE_RETAINED_SECONDARY / NO_COUNTING_PROMOTION / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229AK SAME-PHYSICAL ROOT-PRODUCT GCD ADAPTER / INERT FOUR-PACKET THEOREM INTERFACE / THRESHOLD PRESERVATION / DEPENDENCE FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229AK
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1w7-VvKGenD2n_5mbQ8rz5pDPdCNCvU-hm6OReM7Z-XY
+
+
+1. Scope
+
+
+229AJ packages the whole odd inert part of K_* into four realized space-root packets a_-,a_+,b_-,b_+, and therefore keeps the useful threshold T^(1/4). 229AK adds a second face-root sign by splitting each of those four packets once more, producing eight intersection packets and a T^(1/8) receiver.
+
+
+The sign-resolved 229AK information is exact, but its finite refinement lowers the automatic packet threshold. This card proves that the face-root information can instead be attached to each original 229AJ packet without splitting it: each 229AJ packet is exactly the inert gcd of one space Euclid root with the product of the two face Euclid roots. Hence the four-packet T^(1/4) threshold is preserved while exposing a genuine same-physical common-root interface.
+
+
+No counting saving is claimed.
+
+
+2. Retained roots and notation
+
+
+Retain
+  e=gab,
+  x=d0bc,
+  y=d0af,
+  U=bn1,
+  V=an2,
+with primitive face triples
+  T_a=(ga,d0c,n1),
+  T_b=(gb,d0f,n2).
+
+
+Let r_{a,-},r_{a,+} be the coprime Euclid roots of T_a as in229AK. Their product has the same odd prime-power valuations as ga:
+  v_p(r_{a,-}r_{a,+})=v_p(ga) for every odd p.
+Likewise
+  v_p(r_{b,-}r_{b,+})=v_p(gb).
+
+
+Let s_{a,-},s_{a,+} be the space Euclid roots from the primitive quotient of (V,x,R) by c21, attached respectively to R-x,R+x, and let s_{b,-},s_{b,+} be the roots from (U,y,R)/c12 attached to R-y,R+y.
+
+
+For positive integers m,n define
+  gcd_3(m,n)=product_{p==3 mod4} p^{min(v_p(m),v_p(n))}.
+
+
+3. Exact threshold-preserving four common-root identities
+
+
+By229AJ, every odd inert p^k||a occurs with exponent exactly k in exactly one of s_{a,-},s_{a,+}. No odd inert prime outside a occurs in either space root, because
+  V/c21=a(n2/c21)
+and every odd prime divisor of n2/c21 is 1 mod4.
+
+
+If p^k||a is allocated to sign tau, then
+  v_p(s_{a,tau})=k.
+On the face side,
+  v_p(r_{a,-}r_{a,+})=v_p(g)+k >= k.
+Therefore
+  min(v_p(s_{a,tau}),v_p(r_{a,-}r_{a,+}))=k.
+For the opposite space sign the valuation is0.
+
+
+Thus, with the 229AJ packets,
+  a_tau = gcd_3(s_{a,tau}, r_{a,-}r_{a,+})        (229AL.1)
+for tau in {-,+}.
+
+
+The same argument using
+  U/c12=b(n1/c12)
+and the face roots of T_b gives
+  b_tau = gcd_3(s_{b,tau}, r_{b,-}r_{b,+})        (229AL.2)
+for tau in {-,+}.
+
+
+Equivalently, for packet radicals,
+  A_tau = rad(gcd_3(s_{a,tau}, r_{a,-}r_{a,+})),
+  B_tau = rad(gcd_3(s_{b,tau}, r_{b,-}r_{b,+})).   (229AL.3)
+
+
+RESULT_229AL_FOUR_AGGREGATED_FACE_PRODUCT_GCD_IDENTITIES=PROVED_EXACT.
+
+
+These identities retain face-root information without choosing a face-root sign.
+
+
+4. Threshold-preserving joint receiver
+
+
+Retain229AJ:
+  rad_3(K_*)=A_- A_+ B_- B_+,
+with the four factors pairwise coprime.
+
+
+Combining with (229AL.3),
+  rad_3(K_*)
+   = product_{tau in {-,+}}
+       rad(gcd_3(s_{a,tau},r_{a,-}r_{a,+}))
+       rad(gcd_3(s_{b,tau},r_{b,-}r_{b,+})).       (229AL.4)
+
+
+Hence for every T>=1,
+  rad_3(K_*)>T
+  =>
+  one of the four common-root gcd radicals in (229AL.4) is >T^(1/4).  (229AL.5)
+
+
+At
+  T=B^(1/3-delta),
+the threshold remains
+  M=B^(1/12-delta/4),                              (229AL.6)
+exactly the preferred229AJ threshold, not the smaller229AK threshold B^(1/24-delta/8).
+
+
+Therefore a sufficient inert-side theorem can be formulated directly as the sum of the four exact same-physical counts
+  #{positive primitive physical endpoints R<=B:
+    rad(gcd_3(s_{a,tau},r_{a,-}r_{a,+}))>M}
+and the analogous b-counts being o(B^(1/3)), with M as in (229AL.6).
+
+
+RESULT_229AL_JOINT_FACE_INFORMATION_WITHOUT_EIGHT_PACKET_THRESHOLD_LOSS=PROVED_EXACT_AS_THEOREM_INTERFACE.
+
+
+5. Relation to229AK
+
+
+229AK remains mathematically valid and is not retracted. It resolves which individual face root contains each inert prime and therefore gives the stronger pointwise double-gap statement
+  m^2 | one face gap
+and
+  m^2 | one crossed space gap
+for each of eight sign-resolved packets.
+
+
+229AL changes only theorem routing:
+- if a future theorem requires one specific face-root sign and can exploit the double-gap incidence strongly enough to compensate the T^(1/8) threshold, use229AK;
+- if a theorem can work with a large inert gcd between one space root and the product of the two coprime face roots, use229AL first, because it preserves the preferred four-packet T^(1/4) threshold.
+
+
+Thus CURRENT_PREFERRED_INERT_STRUCTURAL_RECEIVER remains the229AJ four-packet receiver, now with229AL as the preferred threshold-preserving joint theorem interface. 229AK remains a secondary sign-resolved interface.
+
+
+6. Dependence firewall
+
+
+The gcd identities (229AL.1)-(229AL.2) are exact because both root systems encode the same a/b content. They do not imply probabilistic independence.
+
+
+In particular, do not apply an ambient gcd heuristic to s_{a,tau} versus r_{a,-}r_{a,+}, or to the b-pair, and infer an automatic 1/m or 1/m^2 density saving. Any useful theorem must count these common-root gcds on the exact positive primitive physical population with R<=B and preserve the four-Pythagorean coupling.
+
+
+229AL removes a finite-partition exponent loss in the theorem interface; it does not itself provide the missing polynomial saving.
+
+
+7. Operational consequence
+
+
+CURRENT_PREFERRED_GATE remains:
+  #{positive primitive physical endpoints R<=B :
+      sf(gcd(eR,xy)) > B^(1/3-delta)}
+    = o(B^(1/3))
+for some fixed delta>0.
+
+
+CURRENT_PREFERRED_INERT_STRUCTURAL_RECEIVER remains229AJ four realized Euclid-root packets at threshold B^(1/12-delta/4).
+
+
+PREFERRED_JOINT_INERT_INTERFACE is now229AL four threshold-preserving face-product common-root gcds.
+SECONDARY_SIGN_RESOLVED_JOINT_INTERFACE remains229AK.
+
+
+NEXT_USEFUL_INPUT:
+(A) a same-physical count for the four229AL common-root gcd radicals at M=B^(1/12-delta/4);
+(B) the equivalent229AJ four-packet count;
+(C) a theorem genuinely exploiting229AK sign-resolved double-gap incidence with enough extra saving to pay its lower threshold;
+(D) a joint inert/split packet theorem with genuine polynomial saving;
+(E) direct realized K_* or moving-twist support count;
+(F) global cancellation/dispersion across a,b,c12,c21.
+
+
+DO_NOT_REPEAT:
+- do not split into eight packets merely to expose face information when a product-of-face-roots theorem suffices;
+- do not claim a gcd-density saving from (229AL.1)-(229AL.2) without a same-physical theorem;
+- do not multiply229AK face/space square-divisor densities independently;
+- do not reopen codimension-only selector-cover sieve or generic rank/Selmer routes.
+
+
+INERT_LEG_SUPPORT_SUBGATE remains OPEN_REFINED_BY_229AJ.
+SMOOTH_INERT_STRUCTURAL_PACKETIZATION remains COMPLETE_COUNT_OPEN.
+CM_PAIR_DEPENDENCE_SUBGATE remains CLOSED_FOR_ONE_THIRD_BUDGET_BY_229AB.
+CM_PAIR_INDEPENDENT_BRANCH remains OPEN.
+CM_INDEPENDENT_PAIR_GENERIC_RANK_STATISTICS_ROUTE remains HOLD_BY_229AC.
+SELECTOR_COVER_CODIMENSION_ONLY_GEOMETRIC_SIEVE_ROUTE remains HOLD_BY_229AH.
+CORRECTED_CANONICAL_PACKET_STATE remains229AG.
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_OPERATION=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+INTEGRATED_AUDIT_186_229O_SCOPE=UNCHANGED_NOT_EXTENDED_TO_229P_THROUGH_229AL.
+
+
+8. Dependencies and verification scope
+
+
+Internal load-bearing inputs:
+-229D nested primitive Pythagorean factorization and face triples;
+-229AD split-only odd support of n1,n2,c12,c21 and six-bucket coprimality;
+-229AJ four realized space-root packets and T^(1/4) receiver;
+-229AK face-root products and sign-resolved intersection structure;
+-current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+No external theorem is invoked. This is an exact same-physical p-adic valuation deduction from retained Stage37 authority.
+
+
+Independent hostile audit of229AL has not been run. Existing operational authority, mathematical-construction authority, counting credit, primary gate, route closures and integrated-audit scope are unchanged.

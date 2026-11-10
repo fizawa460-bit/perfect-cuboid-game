@@ -1,0 +1,300 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229AU — central-linear-form exact raw-packet square quotient and nuisance collapse
+
+
+STATUS: POST_229AT_CENTRAL_SQUARE_QUOTIENT_COMPLETE / PROVED_FOUR_EXACT_ODD_RAW_PACKET_TIMES_SQUARE_FACTORIZATIONS / PROVED_COMMON_NUISANCE_SQUARECLASS_COLLAPSES_TO_ONE / PROVED_CENTRAL_PAIR_GCDS_ARE_ODD_SQUARES / PROVED_SQUAREFREE_KERNEL_TRANSFER_TO_LINEAR_FORMS / NO_COUNTING_PROMOTION / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229AT CENTRAL LINEAR-FORM SQUARECLASS NORMALIZATION / RAW-G PACKET TIMES SQUARE FACTORIZATION / d0-NUISANCE COLLAPSE / THEOREM-MATCHING ADAPTER / METHOD FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229AT
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1bsk7Y8kjM4RQzX9RcDqmHmdZcfUNZdHKEtEA_c-MGfE
+
+
+1. Scope
+
+
+Retain 229AQ/229AR/229AS notation
+  lambda = U+V-R-e,
+  S      = e+U+V+R,
+  L_-    = e+U+V-R,
+  L_+    = R+U+V-e,
+  d0     = gcd(x,y),
+and
+  Q_- = gcd_odd(eR,lambda),
+  Q_+ = gcd_odd(eR,S),
+  P_- = gcd_odd(eR,L_-),
+  P_+ = gcd_odd(eR,L_+).
+
+
+Retain 229AS:
+  Q_- Q_+ = P_- P_+ = (G_*)_odd,
+  gcd(Q_-,Q_+)=gcd(P_-,P_+)=1,
+  gcd_odd(lambda,S) | d0^2,
+  gcd_odd(L_-,L_+) | d0^2,
+and 229O:
+  gcd(eR,d0)=1.
+
+
+Retain 229AR:
+  lambda S = 2(UV-eR) = 2^(epsilon_macro+1) G_* r_-^2,
+  L_- L_+  = 2(UV+eR) = 2^(epsilon_macro+1) G_* r_+^2.
+
+
+This card proves that the apparent d0-supported squareclass nuisance in the four central linear forms is actually absent: after removing its exact raw-G packet, the odd cofactor is a perfect square.
+
+
+2. Odd-part notation
+
+
+For n>0 define
+  O(n) := n / 2^(v_2(n)).
+
+
+All Q_±,P_± are odd, so Q_-|O(lambda), Q_+|O(S), P_-|O(L_-), P_+|O(L_+).
+
+
+3. First squareclass pair: lambda and S
+
+
+From 229AR and Q_-Q_+=(G_*)_odd,
+  [O(lambda)/Q_-] [O(S)/Q_+] is a perfect square.          (229AU.1)
+
+
+Set
+  X_- := O(lambda)/Q_-,
+  X_+ := O(S)/Q_+.
+
+
+Therefore sf(X_-)=sf(X_+). Let
+  h_0 := sf(X_-)=sf(X_+).
+
+
+Any prime p|h_0 divides both lambda and S. Hence by 229AS,
+  p | gcd_odd(lambda,S) | d0^2.
+Therefore
+  h_0 | rad(d0).                                           (229AU.2)
+
+
+Equivalently there are positive integers u_-,u_+ such that
+  X_- = h_0 u_-^2,
+  X_+ = h_0 u_+^2.                                        (229AU.3)
+
+
+4. Second squareclass pair: L_- and L_+
+
+
+Similarly, from 229AR and P_-P_+=(G_*)_odd,
+  [O(L_-)/P_-] [O(L_+)/P_+] is a perfect square.           (229AU.4)
+
+
+Set
+  Y_- := O(L_-)/P_-,
+  Y_+ := O(L_+)/P_+,
+and
+  h_1 := sf(Y_-)=sf(Y_+).
+
+
+Any prime p|h_1 divides both L_- and L_+, hence by 229AS
+  h_1 | rad(d0).                                           (229AU.5)
+
+
+Thus
+  Y_- = h_1 v_-^2,
+  Y_+ = h_1 v_+^2                                         (229AU.6)
+for positive integers v_-,v_+.
+
+
+5. Cross-gap identity forces h_0=h_1
+
+
+Retain the exact 229AQ identity
+  lambda L_- = 2(R-U)(R-V).                               (229AU.7)
+
+
+On the right, using the exact physical Pythagorean gap forms,
+  sf_odd((R-U)(R-V)) = sf_odd(c12 c21)
+                     = sf(C_- C_+),                       (229AU.8)
+where 229AS gives C_-C_+=(c12c21)_odd.
+
+
+On the left, 229AS gives
+  Q_- = A_- C_-,
+  P_- = A_- C_+,
+so
+  Q_- P_- = A_-^2 C_- C_+.                                (229AU.9)
+
+
+Substituting (229AU.3) and (229AU.6) into the odd squareclass of (229AU.7), the Q_-P_- contribution has exactly the same odd squareclass as C_-C_+, while h_0,h_1 are supported on d0 and are coprime to G_* by gcd(eR,d0)=1. Hence
+  sf(h_0 h_1)=1.
+
+
+Since h_0,h_1 are squarefree,
+  h_0 = h_1.                                               (229AU.10)
+
+
+6. The common nuisance squareclass is trivial
+
+
+Write h:=h_0=h_1.
+
+
+If an odd prime p|h, then p divides both lambda and L_- by construction. But
+  L_- - lambda = 2e.
+Hence p|e.
+
+
+On the other hand h|rad(d0), so p|d0. This contradicts gcd(e,d0)=1 (indeed 229O gives gcd(eR,d0)=1).
+
+
+Therefore
+  h=1.                                                     (229AU.11)
+
+
+RESULT_229AU_COMMON_d0_SQUARECLASS_NUISANCE_COLLAPSE=PROVED_EXACT.
+
+
+7. Exact raw-packet-times-square factorization
+
+
+From h=1:
+  O(lambda) = Q_- u_-^2,
+  O(S)      = Q_+ u_+^2,
+  O(L_-)    = P_- v_-^2,
+  O(L_+)    = P_+ v_+^2.                                  (229AU.12)
+
+
+Equivalently,
+  O(lambda)/gcd_odd(eR,lambda) is a square,
+  O(S)/gcd_odd(eR,S) is a square,
+  O(L_-)/gcd_odd(eR,L_-) is a square,
+  O(L_+)/gcd_odd(eR,L_+) is a square.                      (229AU.13)
+
+
+RESULT_229AU_FOUR_CENTRAL_LINEAR_RAW_PACKET_SQUARE_QUOTIENTS=PROVED_EXACT.
+
+
+This is stronger than the 229AS statement that the pairwise common odd gcds merely divide d0^2.
+
+
+8. Squarefree-kernel transfer
+
+
+Taking odd squarefree kernels in (229AU.12),
+  sf_odd(lambda)=sf(Q_-),
+  sf_odd(S)=sf(Q_+),
+  sf_odd(L_-)=sf(P_-),
+  sf_odd(L_+)=sf(P_+).                                    (229AU.14)
+
+
+Thus the 229AS low-height packets can be read directly as the odd squarefree kernels of four O(B) central linear forms, with an exact square cofactor after removing the raw packet.
+
+
+In particular the 229AS simultaneous half-threshold consequence may be rewritten without loss:
+if K_*>T, then in the Q matching one of sf_odd(lambda),sf_odd(S) exceeds (T/2)^(1/2), and in the P matching one of sf_odd(L_-),sf_odd(L_+) exceeds (T/2)^(1/2).
+
+
+At T=B^(1/3-delta), the same B^(1/6-delta/2) packet threshold is preserved.
+
+
+RESULT_229AU_CENTRAL_LINEAR_SQUAREFREE_KERNEL_TRANSFER=PROVED_EXACT.
+
+
+9. Pairwise central gcds are squares
+
+
+From (229AU.12), gcd(Q_-,Q_+)=1, and the 229AS d0-firewall excluding cross G_*-support, no prime of Q_- can divide u_+ and no prime of Q_+ can divide u_-.
+
+
+Therefore
+  gcd_odd(lambda,S)=gcd(u_-,u_+)^2.                        (229AU.15)
+
+
+Likewise
+  gcd_odd(L_-,L_+)=gcd(v_-,v_+)^2.                         (229AU.16)
+
+
+Hence both central-pair odd gcds are perfect squares; their square roots divide d0.
+
+
+RESULT_229AU_CENTRAL_PAIR_ODD_GCDS_ARE_SQUARES=PROVED_EXACT.
+
+
+10. Relation to 229AT and current theorem interface
+
+
+229AT supplied opposite-content Euclid-root divisibility. 229AU supplies a different exact normalization of the same low-height raw-G packets:
+  central linear form = exact raw packet × square × 2-adic factor.
+
+
+This removes the remaining d0 squareclass nuisance from the 229AS theorem-matching surface.
+
+
+CURRENT_PREFERRED_GATE remains
+  #{positive primitive physical endpoints R<=B :
+      sf(gcd(eR,xy)) > B^(1/3-delta)}
+    = o(B^(1/3))
+for some fixed delta>0.
+
+
+CURRENT_PREFERRED_NO_THRESHOLD_LOSS_RECEIVER:
+  229AR W_-=UV-eR at full B^(1/3-delta) threshold.
+
+
+CURRENT_PREFERRED_LOW_HEIGHT_RAW_G_RECEIVER:
+  229AS crossed Q/P matchings.
+
+
+NEW_CURRENT_PREFERRED_CENTRAL_SQUARE_QUOTIENT_INTERFACE:
+  229AU equations (229AU.12)-(229AU.14).
+
+
+CURRENT_PREFERRED_CONTENT_ROOT_COUPLING:
+  229AT reciprocal checkerboard/opposite-root divisibility.
+
+
+NEXT_USEFUL_INPUT:
+(A) same-physical count for one of
+      O(lambda)=Q_- square,
+      O(S)=Q_+ square,
+      O(L_-)=P_- square,
+      O(L_+)=P_+ square,
+    when sf(Q or P)>B^(1/6-delta/2), preserving exact physical R-height;
+(B) a theorem counting large squarefree kernel in a central linear form under the exact constraint that its cofactor away from eR is a square;
+(C) combine 229AU square quotient with 229AT reciprocal opposite-root divisibility;
+(D) combine 229AU with the 229AQ hard outer-gap remainder;
+(E) retain 229AR full-threshold macro receiver in parallel.
+
+
+11. Firewalls and unchanged state
+
+
+Do not:
+- count (229AU.12) as a new independent local condition; it is forced by retained physical identities;
+- multiply its square-cofactor sparsity by 229AS gcd density without a genuine same-physical theorem;
+- assign endpoint saving from the exact square quotient alone;
+- treat sf_odd(lambda)=sf(Q_-) as a bound on the packet size rather than an exact squareclass transfer;
+- reopen generic PAIR/LOCAL/A/FIB/TQ routes.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_OPERATION=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+INTEGRATED_AUDIT_186_229O_SCOPE_UNCHANGED=true.
+
+
+12. Writeback
+
+
+This card is a post-229 structural theorem-interface refinement only.
+229AT/229AS/229AR/229AQ remain retained.
+No existing authority, credit, gate, closure, HOLD state, or audit scope is changed.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

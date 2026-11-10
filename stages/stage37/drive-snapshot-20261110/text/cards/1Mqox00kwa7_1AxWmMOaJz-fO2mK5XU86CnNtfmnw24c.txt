@@ -1,0 +1,359 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229AV — complete central K4 gcd graph and macro-root factorization
+
+
+STATUS: POST_229AU_COMPLETE_CENTRAL_GCD_GRAPH / PROVED_ALL_SIX_ODD_GCDS_OF_CENTRAL_LINEAR_FORMS / PROVED_FULL_INTEGER_PACKET_TIMES_SQUARE_WITH_ONE_2_BIT / PROVED_AU_ROOTS_FACTOR_MACRO_EUCLID_ROOTS / PROVED_MACRO_ROOT_CLUSTER_COPRIMALITY / PROVED_ODD_xy_OVER_G_COFACTOR_CONSERVATION / NO_COUNTING_PROMOTION / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229AU COMPLETE CENTRAL GCD GRAPH / MACRO-ROOT FACTORIZATION / FINITE 2-ADIC NORMALIZATION / LOW-HEIGHT–MACRO RECEIVER CROSSWALK / METHOD FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229AU
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1Mqox00kwa7_1AxWmMOaJz-fO2mK5XU86CnNtfmnw24c
+
+
+1. Scope
+
+
+Retain the central linear forms
+  lambda = U+V-R-e,
+  S      = e+U+V+R,
+  L_-    = e+U+V-R,
+  L_+    = R+U+V-e.
+
+
+Retain 229AS atoms
+  A_- = gcd_odd(e,lambda),
+  A_+ = gcd_odd(e,S),
+  C_- = gcd_odd(R,lambda),
+  C_+ = gcd_odd(R,S),
+which are pairwise coprime and satisfy
+  Q_- = A_- C_-,
+  Q_+ = A_+ C_+,
+  P_- = A_- C_+,
+  P_+ = A_+ C_-.
+
+
+Retain 229AU:
+  O(lambda)=Q_- u_-^2,
+  O(S)=Q_+ u_+^2,
+  O(L_-)=P_- v_-^2,
+  O(L_+)=P_+ v_+^2,
+where O(n) is the odd part.
+
+
+Retain 229AR macro Euclid roots:
+  lambda S = 2^(epsilon_macro+1) G_* r_-^2,
+  L_- L_+  = 2^(epsilon_macro+1) G_* r_+^2,
+with gcd(r_-,r_+)=1.
+
+
+This card closes the complete odd gcd graph of the four central forms and proves that the four 229AU square-cofactor roots are an exact factorization of the two macro Euclid roots.
+
+
+2. Finite 2-adic normalization
+
+
+For any positive integer N with
+  O(N)=Q w^2
+and Q odd, write nu=v_2(N). Then
+  N = eta Q W^2,
+where
+  eta=2^(nu mod 2) in {1,2},
+  W=2^floor(nu/2) w.
+
+
+Applying this to the four 229AU forms gives bits
+  eta_lambda, eta_S, eta_Lm, eta_Lp in {1,2}
+and positive integers
+  a_-,a_+,b_-,b_+
+such that
+  lambda = eta_lambda Q_- a_-^2,
+  S      = eta_S      Q_+ a_+^2,
+  L_-    = eta_Lm     P_- b_-^2,
+  L_+    = eta_Lp     P_+ b_+^2.                    (229AV.1)
+
+
+Therefore
+  sf(lambda)=eta_lambda sf(Q_-),
+  sf(S)=eta_S sf(Q_+),
+  sf(L_-)=eta_Lm sf(P_-),
+  sf(L_+)=eta_Lp sf(P_+).                            (229AV.2)
+
+
+Thus the only remaining 2-adic ambiguity in passing from a 229AS packet to the full squarefree kernel of its O(B) central linear form is one bit.
+
+
+RESULT_229AV_FINITE_2ADIC_PACKET_TIMES_SQUARE_NORMAL_FORM=PROVED_EXACT.
+
+
+3. Complete odd gcd graph
+
+
+229AU already gives the two opposite-pair gcds as exact squares. Define
+  delta_Q := gcd(u_-,u_+),
+  delta_P := gcd(v_-,v_+).
+
+
+Then
+  gcd_odd(lambda,S)   = delta_Q^2,
+  gcd_odd(L_-,L_+)    = delta_P^2.                  (229AV.3)
+
+
+The four cross gcds are exact from the additive rectangle:
+  L_- - lambda = 2e,
+  L_+ - lambda = 2R,
+  S - L_-      = 2R,
+  S - L_+      = 2e.
+
+
+Hence
+  gcd_odd(lambda,L_-) = gcd_odd(lambda,e) = A_-,
+  gcd_odd(lambda,L_+) = gcd_odd(lambda,R) = C_-,
+  gcd_odd(S,L_-)      = gcd_odd(S,R)      = C_+,
+  gcd_odd(S,L_+)      = gcd_odd(S,e)      = A_+.    (229AV.4)
+
+
+Together (229AV.3)-(229AV.4) give all six odd pairwise gcds of
+  {lambda,S,L_-,L_+}.
+
+
+RESULT_229AV_COMPLETE_CENTRAL_K4_ODD_GCD_GRAPH=PROVED_EXACT.
+
+
+This is stronger than retaining the 229AS crossed packet factorizations separately: the whole four-vertex gcd incidence graph is now explicit, with square gcds on the two opposite edges and the four pairwise-coprime raw-content atoms on the remaining four edges.
+
+
+4. 229AU roots factor the macro minus root
+
+
+From 229AU,
+  O(lambda)O(S)
+    = Q_-Q_+ (u_-u_+)^2
+    = (G_*)_odd (u_-u_+)^2.                       (229AV.5)
+
+
+From 229AR,
+  lambda S = 2^(epsilon_macro+1) G_* r_-^2,
+so taking odd parts gives
+  O(lambda)O(S)
+    = (G_*)_odd O(r_-)^2.                          (229AV.6)
+
+
+All quantities are positive. Comparing (229AV.5) and (229AV.6),
+  u_-u_+ = O(r_-).                                 (229AV.7)
+
+
+RESULT_229AV_MINUS_MACRO_ROOT_FACTORIZATION=PROVED_EXACT.
+
+
+5. 229AU roots factor the macro plus root
+
+
+Similarly,
+  O(L_-)O(L_+)
+    = P_-P_+ (v_-v_+)^2
+    = (G_*)_odd (v_-v_+)^2,
+
+
+while 229AR gives
+  O(L_-L_+)
+    = (G_*)_odd O(r_+)^2.
+
+
+Therefore
+  v_-v_+ = O(r_+).                                 (229AV.8)
+
+
+RESULT_229AV_PLUS_MACRO_ROOT_FACTORIZATION=PROVED_EXACT.
+
+
+Thus the low-height square-cofactor roots are not auxiliary artifacts:
+- the lambda/S roots multiply to the odd part of the macro minus Euclid root;
+- the L_-/L_+ roots multiply to the odd part of the macro plus Euclid root.
+
+
+This is the exact bridge between the 229AU low-height receiver and the 229AR no-threshold-loss macro receiver.
+
+
+6. Cross-cluster coprimality
+
+
+229AR gives gcd(r_-,r_+)=1. Hence
+  gcd(O(r_-),O(r_+))=1.
+
+
+Using (229AV.7)-(229AV.8),
+  gcd(u_-u_+, v_-v_+)=1.                           (229AV.9)
+
+
+Consequently every u-root is coprime to every v-root:
+  gcd(u_sigma,v_tau)=1 for all sigma,tau in {-,+}. (229AV.10)
+
+
+In particular
+  gcd(delta_Q,delta_P)=1.                           (229AV.11)
+
+
+Retain 229AU that delta_Q|d0 and delta_P|d0. Thus the two square common-gcd roots occupy disjoint odd prime support inside d0.
+
+
+RESULT_229AV_MACRO_ROOT_CLUSTER_COPRIMALITY=PROVED_EXACT.
+
+
+7. Odd cofactor conservation
+
+
+Multiplying the two 229AR identities,
+  lambda S L_- L_+
+    = 4[(UV)^2-(eR)^2].
+
+
+Retain the macro Pythagorean identity
+  (eR)^2+(xy)^2=(UV)^2.
+Therefore
+  lambda S L_- L_+ = 4x^2y^2.                     (229AV.12)
+
+
+Taking odd parts and using 229AU,
+  (G_*)_odd^2
+    (u_-u_+v_-v_+)^2
+  = O(xy)^2.
+
+
+All factors are positive, so
+  O(xy)=(G_*)_odd u_-u_+v_-v_+.                   (229AV.13)
+
+
+Equivalently,
+  O(xy/G_*) = u_-u_+v_-v_+.                       (229AV.14)
+
+
+Using (229AV.7)-(229AV.8),
+  O(xy/G_*) = O(r_-)O(r_+).                        (229AV.15)
+
+
+RESULT_229AV_ODD_xy_OVER_G_COFACTOR_CONSERVATION=PROVED_EXACT.
+
+
+This identifies the four low-height square roots as a complete multiplicative factorization of the odd primitive macro-leg cofactor xy/G_*.
+
+
+8. Structural normal form
+
+
+The four central forms now have the following simultaneous exact structure:
+
+
+  vertex lambda:
+    odd packet Q_-=A_-C_-,
+    odd square root u_-;
+
+
+  vertex S:
+    odd packet Q_+=A_+C_+,
+    odd square root u_+;
+
+
+  vertex L_-:
+    odd packet P_-=A_-C_+,
+    odd square root v_-;
+
+
+  vertex L_+:
+    odd packet P_+=A_+C_-,
+    odd square root v_+.
+
+
+The six odd edge gcds are
+  lambda--S      : delta_Q^2,
+  L_---L_+       : delta_P^2,
+  lambda--L_-    : A_-,
+  lambda--L_+    : C_-,
+  S--L_-         : C_+,
+  S--L_+         : A_+.
+
+
+The root products are
+  u_-u_+=O(r_-),
+  v_-v_+=O(r_+),
+with complete cross-cluster coprimality.
+
+
+This is a closed four-vertex packet-square gcd normal form.
+
+
+9. Current theorem interface after 229AV
+
+
+CURRENT_PREFERRED_GATE remains
+  #{positive primitive physical endpoints R<=B :
+      sf(gcd(eR,xy))>B^(1/3-delta)}
+    =o(B^(1/3))
+for some fixed delta>0.
+
+
+CURRENT_PREFERRED_NO_THRESHOLD_LOSS_RECEIVER:
+  229AR W_-=UV-eR at full B^(1/3-delta) threshold.
+
+
+CURRENT_PREFERRED_LOW_HEIGHT_RAW_G_RECEIVER:
+  229AS Q/P crossed matchings.
+
+
+CURRENT_PREFERRED_CENTRAL_SQUARE_QUOTIENT_INTERFACE:
+  229AU, strengthened by 229AV to the full integer packet-times-square form with one 2-adic bit.
+
+
+NEW_CURRENT_PREFERRED_LOW_TO_MACRO_ROOT_CROSSWALK:
+  u_-u_+=O(r_-),
+  v_-v_+=O(r_+),
+  gcd(u_-u_+,v_-v_+)=1,
+  O(xy/G_*)=u_-u_+v_-v_+.
+
+
+NEW_CURRENT_PREFERRED_COMPLETE_CENTRAL_GCD_GRAPH:
+  equations (229AV.3)-(229AV.4).
+
+
+NEXT_USEFUL_INPUT:
+(A) same-physical count for the four-vertex packet-square normal form when one Q packet and one P packet are simultaneously large;
+(B) theorem exploiting the exact K4 gcd graph rather than treating the two 229AS matchings independently;
+(C) use the macro-root factorizations to transfer a theorem stated on r_-,r_+ to the O(B) central forms, or conversely;
+(D) combine the 229AV root clusters with the 229AT opposite-content Euclid-root divisibilities;
+(E) combine the full squarefree-kernel form (229AV.1)-(229AV.2) with the 229AQ hard outer-gap remainder;
+(F) retain 229AR direct full-threshold W_- counting as a parallel interface.
+
+
+10. Firewalls and unchanged state
+
+
+Do not:
+- assign independent density to the six gcd edges; they are forced by the same physical endpoint;
+- multiply a Q-large and P-large density merely because the macro root clusters are coprime;
+- count the finite 2-adic normalization as a saving;
+- replace the physical population by arbitrary quadruples satisfying the K4 gcd graph;
+- infer endpoint saving from O(xy/G_*) factorization alone;
+- reopen PAIR/LOCAL/A/FIB/TQ.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_OPERATION=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+INTEGRATED_AUDIT_186_229O_SCOPE_UNCHANGED=true.
+
+
+11. Writeback
+
+
+This card is a post-229 structural theorem-interface refinement.
+229AU/229AT/229AS/229AR/229AQ remain retained.
+No existing authority, credit, gate, closure, HOLD state, or audit scope is changed.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

@@ -1,0 +1,153 @@
+﻿Stage37-229GU — REPRODUCIBLE EXACT PRIMITIVE FO PRIME-PAIR NONLOCAL RECEIVER AND SYMBOLIC FJ330 CROSSWALK
+Node.js 18+ complete source below, no network, no extra packages. It exhausts 247 split primes <=3593, 30381 prime pairs, all 414 original FO necessary templates each. It is NOT an original perfect cuboid enumeration independent of FJ source necessity; FJ HOSTILE HOLD. Separate independent SymPy script classifies the exact 22 exceptional key templates by FJ discriminant degree; no new 84/414 elimination.
+
+
+A. EXACT NODE.JS SOURCE — copy from 'use strict' to last print
+'use strict';
+const MAX=3593;
+let prime=Array(MAX+1).fill(true);prime[0]=prime[1]=false;
+for(let p=2;p*p<=MAX;p++)if(prime[p])for(let m=p*p;m<=MAX;m+=p)prime[m]=false;
+let PS=[];
+for(let p=5;p<=MAX;p+=4)if(prime[p]){
+ let f=null;
+ for(let v=1;2*v*v<p;v++){
+  let u=Math.floor(Math.sqrt(p-v*v));
+  if(u>v&&u*u+v*v===p){f={p,u:BigInt(u),v:BigInt(v)};break;}
+ }
+ if(!f)throw Error('split representation missing '+p);
+ PS.push(f);
+}
+function mul(a,b){return [a[0]*b[0]-a[1]*b[1],a[0]*b[1]+a[1]*b[0]];}
+function gcd(a,b){a=a<0n?-a:a;b=b<0n?-b:b;while(b){let r=a%b;a=b;b=r;}return a;}
+function isqrt(n){
+ if(n<0n)return null;if(n<2n)return n;
+ let x=1n<<BigInt((n.toString(2).length+1)>>1);
+ while(true){let y=(x+n/x)>>1n;if(y>=x)return x;x=y;}
+}
+const R16=new Set([0n,1n,4n,9n]);
+function square(n){
+ if(n<0n||!R16.has(n&15n)||n%3n===2n||n%5n===2n||n%5n===3n)return null;
+ let x=isqrt(n);return x*x===n?x:null;
+}
+function macros(P,Q){
+ let a=P.u*P.u-P.v*P.v,b=2n*P.u*P.v,c=Q.u*Q.u-Q.v*Q.v,d=2n*Q.u*Q.v;
+ let bp=[[a,-b],[BigInt(P.p),0n],[a,b]],bq=[[c,-d],[BigInt(Q.p),0n],[c,d]],out=[];
+ for(let i=0;i<3;i++)for(let j=0;j<3;j++)for(let k=0;k<3;k++){
+  if(i===1&&j===1&&k===1)continue;
+  let v=i*9+j*3+k,conj=(2-i)*9+(2-j)*3+2-k;
+  if(v>conj)continue;
+  let [re,im]=mul(bp[i],bq[j]);
+  out.push({v,mixed:[i===1,j===1,k===1],
+   A:im*im,B:k===1?0n:(k===2?2n:-2n)*re*im,C:k===1?im*im:re*re});
+ }
+ if(out.length!==13)throw Error('13 canonical macros required');
+ return out;
+}
+function base3(v){return ''+Math.floor(v/9)+Math.floor(v%9/3)+(v%3);}
+function audit(P,Q){
+ let m=macros(P,Q);
+ let z={templates:0,discriminants:0,primitive:0,diag:0,off:0,offSquare:0,diagP:0,diagQ:0,diagPQ:0,exceptionKeys:[]};
+ let known=new Set(['000.002.110','000.010.020','000.022.100',
+                    '002.012.022','002.020.102','020.022.110']);
+ for(let i=0;i<13;i++)for(let j=i+1;j<13;j++)for(let k=j+1;k<13;k++){
+  let cc=[m[i],m[j],m[k]];
+  if([0,1,2].some(pos=>cc.reduce((n,x)=>n+Number(x.mixed[pos]),0)>1))continue;
+  for(let h=0;h<3;h++){
+   z.templates++;
+   let A=0n,B=0n,C=0n;
+   for(let n=0;n<3;n++){let sg=n===h?-1n:1n;A+=sg*cc[n].A;B+=sg*cc[n].B;C+=sg*cc[n].C;}
+   if(A===0n&&B===0n&&C===0n)throw Error('unexpected zero FO quadratic');
+   let roots=[];
+   if(A!==0n){
+    let root=square(B*B-4n*A*C);if(root===null)continue;
+    z.discriminants++;roots=[[-B+root,2n*A],[-B-root,2n*A]];
+   }else if(B!==0n)roots=[[-C,B]];
+   for(let [num,den] of roots){
+    if(num*den<=0n)continue;
+    let g=gcd(num,den),T=(num<0n?-num:num)/g,W=(den<0n?-den:den)/g;
+    if(T%2n===0n||W%4n!==0n)continue;
+    z.primitive++;
+    let third=square(T*T+W*W);
+    if(third!==null){
+     if(third===BigInt(P.p)){z.diag++;z.diagP++;}
+     else if(third===BigInt(Q.p)){z.diag++;z.diagQ++;}
+     else if(third===BigInt(P.p*Q.p)){z.diag++;z.diagPQ++;}
+     else z.offSquare++;
+    }else{
+     z.off++;
+     let triple=cc.map(x=>base3(x.v)).join('.');
+     if(!known.has(triple))z.exceptionKeys.push(triple+':'+h);
+    }
+   }
+  }
+ }
+ if(z.templates!==414)throw Error('414 templates missing');
+ return z;
+}
+let totals={pairs:0,templates:0,discriminants:0,primitive:0,diag:0,off:0,offSquare:0};
+const anomalies=[],exceptionKeys=new Set(),mod8=[];
+for(let i=0;i<PS.length;i++)for(let j=i+1;j<PS.length;j++){
+ let P=PS[i],Q=PS[j],v=audit(P,Q);
+ totals.pairs++;
+ for(let key of ['templates','discriminants','primitive','diag','off','offSquare'])totals[key]+=v[key];
+ if(v.diag!==32||v.diagP!==10||v.diagQ!==10||v.diagPQ!==12)
+    throw Error('GS exact diagonal readback disagrees '+P.p+','+Q.p);
+ if(v.off!==6||v.primitive!==38){
+  anomalies.push([P.p,Q.p,v.primitive,v.off,v.discriminants,v.exceptionKeys]);
+  for(let key of v.exceptionKeys)exceptionKeys.add(key);
+  if(P.p%8===1&&Q.p%8===1)mod8.push([P.p,Q.p]);
+ }
+ if(totals.pairs%5000===0)console.log('PROGRESS '+totals.pairs);
+}
+const expected={pairs:30381,templates:12577734,discriminants:1458354,
+ primitive:1154540,diag:972192,off:182348,offSquare:0};
+for(let k in expected)if(totals[k]!==expected[k])throw Error('GU exact full result FAIL '+k+' '+totals[k]);
+if(anomalies.length!==30||exceptionKeys.size!==22||mod8.length!==8)
+ throw Error('GU anomaly or symbolic bridge count FAIL');
+let shape={};for(let x of anomalies)shape[x[2]]=(shape[x[2]]||0)+1;
+if(shape[40]!==29||shape[42]!==1)throw Error('anomaly shape FAIL');
+console.log('PASS TOTALS '+JSON.stringify(totals));
+console.log('PASS ANOMALIES '+JSON.stringify(anomalies));
+console.log('PASS SPECIAL_KEYS '+JSON.stringify([...exceptionKeys].sort()));
+console.log('PASS ALL1MOD8 '+JSON.stringify(mod8));
+console.log('PROVEN FINITE ORIGINAL NECESSARY SOURCE ONLY; NO UNRESTRICTED PHYSICAL o(B^(1/3))');
+
+
+B. EXACT SYMPY CLASSIFIER FOR 22 EXCEPTION CODE-HYP KEYS (separately verified)
+import sympy as s
+t,X,Y=s.symbols('t X Y')
+keys=[
+'000.010.022:0','000.010.022:2',
+'000.010.100:0','000.010.100:1','000.010.100:2',
+'000.012.022:0','000.012.022:2',
+'000.022.110:0',
+'002.010.020:0','002.010.020:2',
+'002.012.020:2',
+'002.012.102:0','002.012.102:1','002.012.102:2',
+'002.020.110:0','002.020.110:1',
+'010.020.102:0','010.020.102:1','010.020.102:2',
+'012.022.100:0','012.022.100:1','012.022.100:2']
+assert len(keys)==22
+def E(code):
+ a,b,c=[int(v)-1 for v in code]
+ return s.expand((a*t+b*X+c*Y-a*b*c*t*X*Y)**2*
+   ((1+t*t) if a==0 else 1)*((1+X*X) if b==0 else 1)*((1+Y*Y) if c==0 else 1))
+for key in keys:
+ codes,h=key.split(':');cs=codes.split('.');h=int(h)
+ F=s.expand(sum(E(code)*(1 if j!=h else -1) for j,code in enumerate(cs)))
+ _,fac=s.factor_list(s.Poly(F,X,Y,domain=s.QQ.frac_field(t)))
+ assert len(fac)==1 and fac[0][1]==1
+ assert fac[0][0].degree(X)==2 and fac[0][0].degree(Y)==2
+ discX=s.Poly(s.discriminant(F,X),Y,domain=s.QQ.frac_field(t))
+ _,df=s.factor_list(discX)
+ sfDegree=sum(g.degree()*(m%2) for g,m in df)
+ assert sfDegree==4
+ print('PASS FJ GENERIC DEGREE4:',key)
+print('PASS ALL22 ARE IN UNRESOLVED FJ330, NONE OF PREVIOUS 84 EXCLUSIONS')
+
+
+C. NUMERICAL READBACK, CLASSIFICATION, AND CORRECT SCOPE
+247 split primes <=3593; 30381 pairs; 30351 at38 primitive FO roots;29 at40;1 (61,137) at42.
+Nprimitive=1154540; diagonal square-norm roots972192 exactly 32 per pair; offdiag primitive rational roots182348=6*30381+62. The six-per-pair basal offdiag roots belong to the six old reducible 52/8 GL/FN families above. The 62 EXCEPTIONAL offdiag primitive roots belong to the 22 symbolic generic (2,2) degree4 FJ code/hyp labels. Third-prime R²=T²+W² square-norm successes outside r=p,q,pq: ZERO.
+All1mod8 exception pairs=8 out of7021 pairs; no third prime.
+CRITICAL: 66 additional PERFECT-SQUARE DISCRIMINANT-template occurrences (Ndisc=1458354 vs 48*30381=1458288) produce only 62 additional primitive positive rational slopes. These are not interchangeable counts. All assertions FINITE, not a theorem that future p,q have only 6 or only 62. FJ completeness hostile audit HOLD, GLOBAL_CREDIT0, Gate OPEN.

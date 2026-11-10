@@ -1,0 +1,285 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229AI — inert-leg exact support and finite-character exponent firewall
+
+
+STATUS: POST_229AH_INERT_SUPPORT_LOCALIZATION_COMPLETE / PROVED_ODD_R_SUPPORT_SPLIT_ONLY / PROVED_INERT_KSTAR_EQUALS_INERT_UV_SUPPORT / PROVED_INERT_PRIME_SELECTOR_CENTER_EQUALS_UV_ZERO / PROVED_229AG_RECIPROCITY_BLIND_ON_PURE_INERT_SINGLETON_SUPPORT / PROVED_FINITE_CHARACTER_NO_FIXED_POWER_UPGRADE_ON_INERT_PRIME_TAIL / NEW_INERT_LEG_SUBGATE / NO_COUNTING_PROMOTION / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229AH SAME-PHYSICAL SUPPORT REFINEMENT / INERT-PRIME LOCALIZATION / RECIPROCITY FIREWALL / THEOREM-INPUT SHARPENING
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229AH
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1IXeL1aI0rlhc71AW1zJCRIEPfWZfXUczG1mqBss58F4
+
+
+1. Scope
+
+
+229AH showed that the full simultaneous selector cover Y does not raise the radical center above codimension two. The remaining allowed direction is therefore not another plain codimension computation, but a genuinely arithmetic/global use of the four physical buckets a,b,c12,c21.
+
+
+This card isolates the entire odd inert-prime part of the current radical K_*=sf(gcd(eR,xy)) and tests whether the corrected three-packet reciprocity of229AG already controls it.
+
+
+No external theorem is used.
+
+
+2. Retained exact physical factorization
+
+
+Retain229D/229AD:
+  e = g a b,
+  x = d0 b c,
+  y = d0 a f,
+  z = d0 q,
+with
+  q^2=(bc)^2+(af)^2
+a primitive Pythagorean triple, and
+  h=gcd(e,z)=gcd(g,q).
+
+
+The second square gives the primitive Pythagorean triple
+  ((g/h)ab)^2 + (d0(q/h))^2 = (R/h)^2.          (229AI.1)
+
+
+The two face triples are
+  (ga,d0 c,n1),
+  (gb,d0 f,n2),
+with
+  U=b n1,
+  V=a n2.                                        (229AI.2)
+
+
+Retain229AD:
+  c12=gcd(U,y)=gcd(n1,f),
+  c21=gcd(V,x)=gcd(n2,c),
+and
+  G_*=gcd(eR,xy)=a b c12 c21,
+  K_*=sf(G_*).                                    (229AI.3)
+
+
+The six buckets h,d0,a,b,c12,c21 are pairwise coprime. Every odd prime dividing h,c12,c21 is 1 mod4.
+
+
+3. Every odd prime divisor of R is split
+
+
+In (229AI.1), R/h is the hypotenuse of a primitive Pythagorean triple. Hence every odd prime divisor of R/h is congruent to 1 mod4.
+
+
+Also h divides q, and q is the hypotenuse of the primitive Pythagorean triple (bc,af,q). Hence every odd prime divisor of h is congruent to 1 mod4.
+
+
+Therefore
+  p odd, p|R  =>  p == 1 mod4.                   (229AI.4)
+
+
+RESULT_229AI_ODD_R_SUPPORT_SPLIT_ONLY=PROVED_EXACT.
+
+
+This is a support statement only; it gives no endpoint saving by itself.
+
+
+4. Exact localization of the inert part of K_*
+
+
+For a positive integer n define
+  rad_3(n)=product of odd primes p|n with p==3 mod4.
+
+
+Because c12 and c21 have only split odd prime support, (229AI.3) gives
+  rad_3(K_*) = rad_3(ab).                         (229AI.5)
+
+
+By (229AI.2), n1 and n2 are primitive Pythagorean hypotenuses. Thus every odd prime divisor of n1 n2 is 1 mod4. Consequently, for every odd p==3 mod4,
+  v_p(U)=v_p(b),
+  v_p(V)=v_p(a).                                  (229AI.6)
+
+
+Hence
+  rad_3(K_*) = rad_3(ab) = rad_3(UV).             (229AI.7)
+
+
+Since gcd(a,b)=1, the inert supports of U and V are disjoint.
+
+
+RESULT_229AI_INERT_KSTAR_EQUALS_INERT_UV_SUPPORT=PROVED_EXACT.
+RESULT_229AI_INERT_U_V_SUPPORT_DISJOINT=PROVED_EXACT.
+
+
+There is also a direct selector-cover formulation. Let p==3 mod4 be odd. On Y,
+  U^2=e^2+x^2,
+  V^2=e^2+y^2.
+Since -1 is nonsquare mod p,
+  p|U  iff  p|e and p|x,
+  p|V  iff  p|e and p|y.                          (229AI.8)
+
+
+By (229AI.4), p does not divide R. Therefore, on the physical selector cover,
+  p|gcd(eR,xy)
+    iff p|U or p|V                                (229AI.9)
+for every odd inert p.
+
+
+Thus the 16 F_p points found by229AH at inert p are exactly the two arithmetic branches U=0 and V=0, equivalently the b- and a-buckets.
+
+
+RESULT_229AI_INERT_RADICAL_CENTER_EQUALS_UV_ZERO_ON_SELECTOR=PROVED_EXACT.
+
+
+5. Current229AG reciprocity does not suppress a pure inert singleton
+
+
+Retain the canonical three-packet notation of229AG:
+  Delta0 = 2^tau0 S0 I0,
+  Delta+ = 2^tau+ S+ I+,
+  Delta- = 2^tau- S- I-,
+where Sj is the odd split part and Ij the odd inert part. By229AD,
+  I0|d0,
+  I+|b,
+  I-|a.                                          (229AI.10)
+
+
+The exact229AG boundary identities are
+  (I+/S0)(I0/S+)=(2/S0)^tau+ (2/S+)^(1+tau0),
+  (I-/S0)(I0/S-)=(2/S0)^tau- (2/S-)^tau0,
+  (I-/S+)(I+/S-)=(2/S+)^(1+tau-) (2/S-)^(1+tau+). (229AI.11)
+
+
+If S0=S+=S-=1, every Jacobi symbol in (229AI.11) has denominator 1, so all three identities reduce identically to
+  1=1.                                            (229AI.12)
+
+
+Therefore the current three-packet reciprocity identities impose no additional restriction on a support consisting only of inert primes in I+ and/or I-. In particular, a single odd inert prime in b or a is not excluded by229AG. This matches229AH: both a/b branches survive over F_p for every p==3 mod4.
+
+
+RESULT_229AI_PURE_INERT_SUPPORT_229AG_BOUNDARY_IDENTITIES_TAUTOLOGICAL=PROVED_EXACT.
+RESULT_229AI_INERT_SINGLETON_NOT_REMOVED_BY_CURRENT_RECIPROCITY=PROVED_EXACT.
+
+
+This does not assert that arbitrary inert supports are globally realizable. It says only that the current229AG boundary reciprocity supplies no obstruction on this subfamily.
+
+
+6. Exponent firewall for finite character refinement on the inert-prime tail
+
+
+Retain229P's method budget. If a squarefree-modulus incidence estimate has the form
+  N_m(B) << B^(1+o(1))/m^sigma,
+then direct divisor union above Y=B^(1/3-delta) beats B^(1/3) only if
+  sigma > 1 + 2/(1-3delta).                       (229AI.13)
+
+
+In particular sigma=2 gives only
+  B^(2/3+delta+o(1)),
+and even sigma=3 misses for every fixed delta>0.
+
+
+For the single-large-prime subtail, the same exponent issue already appears:
+  sum_{p>Y, p==3 mod4} B/p^2
+  <= sum_{n>Y} B/n^2 << B/Y
+  = B^(2/3+delta+o(1)),                           (229AI.14)
+by the elementary comparison with all integers.
+
+
+A fixed residue/Jacobi/mod-8 filter at one prime can change (229AI.14) only by a bounded factor. More generally, any gain obtained solely by imposing O(1)-state character conditions independently per support prime is at most exponential in omega(m), hence m^{-o(1)}, and cannot upgrade an m^{-2+o(1)} incidence estimate to the fixed power m^{-sigma} required by (229AI.13).
+
+
+For the pure inert singleton branch the conclusion is stronger and exact: Section5 shows the present229AG boundary system contributes no character saving at all.
+
+
+RESULT_229AI_INERT_PRIME_CODIM2_PLUS_CURRENT_CHARACTER_FILTER_INSUFFICIENT_FOR_ONE_THIRD_BUDGET=PROVED_METHOD_BUDGET.
+RESULT_229AI_FINITE_CHARACTER_NO_FIXED_POWER_UPGRADE=PROVED_SCOPED_METHOD_FIREWALL.
+
+
+This is not an endpoint lower bound and does not rule out a genuinely global large sieve, cross-prime cancellation, bilinear dispersion, support compression, or another theorem whose gain depends on the actual physical distribution rather than a finite local character state.
+
+
+7. New sharpened subgate
+
+
+Define the physical inert-prime incidence
+  N_p^inert(B)
+   = #{positive primitive physical endpoints R<=B : p|UV},
+for odd p==3 mod4. By (229AI.9), this is exactly the inert p-part of the current K_* common-divisor event.
+
+
+A sufficient receiver for the single-large-inert-prime subtail is
+  sum_{p>B^(1/3-delta), p==3 mod4} N_p^inert(B)
+    = o(B^(1/3)).                                  (229AI.15)
+
+
+The large smooth inert radical remains separate: (229AI.15) alone does not control rad_3(UV)>B^(1/3-delta) when all its prime factors are below the threshold.
+
+
+Thus a full inert-side input must be one of:
+(A) a same-physical squarefree-modulus estimate for rad_3(UV) with genuinely stronger-than-codim2 decay;
+(B) a direct realized rad_3(UV) support count, including the smooth-radical range;
+(C) global cancellation/correlation across the U- and V-branches or between inert and split packets that yields the required o(B^(1/3)) total.
+
+
+RESULT_229AI_INERT_LEG_SUBGATE=OPEN_WITH_EXACT_UV_RECEIVER.
+
+
+8. Operational consequence
+
+
+No counting promotion follows from229AI.
+
+
+CURRENT_PREFERRED_GATE remains:
+  #{positive primitive physical endpoints R<=B :
+      sf(gcd(eR,xy)) > B^(1/3-delta)}
+    = o(B^(1/3))
+for some fixed delta>0.
+
+
+CM_PAIR_DEPENDENCE_SUBGATE remains CLOSED_FOR_ONE_THIRD_BUDGET by229AB.
+CM_PAIR_INDEPENDENT_BRANCH remains OPEN.
+CM_INDEPENDENT_PAIR_GENERIC_RANK_STATISTICS_ROUTE remains HOLD by229AC.
+SELECTOR_COVER_CODIMENSION_ONLY_GEOMETRIC_SIEVE_ROUTE remains HOLD by229AH.
+CORRECTED_CANONICAL_PACKET_STATE remains229AG.
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+PRIMARY_GATE_STATUS=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Integrated audit186-229O remains unchanged in scope and is not silently extended to229P-229AI.
+
+
+NEXT_USEFUL_INPUT:
+(A) same-physical large/smooth inert-leg support theorem for rad_3(UV)=rad_3(ab);
+(B) a split-side theorem using corrected229AG packet reciprocity with a genuine polynomial saving, not finite-state filtering alone;
+(C) direct realized K_* or moving-twist support counting at o(B^(1/3));
+(D) a global cancellation/dispersion theorem coupling the a,b,c12,c21 allocation across primes.
+
+
+DO_NOT_REPEAT:
+- do not retry a plain codimension-two selector-cover sieve after229AH;
+- do not treat229AG Jacobi/mod-8 conditions as a fixed-power modulus gain;
+- do not claim pure inert singleton support is excluded by229AG;
+- do not infer that arbitrary inert supports are globally realizable from the local branches;
+- do not reopen generic rank/Selmer routes barred by229AC;
+- do not reopen CM dependence unless229AB fails audit.
+
+
+9. Dependencies and verification scope
+
+
+Internal load-bearing inputs:
+-229D nested primitive Pythagorean factorization and second primitive triple;
+-229AD six-bucket factorization, U=b n1, V=a n2, split-only h/c12/c21, G_*=ab c12 c21;
+-229AG corrected three-packet split/inert boundary reciprocity;
+-229P exact divisor-union exponent budget;
+-229AH full-selector radical-center branches and inert/split F_p count;
+-current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+No external theorem is newly invoked. The new statements are exact consequences of the retained primitive Pythagorean support facts and the current229AG/229P formulas.
+
+
+FINAL_READBACK_RECEIPT: PASS. Card parent=M3-Research-Cards; card body contains the odd-R split-only proof, exact rad_3(K_*)=rad_3(ab)=rad_3(UV) localization, inert selector-center equivalence p|gcd(eR,xy) iff p|U or p|V, the pure-inert229AG reciprocity tautology, the229P finite-character exponent firewall, and the new inert-leg receiver. CARD-INDEX row500 and 案内 latest/read-order point to229AI; MAIN current override229AI, RESULT-LEDGER229AI change record, and active ROUTE POST-229AI block were all read back from Drive. Operational authority remains M3-T11-229; latest mathematical construction remains M3-T11-228; preferred radical-gcd gate OPEN; CM dependence CLOSED by229AB; CM-independent branch OPEN; generic rank/Selmer HOLD by229AC; selector-cover codimension-only route HOLD by229AH; inert-leg support subgate OPEN by229AI; T11-230 unissued; production HOLD; GLOBAL_COUNTING_CREDIT=0; integrated audit186-229O scope unchanged.

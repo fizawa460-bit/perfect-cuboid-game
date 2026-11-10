@@ -1,0 +1,499 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229BA — base-Hilbert h-core root synchronization and Gh^3 joint lattice compression
+
+
+STATUS: POST_229AZ_BASE_HILBERT_CORE_REINSERTION_COMPLETE / PROVED_h_COPRIME_TO_RAW_G / PROVED_FOUR_CENTRAL_ROOTS_SYNCHRONIZE_MOD_h / PROVED_EXACT_h3_ROOT_LATTICE / PROVED_COMBINED_Gh3_LATTICE_INDEX / PROVED_ONE_FREE_ROOT_JOINT_COUNT / PROVED_NORMALIZED_ENDPOINT_QUOTIENT_RECTANGLE / PROVED_ETA_TOTAL_PARITY_EVEN / GENERIC_QUADRIC_ONLY_ROUTE_REFINED / NO_COUNTING_PROMOTION / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_GLOBAL_REOPEN
+
+
+TYPE: POST-229AZ BASE-HILBERT h-CORE REINSERTION / CENTRAL ROOT SYNCHRONIZATION / COPRIME LATTICE PRODUCT / ONE-FREE-ROOT COUNT / NORMALIZED ENDPOINT QUOTIENT RECEIVER / METHOD FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229AZ
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 15jrSbEpdYJj8rzo9clZnXM7WCitZzUhPathKwBjrGik
+
+
+1. Scope
+
+
+229AZ isolated the current blocker as the exact index-G atom root lattice intersected with the moving diagonal quadric.
+
+
+The Arsenal/route review now reinserts a physical content bucket that was absent from the 229AY/AZ support: the base-Hilbert bucket h from229AD.
+
+
+Retain229AD:
+  h = gcd(e,z),
+and the Pythagorean triple
+  e^2+z^2=R^2
+has content h. Hence
+  h=gcd(e,R).                                      (229BA.1)
+
+
+Retain also that:
+- h is odd;
+- every odd prime of h is 1 mod4;
+- h is coprime to the physical buckets a,b,c12,c21 of229AD.
+
+
+Retain229AS:
+  G := (G_*)_odd
+     = A_-A_+C_-C_+,
+with the four atoms pairwise coprime and
+  A_-A_+=(ab)_odd,
+  C_-C_+=(c12 c21)_odd.
+
+
+Therefore
+  gcd(h,G)=1.                                      (229BA.2)
+
+
+RESULT_229BA_BASE_HILBERT_h_COPRIME_TO_RAW_GODD=PROVED_EXACT.
+
+
+2. Retained central root normal form
+
+
+Use229AY notation
+  lambda = eta0 A_-C_- x0^2,
+  S      = eta1 A_+C_+ x1^2,
+  L_-    = eta2 A_-C_+ x2^2,
+  L_+    = eta3 A_+C_- x3^2,                     (229BA.3)
+where eta_j in {1,2} and xj>0.
+
+
+The additive rectangle is
+  L_- - lambda = 2e,
+  S - L_+      = 2e,
+  L_+ - lambda = 2R,
+  S - L_-      = 2R.                              (229BA.4)
+
+
+Because h|e and h|R,
+  lambda == S == L_- == L_+ mod h.                (229BA.5)
+
+
+3. The common residue is a unit modulo h
+
+
+Let p be an odd prime dividing h.
+
+
+If p divided lambda, then p divides eR and lambda, so
+  p | gcd_odd(eR,lambda)=Q_-=A_-C_-.
+Thus p|G, contradicting (229BA.2).
+
+
+The same argument with S,L_-,L_+ and their exact229AS Q/P packets gives
+  gcd(h,lambda S L_-L_+)=1.                       (229BA.6)
+
+
+Hence every xj and every atom coefficient appearing in (229BA.3) is a unit modulo h.
+
+
+RESULT_229BA_CENTRAL_COMMON_h_RESIDUE_IS_UNIT=PROVED_EXACT.
+
+
+4. Four-root synchronization modulo h
+
+
+From (229BA.3)-(229BA.5),
+  eta0 A_-C_- x0^2
+   == eta1 A_+C_+ x1^2
+   == eta2 A_-C_+ x2^2
+   == eta3 A_+C_- x3^2       mod h.               (229BA.7)
+
+
+Fix one physical point and use x0 as anchor.
+
+
+For each prime power p^k||h, each of the three unit ratios
+  x1/x0, x2/x0, x3/x0
+is a square root of a fixed unit modulo p^k. Since p is odd, a unit square has exactly two square roots modulo p^k.
+
+
+Thus after charging at most
+  2^(3 omega(h))=B^o(1)
+orientation triples, there exist fixed units sigma1,sigma2,sigma3 modulo h with
+  x1 == sigma1 x0 mod h,
+  x2 == sigma2 x0 mod h,
+  x3 == sigma3 x0 mod h.                          (229BA.8)
+
+
+RESULT_229BA_BASE_h_THREE_ROOT_LINES=PROVED_EXACT.
+
+
+This is not a new independent probability. It is one common physical h-core relation.
+
+
+5. Exact h^3 lattice index
+
+
+For fixed h-orientation sigma define
+  L_h subset Z^4
+by (229BA.8).
+
+
+The homomorphism
+  Psi_h: Z^4 -> (Z/hZ)^3,
+  Psi_h(x0,x1,x2,x3)
+    =(x1-sigma1 x0,
+      x2-sigma2 x0,
+      x3-sigma3 x0)
+is surjective: set x0=0 and choose x1,x2,x3 arbitrarily modulo h.
+
+
+Therefore
+  [Z^4:L_h]=h^3.                                  (229BA.9)
+
+
+RESULT_229BA_h_ROOT_LATTICE_INDEX=h3_PROVED_EXACT.
+
+
+6. Combine with the229AZ atom lattice
+
+
+Retain229AZ:
+for fixed atom orientations rho, the four atom root lines define
+  L_rho subset Z^4
+with
+  [Z^4:L_rho]=G.                                  (229BA.10)
+
+
+By (229BA.2),
+  gcd(G,h^3)=1.
+
+
+For finite-index subgroups of Z^4 with coprime indices,
+  [Z^4:L_rho intersect L_h]
+   =[Z^4:L_rho][Z^4:L_h].
+
+
+Hence the exact combined physical root lattice
+  L_{rho,sigma}:=L_rho intersect L_h
+satisfies
+  [Z^4:L_{rho,sigma}]
+   =G h^3.                                        (229BA.11)
+
+
+RESULT_229BA_COMBINED_ATOM_BASEHILBERT_ROOT_LATTICE_INDEX=G_TIMES_h3_PROVED_EXACT.
+
+
+This is a genuine strengthening of229AZ: the base Hilbert bucket supplies three additional mutually coprime root-line moduli.
+
+
+7. Same-measure one-free-root count
+
+
+Let xj lie in positive dyadic intervals of lengths/scales Xj.
+
+
+Use x0 as the free anchor.
+
+
+The combined h and atom congruences force:
+- x2 into one residue class modulo h A_+;
+- x3 into one residue class modulo h C_+;
+- once x2,x3 are fixed, x1 into one residue class modulo
+    h A_-C_- = h Q_-.
+
+
+Therefore
+  N_{rho,sigma}(X)
+   << X0
+      (1+X2/(h A_+))
+      (1+X3/(h C_+))
+      (1+X1/(h Q_-)).                             (229BA.12)
+
+
+There are three symmetric anchor versions obtained by choosing x1,x2,x3 as the free coordinate.
+
+
+Retain229AZ root-height constraints:
+  Q_- X0^2 << B,
+  Q_+ X1^2 << B,
+  P_- X2^2 << B,
+  P_+ X3^2 << B,                                  (229BA.13)
+and
+  X0X1X2X3 << B^2/G.                              (229BA.14)
+
+
+Choose the smallest root scale as the anchor. Then
+  min_j Xj
+   <= (X0X1X2X3)^(1/4)
+   << B^(1/2) G^(-1/4).                           (229BA.15)
+
+
+Expanding the corresponding anchor count and using (229BA.13) gives the symmetric coarse bound
+  N_{rho,sigma}(X)
+   << B^(1/2)G^(-1/4)
+      + B/(h sqrt(G))
+      + B^(3/2)/(h^2 G)
+      + B^2/(h^3 G^2).                            (229BA.16)
+
+
+RESULT_229BA_COMBINED_LATTICE_ONE_FREE_ROOT_BOUND=PROVED_EXACT_UP_TO_ABSOLUTE_DYADIC_CONSTANTS.
+
+
+The key structural change from229AZ is the leading support dimension:
+-229AZ lattice-only count left two roots free;
+-229BA combined G-h lattice leaves only one root free.
+
+
+8. Fixed (G,h) physical endpoint consequence
+
+
+Fix raw odd G and the base bucket h.
+
+
+The number of pairwise-coprime atom allocations
+  G=A_-A_+C_-C_+
+is at most 4^omega(G)=G^o(1).
+
+
+The atom and h root-orientation choices, eta bits and dyadic boxes together cost B^o(1).
+
+
+Retain229AY that the seven-coordinate central-root support has physical fiber <=16.
+
+
+Therefore the positive primitive physical endpoints with fixed (G,h) satisfy the scoped bound
+  N_{G,h}(B)
+   << B^o(1) [
+        B^(1/2)G^(-1/4)
+        + B/(h sqrt(G))
+        + B^(3/2)/(h^2 G)
+        + B^2/(h^3 G^2)
+      ].                                          (229BA.17)
+
+
+RESULT_229BA_FIXED_G_h_SAME_PHYSICAL_COUNT=PROVED_SCOPED.
+
+
+No summation over moving G or h is asserted.
+
+
+9. New base-h character rows
+
+
+Write eta_j=2^eps_j.
+
+
+For every odd p|h, (229BA.7) and the fact that all roots are units imply
+  (eta0 A_-C_-/p)
+  =(eta1 A_+C_+/p)
+  =(eta2 A_-C_+/p)
+  =(eta3 A_+C_-/p).                               (229BA.18)
+
+
+Equivalently,
+  (C_-C_+/p)
+   =(2/p)^(eps0+eps2)
+   =(2/p)^(eps1+eps3),                            (229BA.19)
+
+
+and
+  (A_-A_+/p)
+   =(2/p)^(eps0+eps3)
+   =(2/p)^(eps1+eps2).                            (229BA.20)
+
+
+These are base-Hilbert h rows, not atom-support rows. They are retained as same-support necessary conditions only.
+
+
+RESULT_229BA_BASE_h_CHARACTER_ROWS=PROVED_EXACT.
+
+
+10. Exact normalized endpoint quotient rectangle
+
+
+The h-core also exposes a smaller exact physical receiver.
+
+
+Define
+  E0 := e /(h A_-A_+),
+  R0 := R /(h C_-C_+).                            (229BA.21)
+
+
+These are positive integers because h is coprime to the current atom products and the atom products divide the corresponding physical contents.
+
+
+Since h is the content of the Pythagorean triple (e,z,R),
+  gcd(e/h,R/h)=1.
+Hence
+  gcd(E0,R0)=1.                                   (229BA.22)
+
+
+Divide the four exact differences (229BA.4) by their common atom edge. One obtains
+  eta2 C_+ x2^2 - eta0 C_- x0^2
+    = 2h A_+ E0,                                  (229BA.23)
+
+
+  eta1 C_+ x1^2 - eta3 C_- x3^2
+    = 2h A_- E0,                                  (229BA.24)
+
+
+  eta3 A_+ x3^2 - eta0 A_- x0^2
+    = 2h C_+ R0,                                  (229BA.25)
+
+
+  eta1 A_+ x1^2 - eta2 A_- x2^2
+    = 2h C_- R0.                                  (229BA.26)
+
+
+RESULT_229BA_NORMALIZED_ENDPOINT_QUOTIENT_RECTANGLE=PROVED_EXACT.
+
+
+Thus the moving diagonal quadric of229AZ is not the whole minimal receiver: the same physical roots simultaneously satisfy two exact E0 equations and two exact R0 equations with coprime normalized endpoint quotients.
+
+
+Reducing (229BA.23)-(229BA.26) modulo h recovers the h-root synchronization, but the quotient identities retain strictly more information.
+
+
+11. Total eta parity and primitive split-quadric firewall
+
+
+Retain229AV:
+  lambda S L_- L_+ = 4 x^2 y^2
+for the original physical edge variables x,y.
+
+
+Insert (229BA.3) and
+  Q_-Q_+=P_-P_+=G.
+Then
+  (eta0 eta1 eta2 eta3) G^2
+  (x0x1x2x3)^2
+   =4x^2y^2.                                      (229BA.27)
+
+
+Therefore eta0 eta1 eta2 eta3 is a square, so
+  eps0+eps1+eps2+eps3 == 0 mod2,                  (229BA.28)
+and, positively,
+  sqrt(eta0 eta1 eta2 eta3)
+  G x0x1x2x3
+   =2xy.                                          (229BA.29)
+
+
+RESULT_229BA_TOTAL_CENTRAL_2ADIC_PARITY_EVEN=PROVED_EXACT.
+
+
+Also the root quadruple is primitive:
+an odd common prime would contradict229AV cross-cluster coprimality; if all xj were even then all four central forms would be divisible by4, forcing e,R even, and then R^2-e^2=x^2+y^2 would force both physical x,y even, contradicting primitive physical gcd(e,x,y)=1.
+
+
+Hence
+  gcd(x0,x1,x2,x3)=1.                             (229BA.30)
+
+
+RESULT_229BA_CENTRAL_ROOT_QUADRUPLE_PRIMITIVE=PROVED_EXACT.
+
+
+The diagonal quadric
+  eta0Q_-x0^2+eta1Q_+x1^2
+   =eta2P_-x2^2+eta3P_+x3^2                       (229BA.31)
+has square discriminant by (229BA.28), and every occupied coefficient tuple has a rational point by construction. Thus each occupied coefficient quadric is a split rational quadric.
+
+
+This does NOT supply a uniform counting theorem by itself:
+the available rational splitting point is part of the moving physical packet, and using it as a parametrization basepoint without a height adapter would be circular. Split quadrics also carry two-dimensional rational rulings.
+
+
+RESULT_229BA_GENERIC_SPLIT_QUADRIC_GEOMETRY_ALONE=NO_COUNTING_CREDIT.
+
+
+12. Arsenal consequence
+
+
+AR-009:
+  strengthened again. The atom root lines and the new base-h synchronization must be treated as one combined index-Gh^3 lattice, not as independent probabilities.
+
+
+AR-010:
+  the warning is now directly relevant. The generic moving-quadric formulation is not the minimal receiver because (229BA.23)-(229BA.26) reconstruct normalized endpoint quotients E0,R0 from the same root data. Future theorem matching should preserve this quotient rectangle.
+
+
+AR-012:
+  NOT YET TRIGGERED. The four equations are weighted quadratic differences with moving coprime E0,R0; they are not yet two fixed reciprocal difference-of-squares right-hand sides.
+
+
+S36-PW07:
+  the229AY atom rows are retained and augmented by the base-h rows (229BA.18)-(229BA.20). No independent density multiplication.
+
+
+S35-PW04:
+  remains NOT_TRIGGERED.
+
+
+13. Current quantitative blocker
+
+
+The new fixed-(G,h) lattice estimate is substantially sharper than229AZ, but at the preferred radical threshold it is still not globally summable from the present information.
+
+
+In particular the leading one-free-root term
+  B^(1/2)G^(-1/4)
+contains no h saving, and the number/distribution of moving raw G values is uncontrolled by (229BA.17).
+
+
+Therefore the current non-looping target is no longer merely
+  "count a generic moving diagonal quadric."
+
+
+It is:
+
+
+  count the exact primitive roots in the combined lattice
+    L_{rho,sigma}, [Z^4:L_{rho,sigma}]=Gh^3,
+  subject simultaneously to the normalized endpoint quotient rectangle
+    (229BA.23)-(229BA.26),
+  gcd(E0,R0)=1,
+  the229AY character rows,
+  and physical R<=B,
+
+
+with enough uniform saving after summing moving atom and h data to beat the one-third gate.
+
+
+CURRENT_BLOCKER=COMBINED_Gh3_ROOT_LATTICE_PLUS_COPRIME_NORMALIZED_ENDPOINT_QUOTIENT_RECTANGLE.
+
+
+14. Firewalls and unchanged state
+
+
+Do not:
+- multiply the h^3 index and G index as probabilistic densities; (229BA.11) is one exact lattice index;
+- replace raw G by sf(G) in the determinant/index;
+- sum (229BA.17) over moving G,h without a proved summation theorem;
+- count arbitrary split-quadric rational points and call them physical endpoints;
+- use a moving physical root as a free low-height parametrization basepoint;
+- declare AR-012 or S35-PW04 triggered from visual factorization;
+- charge229AY atom-character rows and229BA h-character rows independently of the same support.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=SCOPED_BASE_HILBERT_CORE_AND_AR010_RECEIVER_REFINEMENT.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_OPERATION=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+INTEGRATED_AUDIT_186_229O_SCOPE_UNCHANGED=true.
+
+
+15. Writeback
+
+
+This card adds:
+- exact coprimality of base-Hilbert h with current raw G;
+- three simultaneous root lines modulo h and exact h^3 lattice index;
+- exact combined lattice index Gh^3;
+- a one-free-root same-measure lattice bound and scoped fixed-(G,h) physical count;
+- new base-h character rows;
+- the exact coprime normalized endpoint quotient rectangle;
+- total central eta parity and primitive-root/split-quadric classification with a no-credit firewall.
+
+
+No authority, global counting credit, primary gate, closure, HOLD state, or integrated-audit scope changes.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

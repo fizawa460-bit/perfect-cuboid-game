@@ -1,0 +1,31 @@
+﻿Stage37-229GR EXACT GAUSSIAN PRIME PAIR REPLAY — Node.js/JS, no dependencies.
+Mathematical proof of GR.1/GR.2 is independent of these finite checks. These tests count Gaussian PRIME PAIRS ONLY, NOT original full-four-square or perfect cuboid solutions. The finite exponent k=3 is NOT the moving K_Q of the theorem.
+
+
+function sieve(n){const a=Array(n+1).fill(true);a[0]=a[1]=false;for(let p=2;p*p<=n;p++)if(a[p])for(let j=p*p;j<=n;j+=p)a[j]=false;return a}
+const P=sieve(32768),V=new Map();for(let v=1;v*v<32768;v++)for(let u=v+1;u*u+v*v<=32768;u++){let p=u*u+v*v;if(P[p]){if(V.has(p))throw Error('nonunique Gaussian p');V.set(p,[u,v])}}
+function perfectCube(n){let m=Math.round(Math.cbrt(Math.abs(n)));for(let x=Math.max(1,m-2);x<=m+2;x++)if(x*x*x===Math.abs(n))return x;return 0}
+const expected=[[1024,66,2145,48,31,23,1000],[2048,127,8001,91,63,47,2197],[4096,233,27028,172,135,112,4096],[8192,432,93096,325,300,264,8000],[16384,805,323610,517,664,601,15625]];
+for(const [Q,np,nPair,nTiny,nCube,nLarge,nMaxCube] of expected){
+ const ps=[...V.keys()].filter(x=>Q<=x&&x<=2*Q).sort((a,b)=>a-b);
+ let tiny=0,cube=0,large=0,biggest=0,pairs=0;const seen=new Set();
+ for(let i=0;i<ps.length;i++)for(let j=i+1;j<ps.length;j++){
+  const p=ps[i],q=ps[j],[u,v]=V.get(p),[w,z]=V.get(q),A=u*w+v*z,d=u*z-v*w;
+  if(!d||A*A+d*d!==p*q)throw Error('failed exact Lagrange/nonzero');
+  if(seen.has(p+':'+d))throw Error('two q for fixed(p,d)');
+  seen.add(p+':'+d);pairs++;
+  if(Math.abs(d)<=16)tiny++;
+  const root=perfectCube(d);
+  if(root){cube++;biggest=Math.max(biggest,Math.abs(d));if(Math.abs(d)>Q**(1/3))large++}
+ }
+ const got=[Q,ps.length,pairs,tiny,cube,large,biggest],want=[Q,np,nPair,nTiny,nCube,nLarge,nMaxCube];
+ if(JSON.stringify(got)!==JSON.stringify(want))throw Error('failed dyadic box '+Q+' '+JSON.stringify(got));
+ console.log('PASS '+JSON.stringify(got));
+}
+for(const t of [64,128,256,512,1024]){
+ const L=t*Math.log(2),ll=Math.log(L),K=Math.ceil(4*L/ll);
+ const A=Math.floor(L**0.25),M=Math.floor(Math.exp(L/K));
+ if(2*A*M>2*Math.sqrt(L)*1.01)throw Error('uniform cardinality error');
+ console.log('LOG-SUPPORT sample Q=2^'+t+' K='+K+' A='+A+' M='+M+' cardinality<='+2*A*M);
+}
+console.log('ALL FINITE ARITHMETIC CHECKS PASS; no physical P existence asserted.');

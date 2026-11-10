@@ -1,0 +1,266 @@
+﻿M3-T11-165 — Fixed R-free edge-LCM multiplicity and small-support disposal
+
+
+CARD_ID: M3-T11-165
+CANONICAL_CARD_KEY: M3-T11-165
+STATUS: PROVED_EXACT_FIXED_LFREE_FIBER / SMALL_LFREE_SECTOR_DISPOSED / LARGE_TAIL_OPEN
+GLOBAL_OPERATION: ACTIVE_T11_RESEARCH_WITH_SCOPED_DECOMPOSITION
+PRIMARY_GATE: M3-T11-GATE-001, OPEN
+GLOBAL_COUNTING_CREDIT: 0
+AUDIT_MODE: WITHIN_SESSION_NOT_INDEPENDENT
+
+
+1. Current decision and scope
+
+
+Current MAIN, CARD-INDEX, RESULT-LEDGER, active ROUTE and M3-T11-164 were read first. Targeted CARD-INDEX searches for fixed lcm / LCM multiplicity / fixed L_free / fixed reduced lcm / common-free support found no prior card for the theorem below. M3-ODD-001 gives fixed unique-odd-edge multiplicity; M3-DIV-001 gives exact odd-edge divisor coordinates. They are related physical anti-concentration results but do not state fixed L_free multiplicity.
+
+
+This card proves a same-measure fixed-fiber theorem for the R-free edge-LCM from 164 and a small-L_free endpoint-sector bound. It does NOT control the large-L_free tail isolated by 164.
+
+
+2. Retained notation
+
+
+For a primitive canonical endpoint with edges e1,e2,e3 and integral terminal diagonal R, retain
+h_i = gcd(R,e_i),
+H = h1*h2*h3,
+tau = R/H.
+
+
+From M3-T11-004/007/164 define
+u_i = e_i/h_i,
+D_i = R/h_i,
+L_free = lcm(u1,u2,u3).
+
+
+M3-T11-164 gives
+L_free = L/H where L=lcm(e1,e2,e3),
+and gcd(L_free,tau)=1.
+
+
+Let f_jk be the integral face diagonal opposite e_i. Retained M3-T11-007 gives
+h_i = gcd(R,f_jk).
+Hence
+v_i := f_jk/h_i
+is an integer and
+u_i^2 + v_i^2 = D_i^2,
+with gcd(u_i,D_i)=1.
+
+
+Thus each u_i is a leg of a primitive Pythagorean triangle whose hypotenuse is D_i.
+
+
+3. Fixed-leg hypotenuse multiplicity
+
+
+Fix a positive integer u.
+
+
+Every positive primitive solution
+u^2 + v^2 = D^2
+satisfies
+(D-v)(D+v)=u^2.
+
+
+If u is odd, both factors are positive odd integers. Every solution determines a factor pair alpha*beta=u^2, alpha<beta, and
+D=(alpha+beta)/2,
+v=(beta-alpha)/2.
+
+
+If u is even, primitive parity forces v,D odd. Put
+alpha=(D-v)/2,
+beta=(D+v)/2.
+Then
+alpha*beta=u^2/4,
+and again the factor pair determines D,v.
+
+
+Therefore the number of possible primitive hypotenuses D for a fixed leg u is at most
+d(u^2),
+where d is the divisor function.
+
+
+No height theorem is used here.
+
+
+4. Exact fixed-L_free fiber bound
+
+
+Fix
+Lambda := L_free.
+
+
+Because
+lcm(u1,u2,u3)=Lambda,
+each u_i divides Lambda. Hence there are at most
+d(Lambda)^3
+ordered triples (u1,u2,u3).
+
+
+For each fixed u_i, Section 3 gives at most d(u_i^2) possible D_i. Since u_i|Lambda,
+d(u_i^2) <= d(Lambda^2).
+Thus the number of possible ordered sextuples
+(u1,u2,u3,D1,D2,D3)
+is at most
+
+
+d(Lambda)^3 * d(Lambda^2)^3.
+
+
+Now use the retained endpoint triangle-content theorem M3-T11-004. For any endpoint-consistent D-triple,
+tau = gcd(D1,D2,D3),
+c_i = D_i/tau,
+and
+c1=h2*h3,
+c2=h1*h3,
+c3=h1*h2.
+
+
+Therefore the positive h_i are uniquely recovered, when consistent, by
+h1^2 = c2*c3/c1,
+h2^2 = c1*c3/c2,
+h3^2 = c1*c2/c3.
+
+
+After h_i are recovered,
+R=H*tau,
+e_i=h_i*u_i,
+and the opposite face diagonals are h_i*v_i.
+Hence the endpoint is uniquely determined by the sextuple, subject to the remaining physical/canonical consistency filters. Those filters can only remove candidates.
+
+
+Consequently the exact physical endpoint fiber satisfies
+
+
+m_Lfree(Lambda;B)
+:= #{primitive canonical endpoints at R<=B with L_free=Lambda}
+<= d(Lambda)^3 d(Lambda^2)^3.
+
+
+Since u_i< D_i<=R<=B, we have
+Lambda <= u1*u2*u3 < B^3.
+The elementary divisor bound therefore gives, uniformly for every Lambda occurring at height B,
+
+
+m_Lfree(Lambda;B) = B^o(1).
+
+
+This is a same-measure endpoint anti-concentration theorem. It does not pass through an ambient raw-edge host.
+
+
+5. Small-L_free endpoint sector
+
+
+For 1<=Z<=B^3, summing the fixed-fiber bound over Lambda<=Z gives
+
+
+P_Lfree,small(B;Z)
+:= #{endpoints at R<=B with L_free<=Z}
+<= Z B^o(1).
+
+
+Therefore for every fixed delta>0, with
+Z=B^(1/3-delta),
+
+
+P_Lfree,small(B;Z)=o(M3(B))
+
+
+using the retained lower bound
+M3(B) >> B^(1/3).
+
+
+This sector is not the same statement as M3-T11-163. Card163 controls a small primitive face leg. Card164 converts the complement to large total edge-LCM L. Since
+L=H*L_free,
+large H can coexist algebraically with small L_free, so the new small-L_free deletion is a distinct physical coordinate deletion. No claim is made that every algebraically possible overlap is occupied by an endpoint.
+
+
+6. Interaction with the 164 router
+
+
+The current equal-cutoff core after 162/163 has all three
+d_ij>D
+and
+ell_ij>E.
+
+
+M3-T11-164 splits this core, for any C, into
+
+
+(A) some c_i>C;
+(B) max c_i<=C and
+    L_free>E^3/C^(3/2),
+    gcd(L_free,tau)=1.
+
+
+The present fixed-fiber theorem does not improve the lower bound in branch (B). In the standard scale
+E=B^(1/3-delta),
+C=B^(1/6+xi),
+branch (B) already has
+L_free>B^(3/4-3delta-(3/2)xi),
+far above the small-support range disposed here.
+
+
+The useful new information is instead:
+- fixed L_free has B^o(1) endpoint multiplicity;
+- small L_free is globally negligible without conditioning on c_i;
+- any future large-c_i analysis may also delete its small-L_free subbranch at no polynomial cost.
+
+
+Do not infer that the large-L_free tail is small merely because each fixed fiber is small. The ambient number of possible Lambda values is too large.
+
+
+7. Verification and audit limits
+
+
+The fixed-leg factorization in Section 3 was checked exhaustively for every 1<=u<=5000 by two independent arithmetic enumerations:
+(1) factor-pair reconstruction from (D-v)(D+v)=u^2, with the even-leg /4 normalization;
+(2) primitive Euclid parameter enumeration.
+
+
+All 5000 fixed-leg sets matched exactly, comprising 9822 primitive leg-hypotenuse incidences. The largest fixed-u incidence count in this range was 16, at u=4620.
+
+
+This finite replay checks only the arithmetic fixed-leg adapter. Physical endpoints enumerated=0. The fixed-L_free endpoint theorem is proved by the divisor-count argument plus retained M3-T11-004/007/164 reconstruction, not by finite endpoint data. Audit is within-session, not an independent hostile audit.
+
+
+8. Handoff
+
+
+LATEST_RESEARCH_CARD=M3-T11-165
+NEXT_CANDIDATE=M3-T11-166
+CURRENT_ATTACK=LargeLFreeSupportDistributionOrCrossGcdCoupling
+
+
+Retained current decomposition:
+P(B) <= P_near(B;D) + P_axis(B;E) + P_core(B;D,E),
+with the first two terms o(M3) at D=E=B^(1/3-delta).
+
+
+The new reusable theorem is
+m_Lfree(Lambda;B)
+<= d(Lambda)^3 d(Lambda^2)^3
+= B^o(1),
+and therefore
+P_Lfree,small(B;Z)<=Z B^o(1).
+
+
+Next research must address the distribution/support cardinality of large L_free on the exact endpoint measure, preferably together with one of:
+- the existing large-c_i raw-edge cross-gcd tail;
+- gcd(L_free,tau)=1 and the exact D_i=c_i*tau space-triangle system;
+- the exact odd-edge/divisor chart.
+
+
+Do not sum B^o(1) fixed-L_free fibers across the full B^3 ambient Lambda range.
+Do not multiply c_i or tau appearances as independent savings.
+
+
+NEW_FIXED_LFREE_FIBER_THEOREM=true
+NEW_SMALL_LFREE_SECTOR_BOUND=true
+NEW_GLOBAL_ENDPOINT_BOUND=false
+P_OVER_M3_LIMIT_PROVED=false
+GLOBAL_COUNTING_CREDIT=0
+TI=PARKED
+120=RETRACTED
+147-149=FROZEN

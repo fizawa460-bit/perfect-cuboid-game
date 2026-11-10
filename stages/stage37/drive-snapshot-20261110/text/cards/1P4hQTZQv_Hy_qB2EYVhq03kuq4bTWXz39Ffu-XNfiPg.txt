@@ -1,0 +1,77 @@
+﻿STAGE37 229HI-A17 NATIVE EXACT PROOF AND EXECUTABLE REPLAYER
+2026-10-11 JST | CARD=1ZZySA9knGYYip2X2zRpwaKvepajfYTESHacwNqUEXHw | CERT=1P4hQTZQv_Hy_qB2EYVhq03kuq4bTWXz39Ffu-XNfiPg | parent A16 | source row698.
+THEOREM: If N,Z odd positive N>1 and H²=N²-Z⁴>=0, put g=gcd(N,Z). If g=s² is odd square and gcd(N/g,g)=1, then N/g congruent1 mod8. Proof H multiple g; n=N/g,z=Z/g,h=H/g, gcd(n,z)=1 and gcd(n,g)=1, so gcd(n,sz)=1 and n²-h²=(s z)⁴. The coprime odd positive factors n+h,n-h are fourth powers; n congruent1mod8. In ORIGINAL signed FJ24 N=pq|U|, Z=ac+/-bd, g=gcd(ac,bd), p,q both 1mod8 and g odd square=1mod8; |U| congruent7mod8 contradicts theorem whenever gcd(|U|/g,g)=1. All-k/height and source-relative, no independent external FJ map certification.
+Exact forbidden blanket extension: for odd t>=3, (N,Z,H)=(t(t²+1)/2,t,t(t²−1)/2) gives N²−H²=Z⁴, gcd(N,Z)=t, and for t congruent3mod4 N congruent7mod8. This is ambient, not signed prime-source. Exact square-gcd but nonprimitive-quotient witness (N,Z,H)=(135,9,108), g=9, n15: shows gcd(N/g,g)=1 cannot be dropped.
+Executable Python3+SymPy deterministic independent finite control:
+from sympy import primerange
+from math import isqrt,gcd
+from bisect import bisect_left
+from collections import Counter
+P=20000
+ps=[int(p) for p in primerange(17,2*P+1) if p%8==1]
+pair={}
+for p in ps:
+    for m in range(1,isqrt(p)+1):
+        n=isqrt(p-m*m)
+        if n>0 and m*m+n*n==p:
+            pair[p]=(abs(m*m-n*n),2*m*n)
+            break
+    assert p in pair
+C=Counter()
+gates=[]
+for i,p in enumerate(ps):
+    if p>P: break
+    a,b=pair[p]
+    for j in range(i+1,bisect_left(ps,2*p)):
+        q=ps[j];c,d=pair[q]
+        X=a*c;Y=b*d;g=gcd(X,Y)
+        if g<=1 or isqrt(g)**2!=g: continue
+        C['squareg_pairs']+=1
+        for U,Z in ((X+Y,X-Y),(X-Y,X+Y)):
+            N=p*q*abs(U);n=N//g
+            if gcd(n,g)!=1: continue
+            C['primitive_scaled_cases']+=1
+            if n%8!=7: continue
+            C['excluded']+=1
+            D=N*N-Z**4
+            d2=False
+            if D>=0:
+                C['nonneg']+=1
+                if D==0: w=0; v2=0
+                else:
+                    w=D;v2=0
+                    while w%2==0: w//=2;v2+=1
+                if D>0 and v2%2==0 and w%8==1:
+                    C['Q2square']+=1;d2=True
+            for r in ps[j+1:bisect_left(ps,2*p)]:
+                if U%r==0:
+                    k=abs(U)//r
+                    if r*r+k*k==2*p*q:
+                        C['norm_gate']+=1
+                        if D>=0:C['gate_nonneg']+=1
+                        if d2:C['gate_Q2square']+=1
+                        gates.append((p,q,r,k,g,U,Z,d2))
+expected=dict(squareg_pairs=3366,primitive_scaled_cases=5377,excluded=2679,nonneg=1592,Q2square=993,norm_gate=84,gate_nonneg=48,gate_Q2square=32)
+assert dict(C)==expected,(dict(C),expected)
+print('PASS exact g-square scaled-FJ24 controls',dict(C))
+p,q,r,k=2521,3761,4001,1719
+a,b,c,d=71,2520,2511,2800
+X=a*c;Y=b*d;g=gcd(X,Y)
+U=X-Y;Z=X+Y;N=p*q*abs(U);n=N//g;D=N*N-Z**4
+assert p*p==a*a+b*b and q*q==c*c+d*d
+assert g==9 and gcd(n,g)==1 and n%8==7
+assert U%r==0 and abs(U)//r==k and r*r+k*k==2*p*q
+assert D>0
+v2=0;w=D
+while w%2==0:w//=2;v2+=1
+assert v2==6 and w%8==1
+assert isqrt(D)**2!=D
+assert (p,q,r,k,g,U,Z,True) in gates
+for t in range(3,200,2):
+    N=t*(t*t+1)//2;H=t*(t*t-1)//2
+    assert N*N-H*H==t**4 and gcd(N,t)==t
+    if t%4==3:assert N%8==7
+assert 135**2-108**2==9**4 and gcd(135,9)==9 and gcd(15,9)>1
+print('PASS 2521/3761/4001 actual norm gate, Q2-square but globally barred; and infinite-family checks')
+IMPORTANT: every finite counted object above is a signed PRIME NORM-GATE candidate, NOT a root of the original third signed polynomial F=0 and NOT a full original four-square physical endpoint. Old A15 p<=300000 already gave zero original signed24 rational third roots; this check is an independently applicable all-height theorem stress test, not a larger finite search or asymptotic count.
+CURRENT GOVERNANCE: authority229, construction228,230 NOT ISSUED, Gate001 OPEN, countingCredit0, production HOLD, original FJ/FS/FW/HB external hostile HOLD, formal route-switch NONE, closure unchanged.

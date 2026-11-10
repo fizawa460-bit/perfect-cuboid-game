@@ -1,0 +1,75 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229DF — exact prime-power lifting of twenty-four incidence lines and local-sieve saturation
+STATUS: POST_229DE_NEW_EXACT_ALL_PRIME_POWERS_LOCAL_CLASSIFICATION / SMOOTH_HENSEL_LIFT / 24_PHI_P_K_PRIMITIVE_COUNT / NO_EXTRA_HIGHER_POWER_CONE_OBSTRUCTION / NO_SELECTOR_AWARE_COUNT / NO_REOPEN
+CARD_DOC_ID=19ipW9gfke0bDg-rOq0IsbRDSnDdsz4CyVeyz5HJvbpY
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229DE
+OPERATIONAL_AUTHORITY=M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228
+M3-T11-230=NOT_ISSUED
+PRIMARY_GATE=M3-T11-GATE-001 OPEN
+GLOBAL_COUNTING_CREDIT=0
+P_OVER_M3_LIMIT_PROVED=false
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT
+INDEPENDENT_HOSTILE_AUDIT_229DF=NOT_RUN
+
+
+1. Input and EXACT scope
+Maintain Stage37 full positive primitive physical source R<=B, physical square/selector masks, and the two-scale HARD13 inherited gates sf(G0)>T0=B^(1/3-delta), k13>Z=B^(1/3-delta/2), N_an>Z, and three229BL pair-products>Z. This result is a separate p-adic NECESSARY condition on the gap-cone image, not a replacement for the physical source.
+Write gap variables x=A=R-U, y=Bv=R-V, z=C=R-z_original, auxiliary d, all integers. Use
+F(x,y,z,d)=xy+xz+yz-2d²,
+N(x,y,z)=x²+y²+z²-xy-xz-yz,
+Omega=xyz, Pi=(x+y)(x+z)(y+z).
+229DE classified projective nonzero mod-p solutions of F=N=OmegaPi=0 for all odd p>3 as 24 lines (12 Omega,12 Pi) if p==1 or19 mod24, empty otherwise.
+NEW: for each odd p>3 and every k>=1, define S_k(p)={(x,y,z,d) in (Z/p^k Z)^4 : F≡N≡OmegaPi≡0 mod p^k, at least one of x,y,z,d a p-adic unit}. This is the "p-primitive" condition, and is weaker than being a global positive primitive physical endpoint.
+
+
+2. THEOREM 229DF.1 (complete prime-power count)
+For every odd prime p>3 and k>=1,
+#S_k(p)=24*phi(p^k)=24(p^k-p^(k-1)) if p==1 or19 mod24, and #S_k(p)=0 for all other prime classes.
+For admissible p, S_k is a DISJOINT union of 24 rank-one unit-parameter families: twelve with exactly one gap zero mod p^k and twelve with exactly one pair sum zero mod p^k. The reduction S_(k+1) -> S_k is surjective and every point of S_k has exactly p lifts within S_(k+1). The inverse limit contains 24 analytic Z_p-lines of primitive points; there is no additional exclusion by taking higher powers of the SAME three cone equations.
+
+
+3. Exhaustive algebraic proof
+Step 1. Reducing any primitive mod p^k solution mod p gives a nonzero F_p vector. Indeed if x=y=z=0 mod p, F=-2d² forces d=0 mod p (p>3), contradicting p-primitivity. Hence 229DE applies and p must be 1 or19 mod24; the residue is on one and ONLY one of the 24 projective lines.
+Step 2 (unit-factor isolation). On every Omega-residue line, exactly one among the six factors x,y,z,x+y,x+z,y+z is zero mod p (namely the designated gap), while the other five are units. Therefore OmegaPi≡0 mod p^k FORCES that distinguished gap to equal 0 mod p^k. On every Pi-residue line, the distinguished pair sum alone is divisible by p, with all other five factors units; OmegaPi≡0 mod p^k forces the pair sum equal 0 mod p^k. This rules out split valuations among several factors.
+Step 3 (Omega charts). After permutation put x=0 mod p^k, z=t a unit, y=r t, d=w t. Dividing F and N by t² gives
+r²-r+1≡0 mod p^k, 2w²-r≡0 mod p^k.
+Each of two mod-p r roots is simple: (2r-1)² = -3 mod p ≠0; each of two mod-p w roots is simple: 2w≠0 mod p. By elementary Hensel lifting, each ordered pair of roots extends uniquely to EVERY p^k. Each of three gap positions contributes 2*2=4 root pairs, thus 12 families, each with phi(p^k) choices of unit t.
+Step 4 (Pi charts). After permutation put x=t a unit, y=-t, z=r t, d=w t. Dividing N,F by t² gives
+r²+3≡0 mod p^k, 2w²+1≡0 mod p^k.
+Each of the two r roots and the two w roots mod p is simple (p>3). Unique Hensel lifting gives 3 pair-sum positions *2*2=12 families, with phi(p^k) units each.
+Step 5 (exhaustion, uniqueness). Different projective mod-p lines remain distinct upon lifting, and each primitive point has one designated zero factor. Every admissible pair has all required roots by 229DE; the explicit parametrizations satisfy the three equations. Thus 12+12=24 disjoint unit-parameter families, count 24 phi(p^k). On any fixed family, reduction of t mod p^(k+1) has p lifts; lifted root parameters are fixed uniquely by Hensel. Hence reduction fibers p, giving full p-adic saturation. No extra p-adic ray is missing.
+
+
+4. Ancillary exact characterization and epistemic firewall
+For p==1 or19 mod24, local splitting conditions (-2/p)=(-3/p)=+1 are both satisfied; for p==7 or13 mod24, although (-3/p)=+1, (-2/p)=-1 and no cone incidence line exists. The characters are constrained by the same equations and ARE NOT independent sieve factors. The 24 residue lines are smooth/unramified at odd p>3: all relevant one-variable root derivatives are p-units. This precludes a new obstruction from higher p powers WITHIN F=N=OmegaPi on the p-primitive cone.
+The result does NOT assert all 24 p-adic lines lift to a GLOBAL Stage37 perfect-cuboid endpoint, or even to a point satisfying all four physical square equations, any real positivity, or selector constraints. Nor does it bound globally realized p, k, physical endpoint multiplicities, or occupied support. The prime p=3 is EXCLUDED and remains governed by 229DD physical 3|N_an iff3|J and v3(N_an)=1 under the 229CW q restriction. A local count of 24*phi(p^k) must NEVER be multiplied into a one-third global estimate without a genuine selector-aware distribution/large-sieve theorem.
+Existing 229DD exact physical gcd(N_an,K_cross)=gcd(N_an,3*M24), 229DB weight13 hard13 six-bucket cover, 229CT J-primary and 229BZ retraction of 229BY Section5 remain untouched.
+
+
+5. Arithmetic replay, independently reconstructing lifted roots
+For p in 7,13,19,31,43,73,97 and k=1,2 (also p=19 k=3), an iterative root-lifting program computed every solution to the Omega chart polynomials r²-r+1=0, 2w²-r=0 and Pi chart polynomials r²+3=0, 2w²+1=0, then 3*(number of root-pairs) *phi(p^k). Outputs:
+p=7,k=1/2:0/0;13:0/0;31:0/0.
+p=19,k=1:432; k=2:8208; k=3:155952.
+p=43,k=1:1008; k=2:43344.
+p=73,k=1:1728; k=2:126144.
+p=97,k=1:2304; k=2:223488.
+Each matches 24*phi(p^k). Additionally an independent exhaustive chart enumeration at modulus 19²=361 over all 361² normalized pairs (r,w) obtained exactly FOUR Omega and FOUR Pi pairs, the predicted numbers. All reported finite checks PASS. These are cone arithmetic verifications, NOT global physical endpoint enumerations.
+
+
+6. Decision: no automatic route promotion
+RESULT_229DF_PRIMITIVE_P_POWER_CONE_INCIDENCE_24_PHI_COUNT=PROVED_EXACT.
+RESULT_229DF_EACH_MOD_P_INCIDENCE_LINE_HENSEL_LIFTS_TO_ALL_POWERS=PROVED_EXACT.
+RESULT_229DF_LOCAL_SAME_EQUATION_HIGHER_POWER_SIEVE_HAS_NO_ADDITIONAL_OBSTRUCTION=PROVED_WITH_EXACT_SCOPE.
+CURRENT_BLOCKER=NO_SELECTOR_AWARE_OCCUPIED_SUPPORT_COUNT_FOR_229DB_WEIGHT13_SIX_BUCKETS_OR_229DD_NAN_M24_JOINT_IMAGE_ON_EXACT_TWO_SCALE_HARD13_PHYSICAL_SOURCE.
+REFINED_BLOCKER=229DF_ALL_PRIME_POWER_LOCAL_SATURATION_DISCOURAGES_REPEATED_HIGH_POWER_CONE_CONGRUENCE_REFINEMENT_WITHOUT_NEW_PHYSICAL_SELECTOR_INPUT.
+NEXT_RESEARCH_INPUT_CONTRACT: On exact positive primitive Stage37 physical R<=B and two-scale HARD13, prioritize (A) selector-aware whole G0 via229AR and (B) 229DB weight13 six-bucket occupied image at 4^(-1/13) Z^(3/13), J via229CT primary. Use 229DD/229DE/229DF N_an-M24 local incidence geometry only if NEW exact physical selector equations/height or genuinely quantitative occupied modulus theorem is introduced. No automatic further local p^k congruence chase for the same cone F,N,OmegaPi. 229BF conditional on BOTH outer-count and reciprocal-height weighted-mass savings. Do not double-charge bucket correlations.
+OPERATIONAL_AUTHORITY=M3-T11-229.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228.
+M3-T11-230=NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority / credit / gate / closure / HOLD and INTEGRATED_AUDIT_186_229O scope unchanged.
+INDEPENDENT_HOSTILE_AUDIT_229DF=NOT_RUN.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

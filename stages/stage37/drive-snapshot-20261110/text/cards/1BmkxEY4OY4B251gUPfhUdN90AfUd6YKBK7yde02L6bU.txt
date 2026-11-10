@@ -1,0 +1,70 @@
+﻿STAGE37-229HI-A16 EXACT MATHEMATICAL / PORTABLE EXECUTABLE CERTIFICATE
+DATE 2026-10-11 JST; CURRENT=Stage37-NEW-INPUT-DELTA-AUDIT-229HI-A16; CARD=1-ZV5ptJm5vxwSZVnHG-n2EBG_o0hquS_tdbDcO30y5M; CERT_ID=1BmkxEY4OY4B251gUPfhUdN90AfUd6YKBK7yde02L6bU; canonical source row697.
+LEMMA. Let N,Z odd integers, N>1 positive,Z!=0, gcd(N,Z)=1. If N²−Z⁴=H²≥0 with integer H≥0, then N≡1mod8. Proof: gcd(N,H)|gcd(N,Z⁴)=1; H even since N,Z odd. N+H,N−H positive odd coprime integers, product Z⁴, so each an odd fourth power, N=(u⁴+v⁴)/2≡1mod8. If H=0, N=Z² and gcd(N,Z)=1 force N=1, contradiction.
+FJ exact ORIGINAL source import from A12/A15: signed Gaussian primitive p²=a²+b²,q²=c²+d² with split rational norm primes p<q, both≡1mod8, canonical a,c odd,b,d even, X=ac odd,Y=bd even, and TWO ODD-U source discriminant pairs (U,Z)=(X+Y,X−Y),(X−Y,X+Y). Original quadratic free third slope rational root => D=(pqU)²−Z⁴ nonnegative integer square.
+Since p,q distinct norm primes, p∤a,b and q∤c,d. If p|Z=ac∓bd, then c≡±(b/a)d modp hence q²=c²+d²≡0 modp ⇒p|q, impossible. Similarly q∤Z. And since X odd,Y even, gcd(U,Z)=gcd(X,Y). Hence gcd(pq|U|,Z)=gcd(ac,bd). So gcd(ac,bd)=1 and |U|≡7mod8 =>N=pq|U|≡7mod8, contradiction. GLOBAL for that particular primitive/signed case, no bounds on p,q,r,k. Does NOT declare all24 labels empty, no source-map independence promotion.
+FULL SOURCE SCRIPT SHA256=7eb741f426a300a292d9827b35d7fbd47588b2d68d0ed65f8d585f50ad0414c5 (this exact calculation locally executed as /tmp/a16_gates.py). The equivalent standalone Python3+SymPy script:
+from sympy import primerange
+from bisect import bisect_left
+from math import isqrt, gcd
+from collections import Counter
+P=20000
+ps=[int(v) for v in primerange(17,2*P+1) if v%8==1]
+L={}
+for p in ps:
+ for x in range(1,isqrt(p)+1,2):
+  y=isqrt(p-x*x)
+  if y%2==0 and x*x+y*y==p:
+   L[p]=(abs(x*x-y*y),2*x*y);break
+ else: raise AssertionError(p)
+C=Counter()
+for i,p in enumerate(ps):
+ if p>P: break
+ a,b=L[p]
+ for j in range(i+1,bisect_left(ps,2*p)):
+  q=ps[j];c,d=L[q];X=a*c;Y=b*d
+  C['pairs']+=1
+  if gcd(X,Y)!=1:continue
+  C['coprime']+=1
+  for U,Z in ((X+Y,X-Y),(X-Y,X+Y)):
+   C['coprime_two_cases']+=1
+   if abs(U)%8!=7:continue
+   C['forbidden_case']+=1
+   D=(p*q*U)**2-Z**4
+   if D>=0:C['forbidden_D_nonnegative']+=1
+   for r in ps[j+1:bisect_left(ps,2*p)]:
+    if U%r==0:
+     k=abs(U)//r
+     if r*r+k*k==2*p*q:
+      C['forbidden_r_norm_gate']+=1
+      if D>=0:
+       C['forbidden_norm_gate_D_nonnegative']+=1
+       w=D;v2=0
+       while w and w%2==0:w//=2;v2+=1
+       if v2%2==0 and w%8==1:
+        C['forbidden_norm_gate_Q2_square']+=1
+expected=dict(pairs=134173,coprime=23597,coprime_two_cases=47194,forbidden_case=23652,forbidden_D_nonnegative=14423,forbidden_r_norm_gate=1699,forbidden_norm_gate_D_nonnegative=834,forbidden_norm_gate_Q2_square=559)
+assert dict(C)==expected,(C,expected)
+print('PASS:',dict(C))
+# Exact strong norm gate with real D and Q2 root, but rational source root impossible by lemma
+p,q,r,k=929,1049,1361,311
+a,b,c,d=129,920,999,320
+X=a*c;Y=b*d;U=X+Y;Z=X-Y
+assert a*a+b*b==p*p and c*c+d*d==q*q and gcd(X,Y)==1
+assert U%r==0 and U//r==k and r*r+k*k==2*p*q
+assert U%8==7 and isqrt((p*q*U)**2-Z**4)**2 !=(p*q*U)**2-Z**4
+D=(p*q*U)**2-Z**4
+w=D;v2=0
+while w%2==0:w//=2;v2+=1
+assert v2==6 and w%8==1
+print('LOCAL Q2 SQUARE GATE eliminated by primitive fourth-power theorem')
+
+
+EXPECTED EXACT COUNT: 134173 eligible ordered first-two split prime pairs p≤20000; 23597 with gcd(ac,bd)=1; 47194 canonical odd-U signed pair cases; 23652 congruence-forbidden; 14423 with D≥0; 1699 actual split third norm-gates r|U and r²+k²=2pq; 834 with D≥0; 559 with D≥0 and D Q2 square despite exact integer impossibility. These are *norm gates*, NOT actual F rational-root physical points; A15 previously showed all such bounded-p first pairs no rational source roots by an independent full square audit. Current new theorem is ALL HEIGHTS for the coprime primitive angular subpacket.
+BEYOND A15 p≤300000 FINITE HORIZON, unconditional exclusion example with p=300017,q=300137, a=153135,b=257992,c=124905,d=272912, X=ac,Y=bd,gcd(X,Y)=1,Uplus=89536439879≡7mod8,Zminus=−51281785529. Exact D>0 and 2-adic square (v2=6, oddunit1mod8), but no rational original plus-source third Y by lemma; norm-r gate not claimed.
+OFF-PRIME NEGATIVE CONTROL: standalone exhaustive primitive ordinary Pythagorean hypotenuses≤12000, 1905 triples and 1,813,560 ordered distinct hyp pair tests (each 2 canonical odd-U discriminants) show exactly ONE integer-square D among all ambient (p,q) with p<q, namely noncoprime hyp p=5 q=25; ZERO with gcd(p,q)=1. This is FINITE empirical only, NOT a proof of global all24 emptiness in coprime p,q.
+ASSUMPTIONS / GOVERNANCE: Only original 24 FJ330 signed necessary-source labels and individual signed normalizations; source completeness FJ/FS/FW/HB independent hostile HOLD. A11 all-height16 globally empty RETRACTED by A12. Potential nonempty130, uncounted128 unchanged. Authority229, construction228, M3-T11-230 NOT_ISSUED, Gate001 OPEN, GLOBAL_COUNTING_CREDIT0, production HOLD, formal ROUTE_SWITCH NONE, closure unchanged. Independent A16 external hostile NOT_RUN.
+NEXT: extend factorization to g=gcd(ac,bd)>1 retaining odd valuations and signed selector; obtain UNBOUNDED quantitative occupied-r savings, not just necessary conditions. If no progress, formally audit signed EX/OFF-G0 full physical alternate before route switch.
+
+
+PORTABLE CERT READBACK ID=1BmkxEY4OY4B251gUPfhUdN90AfUd6YKBK7yde02L6bU, CARD=1-ZV5ptJm5vxwSZVnHG-n2EBG_o0hquS_tdbDcO30y5M, Stage37 current A16 native source row697. All exact CRT/norm and fourth-power math standalone. Does not constitute external hostile PASS.\n
