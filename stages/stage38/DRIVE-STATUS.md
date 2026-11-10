@@ -19,3 +19,9 @@ PERFECT_CUBOID_CONCLUSION=NONE
 ```
 
 Do not revive Stage38 L1 automatically, discard L3 candidates, treat the conditional Schinzel-H infinitude component as unconditional, or infer receiver/endpoint credit from Stage38's closure.
+
+## GitHub source archive (2026-11-10)
+
+The [Stage38 Drive source inventory](drive-snapshot-20261110/MANIFEST.json) enumerates **83 source files** across the Stage38 root and its three nested evidence folders. The [snapshot README](drive-snapshot-20261110/README.md) identifies the recoverable 80 text files, 2 ZIP archives and 1 native Google Docs text record. The earlier status section above remains unchanged: L1 closure, L2 promotions as recorded in Drive, and L3 frozen candidates are distinct.
+
+The results/working/index texts in the October 2 Drive snapshots are historical (R-14/0C). The current Claude Docs originals referenced by Stage36 have not been retrieved; do not silently reinterpret those snapshots as the live results ledger.
