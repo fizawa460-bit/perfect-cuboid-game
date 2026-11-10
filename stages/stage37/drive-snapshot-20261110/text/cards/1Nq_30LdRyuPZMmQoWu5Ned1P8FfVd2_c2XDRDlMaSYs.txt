@@ -1,0 +1,63 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229DE — exact 24-line finite-field cross-incidence and nonindependence firewall
+STATUS: POST_229DD_EXACT_LOCAL_GEOMETRIC_CLASSIFICATION / 24_PROJECTIVE_POINTS_PER_ADMISSIBLE_PRIME / TWO_SYMMETRIC_12_LINE_SECTORS / NO_NEW_SUPPORT_CLASS / NO_ENDPOINT_COUNT / NO_REOPEN
+CARD_DOC_ID=1Nq_30LdRyuPZMmQoWu5Ned1P8FfVd2_c2XDRDlMaSYs
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229DD
+OPERATIONAL_AUTHORITY=M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228
+M3-T11-230=NOT_ISSUED
+PRIMARY_GATE=M3-T11-GATE-001 OPEN
+GLOBAL_COUNTING_CREDIT=0
+P_OVER_M3_LIMIT_PROVED=false
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT
+
+
+1. Scope, notations, and local theorem
+Maintain full positive primitive Stage37 physical source R<=B, all original square equations, all selectors, and primary sf(G0)>T0=B^(1/3-delta). Auxiliary HARD13: Z=B^(1/3-delta/2), k13>Z, N_an>Z and all three 229BL pair-products>Z. 229DA k13<=K_cross remains a derived constraint, NOT independent HARD14.
+Set x=A=R-U, y=Bv=R-V, z=C=R-z_original (here z denotes the third gap only), d as in 229DD, S=x+y+z, Omega=xyz, Pi=(x+y)(x+z)(y+z), F=xy+xz+yz-2d^2=0,
+N_an=x^2+y^2+z^2-xy-xz-yz=S^2-6d^2>0, K_cross=rad_odd(Omega Pi).
+For each odd prime p>3, consider nonzero vectors (x,y,z,d) in F_p^4 satisfying F=0, N_an=0, Omega Pi=0. This is a NECESSARY local condition for p|gcd(N_an,K_cross) on Stage37. No assertion that every local vector lifts to a global physical endpoint.
+
+
+THEOREM 229DE.1 (exact local locus):
+If p≠1,19 (mod24), there are NO nonzero vectors satisfying these three equations. If p≡1 or19 (mod24), the locus is the disjoint union of exactly 24 one-dimensional F_p-linear subspaces through the origin (24 distinct projective points), and has exactly 24(p-1) nonzero F_p-vectors. Twelve lines have exactly one gap zero (Omega case); twelve have exactly one pair sum zero (Pi case). No vector lies in both types for p>3.
+
+
+2. Proof: Omega sector, twelve lines
+Permute coordinates so x=0. A nonzero joint solution requires y,z≠0: if y=0, N_an=z^2=0 and F=-2d^2=0, hence the vector is zero because p>3.
+Put z=t≠0, y=rt. From N_an=0 we get r^2-r+1=0 (r is a primitive sixth root of unity, requiring p≡1 mod3). From F=0 we get 2d^2=yz=r t^2, hence d=w t with w^2=r/2. Each admissible r has two w roots iff r/2 is a quadratic residue.
+For p≡1 mod3, the quadratic character (r/p)=r^((p-1)/2)=(-1)^((p-1)/6), independent of the two sixth roots. Therefore (r/2|p)=(-1)^((p-1)/6)*(2/p). This equals +1 exactly for p≡1 or19 mod24, and -1 for p≡7 or13 mod24. There are exactly 2 choices of r, 2 of w, and 3 choices of zero gap: 12 disjoint lines {(0,rt,t,wt):t in F_p} with permutations. For p>3 the remaining pair sums are nonzero (otherwise N_an=3t²≠0), so these are not in the Pi sector.
+
+
+3. Proof: Pi sector, twelve lines
+Permute so x+y=0. Writing x=t≠0, y=-t, z=rt and d=w t, one obtains
+N_an=(r²+3)t²=0, F=-(1+2w²)t²=0.
+Thus r²=-3 and w²=-1/2. Existence requires (-3/p)=+1 and (-2/p)=+1, i.e. p≡1 or19 mod24 for p>3. There are exactly 2 choices of r, 2 of w, and 3 choices of the vanishing pair sum: another 12 disjoint lines {(t,-t,rt,wt):t in F_p} with permutations. None has a zero gap. The other two pair sums are nonzero since r≠±1 for p>3. If t=0 then N_an forces all three gaps and d zero, so no omitted nonzero solutions.
+
+
+4. Exact geometry and counting firewall
+The two 12-line sectors together prove the theorem; the only common vector between distinct lines is the excluded zero vector. In particular the 229DD residue restriction p≡1 or19 mod24 is sharp already on the primitive local cone. The local split characters (-3/p),(-2/p) arise from the SAME cone equations; (6/p)=+1 of 229DD follows from their product and is NOT an independent sieve saving.
+This exact 24-point projective incidence classifies LOCAL residue witnesses, but is NOT a selector-aware count for physical endpoints. The positive primitive three-dimensional height source, unit/selector equations, and occupied-modulus distribution are not supplied by a finite-field locus count. Do NOT multiply 24/p² or other local density heuristics into the global one-third target, and do NOT claim the 24 classes all lift globally.
+The 229DD exact physical gcd(N_an,K_cross)=gcd(N_an,3*M24), and 3|N_an iff3|J with v3(N_an)=1, stay unchanged. The 229DE theorem EXCLUDES p=3 and therefore does not replace 229DD's physical ramified-three analysis. The 229BZ retraction of 229BY Section5 remains binding.
+
+
+5. Independent arithmetic sanity replay (cone only, not physical endpoints)
+Enumerated every (x,y,z) mod p and solved d from 2d²=xy+xz+yz; retained only nonzero vectors with N_an=0 and Omega Pi=0, for p=5,7,13,19,31,37,43,73,97. Counts obtained respectively 0,0,0,432,0,0,1008,1728,2304, exactly 24(p-1) for admissible p and 0 otherwise. Omega and Pi counts split equally at admissible p: p=19:216+216;43:504+504;73:864+864;97:1152+1152. In all nine tests there were zero Omega/Pi overlaps, and zero disagreements with the theorem. This tests local congruences only; verified perfect-cuboid endpoints are not produced.
+
+
+6. Operational decision and next research contract
+RESULT_229DE_EXACT_LOCAL_CROSS_INCIDENCE_24_PROJECTIVE_POINTS=PROVED_EXACT_FOR_ODD_P_GT_3_FINITE_FIELD_CONE.
+RESULT_229DE_OMEGA_PI_TWO_DISJOINT_TWELVE_LINE_SECTORS=PROVED_EXACT.
+RESULT_229DE_SPLIT_CHARACTERS_ARE_CORRELATED_NOT_INDEPENDENT=PROVED_EXACT.
+CURRENT_BLOCKER=NO_SELECTOR_AWARE_OCCUPIED_SUPPORT_COUNT_FOR_229DB_WEIGHT13_SIX_BUCKETS_OR_229DD_NAN_M24_JOINT_IMAGE_ON_EXACT_TWO_SCALE_HARD13_PHYSICAL_SOURCE.
+REFINED_BLOCKER=FINITE_FIELD_24_LINE_CLASSIFICATION_GIVES_LOCAL_CODIMENSION_BUT_NOT_WEIGHTED_GLOBAL_OCCUPIED_MODULUS_THEOREM.
+NEXT_RESEARCH_INPUT_CONTRACT: On EXACT original Stage37 physical source with all selectors, R<=B, sf(G0)>T0, k13>Z, N_an>Z and three hard pair-products>Z, retain (A) selector-aware whole G0 via229AR and (B) 229DB weight13 six-bucket occupied support at 4^(-1/13)Z^(3/13), J via229CT PRIMARY. For N_an/M24 joint route, exploit the 229DE two disjoint local families ONLY if a theorem controls occupied p-adic lines across physical endpoints and heights; 229DD full-physical 3-adic equivalence remains separate. No independent split-sieve factor, no new one-third estimate. 229BF requires both outer count and reciprocal-height weighted-mass improvements.
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD and INTEGRATED_AUDIT_186_229O scope unchanged.
+INDEPENDENT_HOSTILE_AUDIT_229DE=NOT_RUN.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.
