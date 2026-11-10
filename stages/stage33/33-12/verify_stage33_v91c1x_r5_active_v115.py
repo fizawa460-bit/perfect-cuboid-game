@@ -5,7 +5,7 @@ from pathlib import Path
 
 HERE=Path(__file__).resolve().parent
 S33=HERE.parent
-STATE_SHA='3c53225c087415a62deae70eadcf2287252b41cb872022cc26360e9d194f4b1c'
+STATE_SHA='8ce857b5a314c19e2e96eeb0cb47794ac5ce8a1fe020e3251c1bf133ec80659e'
 R4_SHA='cead57f641b02e8defb8cb614ee1b1acdca1ee6d1e9f7c04514ccfffef5577e0'
 NEXT='V91C1X_R5_FIND_OR_CONSTRUCT_SOURCE_BOUND_A2_02_FINITE_COVER_LOCAL_EQUATION_UNIFORMIZER_OVERLAP_GLUE_PACKAGE'
 MISSING='NEW_SOURCE_BOUND_A2_02_FINITE_COVER_WITH_LITERAL_LOCAL_EQUATIONS_UNIFORMIZERS_OVERLAP_TRANSITIONS_AND_SWAP23_COMMON_REFINEMENT_SUFFICIENT_TO_MATERIALIZE_Z_IJK_ELL_IJ_R_IJ_AND_TRIPLE_OVERLAP_IDENTITY'
@@ -34,6 +34,10 @@ assert s['execution_gate']['advance_scope']=='V91C1X_R5_SOURCE_BOUND_COVER_LOCAL
 assert s['execution_gate']['next_expected_command']=='STAGE33_MAIN_BATCH_V91C1X_R5_COVER_GLUE_PACKAGE'
 for k in ['stage33_12_closed_exact','stage33_13_released','receiver_credit','theorem_credit','endpoint_credit','merge_allowed']:
     assert s['firewalls'][k] is False,k
+assert s['work_checkpoint']['authority']=='OPERATIONAL_ONLY_NOT_PROOF'
+assert s['work_checkpoint']['status']=='POST_MERGED_R5_AND_ARCHIVED_STAGE33_OPERATIONAL_RECONCILIATION_REQUIRED'
+assert s['work_checkpoint']['mathematical_authority_unchanged'] is True
+assert s['work_checkpoint']['later_archived_evidence']['merged'] is False
 assert s['stage33_progress']=='6/11'
 subprocess.run([sys.executable,str(S33/'sync_main_state.py'),'--check'],check=True)
 print(json.dumps({'success':True,'marker':'V115_V91C1X_R5_ACTIVE_CURRENT_STARTUP','state_sha256':STATE_SHA,'r4_sha256':R4_SHA,'next_exact_leaf':NEXT,'stage33_progress':'6/11'},sort_keys=True))

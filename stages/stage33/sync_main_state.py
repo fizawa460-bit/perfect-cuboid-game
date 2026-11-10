@@ -8,7 +8,7 @@ D=H/'33-12'
 OUT=H/'MAIN-STATE.json'
 CTL=H/'controller.json'
 
-STATE_SHA='3c53225c087415a62deae70eadcf2287252b41cb872022cc26360e9d194f4b1c'
+STATE_SHA='8ce857b5a314c19e2e96eeb0cb47794ac5ce8a1fe020e3251c1bf133ec80659e'
 AUTH_SHA='60f41e8e324e5fb29d1b109adb860b947308b521f677e49c4965e337a0c2d2d2'
 W_SHA='e84dcc6692849ff065b0380e760bf725f77fff6754ab5bbdc39b7e608c76a4c7'
 R1_SHA='b8e02dd9bf9971cb022d490dd5e6e7fcd9085e5a5e26be3a2bf1f75d6d384fcb'
@@ -79,6 +79,9 @@ def main():
     for k in ['a2_02_r4_finite_cover_materialized','a2_02_r4_overlap_indices_materialized','a2_02_r4_component_uniformizers_materialized','a2_02_r4_literal_local_equations_materialized','a2_02_r4_overlap_transitions_materialized','a2_02_literal_mu2_2_cocycle_materialized','a2_02_equivalent_unimodular_cech_glue_materialized','a2_02_actual_swap23_gm_1_cochain_comparison_materialized','a2_02_semantic_action_difference_chain_witness_materialized','a2_02_swap23_seed_fixed_mod_pic2','a2_02_marked_brauer_image_excluded_from_mask20','a2_02_source_bound_stabilizer_fixed_subspace_materialized','a2_02_marked_brauer_image_computed']:
         assert f[k] is False,k
     assert f['a2_02_semantic_action_difference_verified_automorphisms']==[] and f['source_bound_proper14_evaluation_bits_materialized']==0
+    assert s['work_checkpoint']['authority']=='OPERATIONAL_ONLY_NOT_PROOF'
+    assert s['work_checkpoint']['status']=='POST_MERGED_R5_AND_ARCHIVED_STAGE33_OPERATIONAL_RECONCILIATION_REQUIRED'
+    assert s['work_checkpoint']['later_archived_evidence']['merged'] is False
     assert s['stage33_progress']=='6/11'
     for k in ['stage33_12_closed_exact','stage33_13_released','receiver_credit','theorem_credit','endpoint_credit','merge_allowed']:
         assert s['firewalls'][k] is False,k
