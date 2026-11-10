@@ -1,0 +1,318 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229CF — full opposite-gcd factorization, J root-line router, and fixed-Q tau common-base firewall
+STATUS: POST_229CE_FIXED_Q_COMMON_BASE_FIREWALL / FULL_OPPOSITE_GCD_PRODUCT / EXACT_J_FULL_GCD_RECEIVER / J_MINUS2_ROOT_LINES / FIXED_LAMBDA_PACKING_TOO_WEAK / GLOBAL_CREDIT=0 / NO_REOPEN
+CARD_DOC_ID=1oKVskvu_lWFpOYfyAvP3KBUatU5SzLxXcv6Q5dsM2rI
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229CE
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope
+
+
+Work on the exact current S_B^hard13(delta) physical source, retaining all positive primitive Stage37 selectors and R<=B.
+Retain
+A=R-U, Bv=R-V, C=R-z,
+S=A+Bv+C,
+Omega=ABvC,
+ABv+AC+BvC=2d^2,
+D=2d,
+and the 229CC six-bucket cover.
+Retain 229BX's exact desaturated cone and 229CB's tau full-pair-gcd router.
+
+
+This card does two things:
+(i) test whether fixing the 229BX overlap conductor Q can itself create the common fixed base required by the 229CE tau-collision bridge;
+(ii) lift the 229CC radical receiver J to an exact full-gcd factorization and derive a new full-prime-power -2 root-line router.
+
+
+2. Fixed-Q cone family: Q does not freeze the tau modulus
+
+
+For every integer n>=1 define
+A=2n^2-1,
+Bv=2,
+C=2,
+d=2n,
+D=4n.                                                     (CF.1)
+
+
+Then A is odd and Bv,C are even, so the retained parity pattern holds.
+Moreover
+ABv+AC+BvC
+=2A+2A+4
+=4(2n^2-1)+4
+=8n^2
+=2d^2,                                                     (CF.2)
+hence
+D^2=2(ABv+AC+BvC)
+and the exact 229BX outer-gap cone is satisfied.
+
+
+All odd pairwise gcds of A,Bv,C are 1. Therefore
+q_UV=q_Uz=q_Vz=1,
+Q=1,                                                        (CF.3)
+so this is one fixed-Q desaturated-cone family.
+
+
+Put
+s=A+Bv,
+t=A+C,
+u=Bv+C.
+Then exactly
+s=t=2n^2+1,
+u=4,
+g_A=gcd(s,t)=2n^2+1,
+g_B=gcd(s,u)=1,
+g_C=gcd(t,u)=1.                                             (CF.4)
+
+
+Also
+H_A=A^2+2d^2=(2n^2+1)^2=g_A^2.                              (CF.5)
+
+
+Hence even with Q fixed identically to 1, the full tau modulus g_A is unbounded and varies with n.
+RESULT_229CF_FIXED_Q_DESATURATED_CONE_DOES_NOT_FREEZE_TAU_MODULUS=PROVED_EXACT.
+
+
+Firewall:
+This is an exact 229BX cone family, not a family of verified perfect-cuboid physical endpoints. Therefore it proves only that the 229BX cone/Q data by themselves do not provide the Problem337-style fixed-base nesting. It does NOT prove that the additional physical square-edge selectors can never create such a common base.
+
+
+Consequently any proof of
+TAU_FIXED_BASE_COLLISION_AMPLIFICATION
+must use genuinely additional selector information beyond “fix Q / fix the Q-factorization / take a dyadic Q-block”.
+
+
+3. Full opposite-gcd factorization
+
+
+Define
+lambda_U := gcd(A,S)=gcd(A,Bv+C),
+lambda_V := gcd(Bv,S)=gcd(Bv,A+C),
+lambda_z := gcd(C,S)=gcd(C,A+Bv).                            (CF.6)
+
+
+Because exactly two of A,Bv,C are even, S is odd. Therefore all three lambda_i are odd.
+
+
+They are pairwise coprime.
+For example, if a prime p divided lambda_U and lambda_V, then
+p|A, p|Bv, p|S,
+hence p|C=S-A-Bv, contradicting gcd(A,Bv,C)=1.
+The other pairs are cyclic.
+
+
+Now let
+L_J := gcd(Omega,S)=gcd(ABvC,S).                             (CF.7)
+
+
+Any prime p|L_J divides S and at least one gap.
+It cannot divide two gaps: if p|A and p|Bv, then p|S would force p|C, again contradicting gcd(A,Bv,C)=1.
+Thus p divides exactly one gap, and its full p-adic valuation in gcd(Omega,S) is exactly the p-adic valuation of the corresponding lambda_i.
+Therefore
+L_J=lambda_U lambda_V lambda_z                             (CF.8)
+as an equality of full positive integers, not merely radicals.
+
+
+Since 229CC defined
+J=rad_odd(gcd(Omega,S)),
+and L_J is odd,
+J=rad(lambda_U) rad(lambda_V) rad(lambda_z).                (CF.9)
+
+
+Moreover the three radicals in (CF.9) are pairwise coprime and are exactly the previously defined matched overlap radicals
+r_U=rad(lambda_U),
+r_V=rad(lambda_V),
+r_z=rad(lambda_z).                                          (CF.10)
+
+
+RESULT_229CF_EXACT_FULL_J_GCD_FACTORIZATION=PROVED.
+This strictly strengthens 229CC's scalar radical identity J=rad_odd(gcd(Omega,S)).
+
+
+4. Exact -2 root lines modulo the full opposite gcds
+
+
+Consider lambda_U.
+Modulo lambda_U,
+A=0,
+Bv+C=0.
+Using
+A(Bv+C)+Bv C=2d^2,
+we obtain
+Bv C == 2d^2 mod lambda_U,
+and C==-Bv, hence
+Bv^2+2d^2 == 0 mod lambda_U.                                (CF.11)
+
+
+Also
+gcd(lambda_U,Bv d)=1.
+Indeed if p|lambda_U and p|Bv, then p|A,Bv,S and hence p|C, impossible.
+If p|lambda_U and p|d, then (CF.11) forces p|Bv, again impossible.
+
+
+Therefore there is a unique residue
+rho_U == Bv*d^(-1) mod lambda_U
+for the endpoint, satisfying
+rho_U^2 == -2 mod lambda_U,
+and
+Bv == rho_U d mod lambda_U.                                 (CF.12)
+
+
+Cyclically, after choosing one of the two gaps opposite the lambda-gap,
+there are exact root lines modulo lambda_V and lambda_z as well.
+
+
+For every prime power p^e||lambda_i, -2 is a nonzero quadratic residue modulo p, hence Hensel lifting gives exactly two roots modulo p^e.
+By CRT,
+#{rho mod lambda_i : rho^2==-2 mod lambda_i}
+=2^omega(lambda_i)
+=B^o(1),                                                     (CF.13)
+uniformly because lambda_i<S<B.
+
+
+In particular every odd prime p|J satisfies
+(-2/p)=1.                                                     (CF.14)
+
+
+RESULT_229CF_J_FULL_GCD_MINUS2_ROOT_LINE_ROUTER=PROVED_EXACT.
+RESULT_229CF_ALL_J_PRIMES_SPLIT_FOR_MINUS2=PROVED.
+
+
+5. Fixed-lambda physical packing
+
+
+Fix lambda_U=m and one root rho^2==-2 mod m.
+Every physical endpoint in this fiber gives
+Bv == rho d mod m,
+with 0<Bv<B and 0<d<B.
+
+
+The lattice
+Lambda(m,rho)={(X,Y) in Z^2 : X==rho Y mod m}
+has the property that every nonzero vector satisfies
+m | X^2+2Y^2.
+Hence its weighted norm is at least sqrt(m), and standard ellipse packing gives
+#{(X,Y) in Lambda(m,rho):0<X,Y<B}
+<< 1+B^2/m.                                                   (CF.15)
+
+
+For a fixed pair (Bv,d),
+H_B=Bv^2+2d^2=(A+Bv)(Bv+C)                                  (CF.16)
+is fixed.
+There are at most tau(H_B)=B^o(1) ordered positive factor pairs
+(s,u)=(A+Bv,Bv+C).
+Each such pair forces
+A=s-Bv,
+C=u-Bv,
+and 229BU reconstruction gives at most one positive physical endpoint.
+
+
+Summing the 2^omega(m)=B^o(1) roots,
+#{P:R<=B, lambda_U(P)=m}
+<< B^o(1)(1+B^2/m).                                          (CF.17)
+
+
+The same estimate holds cyclically for lambda_V and lambda_z.
+RESULT_229CF_FIXED_FULL_OPPOSITE_GCD_PHYSICAL_PACKING=PROVED.
+
+
+6. J-large consequence and quantitative firewall
+
+
+Since
+J=rad(lambda_U)rad(lambda_V)rad(lambda_z)
+with pairwise-coprime factors, if J>K then at least one lambda_i satisfies
+rad(lambda_i)>K^(1/3),
+hence
+lambda_i>K^(1/3).                                            (CF.18)
+
+
+However unrestricted summation of (CF.17) over m>M gives only
+B^o(1) sum_{M<m<B}(1+B^2/m)
+<< B^(1+o(1)) + B^(2+o(1)) log(B/M),                         (CF.19)
+which has no useful one-third saving at the current thresholds.
+
+
+Thus the new J router is structurally exact but quantitatively insufficient by naive modulus summation.
+It is weaker in modulus power than the 229CB tau square-modulus router, so it must not be promoted to a counting result without additional occupied-modulus or selector correlation.
+
+
+RESULT_229CF_J_ROOT_LINE_PACKING_ALONE_TOO_WEAK=PROVED_QUANTITATIVE_FIREWALL.
+
+
+7. External-adapter implications
+
+
+The 229CE tau conclusion is sharpened:
+fixing Q, its factorization, or a Q-block cannot by itself be the missing common fixed base, because the exact family (CF.1)-(CF.5) has Q=1 while g_A varies unboundedly.
+A surviving tau collision route must use selector data not encoded merely by the 229BX cone/Q coordinates.
+
+
+The J conclusion is also sharpened:
+J now has an exact full-gcd modulus decomposition and unary -2 root lines modulo lambda_i, so a future direct occupied-lambda theorem can bypass the earlier radical-only representation.
+Nevertheless this does not solve the 229CE sparse matched-incidence problem and does not create a Problem337 common base.
+
+
+The kernel-bias route is not activated by (CF.14).
+The openai/math quadratic_biased_kernel_count / eventual_affine_kernel_count hypotheses require a common prime set P and a uniform lower bound for a quadraticPrimeMean across every kernel in the counted set.
+The fact that the prime divisors of one endpoint's J individually satisfy (-2/p)=1 is a support-local splitting condition, not such a shared-prime character-mean hypothesis.
+KERNEL_BIAS_BRIDGE remains OPEN.
+
+
+8. Updated research contract
+
+
+Current preferred exact receivers now include
+tau: 229CB full pair-gcd square-modulus router,
+J: 229CF full opposite-gcd factorization and full-modulus -2 root-line router,
+plus the 229CC six-bucket decomposition and K_cross receiver.
+
+
+For TAU_FIXED_BASE_COLLISION_AMPLIFICATION:
+do not retry “fix Q”, “fix Q factorization”, or “dyadic Q block” as the common-base mechanism. Any further attempt must explicitly use additional physical square-edge/selective data and show why all bad/realized q in a block act on one common pool.
+
+
+For J:
+the next useful target is a selector-aware occupied-lambda theorem for
+lambda_U=lambda gcd(A,S), lambda_V=gcd(Bv,S), lambda_z=gcd(C,S),
+or a bounded-fiber encoding that turns the new full-gcd router into a genuine sparse-incidence/bilinear saving.
+
+
+Direct occupied-tail control for
+K_cross=rad_odd(Omega*Pi)
+remains an alternative.
+
+
+Do not infer a global saving from split-prime support, fixed-lambda packing, or unrestricted summation of root-line moduli.
+
+
+9. State
+
+
+CURRENT_BLOCKER remains
+NO_SELECTOR_AWARE_OR_OCCUPIED_SUPPORT_SAVING_FOR_THE_229CC_SIX_BUCKET_COVER_ON_THE_EXACT_HARD13_PHYSICAL_SOURCE.
+
+
+REFINED_BLOCKER remains
+NO_ONE_THIRD_COUNT_FOR_LARGE_h_OR_TAU_FULL_GCD_SQUARE_MODULI_OR_J_FULL_OPPOSITE_GCD_MODULI_OR_MATCHED_DISJOINT_M_U_M_V_M_z.
+
+
+TAU_FIXED_BASE_COLLISION_AMPLIFICATION=OPEN_BUT_FIXED_Q_MECHANISM_RULED_OUT_AT_CONE_LEVEL.
+J_SPARSE_MATCHED_INCIDENCE_BILINEARIZATION=OPEN.
+J_OCCUPIED_FULL_GCD_MODULUS_SAVING=OPEN.
+KERNEL_BIAS_BRIDGE=OPEN.
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+No perfect-cuboid existence/nonexistence conclusion and no new global endpoint exponent are claimed.
+INDEPENDENT_HOSTILE_AUDIT_229CF=NOT_RUN.
+SANITY_REPLAY_229CF=3369 parity/cone fixtures with A,Bv,C<100, gcd(A,Bv,C)=1, integral d: full factorization, pairwise coprimality, radical identity, and root congruences all passed; these are lemma fixtures only.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

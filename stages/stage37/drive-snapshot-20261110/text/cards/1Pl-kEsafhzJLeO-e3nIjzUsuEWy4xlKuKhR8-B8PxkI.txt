@@ -1,0 +1,208 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229CE — openai/math adapter execution audit: common-base collision and sparse-incidence bilinear obstructions
+STATUS: POST_229CD_ADAPTER_EXECUTION_AUDIT / TAU_COMMON_FIXED_BASE_COLLISION_OBSTRUCTION / J_SPARSE_MATCHED_INCIDENCE_BILINEAR_OBSTRUCTION / NO_DIRECT_EXTERNAL_TRANSFER / GLOBAL_CREDIT=0 / NO_REOPEN
+CARD_DOC_ID=1Pl-kEsafhzJLeO-e3nIjzUsuEWy4xlKuKhR8-B8PxkI
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229CD
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope
+
+
+Execute the two leading 229CD external adapters against the exact Stage37 hosts rather than only classifying theorem names.
+
+
+Physical source remains the exact S_B^hard13(delta), all positive primitive Stage37 selectors, R<=B.
+Retain 229CC balanced six-bucket cover
+h>T^(1/5)
+OR tau>T^(1/5)
+OR J>T^(1/5)
+OR max(M_U,M_V,M_z)>2^(-3/2)T^(1/5),
+T=B^(1/3-delta),
+and retain 229CB
+g_A=gcd(s,t), g_B=gcd(s,u), g_C=gcd(t,u),
+rad(g_Ag_Bg_C)=tau,
+g_A^2|A^2+2d^2 cyclically,
+A == rho_A d mod g_A^2 with rho_A^2==-2 mod g_A^2,
+plus the cyclic analogues.
+
+
+External source remains
+openai/math@adc7f1241b42e322a6451854ab7e4b4c146bf78a.
+
+
+2. Tau collision adapter — exact host test
+
+
+Relevant source:
+lean/OAI/NumberTheory/EgyptianFractions/CollisionCounting.lean
+lean/OAI/NumberTheory/EgyptianFractions/RoughModulusCollision.lean
+lean/OAI/NumberTheory/EgyptianFractions/RoughModulusBlocks.lean
+lean/OAI/NumberTheory/EgyptianFractions/CompositeBadModuli.lean
+
+
+The generic collision theorems require one common finite domain A for all moduli/maps under consideration.
+For a modulus q, the hypothesis is a high collision energy or equivalently a sufficiently small image of that same common A.
+The off-diagonal double count then uses the fact that any fixed distinct pair of elements of A can collide for only restrictedly many moduli.
+
+
+The block implementation in RoughModulusBlocks is explicit about this structure: all bad moduli in a dyadic block are tested against one fixed divisor list. CompositeBadModuli first transfers the q-dependent badness to that fixed base and only then performs the collision double count.
+
+
+229CB supplies a different type of datum. For a physical endpoint P with g_A(P)=m it supplies the unary membership
+(A(P),d(P)) lies on one of the 2^omega(m) root lines modulo m^2.
+Equivalently, for the q-dependent fiber
+E_q={P:q=m(P)^2 in the relevant A-router},
+the slope/root image is small on E_q.
+
+
+This does not imply a small image or high collision energy on one common endpoint set E independent of q.
+If one defines E_q and uses the root-line pigeonhole inside E_q, the domain itself changes with q, so exceptional_maps_card_le / moduli_rpow_energy_card_le cannot be invoked.
+If one instead takes one global E, 229CB guarantees only that the endpoint(s) realizing q lie in the root set; it gives no lower bound saying a positive q-dependent fraction of all E lies in that root set. Hence the required collision-energy inequality is not discharged.
+
+
+RESULT_229CE_TAU_ROOT_LINE_TO_COMMON_COLLISION_DIRECT_TRANSFER=FAILS_AT_COMMON_DOMAIN_HYPOTHESIS.
+This is a host-implication failure, not a theorem that no additional Stage37 structure could ever create the needed common base.
+
+
+Precise missing theorem:
+TAU_FIXED_BASE_COLLISION_AMPLIFICATION=
+for each relevant dyadic modulus block, construct one selector-exact finite common pool A_D independent of q and prove that every realized/bad q in that block inherits high residue/projective-slope collision energy on A_D, with an off-diagonal restricted-modulus multiplicity B^o(1), while preserving the physical endpoint-to-q accounting at R<=B.
+
+
+Without this amplification/nesting step, Problem337 collision machinery cannot count the 229CB occupied tau moduli.
+
+
+3. J large-gcd adapter — exact host test
+
+
+Relevant source:
+lean/OAI/NumberTheory/Ostmann/QuadraticSieveLargeGcd.lean
+lean/OAI/NumberTheory/Ostmann/QuadraticSieveLargeGcdBasic.lean
+lean/OAI/NumberTheory/Ostmann/QuadraticSieveLargeGcdBound.lean
+lean/OAI/NumberTheory/Ostmann/QuadraticSieveGcdSeparation.lean
+lean/OAI/NumberTheory/Ostmann/QuadraticSieveGcdSeparationBound.lean
+lean/OAI/NumberTheory/Ostmann/QuadraticSieveGcdSeparationSelection.lean
+
+
+The symmetric weighted_large_gcd_removal decomposes a Jacobi quadratic energy over one common odd-squarefree column set by gcd(n,t)=d and bounds the large-d tail through shorter quotient support.
+
+
+The repository also contains genuinely bilinear two-column-set machinery: coprime_jacobi_bilinear_moebius, coprimeDivisorJacobiRow, and exists_gcd_separation_scales. Thus the earlier 229CD audit is sharpened: the absence of two different column sets is NOT the obstruction.
+
+
+The remaining mismatch is sparse matched incidence.
+
+
+Stage37 has, endpoint by endpoint,
+r_U(P)=gcd(u_U(P),w_u(P)),
+r_V(P)=gcd(u_V(P),w_t(P)),
+r_z(P)=gcd(u_z(P),w_s(P)),
+and
+J(P)=r_U(P)r_V(P)r_z(P)=rad_odd(gcd(Omega(P),S(P))).
+
+
+A large J therefore yields a large gcd on at least one matched edge
+(u_i(P),w_i(P))
+after a three-label pigeonhole.
+
+
+Across endpoints, however, these matched pairs form a sparse incidence set
+E_i subset U_i x W_i.
+The Ostmann bilinear forms sum over Cartesian products S x T with factorable coefficient weights a(n)b(t), together with arithmetic coprimality/divisibility conditions. They do not accept an arbitrary incidence indicator 1_{(n,t) in E_i} as a host input.
+
+
+Replacing the Stage37 matched-edge sum by the full Cartesian U_i x W_i creates cross-endpoint pairs not present in the physical source and does not preserve the desired lower bound/counting direction. Arbitrary decomposition of the incidence matrix into product weights has no proved subpower complexity bound.
+
+
+RESULT_229CE_J_MATCHED_GCD_TO_OSTMANN_DIRECT_TRANSFER=FAILS_AT_SPARSE_INCIDENCE_FACTORIZATION_HYPOTHESIS.
+
+
+Precise missing theorem:
+J_SPARSE_MATCHED_INCIDENCE_BILINEARIZATION=
+either
+(a) prove that the selector-conditioned Stage37 matched incidence matrix for one label has B^o(1) factorization/biclique complexity compatible with Ostmann's bilinear gcd/Jacobi bounds,
+or
+(b) prove a sparse-graph extension of the relevant large-gcd removal estimate with the same quotient-support saving,
+or
+(c) construct a different injective/bounded-fiber encoding of J-large endpoints into a genuine common Cartesian/Jacobi energy for which cross terms are harmless and the R-height measure is retained.
+
+
+The existence of bilinear GcdSeparation modules removes the weaker “only symmetric energy exists” concern, but it does not solve the matched-edge host.
+
+
+4. Kernel-bias adapter
+
+
+No new common-prime quadratic-character bias or affine-kernel identification arises from the execution audit.
+KERNEL_BIAS_BRIDGE remains OPEN and reserve priority only.
+
+
+5. Updated external verdict
+
+
+RESULT_229CE_NO_CURRENT_OPENAI_MATH_ADAPTER_IS_DIRECTLY_EXECUTABLE_FROM_229CC_229CB_DATA=ESTABLISHED_AS_HOST_AUDIT.
+
+
+This does not retract 229CD's statement that reusable machinery exists.
+It refines the bridges:
+
+
+TAU_COLLISION_BRIDGE
+ -> TAU_FIXED_BASE_COLLISION_AMPLIFICATION.
+
+
+J_ENERGY_BRIDGE
+ -> J_SPARSE_MATCHED_INCIDENCE_BILINEARIZATION.
+
+
+KERNEL_BIAS_BRIDGE remains unchanged.
+
+
+The tau collision path is no longer preferred merely from the existing root-line data; it becomes actionable only after a fixed-base nesting/amplification theorem.
+The J path is likewise actionable only after a matched-incidence bilinearization theorem.
+
+
+6. Research contract
+
+
+Do not re-run generic openai/math keyword searches unless a new Stage37 host object appears.
+
+
+Preferred next work is now one of:
+(1) derive TAU_FIXED_BASE_COLLISION_AMPLIFICATION from the 229BX weighted-cone/selector parametrization, if that parametrization supplies a q-independent common pool;
+(2) derive J_SPARSE_MATCHED_INCIDENCE_BILINEARIZATION from bounded-fiber structure of the matched support pairs;
+(3) bypass both by a direct selector-aware occupied-tail theorem for K_cross or one six-bucket branch.
+
+
+A proof attempt must preserve the exact physical source and R<=B measure. Merely knowing that each realized modulus has one root-line endpoint, or replacing matched edges by an unrestricted Cartesian product, is not a valid saving.
+
+
+7. State
+
+
+CURRENT_BLOCKER remains
+NO_SELECTOR_AWARE_OR_OCCUPIED_SUPPORT_SAVING_FOR_THE_229CC_SIX_BUCKET_COVER_ON_THE_EXACT_HARD13_PHYSICAL_SOURCE.
+
+
+REFINED_BLOCKER remains
+NO_ONE_THIRD_COUNT_FOR_LARGE_h_OR_TAU_FULL_GCD_SQUARE_MODULI_OR_J_RAD_ODD_GCD_OMEGA_S_OR_MATCHED_DISJOINT_M_U_M_V_M_z.
+
+
+NEW_EXTERNAL_SUBBLOCKERS:
+TAU_FIXED_BASE_COLLISION_AMPLIFICATION=OPEN.
+J_SPARSE_MATCHED_INCIDENCE_BILINEARIZATION=OPEN.
+KERNEL_BIAS_BRIDGE=OPEN.
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+No perfect-cuboid existence/nonexistence conclusion and no new global endpoint exponent are claimed.
+INDEPENDENT_HOSTILE_AUDIT_229CE=NOT_RUN.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

@@ -1,0 +1,95 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229BT — seven-length radical cutoff and uniform divisor-fiber sector disposal
+STATUS: POST_229BS_SEVEN_PHYSICAL_LENGTH_UNIFORM_FIXED_VALUE_FIBERS_PROVED / SEVEN_SQUAREFREE_RADICAL_FIXED_VALUE_FIBERS_PROVED / ONE_THIRD_MINUS_DELTA_LOW_RADICAL_UNION_POWER_SAVING_PROVED / EXACT_HARD_SEVEN_RADICAL_SOURCE_REDUCTION / WEIGHTED_RADICAL_NEGATIVE_MOMENT_PROVED / NO_LARGE_SF_G0_TAIL_SOLUTION / GLOBAL_CREDIT=0 / NO_REOPEN
+TYPE: whole-physical exact divisor-factorization count, uniform smooth-support receiver, scoped power-saving sector disposal, radical-height distribution and theorem-input narrowing.
+CARD_DOC_ID=1Y-6M5YndDxZJKj95-0oNQPmlU3x_TyL3hz6PcaiVPYg
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED; PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Source and conventions
+Use exactly the current positive primitive Stage37 physical endpoints P, all original selector conditions, original canonical orientation and R(P)<=B. The seven positive integral physical lengths are
+  L(P)=(e,x,y,z,U,V,R),                                (229BT.1)
+with
+  e²+x²=U²,  e²+y²=V²,  x²+y²=z²,  e²+z²=R².        (229BT.2)
+All seven lengths are <=R<=B. No perfect cuboid is assumed to exist; every counting statement is conditional on such physical points and remains valid for empty sets. Write rad(n)=product of DISTINCT prime divisors n, with rad(1)=1; this is NOT sf(n), the squarefree kernel with odd valuations.
+Retain 229BQ's uniform prescribed-prime-support lemma: for fixed constants A,C, number of n<=B^A with every prime divisor in a specified integer r<=B^C is B^o(1), uniformly in r. Retain 229BR's fixed-e, fixed-R proofs and 229BS's finite-fiber transfer. All new bounds below are uniform in exact integer length values and in canonical physical masks.
+
+
+2. New seven-length fixed-value divisor lemma
+CLAIM 229BT.3. For EACH L in {e,x,y,z,U,V,R}, uniformly for integer 1<=ell<=B,
+  #{P:R(P)<=B, L(P)=ell} <= B^o(1).                (229BT.3)
+The primitive restrictions and any additional Stage37 selectors only DECREASE these counts. This is a whole-physical bound, not a generic-fiber or reduced-scale estimate.
+We prove all seven directly. Set D_B=max_{1<=n<=B} tau(n²)=B^o(1) by the standard divisor bound; for fixed integer hypotenuse n, the number of ordered positive representations s²+t²=n² is <=r_2(n²)<=4tau(n²)<=4D_B.
+FIX e=ell. The factorizations
+  (U-x)(U+x)=e²;  (V-y)(V+y)=e²
+yield at most tau(e²)² choices for (x,U,y,V), and then positive z and R are uniquely determined if integral. Bound D_B².
+FIX x=ell. The factorizations
+  (U-e)(U+e)=x²;  (z-y)(z+y)=x²
+yield at most tau(x²)² choices for (e,U,y,z); then V,R are unique if integral. Bound D_B².
+FIX y=ell. The factorizations
+  (V-e)(V+e)=y²;  (z-x)(z+x)=y²
+yield at most tau(y²)² choices for (e,V,x,z); then U,R are unique if integral. Bound D_B².
+FIX z=ell. The factorization (R-e)(R+e)=z² gives at most tau(z²) choices for (e,R); independently the positive representations x²+y²=z² are at most 4tau(z²). Remaining U,V forced. Bound 4D_B².
+FIX U=ell. Positive solutions e²+x²=U² number at most 4tau(U²). For each such e, (V-y)(V+y)=e² gives at most tau(e²) choices for y,V; z,R are then forced. Bound 4D_B².
+FIX V=ell. Positive solutions e²+y²=V² number at most 4tau(V²). For each e, (U-x)(U+x)=e² gives at most tau(e²) choices for x,U; z,R then forced. Bound 4D_B².
+FIX R=ell. Positive solutions e²+z²=R² number at most 4tau(R²). For each e, the two face factorizations above yield at most tau(e²)² pairs (x,U),(y,V). Bound 4D_B³.
+Uniform maximum 4D_B³=B^o. All parity checks, relative coprimalities, d0/h factors, positivity, canonicalization, and four simultaneous-square conditions are checked, never suppressed as independence hypotheses. This completes 229BT.3.
+
+
+3. Seven radical fixed-fiber theorem and minimum-radical scalar
+For any L in the seven lengths, fix s=rad(L(P)) (s squarefree, 1<=s<=B). Then each possible L(P)<=B has prime factors supported on s. By 229BQ there are B^o possible L-values uniformly in s; by 229BT.3 each yields B^o physical points. Therefore
+  #{P:R<=B, rad(L(P))=s} <= B^o(1),                (229BT.4)
+uniformly for all seven L and all squarefree s.
+Define the new single-valued extremal scalar
+  k_7(P)=min{rad(e),rad(x),rad(y),rad(z),rad(U),rad(V),rad(R)}.   (229BT.5)
+Then 1<=k_7(P)<=B, k_7(P) is squarefree, and any fiber k_7(P)=s is covered by at most seven events rad(L(P))=s. Thus
+  #{P:R<=B,k_7(P)=s} <= 7 B^o(1)=B^o(1).         (229BT.6)
+No independence is used or claimed. Since k_7 only records the minimum physical prime support, it does NOT preserve sf(G0)>threshold as an equivalent or implied k_7>threshold condition.
+
+
+4. Actual quantitative global low-radical sector bound
+For every 1<=T<=B, summing 229BT.6 over s<=T gives
+  #{P:R<=B,k_7(P)<=T} <= T B^o(1).              (229BT.7)
+Equivalently, the UNION over all seven L of {rad(L)<=T} has this bound. The bound is uniform over all original primitive positive physical endpoints and all Stage37 selectors; it applies without imposing the large-sf(G0) restriction.
+For any FIXED delta with 0<delta<1/3, choose T=B^(1/3-delta). Then for any fixed 0<epsilon<delta and sufficiently large B,
+  #{P:R<=B,k_7(P)<=B^(1/3-delta)}
+    <<_epsilon B^(1/3-delta+epsilon) = o(B^(1/3)). (229BT.8)
+This is a genuine SCOPED power-saving estimate for seven simultaneous low-radical sectors, not a claim that the whole endpoint population has this bound.
+The disposed sector contains the usual short-length sectors L<=T, but is potentially larger: L may be far above T while rad(L)<=T when repeated prime powers occur. No claim of actual nonempty physical examples is needed.
+
+
+5. Exact narrowed preferred large-sf source
+Retain the authority's original physical source
+  S_B(delta)={P:R<=B, P positive primitive with ALL selectors, sf(G0(P))>B^(1/3-delta)},
+  G0=gcd(eR,xy)=ab c12 c21.
+Define the harder subfamily
+  S_B^hard7(delta)={P in S_B(delta):k_7(P)>B^(1/3-delta)}. (229BT.9)
+Applying (229BT.8) to the removed subset yields the exact cardinal partition and saving
+  |S_B(delta)|=|S_B^hard7(delta)|+O(B^(1/3-delta+o(1))). (229BT.10)
+Consequently, for a FIXED delta in (0,1/3), the theorem
+  |S_B^hard7(delta)|=o(B^(1/3))                  (229BT.11)
+is necessary and sufficient for the original preferred large-sf(G0) tail o(B^(1/3)) at THAT delta. This is a genuine narrower theorem-input domain; it is NOT a proof of (229BT.11).
+For the retained 229BR supports T_rho^hard7={rho(P):P in S_B^hard7} and T_sigma^hard7={sigma(P):P in S_B^hard7}, their uniform B^o fibers remain valid by restriction. A fixed-power |T_rho^hard7|<<B^(1/3-epsilon) OR |T_sigma^hard7|<<B^(1/3-epsilon) would suffice for (229BT.11). NEITHER is shown.
+The seven high-radical requirements are NOT seven statistically independent constraints, do not change local codimension, and do not warrant multiplication of any sieve densities. They merely remove a provably small global population in ONE count.
+
+
+6. Weighted radical inverse moment (additional unconditional scoped result)
+Because k_7 has B^o fixed-value physical fibers,
+  sum_{P:R<=B} k_7(P)^(-s) <= B^o(1) sum_{r=1}^B r^(-s). (229BT.12)
+For every fixed s>1, the sum on the right is <=zeta(s), giving
+  sum_{P:R<=B} k_7(P)^(-s) = B^o(1).             (229BT.13)
+For s=1 the same argument gives B^o(1)*log B=B^o(1). These are weighted statements; NO unweighted total population bound better than O(B^(1+o(1))) follows. Do not infer large-radical savings from inverse moments.
+
+
+7. New audit outcome and next research contract
+RESULT_229BT_SEVEN_FIXED_LENGTH_B_O_PHYSICAL_FIBERS=PROVED_EXACT_DIVISOR_RECONSTRUCTION.
+RESULT_229BT_SEVEN_RADICAL_B_O_PHYSICAL_FIBERS=PROVED_FROM_229BQ_SUPPORT_LEMMA.
+RESULT_229BT_MIN_SEVEN_RADICAL_SMALL_SECTOR_COUNT=PROVED_O(T_B_O).
+RESULT_229BT_GATE_REDUCTION_TO_HARD7=PROVED_EXACT_SCOPED_EQUIVALENCE_UP_TO_o_B13.
+RESULT_229BT_NEGATIVE_RADICAL_MOMENT=PROVED_SCOPED.
+NEXT_RESEARCH_INPUT_CONTRACT: prove an ACTUAL quantitative selector-aware support bound for retained 229BR rho or sigma, or a direct endpoint count, on the strict S_B^hard7(delta) source with all seven rad(L)>B^(1/3-delta), same original positive primitive Stage37 selectors and exact R<=B; show fixed-power saving B^(1/3-epsilon) or at least o(B^(1/3)). Alternatively find another valid global correlation among the seven physical length prime supports. Do not use height decreases, product of seven local densities, or extrapolate from 229BT.8.
+CURRENT_BLOCKER=NO_SELECTOR_AWARE_COUNT_FOR_HARD7_LARGE_SF_G0_PHYSICAL_ENDPOINTS; ORIGINAL_229BS_OCCUPIED_VALUE_POWER_BOUND_BLOCKER_REMAINS_OPEN.
+DEPENDENCIES: 229BQ uniform prescribed-prime-support count; 229BR fixed e and R divisor-fibers; 229BS subpower-fiber pushforward, full physical seven-length equations (retained across Stage37). No external theorem beyond standard divisor bound and r_2(n)<=4tau(n); no enumeration or independent hostile audit.
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED; PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; production HOLD; previous credit/closure and INTEGRATED_AUDIT_186_229O scope unchanged; INDEPENDENT_HOSTILE_AUDIT_229BT NOT_RUN.
+
+
+FINAL_READBACK_RECEIPT=PASS. Stage37 current authority readback verified after 229BT: card contents, exact seven-length divisor-fiber proof, k_7 radical-fiber and O(T B^o) small-sector theorem, hard7 equivalence, negative moments, and parent=M3-Research-Cards. CARD-INDEX row537 contains correct 229BT ID plus native HYPERLINK to this card; 案内 latest pointer and startup row537 updated. MAIN canonical current override=229BT, doc ID matches, predecessor229BS, blocker/next contract reference hard7, terminal NEXT_NEW_CHAT points to229BT. RESULT-LEDGER canonical current229BT, short 229BT change record and scoped blocker verified. Active ROUTE latest header229BT/predecessor229BS and appended POST-229BT block readback verified. Original preferred gate M3-T11-GATE-001 OPEN, operational authority=M3-T11-229, latest mathematical construction=M3-T11-228, T11-230 NOT_ISSUED, GLOBAL_COUNTING_CREDIT=0, P_OVER_M3_LIMIT_PROVED=false, production HOLD, existing closure and INTEGRATED_AUDIT_186_229O scope unchanged. INDEPENDENT_HOSTILE_AUDIT_229BT=NOT_RUN. Low-k7 power-saving sector is PROVED SCOPED; full hard7 source remains OPEN. NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

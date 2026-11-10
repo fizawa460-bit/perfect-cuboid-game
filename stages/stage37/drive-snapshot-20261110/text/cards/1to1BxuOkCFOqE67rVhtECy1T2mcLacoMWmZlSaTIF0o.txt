@@ -1,0 +1,248 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229CD — openai/math large-gcd, quadratic-kernel, and collision-moduli adapter audit
+STATUS: POST_229CC_OPENAI_MATH_EXTERNAL_INPUT_AUDIT / OSTMMANN_WEIGHTED_LARGE_GCD_ADAPTER / QUADRATIC_KERNEL_BIAS_ADAPTER / GENERIC_COLLISION_MODULI_ADAPTER / NO_DIRECT_ONE_THIRD_TRANSFER / GLOBAL_CREDIT=0 / NO_REOPEN
+CARD_DOC_ID=1to1BxuOkCFOqE67rVhtECy1T2mcLacoMWmZlSaTIF0o
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229CC
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope and current target
+
+
+Work on the exact current S_B^hard13(delta) physical source, with all positive primitive Stage37 selectors and R<=B retained.
+Retain 229CC:
+T=B^(1/3-delta),
+the six pairwise-coprime odd squarefree support buckets
+h, tau, J, M_U, M_V, M_z,
+K_cross=h*tau*J*M_U*M_V*M_z=rad_odd(Omega*Pi),
+and the deterministic balanced cover
+h>T^(1/5)
+OR tau>T^(1/5)
+OR J>T^(1/5)
+OR max(M_U,M_V,M_z)>2^(-3/2)T^(1/5).
+
+
+No branch above has a one-third endpoint count. The current task is therefore not another algebraic decomposition; it is to locate a selector-aware theorem input capable of counting one branch or the occupied K_cross tail.
+
+
+2. External source fixed for this audit
+
+
+SOURCE_REPO=openai/math
+SOURCE_COMMIT=adc7f1241b42e322a6451854ab7e4b4c146bf78a
+
+
+The repository was searched across Lean modules and the associated manuscript sources for:
+large sieve, quadratic sieve, large gcd, gcd mass, squarefree kernel, affine kernel, collision energy, square modulus/root models, divisor support, and related terms.
+
+
+The closest reusable inputs are recorded below. This card does not treat theorem names as sufficient evidence: the exact host hypotheses were checked before classification.
+
+
+3. Candidate A — Ostmann weighted large-gcd removal
+
+
+SOURCE_PATHS:
+lean/OAI/NumberTheory/Ostmann/QuadraticSieveLargeGcd.lean
+lean/OAI/NumberTheory/Ostmann/QuadraticSieveLargeGcdBound.lean
+lean/OAI/NumberTheory/Ostmann/QuadraticSieveLargeGcdBasic.lean
+
+
+The theorem weighted_large_gcd_removal is an exact large-gcd descent for a weighted Jacobi-character energy. In compressed form, for odd-squarefree columns S<=N, nonnegative row weights omega, and coefficients a, it bounds
+
+
+weightedNumeratorEnergy(W,S,omega,a)
+
+
+by
+
+
+sum_{d<=D} ||weightedGcdCorrelation(W,S,omega,a,d)||
++
+C N^epsilon weightedNumeratorNorm(W, oddSquarefreeUpTo(N/D), omega)
+  * coefficientEnergy(S,a).
+
+
+The proof genuinely separates gcd strata and sends the d>D tail to a shorter quotient-support norm. It is not a heuristic density statement.
+
+
+CLASSIFICATION_229CD_A=ADAPTER_NOT_DIRECT.
+
+
+Reason for no direct transfer:
+Stage37 currently has endpoint multiplicities and the scalar support condition
+J=rad_odd(gcd(Omega,S)),
+but no proved map from the exact physical endpoint source to a Jacobi matrix whose weightedNumeratorEnergy is bounded below by the J-large endpoint population and whose gcd stratum d is exactly, or boundedly-fibered by, the Stage37 J receiver. The theorem controls an analytic energy after such a matrix has been constructed; it does not itself count arbitrary pairs with large gcd radical.
+
+
+Required bridge:
+J_ENERGY_BRIDGE=
+construct, on the exact selector source, odd-squarefree columns n(P), row parameters m, nonnegative weights omega, and coefficients a such that
+(i) J-large endpoints force a quantitative lower bound for weightedNumeratorEnergy,
+(ii) the relevant gcd strata encode J or a bounded-multiplicity divisor of J,
+(iii) the quotient-support norm at N/D is controlled in the same R-height/selector measure,
+(iv) all losses are o(B^(1/3)) at a threshold comparable to the 229CC branch threshold.
+
+
+Without this bridge, importing weighted_large_gcd_removal does not create global counting credit.
+
+
+4. Candidate B — quadratic large sieve and biased squarefree-kernel count
+
+
+SOURCE_PATHS:
+lean/OAI/NumberTheory/Ostmann/QuadraticSieve/PublishedQuadraticSieve.lean
+lean/OAI/NumberTheory/Ostmann/Quadratic/QuadraticKernelCount.lean
+lean/OAI/NumberTheory/Ostmann/Characters/AffineKernelCount.lean
+lean/OAI/NumberTheory/Ostmann/Quadratic/QuadraticKernelDecomposition.lean
+preprints/the-additive-indecomposability-of-the-primes-September-24-2026/build/sections/03-quadratic.tex
+
+
+PublishedQuadraticLargeSieve is the finite odd-squarefree Heath-Brown quadratic-large-sieve input retained explicitly by the repository.
+quadratic_biased_kernel_count converts a common amplified quadratic-character bias into a quantitative bound on the number of signed squarefree kernels.
+eventual_affine_kernel_count upgrades this to actual affine values m*x-h: under a strong common-prime bias and scale hypotheses, the number of distinct biased squarefree kernels is exp(o(L)) in the manuscript regime.
+
+
+This machinery would be very strong if one of the Stage37 support buckets were already a squarefree kernel of a controlled affine value and carried the required common-prime character bias.
+
+
+CLASSIFICATION_229CD_B=ADAPTER_WITH_MISSING_BIAS_AND_HOST_IDENTIFICATION.
+
+
+Current firewall:
+J is the odd radical of a gcd, not the squarefree kernel of one affine value.
+tau is the support of the full pair-gcd router with square-modulus root-line constraints, not presently a squarefree kernel of one affine value.
+M_U,M_V,M_z are stripped opposite-matching support products, again not presently affine kernels.
+The 229CB square-modulus root lines provide deterministic congruence/root information, but no theorem currently in Stage37 turns that information into the uniform common-prime quadraticPrimeMean lower bound required by quadratic_biased_kernel_count or eventual_affine_kernel_count.
+
+
+Required bridge:
+KERNEL_BIAS_BRIDGE=
+represent a selected Stage37 bucket (or a bounded-fiber image of it) as the signed squarefree kernel of a controlled affine value, and prove a common-prime quadratic-character bias on the exact physical selector source with the quantitative scales required by the quadratic large sieve.
+
+
+No such bridge is currently proved.
+
+
+5. Candidate C — generic collision-energy to sparse-moduli lemma
+
+
+SOURCE_PATH:
+lean/OAI/NumberTheory/EgyptianFractions/RoughModulusCollision.lean
+
+
+The generic theorem moduli_rpow_energy_card_le is not character-specific.
+For a common finite set A, a modulus set I, maps a -> a mod q, and a divisor predicate Q, it gives a larger-sieve style bound
+
+
+|I| <= 2 X^theta R
+
+
+provided:
+q<=X for q in I,
+|A| is large enough,
+each q has collision energy
+|A|^2 <= q^theta * #collisionPairs_q(A),
+and every nonzero difference has at most R admissible divisors q<=X satisfying Q.
+
+
+This is a genuine potential adapter for the 229CB tau router because it can count occupied moduli without summing all moduli independently.
+
+
+CLASSIFICATION_229CD_C=ADAPTER_PROMISING_FOR_TAU_OCCUPIED_SUPPORT_BUT_BRIDGE_MISSING.
+
+
+The missing step is concrete:
+TAU_COLLISION_BRIDGE=
+construct one common selector-conditioned set A_B and a realized modulus family I_B from the physical endpoints (for example a bounded-fiber image of the g_i^2 root-line moduli) such that every q in I_B has a proved collision-energy lower bound on A_B, while each off-diagonal difference has only B^o(1) admissible q-divisors.
+
+
+The current root-line statement “a physical endpoint lies on one of the allowed residue lines modulo g_i^2” does not by itself imply high collision energy for a common A_B. Therefore the generic larger-sieve lemma cannot yet be invoked to count tau-large endpoints.
+
+
+Quantitative adapter target:
+if one can arrange X^theta R = o(B^(1/3)) and bounded endpoint-to-modulus fiber on the exact R<=B source, this route would give the required occupied-modulus saving without forbidden unrestricted modulus summation.
+
+
+6. Candidate D — square-root / root-model modules
+
+
+Relevant SquareDifference modules were also checked, including RootModels, CompleteWeights, SelectedPair, and related rootSquareModulus machinery.
+They are built for a specific bilinear square-difference host and include restrictive small-root-modulus hypotheses in the relevant selected-pair estimates.
+
+
+CLASSIFICATION_229CD_D=WRONG_HOST_OR_QUANTITATIVELY_UNMATCHED_FOR_CURRENT_STAGE37_USE.
+
+
+No verified identification was found that preserves the Stage37 physical selectors, R-height, and 229CB g_i^2 router while meeting those host hypotheses. These modules are not imported into the current route.
+
+
+7. External-input verdict
+
+
+RESULT_229CD_OPENAI_MATH_DIRECT_CLOSURE=NEGATIVE.
+RESULT_229CD_OPENAI_MATH_HAS_REUSABLE_ADAPTER_MACHINERY=PROVED_BY_SOURCE_AUDIT.
+RESULT_229CD_NO_DIRECT_ONE_THIRD_TRANSFER_FROM_CURRENT_229CC_DATA=ESTABLISHED_AS_HOST_MISMATCH_AUDIT.
+
+
+The useful import is conceptual and conditional:
+(A) weighted large-gcd descent if J_ENERGY_BRIDGE can be built;
+(B) quadratic kernel counting if KERNEL_BIAS_BRIDGE can be built;
+(C) generic collision-moduli counting if TAU_COLLISION_BRIDGE can be built.
+
+
+Among these, C is the closest to the current tau problem because it does not first require a character-bias construction and it directly targets occupied moduli rather than summing all root-line moduli. However, no collision-energy lower bound is presently available, so this priority does not change the gate or create credit.
+
+
+CURRENT_PREFERRED_EXTERNAL_ADAPTER=OPENAI_MATH_ROUGH_MODULUS_COLLISION_FOR_TAU_IF_TAU_COLLISION_BRIDGE_CAN_BE_PROVED.
+SECONDARY_EXTERNAL_ADAPTER=OSTMANN_WEIGHTED_LARGE_GCD_REMOVAL_FOR_J_IF_J_ENERGY_BRIDGE_CAN_BE_PROVED.
+RESERVE_EXTERNAL_ADAPTER=OSTMANN_QUADRATIC_KERNEL_COUNT_IF_KERNEL_BIAS_BRIDGE_CAN_BE_PROVED.
+
+
+8. Updated research contract
+
+
+Continue on the exact S_B^hard13(delta), R<=B physical source.
+
+
+Preferred next attack:
+try to prove TAU_COLLISION_BRIDGE from the 229CB g_i^2 root-line geometry and the actual selector parametrization. The deliverable must exhibit one common finite A_B, one realized modulus family I_B, a collision-energy lower bound for each occupied modulus, and a restricted-divisor multiplicity bound for each off-diagonal difference. If any of these four objects cannot be made selector-exact, record the obstruction and stop this adapter.
+
+
+In parallel only if a concrete matrix arises, test J_ENERGY_BRIDGE against weighted_large_gcd_removal. Do not import the theorem merely because its name contains “large gcd”.
+
+
+Do not use KERNEL_BIAS_BRIDGE unless an actual common-prime bias is proved; root-line congruences alone are insufficient.
+
+
+Retain the existing alternative: a direct occupied-tail count for K_cross.
+
+
+9. State
+
+
+CURRENT_BLOCKER remains
+NO_SELECTOR_AWARE_OR_OCCUPIED_SUPPORT_SAVING_FOR_THE_229CC_SIX_BUCKET_COVER_ON_THE_EXACT_HARD13_PHYSICAL_SOURCE.
+
+
+REFINED_BLOCKER remains
+NO_ONE_THIRD_COUNT_FOR_LARGE_h_OR_TAU_FULL_GCD_SQUARE_MODULI_OR_J_RAD_ODD_GCD_OMEGA_S_OR_MATCHED_DISJOINT_M_U_M_V_M_z.
+
+
+NEW_EXTERNAL_SUBBLOCKERS:
+TAU_COLLISION_BRIDGE=OPEN.
+J_ENERGY_BRIDGE=OPEN.
+KERNEL_BIAS_BRIDGE=OPEN.
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+No perfect-cuboid existence/nonexistence conclusion and no new global endpoint exponent are claimed.
+INDEPENDENT_HOSTILE_AUDIT_229CD=NOT_RUN.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

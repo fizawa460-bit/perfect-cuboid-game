@@ -1,0 +1,155 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229CA — conductor-to-pair-sum crosswalk and hard13 three-branch compression
+STATUS: POST_229BZ_EXACT_CROSSWALK / 229BX_CONDUCTOR_SUPPORT_EMBEDDED_IN_229BZ_PAIR_SUM_UNIQUE_ATOMS / SEVEN_ATOM_DESATURATION / OPPOSITE_MATCHING_CROSS_OVERLAP / HARD13_THREE_BRANCH_COMPRESSION / NO_GLOBAL_COUNTING_PROMOTION / GLOBAL_CREDIT=0 / NO_REOPEN
+CARD_DOC_ID=1LGM8jr3y0U5sHM07fhTiqAwhIj77Yp1GPZhiv3EB_dQ
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229BZ
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope and retained notation
+Work on the exact current S_B^hard13(delta) source with all positive primitive Stage37 selectors and R<=B.
+Retain
+A=R-U, Bv=R-V, C=R-z,
+s=A+Bv, t=A+C, u=Bv+C,
+and the corrected229BZ pair-sum radical atoms
+k_A=tau*v_s*v_t,
+k_B=tau*v_s*v_u,
+k_C=tau*v_t*v_u,
+with tau,v_s,v_t,v_u pairwise-coprime squarefree and
+tau*v_(1)*v_(2)>T,  T=B^(1/3-delta).
+Retain229BX odd conductors
+q_UV=sqrt(odd(gcd(A,Bv))),
+q_Uz=sqrt(odd(gcd(A,C))),
+q_Vz=sqrt(odd(gcd(Bv,C))),
+which are pairwise coprime and satisfy
+A=q_UV^2 q_Uz^2 A0,
+Bv=q_UV^2 q_Vz^2 B0,
+C=q_Uz^2 q_Vz^2 C0.
+Put
+a=rad(q_UV), b=rad(q_Uz), c=rad(q_Vz), h=abc=rad(Q)=chi/2.
+No independence between retained support conditions is assumed.
+
+
+2. Exact conductor-to-pair-sum support crosswalk
+Let p|q_UV. Then p|A and p|Bv. Since gcd(A,Bv,C)=1, p does not divide C. Therefore
+p|s=A+Bv,
+p does not divide t=A+C,
+p does not divide u=Bv+C.
+Thus every prime of q_UV belongs to the unique pair-sum atom v_s and to no other v-atom.
+Cyclically,
+supp(q_UV) subset supp(v_s),
+supp(q_Uz) subset supp(v_t),
+supp(q_Vz) subset supp(v_u).                                  (CA.1)
+Because the three q-supports are pairwise disjoint, this is exact inside h:
+gcd(h,v_s)=a,
+gcd(h,v_t)=b,
+gcd(h,v_u)=c.                                                   (CA.2)
+In particular
+h | v_s v_t v_u.                                               (CA.3)
+At the full valuation level,
+q_UV^2 | s, q_Uz^2 | t, q_Vz^2 | u,
+hence
+Q^2 | s t u.                                                   (CA.4)
+RESULT_229CA_CONDUCTOR_SUPPORT_TO_PAIR_SUM_UNIQUE_ATOMS=PROVED_EXACT.
+RESULT_229CA_Q_SQUARED_DIVIDES_PAIR_SUM_PRODUCT=PROVED_EXACT.
+
+
+3. Seven-atom desaturation of the pair-sum radical system
+229BZ gives exactly one even pair sum among s,t,u. Let epsilon_s,epsilon_t,epsilon_u each lie in {1,2}, with epsilon_i=2 exactly for the even pair sum; hence epsilon_s epsilon_t epsilon_u=2.
+Define
+w_s = v_s/(epsilon_s a),
+w_t = v_t/(epsilon_t b),
+w_u = v_u/(epsilon_u c).                                      (CA.5)
+By (CA.2) and pairwise coprimality of the v-atoms,
+tau,a,b,c,w_s,w_t,w_u are pairwise coprime odd squarefree integers, and exactly
+v_s=epsilon_s a w_s,
+v_t=epsilon_t b w_t,
+v_u=epsilon_u c w_u.                                          (CA.6)
+Therefore
+k_A=tau epsilon_s epsilon_t a b w_s w_t,
+k_B=tau epsilon_s epsilon_u a c w_s w_u,
+k_C=tau epsilon_t epsilon_u b c w_t w_u.                      (CA.7)
+This is the conductor-aligned desaturation of the corrected229BZ four-atom system.
+RESULT_229CA_CONDUCTOR_ALIGNED_SEVEN_ODD_ATOMS=PROVED_EXACT.
+
+
+4. Cross-overlap localization with the outer unique atoms
+Retain229BW outer-gap unique atoms u_U,u_V,u_z, where u_U consists of odd primes dividing A and neither Bv nor C, and cyclically.
+If p|u_U, then p|A and p does not divide Bv C. Hence
+s=A+Bv is nonzero mod p,
+t=A+C is nonzero mod p.
+The only pair sum that may vanish mod p is u=Bv+C.
+Consequently
+gcd(u_U,w_s w_t)=1,
+gcd(u_V,w_s w_u)=1,
+gcd(u_z,w_t w_u)=1.                                           (CA.8)
+Equivalently, the only possible residual cross-overlaps are the opposite matching
+u_U <-> w_u,
+u_V <-> w_t,
+u_z <-> w_s.                                                   (CA.9)
+Also tau is coprime to the full outer-gap radical rad(ABC), by229BZ.
+Thus the two support systems are not independent, but their cross-incidence graph is now exact: conductor-edge support maps into the corresponding pair-sum unique atom, while outer-unique support can meet only the opposite pair-sum residual.
+RESULT_229CA_OPPOSITE_MATCHING_CROSS_OVERLAP=PROVED_EXACT.
+
+
+5. Hard13 support compression
+Retain the229BW hard10 pair-radical condition
+chi*u_(1)*u_(2)>T,
+where u_(1)<=u_(2)<=u_(3) are the ordered outer unique atoms and chi=2h.
+Retain the corrected229BZ condition
+tau*v_(1)*v_(2)>T.
+Let w_(1)<=w_(2)<=w_(3) be the ordered residual atoms w_s,w_t,w_u.
+For every i,
+v_i=epsilon_i a_i w_i <= 2h w_i.
+Therefore order statistics satisfy
+v_(1)v_(2) <= 4h^2 w_(1)w_(2).                               (CA.10)
+For arbitrary alpha,beta>=0 with 2alpha+beta<1, suppose
+h<=T^alpha and tau<=T^beta.
+Then the two retained hard conditions force
+u_(1)u_(2) > (1/2) T^(1-alpha),                               (CA.11)
+w_(1)w_(2) > (1/4) T^(1-2alpha-beta).                         (CA.12)
+Hence at least two outer unique atoms exceed
+2^(-1/2) T^((1-alpha)/2),
+and at least two pair-sum residual atoms exceed
+(1/2) T^((1-2alpha-beta)/2).                                  (CA.13)
+Thus hard13 admits the exact macro decomposition
+h>T^alpha
+OR tau>T^beta
+OR [simultaneously two large outer unique atoms and two large pair-sum residual atoms at the thresholds (CA.13)].  (CA.14)
+No probabilities are multiplied; (CA.14) is a deterministic implication on each endpoint.
+A balanced concrete choice alpha=beta=1/5 gives
+h>T^(1/5)
+OR tau>T^(1/5)
+OR [at least two u-atoms >2^(-1/2)T^(2/5) AND at least two w-atoms >(1/2)T^(1/5)].  (CA.15)
+RESULT_229CA_HARD13_THREE_MACRO_BRANCH_COMPRESSION=PROVED_EXACT.
+
+
+6. Quantitative firewall
+This card does not count any of the three branches in (CA.14).
+The h-large branch is contained in a large229BX conductor-radical branch, but the retained product-cost-only Q^4 budget is still quantitatively insufficient at the one-third scale.
+The tau-large branch has codimension-two pair-sum congruence structure prime-by-prime, but no selector-aware global count is proved here.
+The simultaneous residual branch has four large atoms across two support systems, but (CA.8)-(CA.9) show that cross-overlaps are structured rather than absent; it is invalid to multiply four local density factors independently.
+No new low-radical sector is discarded beyond the retained229BY hard13 reduction.
+CURRENT_PREFERRED_SUPPORT_INTERFACE=229CA_CONDUCTOR_ALIGNED_HARD13_THREE_BRANCH_SUPPORT_ON_229BX_WEIGHTED_CONE.
+CURRENT_BLOCKER=NO_SELECTOR_AWARE_COUNT_FOR_THE_229CA_THREE_HARD13_MACRO_BRANCHES_ON_THE_LARGE_SF_G0_PHYSICAL_SOURCE.
+REFINED_BLOCKER=NO_ONE_THIRD_COUNT_FOR_LARGE_h_OR_LARGE_tau_OR_SIMULTANEOUS_TWO_OUTER_AND_TWO_PAIR_RESIDUAL_ATOMS_WITH_EXACT_CROSS_MATCHING_AND_WEIGHTED_CONE.
+NEXT_RESEARCH_INPUT_CONTRACT=Count at least one complete deterministic cover of (CA.14) on the exact physical source: (i) h-large using the229BX weighted cone and exact R-height, (ii) tau-large using its two-pair-sum congruence lines plus selectors, and (iii) the simultaneous residual branch using the exact opposite matching (CA.9). Alternatively prove retained rho/sigma fixed-power occupied support. Do not double-charge h because h is already embedded in v_s v_t v_u.
+
+
+7. Verification
+The crosswalk (CA.1)-(CA.9) is prime-by-prime and uses only229BX gcd(A,Bv,C)=1, conductor definitions,229BZ gcd(s,t,u)=1/four-atom structure, and229BW outer unique-atom meanings.
+The order-statistic inequalities (CA.10)-(CA.15) are elementary deterministic inequalities.
+Sanity replay over all positive A,Bv,C<120 with gcd(A,Bv,C)=1, exactly two even gaps, integral d satisfying ABv+AC+BvC=2d^2, and the229BX odd-pair-gcd-square property found 3426 cone fixtures. All conductor-to-v atom identities, seven-atom coprimalities and parity factors passed.
+These are lemma fixtures only, not perfect-cuboid endpoints and not endpoint-density evidence.
+No external theorem is invoked. INDEPENDENT_HOSTILE_AUDIT_229CA=NOT_RUN.
+
+
+8. State
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED; PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+No perfect-cuboid existence/nonexistence conclusion or new global endpoint exponent is claimed.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

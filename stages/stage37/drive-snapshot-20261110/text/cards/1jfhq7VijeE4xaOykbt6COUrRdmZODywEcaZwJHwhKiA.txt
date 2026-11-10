@@ -1,0 +1,262 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229CI — single-Pythagorean radical occupancy floor and dual-receiver correlation firewall
+STATUS: POST_229CH_JOINT_RADICAL_PAIR / EXACT_COMMON_RADICAL_DECOMPOSITION / SINGLE_FACE_SIGMA_XY_OCCUPANCY_FLOOR / SINGLE_OUTER_SIGMA_R_OCCUPANCY_FLOOR / SEPARATE_RECEIVER_ATTACK_NO_GO / CROSS_SELECTOR_CORRELATION_REQUIRED / GLOBAL_CREDIT=0 / NO_REOPEN
+CARD_DOC_ID=1jfhq7VijeE4xaOykbt6COUrRdmZODywEcaZwJHwhKiA
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229CH
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope
+
+
+Work from 229CH on the exact current S_B^hard13(delta) physical source, but audit what can and cannot be obtained from each of its two quadratic radical receivers separately:
+Sigma_xy=rad(xy),
+Sigma_R=rad(eR),
+G0=gcd(eR,xy),
+T=B^(1/3-delta).
+
+
+The aim is not to count endpoints by an ambient family. It is to determine whether a theorem using only one Pythagorean equation, its height, and the fixed-value B^o fiber can possibly deliver the one-third tail.
+
+
+2. Exact joint radical decomposition
+
+
+Put
+kappa:=rad(G0).                                                (CI.1)
+
+
+Because gcd(rad(xy),rad(eR))=rad(gcd(xy,eR)),
+gcd(Sigma_xy,Sigma_R)=kappa.                                  (CI.2)
+
+
+Define
+A_xy:=Sigma_xy/kappa,
+A_R :=Sigma_R/kappa.                                          (CI.3)
+
+
+Since all three quantities are squarefree,
+kappa,A_xy,A_R are pairwise coprime and
+Sigma_xy=kappa A_xy,
+Sigma_R =kappa A_R.                                           (CI.4)
+
+
+Retain 229CH:
+J_xy|Sigma_xy,
+J_e|Sigma_R,
+J_xy J_e=J_sharp=J/gcd(J,3),
+and gcd(J_sharp,G0)=1.
+Therefore exactly
+J_xy|A_xy,
+J_e |A_R,
+J_sharp|A_xy A_R.                                             (CI.5)
+
+
+On the current source sf(G0)>T, hence kappa>T.
+If J>K then
+A_xy A_R > K/3.                                               (CI.6)
+
+
+Also
+Sigma_xy Sigma_R
+ =kappa^2 A_xy A_R
+ <=xy*eR
+ =e x y R
+ <=R^4/(3 sqrt(3))
+ <=B^4/(3 sqrt(3)),                                           (CI.7)
+using e^2+x^2+y^2=R^2 and exy<=R^3/(3sqrt3).
+
+
+RESULT_229CI_EXACT_DUAL_RADICAL_COMMON_FACTOR_DECOMPOSITION=PROVED.
+RESULT_229CI_J_SHARP_LIVES_IN_COPRIME_DUAL_RESIDUAL_RADICALS=PROVED_EXACT.
+
+
+This identifies the genuinely joint object. A theorem that treats Sigma_xy and Sigma_R separately discards (CI.2)-(CI.6).
+
+
+3. Single missing-face Pythagorean host already has B^(1/2-o(1)) large Sigma_xy values
+
+
+Let P_xy(B) be the ambient set of positive integer triples
+x^2+y^2=z^2,
+z<=B.
+No other Stage37 selector is imposed in this section.
+
+
+For large B set
+M=floor(sqrt(B)/4).
+For every odd prime p in
+M<=p<=3M/2,
+take
+x_p=2p,
+y_p=p^2-1,
+z_p=p^2+1.                                                    (CI.8)
+
+
+Then x_p^2+y_p^2=z_p^2 and z_p<B for all sufficiently large B.
+
+
+Define
+s_p=rad(x_p y_p)=rad(2p(p^2-1)).                              (CI.9)
+
+
+The values s_p are pairwise distinct.
+Indeed let p!=q be primes in [M,3M/2].
+If q|p^2-1, then q|(p-1)(p+1), so q divides p-1 or p+1.
+But 0<p+1<2M<=2q for large M, hence the quotient would have to be 1; this is impossible because p±1 is even and q is odd.
+Thus q does not divide 2p(p^2-1).
+In particular s_p contains p and does not contain any other prime q from the chosen interval, proving distinctness.
+
+
+By the prime number theorem,
+#{p prime:M<=p<=3M/2} >> M/log M >> B^(1/2)/log B.            (CI.10)
+
+
+Also
+s_p>=p>=M>>B^(1/2).                                           (CI.11)
+
+
+Therefore
+#{Sigma_xy values on P_xy(B) exceeding c B^(1/2)}
+ >> B^(1/2)/log B                                             (CI.12)
+for an absolute c>0.
+
+
+RESULT_229CI_SINGLE_MISSING_FACE_SIGMA_XY_OCCUPANCY_FLOOR=B^(1/2-o(1)).
+
+
+4. Single outer Pythagorean host already has B^(1/2-o(1)) large Sigma_R values
+
+
+Let P_R(B) be the ambient set of positive integer triples
+e^2+z^2=R^2,
+R<=B.
+Again no other Stage37 selector is imposed.
+
+
+For every prime p in [M,3M/2], use
+e_p=2p,
+z_p=p^2-1,
+R_p=p^2+1.                                                    (CI.13)
+
+
+Put
+t_p=rad(e_p R_p)=rad(2p(p^2+1)).                              (CI.14)
+
+
+We extract a large subset with distinct t_p.
+Build a graph on the primes in [M,3M/2], joining p!=q if
+q|p^2+1 or p|q^2+1.
+
+
+For fixed p, p^2+1<3M^2 for large M, so it has at most two distinct prime divisors q>=M.
+Conversely q^2==-1 mod p has at most two residue classes modulo p, and the interval [M,3M/2] has length <p, so there are at most two q in the interval with p|q^2+1.
+Thus the graph has maximum degree at most 4.
+
+
+A greedy independent set therefore contains at least one fifth of the vertices.
+By the prime number theorem it has
+>>M/log M>>B^(1/2)/log B                                     (CI.15)
+primes.
+
+
+For distinct p,q in this independent set, q does not divide 2p(p^2+1), so t_p contains p but not q. Hence the t_p are pairwise distinct, and
+t_p>=p>=M>>B^(1/2).                                           (CI.16)
+
+
+Therefore
+#{Sigma_R values on P_R(B) exceeding c B^(1/2)}
+ >> B^(1/2)/log B.                                            (CI.17)
+
+
+RESULT_229CI_SINGLE_OUTER_SIGMA_R_OCCUPANCY_FLOOR=B^(1/2-o(1)).
+
+
+5. Quantitative consequence for the 229CH threshold
+
+
+The 229CH balanced J threshold is
+S_CH=T^(11/10)/(2sqrt3)
+    =B^(11/30-(11/10)delta)/(2sqrt3).                         (CI.18)
+
+
+For every fixed delta>0,
+11/30-(11/10)delta < 1/2.
+Thus the explicit ambient families in Sections 3-4 lie above S_CH for all sufficiently large B.
+
+
+Consequently each single Pythagorean host by itself has
+>>B^(1/2)/log B
+distinct occupied receiver values in the 229CH large-tail range, far above B^(1/3).
+
+
+Therefore a one-third theorem CANNOT be obtained from either of the following data alone:
+- x^2+y^2=z^2, z<=B, Sigma_xy=rad(xy), and fixed-Sigma_xy B^o fiber;
+- e^2+z^2=R^2, R<=B, Sigma_R=rad(eR), and fixed-Sigma_R B^o fiber.
+
+
+RESULT_229CI_SEPARATE_DUAL_RECEIVER_OCCUPIED_TAIL_ATTACK=QUANTITATIVELY_FALSE_ON_THE_SINGLE_PYTHAGOREAN_HOSTS.
+
+
+Critical scope firewall:
+The constructed triples are NOT claimed to be simultaneous Stage37 physical endpoints. Hence (CI.12) and (CI.17) are not lower bounds for the actual endpoint population and do not disprove a selector-aware theorem on the physical intersection.
+They prove that any successful continuation must exploit genuinely simultaneous selector/cross-face information.
+
+
+6. Updated theorem contract
+
+
+Stop searches for a Sigma_xy tail theorem that uses only the missing-face Pythagorean equation, and stop searches for a Sigma_R tail theorem that uses only the outer Pythagorean equation.
+
+
+The preferred J theorem input is now:
+DUAL_RADICAL_CROSS_SELECTOR_OCCUPANCY:
+count the actual same-physical realized pairs
+(Sigma_xy,Sigma_R)
+on S_B^hard13, retaining
+gcd(Sigma_xy,Sigma_R)=kappa=rad(G0)>T,
+Sigma_xy=kappa A_xy,
+Sigma_R=kappa A_R,
+gcd(kappa,A_xy A_R)=gcd(A_xy,A_R)=1,
+and on J>K,
+A_xy A_R>K/3.
+
+
+A sufficient form is that the realized pair image in the balanced J branch has
+<<B^(1/3-epsilon)
+elements for some fixed epsilon>0, since a fixed Sigma_xy value already has physical fiber B^o(1).
+
+
+Equivalent valid mechanisms may prove a same-physical correlation/dispersion theorem coupling the two Pythagorean completions. The 229CG lambda_i^2 route remains parallel.
+
+
+CURRENT_BLOCKER remains
+NO_SELECTOR_AWARE_OR_OCCUPIED_SUPPORT_SAVING_FOR_THE_229CC_SIX_BUCKET_COVER_ON_THE_EXACT_HARD13_PHYSICAL_SOURCE.
+
+
+REFINED_BLOCKER=
+NO_ONE_THIRD_COUNT_FOR_LARGE_eta_OR_TAU_FULL_GCD_SQUARE_MODULI_OR_J_DUAL_RADICAL_CROSS_SELECTOR_OCCUPANCY_OR_MATCHED_DISJOINT_M_U_M_V_M_z.
+
+
+J_DUAL_QUADRATIC_OCCUPIED_TAIL is superseded as a separate-receiver contract by
+J_DUAL_RADICAL_CROSS_SELECTOR_OCCUPANCY=OPEN.
+J_OCCUPIED_LAMBDA_SQUARE_MODULUS_SAVING=OPEN.
+TAU_FIXED_BASE_COLLISION_AMPLIFICATION=OPEN_BUT_FIXED_Q_MECHANISM_RULED_OUT_AT_CONE_LEVEL.
+KERNEL_BIAS_BRIDGE=OPEN.
+
+
+7. State
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+No perfect-cuboid existence/nonexistence conclusion and no new global endpoint exponent are claimed.
+INDEPENDENT_HOSTILE_AUDIT_229CI=NOT_RUN.
+SANITY_REPLAY: direct finite checks on prime families up to M=1000 found no radical collisions for the stated constructions; replay is diagnostic only.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

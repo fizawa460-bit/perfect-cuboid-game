@@ -1,0 +1,291 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229BU — outer-gap product reconstruction and radical-support sector disposal
+
+
+STATUS: POST_229BT_OUTER_GAP_TRIPLE_RECONSTRUCTION / PROVED_FIXED_OUTER_GAP_TRIPLE_FIBER_AT_MOST_ONE / PROVED_FIXED_OUTER_GAP_PRODUCT_B_O_PHYSICAL_FIBER / PROVED_FIXED_RAD_OUTER_GAP_PRODUCT_B_O_PHYSICAL_FIBER / ONE_THIRD_MINUS_DELTA_LOW_OUTER_GAP_RADICAL_SECTOR_POWER_SAVING / HARD7_PLUS_GAP_SOURCE_REDUCTION / K8_MINIMUM_RADICAL_FILTER / GLOBAL_CREDIT=0 / NO_REOPEN
+TYPE: post-229BT same-physical outer-gap reconstruction / multiplicative divisor fiber / uniform prescribed-support pushforward / scoped radical-sector disposal
+CARD_DOC_ID=1KuC8708g1dqc1MO-S8IXBThPfUPhHQ8V3-iMhSt4RWs
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED; PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope
+
+
+Use exactly the current positive primitive Stage37 physical endpoints P with all original selectors and R(P)<=B. Retain 229BT:
+  k7(P)=min{rad(e),rad(x),rad(y),rad(z),rad(U),rad(V),rad(R)}
+has uniform B^o(1) fixed-value physical fibers and
+  #{P:R<=B,k7(P)<=T} << T B^o(1).                    (229BU.1)
+
+
+Retain 229BL's three positive outer gaps
+  A := R-U,
+  Bv := R-V,
+  C := R-z.                                           (229BU.2)
+They satisfy A,Bv,C>0. This card does not use them as three independent filters. Instead it reconstructs an endpoint from the labelled triple (A,Bv,C), then compresses the triple to one multiplicative radical receiver.
+
+
+Notation: rad(n) is the product of all distinct prime divisors of n. It is not the squarefree kernel sf(n).
+
+
+2. Exact outer-gap quadratic reconstruction
+
+
+From
+  e^2+x^2=U^2,
+  e^2+y^2=V^2,
+  x^2+y^2=z^2,
+  e^2+z^2=R^2,
+and (229BU.2),
+  y^2 = R^2-U^2 = A(2R-A),                         (229BU.3)
+  x^2 = R^2-V^2 = Bv(2R-Bv),                       (229BU.4)
+  e^2 = R^2-z^2 = C(2R-C).                         (229BU.5)
+
+
+Using x^2+y^2=z^2=(R-C)^2 gives
+  A(2R-A)+Bv(2R-Bv)=(R-C)^2.
+Equivalently
+  R^2-2R(A+Bv+C)+(A^2+Bv^2+C^2)=0.                (229BU.6)
+
+
+Let
+  S=A+Bv+C.
+Then
+  (R-S)^2 = 2(ABv+AC+BvC).                         (229BU.7)
+
+
+The sign is fixed physically. Indeed
+  R-S=U+V+z-2R
+     =(U+V-R-e)+(e+z-R).
+The first parenthesis is lambda_e>0 by the retained 229BL central-gap theorem, and the second is >0 because R^2=e^2+z^2 with e,z>0. Hence
+  R-S = sqrt(2(ABv+AC+BvC)) >0,                    (229BU.8)
+so for a fixed labelled positive triple (A,Bv,C), R is uniquely determined:
+  R = A+Bv+C + sqrt(2(ABv+AC+BvC)).                (229BU.9)
+
+
+Once R is fixed,
+  U=R-A, V=R-Bv, z=R-C,
+and e,x,y are the unique positive square roots in (229BU.3)-(229BU.5), if those quantities are integral squares. All primitivity, selector, orientation and remaining consistency conditions only discard candidates.
+
+
+Therefore
+  #{P:R(P)<=B,(R-U,R-V,R-z)=(A,Bv,C)} <= 1.        (229BU.10)
+
+
+RESULT_229BU_FIXED_LABELLED_OUTER_GAP_TRIPLE_FIBER_AT_MOST_ONE=PROVED_EXACT.
+RESULT_229BU_OUTER_GAP_TRIPLES_LIE_ON_EXACT_QUADRATIC_RECONSTRUCTION_LOCUS=PROVED_EXACT.
+
+
+3. Fixed outer-gap product has subpower physical fiber
+
+
+Define
+  Omega(P):=(R-U)(R-V)(R-z)=A Bv C.                (229BU.11)
+
+
+For a fixed positive integer n, the number of labelled positive triples
+  A Bv C=n
+is at most the ordered ternary divisor count d_3(n). By the standard uniform divisor bound, for n<=B^3,
+  d_3(n)=B^o(1).
+
+
+Each labelled triple has physical fiber at most one by (229BU.10). Therefore uniformly in n,
+  #{P:R<=B,Omega(P)=n} <= B^o(1).                  (229BU.12)
+
+
+For completeness, Omega has polynomial height. From (229BU.3)-(229BU.5),
+  A=y^2/(R+U),
+  Bv=x^2/(R+V),
+  C=e^2/(R+z).
+Hence
+  Omega = e^2 x^2 y^2 / ((R+U)(R+V)(R+z))
+        < e^2 x^2 y^2/R^3.
+Since e^2+x^2+y^2=R^2, AM-GM gives
+  e^2 x^2 y^2 <= R^6/27,
+therefore
+  Omega < R^3/27 <= B^3/27.                        (229BU.13)
+
+
+RESULT_229BU_FIXED_OUTER_GAP_PRODUCT_B_O_PHYSICAL_FIBER=PROVED.
+
+
+4. Fixed radical of the product also has subpower fiber
+
+
+Define the squarefree support scalar
+  k_gap(P):=rad(Omega(P)).                          (229BU.14)
+
+
+Fix squarefree s. Every possible Omega(P)<=B^3/27 with rad(Omega)=s is an integer of polynomial height whose prime divisors all lie in the prescribed support s.
+
+
+Retain the uniform prescribed-prime-support lemma used in 229BQ and 229BT: for fixed height exponent, the number of polynomial-height integers supported on a prescribed squarefree integer is B^o(1), uniformly in that support.
+
+
+Thus for fixed s there are B^o(1) possible Omega values. Combining with (229BU.12),
+  #{P:R<=B,k_gap(P)=s} <= B^o(1),                  (229BU.15)
+uniformly in s.
+
+
+RESULT_229BU_FIXED_RAD_OUTER_GAP_PRODUCT_B_O_PHYSICAL_FIBER=PROVED.
+
+
+This is a radical statement, not a squareclass count. No inference is made by treating the three gap supports independently.
+
+
+5. New low outer-gap-radical sector disposal
+
+
+Summing (229BU.15), for every T>=1,
+  #{P:R<=B,k_gap(P)<=T} << T B^o(1).               (229BU.16)
+
+
+For any fixed 0<delta<1/3, set
+  T=B^(1/3-delta).
+Then
+  #{P:R<=B,k_gap(P)<=B^(1/3-delta)}
+    =O(B^(1/3-delta+o(1)))
+    =o(B^(1/3)).                                   (229BU.17)
+
+
+This is a genuine same-physical scoped power saving. It removes endpoints whose PRODUCT of the three outer gaps has small prime support, even when the outer gaps themselves or their pair products are numerically large. It is not implied merely by the 229BL small pair-product size sector.
+
+
+RESULT_229BU_LOW_OUTER_GAP_PRODUCT_RADICAL_SECTOR_O_B13=PROVED_SCOPED.
+
+
+6. Combine with 229BT into one minimum-radical receiver
+
+
+Define
+  k8(P):=min(k7(P),k_gap(P)).                       (229BU.18)
+
+
+For fixed s, the event k8=s is contained in the union of the seven events rad(L)=s from 229BT and the event k_gap=s from (229BU.15). Hence
+  #{P:R<=B,k8(P)=s} <= B^o(1).                     (229BU.19)
+
+
+Consequently
+  #{P:R<=B,k8(P)<=T} << T B^o(1),                  (229BU.20)
+and at T=B^(1/3-delta),
+  #{P:R<=B,k8(P)<=B^(1/3-delta)}
+     =o(B^(1/3)).                                  (229BU.21)
+
+
+No statistical independence is used. k8 is one single-valued minimum receiver with a union-bound fiber proof.
+
+
+RESULT_229BU_K8_MINIMUM_RADICAL_FIXED_FIBER_B_O=PROVED.
+RESULT_229BU_K8_LOW_SECTOR_O_B13=PROVED_SCOPED.
+
+
+7. Exact narrowing of the current preferred source
+
+
+Retain the original current gate source
+  S_B(delta)
+   ={P:R<=B, positive primitive with all Stage37 selectors,
+       sf(G0(P))>B^(1/3-delta)},
+  G0=gcd(eR,xy).
+
+
+Retain 229BT's hard7 subsource, and define the stricter source
+  S_B^hard8(delta)
+   ={P in S_B(delta):
+       rad(e),rad(x),rad(y),rad(z),rad(U),rad(V),rad(R)>B^(1/3-delta),
+       rad((R-U)(R-V)(R-z))>B^(1/3-delta)}.        (229BU.22)
+
+
+By (229BU.21),
+  |S_B(delta)|
+    =|S_B^hard8(delta)|
+      +O(B^(1/3-delta+o(1))).                     (229BU.23)
+
+
+Thus, for the same fixed delta, the original preferred theorem gate is equivalent to
+  |S_B^hard8(delta)|=o(B^(1/3)).                   (229BU.24)
+
+
+This is a strict theorem-input narrowing, not a proof of (229BU.24).
+
+
+229BL may additionally be imposed at another o(B^(1/3)) cost:
+  (R-U)(R-V)>B^(1/3-eta),
+  (R-z)(R-V)>B^(1/3-eta),
+  (R-z)(R-U)>B^(1/3-eta)
+for any fixed eta>0. Therefore a future proof may work on the intersection of hard8 and the 229BL all-three-pair-large remainder without double-counting either discarded sector. No independence gain is assigned to the surviving conditions.
+
+
+RESULT_229BU_GATE_REDUCTION_TO_HARD8=PROVED_EXACT_UP_TO_o_B13.
+RESULT_229BU_HARD8_COMPATIBLE_WITH_RETAINED_229BL_HARD_PAIR_REMAINDER=PROVED_BY_UNION_OF_ALREADY_SMALL_SECTORS.
+
+
+8. Weighted consequence
+
+
+From the fixed k_gap fiber bound, for every fixed s0>1,
+  sum_{P:R<=B} k_gap(P)^(-s0)
+    <= B^o(1) sum_{r>=1} r^(-s0)
+    =B^o(1).                                      (229BU.25)
+
+
+The same holds for k8. These inverse moments only control low-radical mass; they do not imply an unweighted high-radical population saving.
+
+
+9. Current blocker and next research contract
+
+
+CURRENT_PREFERRED_NEW_INTERNAL_INTERFACE:
+  229BU_K8_LOW_RADICAL_DISPOSAL_AND_HARD8_OUTER_GAP_SUPPORT_REMAINDER.
+
+
+CURRENT_SCOPED_BLOCKER:
+  NO_SELECTOR_AWARE_COUNTING_SAVING_ON_HARD8_LARGE_SF_G0_PHYSICAL_SOURCE.
+
+
+ORIGINAL_BLOCKER remains open:
+  NO_SELECTOR_AWARE_FIXED_POWER_OCCUPIED_VALUE_BOUND_FOR_ANY_SUBPOWER_EQUIVALENT_RECEIVER_OF_SAME_LARGE_SF_G0_PHYSICAL_SOURCE.
+
+
+NEXT_RESEARCH_INPUT_CONTRACT:
+Count the exact same-physical S_B^hard8(delta) source by o(B^(1/3)), preferably after also imposing the free 229BL all-three-pair-large remainder. Equivalently obtain a fixed-power occupied support bound for retained 229BR rho/sigma restricted to this source. A potentially useful new exact host is the labelled outer-gap reconstruction locus
+  D^2=2(ABv+AC+BvC),  R=A+Bv+C+D,
+together with rad(ABvC)>B^(1/3-delta), the seven high physical-length radicals, large sf(G0), exact selectors, and R<=B.
+
+
+Do not:
+- treat A,Bv,C or the seven length radicals as independent sieve factors;
+- replace the physical image by all integer triples on the quadratic locus;
+- infer a high-radical saving from inverse moments;
+- infer a global endpoint bound merely from Omega<=B^3/27;
+- alter authority, credit, gate or closure from this scoped result.
+
+
+10. State and dependencies
+
+
+No perfect-cuboid existence or nonexistence conclusion is claimed.
+No whole-population endpoint exponent is proved.
+GLOBAL_COUNTING_CREDIT remains 0.
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope remain unchanged.
+INDEPENDENT_HOSTILE_AUDIT_229BU=NOT_RUN.
+
+
+Load-bearing inputs:
+- exact Stage37 physical equations and R-height;
+- 229BL positivity of lambda_e and the three outer gaps, plus retained small pair-product sector disposal;
+- 229BQ uniform prescribed-prime-support integer count;
+- 229BT seven physical-length radical fixed fibers and k7 low-sector disposal;
+- standard divisor bound for d_3(n).
+
+
+The identities (229BU.3)-(229BU.10), fixed-Omega reconstruction, k_gap fixed-fiber theorem and hard8 reduction are direct deductions. No external theorem is newly invoked and no physical endpoint enumeration is used.
+
+
+FINAL_READBACK_RECEIPT=PASS. 229BU card body and parent M3-Research-Cards verified. CARD-INDEX row538 contains 229BU with the correct CARD_DOC_ID and native HYPERLINK; 案内 latest/current-operation/startup pointers advance to229BU. MAIN canonical current pointer/doc ID, startup row538, hard8 blocker and NEXT contract agree. RESULT-LEDGER canonical current229BU and appended 229BU change record agree. Active ROUTE latest header and POST-229BU block agree. Mathematical readback confirms exact outer-gap reconstruction, fixed Omega and fixed rad(Omega) B^o fibers, k8 O(T B^o) low-sector theorem and hard8 reduction. OPERATIONAL_AUTHORITY=M3-T11-229, LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228, M3-T11-230 NOT_ISSUED, PRIMARY_GATE OPEN, GLOBAL_COUNTING_CREDIT=0, P_OVER_M3_LIMIT_PROVED=false, production HOLD, closure and INTEGRATED_AUDIT_186_229O scope unchanged. INDEPENDENT_HOSTILE_AUDIT_229BU=NOT_RUN. NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.
