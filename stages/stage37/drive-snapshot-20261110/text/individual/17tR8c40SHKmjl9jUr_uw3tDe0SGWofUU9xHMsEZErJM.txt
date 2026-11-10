@@ -1,0 +1,164 @@
+﻿M3-T11-176 — Exact unit-median R502 contents and the endpoint low-median counting receiver
+CARD_ID=M3-T11-176
+STATUS=PROVED_EXACT_UNIT_MEDIAN_RAW_PROFILE / ENDPOINT_LOW_MEDIAN_COUNT_OPEN
+PRIMARY_GATE=OPEN / GLOBAL_COUNTING_CREDIT=0
+Authority: fresh MAIN, CARD-INDEX through175, short RESULT-LEDGER, active ROUTE and175/174. Full Gaussian orientation and physical reconstruction are retained. No new global upper bound is claimed.
+
+
+1. Decision and scope
+The proposed first low-median test is h_middle=1. Since contents are positive integers, this forces the sorted content triple (1,1,h).
+A new universal calculation sharpens175's bounded nonmaximal contents: the entire primitive R502 cone has EXACT contents
+(h_A,h_B,h_C)=(h,1,1), gcd(h,tau_raw)=1,
+where H_raw=h and tau_raw=R/H_raw. Thus even unit median content and complete content-freshness of tau leave the accumulating raw obstruction intact. This is not merely a size relabeling: exact prime support and the two normalization valuations are proved below.
+On endpoints, the missing face cannot be dropped. Sections4-5 give an exact full-lift/denominator test and identify the remaining moving-tau occupancy with its actual low-median outer budget. The genus-five shape is retained theory in a new low-median chart, not a new uniform curve-count theorem.
+No new endpoint upper saving, no new negligible endpoint sector, no global credit. The useful threshold-specific tail and the small-c low-median endpoint count remain OPEN.
+
+
+2. Exact R502 contents, not just ceilings
+Use175 notation on coprime m,n with7/2<m/n<4:
+J=(m^2+n^2)(m^2+9n^2),
+L=(m^2-n^2)(m^2-9n^2),
+F=m^4-2m^2n^2+9n^4,
+Fplus=m^4+2m^2n^2+9n^4,
+K=4mn(m^2-3n^2),
+A=JL, B0=K Fplus, C0=16m^2n^2(m^4-9n^4), D=FJ.
+Let b=1 if m,n are both odd, otherwise0; a=1 if3 divides m, otherwise0.
+The retained source proves g=gcd(A,B0,C0)=2^(5b)3^(4a), R=D/g.
+The new exact formulas are
+h=J/(2^(2b)3^(2a)), tau_raw=F/(2^(3b)3^(2a)), R=h*tau_raw, (176.1)
+gcd(R,A/g)=h, gcd(R,B0/g)=gcd(R,C0/g)=1,              (176.2)
+gcd(h,tau_raw)=1.                                     (176.3)
+
+
+First prove gcd(R,6)=1.
+At2: opposite parity makes F,J odd. If both are odd, F is8 modulo16, so v2(F)=3. Each factor of J has v2=1, so v2(J)=2. Thus v2(D)=5=v2(g).
+At3: when3 divides m, write m=3r. Then
+F/9=9r^4-2r^2 n^2+n^4,
+J/9=(9r^2+n^2)(r^2+n^2).
+Both are3-adic units: n is a unit and r^2+n^2 is1 or2 modulo3. Thus v3(F)=v3(J)=2 and v3(D)=4=v3(g).
+If3 does not divide m, F and J are3-adic units, whether or not3 divides n. Hence R has neither prime2 nor prime3.
+
+
+Now gcd(D,A)=J*gcd(F,L). Reducing F modulo m^2-n^2 and m^2-9n^2 gives8n^4 and72n^4. Since n is a unit, gcd(F,L) has no prime above3.
+At2 it has valuation3b: F has valuation3 when both are odd and each difference of odd squares in L is divisible by8. At3 it has valuation2a: if3 divides m, m^2-9n^2 has valuation at least2 and F has exactly2; otherwise F is a3-unit.
+Therefore gcd(F,L)=2^(3b)3^(2a). Dividing gcd(D,A) by g proves h_A=h in(176.1).
+
+
+The proved175 ceilings give
+gcd(D,B0) <=4*81*576*36*72,
+gcd(D,C0) <=16*81*144*288,
+AND their factor-by-factor gcd proofs show that these gcds have prime support contained in{2,3}. The support conclusion comes from the divisibility/reduction proofs, NOT from numerical size inequalities alone. After division by g, h_B and h_C divide R, which is coprime to6. Hence h_B=h_C=1.
+Finally F modulo the two factors of J is12n^4 and108n^4. Thus gcd(F,J) also has support only on{2,3}. Both h and tau_raw divide R and are coprime to6, so gcd(h,tau_raw)=1. This proves all formulas universally.
+
+
+3. The sharper raw-mask obstruction
+By XG-007 on the actual two-face orientation,
+c_raw=h_A*h_B=h, H_raw=h, D_min=tau_raw,
+D_A=tau_raw, D_B=R.                                  (176.4)
+The face complementary to C0 is not assumed integral, although the numerical label R/h_C equals R.
+Reuse156's height-shell carrier from175. On >=k B^(1/4) distinct primitive raw edges with R asymp B,
+h asymp sqrt(B), tau_raw asymp sqrt(B).
+ALL of them have h_middle=1 and gcd(H_raw,tau_raw)=1.
+Therefore for fixed delta_D,delta_H,s>0,
+sum_{raw R<=B:
+     h_middle=1, gcd(H_raw,tau_raw)=1,
+     D_min>B^(1/3-delta_D), H_raw>B^(1/3-delta_H)}
+     c_raw^s
+>= const_s B^(1/4+s/2).                               (176.5)
+The172 square-root uncapped-moment incompatibility survives these exact additional masks.
+This does NOT refute a useful threshold-specific raw tail. It does NOT refute small-c low-median counting: this carrier has c_raw asymp B^(1/2), outside c_max<=B^(1/6+xi).
+R502 perfect-endpoint exceptions are finite by the retained source/173 argument. No raw lower population is transferred to endpoints, and Sigma is not assigned to arbitrary raw points. This finishes the R502 mask diagnostic; another renamed mask card is not the next attack.
+
+
+4. Exact endpoint full lift when the two smaller contents are1
+Relabel an endpoint so h_1=h_2=1,h_3=h. Then
+R=h*tau, D_1=D_2=R, D_3=tau.
+Its third primitive space triangle is
+u=e_3/h, v=f_12/h, u^2+v^2=tau^2, gcd(u,v)=1.
+For fixed(u,v,tau), let alpha=u/tau, rho=v/tau, with alpha,rho>0 and alpha^2+rho^2=1.
+Put x=e_1/f_12. Full endpoint compatibility requires rational positive b0,c0,d0 satisfying
+b0^2=1-x^2,
+c0^2=alpha^2+rho^2*x^2,
+d0^2=1-rho^2*x^2,                                    (176.6)
+and normalized edges
+(e_1/R,e_2/R,e_3/R)=(rho*x,rho*b0,alpha).             (176.7)
+These are exactly the three physical faces together with the sphere, not three independent random tests.
+
+
+Over the algebraic closure the three quadratic radicands have six distinct branch points:
++/-1, +/-i*alpha/rho, +/-1/rho.
+Their squareclasses are independent because each has its own branch pair. Thus the connected degree8 cover of the x-line has6 branch points, each with inertia2. Riemann-Hurwitz gives
+2g-2=-16+6*4=8, hence g=5.
+This is a full-lift chart, not a new genus-five counting result. The projection
+z=b0*d0, z^2=(1-x^2)(1-rho^2*x^2)
+is precisely174/170's genus-one over-cover. Keeping only this product square loses the individual rational square requirements and the middle radicand c0.
+
+
+For a rational positive point of(176.6), define
+R0=lcm(den(rho*x),den(rho*b0),tau)
+using reduced positive denominators.
+The integral edges R0*(rho*x,rho*b0,alpha) are primitive: the norm-one sphere identity forces any common edge prime to divide R0, which would permit a smaller common denominator. Their space diagonal is exactly R0.
+For any reduced rational e/R0, gcd(R0,e)=R0/den(e/R0). Consequently the EXACT unit-content test is
+den(rho*x)=den(rho*b0)=R0.                             (176.8)
+The third content is then h=R0/tau, uniquely recovered; physical height is R0<=B.
+Conversely(176.6),(176.8), positivity and height reconstruct an endpoint with content triple(1,1,h), up to deterministic sign/order choices.
+Thus h is not a free scaling variable after a normalized point is fixed. This is the174 reconstruction mechanism, now with its exact two-unit denominator filters exposed.
+
+
+5. What actually moves, and the correct low-median outer budget
+Fixing h does NOT fix tau or rho. The genus-one/genus-five fixed-direction arguments cannot be summed for free over tau. The full Gaussian packet remains:
+N(B_1)=N(B_2)=h, N(B_3)=1,
+tau=tau0*tau1*tau2*tau3 with pairwise coprime full core norms.
+The norm1 coefficient is a unit; it does not set any of the moving relative cores G_1,G_2,G_3 to1.
+Keep r_i=conj(epsilon_i)*conj(B_i/conj(B_i))*q_i^2,
+Q=q0*q1*q2*q3,
+conj(A0)*U^2+2U+A0=0, A0=r_1^2+r_2^2+r_3^2, U=Q^2.
+The triple-spin square relation, torus double lift, Gaussian norms, denominator tests and physical masks must ALL stay in the moving-tau occupancy measure. Retained017 bounds a fixed(h,tau) endpoint fiber by B^o; it does not bound the number of active tau for fixed h.
+
+
+More generally sort contents a<=b<=d, impose b<=K and c_max=b*d<=C.
+Then b<=min(K,sqrt(C)). The number of labeled content triples is at most
+6*sum_{b<=min(K,sqrt(C))} sum_{a<=b} floor(C/b)
+<=6 C min(K,sqrt(C)).                                (176.9)
+Pairwise coprimality only reduces this count; coefficient orientations multiply it by B^o.
+For K=1 the outer budget is C, rather than the general C^(3/2).
+Define A_low(B;C,K) to be the occupied ordered content-tau packets in this exact endpoint subpopulation, including large Sigma, large D_min and all retained physical masks. Then
+|A_low| <=P_labeled<=B^o |A_low|.                     (176.10)
+For C=B^(1/6+xi),K=B^kappa<=sqrt(C), a SUFFICIENT uniform per-content endpoint/active-tau bound is
+B^(1/6-xi-kappa-epsilon), fixed epsilon>0,
+or a summed occupied-packet bound <=B^(1/3-epsilon).
+For K=1 this is an exponent below1/6-xi, not the general fixed-content1/12 target. It is a less demanding scoped gate, NOT a proved upper bound and NOT scalar-relabel progress credit.
+Bare little-o support multiplied by unspecified B^o is insufficient, as171 already corrected.
+
+
+6. Verification, novelty and limits
+INDEX searches for h_middle, median, R502, low and genus-five found174/175 and the retained genus-five lift003, but no exact R502( h,1,1 ) formula with gcd(h,tau)=1. Source primitive gcd and156 count are reused; the universal content formulas and exact freshness mask are new relative to the retrieved portfolio.
+Exact BigInt arithmetic checked19726 coprime cone pairs with n<=360 for g, R unit at2/3, all three exact contents, h*tau=R and gcd(h,tau)=1. PASS.
+Example m=11,n=3: h=6565,tau=1649,R=10825685, h_B=h_C=1.
+The universal polynomial reductions and valuations above are the proof; finite checks are supporting verification. No perfect endpoints enumerated, no independent hostile audit.
+The genus-five chart/denominator test and outer budget are deductively verified. No global curve theorem, uniform moving-tau sparsity, or endpoint saving is inferred from them.
+
+
+7. Drive-only handoff
+LATEST_RESEARCH_CARD=M3-T11-176 / NEXT_CANDIDATE=M3-T11-177
+NEXT_ATTACK=SmallCrossGcdLowMedianEndpointActiveTauAveraging
+177 should work specifically on c_max<=C=B^(1/6+xi), starting K=1, h in[1,C], with large Sigma and large D_min. Count the endpoint occupied(h,tau) measure using the FULL Gaussian triple-spin/double-lift and(176.8), or produce a proved same-measure averaging adapter. Aim for the section5 summed fixed-power target, not another fixed-fiber theorem.
+No further R502 curve classification or raw-mask-only cards are warranted absent a material endpoint-population bridge. The large-c threshold-specific tail remains a separate OPEN branch.
+174 small-D and171 small-Sigma sectors,170 fixed-pair theorem and171 support quantifiers retained.
+NEW_EXACT_UNIT_MEDIAN_RAW_PROFILE=true
+NEW_CONTENT_FRESH_RAW_MASK_OBSTRUCTION=true
+NEW_ENDPOINT_UPPER_SAVING=false
+NEW_NEGLIGIBLE_ENDPOINT_SECTOR=false
+P_OVER_M3_LIMIT_PROVED=false
+GLOBAL_COUNTING_CREDIT=0
+TI=PARKED /120=RETRACTED /147-149=FROZEN
+
+
+Drive dependencies:
+R502 source certificate ID=1uxSIaPHC6Xgg8c4iazY2wPz1MLdfIMFb
+156 canonical ID=1A8E7wd31A8gHg5fM4zi9ZRpSX4ukV6wr
+175 exact gcd reductions;174 normalized reconstruction;171 support quantifiers: native references below.
+Retained004/007/010/015/016/017: CARD-INDEX canonical rows; active ROUTE sections6-7,13,14.1,17-19.
+175: M3-T11-175 — Large primitive-space-direction masks retain the R502 raw moment obstruction
+174: M3-T11-174 — Fixed primitive space-hypotenuse fibers and the median-content cost of q_min
+171: M3-T11-171 — Content-weighted two-smallest relative-core divisor and summed endpoint sector

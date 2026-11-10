@@ -1,0 +1,268 @@
+﻿M3-T11-178 — Unit-median small-relative-conductor disposal and universal relative squared-modulus router
+
+
+CARD_ID: M3-T11-178
+CANONICAL_CARD_KEY: M3-T11-178
+STATUS: PROVED_K1_SMALL_MREL_ENDPOINT_SECTOR / PROVED_K1_UNIVERSAL_RELATIVE_FRESH_ROUTER / GLOBAL_COUNTING_CREDIT=0
+PRIMARY_GATE: M3-T11-GATE-001, OPEN
+GLOBAL_OPERATION: ACTIVE_T11_RESEARCH_WITH_SCOPED_DECOMPOSITION
+GLOBAL_COUNTING_CREDIT: 0
+AUDIT_MODE: WITHIN_SESSION_DEDUCTIVE_FROM_RETAINED_015_026_027_030_033_176_177
+
+
+1. Current authority and decision
+
+
+Fresh MAIN, CARD-INDEX, current short RESULT-LEDGER, active ROUTE and M3-T11-177 were read first. Retained M3-T11-004/007/015/022/024/026/027/029/030/032/033/041/042-B were checked only where needed.
+
+
+Work on the exact K=1 subpopulation of the live small-c branch:
+c_max<=C=B^(1/6+xi),
+h_middle=1,
+R<=B,
+with all large-Sigma, large-D_min, full Gaussian orientation, triple-spin, torus double-lift, M3-T11-176 denominator filters and physical endpoint masks retained.
+
+
+By M3-T11-176, after deterministic relabeling the content triple is
+(h_1,h_2,h_3)=(1,1,h), 1<=h<=C
+up to bounded label choices. Therefore
+(c_1,c_2,c_3)=(h,h,1)                         (178.1)
+up to the same bounded permutation.
+
+
+The new result is that the K=1 outer content budget can be combined with the retained M3-T11-030 fixed-packet fresh-support compression. This disposes a much larger sector than the small-tau^sharp sector of M3-T11-177 and forces every surviving K=1 endpoint to carry a polynomially large RELATIVE fresh conductor, even when the all-same fresh core is larger.
+
+
+No global endpoint upper bound or closure of M3-T11-GATE-001 is claimed.
+
+
+2. Relative fresh conductor on K=1
+
+
+For one exact Step-A content/coefficient packet use the retained four-core notation
+tau=tau_0*tau_1*tau_2*tau_3,
+where tau_1,tau_2,tau_3 are the three relative-core norms.
+
+
+Let S_content be the rational prime support of c_1*c_2*c_3. From (178.1),
+S_content={p:p|h}.                                  (178.2)
+
+
+Write
+m_i=tau_i^sharp
+for the part of tau_i supported on odd split primes outside S_content, i=1,2,3, and define
+M_rel=m_1*m_2*m_3.                                  (178.3)
+
+
+Also write
+R_rel=tau_1*tau_2*tau_3.
+
+
+The corrected/addended M3-T11-030 proves, for every fixed content/coefficient packet,
+R_rel=M_rel*N_rel,                                  (178.4)
+where N_rel is S_content-supported and has only B^o(1) possible values on the polynomial physical height range.
+
+
+The same retained card proves that fixed R_rel has B^o(1) physical endpoint multiplicity. Consequently, uniformly for every fixed packet and fixed integer m,
+#{physical endpoints in the packet with M_rel=m}
+<=B^o(1).                                           (178.5)
+
+
+This is the only M3-T11-030 input used below. The retracted same-v CRT claim from the old part of that card is not used.
+
+
+3. Summing the fixed-M_rel fiber over the K=1 content family
+
+
+For fixed h, the number of Gaussian coefficient packets with norms (h,h,1) is B^o(1): each norm-h primitive Gaussian representation has divisor-many choices and the norm-1 coefficient is a unit. Finite parity, unit and label choices remain harmless.
+
+
+Combining this with (178.5), for every X>=1,
+#E_K1,M_rel<=X(B;C)
+<= C*X*B^o(1).                                      (178.6)
+
+
+All quantities in (178.6) refer to the same exact endpoint measure. There is no ambient root-line relaxation and no multiplication of local densities.
+
+
+Set
+C=B^(1/6+xi)
+and choose fixed epsilon_M>0 with xi+epsilon_M<1/6. Put
+X=B^(1/6-xi-epsilon_M).                              (178.7)
+
+
+Then
+#E_K1,M_rel<=X
+<=B^(1/3-epsilon_M+o(1))
+=o(M3(B)),                                           (178.8)
+using the retained lower benchmark M3(B)>>B^(1/3).
+
+
+Therefore the entire K=1 sector with
+M_rel<=B^(1/6-xi-epsilon_M)                          (178.9)
+is negligible.
+
+
+This is a new scoped endpoint disposal. It includes all possible tau_0, including a very large all-same fresh core, and includes all S_content-supported prime powers in the three relative cores through N_rel.
+
+
+4. Relation to M3-T11-177
+
+
+M3-T11-177 disposed
+tau^sharp<=B^(1/6-xi-epsilon_f).
+
+
+Since
+tau^sharp=tau_0^sharp*M_rel,
+one always has
+M_rel<=tau^sharp.                                    (178.10)
+
+
+Thus with the same numerical cutoff, the 177 small-tau^sharp sector is contained in the new small-M_rel sector. M3-T11-177 remains correct, but its small-fresh disposal is strictly superseded for the K=1 continuation by (178.8).
+
+
+The useful distinction is structural: tau^sharp can be large solely because tau_0^sharp is large, while M_rel measures fresh support actually entering the three RELATIVE cores. The new counting theorem shows that a K=1 endpoint cannot survive merely by putting all polynomial fresh size into G_0.
+
+
+5. Universal large-relative-fresh residual
+
+
+After removing (178.8), every remaining K=1 endpoint satisfies
+M_rel>B^(1/6-xi-epsilon_M).                          (178.11)
+
+
+Hence at least one relative fresh core satisfies
+max(m_1,m_2,m_3)
+>=M_rel^(1/3)
+>B^(1/18-xi/3-epsilon_M/3).                          (178.12)
+
+
+Choose a deterministic smallest index i attaining the maximum.
+
+
+Retained M3-T11-026 attaches to this actual relative fresh core the squared Gaussian ideal modulus
+mathfrak_M_i=(G_i^sharp)^2
+with
+N(mathfrak_M_i)=m_i^2.
+
+
+Therefore on every surviving K=1 endpoint,
+N(mathfrak_M_i)
+>B^(1/9-(2/3)xi-(2/3)epsilon_M).                    (178.13)
+
+
+This relative squared-modulus carrier exists regardless of whether tau_0^sharp is smaller or larger than m_i. Thus the M3-T11-027 maximal-core dichotomy is no longer needed as the PRIMARY K=1 router after (178.8).
+
+
+The all-same square-divisor theorem remains valid as an additional exact endpoint selector whenever G_0^sharp is large. It is not retracted and receives no independent counting credit here.
+
+
+6. Full M_rel joint carrier and no-double-charge firewall
+
+
+The corrected M3-T11-032/033 construction packages the three distinct relative anti-root congruences into one primitive common coefficient pair (X_sym,Y_sym) satisfying
+M_rel^2 | X_sym^2+Y_sym^2.                           (178.14)
+
+
+On the residual (178.11),
+M_rel^2>B^(1/3-2xi-2epsilon_M).                      (178.15)
+
+
+However M3-T11-033's addendum proves the exact factorization
+X_sym+iY_sym=product_i(iB_i-A_i),
+so (178.14) is the Gaussian-product packaging of the same three one-core root lines. It is NOT an independent AR-009 density event.
+
+
+Accordingly (178.15) may be used as a structural conductor/range marker, but no saving may be multiplied on top of the individual relative root-line conditions merely because the product modulus is large.
+
+
+The withdrawn common-v CRT statement of the old M3-T11-030 is also not used.
+
+
+7. What this changes in the live K=1 problem
+
+
+Before this card, M3-T11-177 routed the large-fresh residual into:
+(A) maximal relative fresh core -> relative squared Gaussian modulus;
+(B) maximal all-same fresh core -> Gaussian numerator square divisor.
+
+
+After (178.8), every residual endpoint already has polynomially large M_rel. Therefore one can ALWAYS select a polynomially large relative fresh core and invoke M3-T11-026.
+
+
+The K=1 residual is now a single theorem gate:
+
+
+UnitMedianLargeRelativeFreshPhysicalSupport.
+
+
+The exact quantitative state is:
+M_rel>B^(1/6-xi-epsilon_M),                           (178.16)
+some m_i>B^(1/18-xi/3-epsilon_M/3),                  (178.17)
+N((G_i^sharp)^2)>B^(1/9-2xi/3-2epsilon_M/3).         (178.18)
+
+
+Simultaneously retain:
+- tau=R/h and the M3-T11-177 lower bound tau>B^(1/2-eta-xi);
+- large Sigma and large D_min;
+- M3-T11-176 exact two-unit denominator filters;
+- the triple-spin principal-square relation;
+- the torus double-lift selector;
+- the physical exact R<=B and canonical/primitivity masks.
+
+
+No selector above is multiplied as an independent probability.
+
+
+8. Novelty and limits
+
+
+CARD-INDEX searches for K=1 M_rel, unit-median M_rel, small M_rel sector, relative-fresh support threshold and low-median relative conductor found no prior card stating (178.6)-(178.8).
+
+
+M3-T11-030 already proved the fixed-packet support compression and the old per-packet small-M_rel cutoff at the one-twelfth scale. The new result is the GLOBAL K=1 summation with the much larger allowable cutoff
+B^(1/6-xi-epsilon_M),
+obtained because the entire unit-median content family costs only C=B^(1/6+xi), not C^(3/2).
+
+
+This is not a scalar relabeling: it removes an exact physical endpoint sector and changes the surviving theorem router from the 027 relative/all-same dichotomy to a universal relative-fresh squared-modulus branch.
+
+
+No count is proved for the large-M_rel residual. M3-T11-026 Fourier/Gauss completion alone remains insufficient without a same-physical-measure moving-support/coefficient theorem. The M3-T11-033 product coefficient pair carries no extra density credit.
+
+
+NEW_K1_SMALL_MREL_ENDPOINT_SECTOR=true
+K1_SMALL_TAUSHARP_SECTOR_SUPERSEDED_BY_SMALL_MREL=true
+K1_UNIVERSAL_RELATIVE_FRESH_ROUTER=true
+K1_ALLSAME_ONLY_PRIMARY_BRANCH_REMOVED=true
+ALLSAME_SQUARE_DIVISOR_THEOREM_RETAINED=true
+NEW_GLOBAL_ENDPOINT_BOUND=false
+PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+GLOBAL_COUNTING_CREDIT=0
+
+
+9. Drive-only handoff
+
+
+LATEST_RESEARCH_CARD=M3-T11-178
+NEXT_CANDIDATE=M3-T11-179
+CURRENT_ATTACK=UnitMedianLargeRelativeFreshPhysicalSupport
+
+
+179 should stay on the K=1 residual (178.16)-(178.18). Do not return to the all-same-vs-relative maximal-core split as the primary router.
+
+
+First target the deterministic large relative core i from (178.12) on the exact physical measure. Combine:
+- the M3-T11-026 squared Gaussian ideal incidence for mathfrak_M_i;
+- the corrected M3-T11-029 distinct anti-root root line for that same core;
+- the exact M3-T11-176 two-unit denominator filters;
+- large Sigma / large D_min;
+- full triple-spin and torus double-lift selectors.
+
+
+The desired next result is a moving-support or reconstruction theorem with a fixed power margin after the outer K=1 content cost has already been paid. Do not use the retracted common-v CRT, do not independently charge the M3-T11-032/033 product modulus, and do not replace the physical coefficient by an ambient uniform residue box.
+
+
+The separate threshold-specific large-c branch remains OPEN. K>1 low-median averaging remains OPEN. M3-T11-171/174 sector disposals, M3-T11-170 fixed-pair theorem and M3-T11-171 support quantifier corrections remain retained.

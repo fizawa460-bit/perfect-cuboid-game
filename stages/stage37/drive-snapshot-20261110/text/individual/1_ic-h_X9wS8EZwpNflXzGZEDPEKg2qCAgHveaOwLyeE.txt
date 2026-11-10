@@ -1,0 +1,134 @@
+﻿M3-T11-174 — Fixed primitive space-hypotenuse fibers and the remaining median-content cost of q_min
+CARD_ID=M3-T11-174
+STATUS=PROVED_FIXED_SPACE_HYPOTENUSE_BO1_AND_SUMMED_SMALL_D_SECTOR
+PRIMARY_GATE=OPEN / GLOBAL_COUNTING_CREDIT=0
+CURRENT_ATTACK=EndpointReducedQuotientFiberPreflight
+Authority: fresh MAIN, CARD-INDEX through173, short RESULT-LEDGER, active ROUTE control and173. Retained170's exact opposite-face model is the counting input. No new external elliptic theorem is imported.
+
+
+1. Results and scope
+Uniformly for an integer1<=d<=B,
+#{primitive positive canonical endpoints R<=B with D_min=d}<=B^o(1), (174.1)
+where D_i=R/gcd(R,e_i) and D_min=min_i D_i.
+Consequently
+P_{D_min<=Z}(B)<=Z B^o(1),                      (174.2)
+including every content and direction cost.
+For Z=B^(1/3-delta), fixed0<delta<1/3, this sector is o(M3(B)) using the retained lower benchmark M3(B)>>B^(1/3). This is a scoped disposal, not a global upper improvement.
+
+
+For canonical q=q_min=R/c_max,
+m_q(B)<=floor(sqrt(B/q)) B^o(1).                 (174.3)
+This is an actual fixed-q estimate, but it does not prove m_q=B^o(1). Its explicit remaining outer coordinate is the median physical content. The fixed-q estimate alone does not dispose of the full small-q/extreme-c sector.
+
+
+2. One primitive space triangle fixes normalized geometry
+Select one direction i, and put
+h_i=gcd(R,e_i), u_i=e_i/h_i, v_i=f_jk/h_i, D_i=R/h_i,
+where f_jk^2=e_j^2+e_k^2.
+Retained004/007 give the primitive Pythagorean triple
+u_i^2+v_i^2=D_i^2.
+Fix this triple, including its edge/face leg order. Thus
+a=u_i/D_i=e_i/R and rho=v_i/D_i=f_jk/R
+are fixed positive rationals with a^2+rho^2=1 and0<rho<1.
+
+
+For an opposite edge set x=e_k/f_jk. Exactly as in170,
+1-x^2=(e_j/f_jk)^2,
+1-rho^2 x^2=(f_ij/R)^2.
+Hence every endpoint lies on
+z^2=(1-x^2)(1-rho^2 x^2).                        (174.4)
+The branch points +/-1,+/-1/rho are distinct. This is literally170's smooth full-rational-2-torsion family from retained010.
+Its model coefficients have height B^O(1), and x has numerator and denominator<=B. The retained uniform bounded-height input therefore bounds the physical rational x by B^o(1), uniformly in this fixed space triangle.
+Only that rational-point input is used; no first-cover lift adapter or independent root-line density is imported.
+
+
+3. Normalized point determines the entire primitive endpoint
+For a retained physical x, the normalized edge vector is
+(e_i/R,e_j/R,e_k/R)
+=(a, rho*sqrt(1-x^2), rho*x),                    (174.5)
+with the positive rational square root. Points where either required square is not rational are post-filtered; the genus-one over-cover is used only for an upper bound.
+Thus the entire normalized vector is fixed, with at most bounded sign/order choices.
+
+
+Primitive integer edges determine a unique scale: if two positive primitive integer triples have the same normalized vector, they are rationally proportional; primitivity forces the proportionality factor to be1. Equivalently,
+R=lcm(den(e_1/R),den(e_2/R),den(e_3/R))
+because gcd(e_1,e_2,e_3)=1.
+Therefore no free multiplier h_i, no radial height family, and no remaining content count survives after x is fixed. R, all h_i, tau and every c_i are recovered uniquely.
+This is the extra reconstruction observation beyond170's fixed-(r,tau) proof.170 fixed additional labels to recover one h_i by a denominator; here the normalized full vector recovers all contents at once.
+
+
+Hence a fixed labeled primitive space triangle has B^o(1) endpoint extensions, without fixing tau or a content triple and without restricting to the small-c branch.
+
+
+4. Fixed D and summed sector
+For any fixed D_i=d<=B, the number of primitive oriented Pythagorean triples (u_i,v_i,d) is d^o(1) by the retained sum-of-two-squares divisor count. Three choices of i and finite parity/leg choices are harmless.
+Applying Section3 once for each such direction gives (174.1), also when the canonical chosen direction is one attaining D_min.
+Summing over the actual integer label d<=Z gives (174.2). This is an endpoint count on exact R<=B, not an ambient rational-height count.
+Equivalently, since D_min=R/h_max,
+P_{h_max>=R/Z}(B)<=Z B^o(1).                     (174.6)
+The threshold here moves with the actual R. Do not replace R by B inside the condition as an equivalence.
+
+
+This is a space-triangle hypotenuse sector.161 instead bounds short primitive physical-face hypotenuses p_ij=f_ij/gcd(e_i,e_j). Those are different labels. No nonempty perfect-endpoint difference or independence of the two sector savings is asserted. Their union can be removed by addition, with overlap charged once.
+
+
+5. Exact q_min fiber and median-content outer budget
+Sort the physical contents, with deterministic ties,
+h_a<=h_b<=h_c, and write tau=R/(h_a h_b h_c).
+Retained004 gives exactly
+c_max=h_b h_c,
+q_min=R/c_max=h_a tau,
+D_min=tau h_a h_b=q_min h_b,
+R=q_min h_b h_c.                                (174.7)
+Thus for a fixed actual q=q_min,
+h_b<=sqrt(B/q).                                 (174.8)
+Once q and the integer h_b are fixed, D_min=q h_b is fixed. Equation(174.1) bounds the endpoint fiber by B^o(1), including all possible factorizations q=h_a tau and all moving h_c.
+Summing over1<=h_b<=floor(sqrt(B/q)) proves (174.3). No additional d(q) polynomial factor is needed; any divisor choices are already inside the fixed-D bound.
+
+
+If S_q(B) denotes the actual occupied median-content labels in the fiber q, then
+|S_q(B)|<=m_q(B)<=B^o(1)|S_q(B)|.                (174.9)
+The interval bound(174.8) does not prove sparsity of that support. A uniform subpolynomial fixed-q result would need to control this moving median-content support or provide a stronger correlation theorem. No impossibility of such a theorem is claimed.
+
+
+The naive outer sum from(174.3) gives
+sum_{q<=Q} m_q(B)<=B^(1/2) Q^(1/2) B^o(1),       (174.10)
+which does not beat the existing global half-power ceiling for Q>=1. In particular no extreme-c endpoint disposal follows merely by noting q_min<B/C.
+
+
+After the newly counted sector is removed, the remaining endpoints satisfy
+D_min=q_min h_b>B^(1/3-delta).                   (174.11)
+For a putative q_min<=Q extreme-c sector this forces h_b>B^(1/3-delta)/Q, with h_c>=h_b. This is a full physical content condition, not two independent congruence savings.
+171's independent valid small-Sigma disposal is retained; the current residual has BOTH Sigma>B^(1/3-delta_Sigma) and D_min>B^(1/3-delta_D), together with the earlier exact physical conditions. No multiplicative saving is assigned to their overlap.
+
+
+6. Dedupe and verification
+The fresh index was searched for fixed primitive space hypotenuse, fixed direction, q_min, fixed quotient, two-content and D_min claims.161's short-face sector and170's opposite-face compression were read. The genus-one point theorem is reused; the new conclusions are fixed-D full-scale reconstruction, its globally summed space-hypotenuse sector, and the explicit median-content bound for a fixed q.
+Novelty is relative to the retrieved portfolio, not a literature-wide assertion.
+Exact integer arithmetic checked2192 coprime R502 parameters with n<=120 in7/2<m/n<4. These are raw two-face examples, not claimed perfect endpoints. The checks verify the opposite-face square identities in a valid two-face orientation, primitive denominator lcm=R, and the sorted content identities
+D_min=q_min h_b, R=q_min h_b h_c, q_min h_b^2<=R.
+All passed. They support the algebra only and do not prove the uniform elliptic theorem or enumerate perfect endpoints.
+Within-session deductive review checked nondegeneration, physical height, primitive-scale uniqueness, finite direction cost, actual-q conditioning and the failed outer sum. No independent audit is claimed.
+
+
+7. Handoff
+LATEST_RESEARCH_CARD=M3-T11-174 / NEXT_CANDIDATE=M3-T11-175
+NEXT_ATTACK=ResidualSpaceDirectionSupportCorrelation
+Do not repeat a fixed-q B^o claim without controlling the median-content support.175 should work on the remaining large D_min and large Sigma endpoint population, and inspect whether the two exact primitive-space directions with hypotenuses q_min h_b and q_min h_c yield a SAME-MEASURE correlation count over moving(h_b,h_c), or an actual occupied-D_min support deficit. Another scalar relabeling without a support/count theorem is not progress.
+The threshold-specific large-c branch and small-c occupied-support branch are both still OPEN.172/173 raw obstructions remain valid. R502 curve classification stays stopped.
+NEW_FIXED_SPACE_HYPOTENUSE_BO1=true
+NEW_SUMMED_SMALL_DMIN_ENDPOINT_SECTOR=true
+FIXED_Q_BO1_PROVED=false
+NEW_FIXED_Q_SQRT_B_OVER_Q_UPPER=true
+NEW_GLOBAL_ENDPOINT_UPPER_SAVING=false
+P_OVER_M3_LIMIT_PROVED=false
+GLOBAL_COUNTING_CREDIT=0
+TI=PARKED /120=RETRACTED /147-149=FROZEN
+
+
+Drive-only dependencies:
+170:1qTO06Ir76L3FGzRMU8JtvvN-3MEKiWaUowGiVhRZqA8
+171:1cIVglf5RjsFKYBdzy5suR1JSTpKs35bp-8Ga5Pb4-u4
+173:1PNtdjPWr1SrMBV8uUxc2g8ofdglrjQiLqzindUJTWYM
+161 canonical:1wpu0RydOmsCJH76I5dy9ZNM3t6LVamWg
+004/007/010: CARD-INDEX canonical rows; active ROUTE exact content and retained uniform-point sections

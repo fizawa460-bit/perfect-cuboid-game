@@ -1,0 +1,382 @@
+﻿M3-T11-181 — Unit-median face-space gcd/lcm bridge and fresh-Sigma support-equivalence firewall
+
+
+CARD_ID: M3-T11-181
+CANONICAL_CARD_KEY: M3-T11-181
+STATUS: PROVED_K1_FACE_SPACE_GCD_LCM_BRIDGE / PROVED_K1_SMALL_SHARED_GCD_ENDPOINT_SECTOR / FRESH_SIGMA_SUPPORT_POWER_EQUIVALENT_TO_ACTIVE_TAU / GLOBAL_COUNTING_CREDIT=0
+PRIMARY_GATE: M3-T11-GATE-001, OPEN
+GLOBAL_OPERATION: ACTIVE_T11_RESEARCH_WITH_SCOPED_DECOMPOSITION
+GLOBAL_COUNTING_CREDIT: 0
+AUDIT_MODE: WITHIN_SESSION_DEDUCTIVE_FROM_RETAINED_010_163_176_177_180
+
+
+1. Current authority and decision
+
+
+Fresh MAIN, CARD-INDEX, current short RESULT-LEDGER, active ROUTE and M3-T11-180 were read first. Retained M3-T11-004/007/010/160/163/176/177 and the later symmetric-route firewalls were checked only where needed.
+
+
+M3-T11-180 left two candidate continuations:
+(A) count the large occupied Sigma_sharp support;
+(B) attack the symmetric Q_S/C_u extreme tails.
+
+
+This card proves that route (A), as a pure occupied-support problem, is power-scale equivalent to the already-open active-tau support gate. Thus it is not a genuinely narrower receiver by itself.
+
+
+Separately, the exact K=1 two-unit denominator filters of M3-T11-176 collapse to a simple face/space gcd-lcm identity. This produces a new K=1 shared-divisor coordinate k, a summed small-k endpoint sector, and a precise large-k residual. The associated square-divisor condition on the primitive space triangle is Euclid-saturated and receives no independent density credit.
+
+
+No global endpoint upper bound or primary-gate closure is claimed.
+
+
+2. Exact K=1 face and space triangles
+
+
+Relabel an exact K=1 endpoint as in M3-T11-176:
+h_1=h_2=1, h_3=h,
+R=h*tau.
+
+
+The primitive space triangle complementary to e_3 is
+u=e_3/h,
+v=f_12/h,
+u^2+v^2=tau^2,
+gcd(u,v)=1.                                           (181.1)
+
+
+For the physical face (e_1,e_2,f_12), put
+g=gcd(e_1,e_2),
+A=e_1/g,
+B=e_2/g,
+n=f_12/g.
+
+
+Then
+A^2+B^2=n^2,
+gcd(A,B)=1,
+and the triple (A,B,n) is primitive.                 (181.2)
+
+
+Because the whole endpoint is primitive, one has
+gcd(h,g)=1.                                          (181.3)
+
+
+Indeed, any prime dividing both h and g divides e_3 through h and divides e_1,e_2 through g, contradicting gcd(e_1,e_2,e_3)=1.
+
+
+The same physical diagonal satisfies
+f_12=g*n=h*v.                                        (181.4)
+
+
+Using (181.3), h divides n and g divides v. Define
+k=n/h=v/g.                                           (181.5)
+
+
+Therefore exactly
+n=h*k,
+v=g*k,
+gcd(h,g)=1.                                          (181.6)
+
+
+It follows immediately that
+k=gcd(n,v),                                          (181.7)
+h=n/gcd(n,v),                                        (181.8)
+g=v/gcd(n,v),                                        (181.9)
+and
+f_12=lcm(n,v).                                       (181.10)
+
+
+These identities are on the exact physical endpoint measure.
+
+
+3. Re-expression of the M3-T11-176 two-unit denominator filters
+
+
+In the M3-T11-176 normalized chart,
+rho=v/tau,
+x=A/n,
+b0=B/n.
+
+
+Because the two primitive triangles give
+gcd(v,tau)=1,
+gcd(A,n)=gcd(B,n)=1,
+one has exactly
+gcd(v*A,tau*n)=gcd(v,n)*gcd(A,tau),                  (181.11)
+gcd(v*B,tau*n)=gcd(v,n)*gcd(B,tau).                  (181.12)
+
+
+Hence
+den(rho*x)
+=tau*n/[gcd(v,n)*gcd(A,tau)],                       (181.13)
+den(rho*b0)
+=tau*n/[gcd(v,n)*gcd(B,tau)].                       (181.14)
+
+
+The K=1 unit-content conditions
+den(rho*x)=den(rho*b0)=R=h*tau                     (181.15)
+are therefore equivalent to
+gcd(A,tau)=gcd(B,tau)=1
+and
+gcd(n,v)=n/h.                                        (181.16)
+
+
+Since gcd(A,B)=1, equality of the two reduced denominators cannot hide a common nontrivial gcd with tau.
+
+
+Thus the denominator filters are not mysterious extra local events on the K=1 population. They are exactly the face-space gcd bridge (181.7)-(181.9) plus the coprimality
+gcd(A*B,tau)=1.                                      (181.17)
+
+
+Also, because k|v and gcd(v,tau)=1,
+gcd(k,tau)=1.                                        (181.18)
+
+
+4. Fixed-k endpoint count on the live small-c branch
+
+
+Now impose the live small-c bound
+1<=h<=C=B^(1/6+xi).
+
+
+Fix k and h.
+
+
+Then the primitive face hypotenuse
+n=h*k
+is fixed. The number of ordered primitive Pythagorean face directions (A,B,n) is bounded by a divisor function and hence is B^o(1).
+
+
+Each such ordered direction fixes one physical rational face ratio A/B. Retained M3-T11-010 gives uniform B^o(1) multiplicity for each fixed physical edge ratio, with physical contents/lifts included. The same physical charging discipline as M3-T11-160/163 applies; all remaining endpoint conditions only remove states.
+
+
+Consequently
+#{K=1 exact endpoints with fixed (h,k)}
+<=B^o(1).                                            (181.19)
+
+
+Summing h<=C gives, uniformly for every fixed k,
+#{K=1 exact endpoints with this k}
+<=C*B^o(1).                                          (181.20)
+
+
+Therefore for every K>=1,
+P_K1,k<=K(B;C)
+<=C*K*B^o(1).                                        (181.21)
+
+
+Choose a fixed epsilon_k>0 with xi+epsilon_k<1/6 and put
+K=B^(1/6-xi-epsilon_k).                              (181.22)
+
+
+Then
+P_K1,k<=K(B;C)
+<=B^(1/3-epsilon_k+o(1))
+=o(M3(B)).                                           (181.23)
+
+
+Thus after deleting this exact endpoint sector, every surviving small-c K=1 endpoint satisfies
+k=gcd(n,v)
+>B^(1/6-xi-epsilon_k).                               (181.24)
+
+
+This is a new scoped K=1 receiver. Quantitatively it is compatible with the retained small-primitive-face-hypotenuse deletion: n=h*k. It is not an independent multiplicative saving relative to M3-T11-161/163.
+
+
+5. Large-k Euclid allocation and saturation firewall
+
+
+Because the primitive face hypotenuse n is odd and h is odd, k is odd.
+
+
+From the primitive space triangle,
+v^2=(tau-u)(tau+u).                                  (181.25)
+
+
+For every odd prime power p^a||k, one has p∤tau by (181.18). Therefore p cannot divide both tau-u and tau+u, since their gcd divides 2*tau.
+
+
+Thus the p^(2a) contribution from k^2|v^2 is allocated wholly to exactly one of tau-u or tau+u.
+
+
+There are unique pairwise coprime positive integers k_-,k_+ with
+k_-*k_+=k,
+k_-^2 | tau-u,
+k_+^2 | tau+u.                                      (181.26)
+
+
+Choosing the larger one gives q=max(k_-,k_+), hence
+q>=sqrt(k),
+q^2>=k.                                               (181.27)
+
+
+On the residual (181.24),
+q^2
+>B^(1/6-xi-epsilon_k).                               (181.28)
+
+
+Equivalently,
+u == +tau mod k_-^2
+or
+u == -tau mod k_+^2.                                 (181.29)
+
+
+However this is not a new rare square-divisor event. In every primitive Pythagorean triangle the normalized factors tau±u are themselves squares or twice squares in Euclid parameters. The large q in (181.26) is therefore a saturated Euclid-root allocation of the already-forced large shared divisor k.
+
+
+No lattice-density, square-divisor-density or root-line probability may be charged from (181.26)-(181.29) without a genuinely new same-endpoint correlation theorem.
+
+
+This is analogous in spirit to the retained M3-T11-167 saturation firewall, but it concerns the K=1 face-diagonal leg v and the new face/space shared gcd k, not the global edge-leg L_free router.
+
+
+6. Fresh-Sigma occupied support is power-equivalent to active tau
+
+
+Let S_tau^(1)(B) be the occupied K=1 tau values and S_SigmaSharp(B) the occupied K=1 Sigma_sharp values from M3-T11-180.
+
+
+M3-T11-177 proves, uniformly,
+#{K=1 endpoints with fixed tau}<=B^o(1).             (181.30)
+
+
+M3-T11-180 proves, uniformly,
+#{K=1 endpoints with fixed Sigma_sharp}<=B^o(1).     (181.31)
+
+
+Build the exact endpoint incidence graph whose left vertices are occupied tau values, right vertices are occupied Sigma_sharp values, and whose edges are physical endpoints.
+
+
+A fixed tau vertex is incident to at most B^o(1) endpoints by (181.30), hence to at most B^o(1) occupied Sigma_sharp values.
+A fixed Sigma_sharp vertex is incident to at most B^o(1) endpoints by (181.31), hence to at most B^o(1) occupied tau values.
+
+
+Therefore
+|S_SigmaSharp(B)|
+<=B^o(1)|S_tau^(1)(B)|,                              (181.32)
+|S_tau^(1)(B)|
+<=B^o(1)|S_SigmaSharp(B)|.                           (181.33)
+
+
+So the two supports have the same polynomial exponent.
+
+
+Together with the fixed-fiber theorems,
+#E_K1(B),
+|S_tau^(1)(B)|,
+|S_SigmaSharp(B)|
+are all power-equivalent.                            (181.34)
+
+
+Consequently, after the useful small-Sigma_sharp sector deletion of M3-T11-180, a bare theorem that only counts the remaining occupied Sigma_sharp support is not a new narrower theorem species: at power scale it is the original active-tau support gate in another coordinate.
+
+
+A genuinely new continuation through Sigma_sharp would need additional structure on the LARGE support, not merely a change of support label.
+
+
+7. Operational consequence for the current route
+
+
+Route (A) from M3-T11-180 is now firewalled:
+
+
+LargeFreshSigmaSupport alone
+= active-tau support at power scale.                 (181.35)
+
+
+The exact small-Sigma_sharp sector theorem remains retained and useful; only the idea that the remaining large support is automatically simpler is rejected.
+
+
+The new k-coordinate also does not by itself solve the residual:
+- small k is disposed by (181.23);
+- large k yields the exact face-space gcd/lcm structure and saturated Euclid allocation;
+- no independent density saving follows from q^2|tau±u.
+
+
+Therefore the preferred genuinely non-redundant continuation is M3-T11-180 route (B):
+the symmetric extreme allocation
+Q_S*C_u=M_rel^2,
+with large Q_S denominator support versus large C_u amplified common-u Gaussian norm, preserving the exact physical measure.
+
+
+The retained two large relative M3-T11-026 moduli from179 and the new k bridge may be used only if a future theorem couples them to the symmetric extreme allocation on the SAME endpoint.
+
+
+8. Novelty and limits
+
+
+CARD-INDEX searches for:
+- Sigma_sharp active tau support;
+- fresh Sigma support equivalent;
+- occupied fresh Sigma tau;
+- face space lcm bridge;
+- shared face space gcd;
+- K1 denominator gcd lcm;
+- n/gcd(n,v);
+- tau±u face-diagonal square-divisor
+found no prior card stating (181.5)-(181.18), the fixed-k sector (181.21)-(181.24), or the support-equivalence firewall (181.32)-(181.35).
+
+
+M3-T11-163 already controls small primitive face legs globally; M3-T11-161 controls small primitive face hypotenuse. The present small-k sector is not credited independently from those global geometric sectors when they overlap.
+
+
+No physical endpoint was enumerated. No independent hostile audit is claimed. No global endpoint bound, primary-gate closure or P/M3 theorem is proved.
+
+
+NEW_K1_FACE_SPACE_GCD_LCM_BRIDGE=true
+NEW_K1_DENOMINATOR_FILTER_EXACT_GCD_FORM=true
+NEW_K1_SMALL_SHARED_GCD_ENDPOINT_SECTOR=true
+K1_LARGE_SHARED_GCD_EUCLID_SATURATED=true
+K1_FRESH_SIGMA_SUPPORT_POWER_EQUIVALENT_ACTIVE_TAU=true
+LARGE_FRESH_SIGMA_SUPPORT_STANDALONE_NOVELTY=false
+NEW_GLOBAL_ENDPOINT_BOUND=false
+PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+GLOBAL_COUNTING_CREDIT=0
+
+
+9. Drive-only handoff
+
+
+LATEST_RESEARCH_CARD=M3-T11-181
+NEXT_CANDIDATE=M3-T11-182
+CURRENT_ATTACK=SymmetricExtremeTailWithK1PhysicalFilters
+
+
+182 should NOT spend another card merely recounting occupied Sigma_sharp values or treating large k as a square-divisor density event.
+
+
+Primary continuation:
+use the M3-T11-180 residual
+Sigma_sharp>B^(1/3-delta_sharp),
+M_rel>B^(1/4-(3/2)delta_sharp-(3/2)xi),
+together with the exact symmetric partition
+Q_S*C_u=M_rel^2.
+
+
+Attack either:
+(A) large Q_S denominator support on exact K=1 endpoints; or
+(B) large C_u amplified common-u norm support.
+
+
+Retain:
+- M3-T11-036 fixed-S/fixed-u B^o(1) physical fibers;
+- M3-T11-039/040 conductor partition;
+- M3-T11-042-A E fourth-power denominator only as a marker;
+- M3-T11-176 exact denominator filters, now equivalently (181.16)-(181.18);
+- the exact face-space bridge n=h*k, v=g*k, f_12=lcm(n,v);
+- large Sigma / large D_min;
+- full triple-spin and torus double-lift selectors.
+
+
+Do not multiply:
+- Q_S and C_u savings;
+- the two M3-T11-026 moduli;
+- the k Euclid-square allocation;
+- M3-T11-019 determinant;
+- M3-T11-032/033 product modulus;
+- M_rel^4|Den(E).
+
+
+The separate threshold-specific large-c branch remains OPEN. K>1 low-median averaging remains OPEN. TI parked, 120 retracted, 147-149 frozen.

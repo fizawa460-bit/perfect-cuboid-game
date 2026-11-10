@@ -1,0 +1,225 @@
+﻿M3-T11-171 — Content-weighted two-smallest relative-core divisor and summed endpoint sector
+
+
+CARD_ID: M3-T11-171
+CANONICAL_CARD_KEY: M3-T11-171
+STATUS: PROVED_EXACT_FIXED_SIGMA_FIBER / SUMMED_SMALL_SIGMA_ENDPOINT_SECTOR / SUPPORT_QUANTIFIER_CORRECTION
+PRIMARY_GATE: M3-T11-GATE-001, OPEN
+GLOBAL_OPERATION: ACTIVE_T11_RESEARCH_WITH_SCOPED_DECOMPOSITION
+GLOBAL_COUNTING_CREDIT: 0
+AUDIT_MODE: WITHIN_SESSION_DEDUCTIVE_FROM_RETAINED_015_016_017_030_170
+UNIFORM_ELLIPTIC_INPUT: retained016; no new external theorem imported
+PHYSICAL_ENDPOINTS_ENUMERATED: 0
+
+
+1. Decision and current authority
+
+
+MAIN, CARD-INDEX, current short RESULT-LEDGER, latest170/169 and the needed individual015-019/010/030 cards were read. Only the relevant ROUTE17-19, 28 and corrected030 interfaces were used; old history was not restarted.
+
+
+The occupied (r,tau) support is still not counted. Instead, retained016 permits a useful global aggregation of its fixed-two relative-core theorem: include the entire physical content product in a scalar conductor and omit the largest relative norm. This gives a new exactly counted endpoint sector, with all content and coefficient costs included.
+
+
+Separate correction: bare support little-o is not sufficient when the only fiber control is B^o(1). The fixed-pair theorem of170 and its power-scale support comparison are retained; its bare little-o sufficient target is corrected below.
+
+
+2. Exact divisor coordinate
+
+
+For one primitive positive canonical endpoint write
+h_i=gcd(R,e_i),
+H=h_1 h_2 h_3,
+R=H tau,
+c_i=h_j h_k.
+
+
+Use retained015 full (not merely fresh) four-core orientation decomposition
+tau=tau_0 tau_1 tau_2 tau_3,
+N(G_i)=tau_i.
+The four tau_i are pairwise coprime, and G_i are primitive Gaussian integers.
+
+
+Fix the standard positive Euclid representative for each oriented space triangle, a primary-prime convention, and the finite unit/parity conventions. Factor c_i and tau with the same orientation as that representative. These rules make a canonical packet for each endpoint. Alternatively any bounded/divisor-many retained cover gives the same upper bounds.
+
+
+Let j be the smallest label attaining max(tau_1,tau_2,tau_3), and let {a,b}={1,2,3}\{j}, a<b. Define
+mu=tau_a tau_b,
+Sigma=H mu.
+
+
+Then exactly
+Sigma=H*(tau_1 tau_2 tau_3)/max(tau_1,tau_2,tau_3)
+     =R/(tau_0 tau_j).                            (171.1)
+
+
+In particular Sigma is a positive integer divisor of the actual physical R:
+Sigma | R,  1<=Sigma<=R<=B.                       (171.2)
+
+
+This is a canonical physical label, not an ambient root-line or an auxiliary modulus. No fresh-prime assumption is needed.
+
+
+3. Uniform fixed-Sigma endpoint fiber
+
+
+Fix Sigma=n. The positive integers
+(h_1,h_2,h_3,tau_a,tau_b)
+satisfy
+h_1 h_2 h_3 tau_a tau_b=n.
+There are at most d_5(n)=n^o(1) ordered possibilities. The omitted index j costs at most three choices.
+
+
+After these five integers are fixed, the three coefficient norms c_i=h_j h_k are fixed. The number of primitive Gaussian B_i with N(B_i)=c_i, with the finite unit/parity choices retained, is B^o(1) by the sum-of-two-squares divisor bound. The representations of the two fixed relative norms tau_a,tau_b likewise cost B^o(1).
+
+
+Thus the coefficient packet and G_a,G_b are fixed at divisor-many cost. By cyclic symmetry of retained016, the remaining relative core G_j has only B^o(1) endpoint-compatible possibilities.
+
+
+The retained016 hypothesis check is essential. The pair of actual phases r_a,r_b is neither equal nor opposite on a positive endpoint: opposite phases give opposite physical normalized legs; equal phases force a zero leg through the triple-spin relation and sphere equation. The genus-one quartic is therefore nondegenerate. Its resultant is
+Res_t(Q_a,Q_b)=-16(a-b)^2(ab+1)^2,
+Q_a(t)=(1-a^2)(1-t^2)+4at.
+Model coefficients and point coordinates have physical polynomial height. The uniform rational-torsion input already retained in016 therefore applies, including as content varies over n<=B. The adjective "small" attached historically to the content packet is not needed for this height check: c_i<=R<=B for every endpoint.
+
+
+Once all three relative cores and the coefficient packet are fixed, set
+A=r_1^2+r_2^2+r_3^2,
+U=Q^2,
+Q=q_0 q_1 q_2 q_3,
+q_i=G_i/conj(G_i).
+Retained015 gives
+conj(A) U^2+2U+A=0.
+If A=0 this would force U=0, impossible on the norm-one torus. Otherwise there are at most two U, finitely many Q, and finitely many q_0.
+
+
+A rational q_0 determines its primitive Gaussian representative G_0 up to units: equality G/conj(G)=G'/conj(G') implies G/G' is rational, and primitivity removes rational dilation. Thus G_0 contributes O(1), not a free radial norm family.
+
+
+The whole packet fixes tau and R=H tau, and the primitive space directions reconstruct the positive edges up to finite parity/sign choices. All sphere, face-integrality, actual-gcd and canonical-order checks are post-filters.
+
+
+Consequently, uniformly for n<=B,
+m_Sigma(n;B)
+=#{primitive canonical endpoints with R<=B and Sigma=n}
+<=B^o(1).                                        (171.3)
+
+
+This proof includes the content budget inside d_5(n). There is no additional C^(3/2) outer factor. It uses one fixed-two elliptic count once and does not multiply cyclic congruence densities.
+
+
+4. Summed small-Sigma sector
+
+
+For every 1<=Z<=B,
+P_{Sigma<=Z}(B)<=Z B^o(1).                         (171.4)
+
+
+Hence, for any fixed delta>0,
+Z=B^(1/3-delta)
+gives
+P_{Sigma<=Z}(B)<=B^(1/3-delta+o(1))=o(M3(B)),      (171.5)
+using the already-retained denominator lower bound M3(B)>>B^(1/3).
+
+
+This is a new scoped endpoint disposal, valid before the large-c/small-c split. It is not a global upper improvement or a proof of P/M3->0.
+
+
+Comparison to corrected030: fixed full R_rel=tau_1 tau_2 tau_3 had divisor-many multiplicity per content packet. Here the largest relative norm is not fixed: retained016 counts it. Simultaneously H is included inside Sigma, so summing over content triples is charged at divisor cost. The content-weighted condition H R_rel<=Z implies Sigma<=Z; the new condition can also admit packets with much larger tau_j. No nonempty physical difference is asserted.
+
+
+5. Sharpened necessary relative-core balance on the residual
+
+
+After removing (171.5), every remaining endpoint satisfies
+H*tau_(1)*tau_(2)>B^(1/3-delta),                   (171.6)
+where tau_(1)<=tau_(2)<=tau_(3) are the three relative norms.
+
+
+On branch(B), c_max<=C gives H<=C^(3/2). Thus
+tau_(1) tau_(2)>B^(1/3-delta)/C^(3/2).             (171.7)
+
+
+For C=B^(1/6+xi),
+tau_(1) tau_(2)>B^(1/12-delta-(3/2)xi),           (171.8)
+and therefore both tau_(2),tau_(3) exceed
+B^(1/24-delta/2-(3/4)xi).                         (171.9)
+
+
+Choose delta+(3/2)xi<1/12 when a positive exponent is desired.
+
+
+This is a full-relative-core condition. It does not assert that each fresh part has the same size; content-supported prime powers remain retained. It also does not authorize multiplying two squared-modulus savings.
+
+
+For branch(A) the universally valid residual condition is (171.6), without the small-c simplification.
+
+
+6. Occupied-support bridge
+
+
+On any retained branch let S_Sigma be the actual occupied canonical Sigma values. Every value is realized by an endpoint, and (171.3) gives
+|S_Sigma|<=#endpoints<=B^o(1)|S_Sigma|.             (171.10)
+
+
+On live branch(B), retained170 also gives the same estimate with P_rt, and retained017 gives it with A_ht. Thus Sigma support, occupied (r,tau) support and active content-tau support have the same power exponent. This comparison alone proves no support sparsity.
+
+
+The remaining branch(B) problem can be stated as a support count on Sigma>B^(1/3-delta), with the existing retained large-R and small-c conditions and (171.7). All labels refer to the same physical endpoints.
+
+
+7. Corrected quantifiers in169/170
+
+
+From N(B)<=K(B)|S(B)| with K(B)=B^o(1), the assertion
+|S(B)|=o(B^(1/3))
+does not alone imply N(B)=o(B^(1/3)).
+For example K(B)=ceil(log B), |S(B)|=floor(B^(1/3)/K(B)) has subpolynomial fibers and little-o support, but weighted mass/B^(1/3)->1. This is an abstract logical countermodel, not a physical population.
+
+
+A rigorously sufficient power-scale target is instead
+|P_rt(B;C)|<<B^(1/3-epsilon), fixed epsilon>0.     (171.11)
+
+
+The same fixed-power target works for S_Sigma or A_ht. More generally, an explicit envelope K_170(B) is sufficient together with
+K_170(B)|P_rt(B;C)|=o(B^(1/3)).
+An exact occupancy-weighted sum o(B^(1/3)) is also sufficient.
+
+
+Retained170 equations170.7-170.11, opposite-face compression and C^(1/2) loss removal remain accepted. Only the automatic bare little-o sufficiency in170.12 and its handoff is superseded. The analogous bare weighted little-o implication in169.9 and crude little-o version169.10 also require absorption of the retained B^o factor; use a fixed power margin or an explicit envelope. The fixed-content active-tau target B^(1/12-epsilon) in015-019 already includes such a margin and remains valid.
+
+
+8. Verification, novelty and limits
+
+
+CARD-INDEX was checked for two-smallest relative norms, relative-core norm-product budget, fixed-R_rel, complementary divisor, all-same core and support-quantifier claims. Corrected030 fixes all three relative norms through R_rel. It does not state fixed H*tau_(1)*tau_(2) fibers or the globally summed (171.4).
+
+
+Exact polynomial determinant verification checks the retained016 resultant. Exact rational arithmetic verifies 2000 triple-spin discriminant identities. Primitive Gaussian phase recovery was checked for 19119 representatives of norm<=20000; 10000 synthetic norm bundles check Sigma|R, (171.1), mu^3<=R_rel^2 and the median/max bounds; 300 integer labels check the ordered-five-factor d_5 formula. These tests verify algebra and finite combinatorics only. They do not prove the uniform elliptic theorem or enumerate physical endpoints. No independent hostile audit is claimed.
+
+
+Companion files: verify_m3_t11_171.py and M3-T11-171-verification.json, retained in the Stage37 research area.
+
+
+9. Handoff
+
+
+LATEST_RESEARCH_CARD=M3-T11-171
+NEXT_CANDIDATE=M3-T11-172
+CURRENT_ATTACK=ThresholdSpecificLargeCrossGcdTailAfterSmallSigmaDisposal
+
+
+No occupied-support deficit was proved in this batch. In accordance with170's fallback, next examine branch(A), c_max>B^(1/6+xi), using the actual threshold and the residual Sigma>B^(1/3-delta). Read156 and the CROSS-GCD route only as needed. The false all-C raw B^(1/2)/C target remains prohibited.
+
+
+Branch(B) remains available through the now-equivalent occupied supports and the full two-large-relative-core necessary condition. Reopen a core-count approach only with a genuine occupied-support/correlation theorem including all content costs, not another fixed-fiber reparameterization.
+
+
+NEW_FIXED_SIGMA_BO1=true
+NEW_SUMMED_SMALL_SIGMA_SECTOR=true
+BARE_LITTLE_O_SUPPORT_SUFFICIENCY=false
+NEW_GLOBAL_ENDPOINT_UPPER_SAVING=false
+P_OVER_M3_LIMIT_PROVED=false
+GLOBAL_COUNTING_CREDIT=0
+TI=PARKED
+120=RETRACTED
+147-149=FROZEN
