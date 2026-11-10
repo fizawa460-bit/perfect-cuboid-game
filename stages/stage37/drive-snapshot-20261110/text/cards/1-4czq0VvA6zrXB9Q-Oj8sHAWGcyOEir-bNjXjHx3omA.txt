@@ -1,0 +1,99 @@
+﻿# K16-C3-M3 — LEDGER ADDENDUM (pending merge into RESULT-LEDGER)
+
+
+STATUS: PENDING_MERGE
+CREATED_BY: Claude (chat session), 2026-09-27
+PURPOSE: This card should be merged into K16-C3-M3-RESULT-LEDGER (append before the final LEDGER_STATUS=ACTIVE line). Created as a separate file because this tool session cannot patch existing Google Docs bodies directly.
+
+
+---
+
+
+## M3-TQ-DIAG-NEG-001
+
+
+TYPE: NEGATIVE_RESULT
+STATUS: UNVERIFIED_DISCREPANCY
+
+
+CLAIM:
+The finite diagnostic numbers reported for M3-TQ-001 (t28 synthetic box) could NOT be reproduced by independent re-implementation in this session.
+
+
+Documented claim (MAIN section 11A / M3-TQ-001):
+a,b,p,q<=40: 587 first-cover square hits, 489 universal p=q=1 diagonal hits, 98 non-diagonal first-cover hits, 0 of those 98 satisfy the second square.
+
+
+Documented claim (MAIN section 11B, extended scan):
+a,b,p,q<=55: 1087 first-cover square hits, 939 universal diagonal hits, 148 off-diagonal first-cover hits, 0 satisfying the second square.
+
+
+INDEPENDENT RE-IMPLEMENTATION:
+Using
+F_{a,b}(p,q) = (b^2 p^2 - a^2 q^2)(b^2 q^2 - a^2 p^2)
+and
+H_{a,b}(p,q) = (a^4+6a^2b^2+b^4)(p^4+q^4) - 2(a^2-b^2)^2 p^2 q^2,
+with (a,b) coprime and (p,q) coprime, three parameter-range interpretations were tried:
+
+
+1. (a,b) coprime, no parity constraint; p>q>=1, gcd(p,q)=1:
+   N=40 -> (first_cover=538, universal_diag=0, offdiag=538, offdiag_second_square=489)
+   N=55 -> (1013, 0, 1013, 939)
+
+
+2. (a,b) coprime, opposite parity (primitive-Euclid style); p>q>=1, gcd(p,q)=1:
+   N=40 -> (365, 0, 365, 331)
+   N=55 -> (673, 0, 673, 622)
+
+
+3. (a,b) coprime, opposite parity; all p,q>=1 coprime including p<=q, with p=q classified as "universal":
+   N=40 -> (1061, 331, 730, 662)
+   N=55 -> (1968, 622, 1346, 1244)
+
+
+None of these three interpretations match the documented (587,489,98,0) or (1087,939,148,0). Notably, in every interpretation tried here, offdiag_second_square is a large fraction of offdiag (roughly 90%), NOT zero — directly contradicting the documented "0 of N off-diagonal hits satisfy the second square" result, which was cited as (non-asymptotic) motivating evidence for the difficulty of the second square condition.
+
+
+POPULATION:
+t28 synthetic diagnostic box; exact parameter range/dedup/orientation convention used in the original diagnostic is not fully recoverable from MAIN section 11A/11B alone.
+
+
+DEPENDS_ON:
+M3-TQ-001 (MAIN section 11A/11B).
+
+
+IMPLIES:
+At least one of the following holds, and it is NOT currently known which:
+(a) the original diagnostic used a generation/dedup/orientation convention for (a,b,p,q) that differs from all three tried here — e.g. a genuine height cutoff on D or R (rather than a flat box on a,b,p,q), a different symmetry class representative, a sign/orientation convention on g1..g4, or additional filters (primitive/canonical/height/reconstruction) mentioned elsewhere in MAIN but not fully specified in section 11A itself;
+(b) the documented diagnostic numbers were never actually computed by running code, and are a plausible-looking but fabricated/hallucinated artifact from a prior AI research session — this is a real possibility given that numbers like (587,489,98,0) are exactly the kind of specific-looking output an LLM can produce without execution;
+(c) this reproduction attempt contains a bug, or misreads the boxed formulas in MAIN section 11A (e.g. an incorrect homogenization of F/H from the T=p/q form to the (p,q) form).
+
+
+Given that the "0 non-diagonal hits satisfy the second square" claim is qualitatively important (even though MAIN explicitly flags it as non-asymptotic and carrying no theorem credit), this specific numerical claim should NOT be treated as confirmed, and should not be used to motivate further research direction, until an exact reproduction is achieved.
+
+
+ALIASES:
+t28 diagnostic reproduction failure; M3-TQ-001 numerical discrepancy; TQ diagnostic mismatch.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+none. This does NOT overturn the algebraic identities proved for M3-TQ-001/M3-TQ-002 (Res_T(F,H)=(a^2+b^2)^16, disc_T(F), disc_T(H), H+4F=A^2*B0^2, etc.) — those are symbolic identities checkable independently of the diagnostic counts, and are not challenged by this card. Only the cited finite diagnostic counts are in question.
+
+
+DO_NOT_REPEAT:
+Do not cite the (587,489,98,0) or (1087,939,148,0) counts as confirmed evidence in future reasoning until reproduced with a matching, explicitly documented parameter convention, ideally cross-checked by a second independent implementation.
+
+
+REOPEN_CONDITION:
+Either (i) the exact parameter/dedup/orientation convention is recovered (e.g. by locating the original computation, or by a MAIN/route-doc update specifying it precisely) and reproduction then succeeds, or (ii) a corrected diagnostic is computed, checked, and the old numbers are explicitly marked SUPERSEDED with the corrected values recorded.
+
+
+DETAIL_DOC:
+This card. Three independent Python implementations were run in the originating chat session (not attached to Drive); the exact code is not persisted here, only the resulting counts and formulas used.
+
+
+---

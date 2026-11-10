@@ -1,0 +1,70 @@
+﻿RETRACTION NOTICE — supersedes K16-C3-M3-LEDGER-ADDENDUM-RETRACTED-FALSE-ALARM
+(formerly titled K16-C3-M3-LEDGER-ADDENDUM-M3-TQ-DIAG-NEG-001)
+
+
+DATE: 2026-09-27
+STATUS: FULLY RETRACTED. DO NOT MERGE THE SUPERSEDED FILE INTO RESULT-LEDGER.
+
+
+SUMMARY:
+The prior card M3-TQ-DIAG-NEG-001, claiming the M3-TQ-001 diagnostic counts
+(587,489,98,0) at N=40 and (1087,939,148,0) at N=55 could not be reproduced,
+was a FALSE ALARM caused by an implementation error on my (Claude's) part.
+
+
+ROOT CAUSE:
+My re-implementation omitted the Stage14-t28 physical interval constraint
+
+
+    a/b < p/q < b/a
+
+
+required for a non-degenerate positive cover point. The original synthetic
+audit is defined over: all coprime 0<a<b<=N, and all primitive 1<=p,q<=N
+strictly inside that physical interval. Without this filter, my code counted
+a much larger and different population (all coprime p,q with p>q, or all
+coprime p,q including p<=q), which explains both the mismatched totals and
+the spurious ~90% offdiag_second_square hit rate.
+
+
+INDEPENDENT RE-VERIFICATION (with the physical interval filter restored):
+
+
+N=40: directions=489, physical (p,q) pairs=239121,
+      first_cover=587, universal_diag(p=q)=489, offdiag=98, offdiag_H_square=0
+
+
+N=55: directions=939, physical (p,q) pairs=881721,
+      first_cover=1087, universal_diag(p=q)=939, offdiag=148, offdiag_H_square=0
+
+
+This exactly matches the documented MAIN section 11A/11B values
+(587,489,98,0) and (1087,939,148,0), including the intermediate
+"directions" counts (489, 939) that also appear as universal_diag.
+
+
+CONCLUSION:
+- M3-TQ-001's finite diagnostic is CONFIRMED, not in question.
+- M3-TQ-001/M3-TQ-002's algebraic identities were never in question and remain intact.
+- The correct ledger status for this whole episode is:
+  RESOLVED / REPRODUCTION FILTER OMISSION (false alarm), not UNVERIFIED_DISCREPANCY.
+
+
+ACTION FOR WHOEVER NEXT EDITS RESULT-LEDGER:
+- Do NOT append the retracted card's claims to RESULT-LEDGER.
+- Optionally add a one-line historical note under M3-TQ-001 such as:
+  "2026-09-27: an independent reproduction attempt initially failed due to
+  omitting the a/b<p/q<b/a physical interval filter; corrected reproduction
+  matches documented counts exactly. See LEDGER-ADDENDUM-RETRACTED-FALSE-ALARM
+  and this retraction notice for detail." This is optional since the
+  diagnostic already carried no theorem credit either way.
+- The two Drive files from this episode
+  (K16-C3-M3-LEDGER-ADDENDUM-RETRACTED-FALSE-ALARM and this notice)
+  can be left in place as a record, or deleted if the user prefers a clean folder.
+
+
+NEXT RESEARCH STEP (per user instruction):
+Return to the primary active gate M3-TQ-GATE-002 / TrivialPartitionSecondSquareclassEnergy,
+specifically the off-direction / off-cover H-squareclass collision analysis
+(MAIN section 11B, "Fixed-packet collision geometry" and the genus-5 /
+general-type collision surface discussion). This false-alarm detour is closed.
