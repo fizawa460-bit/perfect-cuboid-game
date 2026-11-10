@@ -1,0 +1,205 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229BG — fixed 48-node canonical cuboid surface and squareclass-duality theorem audit
+
+
+STATUS: POST_229BF_FIXED_GLOBAL_ENDPOINT_SURFACE_IDENTIFIED / PROVED_COMPLETE_INTERSECTION_2_2_2_2 / PROVED_48_A1_NODES_BY_SEVEN_LINE_SQUARE_COVER / PROVED_CANONICAL_GENERAL_TYPE_INVARIANTS_K2_16_PG7_Q0 / PROVED_EXACT_PHYSICAL_SUP_HEIGHT_R / MOVING_GENUS5_REFRAMED_AS_FIXED_SURFACE_FIBRATION / ASIRYAN_2026_WEIGHTED_SQUARECLASS_THEOREM_AUDITED / PROVED_ASIRYAN_N_COMMON_GSTAR_SQUARE_CANCELLATION / DIRECT_HEIGHT_TRANSFER_TOO_WEAK / GLOBAL_COUNTING_CREDIT=0 / NO_GLOBAL_REOPEN
+TYPE: POST-229BF FIXED GLOBAL GEOMETRY / FOUR-QUADRIC CANONICAL SURFACE / SQUARE-SIGN ABELIAN COVER / CURRENT EXTERNAL THEOREM REMATCH / HEIGHT-AND-RADICAL FIREWALL
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229BF
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1g5pZkgflOdXNTX0g-KgDYd2eeXFJJ0wnwhyfiBqNCnI
+
+
+1. Scope
+Retain229F/229K/229AH/229BF. The exact endpoint selector surface is the projective surface
+  X_pc subset P^6_[e:x:y:z:R:U:V]
+defined by
+  x^2+y^2=z^2,
+  e^2+z^2=R^2,
+  e^2+x^2=U^2,
+  e^2+y^2=V^2.                                  (229BG.1)
+On a positive rational point all seven coordinates are the three edges, three face diagonals and space diagonal of a perfect cuboid, after the harmless coordinate permutation (edges e,x,y; face diagonals z,U,V; body R). This is the classical perfect-cuboid surface. The geometry below is therefore NOT claimed globally new; van Luijk and later work already identify the perfect-cuboid surface as a 48-nodal surface of general type. What is new for the current Stage37 chain is the exact crosswalk to the 229BD/229BF physical coordinates, current radical G_*, exact R-height, and the 2026 squareclass theorem audit.
+
+
+2. Fixed complete-intersection source: no moving coefficient remains globally
+Projection forgetting U,V gives the229F fixed 4A1 base
+  X0: x^2+y^2=z^2, z^2+e^2=R^2.
+229K proved the two selector squareclasses e^2+x^2 and e^2+y^2 geometrically independent on the dense function field, so (229BG.1) is geometrically integral on the dense open and generically degree four over X0.
+Since U and V are integral quadratic square roots over X0, X_pc has dimension 2. It is cut out by four quadrics in P^6, hence has codimension 4. Therefore the four quadrics form a regular sequence and
+  X_pc is a complete intersection of type (2,2,2,2),
+  deg X_pc=16.                                      (229BG.2)
+There are no degree-one equations, so it is nondegenerate.
+RESULT_229BG_FIXED_FOUR_QUADRIC_GLOBAL_SOURCE=PROVED_EXACT.
+This upgrades the current theorem interface: the moving fixed-outer genus-five curves from229BF are fibers/slices of ONE fixed projective surface; the global source itself has no moving coefficients.
+
+
+3. Exact 64-sheet square-sign cover and seven branch lines
+Define
+  pi_sq:X_pc -> P^2_[A:X:Y],
+  [e:x:y:z:R:U:V] |-> [e^2:x^2:y^2].
+It is everywhere defined because e=x=y=0 forces every coordinate in (229BG.1) to vanish.
+The remaining squares are the seven linear forms
+  e^2=A,
+  x^2=X,
+  y^2=Y,
+  z^2=X+Y,
+  R^2=A+X+Y,
+  U^2=A+X,
+  V^2=A+Y.                                       (229BG.3)
+At a generic base point all seven are nonzero. The seven square-root signs modulo the common projective sign give
+  deg(pi_sq)=2^6=64.                              (229BG.4)
+The branch arrangement consists of the seven lines
+  A=0, X=0, Y=0, X+Y=0, A+X+Y=0, A+X=0, A+Y=0.
+Exactly six triple intersections occur:
+  [0:0:1], [0:1:0], [1:0:0],
+  [0:1:-1], [1:0:-1], [1:-1:0],                 (229BG.5)
+and there is no fourfold intersection. Every other line intersection is ordinary double.
+
+
+4. Exact 48 ordinary double points
+At a triple point precisely three square coordinates vanish and four remain nonzero. After choosing square roots of the four nonzero units, the local cover is analytically of the form
+  w^2=u^2+v^2
+or the same form after a nonzero linear/sign change. This is an A1 ordinary double point.
+The four nonzero square coordinates have 2^4 sign choices modulo common projective sign, so each triple branch point has exactly
+  2^3=8
+geometric lifts. Therefore
+  Sing(X_pc) consists of exactly 6*8=48 reduced A1 nodes. (229BG.6)
+Away from the six triple intersections the square cover is smooth: one branch gives a smooth square-root coordinate, and a transverse double branch is locally two independent square roots.
+Every singular point has at least one zero coordinate, so the strict positive physical locus is disjoint from Sing(X_pc).
+RESULT_229BG_SINGULAR_LOCUS=48_A1_PROVED_EXACT.
+This independently recovers the classical 48-node description in current coordinates.
+
+
+5. Canonical surface invariants and exact physical height
+For a type-(2,2,2,2) local complete intersection in P^6, adjunction gives
+  omega_Xpc = O_Xpc(2+2+2+2-7)=O_Xpc(1).          (229BG.7)
+Hence the hyperplane class is the canonical class. The A1 points are canonical rational double points, so on the minimal resolution Xtilde_pc the resolution is crepant and
+  K_Xtilde^2 = O_Xpc(1)^2 = deg X_pc =16.          (229BG.8)
+Since the ideal has no linear forms,
+  p_g=h^0(omega)=h^0(O_Xpc(1))=7.
+The Koszul resolution of the complete intersection and vanishing of intermediate cohomology of line bundles on P^6 give
+  q=h^1(O_Xpc)=0,
+  chi(O)=8.                                       (229BG.9)
+Thus the minimal resolution is a surface of general type with numerical invariants
+  K^2=16, p_g=7, q=0.
+On a primitive positive physical endpoint gcd(e,x,y)=1, the seven-coordinate vector is primitive. Moreover
+  R^2=e^2+x^2+y^2,
+so
+  e,x,y,z,U,V < R.
+Therefore the standard projective sup-height on the canonical embedding is EXACTLY
+  H_inf([e:x:y:z:R:U:V])=R.                       (229BG.10)
+RESULT_229BG_CANONICAL_GENERAL_TYPE_AND_EXACT_R_HEIGHT=PROVED_EXACT.
+This is the global analogue of229F's exact-height statement on the two-selector base.
+
+
+6. 229BF genus-five fibers are one fixed-surface slicing problem
+On the physical open, fixing the primitive outer triple (E,Z,H) is equivalent to fixing the projective ratio
+  [e:z:R]=[E:Z:H]
+on the conic e^2+z^2=R^2. Substituting that ratio and parameterizing x/z,y/z by a primitive Euclid pair gives exactly the two quartics F1,F2 of229BF. Thus the229BF genus-five V4 curve is the fixed-outer fiber of the rational map
+  X_pc -->> { [e:z:R]:e^2+z^2=R^2 } ~= P^1.       (229BG.11)
+The map is regular on the positive physical locus; its indeterminacy can occur only on boundary points with e=z=R=0, which are among the nodal boundary.
+Consequently the current obstruction is not fundamentally a family of unrelated genus-five curves with moving geometry. It is arithmetic point counting on one fixed canonical surface, optionally sliced by a rational P^1 fibration.
+RESULT_229BG_MOVING_GENUS5_COEFFICIENT_FIREWALL=REMOVED_GLOBALLY.
+No counting saving follows from this reformulation.
+
+
+7. Current external geometry literature match
+The fixed surface is classical. In particular:
+- van Luijk, “On Perfect Cuboids” identifies the same projective perfect-cuboid surface and its 48 singular points/general-type desingularization.
+- Bruin, Thomas, Várilly-Alvarado, “Explicit computation of symmetric differentials and its application to quasi-hyperbolicity”, Algebra & Number Theory 16 (2022), arXiv:1912.08908, prove restrictions on rational and genus-one curves on the perfect-cuboid surface: nonstandard rational curves must pass through many nodes, and genus-one curves must pass through nodes.
+These inputs support the fixed-surface geometry but do NOT provide a bounded-height point count on the positive physical open. A low-genus curve can pass through boundary nodes and still contain other rational points, so no density credit is assigned without a separate physical-height theorem.
+Salberger's general dimension-growth theorem gives only a surface-scale B^(2+epsilon) type bound in arbitrary projective embedding, far above the Stage37 B^(1/3) target. His sharper surface theorems quoted in current literature are not a direct black box for this singular codimension-four P^6 surface.
+RESULT_229BG_EXISTING_GENERAL_TYPE_OR_DETERMINANT_BLACKBOX=NO_DIRECT_CLOSURE.
+
+
+8. New 2026 squareclass theorem input: exact Stage37 crosswalk
+A very recent preprint:
+  Valery Asiryan, “Finiteness in Square Classes and Weighted Zero Density of Perfect Cuboids”, arXiv:2609.38650, submitted 2026-09-29,
+defines for an ordered rational perfect cuboid
+  N_A := sf(a b c g /2)
+and proves, in its notation, a uniform fixed-N_A multiplicity bound
+  M(N_A) <= C_0^(1+r_NA)
+together with weighted zero density
+  sum_{N_A<=X} M(N_A)^q
+    <= K_q X exp(-gamma sqrt(log log log X)
+                 +D_q (log log log X)^(1/4))       (229BG.12)
+for every fixed q>0 and sufficiently large X. The preprint explicitly states that this is density in the squarefree invariant, NOT a count ordered by maximum edge length or projective height.
+Under current Stage37 coordinates (a,b,c,g)=(e,x,y,R),
+  N_A=sf(e x y R/2).                               (229BG.13)
+Let
+  G_* = gcd(eR,xy)
+as in229O/229BD. Put
+  A0=eR/G_*, B0=xy/G_*.
+Then
+  e x y R = G_*^2 A0 B0,
+hence EXACTLY
+  N_A = sf(A0 B0/2).                               (229BG.14)
+Equivalently in229BD primitive-triple coordinates,
+  e=hE, R=hH, x=d0X, y=d0Y,
+so
+  N_A = sf(EHXY/2)
+      = sf((EH/G_*)(XY/G_*)/2).                    (229BG.15)
+Thus the common gcd factor G_* enters the raw product as a SQUARE and disappears from the squareclass. The Asiryan invariant is a complementary quotient-squareclass coordinate, whereas the current Stage37 preferred gate is a LARGE COMMON radical
+  K_*=sf(G_*).
+RESULT_229BG_ASIRYAN_SQUARECLASS_DUALITY_TO_CURRENT_GSTAR=PROVED_EXACT.
+This does not say N_A is statistically independent of G_*; it says only that large common support is not itself retained as a squareclass factor.
+
+
+9. Strongest immediate height transfer is quantitatively far too weak
+For any physical endpoint R<=B, all positive lengths e,x,y are <B. From (229BG.14),
+  N_A <= A0 B0/2
+      = eRxy/(2G_*^2)
+      < B^4/(2G_*^2).                              (229BG.16)
+On the current large-radical tail
+  K_*=sf(G_*)>T,
+one has G_*>T and therefore
+  N_A < B^4/(2T^2).                                (229BG.17)
+Every primitive integral endpoint represents one ordered rational similarity class up to at most the fixed edge-permutation convention, so Asiryan's q=1 estimate gives a legitimate but coarse tail bound
+  # {physical endpoints R<=B, K_*>T}
+    <= O(1) * sum_{N_A <= B^4/(2T^2)} M(N_A).      (229BG.18)
+At the Stage37 threshold T=B^(1/3-delta),
+  X:=B^4/(2T^2) <= (1/2)B^(10/3+2delta).
+The weighted zero-density theorem therefore yields at best
+  B^(10/3+2delta)
+  * exp(-gamma sqrt(log log log B)+O((log log log B)^(1/4))), (229BG.19)
+up to constants and harmless reparameterization of triple logs.
+This is enormously larger than the required o(B^(1/3)); the theorem's decay is subpower and cannot repair the roughly three missing powers of B.
+RESULT_229BG_ASIRYAN_DIRECT_HEIGHT_TRANSFER=VALID_BUT_EXPONENT_INSUFFICIENT.
+No current authority/gate/credit changes follow.
+
+
+10. New theorem contract and route consequence
+229BG sharpens the current choices:
+(A) FIXED_CANONICAL_SURFACE COUNT:
+prove a bounded-height theorem directly on the positive/canonical physical open of the fixed 48-node canonical surface X_pc, with exact standard height R, strong enough for o(B^(1/3)) on the large-K_* subset. The theorem must use special arithmetic structure; generic general-type/determinant bounds are far too weak.
+(B) HEIGHT-SENSITIVE SQUARECLASS/RADICAL JOINT THEOREM:
+strengthen the new Asiryan squareclass theory to retain physical height and the complementary common-radical coordinate simultaneously, e.g. a power-saving estimate for
+  (R-height, N_A, K_*)
+rather than squarefree-N_A density alone.
+(C) OUTER-FIBER ROUTE:
+retain229BF's joint tD primitive lattice and genus-five fibers as a slicing tool inside the fixed surface, but the moving-coefficient objection is removed: the issue is UNIFORM arithmetic occupancy, not geometric variation.
+Do not:
+- claim general type implies finiteness of rational points;
+- claim Bruin-Thomas-Várilly-Alvarado excludes all low-genus physical points;
+- treat Asiryan weighted zero density as a projective-height zero-density theorem;
+- multiply Asiryan multiplicity savings with229BF/229BC as independent probabilities;
+- infer that cancellation of G_*^2 from N_A makes N_A independent of G_*.
+CURRENT_BLOCKER=FIXED_CANONICAL_SURFACE_LARGE_K_HEIGHT_COUNT_OR_HEIGHT_SENSITIVE_NA_KSTAR_JOINT_THEOREM.
+CURRENT_PREFERRED_GATE remains PHYSICAL_JOINT_RADICAL_GCD_ONE_THIRD_QUOTIENT_FREE OPEN.
+
+
+11. State
+No perfect-cuboid existence/nonexistence conclusion is claimed.
+No new global population exponent is claimed.
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+Independent hostile audit229BG NOT RUN.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

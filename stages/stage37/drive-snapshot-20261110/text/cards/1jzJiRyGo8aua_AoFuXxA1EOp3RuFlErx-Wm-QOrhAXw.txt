@@ -1,0 +1,490 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229AY — central atom all-prime local square-root matrix and root-line Arsenal reentry
+
+
+STATUS: POST_229AX_ARSENAL_REVIEW_CONTINUED / PROVED_THREE_ROOT_CONSTANT_FIBER_SUPPORT / PROVED_FOUR_RAW_ATOM_POWER_MODULUS_ROOT_LINES / PROVED_ALL_ODD_PRIME_CHARACTER_ROWS_INCLUDING_INERT_EDGE_PRIMES / PROVED_S36_PW07_NONREDUNDANT_REENTRY / PROVED_AR009_FIBERWISE_HIGH_CORE_REENTRY / LOW_CORE_GLOBAL_COUNT_OPEN / NO_COUNTING_PROMOTION / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_GLOBAL_REOPEN
+
+
+TYPE: POST-229AX ARSENAL REASSESSMENT / CENTRAL ROOT SUPPORT COMPRESSION / FOUR-RESERVOIR LOCAL SQUARE-ROOT MATRIX / RAW-POWER ROOT-LINE ROUTER / METHOD FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229AX
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1jzJiRyGo8aua_AoFuXxA1EOp3RuFlErx-Wm-QOrhAXw
+
+
+1. Scope
+
+
+This card performs the first requested post-229AX Arsenal re-check rather than continuing identity generation blindly.
+
+
+Primary Arsenal inputs:
+- S36-PW07 DIRECTIONAL_PRIME_RESERVOIR_LOCAL_CHARACTER_MATRIX;
+- AR-009 Gaussian/root-line determinant spacing;
+- S37-PW01 exact support pushforward;
+- S37-WF02 quantitative budget firewall.
+
+
+Retain the four central forms
+  lambda = U+V-R-e,
+  S      = e+U+V+R,
+  Lm     = e+U+V-R,
+  Lp     = R+U+V-e.
+
+
+Retain 229AV full integer packet-times-square normal forms. Introduce canonical one-bit dyadic factors eta_j in {1,2} and positive integer roots
+  x0,x1,x2,x3
+such that
+  lambda = eta0 A_- C_- x0^2,
+  S      = eta1 A_+ C_+ x1^2,
+  Lm     = eta2 A_- C_+ x2^2,
+  Lp     = eta3 A_+ C_- x3^2.                    (229AY.1)
+
+
+Here eta_j=2^(v2(form_j) mod 2). These are the central-form canonical 2-adic squareclass bits themselves; no superseded 229AF raw-gap parity identification is used.
+
+
+Retain that A_-,A_+,C_-,C_+ are pairwise coprime odd positive integers.
+
+
+2. A stricter S37-PW01 support with constant physical fibers
+
+
+Define the seven-coordinate realized support
+  Xi_B
+   = {(A_-,A_+,C_-,C_+,x0,x1,x2)
+      arising from positive primitive physical endpoints R<=B}.     (229AY.2)
+
+
+Fix one tuple in Xi_B.
+
+
+For each of the at most 2^3 choices
+  (eta0,eta1,eta2) in {1,2}^3,
+the three central forms lambda,S,Lm are fixed by (229AY.1).
+
+
+The fourth central form is forced by the exact additive rectangle:
+  lambda + S = Lm + Lp,
+so
+  Lp = lambda + S - Lm.                            (229AY.3)
+
+
+The physical variables are then reconstructed exactly as
+  e = (Lm-lambda)/2,
+  R = (S-Lm)/2,
+  U+V = (lambda+S)/2,
+  UV = eR + lambda*S/2.                            (229AY.4)
+
+
+Thus U,V are the roots of one quadratic polynomial and have at most two ordered choices. For each ordered pair, positivity forces
+  x = sqrt(U^2-e^2),
+  y = sqrt(V^2-e^2)
+when these are positive integers.
+
+
+Therefore
+  # fiber(Xi_B -> physical endpoints) <= 16.         (229AY.5)
+
+
+RESULT_229AY_THREE_ROOT_SUPPORT_CONSTANT_PHYSICAL_FIBER=PROVED_EXACT.
+
+
+Consequently
+  P(B) <= 16 #Xi_B.                                 (229AY.6)
+
+
+This is a strict support-side refinement of 229AX: it replaces the B^o(1) factorization fiber of the rank-one T-matrix support by a seven-coordinate central-root support with an absolute constant physical fiber. No claim is made that #Xi_B is small.
+
+
+3. Exact additive rectangle
+
+
+Retain the four exact differences
+  Lm-lambda = 2e,
+  S-Lp      = 2e,
+  Lp-lambda = 2R,
+  S-Lm      = 2R.                                  (229AY.7)
+
+
+The complete 229AV K4 odd-gcd graph implies:
+- A_- is the exact odd gcd edge lambda--Lm and is coprime to S,Lp;
+- A_+ is the exact odd gcd edge S--Lp and is coprime to lambda,Lm;
+- C_- is the exact odd gcd edge lambda--Lp and is coprime to S,Lm;
+- C_+ is the exact odd gcd edge S--Lm and is coprime to lambda,Lp.
+
+
+Hence the two central roots on the opposite side of any atom are units modulo that full raw atom.
+
+
+4. Raw-power root line modulo A_-
+
+
+Because A_- divides e, (229AY.7) gives
+  S == Lp mod A_-.
+
+
+Insert (229AY.1):
+  eta1 A_+ C_+ x1^2
+    == eta3 A_+ C_- x3^2 mod A_-.
+
+
+Since A_+C_-C_+x1x3 is invertible mod A_-,
+  (x1/x3)^2
+    == eta3 eta1^{-1} C_- C_+^{-1} mod A_-.       (229AY.8)
+
+
+The right side is therefore a unit square modulo A_- on every physical point.
+
+
+For each prime power p^k || A_-, there are exactly two square roots of this unit modulo p^k. By CRT, after one orientation choice among at most
+  2^omega(A_-)=B^o(1)
+possibilities,
+  x1 == rho_{A-} x3 mod A_-,                       (229AY.9)
+where
+  rho_{A-}^2
+   == eta3 eta1^{-1} C_- C_+^{-1} mod A_-.
+
+
+RESULT_229AY_A_MINUS_RAW_POWER_ROOT_LINE=PROVED_EXACT.
+
+
+5. The other three raw-power root lines
+
+
+The same argument on the other three atom edges gives:
+
+
+A_+:
+  lambda == Lm mod A_+,
+  x0 == rho_{A+} x2 mod A_+,                       (229AY.10)
+  rho_{A+}^2
+   == eta2 eta0^{-1} C_+ C_-^{-1} mod A_+.
+
+
+C_-:
+  S == Lm mod C_-,
+  x1 == rho_{C-} x2 mod C_-,                       (229AY.11)
+  rho_{C-}^2
+   == eta2 eta1^{-1} A_- A_+^{-1} mod C_-.
+
+
+C_+:
+  lambda == Lp mod C_+,
+  x0 == rho_{C+} x3 mod C_+,                       (229AY.12)
+  rho_{C+}^2
+   == eta3 eta0^{-1} A_+ A_-^{-1} mod C_+.
+
+
+All inverses are legitimate because the four atoms are pairwise coprime and the opposite roots are units on the corresponding modulus.
+
+
+RESULT_229AY_FOUR_RAW_ATOM_POWER_ROOT_LINES=PROVED_EXACT.
+
+
+This is stronger than a squarefree-radical congruence: the complete raw p-adic exponent of each atom is retained as the modulus.
+
+
+6. All-odd rational character matrix
+
+
+Let eps_j in F2 be defined by eta_j=2^eps_j.
+
+
+Taking Legendre symbols in (229AY.8)-(229AY.12) gives the following necessary rows for every odd prime p in the stated atom support:
+
+
+p | A_-:
+  (C_- C_+ / p)
+   = (2/p)^(eps1+eps3).                             (229AY.13)
+
+
+p | A_+:
+  (C_- C_+ / p)
+   = (2/p)^(eps0+eps2).                             (229AY.14)
+
+
+p | C_-:
+  (A_- A_+ / p)
+   = (2/p)^(eps1+eps2).                             (229AY.15)
+
+
+p | C_+:
+  (A_- A_+ / p)
+   = (2/p)^(eps0+eps3).                             (229AY.16)
+
+
+RESULT_229AY_FOUR_RESERVOIR_ALL_ODD_CHARACTER_MATRIX=PROVED_EXACT.
+
+
+The row system is defined over Q and therefore exists for every odd atom prime. It is not restricted to rational split primes in Q(i).
+
+
+7. Why this is not a relabeling of 229AE-AG
+
+
+229AE-AG arose from the Q(i) Hilbert selector packet
+  Delta0, Delta+, Delta-
+and its rational Legendre rows existed only at rational split primes p==1 mod4; inert primes were automatic over the residue field F_{p^2}.
+
+
+The new 229AY rows arise instead from:
+- the rational central additive rectangle;
+- the exact 229AV K4 gcd graph;
+- the four atom packet-times-square equations.
+
+
+They distinguish the edge-content side A_-A_+ from the space-content side C_-C_+.
+
+
+Retain 229AD/AT that C_-C_+ divides the odd c12*c21 support. Hence every odd prime of C_-C_+ is split, p==1 mod4.
+
+
+By contrast A_-A_+ comes from the odd edge content a*b and can contain inert primes p==3 mod4.
+
+
+Therefore (229AY.13)-(229AY.14) produce genuine rational Legendre rows at inert edge-content primes, exactly where 229AE supplied no rational-character row.
+
+
+RESULT_229AY_S36_PW07_NONREDUNDANT_REENTRY=PROVED.
+
+
+This satisfies the 229AX reentry test: the new local matrix is not merely 229AE-AG in renamed variables.
+
+
+8. Split/inert boundary consequence
+
+
+Let
+  kA_- = sf(A_-),  kA_+ = sf(A_+),
+  kC_- = sf(C_-),  kC_+ = sf(C_+),
+where sf denotes the odd squarefree kernel, and put
+  kA=kA_-kA_+,
+  kC=kC_-kC_+.
+Pairwise coprimality makes these products squarefree.
+
+
+All odd primes of C_-C_+ are 1 mod4, hence every prime of kC is 1 mod4.
+
+
+To obtain a reciprocity identity, multiply only the local rows whose atom valuation is odd; primes occurring to even atom valuation contribute no atom squareclass and are not included in this product.
+
+
+The A-side rows give
+  (kC/kA_-)
+   = (2/kA_-)^(eps1+eps3),
+  (kC/kA_+)
+   = (2/kA_+)^(eps0+eps2).                         (229AY.17)
+
+
+The C-side rows give
+  (kA/kC_-)
+   = (2/kC_-)^(eps1+eps2),
+  (kA/kC_+)
+   = (2/kC_+)^(eps0+eps3).                         (229AY.18)
+
+
+Because every prime of kC is 1 mod4, quadratic reciprocity has no sign:
+  (kC/kA)=(kA/kC).
+
+
+Hence every physical support satisfies the exact squareclass-level compatibility
+  (2/kA_-)^(eps1+eps3)
+  (2/kA_+)^(eps0+eps2)
+   =
+  (2/kC_-)^(eps1+eps2)
+  (2/kC_+)^(eps0+eps3).                            (229AY.19)
+
+
+This is an atom-sign-resolved split/inert boundary identity on the squarefree atom kernels. It is a finite character restriction only and is not assigned power-saving credit.
+
+
+9. AR-009 is genuinely retriggered on four high-core sectors
+
+
+The raw-power congruences (229AY.9)-(229AY.12) are exact root lines with legally charged moduli.
+
+
+For fixed atom data, dyadic root boxes and one of the B^o(1) orientation choices, define the two-variable area scales
+  V_{A-} ~ X1 X3,
+  V_{A+} ~ X0 X2,
+  V_{C-} ~ X1 X2,
+  V_{C+} ~ X0 X3,                                  (229AY.20)
+where Xj is the dyadic scale of xj.
+
+
+Then AR-009 applies fiberwise:
+
+
+if
+  A_-^2 >= V_{A-},
+then
+  # {(x1,x3) in that charged root line box}
+    << 1 + V_{A-}/A_-
+    <= 1 + sqrt(V_{A-}).                            (229AY.21)
+
+
+The same statement holds with
+  (A_+,V_{A+}),
+  (C_-,V_{C-}),
+  (C_+,V_{C+}).                                    (229AY.22)
+
+
+RESULT_229AY_AR009_HIGH_CORE_FIBERWISE_REENTRY=PROVED_EXACT.
+
+
+This is a genuine reentry of AR-009 because the modulus is source-derived, fixed before the inner root pair is counted, uses the full raw atom power, and the orientation cost is B^o(1).
+
+
+10. Exact high/low product diagnostic
+
+
+The four dyadic pair areas satisfy
+  V_{A-} V_{A+} V_{C-} V_{C+}
+   ~ (X0 X1 X2 X3)^2.                              (229AY.23)
+
+
+The product of the four raw atom moduli is
+  G_odd := A_- A_+ C_- C_+ = (G_*)_odd.            (229AY.24)
+
+
+Therefore if all four AR-009 high-core inequalities fail in one dyadic box, then
+  G_odd
+   <~ X0 X1 X2 X3.                                 (229AY.25)
+
+
+Conversely, whenever
+  G_odd
+   >> X0 X1 X2 X3,
+at least one of the four raw atom root lines lies in an AR-009 high-core sector.
+
+
+This is an exact dyadic routing principle up to the fixed dyadic constants, not an endpoint count.
+
+
+Retain the exact central product
+  lambda*S*Lm*Lp = 4 x^2 y^2.
+Combining with (229AY.1) shows that
+  X0 X1 X2 X3
+is the central square-root cofactor complementary to G_odd, up to the finite canonical 2-adic factor. Thus the root-line high/low split is precisely a raw-content-versus-square-cofactor split, not an arbitrary threshold.
+
+
+RESULT_229AY_RAW_CONTENT_VS_ROOT_COFACTOR_DICHOTOMY=PROVED.
+
+
+11. Quantitative firewall
+
+
+The preferred gate only assumes a large squarefree kernel
+  sf(G_*) > B^(1/3-delta).
+
+
+That does not force
+  G_odd >> X0X1X2X3
+and does not force any one raw atom into the AR-009 high-core regime.
+
+
+Therefore the new root-line reentry is genuine but scoped:
+- high-core atom sectors now have a legal square-root-collapse mechanism;
+- the simultaneous low-core sector remains open;
+- no multiplication of four line densities is licensed;
+- no global endpoint exponent follows yet.
+
+
+The next missing object is a same-physical count for the low-core four-line network or a theorem showing the preferred large-radical tail cannot concentrate there.
+
+
+12. S35-PW04 re-check
+
+
+The central ratios do exhibit reciprocal squareclass factors, e.g.
+  lambda/Lm
+    = (eta0/eta2)(C_-/C_+)(x0/x2)^2,
+  S/Lp
+    = (eta1/eta3)(C_+/C_-)(x1/x3)^2,              (229AY.26)
+and similarly with A_-/A_+ after pairing lambda/Lp with S/Lm.
+
+
+However S35-PW04 requires more than reciprocal-looking squareclass ratios:
+- a completed simultaneous square receiver;
+- an exact elimination producing a strictly smaller iff receiver;
+- explicit forward/inverse square-root reconstruction.
+
+
+Here (229AY.26) is an exact consequence of the existing four central normal forms but does not eliminate an independent physical coordinate or produce a smaller iff receiver. The apparent common factor is already the atom decomposition itself.
+
+
+RESULT_229AY_S35_PW04_STRICT_COMPRESSION_TRIGGER=NOT_MET.
+
+
+Thus the 229AX S35-PW04 parking decision is retained after exact re-check, now with a concrete reason rather than a shape-only rejection.
+
+
+13. Current Arsenal route after review
+
+
+CURRENT ACTIVE STRUCTURAL STACK:
+1. 229AY Xi_B seven-coordinate central-root support with constant physical fiber <=16;
+2. 229AY four raw-power atom root lines;
+3. 229AY all-odd four-reservoir character matrix, including inert A-side rows;
+4. AR-009 on any charged high-core atom sector;
+5. S36-PW07 as the provenance/router for the new local matrix;
+6. S37-WF02 before any global quantitative theorem is imported.
+
+
+CURRENT LOW-CORE BLOCKER:
+simultaneously
+  A_-^2 < V_{A-},
+  A_+^2 < V_{A+},
+  C_-^2 < V_{C-},
+  C_+^2 < V_{C+}
+across dyadic root boxes, together with the exact physical reconstruction and preferred large-radical condition.
+
+
+NEXT_USEFUL_INPUT:
+(A) count the exact low-core four-line network on Xi_B;
+(B) exploit the inert-visible rows (229AY.13)-(229AY.14) together with split-only C support in a same-physical support theorem;
+(C) derive a cross-line determinant/resultant shared by two or more root-line edges without double charging;
+(D) prove a large-radical-to-high-core transfer on the exact physical measure;
+(E) search for an external theorem only after S37-WF02 confirms the one-third budget.
+
+
+14. Unchanged state and firewalls
+
+
+Do not:
+- claim the all-odd character rows themselves give a density saving;
+- count the four root-line congruences as independent;
+- multiply AR-009 collapses across different edges without a joint same-measure lattice theorem;
+- replace raw atom size by squarefree-kernel size;
+- use 229AE inert-prime automaticity to discard the new rational central-form inert rows;
+- promote S35-PW04 from reciprocal appearance alone;
+- reopen old PAIR/FIB/CM/collision routes without their explicit current reentry contracts.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=SCOPED_S36_PW07_AND_AR009_REENTRY_ONLY.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_OPERATION=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+INTEGRATED_AUDIT_186_229O_SCOPE_UNCHANGED=true.
+
+
+15. Writeback
+
+
+This card adds substantive exact structure:
+- a seven-coordinate central-root support with absolute constant physical fibers;
+- four raw-power root-line congruences;
+- a nonredundant all-odd S36-PW07 character matrix including inert edge primes;
+- a genuine but scoped AR-009 high-core reentry;
+- an exact re-check retaining the S35-PW04 non-trigger.
+
+
+No existing authority, counting credit, primary gate, closure, HOLD state, or integrated-audit scope is changed.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.
