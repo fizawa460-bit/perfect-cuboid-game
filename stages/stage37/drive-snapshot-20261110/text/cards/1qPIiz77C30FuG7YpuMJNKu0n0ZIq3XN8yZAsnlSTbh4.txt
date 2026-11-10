@@ -1,0 +1,56 @@
+﻿Stage37-229GQ — EXACT INTEGER GAUSSIAN PRIME NORM PAIR / K-FULL REPLAY
+This is fully reproducible JavaScript (Node.js or browser console); NO internet or extra dependencies. It checks only determinant arithmetic, unique fixed signed(p,d) q and support counts in six dyadic prime intervals; NOT physical perfect cuboid solutions and NOT substitute for analytic FF.2/GH.2 counting proof.
+
+
+function sieve(N){
+ let prime=Array(N+1).fill(true);prime[0]=prime[1]=false;
+ for(let p=2;p*p<=N;p++)if(prime[p])for(let m=p*p;m<=N;m+=p)prime[m]=false;
+ return prime;
+}
+function isKfull(N,k){
+ let n=Math.abs(N);if(n===1)return true;
+ for(let p=2;p*p<=n;p++)if(n%p===0){
+  let e=0;while(n%p===0){e++;n/=p;}
+  if(e<k)return false;
+ }
+ return n===1; // a remaining prime factor has exponent 1 (<k)
+}
+const prime=sieve(8192),vec=new Map();
+for(let v=1;v*v<=8192;v++)
+ for(let u=v+1;u*u+v*v<=8192;u++){
+  const p=u*u+v*v;
+  if(prime[p]){
+   if(vec.has(p))throw Error('two canonical Gaussian representations '+p);
+   vec.set(p,[u,v]);
+  }
+ }
+const reference=[
+ [128,10,45,4,2,2,2],
+ [256,21,210,30,16,22,15],
+ [512,38,703,51,28,36,24],
+ [1024,66,2145,118,57,70,49],
+ [2048,127,8001,321,109,221,93],
+ [4096,233,27028,861,290,597,267]
+];
+let sq2No3Far=0;
+for(let [Q,refPrimes,refPairs,refK2,refK3,refK2OutsideGP3,refK3OutsideGP2] of reference){
+ let ps=[...vec.keys()].filter(p=>Q<=p&&p<=2*Q).sort((a,b)=>a-b);
+ let pairs=0,k2=0,k3=0,out2=0,out3=0;const seen=new Map();
+ for(let i=0;i<ps.length;i++)for(let j=i+1;j<ps.length;j++){
+  const p=ps[i],q=ps[j], [u,v]=vec.get(p),[w,z]=vec.get(q);
+  const A=u*w+v*z,d=u*z-v*w;
+  if(!d||A*A+d*d!==p*q)throw Error('identity/nonzero failure');
+  const key=p+':'+d;
+  if(seen.has(key))throw Error('fixed(p,d) has multiple canonical q');
+  seen.set(key,q);pairs++;
+  if(isKfull(d,2)){k2++;if(Math.abs(d)>Q**(2/3))out2++;}
+  if(isKfull(d,3)){k3++;if(Math.abs(d)>Q**(1/3))out3++;}
+  if(Q===1024 && v<=Q**(1/4)&&isKfull(d,2)&&!isKfull(d,3)&&Math.abs(d)>Q**(1/3))sq2No3Far++;
+ }
+ const got=[Q,ps.length,pairs,k2,k3,out2,out3],wanted=[Q,refPrimes,refPairs,refK2,refK3,refK2OutsideGP3,refK3OutsideGP2];
+ if(JSON.stringify(got)!==JSON.stringify(wanted))throw Error('FAILED box '+Q+':'+JSON.stringify(got));
+ console.log('PASS '+JSON.stringify(got));
+}
+if(sq2No3Far!==16)throw Error('GQ.4 complement witness count mismatch '+sq2No3Far);
+console.log('PASS Q1024 h2 2-full-not3full short-minor and large determinant pair support count =16');
+console.log('PASS: purely PRIME PAIR supports, no physical solutions asserted');

@@ -1,0 +1,106 @@
+﻿Stage37-229GV EXACT REPLAY CERTIFICATE — SymPy algebraic squareclass reduction + finite split-prime Q2 gate
+Prerequisites: Python3 + sympy; no web/network. Exact symbolic factor_list with t,X,Y indeterminates and exact integer Gaussian split-prime arithmetic. This certificate DOES NOT count any actual original full four-square P, and DOES NOT prove a global asymptotic theorem. Reproduces NEW 22=>12 factorizations and 802/7021 local survivors.
+
+
+=== A. COMPLETE SYMBOLIC 22-KEY CLASSIFIER (executable Python) ===
+import sympy as s
+from collections import defaultdict
+t,X,Y=s.symbols('t X Y')
+keys=('000.010.022:0 000.010.022:2 000.010.100:0 000.010.100:1 000.010.100:2 '
+'000.012.022:0 000.012.022:2 000.022.110:0 002.010.020:0 002.010.020:2 '
+'002.012.020:2 002.012.102:0 002.012.102:1 002.012.102:2 002.020.110:0 '
+'002.020.110:1 010.020.102:0 010.020.102:1 010.020.102:2 '
+'012.022.100:0 012.022.100:1 012.022.100:2').split()
+def E(code):
+ a,b,c=[int(z)-1 for z in code]
+ return s.expand((a*t+b*X+c*Y-a*b*c*t*X*Y)**2*
+   ((1+t*t) if a==0 else 1)*((1+X*X) if b==0 else 1)*
+   ((1+Y*Y) if c==0 else 1))
+def reduced(D):
+ coeff,ps=s.factor_list(D)
+ coeff=s.Rational(coeff)
+ out=s.Integer(1)
+ for f,k in ps:
+  f=s.factor(f)
+  # Norm factors are rational squares on admissible p²=a²+b², q²=c²+d²
+  if s.expand(f-(1+t*t))==0 or s.expand(f-(1+X*X))==0: continue
+  if k%2:out*=f
+ for p,e in s.factorint(abs(s.numer(coeff))).items():
+  if e%2:out*=p
+ for p,e in s.factorint(s.denom(coeff)).items():
+  if e%2:out*=p
+ if coeff<0:out=-out
+ return s.factor(out)
+groups=defaultdict(list)
+for key in keys:
+ triple,hi=key.split(':');cs=triple.split('.');hi=int(hi)
+ F=s.expand(sum(E(c)*(1 if i!=hi else -1) for i,c in enumerate(cs)))
+ A=s.Poly(F,Y).coeff_monomial(Y**2)
+ B=s.Poly(F,Y).coeff_monomial(Y)
+ C=s.Poly(F,Y).coeff_monomial(1)
+ D=s.factor(B*B-4*A*C)
+ kappa=reduced(D)
+ groups[str(kappa)].append(key)
+ print('PASS KEY',key,'DISCRIMINANT',D,'KERNEL',kappa)
+assert len(keys)==22
+assert len(groups)==12
+assert sum(len(v) for v in groups.values())==22
+print('PASS: exactly22 distinct FJ-GU keys map to exactly12 Q(t,X) squareclasses')
+for k,v in groups.items(): print('GROUP',k,'KEYS',','.join(v))
+# Examples:
+# 000.010.100:0 D=8*t*X*(1+t²)*(1+X²)*(1+tX)
+# 000.010.100:1 D=-8*X*(t-X)*(1+t²)*(1+X²)
+# 000.010.100:2 D=8*t*(t-X)*(1+t²)*(1+X²)
+
+
+=== B. INDEPENDENT EXACT LOCAL 2-ADIC PRIME-NORM SCREEN (executable Python) ===
+from math import isqrt
+def sieve(n):
+ ps=[True]*(n+1);ps[0]=ps[1]=False
+ for k in range(2,isqrt(n)+1):
+  if ps[k]:
+   for j in range(k*k,n+1,k):ps[j]=False
+ return ps
+N=3593;prime=sieve(N);reps={}
+for p in range(5,N+1,4):
+ if prime[p]:
+  for v in range(1,isqrt(p)+1):
+   u=isqrt(p-v*v)
+   if u>v and u*u+v*v==p:
+    reps[p]=(u*u-v*v,2*u*v)
+    break
+def v2(n):
+ assert n!=0
+ return (abs(n)&-abs(n)).bit_length()-1
+ps=[p for p in reps if p%8==1]
+assert len(ps)==119
+total=0;valEven=0;localPass=0;survivors=[]
+for i,p in enumerate(sorted(ps)):
+ for q in sorted(ps)[i+1:]:
+  a,b=reps[p];c,d=reps[q]
+  beta,delta=v2(b),v2(d)
+  assert beta>=3 and delta>=3 and a%2==1 and c%2==1
+  K=2*b*d*(a*c+b*d)
+  val=v2(K);oddpart=K>>val
+  assert val==1+beta+delta
+  assert oddpart%8==(b>>beta)*(d>>delta)*a*c%8
+  total+=1
+  if val%2==0:valEven+=1
+  if val%2==0 and oddpart%8==1:
+   localPass+=1;survivors.append((p,q))
+assert (total,valEven,localPass)==(7021,3234,802)
+assert (17,593) in survivors
+print('PASS 1mod8 split rational prime pairs',total,'val2 even',valEven,'full Q2 norm-square survivors',localPass)
+# This is merely first discriminant local gate, NOT original physical norm lift.
+
+
+=== C. EXACT FINITE ANOMALY PER-KERNEL AUDIT ===
+Previous GU certificate saved exact BIGINT all 30381 p<q<=3593 and 62 anomalous rational third roots. Independent small code for just those 30 pairs is in this batch's source analysis; its results:
+  TOTAL additional primitive offdiagonal roots=62;
+  SHAPES: 29 prime pairs two additional, one pair four additional;
+  DISTINCT keys=22, DISTINCT squareclass kernels=12;
+  Kernel occurrence counts in the ordered κ1..κ12 of research card:
+       [2,2,2,12,6,4,2,4,2,12,10,4] (sum62).
+  For each of 30 exception pairs, applying the same exact F=AY²+BY+C root algorithm and exact gcd-normalized T odd, W divisible4 gives ZERO third norm-square r outside r=p,q,pq. No physical P inferred.
+  All1mod8 119 split primes and7021 pairs: screen κ3 leaves 802 survivors, proving no UNIFORM empty local obstruction from κ3.
+SCOPE: all SymPy expressions are exact over Q(t,X). Q2 criterion is exact for κ3 and p,q≡1mod8. The counts 62 and 802 are finite and do not imply any analytic density or o(Q) saving. FJ original 414 source completeness remains HOSTILE HOLD. Credit0, Gate OPEN, formal route unchanged.
