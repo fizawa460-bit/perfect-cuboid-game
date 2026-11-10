@@ -1,0 +1,424 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229CN — first-order matched-lattice collapse and residual-overlap quotient lift
+STATUS: POST_229CM_FIRST_ORDER_DEPENDENCE_AUDIT / MATCHED_m_CUBED_DENSITY_COLLAPSE_ON_PHYSICAL_SQUARE_LOCUS / RESIDUAL_OVERLAP_RHO_QUOTIENT_LIFT / SATURATED_SUPPORT_SQUARE_DIVIDES_S / GLOBAL_CREDIT=0 / NO_REOPEN
+CARD_DOC_ID=1CLUTtXmKCKMxLpbZLvMx6HQrhSjWimlI2nANW0nEYY0
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229CM
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope
+
+
+Work on the exact current S_B^hard13(delta) positive primitive Stage37 physical source, R<=B.
+
+
+Retain 229CM. For one U-color linear packet
+m=mu_{U,alpha,beta}, alpha,beta in {+1,-1}, epsilon=alpha beta,
+let
+L=2n1-alpha ga-beta d0c,
+Xopp=z-V,
+and let sigma be the 229CG root modulo m^2 inherited from lambda_U^2:
+sigma^2 == -2 mod m^2,
+Xopp == 2 sigma d mod m^2.
+
+
+Retain
+e=bga, x=bd0c, U=bn1,
+A=R-U,
+u=Bv+C=2R-V-z,
+S=A+Bv+C=R-2d.
+Hence exactly
+u=U-2d.                                                     (CN.1)
+
+
+Retain 229CM:
+m|L,
+m|Y^2,
+and packet signs (alpha,beta) are exactly the simultaneous physical signs for the p-adic U-color channel.
+
+
+This card audits whether the extra factor m in the ambient m^3 matched lattice is genuinely new on the physical square locus. It is not at first order. The surviving new input is a higher-order overlap modulus rho defined below.
+
+
+2. First-order primitive-leg line is algebraically dependent on the outer root line
+
+
+Because m|lambda_U,
+m|A and m|u.
+Using (CN.1),
+
+
+R == U == 2d mod m.                                         (CN.2)
+
+
+Also
+V+z=2R-u == 2U mod m,                                      (CN.3)
+while
+Xopp=z-V == 2 sigma d == sigma U mod m.                     (CN.4)
+
+
+The exact face-square identities give
+
+
+e^2=(U^2+V^2-z^2)/2,
+x^2=(U^2+z^2-V^2)/2.                                       (CN.5)
+
+
+From (CN.3)-(CN.4),
+
+
+e^2 == U^2(1-2sigma)/2 mod m,
+x^2 == U^2(1+2sigma)/2 mod m.                               (CN.6)
+
+
+All primes of m are >3 and 229CG exclusions give gcd(mxU, m)=1 in the required denominators; in particular 2,3,x,U and 1+2sigma are units modulo m.
+Since sigma^2==-2,
+
+
+(1-2sigma)(1+2sigma)=1-4sigma^2 == 9 mod m.                 (CN.7)
+
+
+Therefore
+
+
+(e/x)^2
+ == (1-2sigma)/(1+2sigma)
+ == ((1-2sigma)/3)^2 mod m.                                 (CN.8)
+
+
+But 229CM's primitive-leg line is, after multiplying r=ga,s=d0c by the p-unit b,
+
+
+3 epsilon e == (1-2sigma)x mod m.                            (CN.9)
+
+
+Thus (CN.9) is exactly one square-root choice of the already-forced identity (CN.8). For each odd prime power there are at most two such square-root choices; over composite m the total branch count is at most 2^omega(m)=B^o(1).
+
+
+Cyclically the same statement holds for the V-color pair (e,y) and z-color pair (x,y).
+
+
+RESULT_229CN_FIRST_ORDER_PRIMITIVE_LEG_CONGRUENCE_IS_SQUARE_ROOT_SELECTION_ON_PHYSICAL_LOCUS=PROVED_EXACT.
+RESULT_229CN_AMBIENT_m_CUBED_LATTICE_EXTRA_m_IS_NOT_AN_INDEPENDENT_FIXED_POWER_DENSITY=PROVED_ALGEBRAIC_FIREWALL.
+
+
+Interpretation:
+the ambient block lattice in 229CM still has exact index m^3 as a lattice in independent coordinates. But after imposing the Stage37 physical square identities, its additional mod-m primitive-leg equation contributes only a square-root/sign selection of an identity already forced by the outer root line. Therefore the factor m may not be charged as a new endpoint-density saving.
+
+
+3. Canonical residual-overlap decomposition
+
+
+Keep one packet m and its residual core Ccore:
+Ccore=Y for U,
+Ccore=X for V,
+Ccore=E for z.
+
+
+Set
+
+
+q:=gcd(m,Ccore).                                             (CN.10)
+
+
+Because 229CM gives m|Ccore^2,
+
+
+m | q^2.                                                     (CN.11)
+
+
+Define
+
+
+rho:=q^2/m,
+s:=m/q.                                                      (CN.12)
+
+
+Then s|q and
+
+
+q=rho s,
+m=rho s^2.                                                   (CN.13)
+
+
+In particular rho is a positive integer divisor of m.
+
+
+For a prime p^a||m, write n=v_p(Ccore). Then a<=2n and
+
+
+v_p(q)=min(a,n),
+v_p(rho)=2min(a,n)-a,
+v_p(s)=max(a-n,0).                                           (CN.14)
+
+
+Thus rho measures the non-saturated overlap between the full lambda valuation and the residual-core square.
+
+
+RESULT_229CN_PACKET_CANONICAL_DECOMPOSITION_m_EQUALS_rho_TIMES_s_SQUARED=PROVED_EXACT.
+
+
+4. Higher-order quotient lift survives
+
+
+We prove the U-color statement; the other two colors are cyclic.
+
+
+Let p^a||m and n=v_p(Y).
+From 229CG exclusions and 229CM sign identification,
+p does not divide the complementary unit factors, so the exact square factorizations give
+
+
+v_p(A)=2n,
+v_p(V-alpha e)=2n,
+v_p(z-beta x)=2n.                                           (CN.15)
+
+
+Therefore q^2=m rho divides all three quantities:
+
+
+m rho | A,
+m rho | V-alpha e,
+m rho | z-beta x.                                           (CN.16)
+
+
+Since
+
+
+u-bL
+ =2(R-U)-(V-alpha e)-(z-beta x)
+ =2A-(V-alpha e)-(z-beta x),                                (CN.17)
+
+
+we obtain
+
+
+m rho | u-bL.                                                (CN.18)
+
+
+Because m|u and m|L,
+
+
+rho | u/m - b(L/m).                                         (CN.19)
+
+
+This is a genuine quotient-level congruence. It disappears exactly when rho=1.
+
+
+Likewise, from
+Xopp=z-V,
+(CN.16) gives
+
+
+m rho | Xopp-(beta x-alpha e).                              (CN.20)
+
+
+The 229CG root line gives
+m^2 | Xopp-2sigma d.
+Since rho|m, m rho|m^2, hence
+
+
+m rho | beta x-alpha e-2sigma d.                            (CN.21)
+
+
+Finally m|L and m|u=U-2d imply
+
+
+m | alpha e+beta x-4d.                                      (CN.22)
+
+
+Thus the first-order edge congruences of 229CM sharpen to the mixed-modulus physical-edge system
+
+
+alpha e+beta x == 4d mod m,
+beta x-alpha e == 2sigma d mod m rho.                       (CN.23)
+
+
+Cyclically:
+
+
+V color, core X:
+alpha e+beta y == 4d mod m,
+beta y-alpha e == 2sigma_V d mod m rho.                     (CN.24)
+
+
+z color, core E:
+alpha x+beta y == 4d mod m,
+beta y-alpha x == 2sigma_z d mod m rho.                     (CN.25)
+
+
+RESULT_229CN_NON_SATURATED_PACKET_HAS_QUOTIENT_LEVEL_RHO_LIFT=PROVED_EXACT.
+RESULT_229CN_EDGE_DIFFERENCE_ROOT_LINE_LIFTS_FROM_m_TO_m_rho_ON_PHYSICAL_EDGES=PROVED_EXACT.
+
+
+This rho-lift, not the first-order ambient m^3 determinant, is the remaining potentially chargeable matched-incidence input.
+
+
+5. Residual-support versus fully saturated-support split
+
+
+Across all twelve pairwise-coprime 229CM packets m_j, define rho_j by (CN.10)-(CN.13).
+
+
+Let
+
+
+J_sharp=J/gcd(J,3)=rad(product_j m_j),
+J_res:=rad(product_j rho_j),
+J_sat:=J_sharp/J_res.                                       (CN.26)
+
+
+The supports of J_res and J_sat are disjoint.
+
+
+By (CN.14),
+v_p(rho_j)=0 if and only if a=2n.                            (CN.27)
+
+
+Therefore a prime is in J_sat exactly when its packet valuation fully saturates the corresponding residual-core square valuation.
+
+
+For such a saturated prime,
+a=2n>=2,
+so p^2 divides m_j.
+Consequently
+
+
+J_sat^2 | product_j m_j
+        = lambda_U^(3') lambda_V^(3') lambda_z^(3').         (CN.28)
+
+
+The three lambda_i are pairwise coprime and each divides S. Hence
+
+
+lambda_U^(3') lambda_V^(3') lambda_z^(3') | S,
+so
+
+
+J_sat^2 | S=R-2d < R <= B.                                  (CN.29)
+
+
+RESULT_229CN_FULLY_SATURATED_J_SUPPORT_SQUARE_DIVIDES_S=PROVED_EXACT.
+
+
+On a J-large branch J>K,
+J_sharp>K/3.
+Since J_sharp=J_res J_sat,
+
+
+max(J_res,J_sat) > sqrt(K/3).                                (CN.30)
+
+
+Thus every J-large endpoint lies in one of two exact subbranches:
+
+
+(A) RESIDUAL-OVERLAP:
+J_res>sqrt(K/3), carrying the quotient-level rho lift (CN.19)-(CN.25);
+
+
+(B) FULL-SATURATION:
+J_sat>sqrt(K/3), with the large square divisor J_sat^2|S<R.
+
+
+RESULT_229CN_J_LARGE_SPLITS_INTO_LARGE_RHO_SUPPORT_OR_LARGE_SQUARE_DIVISOR_OF_S=PROVED_EXACT.
+
+
+6. Quantitative firewall
+
+
+No one-third endpoint count is proved here.
+
+
+Do not:
+- charge the 229CM ambient m^3 determinant as a physical endpoint density;
+- multiply the first-order outer and primitive-leg congruences as independent events;
+- infer a saving merely from m=rho s^2;
+- infer a saturated-branch endpoint count merely from J_sat^2|S without a fixed-S or selector-aware square-divisor theorem.
+
+
+The first-order matched-lattice route is now closed as an independent fixed-power mechanism.
+The only genuinely sharper J inputs retained from 229CM are:
+- packet linearization/sign channels;
+- the higher-order rho quotient lift when rho>1;
+- the fully saturated square-divisor alternative J_sat^2|S.
+
+
+7. Updated J theorem interface
+
+
+Replace the previous preferred contract
+J_TWELVE_LINEAR_PACKET_SAME_ROOT_MATCHED_INCIDENCE
+by
+
+
+J_RHO_QUOTIENT_LIFT_OR_S_SQUARE_SATURATION:
+
+
+Residual branch:
+count actual hard13 endpoints with large J_res using the same-physical congruences
+rho | u/m-scale*(L/m)
+and
+edge_difference == 2sigma d mod m rho,
+together with 229CK colored budget and 229CI dual radical pair.
+
+
+Saturated branch:
+count actual hard13 endpoints with a squarefree q=J_sat>sqrt(K/3) satisfying
+q^2|S=R-2d,
+again on the exact same physical source.
+
+
+If neither branch yields a fixed-power saving, return to eta/tau/M_i/K_cross.
+
+
+8. Verification
+
+
+The first-order dependence calculation reduces to the exact identity
+
+
+9(1-2sigma)-(1-2sigma)^2(1+2sigma)
+ = -4(2sigma-1)(sigma^2+2),
+
+
+so it vanishes modulo m whenever sigma^2==-2 mod m.
+
+
+The exponent decomposition was checked algebraically for all integer pairs 1<=n<=7, 1<=a<=2n:
+rho exponent=2min(a,n)-a is nonnegative,
+m exponent=rho exponent+2s exponent,
+q exponent=rho exponent+s exponent.
+
+
+No physical endpoint enumeration is used.
+
+
+9. State
+
+
+CURRENT_BLOCKER remains
+NO_SELECTOR_AWARE_OR_OCCUPIED_SUPPORT_SAVING_FOR_THE_229CC_SIX_BUCKET_COVER_ON_THE_EXACT_HARD13_PHYSICAL_SOURCE.
+
+
+REFINED_BLOCKER=
+NO_ONE_THIRD_COUNT_FOR_LARGE_eta_OR_TAU_FULL_GCD_SQUARE_MODULI_OR_J_RHO_QUOTIENT_LIFT_OR_S_SQUARE_SATURATION_OR_MATCHED_DISJOINT_M_U_M_V_M_z.
+
+
+J_FIRST_ORDER_MATCHED_m_CUBED_INDEPENDENT_DENSITY=CLOSED_BY_229CN_ALGEBRAIC_DEPENDENCE.
+J_RHO_QUOTIENT_LIFT=OPEN.
+J_SATURATED_SUPPORT_SQUARE_DIVIDES_S=OPEN.
+J_OCCUPIED_LAMBDA_SQUARE_MODULUS_SAVING remains OPEN only through selector-aware higher-order occupancy, not through the first-order m^3 product determinant.
+KERNEL_BIAS_BRIDGE remains OPEN.
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+No perfect-cuboid existence/nonexistence conclusion and no new global endpoint exponent are claimed.
+INDEPENDENT_HOSTILE_AUDIT_229CN=NOT_RUN.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

@@ -1,0 +1,283 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229CL — discriminant-minus-32 norm packets for full lambda valuations
+STATUS: POST_229CK_NESTED_CROSS_SELECTOR_DELTA / DISCRIMINANT_MINUS_32_NORM_PACKET / FULL_3FREE_LAMBDA_VALUATION_SIGN_SPLIT / CORE_SQUARE_INTERSECT_PRIMITIVE_NORM_FORM / GLOBAL_CREDIT=0 / NO_REOPEN
+CARD_DOC_ID=1FfQ6RgMr5iWGhIwUJTuGtVK2Vxmdq_QYPrJwjpSJUnM
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229CK
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope
+
+
+Work on the exact current S_B^hard13(delta) positive primitive Stage37 physical source, R<=B.
+
+
+Retain 229CK:
+A=R-U, Bv=R-V, C=R-z, S=A+Bv+C,
+lambda_U=gcd(A,S)=gcd(A,Bv+C),
+lambda_V=gcd(Bv,S)=gcd(Bv,A+C),
+lambda_z=gcd(C,S)=gcd(C,A+Bv),
+with lambda_U,lambda_V,lambda_z pairwise-coprime odd;
+for 3-free parts,
+lambda_U^(3')|Y^2, lambda_V^(3')|X^2, lambda_z^(3')|E^2.
+
+
+Retain 229CG:
+for every p>3 in rad(lambda_U), p|Y and p does not divide R;
+cyclically rad(lambda_V) maps to X and rad(lambda_z) maps to E.
+Retain 229BN:
+e=gab, x=d0bc, y=d0af,
+E=g/h, X=c/c21, Y=f/c12,
+and the primitive gcd relations listed there.
+
+
+The purpose of this card is to add a second, genuinely cross-selector capture of the full 3-free lambda valuations: each prime power is forced into one of two primitive positive-definite binary norm packets of discriminant -32 built from the complementary two edges.
+
+
+2. Exact U-color norm identity
+
+
+Put
+u=Bv+C=2R-V-z.
+
+
+Define
+Phi_U^-:=3e^2-2ex+3x^2,
+Phi_U^+:=3e^2+2ex+3x^2.
+
+
+Using
+R^2=e^2+x^2+y^2,
+V^2=e^2+y^2,
+z^2=x^2+y^2,
+U^2=e^2+x^2,
+we have
+
+
+u(2R+V+z)
+ =4R^2-(V+z)^2
+ =3e^2+3x^2+2y^2-2Vz.
+
+
+Multiplying by the conjugate factor gives the exact identity
+
+
+u(2R+V+z)(3e^2+3x^2+2y^2+2Vz)
+ = Phi_U^- Phi_U^+ + 8y^2 U^2.                 (CL.1)
+
+
+Now let p^a || lambda_U^(3') so p>3.
+Because lambda_U|u and lambda_U|A, p^a|u and p^a|A.
+229CG gives p does not divide R, hence p does not divide R+U because U==R mod p.
+From
+y^2=A(R+U)
+we therefore have p^a|y^2.
+Equation (CL.1) then yields
+
+
+p^a | Phi_U^- Phi_U^+.                           (CL.2)
+
+
+For such p, 229CG+229BN give p|Y and p does not divide h,a,b,d0,c; in particular p does not divide e x.
+Since
+Phi_U^+ - Phi_U^- = 4ex,
+p cannot divide both Phi_U^- and Phi_U^+.
+Therefore the entire p^a contribution goes into exactly one sign packet.
+
+
+RESULT_229CL_U_COLOR_FULL_3FREE_LAMBDA_VALUATION_SPLITS_UNIQUELY_INTO_TWO_NORM_PACKETS=PROVED_EXACT.
+
+
+3. Primitive discriminant -32 forms
+
+
+Factor out the physical common edge-content:
+
+
+e=b(ga), x=b(d0c).
+
+
+Define
+N_U^-:=3(ga)^2-2(ga)(d0c)+3(d0c)^2,
+N_U^+:=3(ga)^2+2(ga)(d0c)+3(d0c)^2.
+
+
+229BN gives gcd(ga,d0c)=1. Since every p>3 in lambda_U is coprime to b, the sign packet divisibility from Section 2 descends from Phi_U^±=b^2 N_U^± to N_U^± itself.
+
+
+Cyclically define
+
+
+N_V^-:=3(gb)^2-2(gb)(d0f)+3(d0f)^2,
+N_V^+:=3(gb)^2+2(gb)(d0f)+3(d0f)^2,
+
+
+with gcd(gb,d0f)=1, and
+
+
+N_z^-:=3(bc)^2-2(bc)(af)+3(af)^2,
+N_z^+:=3(bc)^2+2(bc)(af)+3(af)^2,
+
+
+with gcd(bc,af)=1.
+
+
+For any coprime positive integers r,s,
+
+
+3r^2-2rs+3s^2=(r+s)^2+2(r-s)^2,
+3r^2+2rs+3s^2=(r-s)^2+2(r+s)^2.               (CL.3)
+
+
+Thus all six N_i^± are primitive positive-definite binary quadratic forms of discriminant -32, and each is an integral Q(sqrt(-2)) norm after the displayed determinant-2 linear substitution.
+
+
+Moreover
+N_i^+ - N_i^- =4rs,
+N_i^+ + N_i^- =6(r^2+s^2).
+If a prime p>3 divided both N_i^+,N_i^-, then p|rs and p|(r^2+s^2), contradicting gcd(r,s)=1.
+Therefore
+
+
+gcd(N_i^+,N_i^-)
+has no prime factor >3.                                  (CL.4)
+
+
+This makes the sign allocation canonical for every 3-free lambda prime power.
+
+
+RESULT_229CL_THREE_PRIMITIVE_DISCRIMINANT_MINUS32_NORM_PAIRS=PROVED_EXACT.
+RESULT_229CL_SIGN_PACKETS_ARE_COPRIME_OUTSIDE_6=PROVED_EXACT.
+
+
+4. Six full-valuation packets and core-square intersection
+
+
+There are unique coprime factorizations
+
+
+lambda_U^(3') = ell_U^- ell_U^+,
+lambda_V^(3') = ell_V^- ell_V^+,
+lambda_z^(3') = ell_z^- ell_z^+,
+
+
+such that
+
+
+ell_U^± | N_U^±,
+ell_V^± | N_V^±,
+ell_z^± | N_z^±.                                  (CL.5)
+
+
+Because the three lambda_i are pairwise coprime and each sign pair is coprime, the six ell_i^± are pairwise coprime.
+
+
+Combining (CL.5) with 229CK full-valuation core capture gives the exact same-physical cross-selector divisibilities
+
+
+ell_U^± | gcd(Y^2,N_U^±),
+ell_V^± | gcd(X^2,N_V^±),
+ell_z^± | gcd(E^2,N_z^±).                         (CL.6)
+
+
+Equivalently, every p>3 contribution to the J/lambda branch is simultaneously visible
+(1) in one residual core square Y^2, X^2, or E^2, and
+(2) in one of two primitive discriminant -32 norm forms built from the complementary physical parameters.
+
+
+This is strictly more structured than the statement lambda_i^(3')|core_i^2 alone and is absent from the 229CJ macro-only joint-pair host.
+
+
+RESULT_229CL_FULL_LAMBDA_VALUATIONS_CAPTURED_BY_CORE_SQUARE_INTERSECT_PRIMITIVE_NORM_PACKET=PROVED_EXACT.
+RESULT_229CL_SIX_PAIRWISE_COPRIME_SIGNED_LAMBDA_PACKETS=PROVED_EXACT.
+
+
+5. Relation to the -2 root lines
+
+
+The norm forms in (CL.3) explain the same local splitting field already seen in the 229CG congruences sigma_i^2==-2 mod lambda_i^2.
+
+
+This card does not charge the norm-packet condition as a new independent local density on top of the 229CG square-modulus root lines. Both are deterministic projections of the same physical endpoint. The new information is the global cross-selector placement: the full 3-free prime-power packet must occur simultaneously in a residual core square and in a primitive norm-form value in complementary parameters.
+
+
+6. Current theorem interface
+
+
+Define the new J sub-interface
+
+
+J_CORE_NORM_PACKET_CORRELATION:
+on the exact hard13 source, retain simultaneously
+- the dual radical pair and kappa=rad(G0)>T;
+- J>K and the 229CK colored square-gap budget;
+- the 229CG lambda_i^2 opposite-difference root lines;
+- the 229CK full valuation capture lambda_U^(3')|Y^2, lambda_V^(3')|X^2, lambda_z^(3')|E^2;
+- the six canonical signed packets ell_i^± from (CL.5)-(CL.6).
+
+
+A useful counting theorem may now target a large common-divisor/correlation event
+gcd(core_i^2,N_i^±)
+on three primitive norm-form channels rather than treating lambda support as free entropy over a fixed dual radical pair.
+
+
+CURRENT_PREFERRED_J_INTERFACE=
+COLORED_SQUARE_GAP_BUDGET + DUAL_RADICAL_PAIR + LAMBDA_SQUARE_MODULUS_ROOT_LINES + CORE_SQUARE_INTERSECT_DISCRIMINANT_MINUS32_NORM_PACKETS.
+
+
+7. Quantitative firewall
+
+
+No one-third endpoint count is proved here.
+
+
+Do not:
+- multiply the six signed packet conditions as independent sieve events;
+- treat Q(sqrt(-2)) split-prime support by itself as a saving;
+- infer a fixed-power gain from the fact that each N_i^± is a positive-definite norm form;
+- forget the one-way 229CK fact that fixed dual radical pair -> only B^o lambda tuples, while the reverse fiber remains uncontrolled.
+
+
+The correct possible gain must come from same-physical occupancy of the common-divisor events in (CL.6), from the exact R-height/selectors, or from collapse of many dual radical pairs onto few realized norm/core packet configurations.
+
+
+If no such gain is found, the existing eta/tau/M_i/K_cross fallback remains unchanged.
+
+
+8. Verification
+
+
+The identity (CL.1) was symbolically expanded from the four exact face/space-square relations; the residual polynomial is identically zero.
+The norm representations (CL.3) are exact expansions.
+A finite arithmetic sanity check over 10,000 random coprime pairs (r,s) found no prime >3 in gcd(N^+,N^-), matching the direct proof (CL.4).
+No physical perfect-cuboid endpoint enumeration is claimed or used.
+
+
+9. State
+
+
+CURRENT_BLOCKER remains
+NO_SELECTOR_AWARE_OR_OCCUPIED_SUPPORT_SAVING_FOR_THE_229CC_SIX_BUCKET_COVER_ON_THE_EXACT_HARD13_PHYSICAL_SOURCE.
+
+
+REFINED_BLOCKER=
+NO_ONE_THIRD_COUNT_FOR_LARGE_eta_OR_TAU_FULL_GCD_SQUARE_MODULI_OR_J_CORE_NORM_PACKET_CORRELATION_OR_MATCHED_DISJOINT_M_U_M_V_M_z.
+
+
+J_CORE_NORM_PACKET_CORRELATION=OPEN.
+J_NESTED_COLORED_LAMBDA_CORRELATION remains OPEN and is sharpened by this card.
+J_OCCUPIED_LAMBDA_SQUARE_MODULUS_SAVING remains OPEN.
+KERNEL_BIAS_BRIDGE remains OPEN.
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+No perfect-cuboid existence/nonexistence conclusion and no new global endpoint exponent are claimed.
+INDEPENDENT_HOSTILE_AUDIT_229CL=NOT_RUN.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

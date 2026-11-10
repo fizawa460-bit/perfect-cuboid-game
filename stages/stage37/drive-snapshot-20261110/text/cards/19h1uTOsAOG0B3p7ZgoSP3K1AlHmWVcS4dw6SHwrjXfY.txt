@@ -1,0 +1,405 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229CP — four-state common-gcd valuation split and silent balanced-square channel
+STATUS: POST_229CO_FOUR_STATE_VALUATION_REFINEMENT / RESIDUAL_OMEGA_EXCESS / SATURATED_PI_EXCESS / SATURATED_S_EXCESS / SILENT_BALANCED_TRIPLE_UNITARY_SQUARE / COMBINED_PI_SQUARE_MODULUS / GLOBAL_CREDIT=0 / NO_REOPEN
+CARD_DOC_ID=19h1uTOsAOG0B3p7ZgoSP3K1AlHmWVcS4dw6SHwrjXfY
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229CO
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope
+
+
+Work on the exact current S_B^hard13(delta) positive primitive Stage37 physical source, R<=B.
+
+
+Retain 229CO:
+Pi=(A+Bv)(A+C)(Bv+C),
+Omega=ABvC,
+S=A+Bv+C=R-2d,
+Pi+Omega=2Sd^2,
+
+
+L_J=gcd(Pi,S)=gcd(Omega,S)=lambda_U lambda_V lambda_z.
+
+
+Write
+L:=L_J^(3')=L_J/3^{v_3(L_J)},
+J_sharp=rad(L)=J/gcd(J,3).
+
+
+Every prime p|J_sharp is coprime to 2d.
+
+
+Retain the physical color valuation from 229CO/229CG:
+for a p in one J color,
+v_p(Omega)=2n for the corresponding residual-core valuation n>0.
+
+
+This card refines the 229CO residual/saturated two-state split. The saturated side itself has three exact p-adic states. One of them is invisible after dividing out the full common gcd and is therefore a necessary new firewall for quotient-support counting.
+
+
+2. Four-state valuation lemma
+
+
+Fix p|J_sharp and put
+
+
+x:=v_p(Pi),
+y:=v_p(Omega),
+z:=v_p(S),
+a:=v_p(L).
+
+
+Since p does not divide 2d and
+
+
+Pi+Omega=2Sd^2,                                               (CP.1)
+
+
+the elementary p-adic sum law gives:
+
+
+- if x<y, then z=x;
+- if y<x, then z=y;
+- if x=y, then z>=x.                                         (CP.2)
+
+
+Because L is the common p-block of gcd(Pi,S) and gcd(Omega,S), (CP.2) implies exactly
+
+
+a=min(x,y).                                                   (CP.3)
+
+
+There are therefore exactly four disjoint states:
+
+
+R — residual / Omega-excess:
+x=a<y and z=a.                                                (CP.4R)
+
+
+P — saturated / Pi-excess:
+y=a<x and z=a.                                                (CP.4P)
+
+
+B — saturated balanced:
+x=y=z=a.                                                      (CP.4B)
+
+
+S — saturated / S-excess:
+x=y=a<z.                                                      (CP.4S)
+
+
+No fifth state is possible.
+
+
+RESULT_229CP_EVERY_3FREE_J_PRIME_POWER_HAS_EXACTLY_FOUR_COMMON_GCD_VALUATION_STATES=PROVED_EXACT.
+
+
+3. Physical parity of the saturated states
+
+
+229CO gives y=2n on every physical J prime.
+
+
+In state R, a=x<2n and the common block need not have even exponent.
+
+
+In states P,B,S, a=y=2n is even. Therefore every full prime-power block belonging to P,B,S is a perfect square block.
+
+
+This identifies 229CO's old split exactly:
+
+
+L_pair = L_R,
+L_outer = L_P L_B L_S,                                      (CP.5)
+
+
+where the four factors are pairwise coprime and their product is L.
+
+
+Likewise
+
+
+J_res=J_R:=rad(L_R),
+J_sat=J_P J_B J_S,                                           (CP.6)
+
+
+with J_P=rad(L_P), J_B=rad(L_B), J_S=rad(L_S).
+
+
+RESULT_229CP_229CO_RESIDUAL_BLOCK_EQUALS_R_STATE_AND_SATURATED_BLOCK_SPLITS_INTO_THREE_SQUARE_STATES=PROVED_EXACT.
+
+
+4. Exact unitary and excess routing
+
+
+Use D||N for unitary divisibility.
+
+
+State R:
+L_R||Pi,
+L_R||S,
+and every p in J_R has at least one additional p in Omega/L_R.
+Hence
+
+
+L_R J_R | Omega.                                             (CP.7R)
+
+
+State P:
+L_P||Omega,
+L_P||S,
+Pi has positive excess on every support prime.
+Hence
+
+
+L_P J_P | Pi.                                                (CP.7P)
+
+
+Since L_P is a square and every exponent in L_P is at least 2,
+
+
+J_P^3 | Pi.                                                  (CP.8P)
+
+
+State B:
+L_B||Pi,
+L_B||Omega,
+L_B||S,                                                       (CP.7B)
+
+
+and L_B is a perfect square.
+There is NO forced residual p-factor after removing L_B from any of the three scalars.
+
+
+State S:
+L_S||Pi,
+L_S||Omega,
+S has positive excess on every support prime.
+Hence
+
+
+L_S J_S | S,                                                 (CP.7S)
+
+
+and because L_S is a square,
+
+
+J_S^3 | S < R <= B.                                          (CP.8S)
+
+
+RESULT_229CP_RESIDUAL_STATE_HAS_OMEGA_EXCESS_LIFT=PROVED_EXACT.
+RESULT_229CP_PI_EXCESS_SATURATED_STATE_HAS_CUBIC_RADICAL_DIVISIBILITY_IN_PI=PROVED_EXACT.
+RESULT_229CP_S_EXCESS_SATURATED_STATE_HAS_CUBIC_RADICAL_DIVISIBILITY_IN_S=PROVED_EXACT.
+RESULT_229CP_BALANCED_STATE_IS_A_COMMON_TRIPLE_UNITARY_SQUARE_BLOCK=PROVED_EXACT.
+
+
+In particular J_S<=B^(1/3) deterministically.
+
+
+5. Quotient-support router and the silent channel
+
+
+Define the exact integer quotients
+
+
+Pi_0:=Pi/L,
+Omega_0:=Omega/L,
+S_0:=S/L.
+
+
+Then
+
+
+Pi_0+Omega_0=2S_0d^2.                                       (CP.9)
+
+
+The four-state table becomes
+
+
+J_R | Omega_0,
+gcd(J_R,Pi_0 S_0)=1;                                         (CP.10R)
+
+
+J_P | Pi_0,
+gcd(J_P,Omega_0 S_0)=1;                                      (CP.10P)
+
+
+J_S | S_0,
+gcd(J_S,Pi_0 Omega_0)=1;                                     (CP.10S)
+
+
+gcd(J_B,Pi_0 Omega_0 S_0)=1.                                 (CP.10B)
+
+
+Thus the quotient supports see only three of the four J channels.
+The balanced square channel J_B disappears completely from support divisibility after the common gcd L has been removed.
+
+
+RESULT_229CP_THREE_VISIBLE_QUOTIENT_SUPPORT_CHANNELS_PLUS_ONE_SILENT_BALANCED_CHANNEL=PROVED_EXACT.
+
+
+Critical firewall:
+a proof that only controls large common-gcd primes by showing that they must reappear in Pi_0, Omega_0 or S_0 is incomplete. Large J_B is a genuine fourth possibility and carries no quotient-support factor.
+
+
+6. Combined pair-sum full-square modulus
+
+
+Retain 229BX/229CA:
+Q=q_UV q_Uz q_Vz and Q^2|Pi, with eta=rad(Q).
+
+
+Retain 229CB:
+G is the product of the three full pair gcds,
+rad(G)=tau,
+gcd(Q,G)=1,
+and (QG)^2|Pi.
+
+
+From 229CC, eta,tau,J are pairwise-coprime support buckets.
+Therefore Q,G and the saturated square root
+
+
+W_sat:=sqrt(L_P L_B L_S)
+
+
+are pairwise coprime.
+Since L_P L_B L_S=W_sat^2 divides Pi,
+
+
+(Q G W_sat)^2 | Pi.                                         (CP.11)
+
+
+The residual block L_R is coprime to QGW_sat and also divides Pi. Hence
+
+
+L_R (Q G W_sat)^2 | Pi.                                     (CP.12)
+
+
+Using Pi<8B^3/27 gives the deterministic support-height budget
+
+
+eta^2 tau^2 J_R (J_P J_B J_S)^2
+ <= L_R Q^2 G^2 W_sat^2
+ <= Pi
+ < 8B^3/27.                                                   (CP.13)
+
+
+RESULT_229CP_ETA_TAU_AND_SATURATED_J_COMBINE_IN_ONE_CHARGED_ONCE_PAIR_SUM_SQUARE_MODULUS=PROVED_EXACT.
+RESULT_229CP_MIXED_SUPPORT_HEIGHT_BUDGET_eta2_tau2_JR_JSAT2=PROVED_EXACT.
+
+
+This is one deterministic divisibility on the same scalar Pi. It is not a product of independent sieve probabilities.
+
+
+7. Quantitative status
+
+
+No one-third endpoint count is proved.
+
+
+The new exact structure does dispose one extreme subcase:
+J_S>B^(1/3) is impossible because J_S^3|S<B.
+
+
+But the balanced channel J_B can be arbitrarily large up to the existing square-divisor height ceiling without being visible in the quotient supports.
+Therefore the naive strategy
+"divide Pi,Omega,S by L and count the three residual quotient supports"
+does NOT cover the whole J-large branch.
+
+
+The current saturated hard core is precisely the large common triple-unitary square block L_B, together with the Pi-excess and S-excess square channels.
+
+
+Do not:
+- assume every J prime reappears in one of Pi_0,Omega_0,S_0;
+- assign an independent density to (QGW_sat)^2|Pi;
+- multiply CP.12 with the 229CK Omega divisibility as independent gains;
+- infer a global count merely from J_P^3|Pi or J_S^3|S;
+- revive the closed 229CM ambient m^3 density.
+
+
+8. Updated theorem interface
+
+
+The preferred J interface becomes
+
+
+J_FOUR_STATE_COMMON_GCD_OCCUPANCY:
+
+
+First retain the stronger 229CO dichotomy
+J_sharp=J_R*(J_P J_B J_S).
+
+
+For the residual R channel, retain 229CN's quotient-level rho lift and CP.10R.
+
+
+For saturated support, distinguish:
+- P: square block with Pi-excess, J_P^3|Pi;
+- S: square block with S-excess, J_S^3|S;
+- B: square common unitary block L_B||Pi,Omega,S with no quotient-support lift.
+
+
+The genuinely new hard subproblem is
+
+
+J_BALANCED_TRIPLE_UNITARY_SQUARE_OCCUPANCY:
+count actual hard13 endpoints carrying a large square block L_B that is simultaneously unitary in Pi, Omega and S, while preserving the 229CK colored budget and 229CI dual-radical constraints.
+
+
+If the balanced block is small, attack the remaining R/P/S excess channels with their corresponding quotient or cubic-divisor structure.
+
+
+9. Verification
+
+
+The four-state table is a direct exhaustive valuation analysis of CP.1 for p not dividing 2d.
+
+
+The perfect-square statements use only the retained physical equality
+v_p(Omega)=2v_p(core)
+in the saturated case.
+
+
+CP.11-CP.13 use only already-proved same-scalar divisibilities
+(QG)^2|Pi,
+L_outer=W_sat^2|Pi,
+L_R|Pi,
+and the pairwise-coprime support theorem from 229CC.
+
+
+No physical perfect-cuboid endpoint enumeration is used.
+
+
+10. State
+
+
+CURRENT_BLOCKER remains
+NO_SELECTOR_AWARE_OR_OCCUPIED_SUPPORT_SAVING_FOR_THE_229CC_SIX_BUCKET_COVER_ON_THE_EXACT_HARD13_PHYSICAL_SOURCE.
+
+
+REFINED_BLOCKER=
+NO_ONE_THIRD_COUNT_FOR_LARGE_eta_OR_TAU_FULL_GCD_SQUARE_MODULI_OR_J_FOUR_STATE_COMMON_GCD_OCCUPANCY_WITH_BALANCED_TRIPLE_UNITARY_SQUARE_OR_MATCHED_DISJOINT_M_U_M_V_M_z.
+
+
+J_FOUR_STATE_COMMON_GCD_OCCUPANCY=OPEN.
+J_BALANCED_TRIPLE_UNITARY_SQUARE_OCCUPANCY=OPEN.
+J_RHO_QUOTIENT_LIFT remains valid on the R state.
+J_S_EXCESS_ABOVE_B_ONE_THIRD=EMPTY_BY_229CP_CUBIC_DIVISIBILITY.
+J_FIRST_ORDER_MATCHED_m_CUBED_INDEPENDENT_DENSITY remains CLOSED_BY_229CN_ALGEBRAIC_DEPENDENCE.
+KERNEL_BIAS_BRIDGE remains OPEN.
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+No perfect-cuboid existence/nonexistence conclusion and no new global endpoint exponent are claimed.
+INDEPENDENT_HOSTILE_AUDIT_229CP=NOT_RUN.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

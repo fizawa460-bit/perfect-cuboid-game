@@ -1,0 +1,364 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229CM — physical conic factorization and same-root matched linear packets
+STATUS: POST_229CL_PHYSICAL_CONIC_LINEARIZATION / FOUR_LINEAR_FACTORS_PER_COLOR / TWELVE_SIGNED_PACKETS / SAME_ROOT_MATCHED_MODULUS_LATTICE / NORM_FORM_INDEPENDENCE_FIREWALL / GLOBAL_CREDIT=0 / NO_REOPEN
+CARD_DOC_ID=1F7dp5W7VcbcI8R_hGHR2n262CFPOGhi0QmDJR_xDKX8
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229CL
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope
+
+
+Work on the exact current S_B^hard13(delta) positive primitive Stage37 physical source, R<=B.
+
+
+Retain 229CL:
+for the three colors i=U,V,z,
+lambda_i^(3') is captured by a residual-core square and one of two primitive discriminant -32 forms
+N_i^±=3r_i^2±2r_i s_i+3s_i^2,
+with
+(r_U,s_U,n_U)=(ga,d0 c,n1), U=b n1,
+(r_V,s_V,n_V)=(gb,d0 f,n2), V=a n2,
+(r_z,s_z,n_z)=(bc,af,q), z=d0 q,
+and
+r_i^2+s_i^2=n_i^2.
+
+
+Retain 229CG:
+for each lambda_i there is a root sigma_i modulo lambda_i^2 with sigma_i^2==-2 and the corresponding opposite-gap root line
+X_i == 2 sigma_i d mod lambda_i^2,
+where
+X_U=Bv-C=z-V,
+X_V=A-C=z-U,
+X_z=A-Bv=V-U.
+
+
+This card proves that the apparently quadratic 229CL norm packets split exactly into four physical linear packets on the retained Pythagorean conic, and that each packet is tied to the same sigma_i appearing in the 229CG square-modulus root line.
+
+
+2. Exact physical conic factorization
+
+
+Let r,s,n be positive coprime integers with r^2+s^2=n^2.
+For alpha,beta in {+1,-1}, define
+L_{alpha,beta}(r,s,n):=2n-alpha r-beta s.                      (CM.1)
+
+
+Since r+s<2n, all four L_{alpha,beta} are positive.
+
+
+Directly,
+(2n-r-s)(2n+r+s)
+ =4n^2-(r+s)^2
+ =3r^2-2rs+3s^2,                                              (CM.2)
+
+
+and
+(2n-r+s)(2n+r-s)
+ =4n^2-(r-s)^2
+ =3r^2+2rs+3s^2.                                              (CM.3)
+
+
+Thus on the actual physical Pythagorean conic,
+
+
+N_i^- = L_{+,+}^{(i)} L_{-,-}^{(i)},
+N_i^+ = L_{+,-}^{(i)} L_{-,+}^{(i)},                          (CM.4)
+
+
+with
+L_{alpha,beta}^{(U)}=2n1-alpha ga-beta d0c,
+L_{alpha,beta}^{(V)}=2n2-alpha gb-beta d0f,
+L_{alpha,beta}^{(z)}=2q-alpha bc-beta af.                     (CM.5)
+
+
+RESULT_229CM_DISCRIMINANT_MINUS32_NORM_FORMS_FACTOR_INTO_FOUR_PHYSICAL_LINEAR_PACKETS=PROVED_EXACT.
+
+
+This is a physical-source factorization. It is not a factorization of the binary quadratic form over Z[r,s] without adjoining the physical hypotenuse n; it uses the retained selector equation n^2=r^2+s^2.
+
+
+3. Coprimality of the four linear packets away from 6
+
+
+Fix one primitive triple (r,s,n).
+
+
+Within one conjugate pair, suppose an odd prime p divides both
+2n-alpha r-beta s
+and
+2n+alpha r+beta s.
+Then p|n and p|(alpha r+beta s).
+Using n^2=r^2+s^2 gives
+0 == r^2+s^2 == 2r^2 mod p
+after substituting r==-alpha beta s.
+For odd p this forces p|r,s, contradicting gcd(r,s)=1.
+Hence each conjugate pair has no common odd prime.
+
+
+For a cross-pair common prime p>3, p would divide both N^- and N^+.
+229CL proved that gcd(N^-,N^+) has no prime divisor >3.
+Therefore every prime p>3 divides at most one of the four L_{alpha,beta}.  (CM.6)
+
+
+RESULT_229CM_FOUR_LINEAR_PACKETS_PAIRWISE_COPRIME_OUTSIDE_6=PROVED_EXACT.
+
+
+4. Twelve full-valuation lambda packets
+
+
+For each color i and each (alpha,beta), allocate every prime power p^a||lambda_i^(3') to the unique L_{alpha,beta}^{(i)} divisible by p^a.
+Define the resulting packet mu_{i,alpha,beta}.
+
+
+Then exactly
+
+
+lambda_i^(3') = product_{alpha,beta} mu_{i,alpha,beta},        (CM.7)
+
+
+the four packets for a fixed color are pairwise coprime, and because lambda_U,lambda_V,lambda_z are pairwise coprime, all twelve packets over the three colors are pairwise coprime.
+
+
+Combining with 229CK/229CL core-square capture gives
+
+
+mu_{U,alpha,beta} | gcd(Y^2,L_{alpha,beta}^{(U)}),
+mu_{V,alpha,beta} | gcd(X^2,L_{alpha,beta}^{(V)}),
+mu_{z,alpha,beta} | gcd(E^2,L_{alpha,beta}^{(z)}).            (CM.8)
+
+
+RESULT_229CM_FULL_3FREE_LAMBDA_VALUATIONS_REFINE_TO_TWELVE_PAIRWISE_COPRIME_LINEAR_PACKETS=PROVED_EXACT.
+RESULT_229CM_LINEAR_PACKET_CORE_SQUARE_INTERSECTION=PROVED_EXACT.
+
+
+This strictly sharpens the six quadratic packets of 229CL.
+
+
+5. Physical sign meaning of one packet
+
+
+We prove the U-color statement; V and z are cyclic.
+
+
+Let p^a||mu_{U,alpha,beta}, and put n=v_p(Y).
+229CG exclusions give p>3 and
+p does not divide a,b,c,d0,g,c12.
+Hence v_p(y)=n.
+
+
+From
+V^2-e^2=y^2
+and p not dividing e, exactly one sign alpha_0 satisfies
+v_p(V-alpha_0 e)=2n.
+
+
+From
+q^2-(bc)^2=(af)^2
+and p not dividing abc, exactly one sign beta_0 satisfies
+v_p(q-beta_0 bc)=2n.
+Since z=d0q and x=d0bc,
+v_p(z-beta_0 x)=2n.
+
+
+Also p^a|lambda_U gives p^a|(R-U) and p^a|(2R-V-z).
+Because a<=2n,
+
+
+2U-alpha_0 e-beta_0 x
+ = (2R-V-z)-2(R-U)+(V-alpha_0 e)+(z-beta_0 x)
+is divisible by p^a.
+
+
+Dividing by the p-unit b shows
+p^a | L_{alpha_0,beta_0}^{(U)}.
+By the uniqueness in Section 3,
+(alpha_0,beta_0)=(alpha,beta).                                  (CM.9)
+
+
+Thus the four packet labels are not artificial: they are exactly the two simultaneous Pythagorean sign choices seen by the same physical prime power.
+
+
+RESULT_229CM_LINEAR_PACKET_LABEL_EQUALS_SIMULTANEOUS_PHYSICAL_SIGN_CHANNEL=PROVED_EXACT.
+
+
+6. Same-root compatibility with the 229CG square-modulus line
+
+
+Again take p^a||mu_{U,alpha,beta}.
+Let epsilon=alpha beta.
+
+
+Because p^a|lambda_U and S=R-2d,
+2d == R == U mod p^a.                                         (CM.10)
+
+
+The 229CG root line gives
+z-V == 2 sigma_U d mod p^a,
+hence by Section 5
+beta x-alpha e == sigma_U U mod p^a.                           (CM.11)
+
+
+The packet relation gives
+2U == alpha e+beta x mod p^a.                                  (CM.12)
+
+
+Set t=e/x=(ga)/(d0c) modulo p^a.
+All denominators are p-units.
+From (CM.11)-(CM.12),
+
+
+sigma_U
+ == 2(beta-alpha t)/(alpha t+beta)
+ == 2(1-epsilon t)/(1+epsilon t).                              (CM.13)
+
+
+Squaring (CM.12) and using U^2=e^2+x^2 gives
+
+
+3t^2-2epsilon t+3 == 0 mod p^a.                               (CM.14)
+
+
+Using (CM.14) in (CM.13),
+
+
+2 sigma_U == 1-3epsilon t mod p^a.                             (CM.15)
+
+
+Equivalently,
+
+
+3 epsilon (ga) == (1-2 sigma_U)(d0c) mod p^a.                 (CM.16)
+
+
+The cyclic identities are
+
+
+3 epsilon (gb) == (1-2 sigma_V)(d0f) mod p^a,                 (CM.17)
+
+
+3 epsilon (bc) == (1-2 sigma_z)(af) mod p^a.                  (CM.18)
+
+
+Because sigma_i^2==-2, a prime p>3 cannot divide 1-2sigma_i:
+otherwise 2sigma_i==1 would give -8==1 and p|9.
+Hence the matched linear congruence is nondegenerate on every packet.
+
+
+CRT therefore upgrades (CM.16)-(CM.18) from individual prime powers to each whole packet m=mu_{i,alpha,beta}.
+
+
+RESULT_229CM_SAME_SQRT_MINUS2_ROOT_CONTROLS_OUTER_DIFFERENCE_AND_PRIMITIVE_LEG_RATIO=PROVED_EXACT.
+
+
+7. Matched modulus lattice
+
+
+For one packet
+m=mu_{i,alpha,beta},
+epsilon=alpha beta,
+let (r_i,s_i) be its primitive leg pair and X_i its 229CG opposite-gap difference.
+
+
+The same physical endpoint lies in the block lattice
+
+
+X_i == 2 sigma_i d mod m^2,
+3 epsilon r_i == (1-2 sigma_i)s_i mod m.                       (CM.19)
+
+
+The first congruence has index m^2 in the (X_i,d) block.
+The second has index m in the (r_i,s_i) block because 3epsilon is invertible modulo m.
+Therefore the product lattice in Z^4 has exact index
+
+
+[Z^4:Lambda_{i,m,alpha,beta,sigma_i}] = m^3.                  (CM.20)
+
+
+The admissible sigma_i choices remain only 2^omega(m)=B^o(1).
+
+
+RESULT_229CM_PACKET_MATCHED_SAME_ROOT_LATTICE_HAS_EXACT_INDEX_M_CUBED=PROVED.
+
+
+Important firewall:
+the m^3 lattice index is NOT assigned as an endpoint density.
+The two coordinate blocks come from the same physical endpoint, and 229CG already reconstructs endpoints from the outer-gap block up to B^o(1).
+Multiplying an m^-2 outer packing factor by an m^-1 primitive-leg factor without a same-physical incidence theorem would double-charge deterministic structure.
+
+
+8. Consequence for the J route
+
+
+229CL suggested a primitive discriminant -32 norm-form common-divisor theorem.
+229CM shows that on the exact physical source those norm forms are already reducible through the retained Pythagorean hypotenuse.
+
+
+Therefore the preferred J theorem interface is sharpened from
+CORE_SQUARE_INTERSECT_DISCRIMINANT_MINUS32_NORM_PACKET
+to
+
+
+TWELVE_LINEAR_PACKET_SAME_ROOT_MATCHED_INCIDENCE:
+
+
+count actual hard13 endpoints using, on the same measure,
+- the 229CK colored square-gap budget;
+- the 229CI dual radical pair;
+- the 229CG square-modulus root line;
+- the twelve mu_{i,alpha,beta} core-square/linear-factor intersections;
+- the same-root compatibility (CM.19).
+
+
+A successful theorem may exploit collisions/occupancy of the matched m^2-by-m lattice, but must preserve the exact physical coupling.
+
+
+CURRENT_METHOD_FIREWALL:
+Do not invoke a generic irreducible binary norm-form sieve on N_i^± as genuinely new input after adjoining the already-retained physical hypotenuse n_i. On the Stage37 source it factors exactly into the linear packets above.
+Do not multiply the m^2 and m congruence densities without a same-physical incidence theorem.
+Do not multiply the twelve packet densities merely because the packets are pairwise coprime.
+
+
+9. Quantitative status
+
+
+No one-third endpoint count is proved here.
+No occupied-modulus tail is proved.
+No fixed-power saving is assigned to the exact lattice index m^3.
+
+
+The gain is structural:
+the J blocker is now a matched same-root linear-incidence problem rather than a generic quadratic norm-form problem.
+
+
+If this matched incidence still gives no fixed-power gain, the existing fallback to eta/tau/M_i/K_cross remains unchanged.
+
+
+10. State
+
+
+CURRENT_BLOCKER remains
+NO_SELECTOR_AWARE_OR_OCCUPIED_SUPPORT_SAVING_FOR_THE_229CC_SIX_BUCKET_COVER_ON_THE_EXACT_HARD13_PHYSICAL_SOURCE.
+
+
+REFINED_BLOCKER=
+NO_ONE_THIRD_COUNT_FOR_LARGE_eta_OR_TAU_FULL_GCD_SQUARE_MODULI_OR_J_TWELVE_LINEAR_PACKET_SAME_ROOT_MATCHED_INCIDENCE_OR_MATCHED_DISJOINT_M_U_M_V_M_z.
+
+
+J_TWELVE_LINEAR_PACKET_SAME_ROOT_MATCHED_INCIDENCE=OPEN.
+J_CORE_NORM_PACKET_CORRELATION remains valid but is superseded as the preferred internal representation by 229CM.
+J_OCCUPIED_LAMBDA_SQUARE_MODULUS_SAVING remains OPEN.
+KERNEL_BIAS_BRIDGE remains OPEN.
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+No perfect-cuboid existence/nonexistence conclusion and no new global endpoint exponent are claimed.
+INDEPENDENT_HOSTILE_AUDIT_229CM=NOT_RUN.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

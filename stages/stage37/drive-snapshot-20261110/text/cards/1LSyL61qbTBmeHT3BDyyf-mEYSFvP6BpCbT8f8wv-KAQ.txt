@@ -1,0 +1,163 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229DB — thirteen-weight six-bucket amplification and optimized max-bucket exponent
+
+
+STATUS: POST_229DA_EXACT_WEIGHTED_BUCKET_AMPLIFICATION / UNIFORM_THREE_THIRTEENTHS_COVER / STRONGER_M_MATCHED_BRANCH / SCOPED_SAME_PHYSICAL_DETERMINISTIC / NO_GLOBAL_COUNTING_CREDIT / NO_REOPEN
+
+
+CARD_DOC_ID=1LSyL61qbTBmeHT3BDyyf-mEYSFvP6BpCbT8f8wv-KAQ
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229DA
+OPERATIONAL_AUTHORITY=M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228
+M3-T11-230=NOT_ISSUED
+PRIMARY_GATE=M3-T11-GATE-001 OPEN
+GLOBAL_COUNTING_CREDIT=0
+P_OVER_M3_LIMIT_PROVED=false
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT
+
+
+1. Exact scope and dependencies
+
+
+Current authority remains M3-T11-229. Work on the original positive primitive Stage37 physical endpoints P with R(P)<=B, ALL square/positivity/primitivity/selector constraints retained, primary sf(G0)>T0=B^(1/3-delta), 0<delta<1/3.
+
+
+Retain 229CZ/229DA two-scale HARD13 auxiliary cutoff
+  Z=B^(1/3-delta/2),
+  k13>Z, N_an>Z,
+  (R-U)(R-V)>Z, (R-z)(R-V)>Z, (R-z)(R-U)>Z,
+with o(B^(1/3)) total low-sector disposal. K_cross>Z follows from k13>Z and is NOT an extra hard14 condition.
+
+
+Retain 229BZ corrected four atoms and 229DA EXACT product:
+  k_A=rad(st), k_B=rad(su), k_C=rad(tu),
+  k13=min(k10,k_A,k_B,k_C),
+  tau=gcd(k_A,k_B,k_C),
+  k_A*k_B*k_C=tau*rad(Pi)^2,
+  Pi=stu, exactly one of s,t,u is even.
+Retain 229CC exact six pairwise-coprime odd squarefree buckets
+  eta=rad(Q), tau, J, M_U, M_V, M_z,
+  K_cross=rad_odd(Omega*Pi)=eta*tau*J*M_U*M_V*M_z.
+
+
+2. Exact weighted product inequality (new sharper router)
+
+
+Since k13>Z, each k_A,k_B,k_C>Z. Therefore
+  Z^3 < k_A*k_B*k_C
+      = tau*rad(Pi)^2
+      = 4*tau*rad_odd(Pi)^2
+      <= 4*tau*K_cross^2
+      = 4*eta^2*tau^3*J^2*M_U^2*M_V^2*M_z^2.       (DB.1)
+
+
+All steps hold for every exact physical endpoint in the two-scale HARD13 residual; no independence and no density heuristic is invoked.
+
+
+Define W_13=eta^2*tau^3*J^2*M_U^2*M_V^2*M_z^2. Then
+  W_13 > Z^3/4.                                    (DB.2)
+The total support-bucket weight is 2+3+2+2+2+2=13.
+
+
+RESULT_229DB_WEIGHT_THIRTEEN_EXACT_BUCKET_PRODUCT_LOWER_BOUND=PROVED_EXACT_ON_HARD13.
+
+
+3. Optimized uniform single-large-bucket cover
+
+
+Put c_13=4^(-1/13).
+If every one of eta,tau,J,M_U,M_V,M_z were <= c_13 Z^(3/13),
+then W_13<=c_13^13 Z^3=Z^3/4, contradicting (DB.2).
+Hence, on every two-scale HARD13 physical endpoint,
+  max(eta,tau,J,M_U,M_V,M_z) > 4^(-1/13) Z^(3/13). (DB.3)
+
+
+This is a stronger common-exponent deterministic six-bucket cover than the retained 229CC balanced Z^(1/5) cover. With the two-scale choice,
+  Z^(3/13)=B^(1/13-3delta/26).                  (DB.4)
+(The exponent is (1/3-delta/2)*3/13=1/13-3delta/26.)
+
+
+For this single monomial constraint, 3/13 is the balanced exponent obtained by distributing total Z-power 3 over weight 13. No claim of optimality on the smaller physical source or of any population saving is made.
+
+
+RESULT_229DB_BALANCED_SIX_BUCKET_THREE_THIRTEENTHS_COVER=PROVED_EXACT_ON_HARD13.
+
+
+4. Three-parameter stronger matched-M cover
+
+
+For any real a,b,c>=0 with 2a+3b+2c<3, (DB.1) implies the exact deterministic alternative
+  eta>Z^a
+  OR tau>Z^b
+  OR J>Z^c
+  OR max(M_U,M_V,M_z)>2^(-1/3) Z^((3-2a-3b-2c)/6). (DB.5)
+
+
+Proof: on the complementary eta<=Z^a,tau<=Z^b,J<=Z^c, inequality (DB.1) gives
+  M_U*M_V*M_z > (1/2) Z^((3-2a-3b-2c)/2),
+so one M_i must exceed the cube root on the right.
+
+
+In particular retain the familiar 229CC branch thresholds a=b=c=1/5. Then
+  eta>Z^(1/5)
+  OR tau>Z^(1/5)
+  OR J>Z^(1/5)
+  OR max(M_U,M_V,M_z)>2^(-1/3) Z^(4/15).       (DB.6)
+
+
+This improves the 229CC matched-M branch (whose threshold was 2^(-3/2) Z^(1/5)) while preserving the previous eta/tau/J thresholds. It is not an extra independent condition: the two covers refer to the same six buckets and same endpoints.
+
+
+Taking a=b=c=3/13 in (DB.5) puts all six at exponent 3/13 (with different constants); (DB.3) is the symmetric-common-constant version.
+
+
+RESULT_229DB_MATCHED_M_FOUR_FIFTEENTHS_CONDITIONAL_COVER=PROVED_EXACT_ON_HARD13.
+
+
+5. Quantitative firewall and unchanged route
+
+
+No selector-aware occupied-image count has been obtained. A bucket being large is NOT evidence that the actual Stage37 endpoints realizing that bucket are sparse. Pairwise coprime buckets do not grant independent sieve probabilities; the six factors are correlated functions of one physical endpoint. The shared radical Pi and G0 must not be double charged.
+
+
+The one-third target remains OPEN. Do not promote these exact deterministic threshold gains to global counting credit. No new construction M3-T11-230 is issued. The 229DA correction remains in force: K_cross>Z is a derived mark, not HARD14 independent disposal. Retain 229BZ prohibition on 229BY Section 5 radical triangle.
+
+
+CURRENT_PREFERRED_SUPPORT_INTERFACE=TWO_SCALE_HARD13_229DB_WEIGHT13_SIX_BUCKET_COVER / PARALLEL_SELECTOR_AWARE_WHOLE_G0_229AR_AND_229CC_BUCKET_OCCUPANCY / 229CT_PRIMARY_FOR_J_ONLY / 229DA_TAU_VS_SUPERLINEAR_KCROSS_OPTION / 229BF_CONDITIONAL.
+
+
+CURRENT_BLOCKER=NO_SELECTOR_AWARE_OCCUPIED_SUPPORT_SAVING_FOR_229DB_WEIGHT13_SIX_BUCKET_COVER_ON_THE_EXACT_TWO_SCALE_HARD13_PHYSICAL_SOURCE.
+
+
+REFINED_BLOCKER=NO_ONE_THIRD_COUNT_FOR_eta_OR_tau_OR_J_OR_MATCHED_M_I_AT_UNIFORM_4^(-1/13)_Z^(3/13)_SCALE; IN_THE_eta_tau_J_SMALL_BRANCH_NO_COUNT_FOR_M_I>2^(-1/3)_Z^(4/15).
+
+
+NEXT_RESEARCH_INPUT_CONTRACT:
+On the exact same physical source, attempt either:
+(A) selector-aware whole sf(G0)>T0 occupied-support theorem (229AR);
+(B) one complete cover of the 229DB weighted bucket branch (DB.3), J via229CT canonical norm-S gcd, tau via229CB full square-modulus root lines, eta via229BX weighted cone, each M_i via229CC matched disjoint factors;
+(C) the asymmetric (DB.6) variant, to seek a stronger M_i-only host theorem conditional on small eta,tau,J;
+(D) the retained 229DA tau-or-K_cross large occupied-tail branch.
+229BF is conditional on BOTH occupied outer count and reciprocal-height weighted mass saving or a stronger inner theorem. Keep exact R-height, positivity/primitivity, all selectors, square equations, and existing authority/gate/closure/HOLD.
+
+
+6. Verification scope
+
+
+(1) (DB.1)-(DB.6) are algebraic deductions from 229BZ, 229DA, and 229CC only; no external theorem is used.
+(2) Independent finite cone sanity replay of the exact six-bucket desaturation was carried out on all 621 A,Bv,C<=52 fixtures with gcd(A,Bv,C)=1, exactly two even gaps, ABv+AC+BvC=2d^2 with integral positive d, and 229BX odd pair-gcd perfect-square conditions. On all 621, K_cross=eta*tau*J*M_U*M_V*M_z, k_Ak_Bk_C=tau rad(Pi)^2, and the weighted inequality passed; the common (DB.3) branch passed 621/621, and 150 applicable conditional (DB.6) tests passed. Failures=0.
+(3) These are only cone-compatible synthetic algebraic fixtures, NOT verified perfect-cuboid physical endpoints or endpoint-density measurements.
+INDEPENDENT_HOSTILE_AUDIT_229DB=NOT_RUN.
+
+
+7. State
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority / credit / gate / closure / HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

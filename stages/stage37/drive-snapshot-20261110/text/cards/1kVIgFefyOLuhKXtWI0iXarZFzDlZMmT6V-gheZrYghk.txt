@@ -1,0 +1,122 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229CV — sharp physical S/R window and height-adapted full-J split
+CARD_DOC_ID=1kVIgFefyOLuhKXtWI0iXarZFzDlZMmT6V-gheZrYghk
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229CU
+STATUS: POST_229CU_PHYSICAL_HEIGHT_GEOMETRY / SHARP_CONTINUOUS_S_OVER_R_LOWER_CONSTANT / LARGE_NORM_HEIGHT_EQUIVALENCE / GEOMETRIC_ORIENTATION_FULL_J_TWO_BRANCH_COVER / NO_NEW_GLOBAL_COUNT / GLOBAL_CREDIT=0 / NO_REOPEN
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Exact physical source and notation
+
+
+Work on exactly the positive primitive Stage37 hard13 physical source, all simultaneous face and space square selectors, R<=B:
+e^2+x^2=U^2, e^2+y^2=V^2, x^2+y^2=z^2, e^2+x^2+y^2=R^2.
+A=R-U, Bv=R-V, C=R-z, S=A+Bv+C=R-2d, d>0.
+s=A+Bv, t=A+C, u=Bv+C, H_A=st=A^2+2d^2, H_B=su=Bv^2+2d^2, H_C=tu=C^2+2d^2.
+Retain 229CT C_A=gcd(H_A,S)=lambda_Vlambda_z and cyclically; lambda_U=gcd(A,S), lambda_V=gcd(Bv,S), lambda_z=gcd(C,S) are pairwise coprime odd. L_J=lambda_Ulambda_Vlambda_z, J=rad(L_J).
+Do not use the retracted 229BY Section5 radical triangle; 229BY Sections2-4 fixed-H_i physical B^o fibers remain retained.
+
+
+2. Sharp universal physical height window for S
+
+
+Put weights alpha_e=e^2/R^2, alpha_x=x^2/R^2, alpha_y=y^2/R^2. They are strictly between 0 and 1 and sum to 1.
+The exact square relations give
+U/R=sqrt(1-alpha_y),
+V/R=sqrt(1-alpha_x),
+z/R=sqrt(1-alpha_e).
+Therefore
+S/R=3-[sqrt(1-alpha_e)+sqrt(1-alpha_x)+sqrt(1-alpha_y)].        (CV.1)
+Concavity of sqrt and Jensen yield
+sum sqrt(1-alpha_i) <= 3sqrt(2/3)=sqrt(6).
+The elementary sqrt(1-a)>=1-a inequality gives sum sqrt(1-alpha_i)>2 on the strict positive chamber (strict for 0<a<1).
+Hence with c0:=3-sqrt(6)>0,
+c0 R <= S < R.                                                   (CV.2)
+Equality at the lower bound of the continuous positive-edge cone requires alpha_e=alpha_x=alpha_y=1/3, i.e. e=x=y. This cannot occur in an integer physical Euler brick because e^2+x^2=2e^2 would force U=e sqrt(2) nonintegral. Thus actual positive integer endpoints have STRICT c0 R<S<R. Sharpness is claimed only on the continuous real relaxation, NOT on the actual discrete physical set.
+Since R-S=2d,
+0<d<(sqrt(6)-2)R/2.                                        (CV.3)
+RESULT_229CV_SHARP_REAL_CONE_PHYSICAL_S_OVER_R_WINDOW=PROVED_EXACT.
+RESULT_229CV_PHYSICAL_GAP_D_UPPER_CONSTANT=PROVED_EXACT.
+This rules out treating S=o(R) as an actual physical subbranch. It does not supply any power saving.
+
+
+3. A norm receiver whose height is genuinely quadratic in R
+
+
+Define i_geo by maximizing H_A,H_B,H_C with deterministic tie order A<B<C; put H_geo=H_(i_geo). Since H_A-H_B=A^2-Bv^2, H_A-H_C=A^2-C^2 and cyclically, i_geo is also the index of the largest gap.
+Let m=max(A,Bv,C), and let b,c denote the other two gaps, with b+c=S-m and b,c<=m. Then
+H_geo=(m+b)(m+c)=m S+b c.                                 (CV.4)
+If m>=S/2, then H_geo>=m S>=S^2/2>4S^2/9.
+If S/3<=m<=S/2, fixed sum b+c=S-m and constraints b,c<=m imply b c>=m(S-2m) (the product minimum is at the endpoint (b,c)=(m,S-2m) up to exchange). Thus
+H_geo>=2m(S-m)>=4S^2/9,
+because 2t(1-t) increases for 1/3<=t<=1/2 and equals 4/9 at t=1/3.
+Therefore
+(4/9) S^2 <= H_geo < S^2 < R^2,                          (CV.5)
+with equality in the lower continuous gap cone only when A=Bv=C.
+Combining (CV.2),
+[4(3-sqrt(6))^2/9] R^2 <= H_geo < R^2.                    (CV.6)
+Equivalently
+sqrt(H_geo)<R<= 3 sqrt(H_geo)/[2(3-sqrt(6))].             (CV.7)
+Actual positive integer points satisfy strict lower inequalities (e=x=y equality impossible).
+
+
+For each fixed h, the set H_geo=h is contained in the union of the three retained fixed-H_i fibers from 229BY Sections2-4. Therefore its number of whole physical endpoints with R<=B is uniformly B^o(1).
+RESULT_229CV_HEIGHT_EQUIVALENT_MAX_NORM_RECEIVER_WITH_B_O_FIXED_FIBER=PROVED.
+Unlike an arbitrary J-maximizing norm H_J in 229CT, H_geo is always comparable to R^2. This is a height-normalization improvement, NOT an occupied support bound.
+
+
+4. Exact height-adapted full-J branch cover
+
+
+Set C_geo=gcd(H_geo,S), and let lambda_omit be the lambda color attached to the largest gap: if i_geo=A, lambda_omit=lambda_U; if i_geo=B, lambda_omit=lambda_V; if i_geo=C, lambda_omit=lambda_z.
+229CT gives C_geo equal to the PRODUCT OF THE OTHER TWO lambda colors, while the three lambda colors are pairwise coprime. Consequently
+J=rad(C_geo)*rad(lambda_omit) exactly.                       (CV.8)
+For any K>=1 and 0<theta<1,
+J>K implies
+(a) rad(C_geo)>K^theta,
+or
+(b) rad(lambda_omit)>K^(1-theta).                            (CV.9)
+This is a disjoint decision by testing (a) first; if it fails, (b) holds. On branch (a) the marked norm (H_geo,C_geo) obeys
+H_geo>=4 c0^2 R^2/9, H_geo<R^2, C_geo=gcd(H_geo,S)<R,
+rad(C_geo)>K^theta,
+and the fixed marked-pair physical fiber is B^o(1).
+On branch (b), the omitted full lambda divides both its outer gap m and the opposite pair sum S-m, so
+lambda_omit | m and lambda_omit | S-m,
+lambda_omit <= min(m,S-m) <= S/2,                           (CV.10)
+and rad(lambda_omit)>K^(1-theta). This is a genuinely singled-out color, NOT a disposed tail.
+
+
+In particular at theta=2/3:
+J>K => [H_geo comparable to R^2 with rad(gcd(H_geo,S))>K^(2/3)]
+OR [the omitted color lambda_omit has rad> K^(1/3)].
+This is a height-adapted alternative to 229CT's radical-maximizing orientation. It trades the possible loss of a third-color radical for quadratic physical height normalization; it does not improve the existing K^(2/3) full-J canonical cover.
+
+
+RESULT_229CV_HEIGHT_ADAPTED_J_SPLIT_WITH_SINGLE_COLOR_FALLBACK=PROVED_EXACT.
+
+
+5. Scope, quantitative firewall and next input
+
+
+The two-branch cover (CV.9) does NOT prove that either branch has o(B^(1/3)) endpoints. Its geometric lower bound on H_geo does not create density, and fixed-H B^o fibers do not count occupied values. No independent probability may be attached to the marked gcd, lambda or geometric cone.
+The primary same-physical gate remains 229CT J_NORM_S_GCD_TRIANGLE_OCCUPANCY for canonical (H_J,C_J) with rad(C_J)>K^(2/3), sf(G0)>T=B^(1/3-delta).
+229CV offers an optional proof adapter: use a theorem that counts the high-height marked image (H_geo,C_geo) on branch (a) AND a selector-aware single-largest-gap lambda occupancy bound on branch (b). Both must meet a fixed-power margin below B^(1/3), and all hard13 physical selectors and the large sf(G0)>T source must remain. The geometric branch may be useful where exact physical height R~sqrt(H_geo) is essential. If a theorem only requires low-height H_J, use 229CT directly.
+At the current six-bucket K=T^(1/5), theta=2/3 yields thresholds T^(2/15) and T^(1/15), but NO numerical endpoint saving is proved.
+Do not use 229BY Section5; do not treat the two branches as statistically independent; do not promote 229CV to the primary J theorem without a true occupied-value bound.
+
+
+CURRENT_PRIMARY_J_INTERFACE=229CT_FULL_J_NORM_S_GCD_TRIANGLE_OCCUPANCY_OPEN.
+229CV_SECONDARY_INTERFACE=HEIGHT_ADAPTED_FULL_J_GEO_MARK_OR_SINGLE_COLOR_OCCUPANCY_OPEN.
+CURRENT_BLOCKER=NO_SELECTOR_AWARE_OR_OCCUPIED_SUPPORT_SAVING_FOR_THE_229CC_SIX_BUCKET_COVER_ON_THE_EXACT_HARD13_PHYSICAL_SOURCE.
+REFINED_BLOCKER=NO_ONE_THIRD_COUNT_FOR_LARGE_eta_OR_TAU_FULL_GCD_SQUARE_MODULI_OR_J_NORM_S_GCD_TRIANGLE_OR_GEO_HEIGHT_MARKED_SPLIT_OR_MATCHED_DISJOINT_M_U_M_V_M_z.
+NEXT: test whether an applicable quantitative theorem genuinely exploits the quadratic-height H_geo branch and controls the complementary omitted-color lambda branch on exact physical hard13. Without BOTH bounds, return to 229CT primary or 229CU/229CS B-state, R/P/S rho/cubic and eta/tau/M_i/K_cross fallback.
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+Independent hostile audit for 229CV NOT_RUN. No global endpoint exponent improvement or perfect-cuboid existence/nonexistence claim.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

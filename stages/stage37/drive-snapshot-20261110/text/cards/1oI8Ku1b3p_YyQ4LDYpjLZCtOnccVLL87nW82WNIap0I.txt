@@ -1,0 +1,320 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229CK — nested colored square-gap budget and full-valuation lambda capture
+STATUS: POST_229CJ_NESTED_PHYSICAL_DELTA / COLORED_SQUARE_GAP_BUDGET / FULL_VALUATION_LAMBDA_CAPTURE / FIXED_DUAL_PAIR_SUBPOWER_LAMBDA_BRANCHING / LAMBDA_SUPPORT_ENTROPY_FIREWALL / GLOBAL_CREDIT=0 / NO_REOPEN
+CARD_DOC_ID=1oI8Ku1b3p_YyQ4LDYpjLZCtOnccVLL87nW82WNIap0I
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229CJ
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION HOLD.
+
+
+1. Scope and notation
+
+
+Work on the exact current S_B^hard13(delta) physical source with all positive primitive Stage37 selectors and R<=B.
+
+
+Retain
+A=R-U, Bv=R-V, C=R-z,
+S=A+Bv+C,
+Omega=ABvC,
+lambda_U=gcd(A,S),
+lambda_V=gcd(Bv,S),
+lambda_z=gcd(C,S),
+and
+r_U=rad(lambda_U),
+r_V=rad(lambda_V),
+r_z=rad(lambda_z),
+J=r_U r_V r_z.
+
+
+Retain 229CG:
+lambda_i^2 exact -2 root lines on the opposite-gap differences,
+r_U^2|A, r_V^2|Bv, r_z^2|C,
+and for p>3 the J colors inject
+r_U^#|Y, r_V^#|X, r_z^#|E,
+where
+r_i^#=r_i/gcd(r_i,3),
+E=g/h_edge,
+X=c/c21,
+Y=f/c12,
+h_edge=gcd(e,R)=gcd(g,q).
+
+
+Retain 229CI:
+Sigma_xy=rad(xy),
+Sigma_R=rad(eR),
+kappa=rad(G0)=gcd(Sigma_xy,Sigma_R),
+Sigma_xy=kappa A_xy,
+Sigma_R=kappa A_R,
+with kappa,A_xy,A_R pairwise-coprime squarefree.
+On J>K, J_sharp=J/gcd(J,3) divides A_xy A_R.
+
+
+This card extracts two genuinely nested physical constraints that are absent from the 229CJ macro-only host.
+
+
+2. Physical content divisors of the three outer gaps
+
+
+Retain the exact nested content system:
+c12=gcd(U,y), c21=gcd(V,x), h_edge=gcd(e,z).
+
+
+Because
+U^2+y^2=R^2,
+V^2+x^2=R^2,
+z^2+e^2=R^2,
+we have
+c12|R,
+c21|R,
+h_edge|R.
+Hence
+c12|R-U=A,
+c21|R-V=Bv,
+h_edge|R-z=C.                                             (CK.1)
+
+
+229AD gives that h_edge,c12,c21 are pairwise coprime and every odd prime divisor of each is 1 mod4.
+
+
+229CG gives
+r_U^2|A,
+r_V^2|Bv,
+r_z^2|C.                                                   (CK.2)
+
+
+For the U color, every p>3 dividing r_U is excluded from c12 by 229CG, while p=3 cannot divide c12 because every odd prime of c12 is 1 mod4.
+Thus
+gcd(r_U,c12)=1.
+Cyclically,
+gcd(r_V,c21)=1,
+gcd(r_z,h_edge)=1.                                         (CK.3)
+
+
+Combining (CK.1)-(CK.3):
+c12 r_U^2 | A,
+c21 r_V^2 | Bv,
+h_edge r_z^2 | C.                                          (CK.4)
+
+
+RESULT_229CK_COLORED_CONTENT_TIMES_J_SQUARE_DIVIDES_EACH_OUTER_GAP=PROVED_EXACT.
+
+
+3. Nested colored square-gap budget
+
+
+All quantities in (CK.4) are positive. Since
+A+Bv+C=S<R,
+we obtain the exact same-physical additive budget
+c12 r_U^2 + c21 r_V^2 + h_edge r_z^2 < R <= B.             (CK.5)
+
+
+This condition is not visible in the 229CJ ambient macro product triple.
+
+
+Multiplying (CK.4),
+h_edge c12 c21 J^2 | Omega=ABvC.                            (CK.6)
+
+
+Equivalently,
+h_edge c12 c21 J^2
+ <= Omega
+ <= (S/3)^3
+ < R^3/27.                                                  (CK.7)
+
+
+Thus
+J < R^(3/2) / sqrt(27 h_edge c12 c21).                       (CK.8)
+
+
+RESULT_229CK_NESTED_COLORED_SQUARE_GAP_ADDITIVE_BUDGET=PROVED_EXACT.
+RESULT_229CK_WEIGHTED_J_SQUARE_DIVIDES_OMEGA=PROVED_EXACT.
+
+
+These are structural constraints only; no endpoint power saving follows from (CK.5) or (CK.7) by themselves.
+
+
+4. Full-valuation capture of the lambda moduli by residual cores
+
+
+For an integer n define its 3-free part
+n^(3') := n / 3^v3(n).
+
+
+We prove
+lambda_U^(3') | Y^2,
+lambda_V^(3') | X^2,
+lambda_z^(3') | E^2.                                       (CK.9)
+
+
+Take p>3 with p^a||lambda_U.
+Then p|A, so U==R mod p.
+229CG proves p does not divide R.
+Hence
+R+U==2R mod p
+is a p-adic unit.
+
+
+The exact face identity
+y^2=A(R+U)
+therefore gives
+v_p(A)=2v_p(y).                                             (CK.10)
+
+
+229CG's p>3 color localization puts p in Y and excludes p from d0,a,c12.
+Since
+y=d0 a c12 Y,
+we have
+v_p(y)=v_p(Y).                                              (CK.11)
+
+
+As lambda_U|A,
+a=v_p(lambda_U)<=v_p(A)=2v_p(Y).                            (CK.12)
+
+
+Thus the full p-adic contribution of lambda_U divides Y^2.
+Taking all p>3 proves the first divisibility in (CK.9).
+
+
+The V and z colors are identical:
+Bv(R+V)=x^2, x=d0 b c21 X,
+C(R+z)=e^2, e=h_edge E a b,
+together with the 229CG exclusions, give the remaining two divisibilities.
+
+
+RESULT_229CK_LAMBDA_3FREE_FULL_VALUATIONS_CAPTURED_BY_RESIDUAL_CORE_SQUARES=PROVED_EXACT.
+
+
+This is strictly stronger than the 229CG radical-only statements
+r_U^#|Y, r_V^#|X, r_z^#|E.
+
+
+5. Consequence for the dual radical pair
+
+
+The support of lambda_U^(3') and lambda_V^(3') is contained in the xy-side residual radical A_xy.
+The support of lambda_z^(3') is contained in the eR-side residual radical A_R.
+
+
+Fix one realized pair
+(Sigma_xy,Sigma_R).
+Then kappa,A_xy,A_R are fixed.
+
+
+For lambda_U^(3'), its radical is some divisor of A_xy and lambda_U^(3')<B.
+There are B^o(1) possible radical divisors of A_xy.
+For each fixed radical support, the retained 229BQ prescribed-prime-support lemma gives B^o(1) possible full integers of polynomial height.
+Therefore there are B^o(1) possible lambda_U^(3') values.
+The same holds for lambda_V^(3') and lambda_z^(3').
+
+
+The full lambda_U,lambda_V,lambda_z are pairwise coprime odd integers, so at most one can carry a power of 3.
+The possible 3-adic exponent is O(log B), hence also B^o(1).
+
+
+Consequently, uniformly for every fixed realized dual radical pair,
+#{(lambda_U,lambda_V,lambda_z) arising above that pair}
+ <= B^o(1).                                                  (CK.13)
+
+
+RESULT_229CK_FIXED_DUAL_RADICAL_PAIR_HAS_SUBPOWER_FULL_LAMBDA_TUPLE_BRANCHING=PROVED.
+
+
+Important direction:
+(CK.13) does NOT say fixed lambda tuple has B^o(1) dual radical pairs.
+Many radical pairs may collapse to one lambda tuple.
+Therefore lambda occupancy may still be a useful compression.
+
+
+What (CK.13) rules out is a different idea:
+there is no fixed-power gain available merely from choosing lambda support/exponents independently inside one fixed dual radical pair.
+Any successful lambda_i^2 route must use
+- the size of the square moduli,
+- the root-line geometry,
+- collapse of many physical pairs onto few lambda tuples,
+- or additional nested selector correlation.
+
+
+RESULT_229CK_LAMBDA_DIVISOR_CHOICE_ENTROPY_OVER_FIXED_DUAL_PAIR_IS_SUBPOWER_FIREWALL=PROVED.
+
+
+6. Relation to 229CJ
+
+
+229CJ proved that
+macro Pythagorean identity + macro height + common radical + residual-product
+is insufficient for a one-third joint-pair theorem.
+
+
+229CK supplies genuinely additional same-physical information:
+(A) the colored additive budget (CK.5);
+(B) the full-valuation core capture (CK.9);
+(C) the existing lambda_i^2 root lines from 229CG.
+
+
+Thus the current J theorem contract can be made more precise:
+
+
+J_NESTED_COLORED_LAMBDA_CORRELATION:
+count actual hard13 physical endpoints while simultaneously retaining
+- kappa=rad(G0)>T;
+- the dual pair (Sigma_xy,Sigma_R);
+- J>K and J_sharp|A_xy A_R;
+- c12 r_U^2+c21 r_V^2+h_edge r_z^2<R;
+- lambda_U^(3')|Y^2, lambda_V^(3')|X^2, lambda_z^(3')|E^2;
+- the three exact lambda_i^2 -2 root lines.
+
+
+A sufficient theorem may act on occupied dual pairs, occupied lambda tuples, or directly on endpoints, but it must exploit at least one of these genuinely nested correlations.
+
+
+7. Quantitative firewall
+
+
+No one-third count is proved here.
+
+
+In particular:
+- the weighted additive budget alone is not assigned a density factor;
+- the divisibilities lambda_i^(3')|core_i^2 alone are not an occupied-modulus theorem;
+- (CK.13) is one-way and does not bound the number of dual pairs over one lambda tuple;
+- the 229CJ macro-only no-go remains valid;
+- the 229CI separate-Sigma no-go remains valid.
+
+
+Do not multiply content, lambda, and radical restrictions as independent local probabilities.
+
+
+8. State and next contract
+
+
+CURRENT_BLOCKER remains
+NO_SELECTOR_AWARE_OR_OCCUPIED_SUPPORT_SAVING_FOR_THE_229CC_SIX_BUCKET_COVER_ON_THE_EXACT_HARD13_PHYSICAL_SOURCE.
+
+
+REFINED_BLOCKER=
+NO_ONE_THIRD_COUNT_FOR_LARGE_eta_OR_TAU_FULL_GCD_SQUARE_MODULI_OR_J_NESTED_COLORED_LAMBDA_CORRELATION_OR_MATCHED_DISJOINT_M_U_M_V_M_z.
+
+
+J_NESTED_COLORED_LAMBDA_CORRELATION=OPEN.
+J_OCCUPIED_LAMBDA_SQUARE_MODULUS_SAVING remains OPEN, but support-choice entropy above a fixed dual pair is now known to be only subpower.
+TAU_FIXED_BASE_COLLISION_AMPLIFICATION=OPEN_BUT_FIXED_Q_MECHANISM_RULED_OUT_AT_CONE_LEVEL.
+KERNEL_BIAS_BRIDGE=OPEN.
+
+
+NEXT:
+For J, use the full nested package (CK.5)+(CK.9)+lambda_i^2 root lines in one same-physical occupancy/correlation count.
+Do not retry separate Sigma tails, macro-only joint-pair counting, or independent lambda-support entropy.
+If no fixed-power gain emerges, return to eta/tau/M_i/K_cross branches.
+
+
+OPERATIONAL_AUTHORITY=M3-T11-229 unchanged.
+LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228 unchanged.
+M3-T11-230 NOT_ISSUED.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Existing authority/credit/gate/closure/HOLD states and INTEGRATED_AUDIT_186_229O scope unchanged.
+No perfect-cuboid existence/nonexistence conclusion and no new global endpoint exponent are claimed.
+INDEPENDENT_HOSTILE_AUDIT_229CK=NOT_RUN.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.
