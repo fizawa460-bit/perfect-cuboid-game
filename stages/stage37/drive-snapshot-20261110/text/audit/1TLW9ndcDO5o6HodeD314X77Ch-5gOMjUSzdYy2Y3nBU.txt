@@ -1,0 +1,309 @@
+﻿Stage37 HOSTILE AUDIT — M3-T11-103 through M3-T11-105
+
+
+HOSTILE_AUDIT=PASS
+AUDITED_CARDS=M3-T11-103,M3-T11-104,M3-T11-105
+AUDIT_GROUP=M3-T11-103 -> M3-T11-104 -> M3-T11-105 dependency chain
+PRIOR_AUDITED_FRONTIER=M3-T11-102
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-105
+GITHUB_ACCESSED=false
+
+
+1. Executive verdict
+
+
+All three provisional cards survive hostile audit.
+
+
+M3-T11-103:
+- complementary involution quotient is exactly
+  H_{d,u}: W^2=-d*(1+u^2)*x*H_u(x),
+  with x=d*q^2 and W=d*q*T;
+- for fixed u this is a quadratic twist by d;
+- the fixed-(d,u) quotient is smooth genus 2;
+- the Q-defined V4 action satisfies the standard Kani-Rosen/idempotent hypotheses and gives
+  Jac(C_{d,u}) ~_Q E_u x Jac(H_{d,u});
+- the reciprocal x->lambda/x second-elliptic mechanism is uniformly absent.
+
+
+M3-T11-104:
+- the rational Weierstrass 2-torsion/Kummer component evaluates to [x];
+- on the physical image x=d*q^2, hence [x]=[d];
+- the complementary visible factor also has squareclass [d];
+- at interior fresh primes this is exactly the already-audited M3-T11-101 splitting condition, so it has zero independent saving.
+
+
+M3-T11-105:
+- the residual quartic normal form is exact;
+- its generic Galois group over Q(u) is S4;
+- its norm-only image is always squareclass [-1];
+- generic two-quadratic splitting and norm-only descent are therefore retired as independent saving routes.
+
+
+Not promoted:
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_FIXED_SQUARECLASS_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+
+
+2. M3-T11-103 exact quotient and smoothness — PASS
+
+
+Put A=1+u^2 and
+H_u(x)=
+A^5*x^4
+-128*u^3*A^3*x^3
++256*u^4*A^2*(11*u^2-1)*x^2
++24576*u^7*A*x
+-65536*u^10.
+
+
+The audited genus-3 cover is
+T^2=-A*H_u(d*q^2).
+
+
+For the complementary involution tau:(q,T)->(-q,-T), the invariants
+x=d*q^2,
+W=d*q*T
+give exactly
+W^2=-d*A*x*H_u(x).
+
+
+Independent symbolic recomputation gives
+Disc_x(H_u)
+=-2^52*u^26*A^14*(25*u^2-2)^3,
+
+
+Disc_x(-A*x*H_u(x))
+=-2^84*u^46*A^22*(25*u^2-2)^3,
+
+
+Disc_x(-d*A*x*H_u(x))
+=-2^84*d^8*u^46*A^22*(25*u^2-2)^3.
+
+
+For rational physical d!=0 and u!=0 these are nonzero; u^2=2/25 has no rational solution. The odd-degree quintic model is therefore smooth genus 2.
+
+
+The points x=0 and infinity are distinct rational Weierstrass points, hence
+[(0,0)-infinity]
+is a rational 2-torsion class on the Jacobian.
+
+
+3. M3-T11-103 V4 decomposition and reciprocal firewall — PASS
+
+
+The hyperelliptic involution iota and sigma:(q,T)->(-q,T) commute. Their nontrivial quotients have genera:
+- C/sigma = E_u, genus 1, the already-audited fixed-u quotient;
+- C/(sigma*iota) = H_{d,u}, genus 2;
+- C/iota and the full V4 quotient are genus 0.
+
+
+Thus the standard V4/Kani-Rosen idempotent decomposition applies and gives
+Jac(C_{d,u}) ~_Q E_u x Jac(H_{d,u}).
+
+
+No new credit is assigned to E_u.
+
+
+For
+H_u(x)=a*x^4+b*x^3+c*x^2+e1*x+f,
+with
+a=A^5,
+b=-128*u^3*A^3,
+e1=24576*u^7*A,
+f=-65536*u^10,
+independent factorization gives
+f*b^2-a*e1^2
+=-2^26*u^14*A^6*(9+25*u^2).
+
+
+This never vanishes for rational physical u!=0, so the audited M3-T11-044 reciprocal second-elliptic mechanism is absent. This does not exclude non-reciprocal factors and does not imply absolute simplicity.
+
+
+Promoted:
+M3_T11_103_HOSTILE_AUDIT=PASS
+M3_T11_FIXED_SQUARECLASS_GENUS3_COMPLEMENTARY_GENUS2_QUOTIENT=true
+M3_T11_FIXED_SQUARECLASS_GENUS2_IS_D_TWIST=true
+M3_T11_FIXED_SQUARECLASS_GENUS3_JAC_SPLIT_E_PLUS_GENUS2=true
+M3_T11_FIXED_SQUARECLASS_GENUS2_RATIONAL_2TORSION=true
+M3_T11_FIXED_SQUARECLASS_GENUS2_RECIPROCAL_SECOND_ELLIPTIC=false
+
+
+4. M3-T11-104 rational-Weierstrass Kummer component — PASS
+
+
+On
+H_{d,u}: W^2=-d*A*x*H_u(x),
+the rational Weierstrass points x=0 and infinity define
+D0=[(0,0)-infinity].
+
+
+Because div(x)=2D0 on this odd-degree hyperelliptic model, the visible D0-Kummer evaluation is the squareclass [x].
+
+
+For every physical point,
+x=d*q^2,
+W=d*q*T,
+T^2=-A*H_u(x).
+Hence
+[x]=[d],
+and
+-d*A*H_u(x)=d*T^2,
+so the complementary visible factor also has class [d].
+The product identity
+x*(-d*A*H_u(x))=W^2
+is exact.
+
+
+At every relative-fresh interior p^lambda||M_rel,
+p does not divide d,
+v_p(q)=-2*lambda,
+so v_p(x)=-4*lambda and the p-adic unit squareclass is still d.
+
+
+M3-T11-101 already requires these p to split in Q(sqrt(d)), equivalently chi_p(d)=+1. Therefore the rational-Weierstrass Kummer local condition is exactly the old splitting receiver and is not an independent event.
+
+
+This conclusion concerns only the visible rational 2-torsion factor. The residual quartic etale component/full genus-2 2-Selmer image remains open.
+
+
+Promoted:
+M3_T11_104_HOSTILE_AUDIT=PASS
+M3_T11_FIXED_SQUARECLASS_GENUS2_PHYSICAL_X_KUMMER_CLASS_D=true
+M3_T11_FIXED_SQUARECLASS_GENUS2_COMPLEMENTARY_FACTOR_CLASS_D=true
+M3_T11_FIXED_SQUARECLASS_GENUS2_RATIONAL_WEIERSTRASS_DESCENT_NEW_SAVING=false
+M3_T11_101_INTERIOR_SPLITTING_AND_GENUS2_X_KUMMER_INDEPENDENT=false
+
+
+5. M3-T11-105 residual quartic normalization and Galois group — PASS
+
+
+Define
+z=A*x/(16*u^2).
+
+
+Direct substitution gives exactly
+H_u(x)=2^16*u^8*Q_u(z),
+where
+Q_u(z)
+=A*z^4
+-8*u*z^3
++(11*u^2-1)*z^2
++6*u*z
+-u^2.
+
+
+Independent recomputation gives
+Disc_z(Q_u)
+=-2^4*u^2*A^2*(25*u^2-2)^3
+=(4*u*A*(25*u^2-2))^2*(2-25*u^2).
+
+
+Thus the discriminant squareclass is [2-25*u^2], which is nontrivial in Q(u)^*/Q(u)^*2.
+
+
+For the monic quartic Q_u/A, the standard cubic resolvent, after multiplication by A^3, is exactly
+R_u(y)
+=A^3*y^3
++(1-9*u^2-21*u^4-11*u^6)*y^2
++4*u^2*(u^4-10*u^2-11)*y
+-4*u^2*(11*u^4+3*u^2+8).
+
+
+At u=1:
+Q_1(z)=2*z^4-8*z^3+10*z^2+6*z-1
+is irreducible modulo 5, hence over Q.
+
+
+The resolvent specializes, up to nonzero scalar, to
+y^3-5*y^2-10*y-11,
+which is irreducible modulo 3, hence over Q.
+
+
+The leading coefficients do not vanish at u=1, so reducibility over Q(u) would specialize to reducibility at u=1. Therefore both the quartic and resolvent are irreducible over Q(u).
+
+
+The standard transitive-quartic criterion then gives
+Gal(Q_u/Q(u))=S4:
+quartic irreducible + resolvent irreducible leaves S4/A4, and nonsquare discriminant excludes A4.
+
+
+After adjoining sqrt(2-25*u^2), the splitting-field subgroup is A4, which remains transitive on four roots, so the quartic remains generically irreducible over that discriminant quadratic extension.
+
+
+This is generic only; no claim is made for every rational specialization u.
+
+
+6. M3-T11-105 norm-only firewall — PASS with notation normalization
+
+
+Let theta denote a root of the monic quartic Q_u/A.
+For a physical specialization, or equivalently after scalar extension so the physical coordinate z belongs to the base field,
+Norm(z-theta)=Q_u(z)/A.
+
+
+Using
+T^2=-A*H_u(x)
+and
+H_u(x)=2^16*u^8*Q_u(z),
+one gets
+Q_u(z)/A
+=-T^2/(2^16*u^8*A^2)
+=-(T/(2^8*u^4*A))^2.
+
+
+Hence the norm squareclass is exactly
+[-1].
+
+
+Notation note:
+the card writes N_{K_u/Q(u)}(z-theta). Strictly, a moving physical z is not an element of Q(u) before specialization. The exact statement is the same norm identity after specializing u,z to the physical rational point, or after scalar extension to a base field containing z. This is a notation repair only and does not change the physical squareclass conclusion.
+
+
+Therefore norm-only descent loses d and q and supplies no independent support condition.
+
+
+Promoted:
+M3_T11_105_HOSTILE_AUDIT=PASS
+M3_T11_FIXED_SQUARECLASS_GENUS2_RESIDUAL_QUARTIC_NORMAL_FORM=true
+M3_T11_FIXED_SQUARECLASS_GENUS2_RESIDUAL_QUARTIC_GENERIC_GALOIS_S4=true
+M3_T11_FIXED_SQUARECLASS_GENUS2_RESIDUAL_ETALE_NORM_CLASS_MINUS_ONE=true
+M3_T11_FIXED_SQUARECLASS_GENUS2_RESIDUAL_NORM_ONLY_NEW_SAVING=false
+M3_T11_FIXED_SQUARECLASS_GENUS2_GENERIC_TWO_QUADRATIC_SPLIT=false
+
+
+7. Canonical route consequence
+
+
+The cheap genus-2 descent routes now audited-retired are:
+- rational-Weierstrass Kummer component: [x]=[d], already the M3-T11-101 splitting receiver;
+- norm of the residual quartic etale component: always [-1];
+- generic two-quadratic decomposition: absent because the generic quartic has Galois group S4;
+- reciprocal second-elliptic split: absent by the M3-T11-044 reciprocal obstruction.
+
+
+The surviving legal interior frontier is:
+Interior2PiSquareclassGenus2S4EtaleSelmerSupport,
+meaning genuinely non-norm information in the S4 quartic etale class, exact control of exceptional rational specializations, a proved non-reciprocal correspondence with physical adapter, or genuinely global cross-u support.
+
+
+The independent theta route remains:
+ThetaFourthPowerMovingSupportBeyondKummer.
+
+
+LATEST_RESEARCH_CARD=M3-T11-105
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-105
+PROVISIONAL_FRONTIER_CARD=NONE
+NEXT_RESEARCH_CARD_ID=M3-T11-106
+
+
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_FIXED_SQUARECLASS_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false

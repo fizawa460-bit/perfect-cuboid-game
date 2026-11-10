@@ -1,0 +1,86 @@
+﻿Stage37-AUDIT-20261009-CARD-INDEX-CLASSIFICATION-INTEGRITY
+AUDIT_TARGET=K16-C3-M3-CARD-INDEX native Google Sheets ID 1skBS4TxofX8A25cnhfoxO5VZZjfBRlW_sfzHkSTNiL4; sheet カード一覧; historical-backup sheet 分類整備前_20261009_保存 (hidden).
+AUDIT_DOC_ID=1FqLSGr0CN_8SH1XW2U42CQ6O_sxnPt1hmFwvNIqEvUM
+SCOPE=INDEPENDENT DATA/SCHEMA/SEARCH INDEX CHANGE AUDIT, NOT A MATHEMATICAL PROOF AUDIT OF 229FS OR STAGE37 RESEARCH.
+SUMMARY_VERDICT=DATA_INTEGRITY_PASS / SEARCH_RECALL_AND_TAG_SEMANTICS_NOT_PASSED (HOLD REQUIRES REPAIR) / NO_MATH_AUTHORITY_CHANGE.
+
+
+1. SOURCE/HEADER SNAPSHOT.
+Both old hidden backup and active sheet contain header row1 and exactly 638 research records in rows2–639, current A639=Stage37-NEW-INPUT-DELTA-AUDIT-229FS. Audit read both entire A1:V640 tables and compared all records by physical row, ID and literal value. Active D heading 種別, E 要点, F 主張, G 対象・測度, H 依存関係, I 再開条件, J 詳細位置, K 本文正本. Additional P=旧D列（原文保全）, Q=研究対象タグ, R=研究手法タグ, S=未解決障壁タグ, T=原列配置, U=旧J要約, V=旧K補足. Former historical M3-T11-042 duplicate in rows227–228 is PREEXISTING, distinguished by canonical key O; not created by reorganization.
+
+
+2. FULL EXACT DIFF: PASS ON DATA INTEGRITY.
+Across 638 records the ONLY changed old-schema A:O columns were D (558 records), G,H,I,J,K (exactly 60 records each); all other A:O fields unchanged, including A IDs, C status, E summary, F proof headline, L:O historical metadata. No unexplained mutations. EVERY original D from all 638 records equals active P, and the full untouched backup tab contains the original 638-row table. Every one of 60 detected shifted Stage37 rows satisfies ACTIVE G=original D (physical source description), H=original G (dependencies/anti-loop), I=original H (NEXT), J=original I (CARD_DOC_ID), U=original J, V=original K, and K contains a Google Drive URL built from the exact CARD_DOC_ID in J; all 60 IDs/URLs match. The 60 shifted rows are 574–639 except standard rows608–613. The 638 C status entries and mathematical governance were not edited. Backup currently hidden, not deleted. D2:D1003 has Google Sheets ONE_OF_LIST validation; observed 11 allowed classification values and all 638 present D values fall in that set. A639 currently229FS, unchanged physical chronology.
+
+
+3. BASIC SEARCH FUNCTION TEST — MECHANICALLY PASS.
+Native Google Sheets row-search scoped at Q1:S639 returned all13 rows containing BALANCED_PRIME_SUPPORT (including FS row639). Search D1:D639 returned33 primary NEGATIVE_RESULT records, and search P1:P639 returned34 containing literal NEGATIVE_RESULT, with distinct groups. Metadata/header/formattedValue and input data validation verified in live CellData, including FR/FS rows638/639. This establishes search API functionality, NOT correctness/completeness of the semantic labeling.
+
+
+4. CRITICAL ANTI-LOOP RETRIEVAL DEFECT — FAIL (12 MULTI-TOPIC NEGATIVE RESULTS).
+Twelve original D multi-topic entries with explicit NEGATIVE_RESULT / NO_GO / COUNTEREXAMPLE / METHOD NO_GO were assigned a new primary D neither NEGATIVE_RESULT, FIREWALL, CORRECTION nor STRATEGY_AUDIT. They are:
+row230 M3-T11-044: STRUCTURE (old EXACT_STRUCTURE / NEGATIVE_RESULT / FIREWALL);
+row255 M3-T11-072: THEOREM (old EXACT_CHARACTER_LAW / NEGATIVE_RESULT / FIREWALL);
+rows326–330 M3-T11-103,104,105,106,107: STRUCTURE despite original NEGATIVE_RESULT and ANTI_LOOP_FIREWALL;
+row345 M3-T11-122: STRUCTURE despite original NEGATIVE_RESULT;
+row372 M3-T11-143: COUNTING_THEOREM despite original FULL_AP_NO_GO;
+row385 M3-T11-156: COUNTING_THEOREM despite original UNIFORM CERTIFICATE COUNTEREXAMPLE;
+row452 M3-T11-221: COUNTING_THEOREM despite original METHOD NO_GO;
+row454 M3-T11-223: COUNTING_THEOREM despite original METHOD NO_GO.
+These records are necessarily BOTH mathematical structural/counting results AND negative-method evidence. A single D primary tag cannot retain both facets. Because R is dedicated to mathematical method and S to unresolved barrier rather than positive/negative qualifier, the new D/Q/R/S-only anti-loop search WILL MISS historical negative-method evidence. P preserves old category text but MAIN and FASTPATH currently do not REQUIRE searching P for historical failure records. Therefore classification/tag quality CANNOT be fully PASS even though data was perfectly preserved.
+
+
+5. RESEARCH OBJECT TAG FALSE NEGATIVE RISKS.
+Automated Q tagging used coarse keyword matching on old D/E/F, not targeted original physical source fields G. Five identified Stage37 records whose historical D explicitly references Gaussian physical/primitive/norm/genus receiver but have Q=STAGE37_SELECTOR_OR_ROUTE, rather than STAGE37_ORIGINAL_PHYSICAL or additional physical-source qualifier: rows486(229U),489(229X),523(229BF),597(229EB),603(229EH). For example row486 G is full positive physical endpoints and proves a same-P bounded source, but Q says only selector/route. Some may legitimately fit BOTH categories; review each research-card to choose or multi-tag rather than auto-correct the five by guess. This is a confirmed tagging coverage risk, not an independent disproof of the mathematics.
+
+
+6. SOURCE LINKS AND TABLE/UI SCOPE LIMITATIONS.
+All 60 repaired late records now J CARD_DOC_ID and matching K true Google Docs URL. HOWEVER 160 older, unchanged records with J CARD_DOC_ID have K values containing document titles or legacy file-chip text rather than raw URL/ID; e.g. M3-T11-182 at row411. This is an INHERITED condition present identically in backup, not a newly introduced regression. Native cell metadata for row411 showed no literal hyperlink property. The new instruction 'J/K linked research cards' cannot be interpreted as a guarantee that every K is a clickable URL; parse and resolve the J ID when K is a title. Filtering the entire A:V via a new basicFilter failed during the prior edit because of overlap with an existing native table; that failed transaction was rolled back, and no new entire-range basicFilter was installed. API row search works, but interactive full A:V table filtering has NOT been verified. No GUI screenshot audit was run.
+
+
+7. SEVERITY AND REPAIR CONTRACT (DO NOT REORDER).
+P0: Immediately add the runtime safety rule to MAIN/FASTPATH: before choosing NEXT, search D/Q/R/S AND P oldD for NEGATIVE_RESULT, NO_GO, COUNTEREXAMPLE, FIREWALL, RETRACT, HOLD; corroborate C status and E/F/G/H/I, read relevant original research cards. Never use D/Q/R/S-only match as an exhaustive negative register. This is a search guard, not a reclassification or math theorem.
+P1: Add NONDESTRUCTIVE 'NEGATIVE_METHOD_FLAG' (e.g. W) or MULTITAG controlled column independent of D primary; populate by auditing old D(P), C, E/F and the NEGATIVE-REGISTER, not by blindly regexing and labeling all PROVED statuses negative. Correct the twelve known rows and sample/hostile-audit the relevant old negative paths. Keep original D in P and preserve raw pre-change backup.
+P1: Audit Q/R/S on all 177 Stage37 records with physical source G, mathematics E/F, failure constraints H and NEXT I; ensure a multi-topic item is retrievable by each relevant target/method/barrier. Review at least the five flagged Q source discrepancies. Do not conflate metadata classification with theorem PROVED status.
+P2: Resolve prior non-URL K references by using J exact CARD_DOC_ID, or optionally populate a new normalized link column without overwriting legacy chip/text; verify web links. Repair whole-range filtering/table membership only by table-aware request and separate backup, never blind sort or broad Google Sheet table mutation.
+P2: Add formal append-time audit: D dropdown, G physical source, H dependencies, I concrete NEXT, J id, K link, P original text when historical, Q/R/S multitag/canonical vocabulary, W negative-method flag. Readback every row; all index physical order and current row639 preserved.
+FORMAL PASS CONDITIONS: zero unexplained data mutations; no lost negative-result retrieval on the original P/C/source/NEG evidence; multi-topic search includes all twelve known negatives; all five Q-source discrepancies reconciled; UI/table search constraint honestly documented; link dereference fallback defined.
+
+
+8. CONTROL DECISION.
+DATA LOSS/ACCIDENTAL STATUS CHANGE=NONE.
+INPUT VALIDATION=PASS.
+60_SHIFTED_ROW_RECONCILIATION=PASS.
+SEARCH_API=PASS.
+SEMANTIC_TAG_AND_ANTI_LOOP_COVERAGE=HOLD / NOT_PASSED.
+CURRENT_MATH_CARD=229FS row639 unchanged; AUTHORITY M3-T11-229; CONSTRUCTION228; GATE OPEN; GLOBAL_CREDIT0; PRODUCTION HOLD; FORMAL_ROUTE_SWITCH NONE; CLOSURE UNCHANGED.
+THIS AUDIT DOES NOT EDIT CANONICAL CARD-INDEX D/Q/R/S OR CURRENT PROVED STATUS; any taxonomy repair must be separately verified. Drive-only fresh chat should first honor audit caution P0 and then execute corrective work rather than continuing to assume classifications are complete.
+
+
+9. POST-AUDIT REPAIR ADDENDUM — connector readback completed.
+STATUS: ORIGINAL INDEPENDENT AUDIT IS PRESERVED UNMODIFIED ABOVE. THIS IS A FOLLOW-UP REMEDIATION RECORD, NOT A NEW INDEPENDENT MATHEMATICAL AUDIT.
+CARD-INDEX id=1skBS4TxofX8A25cnhfoxO5VZZjfBRlW_sfzHkSTNiL4, active tab カード一覧. D PRIMARY, P HISTORICAL ORIGINAL CLASSIFICATION, C STATUS and original backup remain intact.
+W: auxiliary NEGATIVE_METHOD/FIREWALL/CORRECTION multi-facet evidence tags added to 179 of the original 638 records. Flag counts may overlap: NEGATIVE_METHOD 62, FIREWALL 131, CORRECTION 15. The 12 specific multi-aspect negative records from section4 ALL carry NEGATIVE_METHOD, and D classification remains independently retrievable as structural/theorem/counting result. W was extracted conservatively from explicit P/C signals; blank W does not mean no historical negative and cannot replace NEGATIVE-REGISTER or original research-card reads.
+Q: 40 Stage37 rows received secondary search tags, preserving original primary Q before a | separator. All five named source discrepancies repaired after reading the original 229U,229X,229BF,229EB,229EH cards. 229U/X=STAGE37_PHYSICAL_SUBBRANCH; 229BF=STAGE37_TWO_SELECTOR_PHYSICAL (not a full-original four-square equivalence); 229EB/EH=STAGE37_ORIGINAL_PHYSICAL. Remaining 35 additions have explicit full positive/primitive physical source in G. All 177 Stage37 Q/R/S columns were nonempty; a full independent semantic proof audit of every card remains outside this addendum.
+R/S: four original-card-grounded R dual-method additions (229U and229X CURVE plus GAUSSIAN;229BF and229EH CURVE plus COUNTING_HEIGHT) and one S dual-barrier addition (229BF SELECTOR_AWARE_COUNT plus UNIFORM_FIBER). Search Q/R/S by token substring, not whole-cell equality.
+X: 211 clickable HYPERLINK formulas constructed from exact J CARD_DOC_ID, supporting both '=' and whitespace syntax; 151 records formerly lacking raw Google Docs URL in K now have a normalized URL in X. Legacy K and J were not overwritten; unidentifiable references remain subject to J/K fallback and separate verification.
+FULL EXACT READBACK active vs hidden original: 638/638 A IDs identical, 638/638 C status identical, 638/638 active P equals original D. Historical A:O changed columns remain exactly D 558 rows, G/H/I/J/K each 60 rows, matching prior audit; no additional unexplained differences. Native row-search W NEGATIVE_METHOD matched 62 of 62 and Q TWO_SELECTOR matched 1 of 1, with no truncation. Q 40 dual rows, W 179 marked rows, X 211 displayed clickable link formulas. Latest row639 still229FS.
+MAIN, FASTPATH, RESULT-LEDGER and NEGATIVE-REGISTER were revised and independently read back to require P old category plus D/Q/R/S/W, NEGATIVE-REGISTER, C/E/F/G/H/I and exact cards for anti-loop decisions; R/S multi-token search likewise documented.
+REPAIR VERDICT: DATA_INTEGRITY_PASS; TARGETED_12_NEGATIVE_RECALL_PASS; FLAGGED_5_SOURCE_SCOPE_RECONCILIATION_PASS; LINK_NORMALIZATION_PASS_ON_211_ID_EXTRACTABLE_REFERENCES; FULL_EXHAUSTIVE_SEMANTIC_RECALL_HOLD (until card-by-card adversarial classification audit); INTERACTIVE_TABLE_FILTER_NOT_VERIFIED.
+MATHEMATICAL GOVERNANCE UNCHANGED: current229FS, authority M3-T11-229, construction228, Gate OPEN, global credit0, production HOLD, no formal route switch, closure unchanged.
+
+
+10. INDEX SEARCH V2 — FULL-ROW KEYWORD RECALL AUDIT AND LINK-METADATA CORRECTION
+This addendum preserves all previous audit findings and their historical dates; it documents a new repair pass. This is not a new audit of mathematical proofs or independent semantic review of all 638 original cards.
+CANONICAL_SHEET_ID=1skBS4TxofX8A25cnhfoxO5VZZjfBRlW_sfzHkSTNiL4; source tab カード一覧; 638 canonical records A2:A639, latest row639 Stage37-NEW-INPUT-DELTA-AUDIT-229FS. Previously repaired D/Q/R/S/W/P, ID, C and all mathematical provenance remain unchanged.
+NEW Y SEARCH CORPUS: Y2:Y1003 now has a per-row live =TEXTJOIN(...) formula over A/C/D/E/F/G/H/I/J/K/M/O/P/Q/R/S/W. Current 638/638 source rows produce nonempty calculated Y text. Future source rows to 1003 have formulas already in place. Source row position remains unchanged.
+FULL RECORD TEXT-SOURCE COMPARISON: compared all 638 current A:W records and corresponding calculated Y text. For each seven representative negative / audit words, the number of rows containing each literal substring in source fields EXACTLY equals the number in Y: NO_GO 24/24, NEGATIVE_RESULT 42/42, COUNTEREXAMPLE 5/5, RETRACTED 31/31, FIREWALL 165/165, HOLD 120/120, OBSTRUCTION 31/31. Total observed source-to-index false negatives in these word incidence tests: zero. Counts overlap. No direct full-card semantic completeness inference is permitted.
+NEW LIVE HUMAN/AI SEARCH VIEW: auxiliary sheet/tab 横断検索, B2 input (initial NO_GO), a dynamic case-insensitive FILTER over Y2:Y1003 in A6:J, with A research ID, C status, D primary, P old category, Q/R/S multi-tags, W auxiliary negative tag, E summary, source row number. Column K6:K1003 contains a HYPERLINK formula targeting the exact physical A-row of the canonical source. It does not sort/alter historical CARD-INDEX rows, nor attempt an overlapping basicFilter on the existing native M3CardIndex table (the native table has range A1:L474).
+LINK READBACK CORRECTION: K CellData inspected on every existing row. There are 589 source K cells with a native rich-link chip, and 49 remaining plain-title K cells; ALL 49 plain-title rows are among the 211 rows with previously normalized X HYPERLINK formulas. Among 638 rows, exactly 211 have X links, and the 427 remaining rows have existing K smart-chip links: 638/638 carry a clickable link via K or X. The earlier statement '151 of about 160 repaired, nine still URL-unresolved' is WRONG as a current link-coverage claim: remaining ones are resolved by native chips. Link-presence/URI metadata pass does not establish that all target files remain accessible to the user today. The 211 X links were J-derived and retained, without modifying K original native chips or backup.
+OPERATIONAL INTEGRATION: source tab 案内 rows3,5,10,14,16,17,20,22 updated and read back, defining search panel and anti-loop cross-check. MAIN, FASTPATH, RESULT-LEDGER, NEGATIVE-REGISTER have front-of-document STAGE37_INDEX_SEARCH_V2 rules. Search a mathematical object, method or barrier AND negative keywords before NEXT; always consult original research card, C/H/I and NEGATIVE-REGISTER. W blank / a single no-match is NOT a clean bill of health.
+VERDICT SPLIT: DATA_PRESERVATION_PASS, CROSS_COLUMN_LITERAL_SEARCH_RECALL_PASS for included indexed text, D/Q/R/S/W multi-facet retrieval preserved, LINK_METADATA_COVERAGE_PASS, LIVE_SEARCH_VIEW_FORMULA_PASS, NATIVE_FILTER_CONFLICT_AVOIDED, FULL_ORIGINAL_RESEARCH_CARD_SEMANTIC_AUDIT_HOLD, LIVE_GUI_SCREENSHOT_UNVERIFIED, INDEPENDENT_ALL_LINK_DESTINATION_ACCESS_UNVERIFIED.
+MATHEMATICAL_AUTHORITY_UNCHANGED: current229FS, M3-T11-229, construction228, Gate OPEN, Credit0, production HOLD, formal route switch NONE, no proof promotion.
+
+
+Stage37 AI-only CARD-INDEX follow-up audit.
+Workbook 1skBS4TxofX8A25cnhfoxO5VZZjfBRlW_sfzHkSTNiL4 now starts with AI-00-CONTRACT, AI-10-RECALL and AI-20-RISK. All 638 compact records match the corresponding original card rows. The derived risk subset has 65 negative and 161 guard candidates and is not exhaustive. The 12 previously identified negative method cases are included. Live index and risk counts pass synchronization checks. Native read-only row-search was tested, including the duplicate M3-T11-042 cards. Older human-facing sheets are hidden and preserved. The source cards and mathematical authority are unchanged. Four startup documents were updated. Original-card exhaustive semantic audit remains HOLD.

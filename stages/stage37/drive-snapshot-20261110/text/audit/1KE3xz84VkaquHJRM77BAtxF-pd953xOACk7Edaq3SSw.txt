@@ -1,0 +1,84 @@
+﻿Stage37 HOSTILE AUDIT — M3-T11-110
+
+
+VERDICT: PASS
+AUDITED_CARD=M3-T11-110
+SCOPE=exact same-measure phi/1+3 physical adapter only
+CREDIT=no fixed-power saving; no primary-gate, endpoint, P(B)/M3(B), or Perfect Cuboid nonexistence credit
+
+
+Independent exact recomputation
+
+
+For primitive t=r/s define
+N=r^2-2rs-s^2,
+Q0=r^2+s^2,
+Q1=r^2-4rs+5s^2,
+U=-2s(r-s)N,
+V=r^4-6r^3s+12r^2s^2-14rs^3+11s^4.
+
+
+Exact symbolic recomputation gives
+U^2+V^2=Q0*Q1^3,
+Res_r(Q0,Q1)=32s^4,
+Res_r(N,Q0)=8s^4,
+Res_r(N,Q1)=8s^4,
+Res_r(U,V)=-4096s^16.
+
+
+Therefore, for primitive (r,s), every odd common divisor among Q0,Q1,N is excluded, and reduction of U/V cancels only powers of 2. On every relative-fresh odd prime p,
+v_p(a^2+b^2)=v_p(Q0)+3v_p(Q1),
+with at most one nonzero term.
+
+
+The rational root check is also exact. For
+Q_u(z)=(1+u^2)z^4-8uz^3+(11u^2-1)z^2+6uz-u^2,
+u=U/V,
+vartheta=N/Q0,
+direct substitution gives Q_u(vartheta)=0.
+
+
+Interior-prime transfer
+
+
+Let p^lambda be an audited interior fresh prime and n=2lambda+c_p. Audited M3-T11-043/106 give
+v_p(a^2+b^2)=n,
+0<c_p<2lambda,
+and the local quartic has one unique root of valuation -n while the complementary degree-3 cluster consists of p-adic units.
+
+
+Because Q0 and Q1 are odd-coprime at p, exactly one of:
+A. p|Q0 and v_p(Q0)=n;
+B. p|Q1 and 3v_p(Q1)=n.
+
+
+In case A, p does not divide N, so v_p(vartheta)=-n. Hence the global rational root vartheta is exactly the audited canonical negative-valuation local root.
+
+
+In case B, p does not divide NQ0, so v_p(vartheta)=0. The global Q-rational root is therefore a Q_p-rational root inside the finite degree-3 cluster. Thus that cubic local factor has a Q_p-linear factor and lies on the audited cubic-resonant/reducible branch. Consequently
+Q1 allocation => 3|n and cubic resonance.
+No converse is asserted.
+
+
+NO-DOUBLE-CHARGE / FIREWALL
+
+
+This audit validates only the exact physical router. It does not turn Q0/Q1 allocation, cubic resonance, or the already-consumed common-u conductor into an independent local density factor. M3-T11-107 remains in force: primewise local etale squareclass information is exhausted. A same-R<=B global/cross-prime counting or correlation theorem is still required before any fixed-power credit.
+
+
+PROMOTED_FLAGS
+M3_T11_110_HOSTILE_AUDIT=PASS
+M3_T11_110_PHI_COMMON_U_NORM_Q0_Q1_CUBE=true
+M3_T11_110_PHI_Q0_Q1_ODD_COPRIME=true
+M3_T11_110_PHI_INTERIOR_FRESH_Q0_OR_Q1_CUBE_ALLOCATION=true
+M3_T11_110_PHI_Q1_ALLOCATION_FORCES_3_DIVIDES_N=true
+M3_T11_110_PHI_Q0_ROOT_EQUALS_CANONICAL_INFINITY_ROOT=true
+M3_T11_110_PHI_Q1_ROOT_IS_FINITE_CLUSTER=true
+M3_T11_110_PHI_Q1_ALLOCATION_IMPLIES_CUBIC_RESONANCE=true
+
+
+UNCHANGED_FIREWALLS
+M3_T11_EXCEPTIONAL_SPECIALIZATION_PHYSICAL_POWER_SAVING_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false

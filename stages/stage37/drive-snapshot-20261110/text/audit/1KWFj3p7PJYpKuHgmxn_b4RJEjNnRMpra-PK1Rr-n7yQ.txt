@@ -1,0 +1,248 @@
+﻿Stage37 hostile audit — M3-T11-088 through M3-T11-089
+
+
+HOSTILE_AUDIT=PASS
+AUDIT_SCOPE=STAGE37_X_MINUS_ONE_EIGHTH_SIGMA_OMEGA_RESIDUAL_KERNEL_ELIMINATION
+AUDITED_CARDS=M3-T11-088,M3-T11-089
+PRIOR_AUDITED_FRONTIER=M3-T11-087
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-089
+GITHUB_ACCESSED=false
+
+
+Frozen authority
+MAIN=K16-C3-M3-LOCAL-TO-GLOBAL-MAIN
+RESULT_LEDGER=K16-C3-M3-RESULT-LEDGER
+ROUTE=K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE
+RESEARCH_INDEX=K16-C3-M3-RESEARCH-INDEX
+PRIMARY_GATE=M3-T11-GATE-001
+ACTIVE_ROUTE=K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE
+
+
+Audit conclusion
+
+
+The M3-T11-088 -> M3-T11-089 dependency chain passes.
+
+
+M3-T11-088 exactly recovers the packet-free residual kernel from the realized pair (sigma,Omega) at zero fixed-power cost.
+M3-T11-089 then proves that any packet-free residual prime would satisfy incompatible p-adic valuations. Hence D_fr=1 identically on the exact x=-1/8 physical carrier.
+
+
+Therefore the large-D_fr branch is empty and the entire x=-1/8 singular carrier lies in the already-audited M3-T11-085 small-D_fr branch. The fixed-packet one-twelfth target for x=-1/8 is closed.
+
+
+No primary-gate closure, endpoint theorem, P(B)/M3(B) limit, or Perfect Cuboid existence/nonexistence claim is promoted.
+
+
+1. M3-T11-088 anti-root-product denominator: PASS
+
+
+On x=-1/8, Section 35 gives
+Omega=v_1*v_2*v_3=P=4*u^2*S/(1+u^2).
+Section 53 gives
+S=-2*u/(1+u^2).
+Therefore
+Omega=-8*u^3/(1+u^2)^2.
+
+
+Write u=a/b in lowest terms and N_u=a^2+b^2. Then
+Omega=-8*a^3*b/N_u^2.
+
+
+On the primitive x=-1/8 conic c^2=a^2+2*b^2, Section 53 proves b even, a,c odd, hence N_u odd, and
+gcd(N_u,2*a*b)=1.
+Therefore
+gcd(N_u^2,8*a^3*b)=1
+and the displayed fraction is reduced. Thus exactly
+Den(Omega)=N_u^2.
+
+
+Audited M3-T11-087 gives
+B_sigma,fr=M_rel^2.
+Audited M3-T11-080 gives
+D=sf(N_u/M_rel^2)
+with M_rel^2|N_u.
+Hence
+K_088=sqrt(Den(Omega))/B_sigma,fr
+=N_u/M_rel^2
+is an integer and
+D=sf(K_088),
+D_fr=D/gcd(D,Delta_pkt),
+Delta_pkt=rad(L_vee*c_1*c_2*c_3).
+
+
+Thus (sigma,Omega)+fixed packet deterministically recovers both M_rel and D_fr.
+
+
+Audited M3-T11-087 gives
+fixed sigma + fixed packet => B^o(1) physical endpoints.
+Omega is endpoint-defined, so for fixed sigma there are at most B^o(1) realized Omega values. Conversely projection from realized (sigma,Omega) support to realized sigma support is surjective. Therefore the two support counts have the same polynomial exponent.
+
+
+This is support enrichment only. No density saving is charged.
+
+
+2. M3-T11-089 packet-free residual-prime contradiction: PASS
+
+
+Assume p|D_fr.
+Because D_fr is packet-free,
+p does not divide Delta_pkt=rad(L_vee*c_1*c_2*c_3).
+Audited M3-T11-085 gives
+p|tau_0^sharp.
+
+
+Write
+alpha=v_p(tau_0^sharp)>=1,
+e=v_p(h).
+
+
+The four fresh core supports are pairwise disjoint, so p does not divide M_rel. Since p is outside Delta_pkt, p does not divide L_vee or N_rel.
+
+
+Audited M3-T11-085 gives
+D*h^2 | L_vee*tau_0^2*N_rel^2.
+Since D is squarefree and p|D_fr, v_p(D)=1. Therefore
+1+2e<=2alpha.
+
+
+Also the audited x=-1/8 identity
+N_u=D*(M_rel*h)^2
+gives
+v_p(N_u)=1+2e.
+
+
+3. Triple-trace valuation at the all-same fresh prime: PASS
+
+
+Section 24 gives
+C=q_0^2*q_1^2/(kappa_2*kappa_3),
+C*s=q_0^2*q_2^2/(kappa_1*kappa_3),
+C*t=q_0^2*q_3^2/(kappa_1*kappa_2).
+
+
+Choose the oriented Gaussian prime pi^alpha||G_0^sharp above p.
+At this packet-free all-same prime, q_1,q_2,q_3 and all fixed packet coefficients are pi-units, while
+v_pi(q_0^2)=2alpha.
+Hence
+v_pi(C)=v_pi(C*s)=v_pi(C*t)=2alpha.
+
+
+For any such norm-one phase Z,
+Lambda(Z)=Z+Z^(-1).
+The two summands have distinct pi-valuations +2alpha and -2alpha, so no cancellation is possible and
+v_pi(Lambda(Z))=-2alpha.
+
+
+Each Lambda is rational, so its rational p-adic valuation is also -2alpha. Thus
+J_0=Lambda(C)*Lambda(C*s)*Lambda(C*t)
+satisfies
+v_p(J_0)=-6alpha.
+
+
+Section 34 gives the exact identity
+Omega^2=J_0^2*sigma^2.
+
+
+Audited M3-T11-086 gives p does not divide B_sigma at tau_0^sharp primes and
+pi^(2alpha)|(-B_sigma+epsilon*i*A_sigma).
+If p divided A_sigma, then the congruence would force pi|B_sigma, contradicting p not dividing B_sigma. Hence p does not divide A_sigma either and
+v_p(sigma)=0.
+
+
+Therefore
+v_p(Omega)=-6alpha.
+
+
+4. Denominator comparison and contradiction: PASS
+
+
+M3-T11-088 proves
+Den(Omega)=N_u^2
+in lowest terms.
+Since p|D_fr|D|N_u, the reduced numerator is a p-unit and therefore
+v_p(Omega)=-2*v_p(N_u).
+
+
+Comparing with the Section-34 valuation,
+-2*v_p(N_u)=-6alpha,
+so
+v_p(N_u)=3alpha.
+
+
+But Section 2 gave
+v_p(N_u)=1+2e<=2alpha.
+Thus
+3alpha=1+2e<=2alpha,
+impossible for alpha>=1.
+
+
+Therefore no prime divides D_fr:
+D_fr=1.
+
+
+Equivalently, the M3-T11-085 large-D_fr branch is empty.
+
+
+5. Fixed-packet one-twelfth consequence: PASS
+
+
+Audited M3-T11-085 proves
+# physical x=-1/8 endpoints with D_fr<=B^(1/12-eta)
+<=B^(1/12-eta+o(1))
+for one fixed content/coefficient packet.
+
+
+Since D_fr=1 identically, every exact x=-1/8 endpoint belongs to that branch. Hence
+# physical x=-1/8 endpoints
+<=B^(1/12-eta+o(1))
+per fixed packet.
+
+
+Thus the x=-1/8 singular carrier is retired at the fixed-packet one-twelfth scale.
+
+
+6. No-double-charge and credit firewall: PASS
+
+
+The valuation contradiction is exact and same-measure.
+No determinant factor, root-line density, lattice index, divisor density, support-recovery identity, or independence assumption is multiplied into the contradiction.
+
+
+Promoted audited flags
+
+
+M3_T11_088_HOSTILE_AUDIT=PASS
+M3_T11_089_HOSTILE_AUDIT=PASS
+M3_T11_X_MINUS_ONE_EIGHTH_ANTIROOT_PRODUCT_DENOMINATOR_NU2=true
+M3_T11_X_MINUS_ONE_EIGHTH_SIGMA_OMEGA_RECOVERS_D=true
+M3_T11_X_MINUS_ONE_EIGHTH_SIGMA_OMEGA_RECOVERS_DFR=true
+M3_T11_X_MINUS_ONE_EIGHTH_SIGMA_OMEGA_SUPPORT_POWER_EQUIVALENT=true
+M3_T11_X_MINUS_ONE_EIGHTH_DFR_PRIME_VALUATION_CONTRADICTION=true
+M3_T11_X_MINUS_ONE_EIGHTH_DFR_EQUALS_ONE=true
+M3_T11_X_MINUS_ONE_EIGHTH_LARGE_DFR_BRANCH_EMPTY=true
+M3_T11_X_MINUS_ONE_EIGHTH_ONE_TWELFTH_CARRIER_CLOSED=true
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-089
+
+
+Retained non-credit flags
+
+
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+M3_T11_FIXED_X_GENERIC_BO1_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+Next routing
+
+
+CURRENT_X_MINUS_ONE_EIGHTH_STATUS=RETIRED_AUDITED_FIXED_PACKET_ONE_TWELFTH
+NEXT_RESEARCH_CARD_ID=M3-T11-090
+
+
+The singular fixed-x carriers x=27/40 and x=-1/8 are now both retired at the audited fixed-packet one-twelfth scale.
+The next legal research frontier returns to the generic fixed-x / global moving-support obstruction.
+
+
+Do not reopen x=-1/8 unless an audited dependency used above is retracted or changed.

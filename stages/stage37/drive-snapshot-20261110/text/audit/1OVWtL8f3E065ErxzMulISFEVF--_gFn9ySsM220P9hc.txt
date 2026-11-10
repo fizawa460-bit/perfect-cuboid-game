@@ -1,0 +1,230 @@
+﻿Stage37 HOSTILE AUDIT — M3-T11-101
+
+
+HOSTILE_AUDIT=PASS
+AUDITED_CARD=M3-T11-101
+PRIOR_AUDITED_FRONTIER=M3-T11-100
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-101
+GITHUB_ACCESSED=false
+
+
+1. Executive verdict
+
+
+M3-T11-101 survives hostile audit.
+
+
+Promoted exact conclusions:
+- M_rel^4 divides t*N_u, so J=t*N_u/M_rel^4 is an integer.
+- On every interior fresh prime p, the audited local selector globalizes to chi_p(2*s*J)=+1.
+- The exact squareclass identity [2*s*J]=[2*Pi] holds in Q*/Q*^2.
+- Therefore every interior conductor prime has trivial local quadratic character in the moving squareclass [2*Pi]; when the squareclass is nontrivial, the prime splits in K_Pi=Q(sqrt(2*Pi)).
+- The forced M_rel^4 denominator of Pi is squareclass-trivial and gives no quadratic-field ramification/discriminant credit.
+- Every nonzero rational fixed-Pi fiber is a smooth degree-12 hyperelliptic curve of genus 5.
+
+
+Not promoted:
+M3_T11_FIXED_PI_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+No endpoint theorem and no Perfect Cuboid existence/nonexistence credit are obtained.
+
+
+2. Conductor globalization — PASS
+
+
+Write M=M_rel, S=s/t in lowest terms, u=a/b, N_u=a^2+b^2.
+
+
+For each fresh p^lambda||M, audited M3-T11-040 gives
+k_p=v_p(t)=2*lambda-c_p
+and
+min(4*lambda,v_p(N_u))=2*lambda+c_p.
+
+
+If c_p<2*lambda then v_p(N_u)=2*lambda+c_p exactly, hence
+v_p(t*N_u)=4*lambda.
+If c_p=2*lambda then v_p(t)=0 and v_p(N_u)>=4*lambda.
+Therefore p^(4*lambda)|t*N_u for every fresh p, and globally
+M^4|t*N_u.
+
+
+Thus
+J=t*N_u/M^4
+is an integer.
+
+
+For an interior fresh prime 0<c_p<2*lambda, write
+t=p^k_p*tau_p,
+N_u=p^(2*lambda+c_p)*nu_p,
+M=p^lambda*M_p.
+Then
+J=tau_p*nu_p/M_p^4,
+so J is a p-adic unit and
+chi_p(J)=chi_p(tau_p*nu_p).
+
+
+3. Legendre-symbol globalization — PASS
+
+
+At a fresh Gaussian prime p==1 mod 4 choose rho with
+rho^2==-1 mod p.
+Then
+chi_p(rho)=rho^((p-1)/2)=(-1)^((p-1)/4)=(2/p).
+
+
+Audited M3-T11-099 gives
+chi_p(s)=chi_p(rho*tau_p*nu_p).
+
+
+Using chi_p(J)=chi_p(tau_p*nu_p):
+chi_p(s*J)=chi_p(rho)=(2/p),
+hence
+chi_p(2*s*J)=+1.
+
+
+Thus every interior prime is encoded by one global rational squareclass rather than by independent p-dependent auxiliary signs.
+
+
+4. Identification with the symmetric product — PASS
+
+
+Audited Sections 35/49 give
+Pi=v_1*v_2*v_3
+=4*u^2*S/(1+u^2)
+=4*a^2*s/(t*N_u).
+
+
+Therefore
+(s*J)*Pi
+=(s*t*N_u/M^4)*(4*a^2*s/(t*N_u))
+=(2*a*s/M^2)^2.
+
+
+Hence
+[s*J]=[Pi]
+and
+[2*s*J]=[2*Pi]
+in Q*/Q*^2.
+
+
+For every interior p, after removing the exact even valuation from Pi, the local character of [2*Pi] is +1. Section 49 gives exact fresh denominator exponent
+v_p(Den(Pi))=4*lambda.
+This fourth-power denominator disappears in Q*/Q*^2, so it cannot be recycled as ramification or as a quadratic-field discriminant lower bound.
+
+
+When [2*Pi] is nontrivial, the interior condition is exactly that p splits in
+K_Pi=Q(sqrt(2*Pi)).
+The trivial squareclass case is correctly treated as a degenerate split algebra rather than as a new field.
+
+
+5. Fixed-Pi genus-5 calculation — PASS
+
+
+Fix rational Pi=pi!=0.
+From
+Pi=4*u^2*S/(1+u^2),
+one gets
+S=pi*(1+u^2)/(4*u^2).
+
+
+Substitution into the audited Section-35 equation
+Y^2=-(1+u^2)*Q(S,u)
+and the change
+Z=16*u^4*Y
+give exactly
+Z^2=-(1+u^2)*G_pi(u),
+
+
+G_pi(u)=
+pi^4*(1+u^2)^5
+-64*pi^3*u^3*(1+u^2)^3
++64*pi^2*u^4*(1+u^2)^2*(11*u^2-1)
++3072*pi*u^7*(1+u^2)
+-4096*u^10.
+
+
+Independent symbolic recomputation gives:
+degree = 12,
+leading coefficient = 4096-704*pi^2-pi^4,
+
+
+and
+Disc_u(-(1+u^2)*G_pi(u))
+=
+2^156*pi^32*(729*pi^2-512)^3*(256*pi^4+96417*pi^2-746496).
+
+
+The leading coefficient can vanish only when
+pi^2=32*(-11 +/- 5*sqrt(5)),
+which is irrational for rational pi.
+
+
+For rational pi!=0,
+729*pi^2-512=0
+would require
+pi=+/-16*sqrt(2)/27,
+not rational.
+
+
+The final factor
+256*pi^4+96417*pi^2-746496
+has roots in pi^2
+27*(-3571 +/- 901*sqrt(17))/512,
+also irrational.
+
+
+Therefore the discriminant is nonzero for every rational pi!=0. The right side is squarefree of degree 12, so the smooth hyperelliptic fiber has genus
+(12-2)/2=5.
+
+
+This checks both the exact model and the singular-parameter exclusion.
+
+
+6. Same-measure and credit audit — PASS
+
+
+M3-T11-101 stays on the exact fixed-content/coefficient nondegenerate physical endpoint population with R<=B.
+No ambient density, field change, quotient multiplicity, or qualitative Faltings finiteness is charged as a counting theorem.
+
+
+The card correctly keeps
+M3_T11_FIXED_PI_BO1_PROVED=false.
+A smooth genus-5 fixed fiber does not by itself imply a uniform B^o(1) bound over moving pi.
+
+
+The reciprocity firewall is also correct:
+selector-only splitting density remains 2^(-omega(q_int)), so Jacobi/quadratic reciprocity alone does not give a uniform fixed-power saving.
+
+
+7. Canonical route consequence
+
+
+Promote:
+M3_T11_101_HOSTILE_AUDIT=PASS
+M3_T11_INTERIOR_GLOBAL_J_INTEGER=true
+M3_T11_INTERIOR_SELECTOR_GLOBAL_2PI_SQUARECLASS=true
+M3_T11_INTERIOR_PRIMES_SPLIT_IN_K_2PI=true
+M3_T11_INTERIOR_AUXILIARY_LOCAL_SIGNS_ELIMINATED=true
+M3_T11_INTERIOR_QUADRATIC_RECIPROCITY_ONLY_FIXED_POWER=false
+M3_T11_FIXED_PI_GENERIC_GENUS5=true
+M3_T11_FIXED_PI_BO1_PROVED=false
+
+
+The surviving legal frontier is:
+ThetaFourthPowerMovingSupportBeyondKummer
+or
+InteriorGlobal2PiSplittingEndpointGeometry.
+
+
+Do not reopen p-dependent auxiliary-sign bookkeeping, reciprocity-only arguments, selector-only character sums, deeper local Hensel refinement, or quadratic-field-discriminant credit from the M_rel^4 denominator.
+
+
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+NEXT_RESEARCH_CARD_ID=M3-T11-102

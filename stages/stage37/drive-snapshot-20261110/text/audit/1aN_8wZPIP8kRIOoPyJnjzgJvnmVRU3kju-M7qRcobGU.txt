@@ -1,0 +1,249 @@
+﻿Stage37 HOSTILE AUDIT — M3-T11-119
+
+
+HOSTILE_AUDIT=PASS
+AUDITED_CARD=M3-T11-119
+PRIOR_AUDITED_FRONTIER=M3-T11-118
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-119
+AUDIT_KIND=Within-session hostile rederivation with independent exact symbolic check plus separate measure/counting audit; no separately staffed external reviewer is claimed.
+GITHUB_ACCESSED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+
+
+1. Executive verdict
+
+
+M3-T11-119 survives hostile audit.
+
+
+Promotable:
+- the exact Gaussian identity U+iV=i*conj(r+i*s)*((r-2s)+i*s)^3 and its conjugate;
+- for the actual Q0-allocation conductor M_phi,0, existence of an oriented Gaussian divisor alpha_0 | (r+i*s) with N(alpha_0)=M_phi,0^2;
+- the fully summed same-measure parameter tail
+  E_phi,0(B;H,M)
+  << B^o(1)*min(H^2, H+H^2/M)
+  on polynomial H;
+- the scope clarification that the audited 118 H^4/M0^2 term is valid but cannot improve the ambient H^2 exponent on the feasible range M_phi,0<<H;
+- the complementary Q1 height cap M_phi,1<<H^3;
+- the combined total-conductor window
+  E_phi(B;H,M_rel>=R0)
+  << B^o(1)*min(H^2, H+H^5/R0);
+- the exponent form
+  min(2h,max(h,5h-m))
+  for H<=B^h, M_rel>=B^m;
+- the anti-loop statement that Q1 local Gaussian cube orientations are globally realized by the universal factor B1^3 and cannot by themselves be charged as an additional rarity event.
+
+
+Not promoted:
+- any global lower bound on M_rel or M_phi,0;
+- any whole-phi fixed-power saving;
+- any converse resonance=>Q1;
+- any primary-gate closure;
+- P(B)/M3(B)->0;
+- Perfect Cuboid existence/nonexistence credit.
+
+
+2. Exact algebra — PASS
+
+
+Put
+A0=r+i*s,
+B1=(r-2*s)+i*s,
+Q0=N(A0)=r^2+s^2,
+Q1=N(B1)=(r-2s)^2+s^2.
+
+
+Independent symbolic expansion gives exactly
+U+iV=i*conj(A0)*B1^3,
+U-iV=-i*A0*conj(B1)^3,
+and therefore
+U^2+V^2=Q0*Q1^3.
+
+
+Independent elimination also returns
+Res_r(Q0,Q1)=32*s^4.
+
+
+For primitive (r,s), odd Q0/Q1 overlap is therefore impossible. This agrees with audited M3-T11-110.
+
+
+3. Q0 Gaussian divisor extraction — PASS
+
+
+For p^lambda||M_phi,0, audited common-u saturation and the odd-only reduction of U/V give
+v_p(Q0)>=2lambda.
+
+
+Since gcd(r,s)=1 and p is an odd split prime, p=pi*conj(pi) cannot divide both Gaussian orientations of A0. The entire p-adic norm exponent is concentrated in exactly one orientation. Hence the product over actual orientations gives
+alpha_0 | A0,
+N(alpha_0)=M_phi,0^2.
+
+
+For fixed m=M_phi,0 there are at most 4*2^omega(m) associate/orientation choices for alpha_0.
+
+
+No probabilistic independence is used.
+
+
+4. Moving-modulus lattice summation — PASS
+
+
+For H=max(|r|,|s|),
+|A0|<=sqrt(2)H.
+If A0=alpha_0*z and N(alpha_0)=m^2, then |alpha_0|=m and
+|z|<=sqrt(2)H/m.
+
+
+Therefore each fixed oriented alpha_0 supports
+O(1+H^2/m^2)
+integer pairs, even before imposing primitivity.
+
+
+Summing over every possible moving m>=M gives
+sum 2^omega(m)*(1+H^2/m^2).
+
+
+The elementary identity
+2^omega(n)=sum_{d|n} mu^2(d)
+gives
+sum_{n<=X}2^omega(n)<<X log(2X).
+Dyadic partial summation then gives
+sum_{n>=M}2^omega(n)/n^2<<log(2M)/M.
+
+
+Thus the primitive-parameter count is
+<< H log(2H)+(H^2/M)log(2M).
+
+
+On H<=B^A the logarithms and bounded orientation/unit costs are B^o(1).
+
+
+5. Same-physical-measure adapter — PASS
+
+
+The count in Section 4 is performed directly on the audited primitive phi parameter t=r/s, not on a raw Master square box.
+
+
+Audited M3-T11-036 states uniformly:
+fixed realized u + fixed content/coefficient packet => B^o(1) exact physical endpoint states under R<=B.
+
+
+Since u=phi(t), the number of distinct realized u values is at most the number of counted primitive t values. Multiplying the parameter count by this already-audited fixed-u physical multiplicity is therefore a legal replacement count:
+E_phi,0(B;H,M)
+<< B^o(1)*min(H^2,H+H^2/M).
+
+
+This does not multiply an ambient lattice determinant into an unrelated endpoint bound, and it does not violate the M3-T11-020 / NEG-XG-01 measure firewall.
+
+
+6. Scope check against M3-T11-118 — PASS
+
+
+Because M_phi,0^2|Q0 and Q0<=2H^2,
+M_phi,0<=sqrt(2)H.
+
+
+Hence every nonempty exponent shell has m0<=h+o(1).
+The audited 118 term H^4/M0^2 is therefore >=H^2 up to constants on the feasible range. Its min with H^2 remains the ambient H^2 exponent.
+
+
+So M3-T11-118 is not false. Its fixed-d structure and stated bound remain valid. The audit promotes only the narrower clarification:
+the 118 H^4/M0^2 branch does not create a new exponent window beyond ambient parameter counting on actual Q0-allocation shells.
+
+
+The new H+H^2/M tail does.
+
+
+7. Q1 cap and global cube saturation — PASS
+
+
+Define
+M_phi,1=product_{p^lambda||M_rel,p|Q1}p^lambda.
+
+
+Odd Q0/Q1 coprimality and M_rel^2|a^2+b^2 imply
+M_rel=M_phi,0*M_phi,1
+on retained fresh support.
+
+
+For p^lambda|M_phi,1 and e=v_p(Q1),
+3e=v_p(a^2+b^2)>=2lambda.
+Thus e>=ceil(2lambda/3).
+
+
+Selecting the unique Gaussian prime pi_p|B1 above each such p gives
+Gamma_1=product pi_p^ceil(2lambda/3) | B1,
+N(Gamma_1)>=M_phi,1^(2/3).
+
+
+Therefore
+M_phi,1^(2/3)<=Q1<=10H^2,
+so
+M_phi,1<=10^(3/2)H^3.
+
+
+The identity U+iV=i*conj(A0)*B1^3 independently confirms that the local Q1 cube orientations are components of one universal global cube. Merely CRT-combining those same orientations or replaying cubic resonance cannot be charged as new saving.
+
+
+8. Combined conductor window — PASS
+
+
+If M_rel>=R0, then
+M_phi,0>=R0/(10^(3/2)H^3).
+
+
+Applying the audited Section-5 tail with this threshold gives, after absorbing fixed constants,
+E_phi(B;H,M_rel>=R0)
+<<B^o(1)*min(H^2,H+H^5/R0).
+
+
+For H<=B^h and M_rel>=B^m, this is
+B^{min(2h,max(h,5h-m))+o(1)}.
+
+
+Also
+M_phi,0<<H,
+M_phi,1<<H^3,
+so
+M_rel<<H^4.
+
+
+On m>3h the exponent is max(h,5h-m). A sufficient one-twelfth window is
+h<1/12
+and
+5h-m<1/12.
+
+
+No claim is made that all phi endpoints lie in this window.
+
+
+9. Firewall and current residual — PASS
+
+
+The hard residual is sharpened to the genuinely Q1-dominant region where the total relative conductor is not larger than about H^3 and M_phi,0 is small.
+
+
+The Q1 divisor/cube by itself is generic on that branch. Any continuation must use an additional exact physical correlation, not a probability assigned to Gaussian orientation, Q1 allocation, or cubic resonance.
+
+
+Canonical promotion:
+M3_T11_119_HOSTILE_AUDIT=PASS
+PHI_Q0_GAUSSIAN_MOVING_MODULUS_TAIL_PROVED=true
+PHI_Q0_GAUSSIAN_TAIL_BOUND=B^o(1)*min(H^2,H+H^2/M0)
+PHI_Q0_118_TAIL_INCREMENTAL_EXPONENT_GAIN=false
+PHI_Q1_GAUSSIAN_CUBE_FACTORIZATION_PROVED=true
+PHI_Q1_MPHI1_LE_H3_PROVED=true
+PHI_TOTAL_MREL_HEIGHT_WINDOW_PROVED=true
+PHI_TOTAL_MREL_WINDOW_BOUND=B^o(1)*min(H^2,H+H^5/R0)
+GLOBAL_FIXED_POWER_SAVING=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+
+
+LATEST_RESEARCH_CARD=M3-T11-119
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-119
+PROVISIONAL_FRONTIER_CARD=NONE
+PROVISIONAL_FRONTIER_AUDIT_STATUS=NOT_APPLICABLE
+NEXT_RESEARCH_CARD_ID=M3-T11-120
+NEXT_LEGAL_ACTION=Continue phi only on the residual Q1-dominant regime not covered by the new total-conductor/height window, using a genuinely independent same-R<=B correlation beyond the universal B1^3 cube/resonance structure. Keep genuinely nonlocal S4 and theta!=0 routes independently live.

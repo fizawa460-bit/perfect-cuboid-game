@@ -1,0 +1,190 @@
+﻿Stage37 literature hostile audit — Peschmann arXiv:2604.28072v1
+
+
+VERDICT=PARTIAL_PASS / HOLD_ON_1072_UNCONDITIONAL_AGGREGATE
+SOURCE=https://arxiv.org/abs/2604.28072
+RELATED_COMPANION=https://arxiv.org/abs/2604.09328
+STAGE37_ADAPTER_CARD=M3-PESCH-TI-001
+STAGE37_ADAPTER_DOC_ID=1Tmy_8CX29vqVaJah5WhOuTyzDrqveeYOdCvH9MVt-9U
+
+
+Audit scope
+
+
+The full v1 manuscript was checked section-by-section, including the structural reduction, genus-3 formulas, quotient maps, torsion-intersection theorem, rank-zero certification discussion, lift refinement, finite-fiber summary, discussion, and computational-verification appendix.
+
+
+Independent algebra checks were performed for:
+- f1=L*R and both Brahmagupta representations;
+- P_p and Q_p as the normalized Master and endpoint conditions;
+- the discriminants and resultant;
+- the u=t+1/t and w=t-1/t quotient formulas;
+- the fixed-source Stage37 endpoint adapter.
+
+
+External documentation was checked for PARI ellrank, Sage L_ratio, Sage analytic_rank_upper_bound, and the semistable Manin-constant theorem.
+
+
+The public repository directory and data-file metadata were inspected. The connected GitHub account is suspended and the public cache did not expose the current worker source, so the 2,040-fiber computation was not independently rerun in this audit.
+
+
+A. Structural reduction — PASS
+
+
+Theorems 2.1, 2.2 and 2.4 are mathematically coherent.
+
+
+Theorem 2.1:
+g_+ g_-=gcd(U1,U2), gcd(g_+,g_-)=1.
+The odd-prime valuation allocation argument is valid.
+
+
+Theorem 2.2:
+f1=(W1W2-V1V2)(W1W2+V1V2)=L*R,
+with
+L=(am-bn)^2+(an-bm)^2,
+R=(am+bn)^2+(an+bm)^2.
+Independent symbolic expansion verifies these identities.
+
+
+Theorem 2.4:
+every primitive Euler brick with its odd edge designated arises from the two primitive Pythagorean source pairs with the stated gcd scaling. The proof via d=gcd(X,Y), e=gcd(X,Z), gcd(d,e)=1 is valid.
+
+
+This independently corroborates Stage37 M3-MASTER-001 and is compatible with M3-ONE-002.
+
+
+B. Section 3.1 resultant identity — FAIL AS WRITTEN, NONFATAL
+
+
+The paper states
+Res_s(P,Q)=256 U2^4 V2^4.
+
+
+For the displayed P and Q, independent SymPy and Wolfram calculations instead give
+Res_s(P,Q)=16 U2^8.
+
+
+Numerical check at (m,n)=(2,1), hence (U2,V2,W2)=(3,4,5):
+actual resultant=104976=16*3^8,
+while the paper's displayed expression gives 5308416.
+
+
+This is a real algebraic error in the manuscript, but it does not destroy the smoothness argument: the corrected resultant is still nonzero because U2 != 0. The displayed discriminants
+disc(P)=16 U2^2(U2^2-V2^2),
+disc(Q)=-16 U2^2 V2^2
+are correct, and P(0),Q(0) are nonzero. The genus-3 conclusion survives.
+
+
+C. Genus-3 quotient formulas and torsion-intersection theorem — PASS
+
+
+The three quotient equations were independently rederived from the displayed H_{m,n}; the V4 decomposition is standard and the quotient formulas are consistent.
+
+
+Lemma 4.1's eight degenerate rational points are correct. There is a minor wording slip referring to “four affine points”; the displayed set actually has six finite affine points plus two points at infinity.
+
+
+Lemma 4.2 and Theorem 4.5 pass:
+- E_3 quotient has no rational ramification fixed point;
+- E_uV has four rational ramification images;
+- rank zero plus the stated torsion/lift cardinalities forces at most eight H-points;
+- the eight degenerate points force equality.
+
+
+This generic theorem is strong enough to import into Stage37 independent of the 1,072-row computation.
+
+
+D. Section 4.4 rank-zero theorem — PASS IF L_ratio IS ACTUALLY USED
+
+
+The main text says ambiguous ellrank cases are resolved by Sage
+E.lseries().L_ratio()
+after checking semistability.
+
+
+Sage documentation states L_ratio returns exact rational L(E,1)/Omega and is provably correct under the Manin-constant condition; semistable curves satisfy the required condition. Česnavičius proves the Manin conjecture in the semistable case. Nonvanishing L(E,1), together with modularity and Kolyvagin, gives algebraic rank zero.
+
+
+Thus the mathematical certification route described in section 4.4 is valid.
+
+
+The attribution in the paper is loose: the clean modern theorem c_E=1 for semistable curves is Česnavičius, not simply the Edixhoven statement as phrased. This is bibliographic rather than fatal.
+
+
+E. Appendix B computational pipeline — FAIL/HOLD
+
+
+Appendix B states that ambiguous [0,k] cases call Sage
+analytic_rank_upper_bound
+and calls its output a rigorous unconditional upper bound.
+
+
+Current Sage documentation explicitly states that analytic_rank_upper_bound is conditional on the Generalized Riemann Hypothesis.
+
+
+Therefore Appendix B does not, as written, support the manuscript's unconditional claim for the modular-symbol/Kolyvagin rows.
+
+
+The paper counts:
+E_3: 359 sharp ellrank + 468 modular-symbol rows;
+E_uV refined: 209 sharp ellrank + 36 modular-symbol rows.
+
+
+Hence 504 of the claimed 1,072 rows depend on the disputed second certification strand. The remaining 568 rows are unaffected by this particular rank-certificate problem, but this audit did not replay their torsion/lift computations row-by-row, so no separate 568-fiber theorem is promoted here.
+
+
+Resolution condition:
+inspect or rerun the actual current worker and verify that every one of the 504 ambiguous rows uses exact L_ratio (or another unconditional nonvanishing certificate), with semistability checked, rather than analytic_rank_upper_bound. If so, this blocker can be cleared.
+
+
+F. Reproducibility drift — HOLD NOTE
+
+
+The public paper3 README visible in the repository still describes the older 117-fiber / M_MAX=50 state, while the manuscript and committed proven_fibers.csv metadata correspond to 1,072 rows plus header and the M_MAX=100 scan. This is documentation drift and makes the exact current pipeline harder to audit.
+
+
+G. Stage37 connection — PASS
+
+
+For exact M3 objects the H_{m,n} condition is not merely a broad relaxation:
+P_p(t^2)=M/b^4 is already square on M3, so
+v^2=P_p(t^2)Q_p(t^2)
+is equivalent to Q_p(t^2)=f1/b^4 being square.
+Thus Theorem 4.5 is an exact fixed-source endpoint killer on Stage37's population.
+
+
+Applying the same theorem after swapping the two Euclid sources shows that every perfect endpoint must have BOTH primitive source pairs in the torsion-intersection-hard set. This yields the exact two-source receiver recorded as M3-PESCH-TI-001 and the open weighted-hard-locus gate M3-PESCH-TI-GATE-001.
+
+
+Audit credit
+
+
+ACCEPT:
+- master-tuple structural reduction;
+- corrected genus-3 smoothness calculation;
+- quotient formulas;
+- generic torsion-intersection fiber-killer theorem;
+- exact Stage37 fixed-source and two-source adapter.
+
+
+HOLD:
+- the paper's aggregate “1,072 fibers unconditionally proven” statement pending pipeline resolution/replay.
+
+
+NO CREDIT:
+- no global Stage37 power saving;
+- no P(B)/M3(B) closure;
+- no Perfect Cuboid nonexistence claim.
+
+
+FINAL_AUDIT_STATUS=PARTIAL_PASS_HOLD_1072_AGGREGATE
+M3_PESCH_TI_CORE_THEOREM_ACCEPTED=true
+M3_PESCH_TI_1072_UNCONDITIONAL_AGGREGATE_ACCEPTED=false
+RESULTANT_DISPLAY_ERROR_CONFIRMED=true
+RESULTANT_CORRECTED=16*U2^8
+APPENDIX_B_ANALYTIC_RANK_UPPER_BOUND_UNCONDITIONAL=false
+GLOBAL_FIXED_POWER_SAVING=false
+PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false

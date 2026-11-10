@@ -1,0 +1,166 @@
+﻿Stage37 hostile audit — M3-T11-080 fixed-D counting adapter
+
+
+HOSTILE_AUDIT=PASS
+AUDIT_SCOPE=STAGE37_X_MINUS_ONE_EIGHTH_FIXED_D_ADAPTER
+AUDITED_CARD=M3-T11-080
+PRIOR_AUDITED_FRONTIER=M3-T11-079
+GITHUB_ACCESSED=false
+
+
+Authority
+MAIN=K16-C3-M3-LOCAL-TO-GLOBAL-MAIN
+ROUTE=K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE
+PRIMARY_GATE=M3-T11-GATE-001
+
+
+Audit conclusion
+
+
+M3-T11-080 passes for the exact structural compression and the fixed-D B^o(1) physical counting adapter.
+
+
+Promotable conclusion:
+for the x=-1/8 singular carrier, for each fixed residual squarefree kernel D and each fixed content/coefficient packet,
+# physical endpoint states with height <= B = B^o(1).
+
+
+This does NOT prove a power saving for the whole x=-1/8 carrier. The moving-D support theorem remains open:
+# realized D << B^(1/12-delta)
+for some fixed delta>0, up to B^o(1) losses.
+
+
+1. Residual squarefree factorization: PASS
+
+
+On the retained x=-1/8 carrier,
+c^2=a^2+2b^2,
+N_u=a^2+b^2=(c-b)(c+b),
+with c-b and c+b positive odd coprime integers.
+
+
+Writing
+c-b=d_- y_-^2,
+c+b=d_+ y_+^2,
+with d_-,d_+ coprime squarefree, gives
+D=d_-d_+=sf(N_u)=sf(N_u/M_rel^2).
+
+
+The retained M3-T11-046 valuation routing makes every prime dividing M_rel occur to even valuation in the unique active factor c-b or c+b, hence
+gcd(D,M_rel)=1.
+
+
+No finite-S claim is made for d_-, d_+, or D.
+
+
+2. Quartic and Jacobian calculation: PASS
+
+
+Eliminating b,c gives
+(2a)^2=-d_+^2 y_+^4+6D y_+^2 y_-^2-d_-^2 y_-^4.
+
+
+With X=y_+/y_- and Z=2a/y_-^2:
+C_{d_-,d_+}: Z^2=-d_+^2 X^4+6D X^2-d_-^2.
+
+
+For the binary quartic:
+I=48D^2,
+J=0,
+Delta=(4I^3-J^2)/27=2^14 D^6.
+Thus every positive d_-,d_+ fiber is smooth genus one.
+
+
+Using the same Jacobian normalization retained in Stage37:
+E_D: V^2=U^3-1296D^2 U
+=U(U-36D)(U+36D).
+
+
+Therefore j(E_D)=1728 and E_D has full rational 2-torsion.
+
+
+The quartic has the explicit point
+(X,Z)=(0, +/- i d_-)
+over the single fixed field K=Q(i), so over K it is a genus-one curve with a K-rational base point and is K-isomorphic to its Jacobian.
+
+
+3. Uniform bounded-height theorem: PASS
+
+
+E_D has a K-rational point of exact prime order 2 for every D.
+Marta Dujella's uniform theorem applies over the fixed number field K=Q(i): for elliptic curves over K carrying a K-rational point of exact prime order, the number of K-rational points of exponential height <= H is
+exp(O_K(log H/log log H)),
+uniformly in the elliptic curve.
+
+
+For the physical locus, a,b,c and the retained packet coordinates have polynomial height in B. Since
+d_-<=c-b,
+d_+<=c+b,
+D<=N_u,
+and y_-^2<=c-b, y_+^2<=c+b,
+the quartic point (X,Z), the chosen K-base point, the quartic coefficients, and a fixed-degree quartic-to-Jacobian image all have height B^O(1).
+
+
+Hence each fixed splitting (d_-,d_+) contributes B^o(1) physical points.
+
+
+4. Sum over splittings at fixed D: PASS
+
+
+For fixed squarefree D, the number of ordered coprime squarefree splittings D=d_-d_+ is exactly
+2^omega(D).
+
+
+M3-T11-035 gives N_u=B^O(1), hence D<=B^O(1). The standard divisor bound therefore gives
+2^omega(D)=D^o(1)=B^o(1).
+
+
+Multiplying the B^o(1) number of splittings by the uniform B^o(1) count for each splitting remains B^o(1).
+
+
+Thus:
+fixed D + fixed content/coefficient packet
+=> B^o(1) physical x=-1/8 endpoints.
+
+
+5. Reconstruction and same-measure firewall: PASS
+
+
+Reduced X=y_+/y_- determines the coprime positive pair y_+,y_-.
+Z=2a/y_-^2 then determines a up to the bounded sign convention, and the defining formulas recover b and c. Therefore the quartic count has only bounded physical reconstruction multiplicity.
+
+
+No determinant density, independence heuristic, or old M_rel^-2 lattice saving is multiplied into this result.
+
+
+Not proved:
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_D_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+M3_T11_FIXED_X_GENERIC_BO1_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+Promoted audited flags:
+M3_T11_080_HOSTILE_AUDIT=PASS
+M3_T11_X_MINUS_ONE_EIGHTH_RESIDUAL_KERNEL_SPLIT=true
+M3_T11_X_MINUS_ONE_EIGHTH_RESIDUAL_D_EQUALS_SF_NU_OVER_MREL2=true
+M3_T11_X_MINUS_ONE_EIGHTH_RESIDUAL_QUARTIC_J1728=true
+M3_T11_X_MINUS_ONE_EIGHTH_RESIDUAL_QUARTIC_FULL_RATIONAL_2TORSION=true
+M3_T11_X_MINUS_ONE_EIGHTH_FIXED_D_BO1_PROVED=true
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-080
+
+
+Next routing
+
+
+The live x=-1/8 obstruction is now only the moving residual-kernel support:
+XMinusOneEighthResidualSquarefreeKernelSupportOneTwelfth.
+
+
+A sufficient next theorem remains
+# realized D << B^(1/12-delta)
+per fixed content/coefficient packet, for some fixed delta>0, up to B^o(1) losses.
+
+
+Do not infer a carrier-wide power saving from the fixed-D theorem alone.
+Do not reopen x=27/40 for one-twelfth credit.

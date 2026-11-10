@@ -1,0 +1,215 @@
+﻿Stage37 HOSTILE AUDIT — M3-T11-096
+
+
+HOSTILE_AUDIT=PASS
+AUDITED_CARDS=M3-T11-096
+PRIOR_AUDITED_FRONTIER=M3-T11-095
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-096
+AUDIT_SCOPE=Normalized-theta exact algebra, residual-character dependence, standard rational 2-isogeny formulas, Kummer squareclasses, same-physical-measure/no-double-charge consequences, and credit boundaries.
+GITHUB_ACCESSED=false
+
+
+1. Executive verdict
+
+
+M3-T11-096 survives hostile audit.
+
+
+Promoted:
+- exact normalized identity 16*L+3*kappa=M^2*Theta;
+- exact normalized residue Theta == 16*(t_0/s)^2*x*(4*x-3) mod M^2;
+- the M3-T11-092 residual-character lock is dependent on theta M^4 plus the normalized endpoint square on the surviving theta branch;
+- the ordinary rational-2-torsion / 2-isogeny Kummer map loses the fresh M_rel^2 square factor;
+- the two 2-isogeny factors are exactly the already-retained M^2 by M^2 decomposition of the theta M^4 carrier;
+- therefore both candidate routes receive zero independent fixed-power saving credit.
+
+
+Not promoted:
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+No endpoint theorem and no Perfect Cuboid nonexistence credit are obtained.
+
+
+2. Dependency and measure check — PASS
+
+
+Dependencies M3-T11-090 through M3-T11-095 are already hostile-audit PASS under Stage37-HOSTILE-AUDIT-M3-T11-090-095-PASS.
+
+
+The audited scope remains the same fixed-content/coefficient, nondegenerate generic full-S-denominator physical branch with theta!=0 and R<=B.
+
+
+No population, height, field, quotient, or physical multiplicity change is introduced by M3-T11-096. The card is a redundancy/no-double-charge firewall, not a new counting theorem.
+
+
+3. Normalized-theta algebra — PASS
+
+
+Put
+M=M_rel,
+N_u=M^2*N_0,
+t=M^2*t_0,
+ell=M^2*L,
+kappa=(v+1)/M^2=N_0/b^2,
+Theta=theta/M^4.
+
+
+From the audited exact definition
+theta=16*ell+3*(v+1)
+one gets identically
+16*L+3*kappa=M^2*Theta.
+
+
+Hence, in the fresh M-adic residue ring,
+L == -3*kappa/16 mod M^2.
+
+
+Using the audited theta factorization together with
+w=M^2*omega,
+omega=a*t_0/(b*s),
+x=kappa/(16*omega),
+one gets exactly
+Theta=kappa*(kappa-12*omega+4*M^2*omega^2)/(4*v).
+
+
+Modulo M^2, and using omega^2/v=t_0^2/s^2,
+Theta == 16*(t_0/s)^2*x*(4*x-3) mod M^2.
+
+
+At any fresh prime where Theta is a unit, the prefactor 16*(t_0/s)^2 is a square unit, so the local unit squareclass of Theta is exactly that of x*(4*x-3). This is only a router; no density or fixed-power credit follows.
+
+
+4. M3-T11-092 residual-character dependence — PASS
+
+
+Audited M3-T11-092 gives
+W_flat^2=-N_0*Phi_flat.
+
+
+Since
+kappa=N_0/b^2,
+we have
+kappa*Phi_flat=-(W_flat/b)^2.
+
+
+Combining with
+L == -3*kappa/16 mod M^2
+gives
+3*L*Phi_flat == (3*W_flat/(4*b))^2 mod M^2.
+
+
+Therefore the M3-T11-092 unit-square character condition is automatic after retaining the theta M^4 identity and the normalized endpoint square equation. It cannot be multiplied with theta as an independent saving on this branch.
+
+
+Canonical consequence:
+FullSDefectResidualCharacterDispersionOneTwelfth is retired as a standalone theta-branch fixed-power attack, unless a future argument introduces genuinely new global information beyond this squareclass identity.
+
+
+5. Rational 2-isogeny algebra — PASS
+
+
+Translate the audited fixed-theta elliptic curve by
+X=-(v+1).
+
+
+Then
+E_theta^-:
+Z^2=X*(X^2+(9+4*theta)*X+4*theta).
+
+
+For a curve y^2=x(x^2+A*x+B), the standard 2-isogenous model is
+y'^2=x'*(x'^2-2*A*x'+A^2-4*B),
+with
+x'=y^2/x^2,
+y'=y*(B-x^2)/x^2.
+
+
+Thus here
+E_theta^+:
+Y^2=Xp*(Xp^2-2*(9+4*theta)*Xp+(16*theta^2+56*theta+81)).
+
+
+For the physical point, audited M3-T11-095 gives
+Z=(v+1)*(3-2*w).
+
+
+Set
+q=3-2*w,
+k=(4*theta-(v+1)^2)/(v+1).
+
+
+Then exactly
+phi(P)=(q^2,q*k).
+
+
+Hence
+[X]=[-(v+1)]=[-M^2*kappa]=[-N_0] in Q*/Q*^2,
+while
+[Xp]=[q^2]=1.
+
+
+The fresh M_rel^2 factor is therefore invisible to the ordinary 2-isogeny Kummer squareclass map. The dual square coordinate is tautological and is not a new physical square condition.
+
+
+6. 2-isogeny factor split / no-double-charge — PASS
+
+
+The exact factorization is
+(q^2-(9+4*theta)-k)*(q^2-(9+4*theta)+k)=16*theta,
+
+
+with
+q^2-(9+4*theta)-k
+=-2*(1+v-12*w+4*w^2)/v,
+
+
+q^2-(9+4*theta)+k
+=-2*(1+v).
+
+
+On full-S,
+1+v=M^2*kappa
+and
+1+v-12*w+4*w^2
+=M^2*(kappa-12*omega+4*M^2*omega^2).
+
+
+Therefore the apparent two-factor 2-isogeny decomposition is exactly the already-known M^2 by M^2 decomposition of theta's M^4 carrier. It supplies no independent fresh factor, character, or support deficit.
+
+
+7. Canonical promoted flags
+
+
+M3_T11_096_HOSTILE_AUDIT=PASS
+M3_T11_THETA_NORMALIZED_CONGRUENCE=true
+M3_T11_THETA_NORMALIZED_SQUARECLASS_X_4XMINUS3=true
+M3_T11_092_CHARACTER_INDEPENDENT_ON_THETA_BRANCH=false
+M3_T11_THETA_2ISOGENY_SOURCE_KUMMER_CLASS_MINUS_N0=true
+M3_T11_THETA_2ISOGENY_DUAL_KUMMER_CLASS_TRIVIAL=true
+M3_T11_THETA_2ISOGENY_FRESH_CONDUCTOR_VISIBLE=false
+M3_T11_THETA_2ISOGENY_NEW_SAVING=false
+M3_T11_FULL_S_RESIDUAL_CHARACTER_STANDALONE_ATTACK_RETIRED=true
+M3_T11_THETA_ORDINARY_2ISOGENY_FRESH_CONDUCTOR_ATTACK_RETIRED=true
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+8. Canonical post-audit frontier
+
+
+LATEST_RESEARCH_CARD=M3-T11-096
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-096
+PROVISIONAL_FRONTIER_CARD=NONE
+PROVISIONAL_FRONTIER_AUDIT_STATUS=NOT_APPLICABLE
+NEXT_RESEARCH_CARD_ID=M3-T11-097
+
+
+CURRENT_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondSquareclass|InteriorCharacterGlobalDispersion
+
+
+Required missing theorem remains a genuinely global same-physical-measure moving-support / dispersion statement strong enough to yield a fixed-power deficit. Do not reopen the collapsed residual-character or ordinary 2-isogeny squareclass routes unless an audited dependency changes or new information strictly beyond the retained squareclass identities is introduced.
