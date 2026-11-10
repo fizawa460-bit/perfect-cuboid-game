@@ -1,0 +1,85 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229FS
+UNIFORM 2-TORSION JACOBIAN RATIONAL-HEIGHT COUNT ON 246 EXACT ORIGINAL FJ GENUS-ONE GAUSSIAN ALLOCATION CLASSES
+CARD_DOC_ID=1oVtcb0ryBy2srTIN7NraCFTNs3erMBf9QSAM4mGKzsI
+PREVIOUS_CURRENT=229FR / 1e51iGJnO3hSOdLBwikEGQmsQGcgyNJxrhgSqd1RCBQ4
+STATUS=PROVED_SCOPED_UNIFORM_246_OF_330_GENUS1_2TORSION_HEIGHT_B_o1_PER_p / LOW_LEAST_PRIME_UP_TO_B^(1/3)*EXP(-K_LOG_B/LOGLOG_B)_o(B^(1/3)) / REMAINING_84_QUARTIC_16_QUADRATIC_LIFT_8_GENUS3_GLOBAL_OPEN / GLOBAL_COUNT_CREDIT0
+OPERATIONAL_AUTHORITY=M3-T11-229; LAST_CONSTRUCTION=M3-T11-228; 230 NOT_ISSUED; GATE OPEN; GLOBAL_CREDIT 0; P_OVER_M3_NOT_PROVED; PRODUCTION HOLD; FORMAL_ROUTE_SWITCH NONE; CLOSURE UNCHANGED; INDEPENDENT_FJ_FL_AUDIT NOT_RUN.
+
+
+1. LIGHT BOOT, ANTI-LOOP, AND STRATEGY.
+Synced MAIN latest 229FR; native CARD-INDEX row638; RESULT-LEDGER first229FR; active ROUTE first229FR; NEG first229FR; research-card229FR, FJ §3–9, FF and FO targeted. Existing FJ only O_p((log B)^C_p) for each FIXED split prime p; explicitly forbids summation in moving p due to nonuniform rank and constants. 229FR proves 70 new p≡5mod8 empty genus-one labels but NO B-sensitive sum. Repeating small-p ordering, dyadic divisor-switch, FF moving (2,2) discriminant and ghost local-solubility failure cannot improve high-least-p count. NEW METHOD: use PUBLISHED unconditional elliptic rational-point count uniform in curve coefficients for curves with rational 2-torsion, after proving a rational 2-torsion Jacobian for 246 FJ exact biforms. This supplies first UNIFORM-IN-p original physical low-p bound on those 246 classes.
+
+
+2. ORIGINAL SAME-P SOURCE.
+Every P=(e,x,y,U,V,z,R) positive primitive solves U²=e²+x², V²=e²+y², z²=x²+y², R²=e²+x²+y², gcd(e,x,y)=1; R=pqr≤B, p<q<r distinct primes ≡1mod4. For each prime p=u²+v², a=u²−v² (odd), b=2uv (divisible4), p²=a²+b². q²=S²+T², r²=U0²+V0² primitive, X=T/S, Y=V0/U0, H(X)≤q≤B, H(Y)≤r≤B. The 13 Gaussian k codes /138 primitive triple combinations/3 hypotenuse choices give EXACTLY 414 necessary FJ biform placements; coefficients polynomial of bounded degree in a,b. Selecting code and oriented (a,b),(S,T),(U0,V0) from an actual P produces rational (X,Y) on F_{p,j}(X,Y)=0; it is not a sufficiency assertion. Fixed p and (X,Y) determine q,r and reconstruct at most a UNIVERSAL constant number of signed original P.
+
+
+3. SYMBOLIC PARAMETRIZATION AND COMPLETE 2-TORSION CLASSIFIER.
+Use the rational conic parameter z=v/u; up to nonzero common scaling a=1−z², b=2z, p²=(1+z²)². For each 414 FJ F, compute Δ_j(Y;z)=disc_X F_j over Q[z,Y]; factor over Q[z,Y], discard square powers of irreducible Y-factors and all Y-independent factors. The odd-exponent squarefree divisor D_j(Y;z) has exact degree distribution:
+degree0 68; degree2 16; degree3 40; degree4 290. This independently matches the historical FJ fixed-p genus classification 330=40+290, not a new claim for those counts.
+MORE REFINED NEW EXACT FACTORIZATION CERTIFICATE:
+ degree4 quartic 290 = 74 factors with degrees (1,1,1,1) + 98 with (2,2) + 34 with (1,1,2) + 84 irreducible degree4;
+ degree3 cubic 40 =32 factors (1,1,1) +8 with (1,2).
+For each of 74+98+34+32+8=246 genus-one cases, the branch divisor on P¹_Y, including ∞ in degree3, has a RATIONALLY GALOIS-STABLE PARTITION INTO TWO PAIRS. Consequently the elliptic Jacobian J_{p,j} has a NONZERO Q-RATIONAL POINT OF ORDER TWO. A factorization into (1,1,2) or (2,2), or a cubic with one rational linear factor and the rational branch ∞, suffices by the standard identification J[2]\{0} with 3 pair partitions of 4 hyperelliptic branch points. These partitions hold identically over Q(z), hence for every nonsingular actual p specialization. FJ §4 establishes nonsingularity for ALL physically allowed rational z from split prime representations; no use of one numerical p specialization as a generic proof.
+The other 84 degree4 irreducible-over-Q(z) cases have NO CLAIM made here about rational 2-torsion; their cubic resolvents require separate exact classification. The degree2 16 cases are biquadratic norm-lift genus-one curves, not included in this 246. The eight genus3 configurations are also not included. These 84+16+8=108 original residual FJ genus-positive patterns have no uniform counting assertion from this card.
+
+
+4. EXPLICIT SELF-CONTAINED NONTRIVIAL SAMPLE AND MAP.
+FJ triple k=((0,0,1),(1,-1,-1),(1,1,-1)), first k as Pythagorean hypotenuse (index8 under 0-based triple/hyp ordering). Normalize t=b/a. Original necessary biform:
+ F=((t²−1)Y²+4tY+2)X²+((1−t²)Y²−4tY+2t²)=0.
+Exact identity (verified symbolic):
+ [((t²−1)Y+2t)(1−X²)]² −2(1+t²)(t²−X²)(1−X²) = (X²−1)(t²−1)F.
+Thus for physical X≠0,±1 and t≠±1, put
+ w=[((t²−1)Y+2t)(1−X²)]/(p/a)
+so w²=2(t²−X²)(1−X²).
+Map to integral cubic E_{a,b}: y²=x(x−2a²)(x−2b²) via
+ x=2a²X², y=2a³Xw.
+Polynomial equality is exact since x(x−2a²)(x−2b²)=8a⁶X²(X²−1)(X²−t²)=4a⁶X²w²=y². E has rational 2-torsion (0,0),(2a²,0),(2b²,0), and is smooth for physically allowed a,b nonzero a²≠b². Recover at most 2 possible X from x, then w from y, and uniquely Y by
+ Y={[(p/a)w/(1−X²)]−2t}/(t²−1).
+Hence the rational map is finite of degree ≤2 on physical points; both X,Y are height ≤B. This explicit sample needs no Jacobian basepoint choice and provides an independent quantitative cross-check. Previous ghost X=t,Y=−2t/(t²−1) is NOT a prime-distinct physical P and is never counted as such.
+
+
+5. EXTERNAL PUBLISHED THEOREM AND HEIGHT CONTROL.
+M. Dujella, 'Uniform bounds for the number of rational points of bounded height on certain elliptic curves', Acta Arithmetica 217 (2025),309–332, DOI 10.4064/aa231221-9-10, https://www.impan.pl/en/publishing-house/journals-and-series/acta-arithmetica/en/publishing-house/journals-and-series/acta-arithmetica/all/217/4/115822/uniform-bounds-for-the-number-of-rational-points-of-bounded-height-on-certain-elliptic-curves.
+THEOREM (published, k=Q, ell=2): there is an EFFECTIVE ABSOLUTE C_0 such that for every elliptic E/Q having a rational point of exact order2, # {Q∈E(Q): H(Q)≤H} ≪ exp(C_0 log H/loglog H), for large H, with constant UNIFORM in E. Use standard exponential/projective height on a fixed chosen Weierstrass model, not an assumed fixed-p MW rank. No GRH, Lang conjecture, local-density independence or average rank hypothesis.
+For each j among 246 and each p≤B^(1/3): the genus-one smooth C_{p,j} has a bounded-degree plane/hyperelliptic model with coefficients height≤B^A0, and all physical source points have rational affine (X,Y,w) heights≤B^A1 for ABSOLUTE A0,A1 (w is a rational square-root of a quartic with polynomial coeff; direct numerator/denominator clearing gives bound). If there is no physical rational point: population zero. Otherwise choose ANY physical point Q0 of bounded height≤B^A1 as the origin. The Abel–Jacobi isomorphism Q↦[Q−Q0] onto J_{p,j}/Q can be written by bounded-degree rational functions obtained from genus-one degree≤4 equations and Q0; by rational-function height inequalities / bounded-size elimination its chosen integral Weierstrass coordinates satisfy H_J([Q−Q0])≤B^A2, where A2 is ABSOLUTE and UNIFORM over p,j,B because the finite 246 code list and equation degrees are bounded and input coefficient and Q0 heights polynomial B. This is the only required model-normalization step; do not hide dependence on a B-dependent Q0. The group-law/Abel-Jacobi construction is valid for every nonempty fiber and is an injection on rational points. The 246 J all have rational exact order2, so Dujella bound gives UNIFORMLY
+ N_{p,j}(B) ≪ exp(C_1 log B/loglog B)=B^{o(1)},
+with C_1 absolute across p and 246 j, times a universal bounded macro/sign multiplicity. This is a PROVEN cardinality bound on actual original SAME-P physical P, NOT a count of unconstrained Gaussian points assumed physical.
+
+
+6. UNIFORM-IN-p COFACTOR HEIGHT THEOREM FS.1.
+Let N_246(B;P) count original physical positive primitive P with R=pqr≤B, p<q<r split primes, p≤P≤B^(1/3), and at least one FJ arrangement among the above 246 certified 2-torsion genus-one classes. Then for B large, uniformly for such P:
+ N_246(B;P) ≪ π(P) exp(C_1 log B/loglog B) ≪ P exp(C_1 log B/loglog B).
+Consequently, for ANY fixed δ>0,
+ N_246(B;B^(1/3−δ)) = B^(1/3−δ+o(1)) = O_δ(B^(1/3−δ/2)).
+Moreover for SOME absolute effective K>2C_1,
+ N_246(B; B^(1/3) exp(−K log B/loglog B)) ≪ B^(1/3)exp(−(K−C_1)log B/loglog B)=o(B^(1/3)).
+The p count can be counted once per physical object with a bounded multiplicity of Gaussian allocations; no disjointness or prime-density assumption. This is a GENUINE uniform quantitative extension of prior FJ fixed p bound and a near-balanced least-prime support-sector disposal on these 246 labels. Global credit remains ZERO because other labels still remain.
+
+
+7. RELATION TO 229FR AND RESIDUAL.
+Previously 229FR mod64 for p≡5mod8 excluded 78 of414, 70 formerly open genus-one quartic. Exact zero-based set intersection with the 246 genus-one 2-torsion labels is22; intersection with remaining 84 irreducible quartic is48; other8 were old degree0. For p≡5mod8 after FR the 354 residual becomes284: 224 supported 2-torsion genus-one labels +36 uncertified quartic labels +16 degree2 genus-one norm-lift +8 genus3. For p≡1mod8 the remaining354=246 certified 2torsion +84 quartic +16 degree2 +8 genus3. Therefore even after FS.1, a NONTRIVIAL balanced pqr global packet remains; DO NOT aggregate 246 class saving into a whole-high theorem.
+All eight HIGH, high sf(G0), Kcross/rad(Sd), 229DS q/Gres K-null, 229EX signed medium-e and original primitivity are same-P FILTERS preserved; they are not replaced by independent Gaussian norm constraints.
+
+
+8. REPLAYABLE FINITE EXACT CERTIFICATE.
+Using SymPy exact polynomial ring Q[z,X,Y], generate k in product((-1,0,1),repeat=3) with any(k) and first nonzero +1 (13). T=combinations(range(13),3) with at most one k coordinate zero per prime (138). With a=1−z²,b=2z,p²=a²+b², form seven even-leg square formulas from FJ §3. For every T and each h index2,1,0 (414), F=sum(L_codes)−2L_h; compute D=disc_X F via B_X²−4 A_X C_X; factor_list(D,z,Y), select irreducible Y-dependent factors with ODD exponent, count Y factor degrees as partition. Assert distributions 0:68,2:16,3:40,4:290 and 330 factor signature:
+ (4):84, (2,2):98, (1,1,2):34, (1,1,1,1):74, (1,2):8, (1,1,1):32.
+Assert # qualified 2torsion genus-one labels=246. Independently specialize t=4/3,12/5,8/15,20/21 (p=5,13,17,29); the candidate set from generic factorization remains among rational-2torsion-specialized labels. The 16 degree2 cases need extra norm-lift, DO NOT include by accidentally counting squarefree polynomial factors with even multiplicity. Sample index8 explicit integral E map in §4 verified by SymPy polynomial identity. No Sage/mwrank rank claim.
+Code skeleton (finite algorithm; one can replay in a fresh chat):
+K=[k for k in product((-1,0,1),repeat=3) if any(k) and next(v for v in k if v)>0]
+T=[c for c in combinations(range(13),3) if all(sum(K[j][v]==0 for j in c)<=1 for v in range(3))]
+for i,c in enumerate(T):
+ for h in (2,1,0):
+  F=Poly(expand(sum(leg[K[c[j]]] if j!=h else -leg[K[c[j]]] for j in range(3))),X)
+  D=F.nth(1)**2-4*F.nth(2)*F.nth(0)
+  fac=sorted(degree(g,Y) for g,e in factor_list(D,z,Y)[1] if degree(g,Y)>0 and e%2)
+  # count fac, only degree sum 3/4 and stable pair partition for 2-torsion.
+
+
+9. NEXT EXECUTABLE / STRATEGY AUDIT.
+PRIMARY: remove / quantify the remaining 84 generic irreducible quartic normalizations, their 2-torsion cubic-resolvent Galois structure and whether a different uniform height-bound theorem applies WITHOUT falsely assuming rational 2torsion; test representative resolvents explicitly. Apply the same method to 16 degree2 biquadratic genus-one norm lifts only after exact Jacobian rational 2torsion check. Separately treat 8 genus3 with uniform Jacobian-rank/depth bound only if fully sourced/certified.
+Then SUM the balanced dyadic (p,q) Gaussian pair-incidence plus third split-prime r norm and all original selector filters to establish actual o(B^(1/3)) for residual classes, and handle prime power /omega>=4 complement. The unresolved 84+16+8 are NOT waived. No formal route switch, authority change, credit or gate promotion. Last five stagnation audited and a DIFFERENT published-uniform-height route actually executed.
+
+
+NEXT_CHAT_DRIVE_ONLY_READY only after Drive index ledger main route fastpath readbacks.

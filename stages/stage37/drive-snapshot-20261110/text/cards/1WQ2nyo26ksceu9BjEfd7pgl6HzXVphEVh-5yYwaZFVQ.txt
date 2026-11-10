@@ -1,0 +1,63 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229FZ
+SIMULTANEOUS THREE SPLIT-PRIME RESIDUE CLASS MOD256 SCREEN: NEW 2-ADIC SOURCE-LABEL ELIMINATIONS, BUT NO ONE-THIRD GLOBAL COUNT
+
+
+CURRENT PREVIOUS=229FY (source row645); CARD_DOC_ID=1WQ2nyo26ksceu9BjEfd7pgl6HzXVphEVh-5yYwaZFVQ; NEXT_SOURCE_ROW=646.
+STATUS=PROVED_SCOPED_EXACT_MOD256_RESIDUE_CONDITIONED_FINITE_LABEL_TEST / VERIFIED_MOD1024_NO_FURTHER_LABEL_GAIN_IN_THIS_SCREEN / NO_NEW_GLOBAL_COUNT / CREDIT0.
+GOVERNANCE=M3-T11-229 current operational authority; last construction M3-T11-228; M3-T11-230 NOT ISSUED; Gate OPEN; Global Credit0; production HOLD; formal route switch NONE; closure unchanged.
+
+
+1. STARTUP / PRIOR-ART / LOOP FIREWALL
+MAIN head229FY, AI-00-CONTRACT last source row645, CARD-INDEX original row645, RESULT-LEDGER head229FY, active ROUTE head229FY, card229FY, scoped NEG read. Focused historical index recall 229FR (p≡5 mod8 *uniform over unspecified q,r* eliminates78/414 at mod64), 229FY (p≡1 mod8 *uniform over unspecified q,r* eliminates0/414 at mod64), 229FM (at most two r candidate roots per (p,q), but aggregate ~B^(2/3) pairs), 229BI/BJ (no independence between Hilbert-color supports), FJ §3 exact 13/138/414 macro source, FX 68 degreezero empty, and 229G/H/I weighted-support firewall. Distinct new parameter: actual THREE split primes' mod8 residue pattern held fixed (not just least p), and actual mod256 (not old p-only mod64). No claim that a local necessary test gives occupied prime pairs or a counting exponent.
+
+
+2. EXACT PRIME-RESIDUE BITS
+For each split odd prime s ≡1 (mod4), choose primitive representation s=u²+v², u odd and v even; the primitive square s²=(u²-v²)²+(2uv)² has odd part A=u²−v² and even part T=2uv, 4|T. Let t_s=T/A be the normalized even Gaussian slope, with A odd. Define epsilon_s=(T/4) mod2, equivalently (t_s/4) mod2 as a 2-adic integer. Since u odd, s≡1+v² (mod8), epsilon_s=0 iff s≡1 (mod8), and epsilon_s=1 iff s≡5 (mod8). This is exact and fixes all three slope parities from (p,q,r) rather than allowing free q/r parities.
+Write p²=a²+b² (a odd, b multiple4), X=the even/odd slope of q² and Y=the even/odd slope of r², with a unit in Z_2. Set b/a=4B, X=4C, Y=4D with B,C,D in Z_2, so (B,C,D) mod2=(epsilon_p,epsilon_q,epsilon_r).
+
+
+3. UNIVERSAL MOD256 REDUCTION OF ALL 13 FJ GAUSSIAN MACRO LEG SQUARES
+FJ §3 has 13 sign codes k=(k_p,k_q,k_r) in {-1,0,1}³\{0} modulo simultaneous sign; first nonzero positive. Its squared normalized macro even-leg FJ expression L_k²(a,b,X,Y) is divisible by16 for these even slopes. For each k, with k_p∈{0,1} and s=k_q,h=k_r, an exact reduction modulo256 is
+ L_k²/(16 a²) ≡ (k_p B+s C+h D)²  (mod16).
+This follows by inserting b=4aB, X=4C, Y=4D in every one of the seven §3 formula forms: terms -b s h XY in the k_p=1,s h!=0 case are divisible by 64a, hence their /4a part vanishes mod16; factors 1+X² or 1+Y² equal 1 mod16; (a²+b²)/a²=1+16B² is 1 mod16. No independence assertion. Each actual physical three-leg Pythagorean relation L_i²+L_j²=L_hyp² therefore forces
+ (k_i·z)²+(k_j·z)²−(k_hyp·z)² ≡ 0 (mod16), z=(B,C,D)
+at exactly the same original Gaussian allocation, with three prime residue parities fixed.
+Finite certificate: construct all 13 sign codes, 138 unordered admissible triples (at most one coordinate zero per prime among three codes), and 3 choices of hypotenuse =>414 allocations. For EACH residue vector eps in{0,1}³, enumerate z=(eps_p+2m,eps_q+2n,eps_r+2l) with m,n,l∈{0,...,7}, and mark an allocation possible iff at least one such z satisfies the displayed congruence mod16. This is an OVERAPPROXIMATION of actual prime slopes (safe for exclusion). It uses an exact finite integer calculation, not statistical independence.
+
+
+EXACT 414-LABEL SURVIVOR COUNTS, COLUMNS eps_p eps_q eps_r; mod64 / mod256 / mod1024:
+000 : 414 / 414 / 414
+100 : 176 / 176 / 176
+010 : 176 / 176 / 176
+001 : 176 / 176 / 176
+110 : 170 / 154 / 154
+101 : 170 / 154 / 154
+011 : 170 / 154 / 154
+111 : 144 / 120 / 120
+
+
+Thus for ALL THREE p,q,r≡5 mod8, 294 of 414 allocations are eliminated by mod256, leaving at most120 before intersecting the FX 68 globally empty labels. There are 24 NEW excluded labels versus this same 111 pattern mod64. With EXACTLY TWO primes ≡5 mod8, 260 of414 excluded and only154 survive; 16 new exclusions compared with its mod64 screen. With exactly one such prime,238 excluded,176 survive, with no mod256 incremental gain. For all three ≡1 mod8, none of414 are excluded by this entire single-equation finite test (choose z=0 mod16); this proves that this local sieve alone cannot yield a uniform all-residue improvement. These are residue-specific *allocation counts*, not counts of genuine positive primitive physical points.
+
+
+4. DIRECT ORIGINAL-FORMULA AND HIGHER-MODULUS CHECK
+For original normalized variables B,C,D in Z_2, the exact polynomials L_k²/(16a²) are:
+kp=1, s,h both nonzero: (B+s C+h D−16B s h C D)²;
+kp=1, s!=0,h=0: (1+16D²)(B+s C)²;
+kp=1, s=0,h!=0: (1+16C²)(B+h D)²;
+kp=1, s=h=0: B²(1+16C²)(1+16D²);
+kp=0, s,h both nonzero: (1+16B²)(s C+h D)²;
+kp=0, s!=0,h=0: (1+16B²)(1+16D²)C²;
+kp=0, s=0,h!=0: (1+16B²)(1+16C²)D².
+Use these exact integer polynomials (not only the quadratic reduction) to repeat all414 allocation tests with each B,C,D in [0,64) and required mod2 bits, and test F≡0 modulo4,16,64 (=original Pythagorean square modulo64,256,1024 respectively). The three columns above reproduce exactly. Thus going from original mod256 to mod1024 yields NO ADDITIONAL uniformly eliminated code for any of the eight residue patterns in this bounded screen. This does not prove saturation for all 2^n.
+Independent direct-original-FJ-formula audit: using four odd-a sample inputs (a,b; q Gaussian slope; r Gaussian slope), direct L_k² mod1024 compared with 16a² times the exact normalized polynomial for each of 13 codes; 52/52 matches, no discrepancy. Also source code counts 13/138/414 reproduce the old FR mod64 p5 78 universal exclusions if q/r parity is allowed to range.
+
+
+5. MEASURE / GOAL CHECK AND SECOND ACTUALLY TESTED ALTERNATIVE
+These finite results apply to the original necessary same-P Gaussian macro allocation for R=pqr with p<q<r distinct split odd primes; all original square conditions, HIGH, sf(G0), Kcross/rad(Sd), q/Gres and signed 229EX constraints remain additional filters, not independent probabilities. The previous 346 genus-one source labels remain the only potential full population after FX68; the stated residue-specific surviving allocation sets must be INTERSECTED with that classification, not simply subtract68 from each.
+The genuinely global near-balanced counting need is o(B^(1/3)) physical endpoints. Even the strongest all5 reduction 414->120 only gives a bounded constant in the pair-fiber counting argument; the potential number of occupied (p,q) pairs still has the O(B^(2/3)) raw envelope (229FM), and its required B^(-1/3) aggregate incidence saving is not certified. All1 (000) itself permits all414 and represents a nonempty possible prime residue pattern. We TESTED explicitly whether extra 2-power precision or residue-conditioned label pruning could supply a missing one-third count: answer NO under this method. Not an independent/global P/M3 proof; do not change M3-T11-229 gate/credit/status.
+No claim that actual physical points exist in any surviving class, that the 414 assignments are disjoint sources, or that label ratios represent prime densities.
+
+
+6. NEXT EXECUTABLE
+Primary: construct an actual selector-aware occupied (p,q) / third prime r mean estimate across ALL residue patterns including 000, on the full same-P bounded-height source, with an o(B^(1/3)) dyadic bound and a separate degeneracy/ghost-handling certificate; e.g. establish genuinely averaged FJ genus-one point incidence with the actual Gaussian prime norm and no unweighted thin-set pushforward. Secondary: intersect the 8 new residue-conditioned survivors with the 346 type indices and test a distinct nonlocal bilinear norm-conductor obstruction; do not repeat these mod2^k screens for cosmetic new necessary conditions. Independent FJ414 / FS245 / FW84 / FV16 / FX8+52 hostile audits HOLD. After omega3, handle omega>=4 and repeated prime powers.
+GOVERNANCE RETAINED: M3-T11-229; M3-T11-228; Gate OPEN; global Credit0; production HOLD; route change NONE; closure unchanged.

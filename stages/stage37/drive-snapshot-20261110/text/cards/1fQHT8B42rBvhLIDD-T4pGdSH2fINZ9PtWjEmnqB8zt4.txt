@@ -1,0 +1,89 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229FX
+FIXED RANK-ZERO ELLIPTIC OBSTRUCTION: ALL EIGHT FJ GENUS-3 CASES EMPTY AND THE OTHER 52 REDUCIBLE DEGREE-ZERO CLASSES EMPTY FOR EVERY PHYSICAL SPLIT p
+CARD_DOC_ID=1fQHT8B42rBvhLIDD-T4pGdSH2fINZ9PtWjEmnqB8zt4; PREVIOUS_CURRENT=229FW(row643); INDEX_SOURCE_ROW=644
+STATUS=PROVED_EXACT_UNIVERSAL_NONZERO_RATIONAL_QUARTIC_NONSQUARE / PROVED_SCOPED_8_GENUS3_EMPTY_AND_52_REDUCIBLE_EMPTY_FOR_ALL_MOVING_p_SUBJECT_TO_FJ_CLASSIFICATION / EXACT_8_SYMBOLIC_REPLAY_PASS / FJ_414_WHOLE_INDEPENDENT_AUDIT_HOLD / GLOBAL_CREDIT0
+AUTHORITY=M3-T11-229; LATEST_CONSTRUCTION=M3-T11-228; 230 NOT ISSUED; Gate OPEN; global Credit 0; production HOLD; formal route-switch NONE; closure unchanged.
+
+
+1. SOURCE AND ANTI-LOOP
+Followed MAIN current override 229FW -> CARD-INDEX AI-00-CONTRACT source row643 -> RESULT-LEDGER head229FW -> active ROUTE head229FW -> 229FW card -> scoped NEG; examined only FJ §§3,6,7, FS and local rows629-643. Previous FJ §7 proves the eight original norm lifts have genus3 and only O_p(1) solutions by Faltings, with no moving-p uniformity. Previous FK (indexed row631) treated exceptional K*=a^4+18a²b²+b^4 square via a genus3 curve in p=u²+v² parameters, proving only a finite exceptional p support, not global impossibility. FJ §6 shows the other 52 reducible code labels are excluded or have K=1,p²,K* norm ratio; K* was the only possibly nonempty value. Previous FW resolves all84 quartic genus-one classes by rational3torsion but does NOT address these genus3/linear K* cases. Current NEW method is the *fixed rank-zero genus-one quotient* of the genus3 source and a *complete explicit 2-isogeny descent*; it is not fixed-p Faltings, thin p-support, mod8, or an old failed selector sieve. Older 229G/H/I weighted support firewall respected: direct original necessary norm equation is shown impossible, not ambient support density.
+
+
+2. ABSOLUTE NUMBER-THEORETIC THEOREM FX.1 (NO FJ PREMISE)
+For rational U,V with U V≠0,
+                  K(U,V)=U^4+18U²V²+V^4
+is NEVER a rational square. Equivalently all rational points on
+                  C: z²=t^4+18t²+1
+have t=0 or t=∞ (on its smooth projective completion). Both are in fact rational with the two signs z=±1 after projective normalization. Full proof:
+
+
+For any rational affine (t,z) with t≠0, define
+   h=2(z+1)/t²,
+   k=t(h²−4)/2.
+Use z²−1=t^4+18t² to obtain the exact identity
+   (h²−4)t²=4(h+18)
+and therefore
+   k²=(h+18)(h−2)(h+2).
+Then x=(h+2)/4, y=k/8 define a rational point on the FIXED elliptic curve
+                 E: y²=x(x−1)(x+4)
+                     =x³+3x²−4x.
+The identity can be checked directly after substitution as
+ y²−x(x−1)(x+4)
+   = ((z+1)²−t^4)(z²−t^4−18t²−1)/(16t^6),
+which is exactly zero on C.
+
+
+We now prove E(Q)={(point at infinity),(0,0),(1,0),(-4,0)}.
+(i) Standard 2-isogeny descent for E_{a,b}: y²=x³+a x²+b x, with a=3,b=−4. Its 2-isogenous E' is
+            y²=x³−6x²+25x=x((x−3)²+16).
+For the squareclass homomorphisms α(E) and α(E'), rational rank obeys
+             2^rank(E(Q))=|α(E)|·|α(E')|/4.
+In α(E), squarefree d divides b=−4, so d∈{1,−1,2,−2}. If d=±2 a rational point would yield coprime integers m,n and integer w with
+             w²=d m⁴+3m²n²−(4/d)n⁴.
+For d=2 or −2 the right side is 3 modulo4 if m,n are both odd, or 2 modulo4 if exactly one is odd; the both-even case violates coprimality. No square exists. Thus α(E)={1,−1}, with −1 attained by (0,0) (α(0,0)=−4).
+In α(E'), the only positive squarefree divisors of b'=25 are {1,5}; positivity x>0 for all finite x≠0 follows since x²−6x+25=(x−3)²+16>0. The point (5,10)∈E'(Q) gives α'=5. Hence α(E')={1,5}. Thus 2^rank=2·2/4=1, so rank(E)=0.
+(ii) E has distinct full rational 2-torsion (0,0),(1,0),(-4,0), and the origin, four points. Its discriminant is 6400=2^8·5²; 3 and7 are good primes with #E(F_3)=#E(F_7)=4 (direct residue enumeration). Reduction injects rational torsion prime-to-reduction-characteristic. Since both groups have order4 and 3,7 are distinct, no extra rational torsion can occur. Therefore E(Q) consists EXACTLY of those four points.
+(iii) For any affine t≠0, the identity (h²−4)t²=4(h+18) precludes h=2 or h=−2 (rhs respectively80 and64), hence k=t(h²−4)/2 ≠0. Its E image has y≠0, impossible by (ii). Thus C(Q) has NO affine nonzero t. Projective t=∞ has z/t²=±1, while t=0 gives z=±1: these are all four rational points, matching E(Q). Thus K(U,V) nonsquare whenever UV≠0. This proof is unconditional and does NOT use any FJ computational code classification, Faltings, Lang conjecture or Dujella.
+
+
+3. EXACT EIGHT ORIGINAL GENUS3 GAUSSIAN-SOURCE NORMAL FORM AND FX.2
+In FJ construction take 13 Gaussian sign codes k=(kp,kq,kr) modulo ±1 (nonzero in {-1,0,1}³, first nonzero positive), 138 unordered admissible triples, 3 hypotenuse choices (414 patterns). Let a,b be the integer primitive p² Gaussian representation coefficients with a²+b²=p², a odd, b divisible4, ab≠0. The squared even-leg formulas are FJ §3 (included in 229FW), and the eight FJ §7 (1,2)-factor cases are *exactly* the following under 0-based lexicographic triple numbering:
+ idx 1, hyp 1 or 2, excluded coordinate Y=0;
+ idx12, hyp 1 or 2, excluded coordinate Y=0;
+ idx47, hyp 1 or 2, excluded coordinate X=0;
+ idx52, hyp 1 or 2, excluded coordinate X=0.
+ALL eight nonexcluded factors, after dividing the excluded X=0 or Y=0 and writing the remaining variable as S with free slope T, are
+                A(T) S + B(T)=0,
+ A(T)=(a²+b²)(1+T²)=U(T)²+V(T)²,
+ B(T)=±4 U(T)V(T),
+ with (U,V) either (aT−b,bT+a) or (aT+b,−bT+a).
+Direct exact symbolic replay of the 13/138 code generator and all eight enumerated F polynomials over Z[a,b,X,Y] reproduces precisely these expressions, no exception. In-session independent p=5 test (a,b)=(3,4) matched all 8 indices and showed 4 X=0 plus 4 Y=0 exclusions, with full polynomial pair factors n(1+T²) and ±4(aT∓b)(bT±a).
+
+
+An actual original primitive physical four-square P with R=pqr, distinct split primes p<q<r, requires BOTH Gaussian norm-square selectors for its q and r slopes S,T:
+                1+S² is a rational square,
+                1+T² is a rational square.
+On nonexcluded factor, S=−B/A; consequently
+ 1+S² = (A²+B²)/A²
+       = (U⁴+18U²V²+V⁴)/(U²+V²)².
+FX.1 forces U V=0. Then B=±4UV=0, so S=0, but a primitive nontrivial split-prime Gaussian slope S of q or r can NEVER be zero (it would give norm 1 rather than a distinct odd prime and violates physical positive even-leg allocation). Contradiction.
+THEOREM FX.2: All EIGHT original FJ genus3 necessary allocation classes are globally EMPTY for every physical moving split p, every q,r and every B. No O_p(1), B^o1 or p-average assumption needed. All additional same-P original HIGH, sf(G0), Kcross/rad(Sd), q/Gres, 229EX selectors only further restrict an empty set; no independent density is multiplied.
+
+
+4. SECOND APPLICATION FX.3: ALL OTHER 52 REDUCIBLE CLASSES EMPTY
+FJ §6 exact factor audit has, for 52 linear/bilinear reducible labels, vertical zero factors (excluded), slopes equal ±a/b or ±b/a (force q=p or r=p), and rational Möbius norm forms with K∈{1,p²,Kstar}, Kstar=a⁴+18a²b²+b⁴. FJ exact norm equation on original q,r yields q²=K r²/g², g an integer dividing K. K=1 forces q=r; K=p² forces q/r∈{p,1,1/p}; both contradict distinct q,r !=p. Kstar cannot be a square by FX.1 with U=a,V=b, both nonzero. Since (q g/r)²=Kstar would make Kstar rational square, contradiction regardless of divisor g. All 52 are EMPTY uniformly over p. This upgrades previous FJ fixed-p O_p(1) and FK global O(1) / finite exceptional p support to precise zero on those FJ necessary models. This inference depends on FJ §6 exhaustive 52 factor classification (independent hostile audit HOLD), not on a new unchecked norm manipulation.
+
+
+5. COMPLETE DEGREE-ZERO CONSEQUENCE, EXACT GLOBAL-SCOPE FIREWALL
+FJ partitions its 414 necessary original R=pqr allocations into 330 genus1 biform, 16 degree2 discriminant genus1 norm-lifts, and 68 degree0-discriminant labels. Among those 68, FJ's eight irreducible zero-degree quartics had already been excluded by its 2-isogeny/rank0 and 2-adic proofs; this session newly excludes ALL 52 reducible linear/bilinear and ALL eight genus3 (1,2)-factor labels. Hence
+       8(previously excluded) + 52(new) + 8(new) = 68
+degree-zero branch allocations globally EMPTY for all p. Remaining 330+16=346 genus1 source labels. FS 246, FW84, FV16 provide in-session uniform B^o1 per moving least prime p and restricted low-p summatory savings across all 346, BUT THEIR OTHER 245 AND FJ 414 SOURCE COMPLETENESS STILL NEED INDEPENDENT HOSTILE AUDIT.
+Critically, this theorem makes NO assertion that the *346 remaining genus1 labels* are empty or that the balanced p~q~r original physical packet has size o(B^(1/3)); hence NO unconditional entire squarefree omega3 counting theorem and no global P(B)/M3(B) claim. R with >=4 prime factors and repeated prime powers remains open. Do not issue 230 or modify the M3-T11-229 gate, global Credit0 or formal route.
+
+
+6. REPLAY / CHECKSUM
+Python/Sympy exact symbolic eight-case general factorization: use FJ §3 seven even-leg square formulas; enumerate 13 K, 138 triples; inspect at indices [1,12,47,52] both hyp1/hyp2; for 1,12 expand in Y, for47,52 in X, obtain C=0, A=(a²+b²)(1+T²), B=±4(aT∓b)(bT±a). Independent nonzero a,b arbitrary symbols; specific (a,b)=(3,4) enumeration gives 8 of 414 (4 X0, 4 Y0), no extra. Verify fixed quartic birational identity and its E y²=x(x−1)(x+4) with rational substitution h,k; verify #E(F3)=#E(F7)=4 and 2-isogeny quartic local mod4 proof. All passed this session. Future independent audit should regenerate the entire 414 generic symbolic source list rather than trusting the 8 labels or old FJ classification from a specialized p alone.
+
+
+7. NEXT
+Primary NEXT is the genuinely occupied BALANCED p,q,r same-P selector-aware count on remaining 346 genus1 labels, targeting o(B^(1/3)) in p~q~r~B^(1/3); ideally exploit the now-exact exclusion of ALL 68 degree-zero branches and the moving-p rational 2/3 torsion elliptic adapters. Compare original Stage37 HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/229EX constraints; construct an explicit same-P physical bound, not p-support heuristic. Independently hostile-audit FX.1 rank zero, 8 original factor identities, FJ414, FS245 and FW84 original-height adapter; then handle omega>=4/powers. Formal governance unchanged: M3-T11-229, construction228, 230 not issued, Gate OPEN, global Credit0, HOLD, route NONE, closure unchanged.
