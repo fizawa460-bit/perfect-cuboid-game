@@ -1,0 +1,56 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229EN
+PRIMITIVE FIXED-EDGE DIVISOR MOMENT d8 AND EXACT ODD G0-ADIC FIBER OCCUPANCY
+STATUS=PROVED_UNCONDITIONAL_PRIMITIVE_FULL_PHYSICAL_FIXED_EDGE_D8_BOUND / LOG_POWER7_NEAR_CRITICAL_COUNT / PROVED_EXACT_G0_INTERSECTION_FIBER_UPPER_BOUND / GLOBAL_COUNTING_CREDIT=0
+CARD_DOC_ID=1V1WR0CGKhNxBiCsRewDY3EO8iO24dMSg7uURlqPpuIc
+PREVIOUS_POST_229_DELTA=Stage37-NEW-INPUT-DELTA-AUDIT-229EM
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230=NOT_ISSUED; PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT; INDEPENDENT_HOSTILE_AUDIT_229EN=NOT_RUN. Prior audit/closure/status unchanged.
+1. EXACT PHYSICAL INPUT AND HISTORICAL NEGATIVE AUDIT
+All points are original positive primitive four-square P=(e,x,y,U,V,z,R), e²+x²=U², e²+y²=V², x²+y²=z², R²=e²+x²+y², gcd(e,x,y)=1, R<=B. Preserve original chamber, sf(G0)>B^(1/3-delta), high Kcross/rad(Sd), q_Uz q_Vz Gres/K-null and all six primitive ordinary hypotenuses/both primitive macro legs high as FILTERS. G0=gcd(eR,xy). Previous M3-T11-204 fixed-edge ALL-content B^o bound, 229EM unconditional tau(e²)^2 fiber and 3Z(1+log Z)^8 small-edge bound already proved; DO NOT credit these as new. 229DW used fixed edge in summable repeated-prime-power conductor, and 229DS proved exact q_Uz q_Vz | G0 and q_Uz q_Vz | e from prime valuations. Old NEGATIVE-REGISTER forbids unproved independent selector densities or multiplicative consumption of previously counted sectors. Novelty below: actual primitive p-adic restriction INSIDE the same double difference-of-squares fiber removes one whole logarithm, plus exact prescribed G0-valuation fiber occupancy; no 229EG genus-nine hypothesis.
+2. THEOREM EN.1 — UNCONDITIONAL PRIMITIVE FIXED EDGE F(E)<=d8(E)
+Fix a labeled physical edge e=E>0. Every candidate integer (U,x), U²-x²=E², U>x>0, corresponds injectively to a positive ordered divisor d=U-x of E², with D=U+x=E²/d. Independently (V,y) corresponds to another ordered divisor d'=V-y of E². Only pairs with integral U,x,V,y, positive and the two remaining squares z,R are retained; ignoring those restrictions gives an upper bound. Count the two divisor choices prime by prime subject to gcd(E,x,y)=1.
+For an odd prime p^a||E, a>=1, factor pair dD=E² has p-adic valuation b=v_p(d) in 0,...,2a. Since p is odd and p|E, p|x iff p|U iff p divides both d and D, equivalently 1<=b<=2a-1. Thus exactly TWO valuation choices b=0,2a are p-unit-x, and exactly (2a-1) choices are p-divisible-x. Same for y. Primitivity bans simultaneous p|x and p|y: admissible ordered local pairs number
+  (2a+1)^2-(2a-1)^2=8a.               (EN.1)
+This is a deterministic bound on actual two-face candidates, not a probabilistic proportion. At p=2 the trivial local candidate count (2a+1)^2 suffices except when 2||E: if e≡2(mod4), then e²≡4(mod16), for x odd U²≡x²+4≡5 or 13(mod16), impossible since squares mod16 are 0,1,4,9. Thus every x, similarly y, in a Pyth face with e≡2 mod4 must be even; gcd(e,x,y)>=2, so NO original primitive physical points exist for 2||E.
+Put E=2^a E_odd, with a=0 or >=2 for nonempty original primitive fibers. We have
+  F_prim(E) <= (2a+1)^2 * product_{p^b||E_odd}(8b)       when a>=2;
+  F_prim(E) <= product_{p^b||E}(8b)                       when E odd;
+  F_prim(E)=0 if a=1.
+For any b>=1, binom(b+7,7)>=8b: equality b=1, and the binomial's step ratio (b+8)/(b+1)>=(b+1)/b for b>=1. For a>=2, binom(a+7,7)>=(2a+1)^2: base a=2 gives 36>=25 and induction follows since
+  (a+8)(2a+1)^2-(a+1)(2a+3)^2=20a²+12a-1>0.
+Hence, for EVERY E>=1,
+  F_prim(E) <= d_8(E)=product_{p^b||E} binom(b+7,7),       (EN.2)
+where d_8 denotes the eight-fold ordered divisor function. All-height uniform, no genus-nine, no assumptions about existence of any original full physical endpoint.
+3. THEOREM EN.2 — POLYLOGARITHMIC SECTOR TIGHTENING, POWER-SAVED AT MOVING ONE-THIRD CUTOFF
+For every real Z>=1, the ordered eight-divisor convolution gives
+ sum_{E<=Z} d_8(E)
+ =sum_{a_1...a_8<=Z} 1
+ <=Z * sum_{a_1,...,a_7<=Z}1/(a_1...a_7)
+ <=Z(1+log Z)^7.
+By union across three possible minimum labeled physical edges, using their symmetric EN.2 fibers, for ALL B>=1 and Z>=1,
+ # {original positive primitive full four-square P: R<=B, min(e,x,y)<=Z}
+ <=3Z(1+log Z)^7.                                   (EN.3)
+For every fixed kappa>0 set
+ Z_B=B^(1/3)/(1+log B)^(7+kappa).
+Then the full-original (including all Stage37 high selectors if requested) physical packet min(e,x,y)<=Z_B satisfies
+ #packet <=3 B^(1/3)/(1+log B)^kappa=o(B^(1/3)).      (EN.4)
+If Z_B<1 the packet is empty. Example kappa=2: cutoff B^(1/3)/(1+log B)^9, count <=3 B^(1/3)/(1+log B)^2. This strictly enlarges the DEFINED small-edge packet removed by 229EM's cutoff /(1+log B)^10 with the SAME log^-2 count, but no nonempty extra physical points are claimed. The first unconditional new result is the one-full-log exponent gain 8 to 7; reusing 204/EM fixed fiber without this primitive correction would not yield it.
+4. THEOREM EN.3 — EXACT PRESCRIBED ODD G0-INTERSECTION FIBER, NOT AN INDEPENDENT LOCAL DENSITY
+For a fixed labeled e=E and a prescribed positive ODD integer q, define F_prim(E;q) as the number of original primitive full-four-square P with e=E and q|gcd(E,G0(P)). If q∤E the count is zero. At each odd p^a||E let n=v_p(q) (0<=n<=a). Since G0=gcd(ER,xy) and p^n|E, the requirement p^n|G0 is EXACTLY p^n|xy. Because gcd(E,x,y)=1, at least one of x,y is a p-unit. For n>=1 the other must be divisible by p^n. In divisor variable b=v_p(U-x), p^n|x is equivalent to p^n dividing BOTH U-x,U+x: since p^n|E, it follows from U²=e²+x² and p^n|x that p^n|U, and conversely x=(D-d)/2. Thus b belongs to [n,2a-n], with 2a-2n+1 choices. The other coordinate is p-unit, with precisely two extremal valuation choices b'=0 or 2a. Two assignments of which coordinate is p-unit produce
+  L_p(a,n)=4(2a-2n+1)  (1<=n<=a).                (EN.5)
+For n=0 the primitivity-only factor is L_p(a,0)=8a from EN.1.
+The 2-adic factor W2(a)=1 for a=0, W2(a)=0 for a=1, and W2(a)=(2a+1)^2 for a>=2. Therefore the ACTUAL original all-height primitive full-square fiber obeys
+ F_prim(E;q) <= W2(v2(E)) * product_{p^a||E,p odd} L_p(a,v_p(q)).    (EN.6)
+This is a nontrivial EXACT prime-power-indexed selector-aware finite upper bound on the SAME physical source; no independent p^{-n}, x/y probability, q modulus multiplication or CRT density is asserted. At v_p(q)=a, the local factor becomes 4, versus 8a with no prescribed intersection. For q squarefree and a=1 it becomes 4 vs 8. This is a genuine reduction of the actual fixed-E candidate fiber and retains arbitrarily high q-adic depth.
+By retained 229DS, the original odd conductor q_Uz*q_Vz divides BOTH e and G0, with exact valuations. Hence EN.6 applies, in particular, to q=q_Uz*q_Vz for any fixed candidate q, while keeping all original 229DP high Kcross/rad(Sd), Gres/K-null etc. HOWEVER no summation over realized q-values strong enough to prove the Stage37 whole-high one-third bound is supplied. A large q with many choices cannot be treated as an independent density gain. Unlike 229DW's union over repeated p^n>=D, this q-adic fiber statement covers exponent-one q and arbitrarily many correlated q-primes but it is FIXED-E,q.
+5. STRATEGY AUDIT, EXECUTED DIFFERENT METHODS, AND PROOF CHECKS
+The preceding five EH–EM cards prove partial true-point counts or primitive algebra but the global high residual remains unresolved, so an actual strategy check was applied. Candidate A: keep raising EL's 5/3 macro threshold using old n^eps rank carrier; no gain at exact 5/3 and 229EG hostile audit not run. Candidate B: repeat 229EM tau(E²)^2 fiber; gives only log^8 and is a mathematical loop. Candidate C ACTUALLY PROVED: impose the primitive condition prime by prime BEFORE summing fixed-edge actual candidate fibers, producing d8(E), log^7 instead of log^8 and a prescribed q-adic fiber (EN.6) which is usable with 229DS conductor input. This does not reuse the failed unrestricted h³/median counting and is not an unproved sieve. All required combinatorial inequalities follow from exact divisor valuation pairs; finite spot checks a=1..12 of 8a<=binom(a+7,7), and (2a+1)^2<=binom(a+7,7) for a>=2, PASS but are supplementary only; induction proof is general.
+METHOD LIMIT: Even EN.3 at Z comparable to B^(1/3) gives B^(1/3)(log B)^7, not o(B^(1/3)). To reach the rest of e_min~B^(1/3)..B^(1/2), need an occupied same-x/Four-square correlation theorem or a true bound on occupied prescribed q fibers across E, not merely a local valuation pattern.
+6. REVISED COUNT RECEIVER AND NEXT
+Let H_B^EM,rem be 229EM's original high229DP exact positive primitive full-four-square R<=B high six ordinary primitive face/space hypotenuse and BOTH macro legs, sf(G0)>B^(1/3-delta), high Kcross/rad(Sd), exact q_Uzq_Vz/Gres K-null, after EL's separate conditional G0*K>=S_L packet. Replace the OLD small-edge debit e_min<=Z_EM by the NEW larger e_min<=Z_B with kappa as above, counted once; define H_B^EN,rem={P in retained all-high original source: e_min>Z_B and G0*K<S_L} (original other masks preserved). The exact original count receiver becomes
+ #S_B(delta) <= B^(1/3)exp(-Lambda)+O_sigma(B^(1/3-sigma/2))
+ +O(B^(1/3)exp(-cLambda)) [229EL conditional229EG]
+ +O_kappa(B^(1/3)/(1+log B)^kappa) [229EN UNCONDITIONAL]
+ +#H_B^EN,rem(delta,sigma,kappa).
+No other counted packet is multiplied as an independent saving. GLOBAL_COUNTING_CREDIT=0, primary gate OPEN; no whole-high count yet.
+NEXT RESEARCH INPUT: (i) on true original medium-edge Z_B<e_min<=sqrt B and low raw G0<B^(4/3+o(1)), exploit EN.6 with actual 229DS q_Uz q_Vz and Gres/K-null to prove a SUMMABLE true selector-aware occupied q/E dyadic count, rather than summing all hypothetical q; (ii) on larger G0 under EL's G0*K<S_L, prove physical primitive macro Euclid-root correlation with all six ordinary and both macro legs high; (iii) e>sqrt B compare 229AR Wminus. For selector overlap arithmetic, evaluate whether EN.6 can bound a fixed-q E-average, explicitly tracking divisor overcount; do not re-run 229DW powerful-only tail or unweighted fixed macro C without new input. No formal route switch or credit/closure change. Independent hostile audit of 229EG/EL remains needed for their conditional sector.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.
