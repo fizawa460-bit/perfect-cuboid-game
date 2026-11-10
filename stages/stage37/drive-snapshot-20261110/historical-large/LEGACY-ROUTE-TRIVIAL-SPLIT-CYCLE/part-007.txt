@@ -1,0 +1,3749 @@
+ry p^lambda||M_rel,
+boxed:
+min(v_p(Phi_0),2*lambda)
+=
+min(v_p(N_0*s-16*a*b*t_0),2*lambda)
+=
+min(v_p(x-1),2*lambda).
+
+
+The point of this section is the exact common polynomial adapter, not new valuation credit.
+
+
+### 102.4 Square-supported residual removal and character lock
+The normalized square equation forces v_p(Phi_0) even for every p|M_rel because N_0 is a p-unit.
+Define
+R_M
+=
+product_{p|M_rel} p^(v_p(Phi_0)/2),
+Phi_flat=Phi_0/R_M^2,
+W_flat=W_0/R_M.
+Then
+boxed:
+gcd(Phi_flat,M_rel)=1,
+boxed:
+W_flat^2=-N_0*Phi_flat.
+
+
+Also define the normalized defect
+boxed:
+L=ell/M_rel^2
+=
+N_0*P_ell/(8*a*b*s)^2.
+By M3-T11-091, L is an M_rel-adic unit.
+
+
+Combining the two exact identities gives
+boxed:
+-L*Phi_flat
+=
+P_ell*(W_flat/(8*a*b*s))^2.
+
+
+For every fresh p|M_rel,
+t==0 mod p
+and
+a^2==-b^2 mod p,
+so
+boxed:
+P_ell
+==
+12*b^2*s^2
+=
+3*(2*b*s)^2
+mod p.
+
+
+Since p==1 mod4, -1 is also a p-adic square. Hensel lifting therefore gives, for every p^lambda||M_rel,
+boxed:
+3*L*Phi_flat
+is a unit square modulo p^(2*lambda).
+
+
+By CRT,
+boxed:
+3*L*Phi_flat
+is a unit square modulo M_rel^2,
+where the rational M_rel-unit L is interpreted using its denominator inverse modulo M_rel^2.
+
+
+Equivalently, primewise,
+boxed:
+chi_p(L*Phi_flat)=chi_p(3)
+for every p|M_rel.
+
+
+This locks the residual full-S squareclass to the same normalized moving Legendre-defect coordinate.
+
+
+### 102.5 Counting meaning and firewall
+This is a genuine same-measure compatibility receiver, but it is not a fixed-power saving.
+
+
+For odd p, the unit-square subgroup modulo p^(2*lambda) has index 2, independent of lambda. Thus even though the lock is written modulo the full conductor square M_rel^2, naive tensorization supplies only
+2^(-omega(M_rel))=M_rel^(-o(1))
+in the worst case.
+
+
+Therefore do not:
+- charge M_rel^(-1), M_rel^(-2), or any fixed power from the full-modulus square lock;
+- treat P_ell transversality as an independent density factor;
+- multiply this character lock by the M3-T11-091 square-numerator condition or fixed-ell/fixed-x/fixed-u multiplicity;
+- replace the exact physical pair (L,Phi_flat) by an ambient residue box;
+- promote a denominator-extreme support deficit, primary-gate closure, endpoint theorem, P(B)/M3(B), or Perfect Cuboid nonexistence.
+
+
+The new legal receiver is
+boxed:
+FullSDefectResidualCharacterDispersionOneTwelfth,
+supporting the existing
+GenericFullSDenominatorLegendreDefectSquareNumeratorSupportOneTwelfth.
+
+
+A sufficient continuation is a same-physical-measure dispersion/support theorem for realized normalized defects L, or for the exact realized pairs (L,Phi_flat), strong enough to give
+<< B^(1/12-delta)
+uniformly per fixed packet on M_rel>B^(1/12-eta).
+
+
+PROVISIONAL_FLAGS:
+M3_T11_FULL_S_HOMOGENEOUS_LEGENDRE_DEFECT_FORM=PROVISIONAL
+M3_T11_FULL_S_PHI_DEFECT_EXACT_DIVISION=PROVISIONAL
+M3_T11_FULL_S_DEFECT_PHI_FRESH_TRANSVERSALITY=PROVISIONAL
+M3_T11_FULL_S_NORMALIZED_COLLISION_MOD_MREL2=PROVISIONAL
+M3_T11_FULL_S_RESIDUAL_CHARACTER_LOCK=PROVISIONAL
+M3_T11_FULL_S_RESIDUAL_CHARACTER_FIXED_POWER=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericFullSDenominatorLegendreDefectSquareNumeratorSupportOneTwelfth|FullSDefectResidualCharacterDispersionOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=FullSDefectResidualCharacterDispersionOneTwelfth|GenericFullSDenominatorLegendreDefectSquareNumeratorSupportOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_RESEARCH_CARD_ID=M3-T11-093.
+
+
+
+
+## 103. M3-T11-093 — fourth-power recombined defect coordinate and theta=0 Gaussian conic carrier
+Status: PROVISIONAL EXACT SAME-MEASURE ADAPTER / MREL4 NUMERATOR CARRIER / FIXED-THETA B^o(1) CANDIDATE / SINGULAR-THETA0 ROUTER / HOSTILE AUDIT REQUIRED / NO POWER SAVING.
+
+
+Retain M3-T11-091/092 and the exact generic full-S-denominator branch.
+
+
+### 103.1 A recombined defect with four fresh conductor powers
+Define
+boxed:
+theta
+=
+16*ell+3*(v+1).
+
+
+Using the exact M3-T11-091 factorization,
+boxed:
+theta
+=
+(v+1)^2*H_theta(v,x)/(256*v*x^2),
+where
+boxed:
+H_theta(v,x)
+=
+v+1-48*x+64*x^2.
+
+
+For every p^lambda||M_rel on the full-S branch,
+v_p(v+1)=2*lambda,
+while v and x are p-units.
+Therefore
+boxed:
+v_p(theta)
+=
+4*lambda+v_p(H_theta)
+for theta!=0,
+and in all cases
+boxed:
+M_rel^4 | Num(theta),
+boxed:
+gcd(Den(theta),M_rel)=1.
+
+
+This is a deterministic fourth-power conductor carrier in one rational same-measure coordinate. It is not an ambient M_rel^(-4) density factor.
+
+
+### 103.2 Extra overvaluation is exactly the x=3/4 collision below saturation
+Rewrite
+H_theta
+=
+(v+1)+16*x*(4*x-3).
+
+
+Because v_p(v+1)=2*lambda and x is a p-unit, for theta!=0,
+boxed:
+min(v_p(theta)-4*lambda,2*lambda)
+=
+min(v_p(4*x-3),2*lambda).
+
+
+Thus the only fresh source of theta overvaluation beyond the forced fourth power is the collision
+x==3/4 mod p
+before saturation.
+
+
+The Section-52 Legendre condition gives
+r^2==x*(1-x) mod p.
+If x==3/4 mod p, then
+r^2==3/16 mod p.
+For fresh p==1 mod4, one has p mod 12 in {1,5}, and
+(3|p)=-1
+when p==5 mod12.
+Hence
+boxed:
+p==5 mod12
+=>
+x!=3/4 mod p
+=>
+v_p(theta)=4*lambda
+exactly.
+
+
+So every p==5 mod12 fresh prime is exactly saturated in theta. Extra fresh theta valuation can occur only at p==1 mod12.
+
+
+### 103.3 Fixed nonzero theta is again a smooth 2-torsion elliptic fiber
+For fixed theta, the defining relation is quadratic in x:
+A_theta(v)*x^2+B(v)*x+C(v)=0,
+with
+A_theta(v)=64*(v+1)^2-256*theta*v,
+B(v)=-48*(v+1)^2,
+C(v)=(v+1)^3.
+
+
+Its x-discriminant is
+boxed:
+256*(v+1)^3*(8+(7+4*theta)*v-v^2).
+
+
+For a rational physical root x, define
+Z=(2*A_theta(v)*x+B(v))/(16*(v+1)).
+Then every physical endpoint with fixed theta maps to
+boxed:
+E_theta:
+Z^2
+=
+(v+1)*(8+(7+4*theta)*v-v^2).
+
+
+The cubic has rational 2-torsion (-1,0), and its discriminant is
+boxed:
+disc_v(E_theta)
+=
+16*theta^2*(16*theta^2+56*theta+81).
+
+
+The second factor has discriminant -2048, hence no rational zero. Therefore every rational theta!=0 fiber is smooth.
+
+
+The physical-induced theta,v,Z heights are B^O(1) by fixed-degree rational expressions in the already retained coordinates. Reusing the hostile-audit-passed M3-T11-036 uniform bounded-height theorem over Q, each fixed theta!=0 gives B^o(1) elliptic points. Each v has at most two rational u lifts and each quadratic equation has at most two x lifts; hostile-audit-passed fixed-u multiplicity then gives the provisional candidate
+boxed:
+fixed realized theta!=0 + fixed packet
+=>
+B^o(1) physical endpoints.
+
+
+This promotion remains provisional pending hostile audit.
+
+
+### 103.4 The unique singular value theta=0 is an explicit conic carrier
+At theta=0,
+E_theta degenerates as
+boxed:
+Z^2
+=
+-(v+1)^2*(v-8).
+
+
+Thus rational physical points require
+boxed:
+w^2=8-v=8-u^2,
+so
+boxed:
+u^2+w^2=8.
+
+
+The quadratic relation for x becomes
+64*x^2-48*x+(v+1)=0,
+hence
+boxed:
+x=(3+/-w)/8.
+
+
+This is a genuine rational conic carrier, so theta=0 may not be discarded by the fixed-theta elliptic theorem.
+
+
+Parameterize the conic by q in Q using
+boxed:
+u
+=
+2*(q^2-2*q-1)/(1+q^2),
+boxed:
+w
+=
+2*(1-2*q-q^2)/(1+q^2).
+
+
+Then the two x/S branches are exactly
+boxed:
+x_+
+=
+(q^2-4*q+5)/(8*(1+q^2)),
+S_+
+=
+4*(q^2-2*q-1)/(5*q^2+4*q+1),
+
+
+boxed:
+x_-
+=
+(5*q^2+4*q+1)/(8*(1+q^2)),
+S_-
+=
+4*(q^2-2*q-1)/(q^2-4*q+5).
+
+
+Also
+boxed:
+1+u^2
+=
+[(q^2-4*q+5)*(5*q^2+4*q+1)]/(1+q^2)^2.
+
+
+### 103.5 Fresh conductor on theta=0 lands in one Gaussian norm
+Write q=c/d in primitive homogeneous form and set
+A_q=c^2-2*c*d-d^2,
+B_q=c^2+d^2,
+F_-=c^2-4*c*d+5*d^2=(c-2*d)^2+d^2,
+F_+=5*c^2+4*c*d+d^2=(2*c+d)^2+c^2.
+
+
+The exact polynomial resultants are
+Res(F_-,F_+)=1152,
+Res(F_-,A_q)=Res(F_+,A_q)=8,
+Res(F_-,B_q)=Res(F_+,B_q)=32.
+
+
+Every relative-fresh prime is odd, p==1 mod4, and in particular p is not 2 or 3. Hence no fresh prime can divide two of F_-,F_+,A_q,B_q simultaneously.
+
+
+Therefore the displayed S fractions have no fresh cancellation. On the full-S branch, for every p^lambda||M_rel:
+- on the + branch, p^(2*lambda) divides F_+ exactly and p does not divide F_-;
+- on the - branch, p^(2*lambda) divides F_- exactly and p does not divide F_+.
+
+
+Consequently
+boxed:
++ branch:
+M_rel^2 | F_+=(2*c+d)^2+c^2,
+gcd(F_+/M_rel^2,M_rel)=1,
+
+
+boxed:
+- branch:
+M_rel^2 | F_-=(c-2*d)^2+d^2,
+gcd(F_-/M_rel^2,M_rel)=1.
+
+
+Thus the singular theta=0 carrier is routed to one explicit Gaussian-norm square-divisor support problem in the conic parameter q.
+
+
+For fixed q there are only the two displayed branches, q fixes u, and hostile-audit-passed M3-T11-036 gives fixed u + packet => B^o(1) physical endpoints. Hence theta=0 endpoint count is power-equivalent, up to B^o(1), to realized q support on these two Gaussian square-divisor branches.
+
+
+### 103.6 Sharpened support split and firewall
+The generic full-S denominator-extreme branch now splits into:
+
+
+A. theta!=0:
+boxed:
+GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth,
+with
+M_rel^4 | Num(theta)
+and provisional fixed-theta B^o(1) multiplicity.
+
+
+B. theta=0:
+boxed:
+ThetaZeroConicGaussianNormSquareDivisorOneTwelfth,
+with the exact F_+ or F_- Gaussian norm carrying M_rel^2 and no extra fresh valuation.
+
+
+This is a strict structural sharpening of the M3-T11-091 realized-ell receiver, but still not a fixed-power theorem.
+
+
+Do not:
+- charge M_rel^(-4) from the theta numerator divisibility;
+- combine the theta fourth-power carrier with the ell M_rel^2 carrier as independent savings;
+- multiply fixed-theta, fixed-ell, fixed-x, fixed-u, or fixed-q multiplicities;
+- treat the p==5 mod12 exact saturation as a density theorem for the fresh conductor;
+- claim theta=0 is closed merely because it is a conic;
+- promote denominator-extreme, primary-gate, endpoint, P(B)/M3(B), or Perfect Cuboid nonexistence credit.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_FULL_S_THETA_COORDINATE=PROVISIONAL
+M3_T11_FULL_S_THETA_MREL4_NUMERATOR=PROVISIONAL
+M3_T11_FULL_S_THETA_OVERVALUATION_X_THREE_QUARTERS=PROVISIONAL
+M3_T11_FULL_S_THETA_P5MOD12_EXACT_SATURATION=PROVISIONAL
+M3_T11_FIXED_THETA_ELLIPTIC_2TORSION_CANDIDATE=true
+M3_T11_FIXED_THETA_BO1_PROVED=false
+M3_T11_THETA_ZERO_CONIC_CARRIER=PROVISIONAL
+M3_T11_THETA_ZERO_GAUSSIAN_NORM_ROUTER=PROVISIONAL
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|ThetaZeroConicGaussianNormSquareDivisorOneTwelfth|FullSDefectResidualCharacterDispersionOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|ThetaZeroConicGaussianNormSquareDivisorOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_RESEARCH_CARD_ID=M3-T11-094.
+
+
+
+
+## 104. M3-T11-094 — homogeneous theta cofactor, fresh-collision separation, and theta=0 7-adic elimination
+Status: PROVISIONAL EXACT SAME-MEASURE ADAPTER / THETA0 PHYSICAL ELIMINATION / FRESH COLLISION SEPARATION / HOSTILE AUDIT REQUIRED / THETA!=0 SUPPORT OPEN.
+
+
+Retain M3-T11-091/092/093 and the exact nondegenerate generic full-S-denominator physical branch. M3-T11-090 through M3-T11-093 remain provisional; therefore every promotion in this section is also provisional until hostile audit.
+
+
+### 104.1 Homogeneous theta cofactor
+Retain
+P_ell
+=
+4*a^2*t^2
+-12*a*b*s*t
++(b^2-11*a^2)*s^2,
+ell=N_u*P_ell/(8*a*b*s)^2,
+v+1=N_u/b^2,
+and
+theta=16*ell+3*(v+1).
+
+
+Using N_u=a^2+b^2, direct simplification gives the exact homogeneous identity
+boxed:
+theta
+=
+N_u*Q_theta/(2*a*b*s)^2,
+where
+boxed:
+Q_theta
+=
+N_u*s^2
+-12*a*b*s*t
++4*a^2*t^2.
+
+
+On the full-S branch write
+N_u=M_rel^2*N_0,
+t=M_rel^2*t_0,
+with
+gcd(N_0*t_0*a*b*s,M_rel)=1.
+Then
+boxed:
+Q_theta=M_rel^2*Psi_theta,
+where
+boxed:
+Psi_theta
+=
+N_0*s^2
+-12*a*b*s*t_0
++4*a^2*M_rel^2*t_0^2.
+
+
+Hence
+boxed:
+theta
+=
+M_rel^4*N_0*Psi_theta/(2*a*b*s)^2.
+
+
+Therefore, for every p^lambda||M_rel and theta!=0,
+boxed:
+v_p(theta)=4*lambda+v_p(Psi_theta).
+The denominator is a fresh p-unit. This is the integral same-measure cofactor underlying the M3-T11-093 fourth-power carrier.
+
+
+### 104.2 Exact separation from the normalized endpoint residual
+Retain M3-T11-092
+Phi_0
+=
+s^3*(N_0*s-16*a*b*t_0)
+-4*M_rel^2*t_0^2*P_ell.
+
+
+A direct exact calculation gives
+boxed:
+4*s^2*Psi_theta-3*Phi_0
+=
+N_0*s^4
++
+4*M_rel^2*t_0^2*(4*a^2*s^2+3*P_ell).
+
+
+Consequently
+boxed:
+4*s^2*Psi_theta-3*Phi_0
+==
+N_0*s^4
+mod M_rel^2.
+
+
+The right side is a unit at every relative-fresh prime. Therefore
+boxed:
+gcd(Psi_theta,Phi_0,M_rel)=1.
+
+
+Primewise this separates the two normalized fresh collisions:
+- p|Psi_theta implies the theta-overvaluation collision x==3/4 mod p;
+- p|Phi_0 implies the endpoint-residual collision x==1 mod p;
+- they cannot occur at the same fresh prime.
+
+
+In particular the fresh support of the square-removal factor R_M from M3-T11-092 is disjoint from the fresh support of Psi_theta:
+boxed:
+gcd(Psi_theta,R_M)=1.
+
+
+This is a no-overlap / no-double-charge identity. It is not a fixed-power saving and must not be tensorized with either older carrier.
+
+
+### 104.3 theta=0 must still satisfy the original rational-r condition
+M3-T11-093 parameterized the singular theta=0 conic by q in Q:
+u=2*(q^2-2*q-1)/(1+q^2),
+w=2*(1-2*q-q^2)/(1+q^2),
+x_+=(q^2-4*q+5)/(8*(1+q^2)),
+x_-=(5*q^2+4*q+1)/(8*(1+q^2)).
+
+
+But a physical endpoint also retains the exact rational coordinate
+r=R_x/(64*u*x)
+and
+ell=r^2-x*(1-x).
+Since theta=0 means
+ell=-3*(v+1)/16,
+substitution gives the additional exact conditions
+
+
++ branch:
+boxed:
+r^2
+=
+-(q^2-4*q+5)*(53*q^2+44*q+9)
+/
+(64*(1+q^2)^2),
+
+
+- branch:
+boxed:
+r^2
+=
+-(5*q^2+4*q+1)*(9*q^2-44*q+53)
+/
+(64*(1+q^2)^2).
+
+
+Thus the conic carrier of M3-T11-093 is not the final physical carrier: the retained rational-r condition cuts it by a genus-one quartic.
+
+
+### 104.4 Primitive homogeneous squareclass split
+Write q=c/d with gcd(c,d)=1, allowing the projective d=0 endpoint separately; d=0 makes both displayed right sides negative and is impossible.
+
+
+Put
+B_q=c^2+d^2,
+F_-=c^2-4*c*d+5*d^2,
+F_+=5*c^2+4*c*d+d^2,
+G_+=53*c^2+44*c*d+9*d^2,
+G_-=9*c^2-44*c*d+53*d^2.
+
+
+Then rational r gives an integer Y=8*B_q*r and hence
++ branch:
+boxed:
+Y^2=-F_-*G_+,
+- branch:
+boxed:
+Y^2=-F_+*G_-.
+
+
+The exact resultants are
+boxed:
+Res(F_-,G_+)=2^17,
+boxed:
+Res(F_+,G_-)=2^17.
+
+
+Therefore no odd prime divides both factors in either product.
+
+
+For primitive c,d:
+- if c,d have opposite parity, the two factors are odd and coprime;
+- if c,d are both odd, each relevant F and G is congruent to 2 mod 8, so their gcd is exactly 2.
+
+
+Since F_+ and F_- are positive definite and G_+ or G_- cannot vanish at a rational q, a rational square product forces one common squareclass delta in {1,2}:
+
+
++ branch:
+boxed:
+F_-=delta*R^2,
+-G_+=delta*S^2,
+
+
+- branch:
+boxed:
+F_+=delta*R^2,
+-G_-=delta*S^2,
+
+
+with delta=1 in the opposite-parity class and delta=2 in the odd-odd class.
+
+
+### 104.5 Elementary 7-adic obstruction eliminates both branches
+The two indefinite factors have exact completions
+boxed:
+53*G_+
+=
+(53*c+22*d)^2-7*d^2,
+boxed:
+53*G_-
+=
+(22*c-53*d)^2-7*c^2.
+
+
+On the + branch, -G_+=delta*S^2 gives
+boxed:
+(53*c+22*d)^2+53*delta*S^2=7*d^2.
+
+
+Modulo 7:
+- delta=1 gives X^2+4*S^2==0 mod 7;
+- delta=2 gives X^2+S^2==0 mod 7.
+
+
+Because -4 and -1 are both nonsquares modulo 7, either congruence forces
+7|X and 7|S.
+Then the left side is divisible by 49, so 7|d. The relation X=53*c+22*d then forces 7|c, contradicting gcd(c,d)=1.
+
+
+On the - branch the same argument starts from
+boxed:
+(22*c-53*d)^2+53*delta*S^2=7*c^2.
+Again 7 divides the two left variables, hence 7|c; then X=22*c-53*d forces 7|d, again contradicting gcd(c,d)=1.
+
+
+Therefore
+boxed:
+there are no physical rational endpoints with theta=0.
+
+
+Equivalently,
+boxed:
+ThetaZeroConicGaussianNormSquareDivisorOneTwelfth is retired:
+the singular theta=0 carrier is empty before any moving-support count.
+
+
+### 104.6 Gate consequence and firewall
+The generic full-S denominator-extreme branch no longer needs a separate theta=0 support theorem, provisionally. The live theta route is only
+
+
+boxed:
+GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth,
+
+
+together with the retained
+FullSDefectResidualCharacterDispersionOneTwelfth
+and
+InteriorCharacterGlobalDispersion.
+
+
+Do not:
+- promote this branch elimination before hostile audit of its provisional dependency chain M3-T11-091/092/093 and this card;
+- charge M_rel^(-4) from the theta numerator divisibility;
+- multiply the Psi_theta/Phi_0 support separation as an independent probability;
+- recharge the M3-T11-092 square-removal factor;
+- promote the denominator-extreme support deficit, primary gate, endpoint theorem, P(B)/M3(B), or Perfect Cuboid nonexistence.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_FULL_S_THETA_HOMOGENEOUS_COFACTOR=PROVISIONAL
+M3_T11_FULL_S_THETA_PHI0_FRESH_SUPPORT_DISJOINT=PROVISIONAL
+M3_T11_THETA_ZERO_RATIONAL_R_QUARTIC=PROVISIONAL
+M3_T11_THETA_ZERO_QUARTIC_RESULTANT_2POWER=PROVISIONAL
+M3_T11_THETA_ZERO_7ADIC_OBSTRUCTION=PROVISIONAL
+M3_T11_THETA_ZERO_PHYSICAL_EMPTY=PROVISIONAL
+M3_T11_THETA_ZERO_SUPPORT_THEOREM_REQUIRED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|FullSDefectResidualCharacterDispersionOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|FullSDefectResidualCharacterDispersionOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_RESEARCH_CARD_ID=M3-T11-095.
+
+
+
+
+## 105. M3-T11-095 — exact 2-torsion tangent fourth-power line and saturation/elliptic tradeoff
+Status: PROVISIONAL EXACT_STRUCTURE / EXACT_FRESH_SATURATION / OLD_W_IDENTIFICATION / GENUS3_PREFLIGHT / HOSTILE_AUDIT_REQUIRED / NO_POWER_SAVING.
+
+
+Retain the M3-T11-093 fixed-theta elliptic fiber
+boxed:
+E_theta:
+Z^2=(v+1)*(8+(7+4*theta)*v-v^2),
+with
+A_theta(v)=64*(v+1)^2-256*theta*v,
+B(v)=-48*(v+1)^2,
+and
+Z=(2*A_theta(v)*x+B(v))/(16*(v+1)).
+
+
+### 105.1 Exact tangent identity at the rational 2-torsion point
+Put
+D_theta=(v+1)^2-4*theta*v.
+Then A_theta=64*D_theta and the defining quadratic in x is
+64*D_theta*x^2-48*(v+1)^2*x+(v+1)^3=0.
+The displayed Z coordinate is
+Z=8*D_theta*x/(v+1)-3*(v+1).
+Divide the quadratic relation by 8*x*(v+1):
+8*D_theta*x/(v+1)
+=
+6*(v+1)-(v+1)^2/(8*x).
+Therefore every exact physical point satisfies
+boxed:
+Z
+=
+3*(v+1)-(v+1)^2/(8*x).
+
+
+Now use the exact Section-52 coordinate
+x=((1+u^2)S)/(16u),
+v=u^2.
+Then
+boxed:
+w
+:=
+(v+1)/(16*x)
+=
+u/S.
+Hence
+boxed:
+Z/(v+1)=3-2*w,
+and the tangent difference at the rational 2-torsion point T=(-1,0) is
+boxed:
+tau_theta
+:=
+Z-3*(v+1)
+=
+-2*w*(v+1)
+=
+-(v+1)^2/(8*x).
+
+
+### 105.2 Exact full-S fresh saturation
+On the full-S branch write
+N_u=M_rel^2*N_0,
+t=M_rel^2*t_0,
+with gcd(N_0*t_0*a*b*s,M_rel)=1.
+Since
+v+1=N_u/b^2
+and
+w=u/S=a*t/(b*s),
+one has, for every p^lambda||M_rel,
+boxed:
+v_p(v+1)=2*lambda,
+boxed:
+v_p(w)=2*lambda.
+Section 52 gives x a p-unit at every relative-fresh prime. Therefore
+boxed:
+v_p(tau_theta)=4*lambda
+exactly.
+Equivalently,
+boxed:
+M_rel^4 | Num(tau_theta),
+boxed:
+gcd(Num(tau_theta)/M_rel^4,M_rel)=1,
+boxed:
+gcd(Den(tau_theta),M_rel)=1.
+This exact saturation has no x=3/4 overvaluation exception. It is sharper, as a valuation statement, than the raw theta coordinate.
+
+
+Geometrically, the physical point on E_theta lies in the depth-2*lambda neighborhood of T=(-1,0),
+v_p(v+1)=v_p(Z)=2*lambda,
+and is tangent to the fixed line
+Z=3*(v+1)
+to depth 4*lambda:
+v_p(Z-3*(v+1))=4*lambda.
+
+
+### 105.3 The tangent root-line is exactly the old scaled-w carrier
+The same identity also gives
+boxed:
+Z/(v+1)-3=-2*w.
+Thus the apparent new formal/torsion root-line on the fixed-theta elliptic fiber is not a new independent arithmetic carrier. It is exactly the scaled symmetric coordinate w=u/S already present earlier in Stage37.
+
+
+This is a strict no-double-charge statement:
+- tau_theta packages two copies of the same full-S conductor through w and v+1;
+- the normalized slope defect is old w;
+- no M_rel^-2 or M_rel^-4 density may be multiplied with the theta carrier, common-u Gaussian root line, old determinant index, or residual-character carrier merely because the same conductor is visible in tau_theta.
+
+
+The value of tau_theta is that its fourth-power fresh valuation is exact, with no x=3/4 overvaluation. The cost is that fixing tau_theta does not preserve the elliptic fixed-fiber geometry.
+
+
+### 105.4 Fixed-tau substitution gives a genus-3 hyperelliptic fiber
+Fix a nonzero rational
+tau=tau_theta.
+From
+tau=-2*w*(v+1)=-2*u*(1+u^2)/S,
+write
+boxed:
+S=-2*u*(1+v)/tau,
+v=u^2.
+Substitute this into the canonical symmetric endpoint equation
+Y^2=-(1+u^2)Q(S,u).
+After the fixed-degree scaling
+boxed:
+Y_tau=tau^2*Y/(4*u),
+one gets
+boxed:
+Y_tau^2=-(1+v)*F_tau(v),
+where
+boxed:
+F_tau(v)
+=
+v*(1+v)^5
++8*tau*v*(1+v)^3
++tau^2*(1+v)*(11*v^2+10*v-1)
+-6*tau^3*(1+v)
+-tau^4.
+
+
+The discriminant of the degree-7 polynomial -(1+v)F_tau(v) is exactly
+boxed:
+tau^23*(125*tau+27)^3*(729*tau^2+351*tau+128).
+The last quadratic has discriminant
+351^2-4*729*128
+=
+-3^6*7^3,
+so it has no rational root.
+Therefore the only rational singular fixed-tau parameters are
+tau=0
+and
+tau=-27/125.
+
+
+The nondegenerate hard full-S branch has tau!=0.
+Also tau=-27/125 is impossible when M_rel>1: Section 105.2 gives exact fresh M_rel^4 divisibility in the reduced numerator of tau and a fresh-unit denominator, while -27/125 has no relative-fresh prime in its reduced numerator and has only 5 in its denominator.
+Hence every realized hard-branch rational fixed-tau fiber is smooth of genus 3.
+
+
+### 105.5 Route consequence and firewall
+The exact-saturation coordinate tau_theta is therefore not an immediate replacement for theta:
+- tau_theta has the cleaner exact M_rel^4 fresh valuation;
+- theta has the better fixed-fiber elliptic compression;
+- replacing fixed theta by fixed tau trades away the available uniform elliptic B^o(1) mechanism and would require a new uniform genus-3 bounded-height theorem on the exact physical family.
+
+
+Keep the live support receiver
+boxed:
+GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth,
+together with
+FullSDefectResidualCharacterDispersionOneTwelfth
+and
+InteriorCharacterGlobalDispersion.
+
+
+Do not:
+- charge tau_theta as an independent fourth-power density saving;
+- multiply the tangent/w carrier with theta or any previously consumed root-line/determinant carrier;
+- infer fixed-tau B^o(1) merely from genus 3;
+- replace the exact physical family by an ambient hyperelliptic-height box;
+- promote denominator-extreme closure, primary-gate closure, endpoint theorem, P(B)/M3(B), or Perfect Cuboid nonexistence.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_THETA_2TORSION_TANGENT_IDENTITY=PROVISIONAL
+M3_T11_THETA_TANGENT_MREL4_EXACT_SATURATION=PROVISIONAL
+M3_T11_THETA_TANGENT_EQUALS_SCALED_W=PROVISIONAL
+M3_T11_THETA_TANGENT_INDEPENDENT_SAVING=false
+M3_T11_FIXED_TAU_GENERIC_GENUS3=PROVISIONAL
+M3_T11_FIXED_TAU_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|FullSDefectResidualCharacterDispersionOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|FullSDefectResidualCharacterDispersionOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_RESEARCH_CARD_ID=M3-T11-096.
+## 106. Hostile-audit promotion — M3-T11-090 through M3-T11-095
+Status: CANONICAL / HOSTILE AUDIT PASS / GENERIC FIXED-FIBER COMPRESSION CLOSED / THETA0 EMPTY / THETA!=0 MOVING SUPPORT OPEN.
+
+
+Independent hostile audit rechecked the exact algebra, fresh-prime valuations, fixed-fiber smoothness/torsion adapters, theta=0 elimination, and no-double-charge boundaries.
+
+
+M3-T11-090 PASS:
+The generic fixed-x cubic discriminant and exact order-3 section over Q(sqrt(-3)) are correct. Together with the audited M3-T11-036 fixed-field theorem and physical-height pullback:
+fixed generic x + fixed packet => B^o(1).
+
+
+M3-T11-091 PASS:
+ell=r^2-x(1-x) has exact fresh valuation v_p(ell)=2*lambda for p^lambda||M_rel. Its fixed-ell cubic has rational 2-torsion and is smooth for every hard-branch ell!=0:
+fixed ell + fixed packet => B^o(1).
+
+
+M3-T11-092 PASS:
+The homogeneous P_ell identity, Phi division identity, fresh transversality, normalized square removal, and
+3*L*Phi_flat in (Z/M_rel^2 Z)^x2
+are exact. This is a residual character lock only; no fixed-power density is credited.
+
+
+M3-T11-093 PASS:
+theta=16*ell+3(v+1) has deterministic M_rel^4 fresh numerator carrier. Every nonzero fixed theta gives a smooth rational-2-torsion elliptic fiber and B^o(1) physical multiplicity. The theta=0 conic router is exact but is superseded by M3-T11-094.
+
+
+M3-T11-094 PASS:
+The homogeneous theta cofactor and fresh-collision separation are exact. Restoring the rational-r condition on theta=0 gives the two quartic square products. Their resultants are 2^17 and the squareclass split delta in {1,2} reduces to a mod-7 anisotropic equation forcing both primitive q coordinates divisible by 7. Therefore:
+boxed:
+theta=0 has no physical rational endpoints.
+ThetaZeroConicGaussianNormSquareDivisorOneTwelfth is retired.
+
+
+M3-T11-095 PASS:
+tau_theta=Z-3(v+1)=-(v+1)^2/(8x) has exact fresh valuation 4*lambda, but
+Z/(v+1)-3=-2w
+with w=u/S. Thus the tangent root line is exactly the old w carrier and has zero independent saving credit. Fixing tau gives the stated degree-7 smooth genus-3 family on the hard branch, but no uniform fixed-tau B^o(1) theorem is promoted.
+
+
+Canonical flags:
+M3_T11_090_HOSTILE_AUDIT=PASS
+M3_T11_091_HOSTILE_AUDIT=PASS
+M3_T11_092_HOSTILE_AUDIT=PASS
+M3_T11_093_HOSTILE_AUDIT=PASS
+M3_T11_094_HOSTILE_AUDIT=PASS
+M3_T11_095_HOSTILE_AUDIT=PASS
+M3_T11_FIXED_X_GENERIC_BO1_PROVED=true
+M3_T11_FIXED_LEGENDRE_DEFECT_BO1_PROVED=true
+M3_T11_FULL_S_RESIDUAL_CHARACTER_LOCK=true
+M3_T11_FULL_S_RESIDUAL_CHARACTER_FIXED_POWER=false
+M3_T11_FULL_S_THETA_MREL4_NUMERATOR=true
+M3_T11_FIXED_THETA_BO1_PROVED=true
+M3_T11_THETA_ZERO_PHYSICAL_EMPTY=true
+M3_T11_THETA_TANGENT_MREL4_EXACT_SATURATION=true
+M3_T11_THETA_TANGENT_EQUALS_SCALED_W=true
+M3_T11_THETA_TANGENT_INDEPENDENT_SAVING=false
+M3_T11_FIXED_TAU_GENERIC_GENUS3=true
+M3_T11_FIXED_TAU_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|FullSDefectResidualCharacterDispersionOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|FullSDefectResidualCharacterDispersionOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_RESEARCH_CARD_ID=M3-T11-096.
+
+
+## 106. M3-T11-096 — normalized-theta character collapse and 2-isogeny no-new-saving firewall
+Status: PROVISIONAL EXACT REDUNDANCY / SAME-MEASURE NO-DOUBLE-CHARGE / HOSTILE AUDIT REQUIRED / NO POWER SAVING.
+Retain hostile-audit-passed M3-T11-090 through M3-T11-095. Work only on the surviving nondegenerate generic full-S-denominator physical branch with theta!=0. Put M=M_rel and
+N_u=M^2*N_0,
+t=M^2*t_0,
+ell=M^2*L,
+kappa=(v+1)/M^2=N_0/b^2,
+Theta=theta/M^4.
+All congruences below are in the fresh M-adic residue ring; gcd(N_0*t_0*a*b*s,M)=1.
+
+
+### 106.1 Exact normalized-theta congruence
+The audited definition
+theta=16*ell+3*(v+1)
+gives the exact identity
+boxed:
+16*L+3*kappa=M^2*Theta.
+Hence
+boxed:
+L == -3*kappa/16 mod M^2.
+Write
+w=M^2*omega,
+omega=a*t_0/(b*s).
+Since x=(v+1)/(16*w)=kappa/(16*omega), the audited theta factorization gives
+Theta
+=
+kappa*(kappa-12*omega+4*M^2*omega^2)/(4*v).
+Reducing modulo M^2 and using omega^2/v=t_0^2/s^2 gives
+boxed:
+Theta == 16*(t_0/s)^2*x*(4*x-3) mod M^2.
+Thus at a fresh prime where Theta is a unit, its squareclass is exactly that of x*(4*x-3). This is an exact same-measure router, not a density saving.
+
+
+### 106.2 The M3-T11-092 residual-character lock becomes automatic after theta
+Audited M3-T11-092 gives
+W_flat^2=-N_0*Phi_flat,
+with Phi_flat an M-adic unit. Since kappa=N_0/b^2,
+boxed:
+kappa*Phi_flat=-(W_flat/b)^2.
+Combining this with L == -3*kappa/16 mod M^2 yields
+boxed:
+3*L*Phi_flat
+==
+(3*W_flat/(4*b))^2
+mod M^2.
+Therefore the audited M3-T11-092 condition that 3*L*Phi_flat is a unit square modulo M^2 is not an additional character condition on the surviving theta branch. It is forced by:
+1. the theta M^4 divisibility / normalized identity; and
+2. the already-audited normalized endpoint square equation.
+Consequently FullSDefectResidualCharacterDispersionOneTwelfth has zero standalone saving credit on the theta branch unless a future argument adds genuinely new global information beyond this squareclass identity.
+
+
+### 106.3 Ordinary rational-2-torsion descent also forgets the fresh conductor
+Translate the audited fixed-theta elliptic curve by
+X=-(v+1).
+Then
+boxed:
+E_theta^-:
+Z^2=X*(X^2+(9+4*theta)*X+4*theta).
+Its standard 2-isogenous curve is
+boxed:
+E_theta^+:
+Y^2=Xp*(Xp^2-2*(9+4*theta)*Xp+(16*theta^2+56*theta+81)),
+with
+Xp=Z^2/X^2,
+Y=Z*(4*theta-X^2)/X^2.
+For the physical point, audited M3-T11-095 gives
+Z=(v+1)*(3-2*w).
+Put
+q=3-2*w,
+k=(4*theta-(v+1)^2)/(v+1).
+Then exactly
+boxed:
+phi(P)=(q^2,q*k).
+So the dual X-coordinate is a square for the tautological reason that it is the X-coordinate of a 2-isogeny image.
+The source Kummer class is
+boxed:
+[X]=[-(v+1)]=[-M^2*kappa]=[-N_0] in Q*/Q*^2,
+because M^2 and b^2 are squares. Hence the hard fresh conductor M disappears from the ordinary 2-isogeny squareclass map. On the dual image,
+boxed:
+[Xp]=[q^2]=1.
+There is also an exact factor check:
+(q^2-(9+4*theta)-k)*(q^2-(9+4*theta)+k)=16*theta,
+where
+q^2-(9+4*theta)-k
+=
+-2*(1+v-12*w+4*w^2)/v,
+q^2-(9+4*theta)+k
+=
+-2*(1+v).
+On full-S,
+1+v=M^2*kappa,
+and
+1+v-12*w+4*w^2
+=
+M^2*(kappa-12*omega+4*M^2*omega^2).
+Thus the apparent two-factor 2-isogeny descent is exactly the already-known M^2 times M^2 decomposition of the theta M^4 carrier. It supplies no independent fresh factor, character, or support deficit.
+
+
+### 106.4 Route consequence
+This removes two tempting but redundant continuations from the current theta!=0 frontier:
+- do not pursue the M3-T11-092 residual-character lock as a standalone power-saving factor after charging theta;
+- do not pursue ordinary 2-isogeny / rational-2-torsion Kummer squareclasses on E_theta as a fresh-conductor detector.
+The load-bearing theorem remains a genuinely global moving-support statement for theta, or a dispersion/occupancy invariant not implied by the normalized endpoint square and theta M^4 identity.
+No fixed-power saving is proved here.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_THETA_NORMALIZED_CONGRUENCE=true
+M3_T11_THETA_NORMALIZED_SQUARECLASS_X_4XMINUS3=PROVISIONAL
+M3_T11_092_CHARACTER_INDEPENDENT_ON_THETA_BRANCH=false
+M3_T11_THETA_2ISOGENY_SOURCE_KUMMER_CLASS_MINUS_N0=true
+M3_T11_THETA_2ISOGENY_DUAL_KUMMER_CLASS_TRIVIAL=true
+M3_T11_THETA_2ISOGENY_FRESH_CONDUCTOR_VISIBLE=false
+M3_T11_THETA_2ISOGENY_NEW_SAVING=false
+M3_T11_FULL_S_RESIDUAL_CHARACTER_STANDALONE_ATTACK_RETIRED=PROVISIONAL
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondSquareclass|InteriorCharacterGlobalDispersion
+AUDIT_REQUIRED_BEFORE_PROMOTION=true
+NEXT_RESEARCH_CARD_ID=M3-T11-097
+## 107. Hostile-audit promotion — M3-T11-096
+Status: CANONICAL / HOSTILE AUDIT PASS / EXACT REDUNDANCY / CHARACTER-COLLAPSE / 2-ISOGENY NO-GO / NO POWER SAVING.
+AUDIT_DOC_ID=1cGtPtIX2-9NmEG0OaR-zWxtPRsj2RqSDeJhr7T_V_eY
+Independent hostile audit rechecked the normalized-theta algebra, M3-T11-092 character dependence, translated fixed-theta elliptic model, standard 2-isogeny formulas, Kummer classes, exact factor split, and no-double-charge consequences.
+M3-T11-096 PASS:
+16*L+3*kappa=M^2*Theta exactly, so L==-3*kappa/16 mod M^2.
+The normalized residue is
+Theta==16*(t_0/s)^2*x*(4*x-3) mod M^2.
+Combining audited W_flat^2=-N_0*Phi_flat with kappa=N_0/b^2 gives
+3*L*Phi_flat==(3*W_flat/(4*b))^2 mod M^2.
+Thus the prior residual-character lock is automatic on the surviving theta branch and has zero standalone saving credit after theta.
+For
+E_theta^-: Z^2=X(X^2+(9+4theta)X+4theta), X=-(v+1),
+the standard 2-isogeny sends the physical point to
+(q^2,q*k), q=3-2w.
+Hence source Kummer class [-N_0], dual class 1; the fresh M_rel^2 square factor is invisible.
+The exact two-factor decomposition of 16theta is
+-2*(1+v-12w+4w^2)/v
+times
+-2*(1+v),
+which is precisely the existing M^2 by M^2 theta decomposition. No independent fresh factor or support deficit results.
+Canonical flags:
+M3_T11_096_HOSTILE_AUDIT=PASS
+M3_T11_THETA_NORMALIZED_CONGRUENCE=true
+M3_T11_THETA_NORMALIZED_SQUARECLASS_X_4XMINUS3=true
+M3_T11_092_CHARACTER_INDEPENDENT_ON_THETA_BRANCH=false
+M3_T11_THETA_2ISOGENY_SOURCE_KUMMER_CLASS_MINUS_N0=true
+M3_T11_THETA_2ISOGENY_DUAL_KUMMER_CLASS_TRIVIAL=true
+M3_T11_THETA_2ISOGENY_FRESH_CONDUCTOR_VISIBLE=false
+M3_T11_THETA_2ISOGENY_NEW_SAVING=false
+M3_T11_FULL_S_RESIDUAL_CHARACTER_STANDALONE_ATTACK_RETIRED=true
+M3_T11_THETA_ORDINARY_2ISOGENY_FRESH_CONDUCTOR_ATTACK_RETIRED=true
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-096
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondSquareclass|InteriorCharacterGlobalDispersion
+NEXT_RESEARCH_CARD_ID=M3-T11-097.
+
+
+
+
+
+
+## Historical hostile-audit closure — M3-T11-081 / M3-T11-082
+Status: CANONICAL / HOSTILE AUDIT PASS / EXACT STRUCTURE / NO POWER SAVING.
+AUDIT_DOC_ID=1w8gqZwla4lkElFMhd76PaIR4iFduZ9EjLRrwx3EdfqQ
+M3-T11-081 PASS:
+epsilon^2*(a^2+b^2)=r^4+4*s^4, so with N_u=D*(M_rel*h)^2 one has
+r^4+4*s^4=D*(epsilon*M_rel*h)^2.
+The point
+P_D=(-alpha^2,alpha*beta*gamma)
+satisfies
+X+D=beta^2,
+X-D=-gamma^2,
+Y^2=X^3-D^2*X,
+and is non-2-torsion on the nondegenerate physical carrier.
+M3-T11-082 PASS:
+with q=M_rel*h,
+P_D=(-b^2/q^2,a*b*c/q^3)
+is the same point, and gcd(q,a*b*c)=1 makes q the exact standard denominator root.
+Its naive x-height is
+H_x=max(b^2,q^2),
+q^2<=H_x<=D*q^2.
+On the hard branch M_rel>B^(1/12-eta),
+q>B^(1/12-eta),
+H_x>B^(1/6-2*eta).
+NO_DOUBLE_CHARGE:
+alpha=b/q, beta=a/q, gamma=c/q. Therefore the 081 and 082 points are identical; no independent saving is obtained by combining them.
+M3_T11_081_HOSTILE_AUDIT=PASS
+M3_T11_082_HOSTILE_AUDIT=PASS
+M3_T11_081_082_SAME_RATIONAL_POINT=true
+M3_T11_081_082_INDEPENDENT_SAVINGS=false
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_D_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-096
+NEXT_RESEARCH_CARD_ID=M3-T11-097.
+## 107. M3-T11-097 — rational-2-torsion branch-depth involution and Kummer-iterate firewall
+Status: PROVISIONAL EXACT_REDUNDANCY / T_TRANSLATION_INVOLUTION / KUMMER_ITERATE_NO_GO / HOSTILE_AUDIT_REQUIRED / NO POWER SAVING.
+
+
+Retain hostile-audit-passed M3-T11-090 through M3-T11-096. Work only on the surviving nondegenerate generic full-S-denominator physical branch with theta!=0.
+
+
+### 107.1 The theta fourth-power carrier is a two-branch depth product
+Use the audited translated fixed-theta model
+E_theta^-:
+Z^2=U*(U^2+(9+4*theta)*U+4*theta),
+with
+U=-(v+1).
+Put
+A=v+1=-U
+and, using M3-T11-095,
+q=Z/A=3-2*w.
+Substitution gives
+q^2
+=
+9+4*theta-A-4*theta/A.
+Equivalently,
+boxed:
+A^2-(9+4*theta-q^2)*A+4*theta=0.
+Thus for fixed theta and q the two possible A-values have exact product
+boxed:
+A*A_T=4*theta.
+
+
+### 107.2 Rational 2-torsion translation exchanges the two depths
+The rational 2-torsion point on E_theta^- is
+T=(0,0).
+The standard chord-and-tangent law on
+Z^2=U*(U^2+a*U+b)
+with b=4*theta gives
+boxed:
+U(P+T)=4*theta/U(P),
+boxed:
+Z(P+T)=-4*theta*Z/U(P)^2.
+Since A=-U,
+boxed:
+A(P+T)=4*theta/A(P),
+and because q=Z/A,
+boxed:
+q(P+T)=-q(P).
+So the two roots of the quadratic in A are literally the T-translate pair.
+
+
+On full-S write
+A=M^2*kappa,
+theta=M^4*Theta,
+M=M_rel.
+Then
+A(P+T)=M^2*kappa_T
+with
+boxed:
+kappa_T=4*Theta/kappa.
+Audited M3-T11-094 gives
+Theta=N_0*Psi_theta/(4*a^2*b^2*s^2),
+while
+kappa=N_0/b^2.
+Hence
+boxed:
+kappa_T=Psi_theta/(a^2*s^2),
+boxed:
+kappa*kappa_T=4*Theta.
+This identifies the two visible M^2 branch-depth factors of the theta M^4 carrier as one involutive pair. They cannot be charged as two independent conductor-depth conditions.
+
+
+### 107.3 Duplication turns the apparent fourth-power depth into an exact square
+For
+E_theta^-:
+Z^2=U*(U^2+(9+4*theta)*U+4*theta),
+the tangent duplication formula is exactly
+boxed:
+U(2P)
+=
+((U^2-4*theta)/(2*Z))^2.
+Thus the doubled-point coordinate relative to the same rational 2-torsion divisor is already the square of a rational function. Any apparent M^4 depth obtained by doubling is therefore not a new fourth-power event, squareclass selector, or same-measure density loss.
+
+
+In the shifted coordinate X=U+1=-v this is equivalently
+boxed:
+X(2P)-1
+=
+(((X-1)^2-4*theta)^2)/(4*Z^2).
+This shifted identity is only a notational restatement; the canonical 096 coordinate remains U=-(v+1).
+
+
+### 107.4 Ordinary rational-T Kummer iteration cannot recover M
+For the rational 2-torsion point T=(0,0), the standard Kummer map is
+delta_T(P)=[U(P)] in Q*/Q*^2.
+For the physical point,
+U=-(v+1)=-M^2*N_0/b^2.
+Therefore
+boxed:
+delta_T(P)=[-N_0].
+The fresh M^2 factor and b^2 disappear as squares.
+
+
+Because delta_T is a homomorphism
+E_theta^-(Q)/2E_theta^-(Q) -> Q*/Q*^2,
+boxed:
+delta_T(nP)=[-N_0] for n odd,
+boxed:
+delta_T(nP)=1 for n even.
+So repeated multiplication-by-n or repeated use of the same rational-T Kummer coordinate cannot restore the forced fresh conductor M. This extends the M3-T11-096 first-isogeny no-go to all ordinary rational-T Kummer iterates.
+
+
+### 107.5 Split dual 2-torsion: forced M^2 is still only a square factor
+The dual curve from M3-T11-096 is
+E_theta^+:
+Y^2=Xp*(Xp^2-2*(9+4*theta)*Xp+(16*theta^2+56*theta+81)).
+Its two nonzero 2-torsion roots split over
+K=Q(sqrt(theta))=Q(sqrt(Theta)),
+because theta=M^4*Theta.
+Write eta^2=Theta. Then
+alpha_+=9+4*theta+4*sqrt(theta),
+alpha_-=9+4*theta-4*sqrt(theta).
+
+
+The physical dual point has
+Xp=q^2,
+q=3-2*M^2*omega.
+Direct expansion gives
+boxed:
+q^2-alpha_+
+=
+-4*M^2*(eta+3*omega-M^2*omega^2+M^2*Theta),
+boxed:
+q^2-alpha_-
+=
+4*M^2*(eta-3*omega+M^2*omega^2-M^2*Theta).
+Therefore the forced conductor contribution M^2 is again a square factor in the split 2-Kummer squareclasses.
+
+
+This does NOT prove that the residual bracket classes are trivial or redundant. They remain a possible genuinely new input for a higher or non-Kummer descent, provided a same-physical-measure theorem can use them without recharging the theta carrier.
+
+
+### 107.6 Route consequence and firewall
+M3-T11-097 provisionally retires the following as independent fixed-power attacks:
+- treating A and 4*theta/A as two independent M^2 depth events;
+- using the duplication square as a new fourth-power event;
+- iterating the ordinary rational-T Kummer map or multiplication-by-n to recover M;
+- claiming a split-dual 2-descent saving solely because the displayed factors contain M^2.
+
+
+It does not retire:
+- residual split-2-descent bracket classes;
+- non-Kummer higher descent;
+- global moving-support/occupancy theorems for realized theta;
+- InteriorCharacterGlobalDispersion.
+
+
+The load-bearing frontier therefore remains
+boxed:
+ThetaFourthPowerMovingSupportBeyondSquareclass
+or
+boxed:
+InteriorCharacterGlobalDispersion.
+No fixed-power saving is proved here.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_THETA_T_TRANSLATION_BRANCH_DEPTH_INVOLUTION=PROVISIONAL
+M3_T11_THETA_BRANCH_DEPTH_PRODUCT_4THETA=PROVISIONAL
+M3_T11_THETA_DUPLICATION_DEPTH_EXACT_SQUARE=PROVISIONAL
+M3_T11_RATIONAL_T_KUMMER_ITERATES_FRESH_CONDUCTOR_VISIBLE=false
+M3_T11_DUAL_SPLIT_2KUMMER_FORCED_M2_NEW_SAVING=false
+M3_T11_DUAL_SPLIT_2KUMMER_RESIDUAL_CLASSES_OPEN=true
+M3_T11_THETA_NONKUMMER_HIGHER_DESCENT_OPEN=true
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondSquareclass|InteriorCharacterGlobalDispersion
+AUDIT_REQUIRED_BEFORE_PROMOTION=true
+NEXT_RESEARCH_CARD_ID=M3-T11-098.
+
+
+
+
+## 108. M3-T11-098 — split dual 2-Kummer residual brackets collapse to the old source class
+Status: PROVISIONAL EXACT_REDUNDANCY / FULL_SPLIT_2KUMMER_NO_GO / HOSTILE_AUDIT_REQUIRED / NO POWER SAVING.
+Retain the M3-T11-097 notation and the hostile-audit-passed M3-T11-096 normalized theta identities. M3-T11-097 is still provisional, so every 097-dependent statement below remains provisional until grouped hostile audit.
+
+
+### 108.1 The two residual brackets
+Put M=M_rel, m=M^2 and work over
+K=Q(sqrt(theta))=Q(sqrt(Theta)).
+Write eta^2=Theta. M3-T11-097 gives the dual nonzero 2-torsion roots
+alpha_+=9+4*theta+4*sqrt(theta),
+alpha_-=9+4*theta-4*sqrt(theta),
+and for the physical dual point Xp=q^2,
+q^2-alpha_+
+=
+-4*M^2*B_+,
+q^2-alpha_-
+=
+4*M^2*B_-,
+where
+B_+=eta+3*omega-m*omega^2+m*Theta,
+B_-=eta-3*omega+m*omega^2-m*Theta.
+Card 097 left the squareclasses of B_+ and B_- open.
+
+
+### 108.2 Exact complete-square factorization
+Audited M3-T11-096 gives
+Theta
+=
+kappa*(kappa-12*omega+4*m*omega^2)/(4*v),
+with
+v=m*kappa-1
+and
+kappa=(v+1)/M^2=N_0/b^2.
+A direct exact rearrangement gives
+boxed:
+3*omega-m*omega^2+m*Theta
+=
+kappa/2+(4*Theta-kappa^2)/(4*kappa).
+Since eta^2=Theta,
+(4*Theta-kappa^2)/(4*kappa)
+=
+(eta-kappa/2)*(eta+kappa/2)/kappa.
+Therefore the two open brackets factor exactly as
+boxed:
+B_+=(eta+kappa/2)^2/kappa,
+boxed:
+B_-=-(eta-kappa/2)^2/kappa.
+Substituting back,
+boxed:
+q^2-alpha_+
+=
+-(4*M^2/kappa)*(eta+kappa/2)^2,
+boxed:
+q^2-alpha_-
+=
+-(4*M^2/kappa)*(eta-kappa/2)^2.
+
+
+### 108.3 Split 2-Kummer classes are completely predetermined
+Away from the zero-coordinate torsion subcase, 4*M^2 and the displayed squared factors are squares in K. Hence
+boxed:
+[q^2-alpha_+]=[q^2-alpha_-]=[-1/kappa]=[-N_0]
+in K*/K*^2,
+because kappa=N_0/b^2.
+Also [Xp]=[q^2]=1.
+Thus the full split dual 2-Kummer tuple of the physical image is, up to ordering,
+boxed:
+(1,[-N_0],[-N_0]).
+It contains exactly the old source Kummer class and no additional residual squareclass.
+
+
+The apparent zero-coordinate exception is not a loophole. If eta=kappa/2, then q^2=alpha_-; if eta=-kappa/2, then q^2=alpha_+. Equivalently 4*theta=(v+1)^2 and the dual image is a nonzero split 2-torsion point. In the standard full-2-descent special-value convention, the vanishing coordinate is replaced by the product of the two root differences. Since the nonzero root is q^2, a square, and
+alpha_--alpha_+=-8*sqrt(theta)=-4*M^2*kappa
+or
+alpha_+-alpha_-=8*sqrt(theta)=-4*M^2*kappa
+in the corresponding sign case, the special coordinate again has squareclass
+boxed:
+[-kappa]=[-N_0].
+So the same tuple (1,[-N_0],[-N_0]) persists on the split-torsion subcarrier.
+
+
+### 108.4 Route consequence and firewall
+The residual split-2-descent bracket classes explicitly left open by M3-T11-097 are not new: after exact factorization they reduce completely to the already-known source class [-N_0], including the torsion special-value cases.
+Therefore provisionally retire the entire ordinary split dual 2-Kummer route as an independent fresh-conductor or support-saving mechanism.
+
+
+This does NOT retire:
+- genuinely non-Kummer higher descent;
+- a global moving-support/occupancy theorem for realized theta;
+- InteriorCharacterGlobalDispersion using information not determined by the theta/Kummer identities.
+
+
+No fixed-power saving is proved.
+No denominator-extreme closure, primary-gate closure, endpoint theorem, P(B)/M3(B) limit, or Perfect Cuboid nonexistence credit is obtained.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_DUAL_SPLIT_2KUMMER_BRACKETS_COMPLETE_SQUARE=PROVISIONAL
+M3_T11_DUAL_SPLIT_2KUMMER_RESIDUAL_CLASSES_OPEN=false
+M3_T11_DUAL_SPLIT_2KUMMER_CLASSES_MINUS_N0=PROVISIONAL
+M3_T11_DUAL_SPLIT_2KUMMER_TORSION_SPECIAL_VALUE_MINUS_N0=PROVISIONAL
+M3_T11_FULL_SPLIT_2KUMMER_NEW_SAVING=false
+M3_T11_THETA_NONKUMMER_HIGHER_DESCENT_OPEN=true
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorCharacterGlobalDispersion
+AUDIT_REQUIRED_BEFORE_PROMOTION=true
+NEXT_RESEARCH_CARD_ID=M3-T11-099.
+
+
+## 109. M3-T11-099 — interior residual character linearization to the S-numerator and equidistribution main-term firewall
+Status: PROVISIONAL EXACT_CHARACTER_LINEARIZATION / CRT_MAIN_TERM_FIREWALL / GENERIC_CHARACTER_EQUIDISTRIBUTION_NO_GO / HOSTILE_AUDIT_REQUIRED / NO POWER SAVING.
+
+
+Retain the hostile-audit-passed Section 35 symmetric incidence and Section 48 interior-prime normalization. This card is independent of provisional M3-T11-097/098.
+
+
+### 109.1 Exact interior-prime simplification
+Fix p^lambda||m_i with 0<c_p<2*lambda. Put
+k_p=2*lambda-c_p,
+t=p^k_p*tau_p,
+N_u=p^(2*lambda+c_p)*nu_p,
+where p does not divide tau_p*nu_p.
+
+
+Section 35 gives exactly
+P=v_1*v_2*v_3
+=4*u^2*S/(1+u^2)
+=4*a^2*s/(t*N_u).
+Therefore, for the Section-48 unit
+Pi_p:=p^(4*lambda)*P,
+the conductor powers cancel exactly:
+Pi_p=4*a^2*s/(tau_p*nu_p),
+because k_p+(2*lambda+c_p)=4*lambda.
+
+
+Let rho be the oriented fresh Gaussian root with
+a==rho*b (mod p),
+rho^2==-1 (mod p).
+Then a^2==-b^2 (mod p), so
+-rho*Pi_p
+==4*rho*b^2*s/(tau_p*nu_p) (mod p).
+Since 4*b^2 is a nonzero square and a quadratic character has the same value on a unit and its inverse,
+boxed:
+chi_p(-rho*Pi_p)
+=chi_p(rho*s/(tau_p*nu_p))
+=chi_p(rho*tau_p*nu_p)*chi_p(s).
+
+
+Hence the Section-48 physical selector
+chi_p(-rho*Pi_p)=+1
+is exactly
+boxed:
+chi_p(s)=chi_p(rho*tau_p*nu_p).
+
+
+After the forced conductor allocation is removed, the residual interior character is therefore a prescribed Legendre sign of one global integer: the numerator s of S=s/t.
+
+
+### 109.2 Exact CRT occupancy and the selector-only main term
+Let
+q_int=product_{p interior} p
+be the squarefree radical of the interior fresh support. For fixed auxiliary data determining
+epsilon_p:=chi_p(rho*tau_p*nu_p),
+the physical selectors are
+chi_p(s)=epsilon_p
+for every p|q_int.
+
+
+Because p does not divide s, each prime permits exactly (p-1)/2 nonzero residue classes. By CRT the number of admissible unit classes modulo q_int is exactly
+boxed:
+phi(q_int)/2^omega(q_int).
+
+
+Equivalently, on gcd(s,q_int)=1,
+boxed:
+1_select(s)
+=2^(-omega(q_int))*product_{p|q_int}(1+epsilon_p*chi_p(s)).
+
+
+Thus a standard selector-only equidistribution or character-sum argument has an unavoidable principal term of relative density
+2^(-omega(q_int)).
+Uniformly this is only q_int^(-o(1)) in the worst case; when q_int is prime it is exactly 1/2. Better cancellation of the nonprincipal character sums cannot turn this principal term into q_int^(-delta) for any fixed delta>0.
+
+
+### 109.3 Route consequence and firewall
+This does not prove a power saving and does not rule out a genuinely structural global correlation. It does retire the interpretation of InteriorCharacterGlobalDispersion as a generic equidistribution/Burgess/large-sieve problem for the isolated residual sign selectors alone.
+
+
+Any surviving interior-character attack must use new correlation between the prescribed sign vector and the endpoint incidence, moving theta support, or another invariant beyond the local selectors themselves.
+
+
+No M3-T11-097/098 theta/Kummer conclusion is used.
+
+
+DEPENDENCIES:
+Hostile-audit-passed Section 35 symmetric identity P=4*u^2*S/(1+u^2); hostile-audit-passed Section 48 fresh allocation and residual selector; M3-T11-040 conductor allocation.
+
+
+REOPEN_CONDITION:
+Reopen if the exact P identity, the Section-48 valuation normalization, or the residual character formula is retracted; or if a future theorem uses additional endpoint-incidence information rather than selector-only equidistribution.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_INTERIOR_CHARACTER_SINGLE_S_NUMERATOR=PROVISIONAL
+M3_T11_INTERIOR_CHARACTER_CRT_EXACT_ACCEPTANCE=PROVISIONAL
+M3_T11_INTERIOR_CHARACTER_EQUIDISTRIBUTION_ONLY_FIXED_POWER=false
+M3_T11_INTERIOR_CHARACTER_GENERIC_DISPERSION_ATTACK_RETIRED=PROVISIONAL
+M3_T11_INTERIOR_CHARACTER_ENDPOINT_CORRELATION_OPEN=true
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+AUDIT_REQUIRED_BEFORE_PROMOTION=true
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorCharacterGlobalDispersionBeyondSelectorEquidistribution
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorCharacterEndpointIncidenceCorrelation
+NEXT_RESEARCH_CARD_ID=M3-T11-100.
+
+
+
+
+## 110. M3-T11-100 — interior normalized square has no higher p-adic gain beyond the selector
+Status: PROVISIONAL EXACT_LOCAL_SATURATION / HENSEL_NO_HIGHER_PADIC_GAIN / ENDPOINT_SQUARE_REFINEMENT_NO_GO / HOSTILE_AUDIT_REQUIRED / NO POWER SAVING.
+
+
+Retain the hostile-audit-passed Section 48 homogeneous square identity and fresh-prime normalization. This card does not use provisional M3-T11-097/098, and its local derivation does not require M3-T11-099; instead it independently recovers the same selector as a consistency check.
+
+
+### 110.1 Exact p-local normalized square
+Fix an interior fresh prime p^lambda||m_i with
+0<c_p<2*lambda,
+and put
+k_p=2*lambda-c_p>0.
+Write exactly
+t=p^k_p*tau_p,
+N_u=p^(2*lambda+c_p)*nu_p,
+with p not dividing tau_p*nu_p.
+
+
+Section 48 gives
+W^2=-N_u*Phi
+and, on an interior prime,
+v_p(Phi)=k_p.
+Define the p-adic units
+Phi_hat_p:=Phi/p^k_p,
+W_hat_p:=W/p^(2*lambda).
+Because
+(2*lambda+c_p)+k_p=4*lambda,
+one has the exact normalized equation
+boxed:
+W_hat_p^2=-nu_p*Phi_hat_p,
+with
+p not dividing nu_p*Phi_hat_p*W_hat_p.
+
+
+### 110.2 Mod-p reduction is exactly the M3-T11-099 selector
+Use the audited Section-48.1 division identity
+Phi
+=
+N_u*(s^4+44*s^2*t^2-16*t^4)
+-16*b*t*H,
+where
+H=a*s^3+3*b*s^2*t-3*a*s*t^2-b*t^3.
+
+
+For the oriented Gaussian root
+a==rho*b mod p,
+rho^2==-1 mod p,
+Section 48.1 gives
+H==b*rho*(s-rho*t)^3 mod p.
+Since k_p>0, p|t, while p does not divide s. Therefore
+H==b*rho*s^3 mod p.
+
+
+After division by p^k_p, the N_u term is still divisible by p^(2*c_p), hence vanishes mod p. Consequently
+boxed:
+Phi_hat_p
+==
+-16*b^2*rho*tau_p*s^3
+mod p,
+and the normalized square equation becomes
+boxed:
+W_hat_p^2
+==
+16*b^2*rho*tau_p*nu_p*s^3
+mod p.
+
+
+The factor 16*b^2*s^2 is a nonzero square. Hence local solvability is equivalent to
+boxed:
+chi_p(rho*tau_p*nu_p*s)=+1,
+or equivalently
+boxed:
+chi_p(s)=chi_p(rho*tau_p*nu_p).
+
+
+This is exactly the selector independently obtained in M3-T11-099 from the symmetric product P=v_1*v_2*v_3.
+
+
+### 110.3 Hensel saturation: no new condition at p^2,p^3,...
+The right side
+-nu_p*Phi_hat_p
+is a p-adic unit, and every fresh Gaussian-split prime here is odd.
+For an odd prime p, a unit z in Z_p^* is a square in Z_p^* if and only if its residue z mod p is a square: any nonzero square root mod p lifts uniquely along each sign by Hensel because the derivative 2*w is a p-adic unit.
+
+
+Therefore, once the displayed mod-p selector holds, the exact normalized endpoint square equation has a p-adic solution W_hat_p at every precision. There is no additional independent congruence obstruction at p^2,p^3,... coming from
+W_hat_p^2=-nu_p*Phi_hat_p.
+
+
+More precisely, fix the auxiliary local unit data rho,tau_p,nu_p and any precision h>=1. Among the unit residue classes s mod p^h, exactly
+boxed:
+phi(p^h)/2
+classes satisfy the exact local square-solvability condition, and every accepted class has exactly two W_hat_p roots mod p^h.
+
+
+For any finite interior-prime set and arbitrary precisions h_p>=1, CRT therefore leaves the exact relative density
+boxed:
+2^(-omega(q_int))
+among unit s-classes modulo
+product_{p|q_int} p^(h_p).
+Increasing p-adic precision does not improve the selector density.
+
+
+### 110.4 Route consequence and firewall
+M3-T11-099 showed that selector-only character equidistribution has an unavoidable principal density 2^(-omega(q_int)).
+M3-T11-100 strengthens the local no-go: the full normalized endpoint square equation itself supplies no hidden higher-p-adic thinning beyond that same first-residue Legendre selector.
+
+
+Thus the following continuation is provisionally retired as an independent fixed-power route:
+- refining the Section-48 interior square equation to p^2, p^3, or deeper Hensel congruences while keeping the same local endpoint variables.
+
+
+This does NOT retire:
+- genuinely global cross-prime endpoint-incidence correlation;
+- correlation between the interior sign vector and moving theta support;
+- a non-Kummer/higher-descent invariant not determined by the local normalized square equation;
+- a global occupancy theorem for realized theta or other same-measure support coordinates.
+
+
+No fixed-power saving is proved.
+No denominator-extreme closure, primary-gate closure, endpoint theorem, P(B)/M3(B) limit, or Perfect Cuboid nonexistence credit is obtained.
+
+
+DEPENDENCIES:
+Hostile-audit-passed Section 48 homogeneous identity, Section 48.1 Gaussian reduction, Section 48.2/48.3 interior valuation normalization, and M3-T11-040 conductor allocation. M3-T11-099 is used only as a cross-check of the resulting selector, not as a logical dependency.
+
+
+REOPEN_CONDITION:
+Reopen if hostile audit rejects the p-local normalization or the mod-p reduction; an audited Section-48 dependency changes; or a future endpoint theorem introduces genuinely global cross-prime information not contained in the local square equation.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_INTERIOR_NORMALIZED_SQUARE_HENSEL_SATURATED=PROVISIONAL
+M3_T11_INTERIOR_HIGHER_PADIC_SELECTOR_GAIN=false
+M3_T11_INTERIOR_ENDPOINT_SQUARE_LOCAL_REFINEMENT_RETIRED=PROVISIONAL
+M3_T11_INTERIOR_CHARACTER_ENDPOINT_GLOBAL_CORRELATION_OPEN=true
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+AUDIT_REQUIRED_BEFORE_PROMOTION=true
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorCharacterGlobalEndpointCorrelationBeyondLocalSquare
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorCharacterCrossPrimeEndpointCorrelation
+NEXT_RESEARCH_CARD_ID=M3-T11-101
+
+
+## 111. HOSTILE AUDIT PROMOTION — M3-T11-097 through M3-T11-100
+HOSTILE_AUDIT=PASS
+AUDIT_DOC_ID=1OJVRZhazc6V05s6fNkx8ihwW83O1egWNK_TJLuc12sE
+AUDITED_CARDS=M3-T11-097,M3-T11-098,M3-T11-099,M3-T11-100
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-100
+
+
+097->098 dependency chain: PASS.
+099 independent Section-35/48 character linearization: PASS.
+100 independent Section-48 p-local/Hensel saturation: PASS.
+
+
+Promoted route firewalls:
+- theta rational/split ordinary 2-Kummer presentations contain no new fresh-conductor squareclass beyond the audited source class;
+- isolated interior sign selectors have exact principal density 2^(-omega(q_int)), so selector-only equidistribution is not a fixed-power route;
+- the same normalized interior square equation is Hensel-saturated after the mod-p selector and yields no new higher-p-adic thinning.
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorCharacterCrossPrimeEndpointCorrelation
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorCharacterCrossPrimeEndpointCorrelation
+NEXT_RESEARCH_CARD_ID=M3-T11-101
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+NEXT_LEGAL_ACTION=Continue only with genuinely global/non-Kummer moving-theta information or cross-prime endpoint-incidence correlation. Do not reopen ordinary 2-Kummer iteration, selector-only character equidistribution, or deeper local Hensel refinement absent an audited dependency change or genuinely new global information.
+
+
+## 112. M3-T11-101 — interior selector globalizes to the symmetric-product quadratic squareclass; fixed-Pi fiber is smooth genus 5
+Status: PROVISIONAL EXACT_GLOBAL_SQUARECLASS / INTERIOR_SPLITTING_RECEIVER / FIXED_PI_GENUS5 / RECIPROCITY_ONLY_NO_GO / HOSTILE_AUDIT_REQUIRED / NO POWER SAVING.
+Retain hostile-audit-passed M3-T11-099/100 together with Sections 35, 48, and 49. Work on the exact fixed-content/coefficient nondegenerate physical endpoint population with R<=B.
+
+
+### 112.1 One global integer absorbs every interior local auxiliary unit
+Write
+M=M_rel,
+S=s/t,
+u=a/b,
+N_u=a^2+b^2.
+For every fresh p^lambda||M, M3-T11-040 gives
+k_p=v_p(t)=2*lambda-c_p,
+and
+min(4*lambda,v_p(N_u))=2*lambda+c_p.
+If c_p<2*lambda, then v_p(N_u)=2*lambda+c_p exactly, hence
+v_p(t*N_u)=4*lambda.
+If c_p=2*lambda, then v_p(t)=0 and v_p(N_u)>=4*lambda.
+Therefore, globally,
+boxed:
+M^4 | t*N_u.
+Define the integer
+boxed:
+J=t*N_u/M^4.
+
+
+Now fix an interior fresh prime p^lambda||M, so 0<c_p<2*lambda. Write
+t=p^k_p*tau_p,
+N_u=p^(2*lambda+c_p)*nu_p,
+M=p^lambda*M_p,
+with p not dividing tau_p*nu_p*M_p.
+Then exactly
+boxed:
+J=tau_p*nu_p/M_p^4.
+In particular J is a p-adic unit and
+boxed:
+chi_p(J)=chi_p(tau_p*nu_p).
+
+
+### 112.2 The M3-T11-099 selector is one global quadratic splitting condition
+At a fresh Gaussian prime, choose rho with
+a==rho*b mod p,
+rho^2==-1 mod p.
+Because p==1 mod 4, changing rho to -rho does not change its quadratic character, and
+chi_p(rho)=rho^((p-1)/2)
+=(-1)^((p-1)/4)
+=(2/p).
+
+
+Audited M3-T11-099 gives the exact interior selector
+chi_p(s)=chi_p(rho*tau_p*nu_p).
+Using the global J above,
+boxed:
+chi_p(s*J)=chi_p(rho)=(2/p),
+hence
+boxed:
+chi_p(2*s*J)=+1.
+
+
+Define
+boxed:
+A_int=2*s*J=2*s*t*N_u/M^4.
+For every interior p, p does not divide A_int and
+boxed:
+(A_int/p)=+1.
+Thus the entire interior-prime system is the splitting condition for one global rational squareclass, rather than a collection of genuinely independent p-dependent auxiliary signs.
+
+
+### 112.3 The global squareclass is exactly the old symmetric product 2*Pi
+Section 35/49 gives the exact symmetric product
+Pi=v_1*v_2*v_3
+=4*u^2*S/(1+u^2)
+=4*a^2*s/(t*N_u).
+Therefore
+boxed:
+(s*J)*Pi
+=
+(s*t*N_u/M^4)*(4*a^2*s/(t*N_u))
+=
+(2*a*s/M^2)^2.
+Hence in Q*/Q*^2,
+boxed:
+[s*J]=[Pi],
+and consequently
+boxed:
+[A_int]=[2*Pi].
+
+
+Equivalently, for every interior p^lambda||M,
+boxed:
+chi_p(2*p^(4*lambda)*Pi)=+1.
+Section 49 gives v_p(Den(Pi))=4*lambda exactly on every fresh p, so the forced fresh denominator contribution is a fourth power and disappears from the quadratic squareclass. Thus p is unramified in the quadratic algebra attached to [2*Pi], and the interior selector says that p has trivial local quadratic character there; when [2*Pi] is nontrivial, p splits in
+K_Pi=Q(sqrt(2*Pi)).
+
+
+This is the exact global cross-prime receiver:
+boxed:
+every interior conductor prime splits in K_Pi.
+
+
+The conductor itself is NOT recovered as ramification of K_Pi; its forced fourth-power denominator is invisible to the squareclass.
+
+
+### 112.4 Reciprocity-only firewall
+This globalization is not a fixed-power saving.
+For a fixed quadratic squareclass, one splitting sign per distinct interior prime still has the selector-only scale 2^(-omega(q_int)); in particular a prime q_int gives only 1/2. Taking products of the local symbols, applying Jacobi-symbol identities, or invoking quadratic reciprocity without additional endpoint-incidence information only repackages the same accepted sign vector and does not turn it into q_int^(-delta).
+
+
+Therefore the legal continuation is not another isolated character-sum or reciprocity loop. A successful theorem must couple the realized moving squareclass [2*Pi] with the physical endpoint geometry/support, or introduce genuinely new global information not determined by the audited local square equation.
+
+
+### 112.5 Fixed-Pi physical fiber is a smooth genus-5 hyperelliptic curve
+There is nevertheless a concrete same-measure geometric receiver for the moving squareclass.
+Fix a rational value
+Pi=pi!=0.
+From
+Pi=4*u^2*S/(1+u^2),
+one has
+S=pi*(1+u^2)/(4*u^2).
+Substitute this into the audited Section-35 split-cubic discriminant equation
+Y^2=-(1+u^2)*Q(S,u)
+and set
+Z=16*u^4*Y.
+Then exactly
+boxed:
+Z^2=-(1+u^2)*G_pi(u),
+where
+G_pi(u)
+=
+pi^4*(1+u^2)^5
+-64*pi^3*u^3*(1+u^2)^3
++64*pi^2*u^4*(1+u^2)^2*(11*u^2-1)
++3072*pi*u^7*(1+u^2)
+-4096*u^10.
+
+
+The degree-12 leading coefficient is
+4096-704*pi^2-pi^4.
+It cannot vanish for rational pi, because pi^2 would have to equal -352+160*sqrt(5) or -352-160*sqrt(5).
+
+
+Exact discriminant calculation gives
+boxed:
+Disc_u(-(1+u^2)*G_pi(u))
+=
+2^156*pi^32*(729*pi^2-512)^3*(256*pi^4+96417*pi^2-746496).
+
+
+For rational pi!=0 none of the displayed factors vanishes:
+729*pi^2=512 would give pi=+/-16*sqrt(2)/27;
+and, putting z=pi^2,
+256*z^2+96417*z-746496=0
+has roots
+(-96417+/-24327*sqrt(17))/512,
+which are irrational.
+Hence every nonzero rational fixed-Pi fiber is squarefree of degree 12 and therefore is a smooth hyperelliptic curve of genus 5.
+
+
+The nondegenerate physical branch has Pi!=0 because all three anti-roots are nonzero.
+
+
+### 112.6 Route consequence
+M3-T11-101 removes the p-dependent auxiliary-sign presentation from the surviving interior cross-prime route:
+the exact receiver is the moving symmetric-product squareclass [2*Pi], with all interior conductor primes required to split in its quadratic algebra.
+
+
+It also identifies the fixed-Pi geometric fiber exactly as genus 5. This is a fiber-complexity preflight only. No uniform B^o(1) bound for fixed Pi is proved, and qualitative finiteness of rational points on one fixed genus-5 curve may not be promoted to a uniform same-measure counting theorem.
+
+
+No fixed-power saving, denominator-extreme closure, primary-gate closure, endpoint theorem, P(B)/M3(B) limit, or Perfect Cuboid nonexistence credit is obtained.
+
+
+DEPENDENCIES:
+Hostile-audit-passed M3-T11-099 and M3-T11-100; Sections 35, 48, and 49; M3-T11-040 conductor allocation.
+
+
+DO_NOT_REPEAT:
+- do not retain tau_p, nu_p, rho as if they define independent global sign data after A_int=[2*Pi] is available;
+- do not seek a fixed-power gain from Jacobi products or quadratic reciprocity alone;
+- do not infer a large quadratic-field discriminant from the M_rel^4 denominator of Pi, because that fourth power vanishes in Q*/Q*^2;
+- do not replace the open moving-Pi support problem by fixed-Pi genus-5 finiteness without a uniform quantitative theorem.
+
+
+REOPEN_CONDITION:
+Reopen if hostile audit rejects M^4|t*N_u, the identity [2*s*t*N_u/M^4]=[2*Pi], the Legendre-symbol conversion chi_p(rho)=(2/p), the fixed-Pi substitution/discriminant, or an audited dependency changes.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_INTERIOR_GLOBAL_J_INTEGER=PROVISIONAL
+M3_T11_INTERIOR_SELECTOR_GLOBAL_2PI_SQUARECLASS=PROVISIONAL
+M3_T11_INTERIOR_PRIMES_SPLIT_IN_K_2PI=PROVISIONAL
+M3_T11_INTERIOR_AUXILIARY_LOCAL_SIGNS_ELIMINATED=PROVISIONAL
+M3_T11_INTERIOR_QUADRATIC_RECIPROCITY_ONLY_FIXED_POWER=false
+M3_T11_FIXED_PI_GENERIC_GENUS5=PROVISIONAL
+M3_T11_FIXED_PI_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorSymmetricProductSplittingIncidence
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorGlobal2PiSplittingEndpointGeometry
+AUDIT_REQUIRED_BEFORE_PROMOTION=true
+NEXT_RESEARCH_CARD_ID=M3-T11-102
+
+
+## 113. HOSTILE AUDIT PROMOTION — M3-T11-101
+HOSTILE_AUDIT=PASS
+AUDIT_DOC_ID=1OVWtL8f3E065ErxzMulISFEVF--_gFn9ySsM220P9hc
+AUDITED_CARD=M3-T11-101
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-101
+
+
+Exact globalization, Legendre-symbol conversion, [2*Pi] squareclass identification, squareclass-trivial denominator firewall, and fixed-Pi genus-5 discriminant calculation all pass hostile audit.
+
+
+Promoted route receiver:
+InteriorGlobal2PiSplittingEndpointGeometry.
+
+
+Promoted firewalls:
+- p-dependent tau_p/nu_p/rho bookkeeping is not independent global information after [2*Pi] globalization;
+- reciprocity/Jacobi alone does not upgrade the exact 2^(-omega(q_int)) selector density to a fixed power;
+- M_rel^4 in Den(Pi) is invisible in the quadratic squareclass and cannot be used as fresh field-discriminant credit;
+- smooth fixed-Pi genus 5 does not imply a uniform B^o(1) physical count without a new quantitative theorem.
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorSymmetricProductSplittingIncidence
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorGlobal2PiSplittingEndpointGeometry
+NEXT_RESEARCH_CARD_ID=M3-T11-102
+M3_T11_FIXED_PI_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+NEXT_LEGAL_ACTION=Continue only with genuinely global moving-Pi endpoint geometry/support, or the independent theta route. Do not reopen the audited local/reciprocity/firewall routes absent an audited dependency change.
+## 114. M3-T11-102 — fixed [2*Pi] is a squareclass surface with smooth genus-3 q-fibers, not the fixed-Pi genus-5 curve
+Status: PROVISIONAL EXACT_SQUARECLASS_GEOMETRY / FIXED_SQUARECLASS_SURFACE / GENUS3_DOUBLE_COVER / FIXED_PI_OVERREFINEMENT_FIREWALL / HOSTILE_AUDIT_REQUIRED / NO POWER SAVING.
+Retain hostile-audit-passed M3-T11-101, the audited Section-35 symmetric incidence, Section 49, and the audited fixed-u geometry. Work on the same fixed-content/coefficient nondegenerate physical endpoint population with R<=B.
+
+
+### 114.1 Three exact representatives of the receiver squareclass
+Section 35 gives
+Pi=4*u^2*S/(1+u^2).
+Therefore
+boxed:
+2*Pi = 2*S*(1+u^2)*(2*u/(1+u^2))^2,
+hence
+boxed:
+[2*Pi]=[2*S*(1+u^2)]
+in Q*/Q*^2.
+Writing S=s/t, u=a/b and N_u=a^2+b^2, one also has
+Pi=4*a^2*s/(t*N_u),
+so
+boxed:
+(2*Pi)/(2*s*t*N_u)=(2*a/(t*N_u))^2,
+and hence
+boxed:
+[2*Pi]=[2*s*t*N_u].
+On the nonzero split-discriminant locus Q(S,u)!=0, the endpoint equation
+Y^2=-(1+u^2)*Q(S,u)
+also gives
+boxed:
+[2*Pi]=[-2*S*Q(S,u)],
+because
+(2*Pi)/(-2*S*Q)=(2*u*Y/((1+u^2)*Q))^2.
+Thus the M3-T11-101 quadratic receiver can be read directly from the symmetric surface without the p-dependent auxiliary units.
+
+
+### 114.2 Canonical squareclass representative and exact fresh denominator of its square root
+Choose a signed squarefree integer representative d of [2*Pi] and q in Q* with
+boxed:
+2*Pi=d*q^2.
+Section 49 gives, for every relative-fresh p^lambda||M_rel,
+v_p(Pi)=-4*lambda
+in lowest terms. Since the squareclass valuation is even, p does not divide d, and therefore
+boxed:
+v_p(q)=-2*lambda.
+Equivalently on the relative-fresh support,
+boxed:
+gcd(Den(q),M_rel^infinity)=M_rel^2.
+This is exactly the square root of the already-consumed M_rel^4 denominator of Pi. It is a useful coordinate normalization but has zero independent saving credit.
+
+
+### 114.3 Fixing the splitting field does not fix Pi
+The interior splitting condition of M3-T11-101 depends only on d=[2*Pi], not on the exact value of Pi.
+From 2*Pi=d*q^2 and Pi=4*u^2*S/(1+u^2),
+boxed:
+S=d*q^2*(1+u^2)/(8*u^2).
+For fixed nonzero d, the variables (u,q,Y) still satisfy one endpoint equation. Thus the fixed-squareclass receiver is a two-dimensional surface. The fixed-Pi genus-5 curves of M3-T11-101 are strict one-parameter slices obtained by additionally fixing q^2, equivalently Pi=d*q^2/2.
+Consequently, fixed-Pi genus-5 finiteness or any future fixed-Pi multiplicity bound cannot be charged as a fixed-squareclass theorem unless the realized q / exact-Pi support inside one d is also controlled on the same physical measure.
+
+
+### 114.4 Exact fixed-(d,u) curve is smooth genus 3
+Use the M3-T11-101 fixed-Pi polynomial
+G_pi(u)
+=
+pi^4*(1+u^2)^5
+-64*pi^3*u^3*(1+u^2)^3
++64*pi^2*u^4*(1+u^2)^2*(11*u^2-1)
++3072*pi*u^7*(1+u^2)
+-4096*u^10.
+Substitute
+pi=d*q^2/2
+and put T=4*Z. Then exactly
+boxed:
+T^2=-(1+u^2)*F_{d,u}(q),
+where
+boxed:
+F_{d,u}(q)
+=
+d^4*q^8*(1+u^2)^5
+-128*d^3*q^6*u^3*(1+u^2)^3
++256*d^2*q^4*u^4*(1+u^2)^2*(11*u^2-1)
++24576*d*q^2*u^7*(1+u^2)
+-65536*u^10.
+Its exact q-discriminant is
+boxed:
+Disc_q(F_{d,u})
+=
+-2^128*d^28*u^62*(1+u^2)^33*(25*u^2-2)^6.
+For rational physical d!=0 and u!=0 this is nonzero: 1+u^2!=0 and u^2=2/25 has no rational solution. The leading coefficient d^4*(1+u^2)^5 is also nonzero.
+Therefore every rational fixed-(d,u) physical fiber is a smooth degree-8 hyperelliptic curve of genus 3.
+
+
+### 114.5 The genus-3 fiber is a quadratic cover of the old fixed-u genus-one fiber
+The equation is even in q. Quotient by the involution q->-q and put z=q^2. The quotient is a smooth quartic genus-one curve. After the linear change x=d*z=2*Pi and
+S=x*(1+u^2)/(8*u^2),
+this quotient is exactly the existing Section-35 fixed-u genus-one incidence.
+Hence the elliptic quotient is not a new independent compression theorem. The genuinely new object attached to the splitting-field receiver is the quadratic square-coordinate cover
+x/d=q^2
+of that audited fixed-u elliptic fiber.
+The audited fixed-u B^o(1) theorem still implies fixed (d,u) physical multiplicity is at most B^o(1), but fixing d alone leaves u and q moving on a surface.
+
+
+### 114.6 Route consequence and firewall
+M3-T11-102 refines the M3-T11-101 receiver:
+- the arithmetic splitting field is indexed by d=[2*Pi];
+- every relative-fresh prime is unramified in d, while every interior fresh prime is additionally required by M3-T11-101 to split in Q(sqrt(d));
+- q has exact relative-fresh denominator M_rel^2, but this is only the square root of the already-consumed Pi denominator;
+- fixed d is a two-dimensional endpoint surface, fibered over u by smooth genus-3 curves;
+- fixed exact Pi is an over-refinement of the field receiver unless q-support is separately controlled.
+
+
+A legal continuation is therefore a same-measure theorem controlling realized q / exact-Pi support inside a fixed squareclass d, or a theorem exploiting the genus-3 square-coordinate cover globally across moving u. The independent theta moving-support route remains live.
+No fixed-power saving, denominator-extreme closure, primary-gate closure, endpoint theorem, P(B)/M3(B) limit, or Perfect Cuboid nonexistence credit is obtained.
+
+
+DEPENDENCIES:
+Hostile-audit-passed M3-T11-101; audited Section 35 symmetric incidence; Section 49 exact Pi denominator; audited fixed-u genus-one/B^o(1) geometry.
+
+
+DO_NOT_REPEAT:
+- do not identify fixed d=[2*Pi] with fixed Pi;
+- do not charge fixed-Pi genus-5 finiteness or compression without a same-measure bound for q / exact-Pi support inside d;
+- do not charge the M_rel^2 denominator of q independently from the already-consumed M_rel^4 denominator of Pi;
+- do not count the genus-one quotient as a new compression theorem: it is the old fixed-u quotient after x=d*q^2;
+- do not infer a fixed-power saving merely from smooth genus 3.
+
+
+REOPEN_CONDITION:
+Reopen if hostile audit rejects the squareclass identities, the fixed-squareclass dimension count, Section 49's exact fresh valuation of Pi, the degree-8 substitution/discriminant, or the identification of the q->-q quotient with the Section-35 fixed-u genus-one incidence.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_2PI_SQUARECLASS_SYMMETRIC_REPRESENTATIONS=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_Q_MREL2_DENOMINATOR=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_Q_DENOMINATOR_INDEPENDENT_SAVING=false
+M3_T11_FIXED_2PI_SQUARECLASS_RECEIVER_DIMENSION=2
+M3_T11_FIXED_2PI_SQUARECLASS_FIXED_U_GENUS3=PROVISIONAL
+M3_T11_FIXED_2PI_SQUARECLASS_GENUS3_ELLIPTIC_QUOTIENT_OLD=true
+M3_T11_FIXED_PI_GENUS5_OVERREFINEMENT_FIREWALL=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorSymmetricProductSplittingIncidence
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|Interior2PiSquareclassSurfaceQSupport
+AUDIT_REQUIRED_BEFORE_PROMOTION=true
+NEXT_RESEARCH_CARD_ID=M3-T11-103
+
+
+## 115. HOSTILE AUDIT PROMOTION — M3-T11-102
+HOSTILE_AUDIT=PASS
+AUDIT_DOC_ID=1dlK8Pyj6HCa3sE2Ha-73NnH3W9-hSNn_yVpC9ueHx4k
+AUDITED_CARD=M3-T11-102
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-102
+
+
+The exact squareclass representations, fresh q-denominator normalization, fixed-squareclass dimension count, degree-8/genus-3 discriminant calculation, and q->-q quotient identification all pass hostile audit.
+
+
+Promoted live receiver:
+Interior2PiSquareclassSurfaceQSupport.
+
+
+Promoted firewalls:
+- fixed d=[2*Pi] is not fixed Pi;
+- q's M_rel^2 denominator is the square root of the already-consumed Pi M_rel^4 denominator and carries zero independent saving;
+- the genus-one quotient is the old fixed-u quotient and cannot be recharged;
+- smooth genus 3 alone gives neither a fixed-squareclass B^o(1) theorem nor fixed-power saving.
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|Interior2PiSquareclassSurfaceQSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|Interior2PiSquareclassSurfaceQSupport
+NEXT_RESEARCH_CARD_ID=M3-T11-103
+M3_T11_FIXED_SQUARECLASS_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+NEXT_LEGAL_ACTION=Continue only with a same-measure q/exact-Pi support theorem inside fixed d, a genuinely global theorem for the genus-3 square-coordinate cover across moving u, or the independent theta route.
+
+
+## 116. M3-T11-103 — complementary genus-2 quadratic-twist quotient of the fixed-squareclass genus-3 cover
+
+
+Status: PROVISIONAL EXACT_V4_DECOMPOSITION / GENUS2_QUADRATIC_TWIST_RECEIVER / RECIPROCAL_SPLIT_NO_GO / HOSTILE_AUDIT_REQUIRED / NO POWER SAVING.
+
+
+Retain hostile-audit-passed M3-T11-102 and its exact fixed-squareclass cover. Work on the same fixed-content/coefficient nondegenerate Stage37 physical endpoint population with R<=B.
+
+
+### 116.1 Rewrite the genus-3 cover through x=d*q^2
+
+
+Put
+A=1+u^2
+and
+x=d*q^2.
+Define
+H_u(x)
+=
+A^5*x^4
+-128*u^3*A^3*x^3
++256*u^4*A^2*(11*u^2-1)*x^2
++24576*u^7*A*x
+-65536*u^10.
+
+
+Then the audited M3-T11-102 equation is exactly
+T^2=-A*H_u(d*q^2).
+
+
+Thus the squareclass parameter d does not enter the quartic H_u itself; it enters through the square-coordinate x=d*q^2.
+
+
+The involution
+sigma:(q,T)->(-q,T)
+has the already-audited genus-one quotient in x=d*q^2. This factor is old and receives no new credit.
+
+
+### 116.2 The complementary involution gives a genus-2 d-twist
+
+
+Let
+iota:(q,T)->(q,-T)
+be the hyperelliptic involution and
+tau=sigma*iota:(q,T)->(-q,-T).
+
+
+Two tau-invariants are
+x=d*q^2,
+W=d*q*T.
+
+
+Direct substitution gives
+boxed:
+W^2=-d*A*x*H_u(x).
+
+
+Hence the tau quotient is
+boxed:
+H_{d,u}: W^2=-d*(1+u^2)*x*H_u(x).
+
+
+For fixed u, this is exactly the quadratic twist by d of the base genus-2 curve
+H_{1,u}: W^2=-(1+u^2)*x*H_u(x).
+
+
+The exact quartic and quintic discriminants are
+boxed:
+Disc_x(H_u)
+=
+-2^52*u^26*(1+u^2)^14*(25*u^2-2)^3,
+
+
+boxed:
+Disc_x(-(1+u^2)*x*H_u(x))
+=
+-2^84*u^46*(1+u^2)^22*(25*u^2-2)^3.
+
+
+Therefore
+Disc_x(-d*(1+u^2)*x*H_u(x))
+=
+-2^84*d^8*u^46*(1+u^2)^22*(25*u^2-2)^3.
+
+
+For rational physical d!=0 and u!=0 this is nonzero, because u^2=2/25 has no rational solution. Thus every fixed-(d,u) complementary quotient is a smooth genus-2 curve.
+
+
+The points x=0 and infinity are rational Weierstrass points, so Jac(H_{d,u})(Q) contains the rational 2-torsion class [(0,0)-infinity]. This is a descent interface only; it is not a saving by itself.
+
+
+### 116.3 V4 Jacobian decomposition isolates the genuinely new factor
+
+
+The involutions sigma and iota commute, and the full V4 quotient is genus zero. Applying the standard V4 idempotent/Kani-Rosen decomposition to this exact Q-defined action gives, up to Q-isogeny,
+boxed:
+Jac(C_{d,u}) ~_Q E_u x Jac(H_{d,u}),
+where C_{d,u} is the M3-T11-102 genus-3 cover and E_u is its sigma quotient, namely the already-audited Section-35 fixed-u genus-one incidence.
+
+
+Consequently, after the old elliptic factor is firewalled against double charging, the only new Jacobian arithmetic exposed by the fixed-squareclass cover is the genus-2 quadratic-twist factor H_{d,u}.
+
+
+This sharpens the live receiver from a generic genus-3 moving-cover problem to a concrete genus-2 twist/Selmer-support problem, while preserving the exact same physical measure.
+
+
+### 116.4 Reciprocal second-elliptic split is uniformly absent
+
+
+Write the quartic H_u(x) as
+a*x^4+b*x^3+c*x^2+e1*x+f,
+with
+a=A^5,
+b=-128*u^3*A^3,
+e1=24576*u^7*A,
+f=-65536*u^10.
+
+
+The same reciprocal branch-set criterion used in audited M3-T11-044 says that a Q-rational commuting involution of reciprocal form x->lambda/x, which would split the genus-2 factor by this mechanism, requires
+f*b^2-a*e1^2=0.
+
+
+Exact factorization gives
+boxed:
+f*b^2-a*e1^2
+=
+-2^26*u^14*(1+u^2)^6*(9+25*u^2).
+
+
+For every rational physical u!=0 this is nonzero. Therefore the current genus-2 twist family has no Q-rational reciprocal commuting involution of this form and no second elliptic quotient from the M3-T11-044 reciprocal mechanism.
+
+
+This does not prove that Jac(H_{d,u}) is absolutely simple, and it does not exclude a genuinely non-reciprocal elliptic factor or other correspondence.
+
+
+### 116.5 Route consequence and firewall
+
+
+M3-T11-103 identifies the new arithmetic part of the audited M3-T11-102 square-coordinate cover exactly:
+- old factor: the already-consumed fixed-u elliptic quotient E_u;
+- new factor: the genus-2 quadratic-twist family H_{d,u};
+- exact d-dependence: quadratic twist only on H_{d,u};
+- available descent marker: one rational 2-torsion class on Jac(H_{d,u});
+- closed cheap split: the reciprocal second-elliptic mechanism is uniformly absent.
+
+
+The next legal interior attack is therefore an exact same-measure 2-descent/Selmer/support analysis of the physical image in Jac(H_{d,u}) as d=[2*Pi] and u move, with special attention to whether the audited interior-prime splitting condition for Q(sqrt(d)) constrains the genus-2 twist Selmer image. A genuinely non-reciprocal elliptic factor would also be admissible if proved with the required physical adapter. The independent theta moving-support route remains live.
+
+
+No fixed-power saving, fixed-squareclass B^o(1) theorem, denominator-extreme support deficit, primary-gate closure, endpoint theorem, P(B)/M3(B) limit, or Perfect Cuboid nonexistence credit is obtained.
+
+
+DEPENDENCIES:
+Hostile-audit-passed M3-T11-102; audited Section-35 fixed-u genus-one incidence; standard V4/Kani-Rosen decomposition for the exact Q-defined involutions; audited M3-T11-044 reciprocal criterion as an anti-loop template.
+
+
+DO_NOT_REPEAT:
+- do not recharge the sigma elliptic quotient: it is the old Section-35 fixed-u factor;
+- do not infer fixed-power saving from genus 2, rational 2-torsion, or a Jacobian isogeny decomposition alone;
+- do not repeat reciprocal x->lambda/x searches on H_{d,u} unless an audited dependency changes;
+- do not claim absolute simplicity of Jac(H_{d,u}); only the reciprocal split mechanism is closed;
+- do not identify fixed d with fixed Pi or recharge q's M_rel^2 denominator.
+
+
+REOPEN_CONDITION:
+Reopen if hostile audit rejects the quotient map, discriminant factors, V4 decomposition applicability, or reciprocal obstruction; or if a genuine non-reciprocal elliptic factor / stronger correspondence with an exact physical adapter is proved.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_FIXED_SQUARECLASS_GENUS3_COMPLEMENTARY_GENUS2_QUOTIENT=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_GENUS2_IS_D_TWIST=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_GENUS3_JAC_SPLIT_E_PLUS_GENUS2=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_GENUS2_RATIONAL_2TORSION=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_GENUS2_RECIPROCAL_SECOND_ELLIPTIC=false
+M3_T11_FIXED_SQUARECLASS_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|Interior2PiSquareclassGenus2TwistSelmerSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|Interior2PiSquareclassGenus2TwistSelmerSupport
+AUDIT_REQUIRED_BEFORE_PROMOTION=true
+NEXT_RESEARCH_CARD_ID=M3-T11-104
+
+
+## 117. M3-T11-104 — rational-Weierstrass Kummer component collapses to the already-audited squareclass d
+
+
+Status: PROVISIONAL EXACT_KUMMER_COLLAPSE / RATIONAL_2TORSION_NO_GO / HOSTILE_AUDIT_REQUIRED / NO POWER SAVING.
+
+
+Retain audited M3-T11-101/102 and provisional M3-T11-103. This card is conditional on promotion of M3-T11-103.
+
+
+### 117.1 Exact physical evaluation of the rational 2-torsion component
+
+
+For the provisional M3-T11-103 genus-2 quotient, put A=1+u^2 and
+H_{d,u}: W^2 = -d*A*x*H_u(x).
+
+
+The rational Weierstrass points (0,0) and infinity define the rational 2-torsion divisor class
+D0=[(0,0)-infinity].
+Since div(x)=2D0 on this odd-degree hyperelliptic model, the visible D0-Kummer evaluation at a rational point away from the branch points is the squareclass [x] in Q*/Q*^2.
+
+
+For every physical point coming from the M3-T11-102 square-coordinate cover,
+x=d*q^2,
+W=d*q*T,
+T^2=-A*H_u(x).
+
+
+Therefore, exactly,
+boxed:
+[x]=[d].
+
+
+The complementary visible factor has
+-d*A*H_u(x)=d*T^2,
+hence
+boxed:
+[-d*A*H_u(x)]=[d].
+
+
+The consistency identity is
+x*(-d*A*H_u(x))=W^2.
+Thus the two visible factor squareclasses are the same already-fixed class d. No q- or u-support survives in this elementary rational-Weierstrass Kummer component.
+
+
+This statement concerns only the rational factor x and its associated 2-torsion/Kummer component. It is not a computation of the full genus-2 2-Selmer group or of the quartic étale-algebra component attached to H_u(x).
+
+
+### 117.2 Interior-prime local condition is exactly the old splitting receiver
+
+
+At every relative-fresh interior p^lambda||M_rel, audited M3-T11-102 gives
+p does not divide d,
+v_p(q)=-2*lambda.
+
+
+Hence
+v_p(x)=-4*lambda
+is even, and the p-adic unit squareclass of x is again [d].
+
+
+Audited M3-T11-101 already says every such interior conductor prime splits in Q(sqrt(d)); equivalently, for these odd unramified p,
+chi_p(d)=+1.
+
+
+Therefore imposing local solubility through this rational-Weierstrass Kummer component at the interior primes reproduces the already-consumed M3-T11-101 splitting condition. It is not an independent selector, conductor saving, or cross-prime event.
+
+
+### 117.3 Anti-double-charge consequence
+
+
+The obvious rational-2-torsion descent subroute on H_{d,u} is now frozen:
+- the physical D0-Kummer value is [d];
+- the complementary visible factor is also [d];
+- fresh q-denominator depth disappears because q^2 is a square;
+- the interior local acceptance is exactly the audited splitting of p in Q(sqrt(d)).
+
+
+This is a current-receiver analogue of the earlier Kummer no-double-charge firewalls, but it is a distinct card because the object is the M3-T11-103 genus-2 d-twist receiver.
+
+
+The genus-2 route itself remains open. A legal continuation must use information not determined by the rational factor x, for example:
+- the residual quartic étale-algebra component of a genuine genus-2 2-descent;
+- a nontrivial Jacobian divisor-class/Selmer condition not forced by [d];
+- a proved non-reciprocal factor or correspondence with an exact physical adapter;
+- genuinely global support across moving u and d.
+The independent theta moving-support route also remains live.
+
+
+No fixed-power saving, fixed-squareclass B^o(1) theorem, denominator-extreme support deficit, primary-gate closure, endpoint theorem, P(B)/M3(B) limit, or Perfect Cuboid nonexistence credit is obtained.
+
+
+DEPENDENCIES:
+M3-T11-101 HOSTILE_AUDIT_PASS; M3-T11-102 HOSTILE_AUDIT_PASS; M3-T11-103 PROVISIONAL; exact physical identities x=d*q^2, W=d*q*T, T^2=-A*H_u(x).
+
+
+DO_NOT_REPEAT:
+- do not use [x] on H_{d,u} as a new squareclass condition: on the physical image [x]=[d];
+- do not multiply the rational-Weierstrass Kummer local condition by the M3-T11-101 interior splitting condition;
+- do not recharge q's M_rel^2 denominator through x=d*q^2;
+- do not infer that the full genus-2 2-Selmer image is fixed or trivial;
+- do not exclude the quartic étale component, non-reciprocal correspondences, or cross-u global information.
+
+
+REOPEN_CONDITION:
+Reopen this frozen subroute only if hostile audit rejects M3-T11-103/104, an audited dependency changes, or a descent component is exhibited that is provably not determined by the visible rational factor [x]=[d] and has an exact same-measure physical adapter.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_FIXED_SQUARECLASS_GENUS2_PHYSICAL_X_KUMMER_CLASS_D=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_GENUS2_COMPLEMENTARY_FACTOR_CLASS_D=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_GENUS2_RATIONAL_WEIERSTRASS_DESCENT_NEW_SAVING=false
+M3_T11_101_INTERIOR_SPLITTING_AND_GENUS2_X_KUMMER_INDEPENDENT=false
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_FIXED_SQUARECLASS_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|Interior2PiSquareclassGenus2ResidualSelmerSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|Interior2PiSquareclassGenus2ResidualSelmerSupport
+AUDIT_REQUIRED_BEFORE_PROMOTION=true
+PROVISIONAL_DEPENDS_ON=M3-T11-103
+NEXT_RESEARCH_CARD_ID=M3-T11-105
+
+
+## 118. M3-T11-105 — residual quartic étale component is generically S4; norm-only descent collapses
+
+
+Status: PROVISIONAL GENERIC_S4_ETALE / NORM_ONLY_NO_GO / GENERIC_QUADRATIC_SPLIT_NO_GO / HOSTILE_AUDIT_REQUIRED / NO POWER SAVING.
+
+
+Retain audited M3-T11-101/102 and provisional M3-T11-103/104. This card is conditional on promotion of the provisional dependency chain.
+
+
+### 118.1 Exact normalization of the residual quartic
+
+
+Put A=1+u^2 and use the M3-T11-103 quartic H_u(x). Define
+z = A*x/(16*u^2).
+Then exactly
+H_u(x)=2^16*u^8*Q_u(z),
+where
+boxed:
+Q_u(z)
+=
+A*z^4
+-8*u*z^3
++(11*u^2-1)*z^2
++6*u*z
+-u^2.
+
+
+Its discriminant is
+boxed:
+Disc_z(Q_u)
+=
+-2^4*u^2*A^2*(25*u^2-2)^3.
+
+
+For rational physical u!=0 this is nonzero, by the same rationality argument as M3-T11-103.
+
+
+### 118.2 Generic irreducibility and S4 Galois group
+
+
+The quartic Q_u(z) is primitive as a polynomial in z over Q[u]. At the specialization u=1,
+Q_1(z)=2*z^4-8*z^3+10*z^2+6*z-1,
+which is irreducible over Q (exact irreducibility check; equivalently one may certify it after reduction modulo 5).
+
+
+A standard cubic resolvent of the monic normalization Q_u/A, after clearing the denominator A^3, is
+R_u(y)
+=
+A^3*y^3
++(1-9*u^2-21*u^4-11*u^6)*y^2
++4*u^2*(u^4-10*u^2-11)*y
+-4*u^2*(11*u^4+3*u^2+8).
+
+
+At u=1, after removing an irrelevant nonzero scalar, this specializes to
+y^3-5*y^2-10*y-11,
+which is irreducible over Q; modulo 3 it has no root.
+
+
+By Gauss specialization, both Q_u and its cubic resolvent are therefore irreducible over Q(u).
+
+
+Moreover
+Disc(Q_u)
+=
+(4*u*A*(25*u^2-2))^2 * (2-25*u^2),
+so its discriminant squareclass over Q(u) is
+[2-25*u^2],
+which is nontrivial in Q(u)^*/Q(u)^{*2}.
+
+
+Hence the standard quartic Galois criterion gives
+boxed:
+Gal(Q_u / Q(u)) = S4.
+
+
+Consequences at the generic-function-field level:
+- the residual quartic étale algebra is a genuine degree-4 field, not a product of quadratic algebras;
+- the cubic resolvent does not split generically;
+- there is no generic factorization of Q_u into two quadratic factors over Q(u);
+- even adjoining the discriminant square root reduces S4 to A4, which is still transitive on the four roots, so the quartic remains generically irreducible over Q(u,sqrt(2-25*u^2)).
+
+
+This is a generic statement only. Special rational u can have smaller Galois group or a reducible quartic and are not excluded.
+
+
+### 118.3 The norm of the physical residual étale class is tautologically [-1]
+
+
+Let theta be the class of z in the quartic algebra
+K_u = Q(u)[theta]/(Q_u(theta)/A),
+using the monic quartic Q_u/A.
+
+
+For a physical point, the M3-T11-103 identities give
+T^2=-A*H_u(x).
+Since
+H_u(x)=2^16*u^8*Q_u(z),
+one gets
+Q_u(z)/A
+=
+- T^2/(2^16*u^8*A^2)
+=
+- (T/(2^8*u^4*A))^2.
+
+
+Therefore
+boxed:
+N_{K_u/Q(u)}(z-theta)
+=
+Q_u(z)/A
+=
+- (T/(2^8*u^4*A))^2,
+
+
+and hence its norm squareclass is identically
+boxed:
+[N(z-theta)]=[-1].
+
+
+Thus any attack that pushes the residual quartic 2-descent class only through its norm to Q^*/Q^{*2} loses d, q, and the moving support completely. Norm-only characters cannot supply an independent fixed-power saving.
+
+
+This does NOT say that z-theta itself is a square in K_u, nor that the full genus-2 2-Selmer image collapses. The nontrivial S4 étale class in K_u^*/K_u^{*2} remains the live object.
+
+
+### 118.4 Route consequence
+
+
+The cheap residual genus-2 descent routes are now sharply separated:
+- rational-Weierstrass component [x]: frozen by M3-T11-104 as [d];
+- norm of the quartic étale component: frozen here as [-1];
+- generic quadratic factor / two-quadratic norm split: absent because the residual quartic is generically S4.
+
+
+The surviving interior route must therefore use genuinely non-norm information in the S4 quartic étale class z-theta, a specialization theorem controlling exceptional u, a non-reciprocal correspondence with an exact physical adapter, or a global cross-u support theorem. The independent theta moving-support route remains live.
+
+
+No thin-set count, fixed-power saving, fixed-squareclass B^o(1) theorem, denominator-extreme support deficit, primary-gate closure, endpoint theorem, P(B)/M3(B) limit, or Perfect Cuboid nonexistence credit is obtained.
+
+
+DEPENDENCIES:
+M3-T11-101/102 HOSTILE_AUDIT_PASS; M3-T11-103/104 PROVISIONAL; standard quartic resolvent/Galois criterion; exact CAS algebra for normalization, discriminant, and specialization irreducibility.
+
+
+DO_NOT_REPEAT:
+- do not replace the residual S4 étale class by its norm and claim new support: the norm class is always [-1];
+- do not search for a generic factorization of Q_u into two quadratics over Q(u), or over the discriminant quadratic extension, unless an audited dependency changes;
+- do not infer that every rational specialization u has Galois group S4;
+- do not infer a physical thin-set saving without an exact R<=B specialization/measure adapter;
+- do not infer full Selmer collapse from the two frozen coarse components.
+
+
+REOPEN_CONDITION:
+Hostile audit rejects M3-T11-103/104/105, the generic irreducibility/resolvent/Galois calculation fails, or an exact same-measure theorem converts exceptional-specialization structure or the full S4 étale class into a quantitative support deficit.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_FIXED_SQUARECLASS_GENUS2_RESIDUAL_QUARTIC_NORMAL_FORM=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_GENUS2_RESIDUAL_QUARTIC_GENERIC_GALOIS_S4=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_GENUS2_RESIDUAL_ETALE_NORM_CLASS_MINUS_ONE=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_GENUS2_RESIDUAL_NORM_ONLY_NEW_SAVING=false
+M3_T11_FIXED_SQUARECLASS_GENUS2_GENERIC_TWO_QUADRATIC_SPLIT=false
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_FIXED_SQUARECLASS_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|Interior2PiSquareclassGenus2S4EtaleSelmerSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|Interior2PiSquareclassGenus2S4EtaleSelmerSupport
+AUDIT_REQUIRED_BEFORE_PROMOTION=true
+PROVISIONAL_DEPENDS_ON=M3-T11-103,M3-T11-104
+NEXT_RESEARCH_CARD_ID=M3-T11-106
+
+
+## 119. HOSTILE AUDIT PROMOTION — M3-T11-103 through M3-T11-105
+HOSTILE_AUDIT=PASS
+AUDIT_DOC_ID=1TLW9ndcDO5o6HodeD314X77Ch-5gOMjUSzdYy2Y3nBU
+AUDITED_CARDS=M3-T11-103,M3-T11-104,M3-T11-105
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-105
+
+
+103 PASS:
+- exact complementary genus-2 d-twist quotient;
+- smoothness/discriminant;
+- V4/Kani-Rosen split Jac(C) ~ E_u x Jac(H_{d,u});
+- rational 2-torsion interface;
+- reciprocal second-elliptic mechanism absent.
+
+
+104 PASS:
+- physical rational-Weierstrass Kummer value [x]=[d];
+- complementary visible factor also [d];
+- interior local condition exactly duplicates M3-T11-101 splitting;
+- no full genus-2 Selmer collapse claimed.
+
+
+105 PASS:
+- exact residual quartic normal form;
+- generic Gal=S4 over Q(u);
+- no generic two-quadratic split, including after the discriminant quadratic extension;
+- norm-only physical squareclass [-1].
+Notation normalization: N(z-theta) is interpreted after physical specialization or scalar extension to a base field containing z; this does not alter the physical norm squareclass.
+
+
+Promoted live receiver:
+Interior2PiSquareclassGenus2S4EtaleSelmerSupport.
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|Interior2PiSquareclassGenus2S4EtaleSelmerSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|Interior2PiSquareclassGenus2S4EtaleSelmerSupport
+NEXT_RESEARCH_CARD_ID=M3-T11-106
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_FIXED_SQUARECLASS_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+NEXT_LEGAL_ACTION=Continue only with non-norm S4 etale/Selmer information, exact same-measure exceptional-specialization control, a proved non-reciprocal correspondence with physical adapter, global cross-u support, or the independent theta route.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 120. M3-T11-106 — physical z=S/2, interior 1+3 local factorization, odd-cubic squareclass collapse, and cubic-resonance router
+Status: PROVISIONAL EXACT_PHYSICAL_NORMALIZATION / INTERIOR_LOCAL_1_PLUS_3_FACTORIZATION / ODD_CUBIC_SQUARECLASS_COLLAPSE / CUBIC_RESONANCE_ROUTER / HOSTILE_AUDIT_REQUIRED / NO POWER SAVING.
+
+
+Retain hostile-audit-passed M3-T11-099/100/102/105 and the audited Section-48 interior fresh-prime allocation. Work on the exact same fixed-content/coefficient nondegenerate Stage37 physical endpoint population with R<=B.
+
+
+### 120.1 The M3-T11-105 physical coordinate is exactly z=S/2
+M3-T11-102 uses x=d*q^2=2*Pi. Section 35 gives
+Pi=4*u^2*S/(1+u^2).
+M3-T11-105 defines
+z=(1+u^2)*x/(16*u^2).
+Therefore on every physical point,
+boxed:
+z=S/2.
+This is an exact normalization identity on the existing physical measure; it is not a new density event.
+
+
+### 120.2 Interior fresh primes force a canonical 1+3 local factorization
+Fix an interior fresh p^lambda||m_i with 0<c_p<2*lambda. Put
+k=2*lambda-c_p,
+A=1+u^2,
+n=v_p(A)=v_p(N_u)=2*lambda+c_p.
+Here u=a/b with p not dividing a*b, so A=N_u/b^2. Every fresh p is odd and p==1 mod 4. Audited M3-T11-099/100 gives v_p(t)=k for S=s/t with p not dividing s. Hence, using z=S/2,
+v_p(z)=-k.
+
+
+For the audited M3-T11-105 quartic
+Q_u(z)=A*z^4-8*u*z^3+(11*u^2-1)*z^2+6*u*z-u^2,
+put w=z-u/2. Exact expansion gives
+16*Q_u(u/2+w)
+=
+A*(A-1)*(A+27)
++8*A*(A+9)*u*w
++8*A*(3*A-5)*w^2
++32*(A-4)*u*w^3
++16*A*w^4.
+In particular, modulo p,
+boxed:
+Q_u(z) == -8*u*(z-u/2)^3 (mod p).
+
+
+The w-adic Newton polygon has lower vertices
+(0,n), (3,0), (4,n).
+Therefore Q_u over Q_p has one canonical linear factor and one total degree-3 factor. The unique linear root theta_inf lies in Q_p and satisfies
+v_p(theta_inf)=-n.
+The other three roots satisfy
+v_p(theta-u/2)=n/3
+in the algebraic closure.
+
+
+Using the reciprocal polynomial y^4*Q_u(1/y), the small reciprocal root has
+y_inf=A/(8*u)*(1+O(p^n)).
+Since p is odd, 1+O(p) is a square. Hence
+boxed:
+[theta_inf]=[8*u/A]
+in Q_p^*/Q_p^{*2}.
+
+
+For the physical etale element, define the linear component
+beta_p=z-theta_inf.
+Because
+v_p(z/theta_inf)=n-k=2*c_p>0,
+the factor 1-z/theta_inf is a p-adic square. Thus
+boxed:
+[beta_p]=[-8*u/A].
+
+
+### 120.3 Nonresonant interior primes have no independent non-norm cubic squareclass
+If 3 does not divide n=2*lambda+c_p, the degree-3 Newton segment has gcd(3,n)=1, so the degree-3 factor is irreducible over Q_p. Let L_p/Q_p be that cubic field and let gamma_p be the degree-3 component of z-theta.
+
+
+For odd p, both Q_p^*/Q_p^{*2} and L_p^*/L_p^{*2} have four elements. Because [L_p:Q_p]=3 is odd, restriction
+Q_p^*/Q_p^{*2} -> L_p^*/L_p^{*2}
+is injective and hence an isomorphism; norm is its inverse on squareclasses.
+
+
+Audited M3-T11-105 gives the total norm squareclass [-1]. Since the linear factor has class [-8*u/A],
+boxed:
+[N_{L_p/Q_p}(gamma_p)]=[A/(8*u)],
+and therefore
+boxed:
+[gamma_p]=res([A/(8*u)]).
+
+
+Thus at every interior prime with 3 not dividing 2*lambda+c_p, the full local quartic-etale squareclass of the physical element is already determined by u/A:
+([-8*u/A], res([A/(8*u)])).
+There is no additional independent non-norm local squareclass on this branch. This is a local anti-loop theorem only; it is not a global Selmer collapse or a counting saving.
+
+
+### 120.4 Exact cubic-resonance criterion
+Now suppose n=3*m. Write
+A=p^n*a_0
+with a_0 a p-adic unit and put w=p^m*xi. Divide the translated equation by p^n and reduce modulo p. Up to a nonzero scalar the degree-3 residual polynomial is
+boxed:
+xi^3-kappa_p,
+where
+boxed:
+kappa_p = 27*a_0*u/128 (mod p).
+
+
+Hence the valuation-resonant branch splits exactly as follows.
+
+
+- If p==5 mod 12, the cube map on F_p^* is bijective. The residual cubic has one linear and one irreducible quadratic factor, so the degree-3 local algebra splits 1+2.
+- If p==1 mod 12 and kappa_p is a cube in F_p^*, the residual cubic splits into three linear factors.
+- If p==1 mod 12 and kappa_p is not a cube, the residual cubic is irreducible; the odd-cubic squareclass collapse of §120.3 still applies.
+
+
+Define a surviving cubic-resonant interior prime to mean:
+3 | (2*lambda+c_p)
+and
+xi^3-kappa_p is reducible over F_p.
+Equivalently:
+- p==5 mod 12 and 3 | (2*lambda+c_p); or
+- p==1 mod 12, 3 | (2*lambda+c_p), and kappa_p is a cube mod p.
+
+
+Therefore any genuinely new primewise local non-norm information in the M3-T11-105 S4 etale class is confined to these cubic-resonant interior primes. Nonresonant interior primes are frozen.
+
+
+### 120.5 Route consequence and firewall
+This does not prove that the global S4 etale/Selmer class collapses. Correlation across primes, the cubic-resonant subpopulation, exceptional rational-u specializations, non-reciprocal correspondences, and genuinely global cross-u support remain open.
+
+
+The live interior route sharpens from
+Interior2PiSquareclassGenus2S4EtaleSelmerSupport
+to
+InteriorS4EtaleCubicResonanceSupport.
+
+
+A legal continuation must obtain a same-physical-measure theorem for the occurrence/support/correlation of surviving cubic-resonant interior primes, or use genuinely global nonlocal S4-Selmer information not reducible to the primewise odd-cubic collapse. The independent theta route remains live.
+
+
+DEPENDENCIES:
+M3-T11-099/100/102/105 HOSTILE_AUDIT_PASS; audited Section 48 interior fresh-prime normalization; standard Newton polygon/Dumas irreducibility for the length-3 segment; standard squareclass and norm facts for odd-degree extensions of odd p-adic fields.
+
+
+DO_NOT_REPEAT:
+- do not treat the M3-T11-105 z-coordinate as independent of S; physically z=S/2 exactly;
+- do not seek independent local non-norm squareclass credit at an interior p with 3 not dividing 2*lambda+c_p;
+- do not seek such credit on the n divisible by 3, p==1 mod 12, kappa_p noncube branch: its cubic factor remains irreducible;
+- do not multiply any resonance frequency by the already-consumed d-splitting selector, M_rel denominator depth, M3-T11-099 selector density, or old lattice/determinant factors;
+- do not infer global Selmer collapse or fixed-power saving from the local 1+3 factorization.
+
+
+REOPEN_CONDITION:
+Reopen if hostile audit rejects z=S/2, the translated quartic identity, the Newton polygon/factorization, the odd-degree squareclass norm isomorphism, or the residual cubic kappa_p calculation; or if an exact same-measure theorem shows that a supposedly frozen nonresonant local component carries additional global information not captured by its local squareclass.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_105_PHYSICAL_Z_EQUALS_S_OVER_2=PROVISIONAL
+M3_T11_INTERIOR_RESIDUAL_Q_MOD_P_TRIPLE_ROOT=PROVISIONAL
+M3_T11_INTERIOR_RESIDUAL_ETALE_CANONICAL_LINEAR_FACTOR=PROVISIONAL
+M3_T11_INTERIOR_NONRESONANT_CUBIC_FACTOR_DEGREE3=PROVISIONAL
+M3_T11_INTERIOR_NONRESONANT_FULL_ETALE_SQUARECLASS_DETERMINED_BY_U=PROVISIONAL
+M3_T11_INTERIOR_NONRESONANT_ETALE_NEW_LOCAL_SAVING=false
+M3_T11_INTERIOR_CUBIC_RESONANCE_ROUTER=PROVISIONAL
+M3_T11_INTERIOR_CUBIC_RESONANCE_POWER_SAVING_PROVED=false
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorS4EtaleCubicResonanceSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorS4EtaleResonantPrimeGlobalCorrelation
+LATEST_RESEARCH_CARD=M3-T11-106
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-105
+PROVISIONAL_FRONTIER_CARD=M3-T11-106
+PROVISIONAL_FRONTIER_AUDIT_STATUS=HOSTILE_AUDIT_REQUIRED
+NEXT_RESEARCH_CARD_ID=M3-T11-107
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-106. Mainbatch may continue only with same-measure control/correlation of cubic-resonant interior primes, global nonlocal S4-Selmer information not reducible primewise to the odd-cubic collapse, exact exceptional-specialization/cross-u control, a proved non-reciprocal correspondence with physical adapter, or the independent theta route.
+
+
+
+
+## 121. M3-T11-107 — all interior finite-cluster étale squareclasses collapse to the old selector; cubic resonance gives no new local 2-descent class
+Status: PROVISIONAL EXACT_LOCAL_ETALE_COLLAPSE / CUBIC_RESONANCE_SQUARECLASS_NO_GO / NO_DOUBLE_CHARGE / HOSTILE_AUDIT_REQUIRED / NO POWER SAVING.
+
+
+Retain hostile-audit-passed M3-T11-099/100/102/105 and provisional M3-T11-106. Work on the exact same fixed-content/coefficient nondegenerate Stage37 physical endpoint population with R<=B.
+
+
+### 121.1 The complementary degree-3 component is always the base class [z]
+Fix an interior fresh prime p^lambda||m_i with 0<c_p<2*lambda. Put
+k=2*lambda-c_p>0,
+A=1+u^2,
+n=2*lambda+c_p.
+Provisional M3-T11-106 gives z=S/2 with
+v_p(z)=-k,
+and factors the local quartic étale algebra as one canonical Q_p-linear factor together with a complementary total degree-3 étale algebra E_p. Every root theta in the degree-3 part satisfies
+v(theta-u/2)=n/3>0
+in the algebraic closure. Since u is a p-adic unit, every such theta is a unit.
+
+
+Let gamma_p=z-theta denote the complementary degree-3 component in E_p. In every field factor of E_p,
+gamma_p
+=
+z*(1-theta/z).
+Because v(theta/z)>0, the factor 1-theta/z is a 1-unit. The residue characteristic is odd, so every 1-unit is a square by Hensel. Therefore, componentwise and hence in the étale squareclass group,
+boxed:
+[gamma_p]=res_{E_p/Q_p}([z]).
+
+
+This uses only k>0 and the finite-cluster valuation. It is independent of whether E_p is a cubic field, splits 1+2, or splits 1+1+1. In particular the M3-T11-106 cubic-resonance decomposition does not create a new squareclass degree of freedom.
+
+
+### 121.2 The base class [z] is exactly the already-consumed interior selector
+The exact physical identities are
+z=S/2,
+P=4*u^2*S/A.
+Hence
+boxed:
+z/(A/(8*u))=P/u.
+
+
+At the interior prime, audited M3-T11-099 gives
+Pi_p=p^(4*lambda)*P
+a p-adic unit and the exact local selector
+chi_p(-rho*Pi_p)=+1,
+where u==rho mod p and rho^2==-1 mod p.
+Every fresh Gaussian prime satisfies p==1 mod 4, so chi_p(-1)=+1. Also chi_p(rho^(-1))=chi_p(rho). Therefore
+chi_p(Pi_p/u)
+=
+chi_p(Pi_p/rho)
+=
+chi_p(rho*Pi_p)
+=
++1.
+Moreover
+v_p(P/u)=-4*lambda
+is even. Hence
+boxed:
+P/u is a square in Q_p,
+and therefore
+boxed:
+[z]=[A/(8*u)]
+in Q_p^*/Q_p^{*2}.
+
+
+Thus the finite degree-3 component is not merely constrained by its norm:
+boxed:
+[gamma_p]=res([A/(8*u)])
+for every interior prime, including every cubic-resonant prime.
+
+
+### 121.3 Full local quartic étale class is predetermined
+Provisional M3-T11-106 gives for the canonical linear component
+boxed:
+[beta_p]=[-8*u/A].
+Combining with §121.2 gives the full physical local quartic étale squareclass
+boxed:
+([beta_p],[gamma_p])
+=
+([-8*u/A], res([A/(8*u)]))
+for every interior fresh prime.
+
+
+When E_p splits, the second entry is interpreted diagonally in each factor. Thus:
+- irreducible cubic: the class is the base restriction;
+- 1+2 resonance: both the rational and quadratic components receive the restriction of [A/(8*u)];
+- 1+1+1 resonance: all three finite linear components receive [A/(8*u)].
+
+
+As an exact consistency check,
+[N_{E_p/Q_p}(gamma_p)]=[z]^3=[z],
+so
+[beta_p]*[N(gamma_p)]
+=
+[-8*u/A]*[A/(8*u)]
+=
+[-1],
+exactly matching audited M3-T11-105.
+
+
+### 121.4 Route consequence
+The primewise interior residual S4 étale 2-descent route is now frozen at squareclass level. Cubic resonance changes the local algebra decomposition but not the physical squareclass tuple. Therefore it cannot be charged as a new local selector, acceptance probability, conductor saving, or fixed-power event.
+
+
+This supersedes the M3-T11-106 research-routing suggestion that cubic-resonant interior primes might retain new primewise local non-norm squareclass information. The exact M3-T11-106 factorization and resonance criterion remain useful structural data; only the proposed local-squareclass continuation is retired.
+
+
+What remains open is genuinely global/nonlocal information in the S4 étale/Selmer class that is not determined primewise by these local squareclasses, exact exceptional-specialization/cross-u structure, a proved non-reciprocal correspondence with physical adapter, and the independent theta route.
+
+
+DEPENDENCIES:
+M3-T11-099/100/102/105 HOSTILE_AUDIT_PASS; M3-T11-106 PROVISIONAL; audited Section-48 interior normalization; standard odd-residue-characteristic fact that 1-units are squares in finite p-adic extensions.
+
+
+DO_NOT_REPEAT:
+- do not use cubic resonance as a new local 2-descent squareclass event;
+- do not distinguish irreducible cubic / 1+2 / 1+1+1 branches for local squareclass density credit;
+- do not recharge the M3-T11-099/100 selector through [z]=[A/(8*u)];
+- do not multiply this local class with d-splitting, q/M_rel denominator depth, old determinant/lattice factors, or resonance frequency;
+- do not infer global S4-Selmer collapse from this primewise local collapse.
+
+
+REOPEN_CONDITION:
+Reopen if hostile audit rejects M3-T11-106, the finite-cluster valuation, z=S/2, the identity z/(A/(8u))=P/u, the conversion of M3-T11-099's selector to P/u square, or the 1-unit square argument; or if a global theorem uses data beyond the local squareclass tuple.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_INTERIOR_FINITE_CLUSTER_ETALE_CLASS_EQUALS_RES_Z=PROVISIONAL
+M3_T11_INTERIOR_Z_CLASS_EQUALS_A_OVER_8U=PROVISIONAL
+M3_T11_INTERIOR_FULL_ETALE_LOCAL_SQUARECLASS_PREDETERMINED=PROVISIONAL
+M3_T11_INTERIOR_CUBIC_RESONANCE_SQUARECLASS_NEW_SAVING=false
+M3_T11_INTERIOR_PRIMEWISE_S4_ETALE_LOCAL_ROUTE_RETIRED=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorS4EtaleGlobalNonlocalSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorS4EtaleGlobalClassCorrelation
+LATEST_RESEARCH_CARD=M3-T11-107
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-105
+PROVISIONAL_FRONTIER_CARD=M3-T11-107
+PROVISIONAL_FRONTIER_AUDIT_STATUS=HOSTILE_AUDIT_REQUIRED
+PROVISIONAL_DEPENDS_ON=M3-T11-106
+NEXT_RESEARCH_CARD_ID=M3-T11-108
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-106 then M3-T11-107. Mainbatch may continue only with genuinely global/nonlocal S4 étale-Selmer information not determined by the primewise interior squareclass tuple, exact exceptional-specialization/cross-u control, a proved non-reciprocal correspondence with physical adapter, or the independent theta moving-support route
+## AUDIT PROMOTION — M3-T11-106/107
+HOSTILE_AUDIT=PASS
+AUDIT_DOC_ID_106=1YI56OGaJ1pv6meZBEeJtoAjZ0KVwyydvP4ZuQ_cwcPo
+AUDIT_DOC_ID_107=1pQM1ofNrgsIWHYqOhVTKeLPD7prG5gv1ahufNBEAxxI
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-107
+M3_T11_106_HOSTILE_AUDIT=PASS
+M3_T11_107_HOSTILE_AUDIT=PASS
+M3_T11_INTERIOR_CUBIC_RESONANCE_ROUTER=true
+M3_T11_INTERIOR_FULL_ETALE_LOCAL_SQUARECLASS_PREDETERMINED=true
+M3_T11_INTERIOR_CUBIC_RESONANCE_SQUARECLASS_NEW_SAVING=false
+M3_T11_INTERIOR_PRIMEWISE_S4_ETALE_LOCAL_ROUTE_RETIRED=true
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorS4EtaleGlobalNonlocalSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorS4EtaleGlobalClassCorrelation
+NEXT_RESEARCH_CARD_ID=M3-T11-108
+.
+
+
+
+
+## 122. M3-T11-108 — the standard cubic resolvent is irreducible for every nonzero rational u; the rational 2+2 specialization branch is empty
+Status: PROVISIONAL UNIFORM_RATIONAL_RESOLVENT_IRREDUCIBILITY / EXCEPTIONAL_SPECIALIZATION_CUT / TWO_QUADRATIC_SPECIALIZATION_NO_GO / HOSTILE_AUDIT_REQUIRED / NO POWER SAVING.
+
+
+Retain audited M3-T11-105/106/107. Work with the exact residual quartic
+Q_u(z)=(1+u^2)z^4-8uz^3+(11u^2-1)z^2+6uz-u^2
+and its M3-T11-105 standard cubic resolvent. This card addresses only the rational-specialization locus where that cubic resolvent becomes reducible. It does not assume or prove that every specialized quartic Q_u is irreducible.
+
+
+### 122.1 Exact resolvent-root curve
+
+
+Put v=u^2. After clearing the denominator in the monic resolvent, a rational resolvent root y is exactly a rational point on
+F(v,y)=
+(v+1)^3*y^3
++(-11*v^3-21*v^2-9*v+1)*y^2
++4*v*(v-11)*(v+1)*y
+-4*v*(11*v^2+3*v+8)
+=0.
+
+
+Exact symbolic checks give
+Disc_y(F)=-16*v*(v+1)^8*(25*v-2)^3,
+Disc_v(F)=-256*(y+1)*(27*y+28)^3.
+
+
+The normalization is rational. A birational parameter t is
+v=-(t-2)*(t+1)^2/((t+4)*(t^2-4*t+13)),
+y=-(t+1)*(2*t^2-11*t+23)/27.
+
+
+Away from the finite inverse-exception locus, an exact inverse is
+t=-2*(3*v*y+17*v+3*y+2)/(3*v*y-8*v+3*y+4).
+The inverse denominator can vanish on F only at v=-1 or v=2/25. Neither value is a nonzero square in Q, so neither occurs on the physical specialization v=u^2 with u in Q^*.
+
+
+### 122.2 Imposing v=u^2 produces a rank-zero elliptic curve
+
+
+For u!=0 one has t!=-1. Write r=u/(t+1). The square condition v=u^2 is equivalent to
+r^2=-(t-2)/((t+4)*(t^2-4*t+13)),
+or, after clearing a square denominator,
+W^2=-(t-2)*(t+4)*(t^2-4*t+13).
+
+
+Put
+X=-6/(t-2),
+Y=2*W/(t-2)^2,
+x=X-1.
+Then this genus-one curve is birational to
+E: Y^2=x*(x^2+2*x+5).
+
+
+The Mordell-Weil group is exact and elementary here. For the standard 2-isogeny descent on
+E: Y^2=x^3+2*x^2+5*x,
+the alpha image is exactly {1,5}: x^2+2*x+5=(x+1)^2+4 is positive, so a rational point has x>=0, while O and (0,0) realize 1 and 5.
+
+
+The 2-isogenous curve is
+Ebar: Y^2=x^3-4*x^2-16*x.
+Its possible alpha squareclasses are {1,-1,2,-2}. Classes +/-2 would require primitive integer solutions of
+N^2=2*m^4-4*m^2*e^2-8*e^4
+or
+N^2=-2*m^4-4*m^2*e^2+8*e^4.
+If m,e have opposite parity or are both odd, these right sides are respectively 2 or 8 or 6 mod 16 for d=2, and 14 or 8 or 2 mod 16 for d=-2. None is a square mod 16. Thus the Ebar alpha image is exactly {1,-1}.
+
+
+The 2-isogeny rank formula therefore gives rank E(Q)=0.
+
+
+For torsion, E has good reduction at 3 and #E(F_3)=2. The 3-division polynomial is
+(x+1)*(3*x^3+5*x^2+25*x-25);
+the cubic factor is irreducible over Q and x=-1 would require Y^2=-4, so E(Q) has no rational 3-torsion. Hence
+E(Q)={O,(0,0)}.
+
+
+### 122.3 Back-substitution closes the nonzero rational resolvent-reducible locus
+
+
+The point O corresponds to t=2, which gives v=0 and u=0. The point (0,0) corresponds to X=1 and t=-4, where the rational parametrization has a pole and no finite u. The canceled value t=-1 also gives only v=0.
+
+
+Therefore:
+boxed:
+for every u in Q^*, the standard cubic resolvent R_u(y) is irreducible over Q.
+
+
+Since a cubic over Q is reducible exactly when it has a rational root, there are no further rational exceptions.
+
+
+### 122.4 Exact consequence and firewall
+
+
+For every nonzero rational u, Q_u cannot factor over Q as a product of two quadratic polynomials: such a 2+2 factorization would make one resolvent pairing rational and hence make the standard cubic resolvent reducible.
+
+
+This upgrades the M3-T11-105 generic two-quadratic no-go to a uniform rational-specialization theorem.
+
+
+It does NOT prove uniform Gal(Q_u/Q)=S4. Two genuinely different specialization issues remain:
+- Q_u may in principle have a rational linear factor and a cubic factor; resolvent irreducibility does not exclude a 1+3 quartic factorization.
+- on quartic-irreducible specializations, the discriminant squareclass [2-25*u^2] can specialize to a square, giving the A4 rather than S4 branch.
+
+
+Thus the legal exceptional-specialization continuation is narrowed to exact control of the 1+3 locus and/or the A4 discriminant-square locus, or to genuinely global/nonlocal S4 etale-Selmer information. The independent theta moving-support route remains live.
+
+
+POPULATION:
+Exact fixed-content/coefficient nondegenerate Stage37 physical endpoint population with R<=B. The theorem is actually uniform for all u in Q^*. Same measure; no density, height, denominator, multiplicity, primary-gate, endpoint, or P-over-M3 credit.
+
+
+DEPENDENCIES:
+M3-T11-105/106/107 HOSTILE_AUDIT_PASS; exact standard cubic resolvent from M3-T11-105; exact symbolic elimination/parametrization identities; standard 2-isogeny descent rank formula; good-reduction torsion injection away from residue characteristic.
+
+
+DO_NOT_REPEAT:
+- do not search for rational specializations with a 2+2 factorization of Q_u for u!=0;
+- do not search for rational roots of the standard cubic resolvent on u!=0;
+- do not promote this to uniform S4: the 1+3 quartic-factor and A4 discriminant-square branches remain separate;
+- do not claim a counting saving merely because one exceptional mechanism is empty.
+
+
+REOPEN_CONDITION:
+Hostile audit rejects the resolvent convention, the F(v,y) elimination, the birational normalization, the elliptic transformation, the 2-isogeny rank computation, or the torsion computation; or an audited dependency changes.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_RATIONAL_U_NONZERO_CUBIC_RESOLVENT_IRREDUCIBLE=PROVISIONAL
+M3_T11_RATIONAL_U_NONZERO_TWO_QUADRATIC_SPECIALIZATION=false
+M3_T11_EXCEPTIONAL_RESOLVENT_REDUCIBLE_BRANCH_EMPTY=PROVISIONAL
+M3_T11_UNIFORM_RATIONAL_U_QUARTIC_IRREDUCIBILITY_PROVED=false
+M3_T11_UNIFORM_RATIONAL_U_S4_PROVED=false
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorS4EtaleGlobalNonlocalSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorS4EtaleGlobalClassCorrelationOrRemainingExceptionalA4OnePlusThreeControl
+LATEST_RESEARCH_CARD=M3-T11-108
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-107
+PROVISIONAL_FRONTIER_CARD=M3-T11-108
+PROVISIONAL_FRONTIER_AUDIT_STATUS=HOSTILE_AUDIT_REQUIRED
+NEXT_RESEARCH_CARD_ID=M3-T11-109
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-108. Mainbatch may continue only with the remaining exact 1+3 quartic-specialization locus, the A4 discriminant-square specialization locus, genuinely global/nonlocal S4 etale-Selmer information beyond the primewise local tuple, or the independent theta moving-support route. Do not reopen rational resolvent-root or 2+2 specialization searches for u!=0 and do not assign fixed-power, primary-gate, endpoint, P(B)/M3(B), or Perfect Cuboid nonexistence credit.
+
+
+
+
+## AUDIT PROMOTION — M3-T11-108
+HOSTILE_AUDIT=PASS
+AUDITED_CARD=M3-T11-108
+AUDIT_DOC_ID_108=18rDf9voOTpj4g2uwdIG8nPLYMRWjHv1Iy7FvRafNIgE
+LATEST_RESEARCH_CARD=M3-T11-108
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-108
+PROVISIONAL_FRONTIER_CARD=NONE
+PROVISIONAL_FRONTIER_AUDIT_STATUS=NOT_APPLICABLE
+
+
+M3_T11_108_HOSTILE_AUDIT=PASS
+M3_T11_RATIONAL_U_NONZERO_CUBIC_RESOLVENT_IRREDUCIBLE=true
+M3_T11_RATIONAL_U_NONZERO_TWO_QUADRATIC_SPECIALIZATION=false
+M3_T11_EXCEPTIONAL_RESOLVENT_REDUCIBLE_BRANCH_EMPTY=true
+M3_T11_UNIFORM_RATIONAL_U_QUARTIC_IRREDUCIBILITY_PROVED=false
+M3_T11_UNIFORM_RATIONAL_U_S4_PROVED=false
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+
+
+AUTHORITY_SUMMARY=M3-T11-108 is hostile-audit PASS. For every nonzero rational u, the standard cubic resolvent of the M3-T11-105 residual quartic is irreducible over Q, so the rational resolvent-reducible exceptional branch and every rational 2+2 quartic specialization are empty. This gives exact exceptional-specialization control only: the rational 1+3 quartic-factor branch and the A4 discriminant-square branch remain live, and no counting saving is charged.
+
+
+CURRENT_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorS4EtaleGlobalNonlocalSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorS4EtaleGlobalClassCorrelationOrRemainingExceptionalA4OnePlusThreeControl
+NEXT_RESEARCH_CARD_ID=M3-T11-109
+NEXT_LEGAL_ACTION=Mainbatch may continue only with the exact rational 1+3 quartic-specialization locus, the A4 discriminant-square locus, genuinely global/nonlocal S4 etale-Selmer information beyond the primewise local tuple, or the independent theta moving-support route. Do not reopen rational resolvent-root or rational 2+2 specialization searches for u!=0. No fixed-power, primary-gate, endpoint, P(B)/M3(B), or Perfect Cuboid nonexistence credit
+
+
+## 123. M3-T11-109 — complete rational specialization trichotomy: explicit 1+3 and A4 thin images, disjointness, generic S4 remainder
+
+
+Status: PROVISIONAL EXACT_SPECIALIZATION_CLASSIFICATION / ONE_PLUS_THREE_PARAMETRIZATION / A4_PARAMETRIZATION / DISJOINT_THIN_IMAGES / HOSTILE_AUDIT_REQUIRED / NO POWER SAVING.
+
+
+Retain hostile-audit-passed M3-T11-105/106/107/108. Work with
+Q_u(z)=(1+u^2)z^4-8u z^3+(11u^2-1)z^2+6u z-u^2,
+for u in Q^*. M3-T11-108 already proves that the standard cubic resolvent is irreducible for every such u, hence no rational 2+2 factorization exists.
+
+
+### 123.1 Exact rational 1+3 locus
+
+
+Regard Q_u(z) as a quadratic in u:
+Q_u(z)
+=(z^4+11z^2-1)u^2+(-8z^3+6z)u+(z^4-z^2).
+
+
+Its u-discriminant is exactly
+Disc_u(Q_u(z))=-4z^2(z^2-2)^3=4z^2(2-z^2)^3.
+
+
+For u!=0, a rational root z cannot have z=0. Also z^4+11z^2-1 cannot vanish for rational z, because its equation in z^2 has discriminant 125. Therefore a rational root exists exactly when
+2-z^2=w^2
+for some w in Q, equivalently
+z^2+w^2=2.
+
+
+Solving the quadratic gives
+u=z(4z^2-3+w^3)/(z^4+11z^2-1),
+with w->-w exchanging the two quadratic roots.
+
+
+Parametrize z^2+w^2=2 by t in P^1(Q):
+z=(t^2-2t-1)/(t^2+1),
+w=-(t^2+2t-1)/(t^2+1).
+
+
+Then the complete rational-root specialization locus is the image of
+phi(t)
+=-2(t-1)(t^2-2t-1)/(t^4-6t^3+12t^2-14t+11).
+
+
+Thus, for u in Q^*,
+Q_u has a rational linear factor
+iff
+u in phi(P^1(Q)) minus {0}.
+
+
+In homogeneous coordinates t=r/s,
+U_13=-2s(r-s)(r^2-2rs-s^2),
+V_13=r^4-6r^3s+12r^2s^2-14rs^3+11s^4.
+Both have degree 4 and
+Res_r(U_13,V_13)=-4096 s^16.
+For primitive (r,s), any reduction gcd is therefore uniformly bounded and supported at 2. Hence phi is a degree-4 morphism and
+h(phi(t))=4h(t)+O(1).
+
+
+Consequently, in ordinary multiplicative projective u-height H,
+#{u in phi(P^1(Q)): H(u)<=H}=O(H^(1/2)).
+This is ambient u-height sparsity only. It is not yet a same-physical-measure R<=B saving.
+
+
+### 123.2 Exact A4 discriminant-square locus
+
+
+M3-T11-105 gives
+Disc_z(Q_u)=-16u^2(1+u^2)^2(25u^2-2)^3,
+so its squareclass is [2-25u^2].
+
+
+Thus the discriminant is a rational square exactly when
+y^2=2-25u^2.
+Writing X=5u gives the same conic X^2+y^2=2, hence the complete locus is
+u=psi(t)
+=(t^2-2t-1)/(5(t^2+1)),
+t in P^1(Q).
+
+
+In homogeneous coordinates,
+U_A4=r^2-2rs-s^2,
+V_A4=5(r^2+s^2),
+and
+Res_r(U_A4,V_A4)=200 s^4.
+Thus psi is a degree-2 morphism with uniformly bounded reduction cancellation, so
+h(psi(t))=2h(t)+O(1)
+and
+#{u in psi(P^1(Q)): H(u)<=H}=O(H).
+
+
+Again this is ambient u-height sparsity only and carries no Stage37 fixed-power credit.
+
+
+### 123.3 The 1+3 and A4 images are disjoint over Q
+
+
+Substitution u=phi(t) gives exactly
+2-25phi(t)^2
+=
+2(t^2+2t-1)^2
+(t^4-16t^3+72t^2-124t+71)
+/(t^4-6t^3+12t^2-14t+11)^2.
+
+
+Hence an intersection point would give a rational point on
+Y^2=2F(r,s),
+where
+F(r,s)=r^4-16r^3s+72r^2s^2-124rs^3+71s^4.
+
+
+Modulo 5, for every [r:s] in P^1(F_5),
+2F(r,s) is one of 2 or 3.
+For finite t=0,1,2,3,4 the values are 2,3,3,2,3, and at infinity the value is 2.
+These are nonzero nonsquares modulo 5.
+
+
+Therefore
+phi(P^1(Q)) intersect psi(P^1(Q)) is empty.
+
+
+As a cross-check, after substituting u=phi(t) and dividing Q_u(x) by its rational linear factor, the cubic factor has discriminant
+128(t-1)^2(1+t^2)^6(t^2-4t+5)^2
+(t^4-16t^3+72t^2-124t+71)^3,
+whose squareclass is exactly 2F(t).
+
+
+### 123.4 Complete rational specialization trichotomy
+
+
+Combine Sections 123.1-123.3 with hostile-audit-passed M3-T11-108.
+
+
+For every u in Q^*, exactly one of the following occurs:
+
+
+1. u in phi(P^1(Q)):
+   Q_u factors as exactly 1+3 over Q. The cubic factor is irreducible, and because the discriminant is nonsquare its splitting-field Galois group is S3.
+
+
+2. u in psi(P^1(Q)):
+   Q_u is irreducible over Q and has square discriminant. Since the cubic resolvent is irreducible, Gal(Q_u/Q)=A4.
+
+
+3. u outside both images:
+   Q_u is irreducible, its cubic resolvent is irreducible, and its discriminant is nonsquare. Hence Gal(Q_u/Q)=S4.
+
+
+No rational 2+2 branch remains, and the two surviving exceptional Galois loci are explicit, disjoint rational images of degrees 4 and 2.
+
+
+### 123.5 Route consequence and firewall
+
+
+This closes the purely algebraic rational-specialization classification left open after M3-T11-108. It does NOT by itself close the Stage37 counting receiver.
+
+
+The ambient height estimates
+O(H^(1/2)) for the 1+3 image and O(H) for the A4 image
+cannot be converted into a fixed power of B merely from the existing statement that physical u has height B^O(1). An exact same-measure R<=B adapter is still required before any counting credit can be charged.
+
+
+On the complement of these two explicit images, the residual quartic is uniformly S4. Therefore the generic interior route can now assume S4 after separating two explicit thin specialization images, but genuinely global/nonlocal S4 etale-Selmer information is still required for a new saving.
+
+
+DEPENDENCIES:
+M3-T11-105/106/107/108 HOSTILE_AUDIT_PASS; exact residual quartic Q_u; exact symbolic quadratic-discriminant and substitution identities; standard conic parametrization; standard quartic Galois criterion; standard height functoriality on P^1.
+
+
+DO_NOT_REPEAT:
+- do not search again for arbitrary rational 2+2 specializations or rational resolvent roots for u!=0;
+- do not treat the rational 1+3 locus as unclassified: it is exactly phi(P^1(Q)) minus {0};
+- do not treat the A4 locus as unclassified: it is exactly psi(P^1(Q));
+- do not treat the 1+3 and A4 loci as overlapping;
+- do not convert the ambient u-height exponents into Stage37 B-exponents without an exact physical height/multiplicity adapter;
+- do not infer full S4 etale-Selmer collapse from uniform S4 on the generic specialization complement.
+
+
+REOPEN_CONDITION:
+Hostile audit rejects the u-discriminant calculation, either conic parametrization, the degree/resultant-height calculation, the mod-5 disjointness obstruction, the specialization trichotomy, or an audited dependency changes.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_RATIONAL_U_REDUCIBLE_IFF_PHI_IMAGE=PROVISIONAL
+M3_T11_RATIONAL_U_ONE_PLUS_THREE_PARAMETER_DEGREE4=PROVISIONAL
+M3_T11_RATIONAL_U_A4_PARAMETER_DEGREE2=PROVISIONAL
+M3_T11_RATIONAL_U_ONE_PLUS_THREE_AND_A4_DISJOINT=PROVISIONAL
+M3_T11_RATIONAL_U_GALOIS_TRICHOTOMY_S3_A4_S4=PROVISIONAL
+M3_T11_RATIONAL_U_ONE_PLUS_THREE_AMBIENT_HEIGHT_COUNT=O(H^(1/2))
+M3_T11_RATIONAL_U_A4_AMBIENT_HEIGHT_COUNT=O(H)
+M3_T11_EXCEPTIONAL_SPECIALIZATION_PHYSICAL_POWER_SAVING_PROVED=false
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+LATEST_RESEARCH_CARD=M3-T11-109
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-108
+PROVISIONAL_FRONTIER_CARD=M3-T11-109
+PROVISIONAL_FRONTIER_AUDIT_STATUS=HOSTILE_AUDIT_REQUIRED
+CURRENT_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorS4EtaleGlobalNonlocalSupport
+NEXT_ATTACK=HostileAuditM3T11109ThenThetaFourthPowerMovingSupportBeyondKummer|InteriorS4EtaleGlobalClassCorrelationOrPhysicalThinSpecializationAdapter
+NEXT_RESEARCH_CARD_ID=M3-T11-110
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-109 first. If PASS, continue only with an exact same-measure physical counting adapter for the explicit phi/psi exceptional images, genuinely global/nonlocal S4 etale-Selmer information beyond the audited primewise tuple on the generic S4 complement, or the independent theta!=0 moving-support route. No fixed-power, primary-gate, endpoint, P(B)/M3(B), or Perfect Cuboid nonexistence credit.
+.
+
+
+
+
+## 124. HOSTILE AUDIT PROMOTION — M3-T11-109
+
+
+HOSTILE_AUDIT=PASS
+AUDITED_CARD=M3-T11-109
+AUDIT_DOC_ID_109=1bpbYjj-zFftOLH2Hgor6O9XzFWrj_3mYPONFlCGemLc
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-109
+
+
+Independent exact recomputation confirms:
+- Disc_u(Q_u(z))=-4z^2(z^2-2)^3 and the complete rational-root conic parametrization phi;
+- Res_r(U_13,V_13)=-4096s^16, so phi has degree 4 with ambient u-height image count O(H^(1/2));
+- Disc_z(Q_u)=-16u^2(1+u^2)^2(25u^2-2)^3 and the complete square-discriminant parametrization psi;
+- Res_r(U_A4,V_A4)=200s^4, so psi has degree 2 with ambient u-height image count O(H);
+- the phi/psi intersection reduces to Y^2=2F(r,s), and 2F is a nonzero nonsquare at every point of P^1(F_5);
+- with audited M3-T11-108, the exact rational specialization trichotomy is:
+  phi => 1+3 / S3,
+  psi => irreducible / A4,
+  complement => irreducible / S4.
+
+
+Promoted flags:
+M3_T11_109_HOSTILE_AUDIT=PASS
+M3_T11_RATIONAL_U_REDUCIBLE_IFF_PHI_IMAGE=true
+M3_T11_RATIONAL_U_ONE_PLUS_THREE_PARAMETER_DEGREE4=true
+M3_T11_RATIONAL_U_A4_PARAMETER_DEGREE2=true
+M3_T11_RATIONAL_U_ONE_PLUS_THREE_AND_A4_DISJOINT=true
+M3_T11_RATIONAL_U_GALOIS_TRICHOTOMY_S3_A4_S4=true
+
+
+Firewalls remain:
+M3_T11_EXCEPTIONAL_SPECIALIZATION_PHYSICAL_POWER_SAVING_PROVED=false
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+
+
+The ambient phi/psi height counts are not physical R<=B savings.
+
+
+
+
+## 125. M3-T11-110 — physical 1+3 exceptional-image Gaussian norm factorization and interior-root allocation router
+
+
+Status: PROVISIONAL EXACT SAME-MEASURE ADAPTER / PHI GAUSSIAN NORM FACTORIZATION / INTERIOR ROOT ALLOCATION / CUBIC-RESONANCE ROUTER / HOSTILE_AUDIT_REQUIRED / NO POWER SAVING.
+
+
+Retain audited M3-T11-106/107/109 and the exact common-u physical normalization of M3-T11-035/041. Work only on the exact same fixed-content/coefficient nondegenerate Stage37 physical endpoint population with R<=B.
+
+
+### 125.1 Exact Gaussian norm factorization on the phi image
+
+
+On the audited rational 1+3 image, write t=r/s with gcd(r,s)=1 and
+N=r^2-2rs-s^2,
+Q0=r^2+s^2,
+Q1=r^2-4rs+5s^2=(r-2s)^2+s^2.
+
+
+M3-T11-109 gives the homogeneous common-u pair
+U_phi=-2s(r-s)N,
+V_phi=r^4-6r^3s+12r^2s^2-14rs^3+11s^4.
+
+
+Independent exact factorization gives
+boxed:
+U_phi^2+V_phi^2=Q0*Q1^3.
+
+
+The relevant pairwise resultants are
+Res_r(Q0,Q1)=32s^4,
+Res_r(N,Q0)=8s^4,
+Res_r(N,Q1)=8s^4.
+
+
+Therefore for primitive (r,s), every common odd prime divisor of any two among Q0,Q1,N is impossible. M3-T11-109 already gives Res_r(U_phi,V_phi)=-4096s^16, so reduction of U_phi/V_phi can also cancel only powers of 2.
+
+
+All relative-fresh primes are odd. Hence for every such p, if u=a/b is the reduced physical common-u parameter,
+boxed:
+v_p(a^2+b^2)=v_p(Q0)+3v_p(Q1),
+with at most one of the two terms nonzero.
+
+
+This is an exact same-measure pullback of the already-consumed common-u Gaussian norm; it is not an ambient-height argument and is not a new probability factor.
+
+
+### 125.2 Interior fresh-prime dichotomy
+
+
+Fix an audited M3-T11-106 interior fresh prime p^lambda with
+0<c_p<2lambda,
+and put
+n=2lambda+c_p.
+
+
+M3-T11-106 gives
+v_p(1+u^2)=v_p(a^2+b^2)=n,
+with p not dividing ab.
+
+
+Combining with §125.1 gives exactly one of:
+
+
+A. Q0 allocation:
+p|Q0,
+v_p(Q0)=n,
+p does not divide Q1.
+
+
+B. Q1 allocation:
+p|Q1,
+3*v_p(Q1)=n,
+p does not divide Q0.
+In particular
+boxed:
+3|n
+on every Q1 allocation.
+
+
+Thus the rational 1+3 exceptional image turns the physical interior common-u norm into a disjoint primewise allocation between one Gaussian norm Q0 and a cubed Gaussian norm Q1^3.
+
+
+### 125.3 The global rational root identifies the local component
+
+
+The audited phi parametrization has the global rational quartic root
+boxed:
+vartheta=N/Q0.
+
+
+Because the odd gcds in §125.1 are trivial:
+
+
+- on a Q0-allocation prime,
+  v_p(vartheta)=-n.
+  Audited M3-T11-106 has one canonical local linear root vartheta_inf with valuation -n, while every root in the complementary finite degree-3 cluster is a p-adic unit. Therefore
+  boxed:
+  vartheta=vartheta_inf
+  in Q_p.
+
+
+- on a Q1-allocation prime,
+  p does not divide N*Q0, so
+  v_p(vartheta)=0.
+  Hence the global rational root lies in the complementary finite degree-3 local factor.
+
+
+Because vartheta is Q_p-rational, the second case forces that degree-3 factor to have a Q_p-linear factor. By audited M3-T11-106, this can occur only on its cubic-resonant/reducible branch. Therefore
+boxed:
+Q1 allocation => cubic-resonant interior prime.
+
+
+Equivalently, every nonresonant interior fresh prime on the global phi image is forced into Q0 and forces the same global rational root to equal the canonical negative-valuation local root.
+
+
+This does not say that every cubic-resonant prime uses Q1; Q0 remains possible there.
+
+
+### 125.4 Route consequence and firewall
+
+
+The purely algebraic phi thin image now has a genuine physical interior-prime adapter.
+
+
+The new live exceptional-image question is global/cross-prime:
+can the single rational root vartheta and the factorization
+a^2+b^2 ~ Q0*Q1^3
+be used to prove a same-R<=B support deficit when every nonresonant interior prime is forced into Q0 and Q1 support is confined to cubic-resonant primes?
+
+
+Canonical provisional receiver:
+boxed:
+PhiOnePlusThreeGlobalRootAllocationSupport.
+
+
+This card gives no fixed-power saving. In particular:
+- do not count Q0/Q1 divisibility as an ambient lattice probability;
+- do not recharge the M3-T11-035/040 common-u conductor;
+- do not use cubic resonance as a new local squareclass/density event; M3-T11-107 remains fully in force;
+- do not multiply this router by d-splitting, q/M_rel depth, selector density, determinant/lattice factors, or resonance frequency;
+- do not infer that the phi image is physically negligible yet;
+- no conclusion is obtained for the psi/A4 physical image;
+- no primary-gate, endpoint, P(B)/M3(B), or Perfect Cuboid nonexistence credit is promoted.
+
+
+DEPENDENCIES:
+M3-T11-035/041 exact same-measure common-u normalization;
+M3-T11-106/107 HOSTILE_AUDIT_PASS;
+M3-T11-109 HOSTILE_AUDIT_PASS;
+independent exact polynomial factorization/resultant checks above.
+
+
+DO_NOT_REPEAT:
+- do not treat the phi image as only an ambient degree-4 thin set; use this exact physical prime-allocation adapter;
+- do not identify the phi conic root vartheta with the physical z=S/2. They are distinct objects: vartheta is a root of Q_u, while physical z=S/2 is the evaluation point in the etale descent;
+- do not infer Q1 allocation merely from cubic resonance; only Q1 => resonance is proved;
+- do not reopen cubic resonance for primewise 2-descent squareclass credit.
+
+
+REOPEN_CONDITION:
+Hostile audit rejects the norm factorization, any resultant/odd-coprimality claim, the valuation transfer to reduced u, the local-root identification, or an audited dependency changes.
+
+
+PROVISIONAL_FLAGS:
+M3_T11_110_PHI_COMMON_U_NORM_Q0_Q1_CUBE=PROVISIONAL
+M3_T11_110_PHI_Q0_Q1_ODD_COPRIME=PROVISIONAL
+M3_T11_110_PHI_INTERIOR_FRESH_Q0_OR_Q1_CUBE_ALLOCATION=PROVISIONAL
+M3_T11_110_PHI_Q1_ALLOCATION_FORCES_3_DIVIDES_N=PROVISIONAL
+M3_T11_110_PHI_Q0_ROOT_EQUALS_CANONICAL_INFINITY_ROOT=PROVISIONAL
+M3_T11_110_PHI_Q1_ROOT_IS_FINITE_CLUSTER=PROVISIONAL
+M3_T11_110_PHI_Q1_ALLOCATION_IMPLIES_CUBIC_RESONANCE=PROVISIONAL
+M3_T11_EXCEPTIONAL_SPECIALIZATION_PHYSICAL_POWER_SAVING_PROVED=false
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+
+
+LATEST_RESEARCH_CARD=M3-T11-110
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-109
+PROVISIONAL_FRONTIER_CARD=M3-T11-110
+PROVISIONAL_FRONTIER_AUDIT_STATUS=HOSTILE_AUDIT_REQUIRED
+CURRENT_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorS4EtaleGlobalNonlocalSupport|PhiOnePlusThreeGlobalRootAllocationSupport
+NEXT_ATTACK=HostileAuditM3T11110ThenPhiGlobalRootAllocationCountingOrPsiPhysicalAdapter|ThetaFourthPowerMovingSupportBeyondKummer|InteriorS4EtaleGlobalClassCorrelation
+NEXT_RESEARCH_CARD_ID=M3-T11-111
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-110 first. If PASS, continue only with a same-measure counting/correlation theorem for the phi global-root allocation, an exact physical psi/A4 adapter, genuinely global/nonlocal S4 etale-Selmer information beyond the audited primewise tuple, or the independent theta!=0 moving-support route
+
+
+## 126. HOSTILE AUDIT PROMOTION — M3-T11-110
+
+
+`M3-T11-110` is promoted to PROVED_EXACT / HOSTILE_AUDIT_PASS.
+
+
+Independent recomputation confirmed
+U_phi^2+V_phi^2=Q0*Q1^3,
+Res_r(Q0,Q1)=32s^4,
+Res_r(N,Q0)=8s^4,
+Res_r(N,Q1)=8s^4,
+Res_r(U_phi,V_phi)=-4096s^16,
+and direct substitution of vartheta=N/Q0 into the residual quartic is identically zero.
+
+
+Thus the exact same-measure phi router is retained:
+- odd fresh valuation is allocated to Q0 or 3*v_p(Q1);
+- Q0 allocation makes vartheta the unique canonical valuation -n local root;
+- Q1 allocation makes vartheta a Q_p-rational unit root in the finite cubic cluster, hence forces cubic resonance/reducibility and therefore 3|n.
+
+
+This promotion creates no local-density or fixed-power credit. M3-T11-107 remains the no-double-charge firewall for primewise etale squareclasses.
+
+
+Audit record: Stage37-HOSTILE-AUDIT-M3-T11-110-PASS.
+
+
+PROMOTED FLAGS
+M3_T11_110_HOSTILE_AUDIT=PASS
+M3_T11_110_PHI_COMMON_U_NORM_Q0_Q1_CUBE=true
+M3_T11_110_PHI_Q0_Q1_ODD_COPRIME=true
+M3_T11_110_PHI_INTERIOR_FRESH_Q0_OR_Q1_CUBE_ALLOCATION=true
+M3_T11_110_PHI_Q1_ALLOCATION_FORCES_3_DIVIDES_N=true
+M3_T11_110_PHI_Q0_ROOT_EQUALS_CANONICAL_INFINITY_ROOT=true
+M3_T11_110_PHI_Q1_ROOT_IS_FINITE_CLUSTER=true
+M3_T11_110_PHI_Q1_ALLOCATION_IMPLIES_CUBIC_RESONANCE=true
+
+
+## 127. M3-T11-111 — psi/A4 full-fresh split support and exact-depth t-root lines
+
+
+STATUS: PROVISIONAL / EXACT_SAME_MEASURE_ADAPTER / PSI_A4_FULL_FRESH_SPLIT_SUPPORT / DEPTH_N_PROJECTIVE_ROOTLINE_ROUTER / A4_LOCAL_C3_ROUTER / HOSTILE_AUDIT_REQUIRED / NO POWER SAVING
+
+
+Retain the audited A4 parametrization
+u=psi(t)=(t^2-2t-1)/(5(t^2+1)).
+Write t=r/s primitive and
+N=r^2-2rs-s^2,
+Q0=r^2+s^2,
+so u=N/(5Q0).
+
+
+### 127.1 Odd reduction and the 5-adic exception disappears
+
+
+The exact resultant
+Res_r(N,Q0)=8s^4
+shows that primitive N and Q0 have no odd common prime.
+
+
+The audited A4 conic is
+y^2=2-25u^2.
+If v_5(u)>=0, then the right side is a 5-adic unit congruent to 2 mod 5, impossible for a square. Therefore every rational point on the psi image has
+v_5(u)<0.
+
+
+For reduced u=a/b this gives v_5(a)=0<v_5(b), hence
+v_5(a^2+b^2)=0.
+Thus 5 never belongs to the physical common-u Gaussian norm support on the psi/A4 image.
+
+
+### 127.2 Every relative-fresh support prime is 1 mod 12
+
+
+Let p be any relative-fresh prime with
+n=v_p(a^2+b^2)>0.
+The existing fresh support is odd and split in Q(i), and the previous paragraph excludes p=5.
+
+
+Because p does not divide b, define the exact common-u square root
+rho == a*b^(-1) (mod p^n).
+Then
+rho^2 == -1 (mod p^n),
+and the rational identity a/b=N/(5Q0) gives
+N-5rho Q0 == 0 (mod p^n).
+
+
+Equivalently the primitive projective parameter [r:s] is a zero modulo p^n of
+F_rho(r,s)
+=(1-5rho)r^2-2rs+(-1-5rho)s^2.
+
+
+Using rho^2=-1, the binary discriminant is exactly
+Delta_rho
+=(-2)^2-4(1-5rho)(-1-5rho)
+==108 (mod p^n).
+
+
+Modulo p the physical projective zero is nontrivial. Since p is odd and p!=3, isotropy of this nondegenerate binary quadratic forces 108, hence 3, to be a square mod p. Tog
