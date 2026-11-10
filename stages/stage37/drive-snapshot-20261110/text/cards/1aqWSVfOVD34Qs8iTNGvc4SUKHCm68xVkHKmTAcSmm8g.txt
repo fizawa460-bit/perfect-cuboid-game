@@ -1,0 +1,46 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229FK
+GLOBAL O(1) FOR THE 52 LINEAR/BILINEAR EXCEPTIONAL ALLOCATION BRANCHES (conditional only on the exact FJ factor-classification input)
+CARD_DOC_ID=1aqWSVfOVD34Qs8iTNGvc4SUKHCm68xVkHKmTAcSmm8g
+PREVIOUS_CURRENT=229FJ; PREVIOUS_DOC_ID=1xvfA2m3TSS5ju70uwrG_CncHVj76YBN9CcfmW3lcNb4
+STATUS=PROVED_SCOPED_GENUS3_FINITE_MOVING_p_EXCEPTIONS; NO_NEW_GLOBAL_OMEGA3_CREDIT; FJ_FULL_INDEPENDENT_HOSTILE_AUDIT_NOT_RUN.
+AUTHORITY=M3-T11-229; CONSTRUCTION=M3-T11-228; M3-T11-230_NOT_ISSUED; GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; HOLD; FORMAL_ROUTE_SWITCH=NONE; CLOSURE=UNCHANGED.
+
+
+1. PRECISE SCOPE AND INPUT
+Use the exact FJ original positive primitive SAME-P Gaussian allocation with R=pqr<=B, p,q,r distinct split primes, p variable (not necessarily the smallest until packets are deduplicated). FJ §6 classifies 52 reducible linear/bilinear assignments. Constant linear slopes and norm-orthogonal bilinear factors have K in {1,p²,Kstar}, where Kstar=a⁴+18a²b²+b⁴. Here p=u²+v² with gcd(u,v)=1, uv(u²-v²)≠0, a=u²−v², b=2uv, a²+b²=p², a odd and 4|b. For each norm-orthogonal bilinear factor, FJ proves the exact original prime-square norm identity q²=K r²/g², with g a positive integer dividing K. The full generic 52-case factor classification is imported as an audited-elsewhere input from 229FJ, not independently rerun here; this batch proves the new variable-p elimination of its residual Kstar branch.
+
+
+2. NEW GLOBAL FINITENESS LEMMA FK.1
+For coprime nonzero integers u,v with u²≠v², only finitely many rational ratios u:v can satisfy Kstar = k² for integer k, where a=u²−v², b=2uv. Consequently only finitely many split primes p=u²+v² can produce a square Kstar.
+
+
+Proof. The identity
+Kstar=(a²+b²)²+16a²b²
+       =(u²+v²)^4+64u²v²(u²−v²)²
+is exact, degree eight. Put t=u/v and Y=k/v⁴. Then every integer-square Kstar yields a Q-point
+C: Y²=f(t), f(t)=t⁸+68t⁶−122t⁴+68t²+1.
+The octic is squarefree over Q: modulo 3,
+f(t)=(t⁴+t³−t+1)(t⁴−t³+t+1),
+and gcd_{F3}(f,f')=1 (both quartics occur to exponent 1 and are coprime). Thus its smooth projective normalization is a geometrically integral hyperelliptic curve of genus (8−2)/2=3. By Faltings, C(Q) is finite. A rational t=u/v in lowest terms determines only finitely many primitive signed pairs (u,v), hence only finitely many p=u²+v². QED.
+This result is ineffective: it does NOT give a list of the exceptional p, and does not assert that the finite list is empty. The finite examples p=5,13,17,29 have nonsquare Kstar, but samples are not the proof.
+
+
+3. MOVING-p COROLLARY FK.2
+Across ALL variable split primes p and distinct split primes q,r, the 52 FJ reducible linear/bilinear Gaussian allocation branches contribute at most O(1) original physical points for R=pqr<=B; implied absolute constant is finite but not explicitly computed.
+
+
+Proof relative to FJ's factor list: X=0 or Y=0 contradicts the nonzero primitive even Gaussian leg. A constant slope X=±b/a or ±a/b (or Y analog) forces the primitive Gaussian square norm to equal p² and hence q=p (or r=p), forbidden. For norm-orthogonal bilinear factors, K=1 implies q=r, impossible. K=p² implies q/r ∈{p,1,1/p}, impossible for distinct primes q,r different from p. For K=Kstar, from q²=Kstar r²/g², Kstar must be a rational square and therefore an integer square. Lemma FK.1 confines p to a finite set. For each such fixed p, write Kstar=k²; qg=kr with g|Kstar. Since q,r are distinct primes, q|k and r|g, so both lie in a finite set of prime divisors of Kstar, with finitely many admissible Gaussian triples and physical reconstructions. Summation over the finite exceptional p remains O(1), independent of B. No Gaussian-only virtual points are counted as physical: this is an upper bound on the actual same-P subset of these assignments.
+
+
+4. DELTA, RESIDUAL, AND DEDUP
+FJ gave O_p(1) for these 52 cases only at fixed p; FK replaces that with absolute global O(1) even as p varies. Together with FJ's 8 uniformly empty irreducible genus-zero patterns, 60/414 allocation patterns have globally negligible O(1) contribution in the squarefree three-prime stratum. Remaining 354 allocation patterns: 330 generic genus1, 16 lifted genus1, and 8 genus3 (1,2)-lift cases, with constants/ranks/nonuniform rational-point counts still entirely UNBOUNDED on moving p. This is not a global omega(R)>=3 estimate, not a proof of perfect-cuboid nonexistence, and not an independent validation of every FJ symbolic factor.
+Each original P is charged once in the union; retain eight HIGH flags, high sf(G0), Kcross/rad(Sd), 229DS q/Gres K-null, and 229EX medium-e signed OFF-G0/q(-,-)/Gres restrictions only as SAME-P filters.
+
+
+5. ACTUAL ALTERNATE METHOD TEST / STRATEGY AUDIT
+Recent FF,FG,FH,FI,FJ achieved full omega2 disposal and fixed-p omega3 polylog, but did not lower the global moving-p source. Test direct moving-p dyadic split p∈[P,2P], p<=B^(1/3), q,r>p. The number of possible split primes p in a large dyadic block is O(P/log P); a hypothetical uniform bound N_p(B)<=C(log B)^A yields total O(B^(1/3)(log B)^(A−1)) from the largest p range, not o(B^(1/3)) unless A<1. Fixed-p FJ has unspecified C_p and constants and yields no such bound. A different low-p diagonal cutoff T(B)→∞ exists non-effectively by applying FJ to each finite initial set of primes, making sum_{p<=T(B)} N_p(B)=o(B^(1/3)), but there is no effective growth rate and the complementary p>T(B) region stays wholly uncontrolled. Therefore neither this selector-free dyadic attempt nor uniformizing the bare O_p(polylog) symbol closes the 354-family obstruction. 229AR Wminus and 229EG/229EL gates were not formally switched; no gate escalation claimed.
+
+
+6. NEXT EXACT RESEARCH INPUT
+Obtain an effective, original SAME-P selector-aware average or uniform bound on the 346 genus1 and 8 genus3 remaining pqr allocations AFTER summing p up to B^(1/3), with target o(B^(1/3)); preferably use an explicit p-dyadic occupied-height/prime-square collision estimate rather than nonuniform MW ranks or ineffective Faltings. Evaluate whether the two additional Pythagorean norm constraints on both X,Y raise generic genus of the 346 cases sufficiently to support a truly quantitative uniform family theorem; supply exact genus/collision and range, not only generic smoothness. Subsequently tackle original repeated prime exponents and omega(R)>=4. No unsupported independence or formal route change.
+INDEPENDENT_AUDIT_STATUS: local FK algebra + squarefreeness independently checked using exact polynomial algebra; full 52-case generic FJ factor list not independently hostile-audited in this batch.
