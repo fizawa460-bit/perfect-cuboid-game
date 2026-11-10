@@ -1,3 +1,6 @@
+> **2026-11-10 R3-07 resumed by explicit user instruction.**
+> [Unreviewed row393 successor evidence](research/r3-row393-resume-20261110/wave6/README.md): 4632 new integral generators / 4619 independent principal relations in total; formal residual181→180→178→177→175; individually zero 630→636 in Cl/2, including P827 and P1277. P827 has a principal-product witness and is no longer the next unresolved prime; unconditional exclusion remains 0. The next finite-presentation frontier is P_(953,0), residue ρ=10, with a retained finite dual certificate. Continue the same signed −30 source with new P953 relations/shared-large-prime cancellation or an unconditional class-group generation / appropriate rank bound. Recorded wave4/5/6 trials are not new on repetition. Publication-wide frozen manifest still fails on a README hash; the parent-member restoration is scope-limited, not a publication-wide PASS. Formal V74 authority unchanged.
+
 > **2026-11-08 current work: publication inventory; mathematics paused at R3 row393.**
 > Use the [99-ID catalogue](publication/README.md) for the imported route/material inventory. The older integration narrative and mathematical NEXT below are retained as history, not as permission to resume research. Formal V74 authority is unchanged.
 
@@ -163,3 +166,4 @@ perfect_cuboid_nonexistence_claim=false
 ```
 
 PR #1771 must remain unmerged until its rewritten current-main exact head has green aggregate/lifecycle CI and a hostile freshness PASS anchored to that exact head.
+
