@@ -1,0 +1,4864 @@
+tric incidence relation.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 35.
+
+
+CURRENT_MINIMAL_TARGET=FreshRelativeConductorMovingRootLineSupportOneTwelfth
+CURRENT_SUPPORTING_ATTACK=ThreeAntiRootSymmetricIncidenceMovingSupport
+M3_T11_THREE_ANTIROOT_SYMMETRIC_INCIDENCE=true
+M3_T11_THREE_ANTIROOT_FIXED_U_GENUS_ONE=true
+M3_T11_THREE_ANTIROOT_MOVING_U_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+---
+CARD_ID: M3-T11-032
+
+
+TYPE: EXACT_STRUCTURE / SAME_MEASURE_ADAPTER / JOINT_MODULUS
+STATUS: PROVED_EXACT_WITH_OPEN_FRESH_CONTENT_AUDIT
+
+
+CLAIM:
+Let the corrected distinct anti-roots be v_i=A_i/B_i in lowest terms, with
+A_i==rho_i B_i mod m_i^2,
+rho_i^2==-1 mod m_i^2,
+m_i=tau_i^sharp.
+
+
+Set M_rel=m_1*m_2*m_3 and
+F_v(X)=product_i(B_i X-A_i).
+
+
+CRT gives one rho_rel mod M_rel^2 with
+rho_rel==rho_i mod m_i^2,
+rho_rel^2==-1 mod M_rel^2.
+
+
+Then exactly
+F_v(rho_rel)==0 mod M_rel^2.
+
+
+Writing
+F_v(X)=D X^3-T_1 X^2+T_2 X-T_3,
+the relation rho_rel^2=-1 reduces the cubic congruence to
+(T_1-T_3)+(T_2-D)rho_rel==0 mod M_rel^2.
+
+
+Hence
+M_rel^2 | (T_1-T_3)^2+(T_2-D)^2.
+
+
+NOVELTY:
+This is not the retracted same-v CRT. It retains three distinct rational anti-roots and combines their separate fresh root lines through the product cubic. The joint modulus lives on one common integer coefficient pair.
+
+
+POPULATION:
+Exact fixed-content relative-fresh endpoint packets on the M3 principal/double-lift measure.
+
+
+DEPENDS_ON:
+M3-T11-029;
+corrected M3-T11-030;
+pairwise coprimality of fresh relative cores.
+
+
+DOES_NOT_IMPLY:
+No primitive AR-009 saving yet. The coefficient pair may have common fresh content because complementary denominators B_j can carry m_i-primes for j!=i.
+
+
+REOPEN_CONDITION:
+A primewise valuation theorem controlling gcd(T_1-T_3,T_2-D,M_rel), strong enough to expose a polynomial part of the M_rel^2 modulus on a primitive coefficient pair.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 36.
+
+
+M3_T11_DISTINCT_ANTIROOT_CUBIC_CRT=true
+M3_T11_CUBIC_COEFFICIENT_JOINT_ROOTLINE=true
+M3_T11_CUBIC_COEFFICIENT_PRIMITIVE_AT_FRESH_PRIMES_PROVED=false
+CURRENT_SUPPORTING_ATTACK=ThreeAntiRootCubicCoefficientFreshContentAudit
+P_OVER_M3_LIMIT_PROVED=false
+
+
+---
+CARD_ID: M3-T11-033
+
+
+TYPE: EXACT_LOCAL_VALUATION / PRIMITIVE_JOINT_ROOTLINE
+STATUS: PROVED_EXACT_WITH_OPEN_RANGE_ADAPTER
+
+
+CLAIM:
+For the M3-T11-032 cubic coefficient pair
+X_sym=T_1-T_3,
+Y_sym=T_2-D,
+the joint congruence
+X_sym+rho_rel Y_sym==0 mod M_rel^2
+is primitive at every fresh prime.
+
+
+Primewise, for p^a||m_i, the target anti-root v_i is a p-unit by its oriented root-line congruence. The retained fresh-unit filter makes the relative trace between the other two directions a p-unit. The two remaining unit-argument trace factors in v_i^2 are then also p-units.
+
+
+For j!=i this forces exactly
+v_p(v_j)=-2a,
+so their reduced denominators carry p^(2a), while the target A_i,B_i are p-units.
+
+
+For i=1 this gives modulo p^(2a):
+T_1==D==0,
+T_2==A_2*A_3*B_1,
+T_3==A_1*A_2*A_3.
+Hence both
+X_sym==-A_1*A_2*A_3
+and
+Y_sym==A_2*A_3*B_1
+are p-units.
+
+
+Cyclically,
+gcd(X_sym,Y_sym,M_rel)=1.
+
+
+Therefore the full M_rel^2 modulus survives on one primitive common coefficient pair:
+X_sym+rho_rel Y_sym==0 mod M_rel^2,
+rho_rel^2==-1 mod M_rel^2,
+M_rel^2 | X_sym^2+Y_sym^2.
+
+
+NOVELTY:
+This closes the exact fresh-content blocker of M3-T11-032. It is not the retracted common-v CRT and does not multiply three local density savings.
+
+
+DOES_NOT_IMPLY:
+No global active-M_rel saving until the physical height/range and pushforward multiplicity of (X_sym,Y_sym) are controlled on the same measure.
+
+
+REOPEN_CONDITION:
+An exact coefficient-pair range/multiplicity adapter strong enough to combine this primitive full M_rel^2 root line with AR-009 without double charging.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 37.
+
+
+M3_T11_CUBIC_COEFFICIENT_PRIMITIVE_AT_FRESH_PRIMES=true
+M3_T11_CUBIC_COEFFICIENT_FULL_MREL2_MODULUS_SURVIVES=true
+CURRENT_SUPPORTING_ATTACK=ThreeAntiRootCubicCoefficientRootLineRangeAdapter
+P_OVER_M3_LIMIT_PROVED=fals
+
+
+---
+
+
+e
+
+
+
+
+---
+ADDENDUM TO M3-T11-032 / M3-T11-033 — product-factorization no-double-charge correction
+
+
+Exact identity:
+X_sym+i*Y_sym=F_v(i)=product_i(i*B_i-A_i).
+
+
+Hence
+X_sym^2+Y_sym^2=product_i(A_i^2+B_i^2).
+
+
+Therefore the full M_rel^2 norm divisibility on the cubic coefficient pair is exactly the Gaussian-product packaging of the three previously known one-core norm divisibilities.
+
+
+M3-T11-032 and M3-T11-033 remain exact algebraic/router results.
+However the proposed independent AR-009 range-adapter saving on (X_sym,Y_sym) is frozen: charging it as a new density factor would double-charge the same three one-core root lines.
+
+
+SEMANTIC_VERDICT=UPDATE_EXISTING_FIREWALL
+M3_T11_CUBIC_COEFFICIENT_AR009_INDEPENDENT_SAVING=false
+M3_T11_CUBIC_COEFFICIENT_RANGE_ADAPTER_ROUTE_FROZEN=true
+P_OVER_M3_LIMIT_PROVED=false
+
+
+---
+CARD_ID: M3-T11-034
+
+
+TYPE: EXACT_STRUCTURE / SAME_MEASURE_ROUTER / LOCAL_VALUATION_TRANSFER
+STATUS: PROVED_EXACT_WITH_OPEN_COUNTING_GATE
+
+
+CLAIM:
+On the finite symmetric-parameter branch u=P/(S*E+P), fresh relative conductor is conserved primewise between the numerator of u and explicit normalized anti-root collision cross-gcds.
+
+
+For i=1 define
+Bhat_2^(1)=B_2/m_1^2,
+Bhat_3^(1)=B_3/m_1^2,
+H_1=A_2*Bhat_3^(1)+A_3*Bhat_2^(1),
+and cyclically H_2,H_3.
+
+
+For p^a||m_i, if e=v_p(H_i)<2a then
+v_p(u)=2a-e.
+
+
+Consequently
+Q_u=product_i[m_i^2/gcd(m_i^2,H_i)]
+divides Num(u).
+
+
+With
+C_u=product_i gcd(m_i^2,H_i),
+one has exactly
+Q_u*C_u=M_rel^2,
+hence max(Q_u,C_u)>=M_rel.
+
+
+POPULATION:
+Exact fixed-content/coefficient relative-fresh endpoint packets on the finite-u part of the current M3 principal/double-lift measure.
+
+
+HEIGHT:
+Exact physical R<=B retained.
+
+
+DEPENDS_ON:
+M3-T11-031;
+corrected M3-T11-030;
+M3-T11-033 local denominator valuations.
+
+
+IMPLIES:
+Every large-M_rel endpoint has either a large realized-u numerator divisor or a large explicit scaled anti-root collision cross-gcd.
+
+
+ALIASES:
+symmetric-u conductor transfer;
+fresh-conductor conservation to u;
+scaled anti-root collision cross-gcd;
+u-transfer/collision dichotomy.
+
+
+DUPLICATE_OF:
+none found in RESULT-LEDGER, NEGATIVE-REGISTER, or current TrivialSplit route semantic sweep.
+
+
+SUPERSEDES:
+ThreeAntiRootCubicCoefficientRootLineRangeAdapter as the live supporting attack.
+M3-T11-032/033 remain retained algebraic routers.
+
+
+DO_NOT_REPEAT:
+Do not count Q_u and C_u as independent savings.
+Do not infer sparsity solely from a large divisor of Num(u).
+Do not treat p|H_i as an auxiliary-prime tH14 collision without an exact adapter.
+Do not include the u=infinity branch in the finite-u valuation formula.
+
+
+REOPEN_CONDITION:
+A same-measure theorem for either realized finite-u support with Q_u large, or scaled collision cross-gcd occupancy with C_u large, strong enough to prove the fixed-content B^(1/12-delta) target.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 39.
+
+
+CURRENT_MINIMAL_TARGET=FreshRelativeConductorMovingRootLineSupportOneTwelfth
+CURRENT_SUPPORTING_ATTACK=SymmetricUFreshTransferVsScaledAntiRootCollision
+M3_T11_SYMMETRIC_U_FRESH_TRANSFER=true
+M3_T11_SYMMETRIC_U_MOVING_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+
+
+---
+RETRACTION: M3-T11-034
+
+
+STATUS: RETRACTED
+
+
+ERROR:
+The inverse of the M3-T11-031 conic parameterization was written as
+u=P/(S*E+P).
+
+
+The correct identity is
+u=P*S/(S*E+P).
+
+
+Therefore the claimed fresh-conductor transfer into Num(u) is invalid and is withdrawn.
+
+
+M3_T11_034_RETRACTED=true
+M3_T11_SYMMETRIC_U_FRESH_TRANSFER=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+---
+CARD_ID: M3-T11-035
+
+
+TYPE: EXACT_STRUCTURE / SAME_MEASURE_ADAPTER / COMMON_GAUSSIAN_ROOTLINE
+STATUS: PROVED_EXACT_WITH_OPEN_MOVING_SUPPORT_GATE
+
+
+CLAIM:
+Let
+S=v_1+v_2+v_3,
+P=v_1*v_2*v_3,
+r=P/S
+on the nondegenerate corrected three-anti-root endpoint locus.
+
+
+Then r=T_3/T_1, with
+M_rel^2|T_1
+and
+gcd(T_3,M_rel)=1.
+
+
+Hence
+M_rel^2 | Den(r).
+
+
+Using the exact M3-T11-031 conic parameterization
+r=4*u^2/(1+u^2),
+write u=A_u/B_u reduced.
+
+
+On M_rel>1, r cannot equal 4, so u is finite.
+Moreover
+Den(r)=(A_u^2+B_u^2)/g_u,
+g_u in {1,2}.
+
+
+Since M_rel is odd,
+M_rel^2 | A_u^2+B_u^2.
+
+
+Thus one genuine common rational parameter satisfies
+A_u==rho_u*B_u mod M_rel^2,
+rho_u^2==-1 mod M_rel^2,
+gcd(B_u,M_rel)=1.
+
+
+POPULATION:
+Exact fixed-content/coefficient relative-fresh endpoints on the nondegenerate large-M_rel branch.
+
+
+HEIGHT:
+Exact R<=B retained.
+The common-u norm satisfies
+A_u^2+B_u^2
+=
+g_u*|T_1|/gcd(T_1,T_3)
+and is polynomially bounded on the physical packet.
+
+
+DEPENDS_ON:
+M3-T11-031;
+corrected M3-T11-030;
+M3-T11-033.
+
+
+IMPLIES:
+For fixed realized u, the compatible M_rel values are divisor-many:
+B^o(1).
+Therefore
+# active M_rel
+<=
+B^o(1) * # active realized u.
+
+
+A sufficient current target is
+# active realized u << B^(1/12-delta).
+
+
+ALIASES:
+symmetric common-u root line;
+valid full-fresh common rational coordinate;
+common-u M_rel^2 Gaussian rootline;
+active-u support receiver.
+
+
+DUPLICATE_OF:
+none.
+This is not M3-T11-029 one-core v.
+It is not the retracted Section-31 common-v CRT.
+It is not the M3-T11-032/033 Gaussian product coefficient pair.
+
+
+SUPERSEDES:
+M3-T11-034, which is retracted.
+It also supersedes ThreeAntiRootCubicCoefficientRootLineRangeAdapter as the active supporting attack.
+
+
+DO_NOT_REPEAT:
+Do not treat this pointwise common-u root line as a moving-support theorem.
+Do not multiply it by the three one-core root-line savings without a no-double-charge theorem.
+Do not reopen the u=infinity branch on M_rel>1.
+Do not use fixed-u genus one as a uniform B^o(1) theorem without the missing uniform input.
+
+
+REOPEN_CONDITION:
+A same-measure moving-u support theorem, or an exact existing theorem adapter, yielding
+# active realized u << B^(1/12-delta)
+per fixed content/coefficient packet.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 41.
+
+
+CURRENT_MINIMAL_TARGET=SymmetricCommonUFullFreshRootLineSupportOneTwelfth
+M3_T11_COMMON_U_FULL_MREL2_ROOTLINE=true
+M3_T11_FIXED_U_MREL_MULTIPLICITY=BO1
+M3_T11_ACTIVE_U_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+
+
+---
+PROVISIONAL CANDIDATE — M3-T11-036
+TITLE: Fixed-field cubic-torsion uniform fiber upgrade for the symmetric (S,u) incidence
+TYPE: THEOREM_CANDIDATE / SAME_MEASURE_FIXED_FIBER_ADAPTER
+STATUS: HOSTILE_AUDIT_REQUIRED / NOT_YET_CANONICAL
+
+
+CLAIM_CANDIDATE:
+Retain M3-T11-031 and M3-T11-035:
+Y^2=-(1+u^2)Q(S,u)
+with
+Q(S,u)=-4S^2+S^4+48Su-16S^3u-16u^2+44S^2u^2+S^4u^2.
+
+
+For every physical rational u!=0, the fixed-u binary quartic is smooth.  On the scaled Jacobian
+y^2=x^3-27 I_u x-27 J_u
+with
+I_u=16(1+u^2)^3(1+109u^2),
+J_u=128(1+u^2)^4(-1+268u^2+1727u^4),
+the point
+x=-36(1+u^2)^2,
+y=48*sqrt(-3)*(1+u^2)^2*(25u^2-2)
+has exact order 3 over the fixed field K=Q(sqrt(-3)).
+
+
+Likewise, treating the same incidence as a quartic in u for fixed rational S, its discriminant is
+2^20*S^2*(S^2-8)^3*(1+S^2)^6,
+and its scaled Jacobian has the K-rational exact 3-torsion point
+x=-36(S^2-2)^2,
+y=96*sqrt(-3)*(S^2-8)*(1+S^2)^2.
+
+
+PROPOSED_OUTPUT_IF_AUDITED:
+Using Marta Dujella's uniform bounded-height theorem over the one fixed number field K, together with the fixed-degree binary-quartic covering map and the exact physical polynomial-height adapter,
+fixed realized u + fixed content/coefficient packet
+=> B^o(1) physical endpoint states,
+and symmetrically
+fixed realized S + fixed content/coefficient packet
+=> B^o(1) physical endpoint states.
+
+
+EXTERNAL_THEOREM:
+Marta Dujella, "Uniform Bounds for the Number of Rational Points of Bounded Height on Certain Elliptic Curves" (Acta Arith. 217; arXiv:2312.03655).
+Required theorem feature: fixed number field k; elliptic curve carries a k-rational point of exact prime order; uniform exp(C(k) log H/log log H) bounded-height count.
+
+
+HEIGHT:
+Exact physical R<=B.  The promotion audit must verify uniformly that the anti-root coordinates, S,u, quartic coefficients, covering map, and Jacobian image heights are B^O(1).
+
+
+ANTI_LOOP_ADDENDUM:
+The exact identity
+u^2=T_3/(4T_1-T_3)
+gives
+T_3=G A_u^2,
+4T_1-T_3=G B_u^2,
+4T_1=G(A_u^2+B_u^2),
+with G=gcd(T_3,4T_1-T_3)=gcd(T_3,4T_1)=4*gcd(T_1,T_3)/g_u up to the common sign, g_u in {1,2}.
+This is not a new independent squareclass saving; it is equivalent to the M3-T11-035 common-u norm carrier.
+
+
+DOES_NOT_IMPLY:
+No moving-u support deficit.
+No new root-line density factor.
+No proof of #active realized u << B^(1/12-delta).
+No P/M3 limit theorem.
+
+
+PROMOTION_BOUNDARY:
+If hostile audit passes, promote the former open fixed-u-uniformity flag and register the symmetric fixed-S fiber theorem.  Until then, all new positive flags remain CANDIDATE only.
+
+
+CANDIDATE_FLAGS:
+M3_T11_FIXED_U_K_RATIONAL_3TORSION_CANDIDATE=true
+M3_T11_FIXED_S_K_RATIONAL_3TORSION_CANDIDATE=true
+M3_T11_FIXED_U_UNIFORM_BO1_CANDIDATE=true
+M3_T11_FIXED_S_UNIFORM_BO1_CANDIDATE=true
+M3_T11_ACTIVE_U_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+NEXT_REQUIRED_ACTION=stage37audit
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 42.
+
+
+
+
+---
+## M3-T11-036
+TYPE: THEOREM / SAME_MEASURE_FIXED_FIBER_ADAPTER
+STATUS: PROVED_CANONICAL / HOSTILE_AUDIT_PASS
+CLAIM:
+On the M3-T11-031 symmetric incidence
+Y^2=-(1+u^2)Q(S,u),
+every realized rational u and every realized rational S define a smooth genus-one fiber whose Jacobian has exact order-3 torsion over the one fixed field K=Q(sqrt(-3)).
+By Marta Dujella's uniform bounded-height theorem over fixed number fields, together with the audited polynomial physical-height adapter and fixed-degree quartic-to-Jacobian map,
+fixed realized u + fixed content/coefficient packet => B^o(1) physical endpoint states,
+and
+fixed realized S + fixed content/coefficient packet => B^o(1) physical endpoint states.
+POPULATION:
+Exact fixed-content/coefficient nondegenerate relative-fresh endpoint packet.
+HEIGHT:
+Exact R<=B; image heights B^O(1).
+DEPENDS_ON:
+M3-T11-031, M3-T11-035, Dujella uniform bounded-height theorem.
+IMPLIES:
+Uniform fixed-u and fixed-S multiplicity are no longer blockers.
+DOES_NOT_IMPLY:
+No moving-u support deficit; no P/M3 theorem.
+AUDIT:
+stage37audit PASS supplied at the M3-T11-036 promotion boundary.
+FLAGS:
+M3_T11_FIXED_U_UNIFORM_BO1_PROVED=true
+M3_T11_FIXED_S_UNIFORM_BO1_PROVED=true
+P_OVER_M3_LIMIT_PROVED=false
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE sections 42-43.
+
+
+---
+PROVISIONAL CANDIDATE — M3-T11-037
+TITLE: Scaled symmetric w=u/S fresh-transfer and fixed-w elliptic compression
+TYPE: EXACT_STRUCTURE / SAME_MEASURE_ROUTER / THEOREM_CANDIDATE
+STATUS: EXACT_ROUTER_PROVED / FIXED_W_BO1_HOSTILE_AUDIT_REQUIRED
+
+
+CLAIM_EXACT:
+Define
+w=P/(S*E+P)=u/S.
+The old Section-39 p-adic calculation is valid for w.
+With normalized collision numerators H_i,
+Q_w=product_i[m_i^2/gcd(m_i^2,H_i)] divides Num(w),
+C_w=product_i gcd(m_i^2,H_i),
+and Q_w*C_w=M_rel^2.
+Thus every large-M_rel endpoint routes to either large visible divisor in Num(w) or large explicit scaled anti-root collision content.
+
+
+FIXED_W_STRUCTURE:
+After S=u/w, x=u^2 and Z=Y*w^2/u,
+Z^2=-(1+x)[x^2+x(1-16w+44w^2)-4w^2+48w^3-16w^4].
+For fixed rational w the cubic has rational root x=-1, hence rational 2-torsion.
+Its discriminant is
+256(w-1)^6 w^2(2w-1)(10w-1)^3.
+The singular rational values w=0,1,1/2,1/10 yield no physical rational-u point.
+
+
+PROPOSED_OUTPUT_IF_AUDITED:
+fixed realized w + fixed content/coefficient packet => B^o(1) physical endpoint states
+by Dujella over Q with prime order 2 plus the fixed-degree physical height adapter.
+
+
+DOES_NOT_IMPLY:
+No active-w support deficit.
+No closure of collision branch C_w.
+No active-u support deficit.
+No P/M3 theorem.
+
+
+FLAGS:
+M3_T11_SCALED_W_PARAMETER=true
+M3_T11_W_FRESH_TRANSFER_COLLISION=true
+M3_T11_FIXED_W_ELLIPTIC_2TORSION=true
+M3_T11_FIXED_W_UNIFORM_BO1_CANDIDATE=true
+M3_T11_FIXED_W_UNIFORM_BO1_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 44.
+
+
+
+
+---
+## M3-T11-038
+TYPE: EXACT_STRUCTURE / SAME_MEASURE_RECEIVER / PROJECTIVE_GCD_ROUTER
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+For the scaled symmetric parameter
+w=u/S=P/(S*E+P)
+use the unreduced integer pair
+N_w=T_3*D,
+D_w=T_1*T_2+T_3*D.
+Let C_w be the collision content from M3-T11-037:
+C_w=product_i gcd(m_i^2,H_i).
+Then primewise on the fresh conductor and hence globally,
+boxed:
+gcd(N_w,D_w,M_rel^4)=M_rel^2*C_w.
+Therefore the M3-T11-037 dichotomy
+Q_w*C_w=M_rel^2
+becomes:
+A. Q_w>=M_rel -> a divisor >=M_rel survives in Num(w);
+B. C_w>=M_rel -> gcd(N_w,D_w,M_rel^4)>=M_rel^3.
+
+
+INTERPRETATION:
+C_w is exactly the extra fresh projective content canceled when the rational value w is reduced.
+It is not visible from reduced w alone.
+
+
+POPULATION:
+Exact fixed-content/coefficient nondegenerate relative-fresh endpoint packet.
+HEIGHT:
+Exact R<=B retained.
+DEPENDS_ON:
+M3-T11-033, M3-T11-037.
+IMPLIES:
+The large-collision branch has a concrete raw projective-gcd receiver
+ScaledSymmetricWProjectiveContentTail.
+DOES_NOT_IMPLY:
+No fixed-power tail bound.
+No direct AR-014 application: no fixed outer W with square-divisor lock has yet been proved.
+No active-u or active-w support theorem.
+NO_DOUBLE_CHARGE:
+Do not count baseline M_rel^2 projective content as a new saving; only the extra factor C_w is new collision data.
+FLAGS:
+M3_T11_W_COLLISION_EQUALS_EXTRA_PROJECTIVE_CONTENT=true
+M3_T11_W_FRESH_GCD_IDENTITY=true
+M3_T11_W_LARGE_COLLISION_IMPLIES_MREL3_GCD=true
+M3_T11_W_PROJECTIVE_CONTENT_TAIL_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 45.
+
+
+
+
+---
+## M3-T11-039
+TYPE: EXACT_STRUCTURE / SAME_MEASURE_STRENGTHENING
+STATUS: PROVED_EXACT
+CLAIM:
+Let C_w be the collision content of M3-T11-037. Then
+gcd(T_1,M_rel^4)=M_rel^2*C_w.
+Since gcd(T_3,M_rel)=1 and r=T_3/T_1,
+gcd(Den(r),M_rel^4)=M_rel^2*C_w.
+For u=A_u/B_u reduced,
+Den(r)=(A_u^2+B_u^2)/g_u with g_u in {1,2}, hence
+gcd(A_u^2+B_u^2,M_rel^4)=M_rel^2*C_w.
+Therefore C_w>=M_rel amplifies the canonical common-u Gaussian modulus from M_rel^2 to at least M_rel^3.
+POPULATION:
+Exact fixed-content/coefficient nondegenerate relative-fresh endpoint packet.
+HEIGHT:
+Exact R<=B.
+DEPENDS_ON:
+M3-T11-033, M3-T11-035, M3-T11-037.
+IMPLIES:
+The preferred collision receiver is the amplified common-u norm, not the raw projective gcd of M3-T11-038.
+NO_DOUBLE_CHARGE:
+Baseline M_rel^2 is already consumed by M3-T11-035. Only incremental C_w is new.
+FLAGS:
+M3_T11_COMMON_U_AMPLIFIED_MODULUS=true
+M3_T11_038_RAW_GCD_RECEIVER_SUPERSEDED=true
+M3_T11_COLLISION_INCREMENTAL_CW_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 46.
+
+
+---
+## M3-T11-040
+TYPE: EXACT_STRUCTURE / SAME_MEASURE_CONSERVATION_ROUTER
+STATUS: PROVED_EXACT
+CLAIM:
+Let S=T_1/D be the canonical symmetric sum and u=A_u/B_u the canonical common parameter.
+Define
+Q_S=gcd(Den(S),M_rel^2),
+C_u=gcd(A_u^2+B_u^2,M_rel^4)/M_rel^2.
+Then exactly
+Q_S*C_u=M_rel^2.
+Equivalently the fresh conductor partitions prime-by-prime between:
+A. fresh denominator support of S;
+B. excess fresh Gaussian norm support of u beyond the already-consumed M_rel^2 baseline.
+Both fixed-S and fixed-u fibers have canonical B^o(1) physical multiplicity by M3-T11-036.
+POPULATION:
+Exact fixed-content/coefficient nondegenerate relative-fresh endpoint packet.
+HEIGHT:
+Exact R<=B.
+DEPENDS_ON:
+M3-T11-036, M3-T11-039.
+IMPLIES:
+w is no longer required as a load-bearing coordinate.
+The moving-support problem splits into SymmetricSFreshDenominatorTail and CollisionAmplifiedCommonUGaussianTail.
+DOES_NOT_IMPLY:
+No fixed-power support tail yet.
+No P/M3 theorem.
+NO_DOUBLE_CHARGE:
+Q_S and C_u are complementary allocations of one M_rel^2 conductor; do not multiply their savings.
+FLAGS:
+M3_T11_SYMMETRIC_S_FRESH_DENOMINATOR=true
+M3_T11_SYMMETRIC_SU_CONDUCTOR_PARTITION=true
+M3_T11_W_LOAD_BEARING_REQUIRED=false
+M3_T11_S_DENOMINATOR_TAIL_PROVED=false
+M3_T11_COLLISION_INCREMENTAL_CW_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 47.
+
+
+
+
+---
+## M3-T11-041
+TITLE: Homogeneous symmetric SU ramification and interior-fresh normalization firewall
+TYPE: EXACT_STRUCTURE / SAME_MEASURE_HOMOGENEOUS_ADAPTER / ANTI_LOOP_FIREWALL
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+Write the audited symmetric coordinates as S=s/t and u=a/b in lowest terms and set N_u=a^2+b^2.  The M3-T11-031 discriminant-square incidence homogenizes to
+
+
+W^2=-N_u*Phi,
+
+
+where
+
+
+Phi
+=
+N_u*s^4
+-16*a*b*s^3*t
++(44*a^2-4*b^2)*s^2*t^2
++48*a*b*s*t^3
+-16*a^2*t^4.
+
+
+There is an exact division identity
+
+
+Phi
+=
+N_u*(s^4+44*s^2*t^2-16*t^4)
+-16*b*t*(a*s^3+3*b*s^2*t-3*a*s*t^2-b*t^3).
+
+
+At an oriented odd split prime p|N_u with a==rho*b and rho^2==-1,
+
+
+a*s^3+3*b*s^2*t-3*a*s*t^2-b*t^3
+==
+b*rho*(s-rho*t)^3,
+
+
+and
+
+
+Res_a(Phi,a^2+b^2)
+=
+256*b^4*t^2*(s^2+t^2)^3.
+
+
+For the M3-T11-040 fresh allocation, put c_p=v_p(C_u) and k_p=v_p(Q_S)=2*lambda-c_p for p^lambda||m_i. Then
+
+
+Q_S | Phi,
+M_rel^2*C_u | N_u,
+M_rel^2 | W.
+
+
+After normalization
+
+
+N_*=N_u/(M_rel^2*C_u),
+Phi_*=Phi/Q_S,
+W_*=W/M_rel^2,
+
+
+one has exactly
+
+
+W_*^2=-N_*Phi_*.
+
+
+If 0<c_p<2*lambda, then
+
+
+v_p(Phi)=k_p,
+p does not divide N_*Phi_*W_*.
+
+
+Thus every interior fresh prime is fully exhausted by the already-consumed conductor allocation; residual fresh p-content can occur only at the extreme allocations c_p=0 or c_p=2*lambda.
+
+
+On an interior prime the remaining unit condition is
+
+
+chi_p(-rho*Pi_p)=+1,
+
+
+where Pi_p=p^(4*lambda)*P is the p-adic unit normalization of P=v_1*v_2*v_3.
+
+
+POPULATION:
+Exact fixed-content/coefficient nondegenerate relative-fresh endpoint packet on the canonical symmetric (S,u) pushforward.
+
+
+HEIGHT:
+Exact physical R<=B retained.
+
+
+DEPENDS_ON:
+M3-T11-031,
+M3-T11-035,
+M3-T11-036,
+M3-T11-039,
+M3-T11-040.
+
+
+NOVELTY:
+This is not a coordinate rename of M3-T11-040.  It adds a new load-bearing homogeneous quartic identity, its exact Gaussian-norm resultant/triple-root degeneration, and an exact post-conductor primitivity theorem for every interior fresh prime.
+
+
+IMPLIES:
+The interior-prime valuation mechanism cannot be charged a second time as a local density saving after Q_S*C_u=M_rel^2 has been consumed.
+Any fixed-power use of the residual interior character requires a same-measure global dispersion/correlation theorem.
+Extreme allocation primes remain legitimate tail targets.
+If p|N_u and p|Phi with p not dividing the S denominator, the resultant forces p|s^2+t^2.
+
+
+DOES_NOT_IMPLY:
+No fixed-power moving-support deficit.
+No independence of residual characters.
+No theorem for the two extreme allocation tails.
+No P/M3 limit theorem.
+
+
+NO_DOUBLE_CHARGE:
+The factors Q_S and C_u are exactly the same M_rel^2 conductor allocation already recorded by M3-T11-040.  M3-T11-041 may use only the normalized residual equation W_*^2=-N_*Phi_*; the forced interior valuation itself supplies zero new credit.
+
+
+ANTI_LOOP:
+Even hypothetical independent one-half rejection at each distinct interior prime gives only 2^(-omega(M_int))=M_int^(-o(1)) uniformly, not a fixed power.  Do not open a naive local-character tensor route.
+
+
+FLAGS:
+M3_T11_SYMMETRIC_SU_HOMOGENIZED=true
+M3_T11_SYMMETRIC_QUARTIC_GAUSSIAN_TRIPLE_RAMIFICATION=true
+M3_T11_QS_DIVIDES_HOMOGENIZED_QUARTIC=true
+M3_T11_W_DIVISIBLE_BY_MREL2=true
+M3_T11_INTERIOR_FRESH_NORMALIZED_PRIMITIVE=true
+M3_T11_INTERIOR_RESIDUAL_CHARACTER=true
+M3_T11_INTERIOR_LOCAL_TENSORIZATION_FIXED_POWER=false
+M3_T11_EXTREME_OR_GLOBAL_DISPERSION_REQUIRED=true
+M3_T11_S_DENOMINATOR_TAIL_PROVED=false
+M3_T11_COLLISION_INCREMENTAL_CW_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 48.
+
+
+
+
+---
+## M3-T11-042
+TITLE: Collision-free fourth-power fresh denominator on the symmetric middle coefficient E
+TYPE: EXACT_STRUCTURE / SAME_MEASURE_CONDUCTOR_RECOMBINATION / FIXED_FIBER_CANDIDATE
+STATUS: PROVED_EXACT_WITH_OPEN_COUNTING_GATE
+
+
+CLAIM:
+For the corrected anti-roots v_i=A_i/B_i and symmetric middle coefficient
+E=T_2/D,
+with
+D=B_1*B_2*B_3,
+T_2=A_1*A_2*B_3+A_1*A_3*B_2+A_2*A_3*B_1,
+every fresh prime p^lambda||m_i satisfies
+v_p(Den(E))=4*lambda.
+Hence exactly on the relative-fresh support
+boxed:
+M_rel^4 | Den(E),
+and
+gcd(Den(E),M_rel^infinity)=M_rel^4.
+
+
+For the audited coordinates S=s/t and u=a/b, N_u=a^2+b^2,
+boxed:
+E=4*a*(b*s-a*t)/(t*N_u).
+The M3-T11-040 fresh exponents
+v_p(t)=2*lambda-c_p
+and
+min(4*lambda,v_p(N_u))=2*lambda+c_p
+therefore recombine to the full baseline 4*lambda in one reduced rational coordinate.
+The M_rel^4 denominator is not an additional saving; it is a collision-free repackaging of the already-consumed S/u conductor partition.
+
+
+FIXED-E QUOTIENT:
+For fixed e=E and u!=0,
+S=[e+(e+4)u^2]/(4u).
+With x=u^2 and Z=16*u^2*Y/(1+u^2), the split-cubic discriminant gives
+Z^2=-F_e(x),
+where
+F_e(x)
+=
+(e+4)^4*x^4
++4*(e+4)^2*(e^2-12*e+112)*x^3
++2*e*(3*e^3-40*e^2-16*e+1280)*x^2
++4*e^2*(e^2-12*e-16)*x
++e^4.
+
+
+Its discriminant is
+-2^36*e^6*(e+4)^4*(3e-8)^3*(e^3-4e^2+4e+196).
+
+
+The cubic factor has no rational root, so the only rational singular parameters are
+e=0,-4,8/3.
+They are absent on M_rel>1 because M_rel^4|Den(e) but their reduced denominators are 1,1,3.
+
+
+Thus every physical large-M_rel fixed-E quotient is smooth genus one.
+Over K=Q(i) it has explicit K-points at x=0, Z=+/-i*e^2 and at infinity, so it is elliptic over one fixed field after choosing an origin.
+
+
+TORSION DIAGNOSTIC:
+For the standard scaled Jacobian, exact symbolic factorization over Q(i)(e) leaves the 2-, 3-, and 5-division polynomials irreducible of degrees 3, 4, and 12 respectively.
+Hence no generic rational-function torsion section of order 2, 3, or 5 is available.
+This blocks a direct reuse of the M3-T11-036 low-prime-torsion/Dujella argument, but does not rule out every higher-prime mechanism.
+
+
+POPULATION:
+Exact fixed-content/coefficient nondegenerate relative-fresh endpoint packet.
+
+
+HEIGHT:
+Exact physical R<=B retained; E has polynomial height.
+
+
+DEPENDS_ON:
+M3-T11-031,
+M3-T11-033,
+M3-T11-040,
+M3-T11-041.
+
+
+IMPLIES:
+For fixed realized E, compatible M_rel values are divisor-many.
+A new parallel route is available through either a uniform fixed-E B^o(1) theorem plus active-E support deficit, or a direct same-measure fourth-power-denominator tail.
+
+
+DOES_NOT_IMPLY:
+No fixed-E B^o(1) theorem.
+No active-E support deficit.
+No independent density gain beyond M3-T11-040.
+No P/M3 theorem.
+
+
+NO_DOUBLE_CHARGE:
+The M_rel^4 denominator is the single-coordinate recombination of the M3-T11-040 Q_S/C_u allocation and M3-T11-033 denominator carriers. Do not multiply its putative saving with Q_S or C_u without a new same-measure theorem.
+
+
+ARSENAL_AUDIT:
+AR-014 is only a fixed-outer common-gcd square-divisor fiber adapter and does not give a whole-family denominator-event deficit.
+SR-STR-170 likewise leaves a same-measure square-divisor threshold-event theorem external.
+
+
+FLAGS:
+M3_T11_E_FULL_MREL4_DENOMINATOR=true
+M3_T11_E_RECOMBINES_SU_FRESH_CONDUCTOR=true
+M3_T11_E_FIXED_FIBER_GENUSONE_QUOTIENT=true
+M3_T11_E_FIXED_FIBER_SINGULAR_LARGE_MREL_EMPTY=true
+M3_T11_E_GENERIC_2_3_5_TORSION_SECTION=false
+M3_T11_FIXED_E_UNIFORM_BO1_PROVED=false
+M3_T11_E_DENOMINATOR_TAIL_PROVED=false
+M3_T11_E_INDEPENDENT_SAVING=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 49.
+
+
+
+
+---
+## M3-T11-042
+TITLE: Exact common-u norm saturation inside the cubic denominator
+TYPE: EXACT_STRUCTURE / INTEGER_NORMAL_FORM / ANTI_LOOP_FIREWALL
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+Write u=a/b reduced, N_u=a^2+b^2, g_u=gcd(4,N_u) in {1,2}, and retain S=T_1/D, E=T_2/D, P=T_3/D.
+
+
+The canonical symmetric parameterization gives exactly
+
+
+N_u*T_3=4*a^2*T_1,
+
+
+N_u*T_2=4*a*b*T_1-4*a^2*D.
+
+
+Hence
+
+
+N_u/g_u | T_1
+
+
+and, using the second identity,
+
+
+boxed:
+N_u/g_u | D.
+
+
+Let d=gcd(T_1,T_3), epsilon=sign(T_1), and R_u=N_u/g_u.  Since M3-T11-035 gives R_u=|T_1|/d, there is an integer K>0 with
+
+
+D=K*R_u,
+T_1=epsilon*d*R_u,
+S=epsilon*d/K,
+
+
+and
+
+
+T_3=epsilon*(4*d/g_u)*a^2,
+T_2=(4/g_u)*(epsilon*a*b*d-a^2*K).
+
+
+Thus
+
+
+g_u*F_v(X)
+=
+N_u*K*X^3
+-epsilon*d*N_u*X^2
++4*(epsilon*a*b*d-a^2*K)*X
+-epsilon*4*a^2*d.
+
+
+For every fresh p^lambda||m_i, p does not divide d*g_u and v_p(D)=4*lambda.  Combining S=epsilon*d/K with M3-T11-040 yields
+
+
+v_p(K)=2*lambda-c_p,
+
+
+and therefore the previous capped common-u norm valuation upgrades to
+
+
+boxed:
+v_p(N_u)=2*lambda+c_p
+
+
+for every fresh prime, including c_p=2*lambda.
+
+
+Consequently
+
+
+boxed:
+(N_u)_{M_rel-fresh}=M_rel^2*C_u,
+
+
+and for N_*=N_u/(M_rel^2*C_u),
+
+
+boxed:
+gcd(N_*,M_rel)=1.
+
+
+Combining with M3-T11-041 gives W_*^2=-N_*Phi_* with all residual fresh valuation carried by Phi_*, and v_p(Phi_*) even.
+
+
+POPULATION:
+Exact fixed-content/coefficient nondegenerate relative-fresh endpoint packet on the audited symmetric (S,u) coordinates.
+
+
+HEIGHT:
+Exact physical R<=B retained.
+
+
+DEPENDS_ON:
+M3-T11-031,
+M3-T11-035,
+M3-T11-033,
+M3-T11-040,
+M3-T11-041.
+
+
+NOVELTY:
+The divisor N_u/g_u|D and the resulting uncapped valuation v_p(N_u)=2*lambda+c_p were not present in the prior conductor-partition card.  This removes a genuine uncertainty at the extreme c_p=2*lambda boundary.
+
+
+IMPLIES:
+The C_u factor is the entire fresh common-u norm excess, not a capped proxy.
+Fresh valuation v_p(N_u)>4*lambda is impossible.
+The normalized factor N_* is coprime to all fresh conductor primes.
+At an extreme amplified-u prime, any residual p-factor of Phi_* is even and, when present, lies on the S Gaussian root line from the M3-T11-041 resultant.
+
+
+DOES_NOT_IMPLY:
+No fixed-power extreme-tail theorem.
+No global character dispersion theorem.
+No P/M3 limit theorem.
+
+
+NO_DOUBLE_CHARGE:
+Since N_u/g_u is already an exact divisor of D, do not charge the amplified-u C_u condition and a separate divisor-density event N_u/g_u|D as independent savings.
+
+
+ANTI_LOOP:
+Do not search for fresh valuation beyond p^(4*lambda) in A_u^2+B_u^2.  M3-T11-042 proves this branch is saturated exactly at the M3-T11-040 cap.
+
+
+FLAGS:
+M3_T11_COMMON_U_NORM_OVER_G_DIVIDES_D=true
+M3_T11_COMMON_U_INTEGER_NORMAL_FORM=true
+M3_T11_FRESH_COMMON_U_NORM_VALUATION_EXACT=true
+M3_T11_COMMON_U_NORM_FRESH_PART=MREL2_TIMES_CU
+M3_T11_NORMALIZED_N_FRESH_COPRIME=true
+M3_T11_FRESH_NORM_ABOVE_MREL4_IMPOSSIBLE=true
+M3_T11_AMPLIFIED_U_DIVISOR_DENSITY_INDEPENDENT=false
+M3_T11_EXTREME_RESIDUAL_TAIL_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 49.
+
+
+---
+## M3-T11-043
+TITLE: Amplified-u extreme residual elimination and denominator-extreme normalization
+TYPE: EXACT_STRUCTURE / EXTREME_BRANCH_ELIMINATION / FIREWALL
+STATUS: PROVED_EXACT
+CLAIM:
+On the canonical symmetric packet write S=s/t and u=a/b reduced, N_u=a^2+b^2, and for p^lambda||m_i set c_p=v_p(C_u), k_p=2*lambda-c_p.
+The retained exact middle-coefficient identity
+E=4*a*(b*s-a*t)/(t*N_u)
+has v_p(Den(E))=4*lambda on every relative-fresh p.
+The current exact saturation gives
+v_p(N_u)=2*lambda+c_p
+and
+v_p(t)=k_p.
+
+
+If c_p=2*lambda, then p does not divide t and v_p(N_u)=4*lambda.
+Exact preservation of the p^(4*lambda) denominator of E forces
+p not dividing (b*s-a*t).
+If p divided Phi_*, then k_p=0 gives p|Phi; with rho=a*b^(-1) mod p and rho^2=-1, the exact triple-root identity
+a*s^3+3*b*s^2*t-3*a*s*t^2-b*t^3
+==
+b*rho*(s-rho*t)^3 mod p
+would force s==rho*t mod p, hence p|(b*s-a*t), contradiction.
+Therefore
+c_p=2*lambda => v_p(Phi_*)=0.
+
+
+Together with M3-T11-041 for 0<c_p<2*lambda,
+boxed:
+c_p>0 => v_p(Phi_*)=0,
+so
+boxed:
+gcd(Phi_*,C_u)=1.
+All residual fresh Phi_* support is therefore confined to the full-S-denominator extreme c_p=0.
+
+
+For c_p=0, n=2*lambda, write N_u=p^n*n_0 and t=p^n*t_0.
+Modulo p after removing the forced p^n factor,
+boxed:
+p^(-n)*Phi == s^3*(n_0*s-16*a*b*t_0).
+Hence residual p-divisibility requires
+boxed:
+n_0*s == 16*a*b*t_0 mod p,
+and the normalized square forces the residual exponent to be even.
+
+
+POPULATION:
+Exact fixed-content/coefficient nondegenerate relative-fresh endpoint packet on the canonical symmetric (S,u) pushforward.
+HEIGHT:
+Exact physical R<=B retained.
+DEPENDS_ON:
+M3-T11-041;
+retained Section-49 exact flag M3_T11_E_FULL_MREL4_DENOMINATOR=true;
+current exact common-u saturation M3_T11_FRESH_COMMON_U_NORM_VALUATION_EXACT=true.
+IMPLIES:
+The amplified-u extreme is not a live residual valuation tail.
+ExtremePhiResidualTail reduces to FullSDenominatorExtremeResidualTail.
+Residual fresh Phi_* primes are disjoint from C_u support.
+DOES_NOT_IMPLY:
+No fixed-power estimate for c_p=0.
+No independence or dispersion theorem for residual unit characters.
+No P(B)/M3(B) limit theorem.
+NO_DOUBLE_CHARGE:
+The E denominator is used only to contradict same-orientation cancellation on c_p=2*lambda; it contributes no separate density saving.
+ALIASES:
+AmplifiedUExtremePhiResidualEmpty;
+PhiStarCuCoprime;
+FullSDenominatorExtremeResidualOnly.
+DUPLICATE_OF:
+NONE.
+SUPERSEDES:
+The part of the prior extreme-residual frontier that left c_p=2*lambda open.
+DO_NOT_REPEAT:
+Do not search for higher or residual fresh Phi_* valuation on c_p=2*lambda.
+REOPEN_CONDITION:
+Retract the exact E fourth-power denominator or the exact common-u fresh saturation; otherwise only a genuinely new non-valuation same-measure mechanism may revisit this branch.
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 50.
+ID_HYGIENE:
+The existing research history already contains two entries labelled M3-T11-042. This card names its exact dependencies by formula/flag and does not renumber prior material.
+FLAGS:
+M3_T11_AMPLIFIED_U_EXTREME_PHI_RESIDUAL_EMPTY=true
+M3_T11_PHI_STAR_COPRIME_TO_CU=true
+M3_T11_RESIDUAL_FRESH_PHI_SUPPORT_ONLY_CP_ZERO=true
+M3_T11_DENOMINATOR_EXTREME_NORMALIZED_COLLISION=true
+M3_T11_DENOMINATOR_EXTREME_RESIDUAL_TAIL_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+---
+## M3-T11-044
+TITLE: Fixed-E physical square lift genus-3 Prym split and reciprocal-involution firewall
+TYPE: EXACT_STRUCTURE / NEGATIVE_RESULT / FIREWALL
+STATUS: PROVED_EXACT
+CLAIM:
+For the retained fixed-E quartic Z^2=-F_e(x), physicality imposes x=u^2.
+The true square-x lift
+C_e: Z^2=-F_e(u^2)
+is a smooth genus-3 curve on every large-M_rel physical rational e.
+Its involution u->-u has the existing elliptic quotient
+E_e: Z^2=-F_e(x),
+and the complementary involution (u,Z)->(-u,-Z) has the genus-2 quotient
+H_e: V^2=-x*F_e(x).
+Thus
+Jac(C_e) is Q-isogenous to E_e x Jac(H_e).
+
+
+For the even octic coefficients q4,q3,q2,q1,q0 of F_e(u^2), a Q-rational reciprocal commuting involution u->lambda/u would require
+q0*q3^2-q4*q1^2=0.
+Exact factorization gives
+boxed:
+q0*q3^2-q4*q1^2
+=
+4096*e^4*(e+4)^4*(e^2-12*e+48),
+and
+e^2-12*e+48=(e-6)^2+12.
+Hence no nondegenerate rational e admits such a reciprocal involution.
+
+
+POPULATION:
+Physical large-M_rel fixed-E fibers from the symmetric Stage37 route.
+HEIGHT:
+Exact physical R<=B retained; this card proves geometry only, not a point count.
+DEPENDS_ON:
+The retained fixed-E quartic and exact E fourth-power denominator;
+audited Stage25 R504 even-octic reciprocal criterion.
+IMPLIES:
+The direct reciprocal-second-elliptic-quotient route is uniformly closed.
+The square-x lift leaves a genuine genus-2 Prym factor.
+DOES_NOT_IMPLY:
+No exclusion of exceptional non-bielliptic elliptic isogeny factors of Jac(H_e).
+No fixed-E uniform B^o(1) point count.
+No active-E support deficit.
+No P(B)/M3(B) theorem.
+ALIASES:
+FixedESquareLiftGenus3;
+FixedEPrymGenus2;
+FixedEReciprocalSecondQuotientClosed.
+DUPLICATE_OF:
+NONE.
+SUPERSEDES:
+NONE.
+DO_NOT_REPEAT:
+Do not search for fixed-E uniformity by a generic Q-rational reciprocal involution u->lambda/u.
+REOPEN_CONDITION:
+An exact non-reciprocal elliptic factor with a compatible counting adapter, or a direct uniform genus-2/genus-3 counting theorem.
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 51.
+FLAGS:
+M3_T11_FIXED_E_PHYSICAL_SQUARE_LIFT_GENUS3=true
+M3_T11_FIXED_E_PRYM_GENUS2_QUOTIENT=true
+M3_T11_FIXED_E_RECIPROCAL_SECOND_ELLIPTIC_QUOTIENT=false
+M3_T11_FIXED_E_NONBIELLIPTIC_PRYM_FACTOR_EXCLUDED=false
+M3_T11_FIXED_E_UNIFORM_BO1_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+---
+## M3-T11-045
+TITLE: Full-S-denominator Legendre x-coordinate and generic fixed-x cubic
+TYPE: EXACT_STRUCTURE / SAME_MEASURE_LOCAL-TO-GLOBAL_ADAPTER / THEOREM-GATE_REFINEMENT / FIREWALL
+STATUS: PROVED_EXACT_WITH_PROVISIONAL_COUNTING_ADAPTER
+
+
+CLAIM:
+On the canonical symmetric packet put
+S=s/t,
+u=a/b,
+N=1+u^2,
+and on a remaining full-S-denominator fresh prime p^lambda||m_i with c_p=0 put n=2*lambda.
+Then
+v_p(N)=v_p(t)=n.
+Define
+T=N*S,
+delta=T-16u,
+and
+boxed:
+x=T/(16u)=((1+u^2)S)/(16u)=(a^2+b^2)*s/(16*a*b*t).
+
+
+Exact algebra gives
+boxed:
+N^3*Q(S,u)=delta*T^3-4*N*H(delta,u),
+with
+H(delta,u)
+=
+-11*delta^2*u^2+delta^2
+-364*delta*u^3+20*delta*u
++4*u^6-3000*u^4+68*u^2.
+
+
+Since Y^2=-NQ,
+boxed:
+(NY)^2=-delta*T^3+4*N*H.
+Modulo p^n this yields, after division by the square p-unit (16uT)^2,
+boxed:
+r^2 == x*(1-x) mod p^n,
+r=NY/(16uT).
+
+
+If
+M_0=product p^lambda
+over all c_p=0 fresh prime powers, CRT gives
+boxed:
+r^2 == x*(1-x) mod M_0^2.
+
+
+Also, using Q=Phi/(t^4*b^2),
+boxed:
+min(v_p(Phi_*),n)=min(v_p(x-1),n).
+Thus the M3-T11-043 normalized collision is exactly x==1 mod p; below saturation the residual exponent equals v_p(x-1) and is even.
+
+
+For fixed rational x, substituting delta=16u(x-1), v=u^2 and R_x=NY/(4u) gives
+boxed:
+R_x^2=P_x(v),
+where
+P_x(v)
+=
+v^3
++(3-48*x-704*x^2)*v^2
++(3-96*x-640*x^2+4096*x^3-4096*x^4)*v
++(1-48*x+64*x^2).
+
+
+Its discriminant is
+boxed:
+2^24*x^8*(8*x+1)*(40*x-27)^3.
+Hence every rational fixed-x fiber outside
+x in {0,-1/8,27/40}
+is a smooth elliptic cubic.
+
+
+Its 3-division polynomial contains the factor
+3*v+64*x^2-48*x+3.
+At
+v_0=-(64*x^2-48*x+3)/3,
+boxed:
+P_x(v_0)=-4096*x^4*(40*x-27)^2/27.
+Therefore every smooth fixed-x fiber has an explicit exact order-3 point over the one fixed field K=Q(sqrt(-3)):
+boxed:
+(v_0,R_0)
+=
+(
+ -(64*x^2-48*x+3)/3,
+ (64/9)*sqrt(-3)*x^2*(40*x-27)
+).
+
+
+The corresponding Dujella/fixed-height B^o(1) replay is a candidate only and is not promoted until an independent hostile audit verifies the new fixed-x physical pushforward and height adapter.
+
+
+The two rational singular carriers are explicit:
+boxed:
+x=-1/8:
+P_x(v)=(v-2)^2*(v+2),
+and the original anti-root cubic factors as
+[(1+u^2)z-2u]*[(1+u^2)z^2+4uz-4u^2]/(1+u^2)^2,
+so physical full splitting requires the rational conic
+w^2=u^2+2.
+Moreover
+x(1-x)=-9/64,
+so the Legendre detector is automatic at every fresh split prime p==1 mod 4.
+
+
+boxed:
+x=27/40:
+P_x(v)=(v-350)*(25v-2)^2/625,
+so the discriminant-square condition forces the necessary conic
+w^2=u^2-350;
+full anti-root splitting is an additional open condition.
+
+
+LOCAL-DENSITY FIREWALL:
+For p==1 mod 4, among residues x mod p with x not in {0,1}, exactly (p-3)/2 satisfy that x(1-x) is a nonzero square.
+Each has p^(n-1) lifts modulo p^n.
+Thus the full-modulus detector admits at least
+((p-3)/2)*p^(n-1)
+classes mod p^n and has positive-constant local density.
+Naive CRT tensorization therefore gives only a subpower factor 2^(-omega(M_0))*M_0^o(1), not a fixed-power saving.
+
+
+POPULATION:
+Exact fixed-content/coefficient nondegenerate relative-fresh endpoint packet, restricted primewise to the c_p=0 full-S-denominator allocation when invoking the x-congruence.
+
+
+HEIGHT:
+Exact physical R<=B retained.
+The exact coordinate x is a fixed-degree rational function of the already-audited S,u coordinates.
+The generic fixed-x B^o(1) theorem remains provisional pending hostile audit.
+
+
+DEPENDS_ON:
+M3-T11-031;
+M3-T11-036 for the previously audited fixed-field Dujella theorem species;
+M3-T11-040;
+M3-T11-041;
+M3-T11-042 exact fresh norm saturation / E denominator inputs;
+M3-T11-043.
+
+
+IMPLIES:
+The c_p=0 branch has one full-modulus Legendre coordinate rather than separate first-order residual and unit-character descriptions.
+The positive residual valuation is exactly the truncated p-adic distance of x from 1.
+The live denominator-extreme theorem can be reformulated as
+FullSDenominatorLegendreXSupportOneTwelfth,
+plus the explicit singular carriers x=-1/8 and x=27/40.
+
+
+DOES_NOT_IMPLY:
+No fixed-power moving-x support deficit.
+No canonical fixed-x B^o(1) theorem before audit.
+No bound for either singular carrier.
+No independence from the already-consumed Q_S/C_u conductor partition.
+No P(B)/M3(B) limit theorem.
+
+
+NO_DOUBLE_CHARGE:
+The modulus M_0^2 is the same fresh conductor already allocated to the full-S-denominator side of M3-T11-040.
+The Legendre congruence repackages the exact endpoint condition on that same measure; it is not an additional independent density factor.
+
+
+ALIASES:
+FullSDenominatorLegendreX;
+FullSDenominatorLegendreXSupportOneTwelfth;
+CPZeroFullModulusLegendre;
+SymmetricXFixedFiberCubic;
+DenominatorExtremeXMinusOneValuation.
+
+
+DUPLICATE_OF:
+NONE.
+
+
+SUPERSEDES:
+Only the use of the first mod-p collision from M3-T11-043 as the sole description of the c_p=0 branch.
+M3-T11-043 itself remains canonical.
+
+
+DO_NOT_REPEAT:
+Do not claim a fixed-power saving from naive local quadratic-residue tensorization.
+Do not treat the provisional generic fixed-x Dujella replay as audited theorem credit.
+Do not discard x=-1/8: its local Legendre condition is automatic at every fresh split prime.
+Do not merge the two singular fixed-x carriers into the generic elliptic family.
+
+
+PROMOTION_CONDITION:
+Independent hostile audit of the fixed-x cubic torsion/pushforward/height adapter before setting M3_T11_FIXED_X_GENERIC_BO1_PROVED=true.
+The singular carriers require separate same-measure counting arguments.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 52.
+
+
+FLAGS:
+M3_T11_FULL_S_DENOMINATOR_LEGENDRE_X=true
+M3_T11_CP0_FULL_MODULUS_LEGENDRE_CRT=true
+M3_T11_CP0_RESIDUAL_VALUATION_EQUALS_X_MINUS_ONE_TRUNCATED=true
+M3_T11_FIXED_X_GENERIC_ELLIPTIC_CUBIC=true
+M3_T11_FIXED_X_GENERIC_3TORSION_OVER_QSQRTM3=true
+M3_T11_FIXED_X_GENERIC_BO1_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_EXCEPTIONAL_CONIC=true
+M3_T11_X_27_OVER_40_EXCEPTIONAL_CONIC=true
+M3_T11_CP0_LOCAL_TENSORIZATION_FIXED_POWER=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=FullSDenominatorLegendreXSupportOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_AUDIT_TARGET=M3-T11-045-fixed-x-cubic-torsion-height
+NEXT_ATTACK=GenericXMovingSupportDispersion|XMinusOneEighthExceptionalCarrier|X27Over40ExceptionalCarrier|InteriorCharacterGlobalDispersion
+
+
+---
+## M3-T11-046
+TITLE: Singular-x purity and x=-1/8 coprime Gaussian square-factor lattice
+TYPE: EXACT_STRUCTURE / EXCEPTIONAL_CARRIER / SAME_MEASURE_RECEIVER / FIREWALL
+STATUS: PROVED_EXACT / COUNTING_GATE_OPEN
+
+
+CLAIM:
+Retain M3-T11-045 and, for p^lambda||m_i,
+v_p(N_u)=2*lambda+c_p,
+v_p(Den(S))=2*lambda-c_p.
+
+
+A. x=-1/8 is pure full-S-denominator.
+
+
+From x=((1+u^2)S)/(16u),
+boxed:
+S=-2u/(1+u^2)=-2ab/N_u.
+
+
+Physical full anti-root splitting requires w^2=u^2+2, hence after clearing the reduced u=a/b,
+c^2=a^2+2b^2.
+Primitive parity forces b even and a,c odd.
+Therefore N_u=a^2+b^2 is odd and gcd(N_u,2ab)=1, so
+boxed:
+Den(S)=N_u.
+
+
+Comparing the two exact fresh valuations gives
+2*lambda-c_p=2*lambda+c_p,
+hence
+boxed:
+c_p=0
+for every relative-fresh prime.
+Thus on x=-1/8,
+boxed:
+M_0=M_rel,
+Q_S=M_rel^2,
+C_u=1
+on fresh support.
+
+
+B. x=27/40 is also pure full-S-denominator.
+
+
+Here
+boxed:
+S=54ab/(5N_u).
+For every relative-fresh p!=5, p does not divide ab and therefore
+v_p(Den(S))=v_p(N_u), forcing c_p=0.
+If p=5 were relative-fresh, then
+v_5(Den(S))=v_5(N_u)+1,
+which would force
+2*lambda-c_5=2*lambda+c_5+1,
+impossible.
+Therefore p=5 is absent from M_rel and
+boxed:
+c_p=0
+for every relative-fresh prime on x=27/40 as well.
+Hence
+M_0=M_rel,
+Q_S=M_rel^2,
+C_u=1
+on fresh support.
+
+
+C. x=-1/8 has an exact coprime Gaussian factorization.
+
+
+Every primitive conic solution c^2=a^2+2b^2 has, up to signs,
+a=(r^2-2s^2)/epsilon,
+b=2rs/epsilon,
+c=(r^2+2s^2)/epsilon,
+with gcd(r,s)=1 and epsilon in {1,2} the frozen 2-primary primitive-content factor.
+
+
+Then
+boxed:
+N_u=(r^4+4s^4)/epsilon^2=A_-*A_+,
+where
+A_-=[(r-s)^2+s^2]/epsilon,
+A_+=[(r+s)^2+s^2]/epsilon,
+and
+boxed:
+gcd(A_-,A_+)=1.
+
+
+After the fixed (1+i)-normalization when epsilon=2, A_-,A_+ are primitive Gaussian norms
+N(H_-),N(H_+)
+with
+boxed:
+H_-*H_+=unit*(a+ib).
+
+
+The common-u oriented fresh square conductor therefore splits uniquely:
+boxed:
+mathfrak M=mathfrak M_-*mathfrak M_+,
+N(mathfrak M)=M_rel,
+mathfrak M_-^2|H_-,
+mathfrak M_+^2|H_+,
+N(mathfrak M_-)*N(mathfrak M_+)=M_rel.
+
+
+Because all fresh c_p vanish on this carrier, the quotient after removing each assigned square conductor is fresh-primitive at those primes.
+
+
+D. Primitive-parameter lattice receiver.
+
+
+After freezing epsilon and one oriented prime allocation, the two Gaussian square-divisibility conditions place primitive (r,s) in a rank-two lattice whose fresh index is
+boxed:
+M_rel^2
+(up to the frozen 2-primary packet normalization).
+
+
+For fixed M_rel, allocation/orientation multiplicity is M_rel^o(1).
+Together with the already-audited fixed-u B^o(1) endpoint multiplicity, the exceptional carrier is reduced to
+boxed:
+B^o(1) unions of primitive determinant-M_rel^2 parameter lattices.
+
+
+This is not itself a fixed-power count.
+
+
+POPULATION:
+Exact fixed-content/coefficient nondegenerate relative-fresh endpoint packet on the two singular fixed-x values from M3-T11-045.
+
+
+HEIGHT:
+Physical R<=B retained.
+No ambient (r,s)-box estimate is promoted without a same-physical-measure range adapter.
+
+
+DEPENDS_ON:
+M3-T11-020 determinant/Jacobian firewall;
+M3-T11-035 common-u root line;
+M3-T11-036 fixed-u B^o(1) multiplicity;
+M3-T11-040 conductor partition;
+M3-T11-042/043 exact fresh saturation;
+M3-T11-045 singular fixed-x identification.
+
+
+IMPLIES:
+Both singular fixed-x carriers lie entirely in the full-S-denominator fresh allocation.
+The x=-1/8 carrier has an exact two-factor Gaussian square-conductor decomposition and a determinant-M_rel^2 primitive-parameter receiver.
+
+
+DOES_NOT_IMPLY:
+No M_rel^-2 endpoint saving without a physical range theorem.
+No closure of x=-1/8.
+No closure of x=27/40.
+No global one-twelfth support theorem.
+
+
+ALIASES:
+SingularXFullSDenominatorPurity;
+XMinusOneEighthGaussianSquareFactorLattice;
+SophieGermainExceptionalCarrier;
+XMinusOneEighthDetMrel2;
+X27Over40FullSDenominatorPurity.
+
+
+DUPLICATE_OF:
+NONE.
+Not M3-T11-020: the determinant here comes from a genuine fresh square-divisibility condition on an exceptional conic parameter, not from a coordinate-change Jacobian. The M3-T11-020 warning still applies against charging the index before a same-measure range adapter is proved.
+
+
+DO_NOT_REPEAT:
+Do not reopen mixed c_p allocations on either singular x value.
+Do not put fresh p=5 on x=27/40.
+Do not charge M_rel^-2 merely from the parameter-lattice determinant.
+Do not forget the epsilon=2 fixed 2-primary normalization in the primitive conic parameterization.
+
+
+FIRST_MISSING_LEMMA:
+XMinusOneEighthPhysicalGaussianSquareLatticeRangeOneTwelfth.
+
+
+REQUIRED_OUTPUT:
+A uniform same-physical-measure count of primitive (r,s) on the determinant-M_rel^2 lattices, with the true R<=B region, packet masks, moving conductor/orientation summation and boundary terms, strong enough after B^o(1) losses to give B^(1/12-delta).
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 53.
+
+
+FLAGS:
+M3_T11_SINGULAR_X_ALL_FRESH_CP_ZERO=true
+M3_T11_SINGULAR_X_M0_EQUALS_MREL=true
+M3_T11_X_MINUS_ONE_EIGHTH_DEN_S_EQUALS_NU=true
+M3_T11_X_MINUS_ONE_EIGHTH_GAUSSIAN_COPRIME_SPLIT=true
+M3_T11_X_MINUS_ONE_EIGHTH_FRESH_SQUARE_CONDUCTOR_SPLIT=true
+M3_T11_X_MINUS_ONE_EIGHTH_PARAMETER_LATTICE_DET_MREL2=true
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+M3_T11_X_27_OVER_40_ALL_FRESH_CP_ZERO=true
+M3_T11_X_27_OVER_40_FRESH_FIVE_EXCLUDED=true
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=FullSDenominatorLegendreXSupportOneTwelfth|XMinusOneEighthGaussianSquareFactorLattice|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=XMinusOneEighthPhysicalGaussianSquareLatticeRangeOneTwelfth|X27Over40SplitCubicSameMeasureCarrier|GenericXMovingSupportDispersion|InteriorCharacterGlobalDispersion
+
+
+ADDENDUM_TO_M3-T11-046:
+
+
+On x=-1/8, write c^2=a^2+2b^2.
+The three distinct rational anti-roots are
+z_0=2ab/N_u,
+z_+=2a/(c+b),
+z_-=-2a/(c-b),
+all in lowest terms.
+
+
+Their root-line norm forms satisfy
+boxed:
+N_0=(2ab)^2+N_u^2,
+boxed:
+N_+=(c-b)*(5c+7b),
+boxed:
+N_-=(c+b)*(5c-7b).
+
+
+For every relative-fresh p, M3-T11-046 gives c_p=0 and p divides exactly one of c-b,c+b.
+
+
+If p|c+b, then N_0 and N_+ are p-units while p|N_-.
+If p|c-b, then N_0 and N_- are p-units while p|N_+.
+
+
+Therefore the anti-root destination of every fresh prime is forced:
+p|c-b -> core attached to z_+;
+p|c+b -> core attached to z_-;
+no fresh prime -> core attached to z_0.
+
+
+Hence, up to the physical permutation of the three corrected anti-roots,
+boxed:
+one of m_1,m_2,m_3 equals 1,
+and the other two multiply to M_rel and are exactly the fresh square-conductor parts of c-b and c+b.
+
+
+This is a carrier-specific support-dimension reduction, not a generic pointwise two-core CRT and not a reopening of the retracted common-v statement.
+
+
+NEW_ALIAS:
+XMinusOneEighthTwoFreshCoreGaussianSquarePair.
+
+
+NEW_FIRST_MISSING_LEMMA:
+XMinusOneEighthTwoCorePhysicalRangeDeficit.
+
+
+ADDITIONAL_FLAGS:
+M3_T11_X_MINUS_ONE_EIGHTH_ONE_RELATIVE_FRESH_CORE_EMPTY=true
+M3_T11_X_MINUS_ONE_EIGHTH_FRESH_PRIME_ROOT_DESTINATION_FORCED=true
+M3_T11_X_MINUS_ONE_EIGHTH_TWO_FRESH_CORE_GAUSSIAN_PAIR=true
+M3_T11_X_MINUS_ONE_EIGHTH_TWO_CORE_POWER_SAVING_PROVED=false
+CURRENT_SUPPORTING_ATTACK=FullSDenominatorLegendreXSupportOneTwelfth|XMinusOneEighthTwoFreshCoreGaussianSquarePair|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=XMinusOneEighthTwoCorePhysicalRangeDeficit|X27Over40SplitCubicSameMeasureCarrier|GenericXMovingSupportDispersion|InteriorCharacterGlobalDispersion
+
+
+## M3-T11-047
+
+
+ID:
+M3-T11-047
+
+
+TYPE:
+EXACT_STRUCTURE
+
+
+STATUS:
+PROVED_EXACT
+
+
+CLAIM:
+On the exact x=27/40 singular fixed-x endpoint carrier, the necessary conic w^2=u^2-350 is not sufficient for full rational anti-root splitting. Full splitting is exactly equivalent to a Kummer cube condition over K=Q(sqrt(-3)), and hence to an affine rational point with 1-9*t^2!=0 on
+
+
+Y^2
+=
+2*(18*t^2+7)
+ *(81*t^2-6*t+25)
+ *(81*t^2+6*t+25).
+
+
+This is a smooth genus-two curve.
+
+
+It has the exact elliptic quotient
+
+
+y_E^2=x_E*(81*x_E^2-484*x_E+900),
+x_E-14=(6*t)^2,
+
+
+equivalently
+
+
+Y_E^2=X^3-484*X^2+72900*X,
+X-1134 is a rational square.
+
+
+For t=a/b reduced, the three quadratic factors in the homogenized genus-two equation are pairwise coprime away from {2,3,5}; therefore each factor has squarefree kernel supported on {2,3,5}, giving a finite S-unit 2-descent.
+
+
+POPULATION:
+Exact fixed-content/coefficient nondegenerate relative-fresh endpoint packet on the x=27/40 singular carrier from M3-T11-045/046. Every relative-fresh prime has c_p=0 and fresh p=5 is excluded, as already canonical.
+
+
+HEIGHT:
+Exact physical R<=B is inherited. No raw square-box replacement and no ambient determinant density is used.
+
+
+DEPENDS_ON:
+M3-T11-031 symmetric anti-root cubic;
+M3-T11-045 fixed-x cubic and x=27/40 discriminant conic;
+M3-T11-046 singular-carrier full-S-denominator purity;
+Cardano/Kummer algebra over Q(sqrt(-3)).
+
+
+IMPLIES:
+The carrier-specific open problem is sharpened from
+X27Over40SplitCubicSameMeasureCarrier
+to
+X27Over40KummerGenusTwoRationalPoints,
+with preferred first continuation
+X27Over40S235SquareclassDescent.
+
+
+ALIASES:
+X27Over40KummerGenusTwoRationalPoints;
+X27Over40EllipticSquareLift;
+X27Over40S235SquareclassDescent.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+The conic w^2=u^2-350 as a complete description of the splitting condition. The conic remains a necessary first layer.
+
+
+DO_NOT_REPEAT:
+Do not treat square discriminant / w^2=u^2-350 as sufficient for rational anti-root splitting.
+Do not promote the bounded rational search to theorem credit.
+Do not infer a fixed-power saving from genus two, the elliptic quotient, or the finite S-unit reduction without the rational-point/same-measure theorem.
+
+
+REOPEN_CONDITION:
+A complete rational-point classification of the displayed genus-two curve;
+or a complete classification of points on the elliptic quotient with X-1134 square;
+or a finite S={2,3,5} descent closing all non-boundary classes;
+or another exact same-measure argument eliminating/counting the x=27/40 physical carrier.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 54.
+
+
+EXACT DERIVATION SNAPSHOT:
+For the depressed cubic y^3+p*y+q=0,
+
+
+p=-4*u^2*(25*u^2-2)/(25*(1+u^2)^2),
+q=-288*u^3*(25*u^2-2)/(125*(1+u^2)^3).
+
+
+With beta=162+5*w*sqrt(-3),
+
+
+A_K
+=
+[2*u*beta/(15*(1+u^2))]^3
+*
+(conj(beta)/beta).
+
+
+Thus full splitting is equivalent to conj(beta)/beta being a cube in Q(sqrt(-3)). Writing a norm-one cube as
+
+
+[(1+t*sqrt(-3))/(1-t*sqrt(-3))]^3
+
+
+gives
+
+
+w=-486*t*(1-t^2)/(5*(1-9*t^2))
+
+
+and the genus-two equation above.
+
+
+EXACT NEGATIVE WITNESS:
+u=45/2, w=25/2 lies on w^2=u^2-350, but the cleared cubic
+
+
+4116841*z^3-1972188*z^2-16084980*z-7873200
+
+
+reduces modulo 11 to
+
+
+3*z^3+2*z^2+z+6,
+
+
+which has no F_11 root. Hence the conic alone is not sufficient.
+
+
+COMPUTATIONAL_SCREEN:
+Primitive max(|a|,b)<=2000 gives only t=+/-1/3, Y=+/-144. These are boundary/extraneous because 1-9*t^2=0. This is not theorem credit.
+
+
+CURRENT_CANONICAL_GATE=SymmetricCommonUFullFreshRootLineSupportOneTwelfth
+CURRENT_SUPPORTING_ATTACK=FullSDenominatorLegendreXSupportOneTwelfth|XMinusOneEighthTwoFreshCoreGaussianSquarePair|X27Over40KummerGenusTwoRationalPoints|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=X27Over40S235SquareclassDescent|XMinusOneEighthTwoCorePhysicalRangeDeficit|GenericXMovingSupportDispersion|InteriorCharacterGlobalDispersion
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+## M3-T11-048
+
+
+ID:
+M3-T11-048
+
+
+TYPE:
+EXACT_STRUCTURE
+
+
+STATUS:
+PROVED_EXACT
+
+
+CLAIM:
+For the exact x=27/40 singular-carrier genus-two receiver of M3-T11-047, its finite S={2,3,5} squareclass descent reduces by exact local solubility to exactly three squareclass packets.
+
+
+With t=a/b reduced and
+
+
+A0=18*a^2+7*b^2,
+B_minus=81*a^2-6*a*b+25*b^2,
+B_plus=81*a^2+6*a*b+25*b^2,
+
+
+write
+
+
+A0=d0*r0^2,
+B_minus=d_minus*r_minus^2,
+B_plus=d_plus*r_plus^2
+
+
+with d_i in {1,2,3,5,6,10,15,30}. The condition 2*d0*d_minus*d_plus=square gives exactly 64 initial triples.
+
+
+Exact local residue tests reduce these as follows:
+
+
+64 -> 16 mod 7 -> 12 mod 11 -> 9 mod 29 -> 5 mod 4 -> 3 mod 16.
+
+
+The final triples are exactly
+
+
+(1,2,1),
+(1,1,2),
+(2,1,1).
+
+
+Equivalently every rational point must satisfy one of
+
+
+I:
+A0=r0^2,
+B_minus=2*r_minus^2,
+B_plus=r_plus^2;
+
+
+II:
+A0=r0^2,
+B_minus=r_minus^2,
+B_plus=2*r_plus^2;
+
+
+III:
+A0=2*r0^2,
+B_minus=r_minus^2,
+B_plus=r_plus^2.
+
+
+I and II are exchanged by a -> -a.
+
+
+The exact deeper local conditions are:
+
+
+I:
+b == 3*a mod 81,
+b/a mod 16 in {3,7,11,15};
+
+
+II:
+b == -3*a mod 81,
+b/a mod 16 in {1,5,9,13};
+
+
+III:
+b == 0 mod 81,
+b/a mod 16 in {0,4,8,12},
+hence 324|b.
+
+
+The 3-adic congruences are certified by exhaustive projective residue checks modulo 3^5=243 after normalizing the forced 3-adic unit a=1. The 2-adic congruences are certified modulo 16.
+
+
+POPULATION:
+Exact x=27/40 singular fixed-x physical endpoint carrier of M3-T11-045/046/047.
+
+
+HEIGHT:
+Exact physical R<=B is inherited. The local reduction does not replace the physical measure by a raw box.
+
+
+DEPENDS_ON:
+M3-T11-047;
+finite S={2,3,5} squareclass support for A0,B_minus,B_plus;
+exact finite local residue arithmetic.
+
+
+IMPLIES:
+The first x=27/40 attack is sharpened from a 64-class S-unit descent to three covering packets, only two up to sign symmetry.
+
+
+ALIASES:
+X27Over40ThreePacketS235Descent;
+X27Over40Local64To3;
+X27Over40PacketIII324Divisibility.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+Treating all 64 S={2,3,5} squareclass allocations as live.
+
+
+DO_NOT_REPEAT:
+Do not reopen the 61 locally impossible squareclass triples.
+Do not infer that the three surviving packets possess rational points.
+Do not infer rational-point classification or fixed-power saving from the local reduction.
+Do not treat the bounded-height screen of M3-T11-047 as proof.
+
+
+REOPEN_CONDITION:
+Further exact local or global analysis of Packet III;
+classification of Packet I (and hence II by sign symmetry);
+or a direct rational-point theorem for the genus-two receiver.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 55.
+
+
+LOCAL_CERTIFICATE:
+64 -> 16 (mod 7) -> 12 (mod 11) -> 9 (mod 29) -> 5 (mod 4) -> 3 (mod 16).
+Survivors:
+(1,2,1),(1,1,2),(2,1,1).
+
+
+FLAGS:
+M3_T11_X_27_OVER_40_S235_64_TO_3_LOCAL_REDUCTION=true
+M3_T11_X_27_OVER_40_THREE_PACKET_DESCENT=true
+M3_T11_X_27_OVER_40_PACKET_I_II_SIGN_SYMMETRY=true
+M3_T11_X_27_OVER_40_PACKET_III_B_DIVISIBLE_324=true
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_CANONICAL_GATE=SymmetricCommonUFullFreshRootLineSupportOneTwelfth
+CURRENT_SUPPORTING_ATTACK=FullSDenominatorLegendreXSupportOneTwelfth|XMinusOneEighthTwoFreshCoreGaussianSquarePair|X27Over40ThreePacketS235Descent|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=X27Over40PacketIIILocalGlobalElimination|X27Over40PacketIBoundaryClassification|XMinusOneEighthTwoCorePhysicalRangeDeficit|GenericXMovingSupportDispersion|InteriorCharacterGlobalDispersion
+
+
+
+
+## M3-T11-049
+
+
+ID:
+M3-T11-049
+
+
+TYPE:
+EXACT_STRUCTURE
+
+
+STATUS:
+PROVED_EXACT
+
+
+CLAIM:
+The x=27/40 genus-two receiver has a complementary elliptic quotient under (t,Y)->(-t,-Y). On the rational locus t!=0, the exact map
+
+
+U=(8750/t^2+22500)/9,
+V=8750*Y/(27*t^3)
+
+
+lands on
+
+
+E_2:
+V^2=U*(U^2+1244*U+562500).
+
+
+For t=a/b reduced and A0=18*a^2+7*b^2,
+
+
+U=1250*A0/(9*a^2),
+
+
+so in Q*/Q*2,
+
+
+[U]=[2*A0]=2*d0.
+
+
+Using M3-T11-048, Packets I/II have [U]=2 and Packet III has [U]=1.
+
+
+Therefore every x=27/40 rational point lies in one of two explicit elliptic squareclass subcovers:
+
+
+Packet III:
+U=s^2,
+z^2=s^4+1244*s^2+562500.
+
+
+Packets I/II:
+U=2*s^2,
+z^2=2*s^4+1244*s^2+281250.
+
+
+The exact lift back to the genus-two curve is
+
+
+t^2=8750/(9*U-22500),
+
+
+so the elliptic subcover condition alone is not sufficient.
+
+
+POPULATION:
+Exact x=27/40 singular fixed-x physical endpoint carrier of M3-T11-045/046/047, with the local packet reduction of M3-T11-048.
+
+
+HEIGHT:
+Exact physical R<=B remains inherited. This is a rational-map adapter, not a change of counting measure.
+
+
+DEPENDS_ON:
+M3-T11-047;
+M3-T11-048;
+the complementary involution (t,Y)->(-t,-Y).
+
+
+IMPLIES:
+The x=27/40 rational-point problem can be continued on one explicit elliptic quotient E_2 using its two relevant U-squareclasses plus the exact t-square lift.
+
+
+ALIASES:
+X27Over40ComplementaryEllipticSquareclassLift;
+X27Over40E2MordellWeilTwoIsogenySquareLift;
+X27Over40PacketSquareclassCompression.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+Treating the three M3-T11-048 packets as three unrelated global curves.
+
+
+DO_NOT_REPEAT:
+Do not drop the lift condition t^2=8750/(9U-22500).
+Do not infer rational-point classification merely from the elliptic quotient.
+Do not identify an elliptic-rank computation, if later obtained, with endpoint elimination without checking the lift.
+
+
+REOPEN_CONDITION:
+Determine E_2(Q) sufficiently to classify points in [U]=1 and [U]=2 satisfying the exact lift;
+or prove a direct local/global obstruction on either squareclass subcover.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 56.
+
+
+BOUNDARY_CHECK:
+t=+/-1/3 maps to
+U=11250=2*75^2,
+V=+/-1260000,
+and on the twice-square subcover one has s=75, z=+/-8400.
+
+
+FLAGS:
+M3_T11_X_27_OVER_40_COMPLEMENTARY_ELLIPTIC_QUOTIENT=true
+M3_T11_X_27_OVER_40_PACKET_SQUARECLASS_COMPRESSION=true
+M3_T11_X_27_OVER_40_PACKET_III_E2_SQUARE_U=true
+M3_T11_X_27_OVER_40_PACKET_I_II_E2_TWICE_SQUARE_U=true
+M3_T11_X_27_OVER_40_E2_LIFT_CONDITION_EXACT=true
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_CANONICAL_GATE=SymmetricCommonUFullFreshRootLineSupportOneTwelfth
+CURRENT_SUPPORTING_ATTACK=FullSDenominatorLegendreXSupportOneTwelfth|XMinusOneEighthTwoFreshCoreGaussianSquarePair|X27Over40ComplementaryEllipticSquareclassLift|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=X27Over40E2MordellWeilTwoIsogenySquareLift|XMinusOneEighthTwoCorePhysicalRangeDeficit|GenericXMovingSupportDispersion|InteriorCharacterGlobalDispersion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## M3-T11-050
+
+
+ID:
+M3-T11-050
+
+
+TYPE:
+THEOREM
+
+
+STATUS:
+PROVED_EXACT
+
+
+CLAIM:
+On the x=27/40 genus-two receiver of M3-T11-047/048/049, both elliptic quotients have Mordell-Weil rank exactly one.
+
+
+For the complementary quotient
+
+
+E_2:
+V^2=U*(U^2+1244*U+562500),
+
+
+the standard 2-isogenous curve is
+
+
+E_2':
+y^2=x*(x+256)*(x-2744).
+
+
+Exact primitive local-solubility elimination on the 2-isogeny homogeneous spaces gives
+
+
+im(alpha_E2)={1,2}
+
+
+and
+
+
+im(alpha_E2')={1,-1,14,-14}.
+
+
+The classical rational-2-torsion descent formula therefore gives
+
+
+rank E_2(Q)=1.
+
+
+For the first quotient
+
+
+E_1:
+Y_E^2=X*(X^2-484*X+72900),
+
+
+the standard 2-isogenous curve is
+
+
+E_1':
+y^2=x*(x-56)*(x+1024),
+
+
+and the same exact local descent gives
+
+
+im(alpha_E1)={1,2},
+im(alpha_E1')={1,-1,14,-14},
+
+
+hence
+
+
+rank E_1(Q)=1.
+
+
+The M3-T11-049 lift
+
+
+t^2=8750/(9*U-22500)
+
+
+is exactly equivalent for finite t to
+
+
+U-2500=14*r^2,
+
+
+r=25/(3*t).
+
+
+Thus the live lift is the translated squareclass condition
+
+
+[U-2500]=14.
+
+
+Moreover, because im(alpha_E2)={1,2}, every rational E_2 point already has U-squareclass 1 or 2. The M3-T11-048 packet split is therefore exhaustive on E_2(Q) and is not an additional global restriction after passing to this quotient.
+
+
+The two rational involutions of the genus-two curve induce a Q-isogeny
+
+
+Jac(C) ~ E_1 x E_2,
+
+
+so
+
+
+rank Jac(C)(Q)=2.
+
+
+Since genus(C)=2, the classical Chabauty-Coleman condition rank(J)<g fails exactly. Since the split product gives rho(J)>=2, the quadratic-Chabauty finiteness inequality
+
+
+rank(J)<dim(J)+rho(J)-1
+
+
+is satisfied.
+
+
+POPULATION:
+Exact x=27/40 singular fixed-x physical endpoint carrier of M3-T11-045 through M3-T11-049.
+
+
+HEIGHT:
+Exact physical R<=B remains inherited. No change of counting measure or height.
+
+
+DEPENDS_ON:
+M3-T11-047;
+M3-T11-048;
+M3-T11-049;
+classical 2-isogeny descent for curves with rational 2-torsion;
+the two rational bielliptic involutions of the genus-two carrier.
+
+
+LOCAL_CERTIFICATE:
+For E_2 and E_1, positive candidate Kummer classes
+{1,2,3,5,6,10,15,30}
+are reduced by exact primitive residue tests:
+mod 16 removes 3,6,15,30;
+mod 7 removes 5,10;
+1 and 2 are realized.
+
+
+For both isogenous curves, candidate classes
+{+/-1,+/-2,+/-7,+/-14}
+are reduced modulo 5:
++/-2 and +/-7 are impossible;
+1,-1,14,-14 are realized by rational 2-torsion.
+
+
+BOUNDARY_CHECK:
+For E_2, t=+/-1/3 maps to
+U=11250=2*75^2,
+V=+/-1260000.
+
+
+For a chosen sign P=(11250,1260000),
+2P=(2500,157500).
+
+
+The U=2500 points are the images of the two points at infinity of the smooth genus-two model; they are not finite affine t-points.
+
+
+For E_1, t=+/-1/3 maps to
+X=1458=2*27^2,
+Y_E=+/-46656.
+
+
+IMPLIES:
+The x=27/40 continuation is no longer primarily a three-packet or U-squareclass problem.
+The first direct global attack is the rank-one E_2 translated square-lift
+U-2500=14*r^2,
+with exact physical exclusions.
+A split-Jacobian quadratic-Chabauty computation is a valid secondary route.
+Plain rank<genus Chabauty is closed.
+
+
+ALIASES:
+X27Over40E2TranslatedSquareLiftMordellWeilSieve;
+X27Over40RankOneE2TranslatedLift;
+X27Over40BiellipticRankTwoJacobian;
+X27Over40SplitJacobianQuadraticChabauty.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+Treating [U]=1 or [U]=2 as a further restrictive global condition on E_2(Q);
+treating classical rank<genus Chabauty as available for this genus-two carrier.
+
+
+DO_NOT_REPEAT:
+Do not reopen the 64-class S={2,3,5} descent.
+Do not analyze the three M3-T11-048 packets globally as unrelated curves before using the E_2 compression.
+Do not claim that P=(11250,1260000) is a saturated Mordell-Weil generator until odd saturation is certified.
+Do not claim rational-point classification from rank=1.
+Do not claim rational-point classification merely from the quadratic-Chabauty rank inequality.
+
+
+REOPEN_CONDITION:
+Certify an exact saturated Mordell-Weil basis for E_2(Q), preferably also E_1(Q), and classify E_2(Q) points satisfying
+U-2500=14*r^2
+with the physical finite-point exclusions;
+or carry out an explicit split-Jacobian quadratic-Chabauty computation and Mordell-Weil sieve.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 57.
+
+
+FLAGS:
+M3_T11_X_27_OVER_40_E2_KUMMER_IMAGE_EXACT=true
+M3_T11_X_27_OVER_40_E2_RANK_ONE=true
+M3_T11_X_27_OVER_40_E1_KUMMER_IMAGE_EXACT=true
+M3_T11_X_27_OVER_40_E1_RANK_ONE=true
+M3_T11_X_27_OVER_40_JACOBIAN_RANK_TWO=true
+M3_T11_X_27_OVER_40_CLASSICAL_CHABAUTY_RANK_LT_GENUS=false
+M3_T11_X_27_OVER_40_QUADRATIC_CHABAUTY_RANK_INEQUALITY=true
+M3_T11_X_27_OVER_40_E2_U_SQUARECLASS_EXHAUSTIVE=true
+M3_T11_X_27_OVER_40_TRANSLATED_LIFT_CLASS_14=true
+M3_T11_X_27_OVER_40_E2_P_SATURATED_GENERATOR_PROVED=false
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_CANONICAL_GATE=SymmetricCommonUFullFreshRootLineSupportOneTwelfth
+CURRENT_SUPPORTING_ATTACK=FullSDenominatorLegendreXSupportOneTwelfth|XMinusOneEighthTwoFreshCoreGaussianSquarePair|X27Over40E2TranslatedSquareLiftMordellWeilSieve|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=X27Over40E2OddSaturationAndTranslatedLiftMordellWeilSieve|X27Over40SplitJacobianQuadraticChabauty|XMinusOneEighthTwoCorePhysicalRangeDeficit|GenericXMovingSupportDispersion|InteriorCharacterGlobalDispersion
+
+
+
+
+## M3-T11-051
+
+
+ID:
+M3-T11-051
+
+
+TYPE:
+EXACT_STRUCTURE
+
+
+STATUS:
+PROVED_EXACT
+
+
+TITLE:
+E2 torsion-normalized free class, rational cyclic 3-isogeny, and exact 3-saturation
+
+
+CLAIM:
+On the x=27/40 E_2 quotient of M3-T11-050,
+
+
+E_2:
+V^2=U*(U^2+1244*U+562500),
+
+
+with rational 2-torsion
+
+
+T=(0,0)
+
+
+and the M3-T11-050 point
+
+
+P=(11250,1260000),
+
+
+there is a smaller rational point
+
+
+Q=(50,5600)
+
+
+satisfying exactly
+
+
+P+Q=T.
+
+
+For every R=(U,V) with U!=0,
+
+
+R+T=(562500/U,-562500*V/U^2),
+
+
+so P and Q represent the same free rank-one Mordell-Weil class up to sign and rational 2-torsion. Odd saturation of P is therefore equivalent to odd saturation of Q.
+
+
+The translated lift
+
+
+U-2500=14*r^2
+
+
+is exactly equivalent, under
+
+
+X=562500/U,
+s=X*r/50,
+
+
+to
+
+
+X*(225-X)=14*s^2.
+
+
+The E_2 3-division polynomial factors exactly as
+
+
+psi_3(U)
+=
+3*U^4+4976*U^3+3375000*U^2-316406250000
+
+
+=
+(3*U+1250)
+*(U^3+1242*U^2+607500*U-253125000).
+
+
+At the rational root U=-1250/3 one has
+
+
+V^2=-2450000000/27,
+
+
+of squareclass -6. Thus the corresponding order-3 pair is defined over Q(sqrt(-6)) and forms a Galois-stable cyclic subgroup. Hence E_2 admits a rational cyclic 3-isogeny.
+
+
+At the good prime ell=11,
+
+
+#E_2(F_11)=12
+
+
+and the reduction of Q satisfies
+
+
+[4]Q=(5,4) != O.
+
+
+Therefore Q cannot equal 3R for any R in E_2(Q), because otherwise reduction modulo 11 would give [4]Q=[12]R=O. Hence the free rank-one class represented by P/Q is exactly 3-saturated.
+
+
+POPULATION:
+Exact x=27/40 singular fixed-x physical endpoint carrier inherited from M3-T11-045 through M3-T11-050.
+
+
+HEIGHT:
+Exact physical R<=B remains inherited. No counting-measure or height change.
+
+
+DEPENDS_ON:
+M3-T11-050;
+exact elliptic-curve group law on E_2;
+exact 3-division polynomial;
+exact good-reduction calculation at ell=11.
+
+
+IMPLIES:
+A smaller preferred free-class representative Q=(50,5600) is available.
+The p=3 saturation obstruction is closed exactly.
+The active translated-square lift has the exact torsion-normalized form
+
+
+X*(225-X)=14*s^2.
+
+
+The next Mordell-Weil step should work with Q and this normalized lift.
+
+
+ALIASES:
+X27Over40E2TorsionNormalizedFreeClass;
+X27Over40E2RationalThreeIsogeny;
+X27Over40E2ThreeSaturation;
+X27Over40E2TorsionNormalizedTranslatedLift.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+Using P=(11250,1260000) as the only preferred free-class representative for saturation calculations;
+leaving p=3 as an unresolved possible saturation-index prime.
+
+
+DO_NOT_REPEAT:
+Do not infer a full Mordell-Weil generator from this p=3 certificate.
+Do not call the rational cyclic 3-isogeny rational 3-torsion.
+Do not reopen the old three-packet U-squareclass restriction; M3-T11-050 already makes that exhaustive rather than restrictive.
+
+
+REOPEN_CONDITION:
+For full saturation, obtain a rigorous upper bound for the saturation index of <Q,T> and certify p-saturation for every remaining candidate odd prime.
+Then classify the normalized translated lift
+
+
+X*(225-X)=14*s^2
+
+
+by a rank-one Mordell-Weil sieve with the physical finite-point exclusions.
+If that does not close the carrier, use the split-Jacobian quadratic-Chabauty route retained in M3-T11-050.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 58.
+
+
+FLAGS:
+M3_T11_X_27_OVER_40_E2_TORSION_NORMALIZED_Q_FOUND=true
+M3_T11_X_27_OVER_40_E2_RATIONAL_3_ISOGENY=true
+M3_T11_X_27_OVER_40_E2_FREE_CLASS_3_SATURATED=true
+M3_T11_X_27_OVER_40_E2_P_SATURATED_GENERATOR_PROVED=false
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_CANONICAL_GATE=SymmetricCommonUFullFreshRootLineSupportOneTwelfth
+CURRENT_SUPPORTING_ATTACK=FullSDenominatorLegendreXSupportOneTwelfth|XMinusOneEighthTwoFreshCoreGaussianSquarePair|X27Over40E2SaturationIndexBoundAndTorsionNormalizedMordellWeilSieve|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=X27Over40E2SaturationIndexBoundAndAuxiliaryPrimeSieve|X27Over40E2TorsionNormalizedTranslatedLiftMordellWeilSieve|X27Over40SplitJacobianQuadraticChabauty|XMinusOneEighthTwoCorePhysicalRangeDeficit|GenericXMovingSupportDispersion|InteriorCharacterGlobalDispersion
+
+
+## M3-T11-052
+
+
+ID:
+M3-T11-052
+
+
+TITLE:
+Exact good-reduction saturation panel through odd prime 251 and saturation-index floor 257
+
+
+STATUS:
+PROVED_EXACT_FINITE_PANEL / FULL_SATURATION_OPEN
+
+
+CLAIM:
+Retain the exact rank-one elliptic quotient
+
+
+E_2:
+V^2=U*(U^2+1244*U+562500),
+
+
+with rational 2-torsion T=(0,0) and preferred point Q=(50,5600).
+
+
+For every odd prime p<=251 there exists a good-reduction prime ell such that, with
+
+
+N_ell=#E_2(F_ell),
+
+
+one has p|N_ell and
+
+
+[N_ell/p]Qbar != O.
+
+
+Therefore
+
+
+Q notin p*E_2(Q)
+
+
+for every odd prime p<=251.
+
+
+The exact 53-row witness table, including ell, N_ell and the nonzero reduced point [N_ell/p]Qbar, is recorded in
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 59.
+
+
+The p=3 row is the M3-T11-051 witness ell=11, N_ell=12, [4]Qbar=(5,4).
+The new panel extends the exact non-divisibility certificate through every odd prime from 5 to 251.
+
+
+PROOF:
+For any good prime ell and any odd p|N_ell, if Q=pR in E_2(Q), reduction modulo ell gives Qbar=pRbar and hence
+
+
+[N_ell/p]Qbar=[N_ell]Rbar=O.
+
+
+Thus a nonzero [N_ell/p]Qbar is an exact obstruction to p-divisibility over Q.
+
+
+Every Section-59 row was independently rechecked by direct finite-field point counting, exact scalar multiplication, and substitution into the reduced curve equation. In every recorded witness, p divides N_ell exactly once.
+
+
+POPULATION:
+Exact x=27/40 singular fixed-x physical endpoint carrier inherited from M3-T11-045 through M3-T11-051.
+
+
+HEIGHT:
+Exact physical R<=B remains inherited. No population, measure, field, or height change.
+
+
+DEPENDS_ON:
+M3-T11-050;
+M3-T11-051;
+the inherited exact 2-Kummer non-divisibility;
+rank E_2(Q)=1;
+rational torsion of order 2;
+good reduction of E_2 away from {2,3,5,7};
+exact finite-field group arithmetic recorded in Route Section 59.
+
+
+IMPLIES:
+Let
+
+
+I=[E_2(Q):<Q,T>].
+
+
+The inherited 2-Kummer certificate excludes 2|I. For odd p, because multiplication by p is an automorphism on the rational 2-torsion, p|I would force Q to be p-divisible.
+
+
+Hence the new panel gives exactly
+
+
+I=1
+or
+I>=257.
+
+
+So it is now sufficient to prove the single quantitative bound
+
+
+I<257
+
+
+to certify full Mordell-Weil saturation of <Q,T>.
+
+
+ALIASES:
+X27Over40E2OddPrimeSaturationThrough251;
+X27Over40E2IndexPrimeDivisorFloor257;
+X27Over40E2IndexUpperBoundBelow257Gate.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+Treating every odd saturation-index prime other than 3 as unresolved;
+the unbounded auxiliary-prime search as the immediate first task.
+
+
+DO_NOT_REPEAT:
+Do not infer full saturation from the finite p<=251 panel alone.
+Do not call Q a full Mordell-Weil generator until an exact index upper bound I<257 or an equivalent full-basis certificate is proved.
+Do not restart the old U-squareclass packet search.
+Do not infer rational-point classification or a fixed-power saving from finite saturation tests.
+
+
+REOPEN_CONDITION:
+Obtain a proof-grade upper bound
+
+
+I<257,
+
+
+preferably by canonical-height/regulator saturation bounds or an exact Mordell-Weil-basis computation on this exact E_2 model.
+
+
+After that, run the rank-one Mordell-Weil sieve on
+
+
+X*(225-X)=14*s^2
+
+
+with the physical finite-point exclusions. Retain split-Jacobian quadratic Chabauty as fallback.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 59.
+
+
+FLAGS:
+M3_T11_X_27_OVER_40_E2_ODD_PRIME_SATURATION_THROUGH_251=true
+M3_T11_X_27_OVER_40_E2_INDEX_PRIME_DIVISOR_FLOOR_257=true
+M3_T11_X_27_OVER_40_E2_INDEX_UPPER_BOUND_LT_257_PROVED=false
+M3_T11_X_27_OVER_40_E2_P_SATURATED_GENERATOR_PROVED=false
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_CANONICAL_GATE=SymmetricCommonUFullFreshRootLineSupportOneTwelfth
+CURRENT_SUPPORTING_ATTACK=FullSDenominatorLegendreXSupportOneTwelfth|XMinusOneEighthTwoFreshCoreGaussianSquarePair|X27Over40E2IndexUpperBoundBelow257ThenTorsionNormalizedMordellWeilSieve|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=X27Over40E2IndexUpperBoundBelow257|X27Over40E2TorsionNormalizedTranslatedLiftMordellWeilSieve|X27Over40SplitJacobianQuadraticChabauty|XMinusOneEighthTwoCorePhysicalRangeDeficit|GenericXMovingSupportDispersion|InteriorCharacterGlobalDispersion
+
+
+## M3-T11-053
+
+
+ID:
+M3-T11-053
+
+
+TYPE:
+FIREWALL / EXACT_STRUCTURE
+
+
+TITLE:
+Exact quadratic-twist identification for the x=27/40 E2 saturation lookup
+
+
+STATUS:
+PROVED_EXACT_FIREWALL / SATURATION_INDEX_BOUND_OPEN
+
+
+CLAIM:
+For the Stage37 elliptic quotient
+
+
+E_2:
+V^2=U*(U^2+1244*U+562500),
+
+
+the change X=U+1244/3 gives
+
+
+V^2=X^3+(139964/3)X-2447480432/27.
+
+
+Let E_0 denote the short-model representative of the LMFDB 210.d8 base twist class obtained from the displayed short model of 35490.bo8 by undoing its recorded twist by 13:
+
+
+E_0:
+y^2=x^3+944757x-8260246458.
+
+
+Then exactly
+
+
+139964/3=944757*(2/9)^2,
+-2447480432/27=-8260246458*(2/9)^3.
+
+
+Hence Stage37 E_2 is the quadratic twist of E_0 by d=2/9, i.e. twist squareclass [2].
+
+
+LMFDB 35490.bo8 is twist squareclass [13] of the same base class. Therefore the relative twist class is
+
+
+[(2/9)/13]=[26].
+
+
+Because 26 is nonsquare in Q and the common j-invariant
+42841933504271/13565917968750
+is neither 0 nor 1728, Stage37 E_2 and 35490.bo8 are not Q-isomorphic.
+
+
+POPULATION:
+Exact x=27/40 singular physical carrier inherited from M3-T11-045 through M3-T11-052. No population or height change.
+
+
+HEIGHT:
+Exact physical R<=B remains inherited.
+
+
+DEPENDS_ON:
+M3-T11-050;
+M3-T11-051;
+M3-T11-052;
+exact algebraic short-Weierstrass conversion;
+external database preflight recording that LMFDB 35490.bo8 has the same j-invariant and is the twist by 13 of 210.d8.
+
+
+IMPLIES:
+The Mordell-Weil generator displayed for 35490.bo8 cannot be imported to Stage37 E_2 via a Q-isomorphism and gives no saturation certificate for Q=(50,5600).
+
+
+Any external database/CAS basis route must identify the exact twist-[2] member of the 210.d8 family and verify an explicit Q-isomorphism to Stage37 E_2 before comparing generators.
+
+
+ALIASES:
+X27Over40ExactTwist2Model;
+X27Over40SameJGeneratorImportFirewall;
+X27Over40LMFDBTwistClassFirewall.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+The unverified shortcut that a same-j rank-one curve such as 35490.bo8 can donate its Mordell-Weil generator directly to Stage37 E_2.
+
+
+DO_NOT_REPEAT:
+Do not infer Q-isomorphism from equality of j-invariants.
+Do not use the 35490.bo8 generator to claim I=1.
+Do not use rank agreement alone to transfer a Mordell-Weil basis across a nontrivial quadratic twist.
+Do not promote generator status until the exact twist-[2] model is identified and explicitly Q-isomorphic to E_2, or an independent I<257 proof is obtained.
+
+
+REOPEN_CONDITION:
+Identify the exact quadratic twist-[2] database/CAS model of 210.d8, write an explicit Q-isomorphism to Stage37 E_2, and compare a certified Mordell-Weil basis with Q; alternatively prove I<257 independently.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 60.
+
+
+FLAGS:
+M3_T11_X_27_OVER_40_E2_TWIST_CLASS_2_OVER_210D8=true
+M3_T11_X_27_OVER_40_35490_BO8_RELATIVE_TWIST_CLASS_26=true
+M3_T11_X_27_OVER_40_35490_BO8_Q_ISOMORPHIC_TO_E2=false
+M3_T11_X_27_OVER_40_SAME_J_GENERATOR_IMPORT_FIREWALL=true
+M3_T11_X_27_OVER_40_E2_INDEX_UPPER_BOUND_LT_257_PROVED=false
+M3_T11_X_27_OVER_40_E2_P_SATURATED_GENERATOR_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_X27_FIRST_ATTACK=X27Over40ExactTwist2ModelAndMordellWeilBasisIdentification
+CURRENT_X27_SECOND_ATTACK=X27Over40E2IndexUpperBoundBelow257
+CURRENT_X27_THIRD_ATTACK=X27Over40E2TorsionNormalizedTranslatedLiftMordellWeilSieve
+CURRENT_X27_FALLBACK=X27Over40SplitJacobianQuadraticChabauty
+
+
+
+
+
+
+
+
+M3-T11-053 ADDENDUM — exact integral twist-[2] model and Q-isomorphism
+
+
+The twist-class statement has an explicit integral representative.
+
+
+From
+X=U+1244/3
+put
+x=9X=9U+3732,
+y=27V.
+
+
+Then direct substitution gives exactly
+
+
+y^2=x^3+3779028*x-66081971664.
+
+
+For the chosen 210.d8 base-class representative
+
+
+E_0:
+y^2=x^3+944757*x-8260246458,
+
+
+the standard short twist by d=2 is
+
+
+E_0^(2):
+y^2=x^3+4*944757*x+8*(-8260246458)
+=x^3+3779028*x-66081971664.
+
+
+Therefore the map
+
+
+(U,V) -> (x,y)=(9U+3732,27V)
+
+
+is an explicit Q-isomorphism from Stage37 E_2 to this exact integral twist-[2] model, with inverse
+
+
+U=(x-3732)/9,
+V=y/27.
+
+
+This strengthens the external-basis continuation: a database/CAS model is acceptable only after it is identified with this exact integral curve or connected to it by a verified Q-isomorphism.
+
+
+M3_T11_X_27_OVER_40_E2_EXACT_INTEGRAL_TWIST2_MODEL=true
+
+
+M3-T11-054 — Stage37 E2 exact same-j twist-screen / local-trace fingerprint
+
+
+RESULT:
+The x=27/40 elliptic quotient
+E2: V^2=U*(U^2+1244*U+562500)
+is already explicitly Q-isomorphic to
+E_*: y^2=x^3+3779028*x-66081971664
+via (x,y)=(9U+3732,27V), with Q_*=(4182,151200) and T_*=(3732,0).
+
+
+Relative to the retained base short model
+E_0: y^2=x^3+944757*x-8260246458,
+Stage37 is twist squareclass [2].
+
+
+Two additional same-j LMFDB candidates were checked exactly and excluded:
+- 33600.df8 -> after x=X+1/3, short coefficients (3499100/3, 305935054000/27); coefficient ratios to E_0 are 100/81 and -1000/729, hence twist squareclass [-10].
+- 35280.bj8 -> short coefficients (5143677,104935723522); coefficient ratios to E_0 are 49/9 and -343/27, hence twist squareclass [-21].
+Since j is nonexceptional, neither is Q-isomorphic to Stage37 twist-[2]. Together with the existing 35490.bo8 twist-[13] exclusion, this forms a three-candidate same-j firewall.
+
+
+Exact Stage37 good-prime local trace fingerprint:
+11:(#E=12,a=0)
+13:(#E=16,a=-2)
+17:(#E=24,a=-6)
+19:(#E=16,a=4)
+23:(#E=24,a=0)
+29:(#E=24,a=6)
+31:(#E=36,a=-4)
+37:(#E=40,a=-2)
+
+
+Continuation rule:
+candidate external models must match [2], match these local traces, and then be connected to E_* by an explicit Q-isomorphism before any Mordell-Weil generator/regulator is imported.
+
+
+No endpoint credit. No saturation close. I remains 1 or >=257.
+
+
+M3_T11_X_27_OVER_40_33600_DF8_TWIST_CLASS_MINUS10=true
+M3_T11_X_27_OVER_40_35280_BJ8_TWIST_CLASS_MINUS21=true
+M3_T11_X_27_OVER_40_SAME_J_DATABASE_TRAP_PANEL_3=true
+M3_T11_X_27_OVER_40_E2_LOCAL_TRACE_FINGERPRINT_11_TO_37=true
+M3_T11_X_27_OVER_40_E2_EXACT_DATABASE_LABEL_IDENTIFIED=false
+M3_T11_X_27_OVER_40_E2_P_SATURATED_GENERATOR_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+M3-T11-055 — exact conductor-6720 isogeny-class identification
+RESULT:
+Stage37 x=27/40 E2 is already retained as twist squareclass [2] of the 210.d8 base class, with exact model
+E_*: y^2=x^3+3779028*x-66081971664,
+Q_*=(4182,151200), T_*=(3732,0).
+LMFDB represents the conductor-6720 twist family by twist parameter 8, and [8]=[2]. The LMFDB curve 6720.bb5 records minimal quadratic twist 210.d5, twist by 8, and belongs to the 8-curve rank-1 isogeny class 6720.bb. Since quadratic twisting carries the entire Q-isogeny class functorially, the twist-[2] member corresponding to 210.d8 lies in exact isogeny class 6720.bb.
+Independent check: the 6720.bb modular form has coefficients a_11=0, a_13=-2, a_17=-6, a_19=4, exactly matching the retained Stage37 trace fingerprint.
+Thus the external-model search space is reduced exactly to the 8 members of 6720.bb.
+Firewall: the exact individual member has not yet been directly read from the full class table/data; do not guess 6720.bb8 or import a generator by numbering analogy. Require exact j=42841933504271/13565917968750 plus explicit Q-isomorphism to E_*.
+Saturation remains I=1 or I>=257; no endpoint/theorem credit.
+Source: https://www.lmfdb.org/EllipticCurve/Q/6720/bb/5
+M3_T11_X_27_OVER_40_E2_EXACT_ISOGENY_CLASS_6720_BB=true
+M3_T11_X_27_OVER_40_E2_EXACT_DATABASE_LABEL_IDENTIFIED=false
+M3_T11_X_27_OVER_40_E2_P_SATURATED_GENERATOR_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+
+
+
+
+M3-T11-055 ADDENDUM A — exact small integral translation fingerprint for the 6720.bb member search
+RESULT:
+Retain all M3-T11-055 theorem/status flags. No new card is opened because this is an exact coordinate adapter inside the same external-model identification gate.
+
+
+Starting from
+E2: V^2=U*(U^2+1244*U+562500),
+put
+x=U+415,
+y=V.
+Then exact expansion gives
+y^2=x^3-x^2+46655*x-90662975.
+Thus the integral Weierstrass coefficient fingerprint is
+[a1,a2,a3,a4,a6]=[0,-1,0,46655,-90662975].
+
+
+The retained points become exactly
+Q=(50,5600) -> Q_small=(465,5600),
+T=(0,0) -> T_small=(415,0).
+
+
+The exact relation with the retained integral short model
+E_*: y_*^2=x_*^3+3779028*x_*-66081971664
+is
+x_*=9*x-3,
+y_*=27*y,
+with inverse
+x=(x_*+3)/9,
+y=y_*/27.
+
+
+Exact invariants of this translated integral model are
+c4=-2239424,
+c6=78319373824,
+Delta=-3556224000000000000
+     =-2^19*3^4*5^12*7^3,
+j=42841933504271/13565917968750.
+
+
+These give a stricter direct-data fingerprint than j alone for resolving the individual member inside 6720.bb. A future database/CAS record may be accepted only after its model is explicitly Q-isomorphic to this coefficient fingerprint (equivalently to E_*).
+
+
+External-database diagnostic:
+the directly readable 6720.bb5 member is not the Stage37 curve: it has different j and rational torsion Z/2 x Z/2. Across independently readable twist-family classes 1470.m, 33600.df, 35280.bj and 35490.bo, the same target j occurs at suffix 8, so 6720.bb8 is a strong database-numbering candidate. This remains NON-CERTIFYING evidence only. The M3-T11-055 firewall is retained: do not promote the individual label until direct 6720.bb full-class/member data is read and the explicit Q-isomorphism is checked.
+
+
+No proof of I<257 or I=1 is obtained here.
+LATEST_RESEARCH_CARD remains M3-T11-055.
+M3_T11_X_27_OVER_40_E2_SMALL_INTEGRAL_TRANSLATION_FINGERPRINT=true
+M3_T11_X_27_OVER_40_E2_EXACT_DATABASE_LABEL_IDENTIFIED=false
+M3_T11_X_27_OVER_40_E2_P_SATURATED_GENERATOR_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+M3-T11-056 — x=27/40 E2 full Mordell-Weil saturation by explicit degree-6 isogeny
+RESULT: EXACT / SATURATION CLOSED / SUPPORTING BRANCH ADVANCED.
+
+
+Curve:
+E2: V^2=U*(U^2+1244*U+562500), Q=(50,5600), T=(0,0), rank=1.
+
+
+Exact chain:
+1. 2-isogeny phi2 sends E2 to
+   E3: Y^2=X*(X-2744)*(X+256)
+   by X=V^2/U^2 and Y=V*(U^2-562500)/U^2,
+   with phi2(Q)=(12544,-1254400).
+2. psi3(E3)=(3X+1568)*(X^3-3840X^2+602112X-314703872), so the rational cyclic 3-isogeny kernel has x=-1568/3.
+3. Velu quotient:
+   C: y^2=x^3-2488x^2-(83643392/3)x+2341774131200/27.
+   The map sends phi2(Q) to (38848/3,-1216512).
+4. x_C=36*x_bb+2452/3, y_C=216*y_bb identifies C with LMFDB 6720.bb5:
+   y_bb^2=x_bb^3-x_bb^2-23105x_bb+1346625.
+   Therefore Q maps under the composite degree-6 isogeny to (337,-5632).
+5. LMFDB 6720.bb5 gives free generator P=(67,308) and 2-torsion A=(81,0). Exact group law gives P+A=(337,5632). Thus phi(Q)=-(P+A), primitive modulo torsion.
+6. In rank one, if Q=nG+torsion, every isogeny image has free coefficient divisible by n. Since phi(Q) has coefficient +/-1, |n|=1.
+
+
+CONCLUSION:
+E2(Q)=<Q> direct-sum <T> and I=[E2(Q):<Q,T>]=1.
+The former alternative I=1 or I>=257 is now resolved on the I=1 side. The individual Stage37 LMFDB member label inside 6720.bb is no longer a proof blocker.
+
+
+NEXT: run the torsion-normalized translated-lift Mordell-Weil sieve on X*(225-X)=14*s^2 with physical finite-point exclusions. Split-Jacobian quadratic Chabauty remains fallback.
+
+
+No rational-point classification, fixed-power saving, or P/M3 theorem credit yet.
+
+
+Sources:
+LMFDB 6720.bb5 https://www.lmfdb.org/EllipticCurve/Q/6720/bb/5
+Velu formulas https://people.cs.nycu.edu.tw/~rjchen/ECC2012S/Elliptic%20Curves%20Number%20Theory%20And%20Cryptography%202n.pdf
+
+
+M3_T11_X_27_OVER_40_E2_EXPLICIT_DEGREE6_ISOGENY_TO_6720_BB5=true
+M3_T11_X_27_OVER_40_E2_P_SATURATED_GENERATOR_PROVED=true
+M3_T11_X_27_OVER_40_E2_INDEX_UPPER_BOUND_LT_257_PROVED=true
+M3_T11_X_27_OVER_40_E2_INDEX_ONE=true
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+RESEARCH_CARD=M3-T11-065
+
+
+## M3-T11-057
+ID:
+M3-T11-057
+TYPE:
+THEOREM / FIREWALL
+TITLE:
+Exact Mordell-Weil sieve compression for the x=27/40 translated lift
+STATUS:
+PROVED_EXACT_FINITE_SIEVE / GLOBAL_CLASSIFICATION_OPEN
+CLAIM:
+With
+E2(Q)=<Q> direct-sum <T>,
+Q=(50,5600), T=(0,0),
+write every rational point uniquely as R=nQ+epsilon*T.
+For the translated-lift condition
+U(R)-2500=14*r^2,
+the exact finite local Mordell-Weil sieve with modulus
+M=2656080
+forces
+epsilon=0 => n == 0,+/-2 mod M,
+epsilon=1 => n == +/-1 mod M.
+The only small representatives are the elliptic identity, the boundary pair +/-2Q at U=2500, and the known finite boundary-preimage pair +/-Q+T at U=11250.
+POPULATION:
+Exact x=27/40 singular physical carrier inherited from M3-T11-045 through M3-T11-056.
+HEIGHT:
+Exact physical R<=B remains inherited. This card itself is a fixed-curve rational-point sieve.
+DEPENDS_ON:
+M3-T11-050;
+M3-T11-051;
+M3-T11-056;
+exact finite-field reduction of E2 and the translated squareclass condition.
+CERTIFICATE:
+M=2656080=2^4*3^2*5*7*17*31.
+Using all good p<2000 with ord_p(Q)|M leaves
+epsilon=0: {0,2,771118,1884962,2656078},
+epsilon=1: {1,342721,2313359,2656079}.
+Then p=2267, ord_p(Q)=1116, eliminates the two extra epsilon=0 classes.
+p=2551, ord_p(Q)=1302, eliminates the two extra epsilon=1 classes.
+IMPLIES:
+Any additional rational translated-lift point must have Mordell-Weil coefficient in one of the same five residue classes modulo M as the known affine/boundary classes. A proof that every translated-lift solution satisfies |n|<M/2 would therefore complete the rational-point classification on this branch.
+ALIASES:
+X27Over40TorsionNormalizedTranslatedLiftMordellWeilSieve;
+X27Over40KnownSolutionResidueClassCertificate;
+X27Over40EllipticLogHeightReductionBelow1328040.
+DUPLICATE_OF:
+none.
+SUPERSEDES:
+the unspecialized instruction to begin the x=27/40 branch with a broad finite-prime Mordell-Weil sieve after saturation.
+DO_NOT_REPEAT:
+Do not claim global rational-point classification from a finite congruence sieve.
+Do not restart blind local-prime accumulation without a height/elliptic-log reduction target.
+Do not charge endpoint or fixed-power saving from the residue-class compression alone.
+REOPEN_CONDITION:
+Prove a rigorous coefficient bound |n|<1328040 for all translated-lift points by elliptic logarithms/heights, or execute the retained split-Jacobian quadratic-Chabauty computation to classify the genus-two rational points.
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 64.
+FLAGS:
+M3_T11_X_27_OVER_40_MW_SIEVE_MODULUS=2656080
+M3_T11_X_27_OVER_40_MW_SIEVE_KNOWN_CLASSES_ONLY=true
+M3_T11_X_27_OVER_40_MW_SIEVE_GLOBAL_CLASSIFICATION=false
+M3_T11_X_27_OVER_40_ELLIPTIC_LOG_HEIGHT_BOUND_LT_M_OVER_2_PROVED=false
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_SECOND_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+RESEARCH_CARD=M3-T11-057
+## M3-T11-058
+ID:
+M3-T11-058
+TYPE:
+EXACT_STRUCTURE / THEOREM_GATE
+TITLE:
+Translated-lift common Q(sqrt(-14)) norm factorization
+STATUS:
+PROVED_EXACT_STRUCTURE / RATIONAL-POINT CLASSIFICATION OPEN
+CLAIM:
+On the saturated x=27/40 E2 branch,
+E2: V^2=U*(U^2+1244U+562500),
+the translated-lift condition U-2500=14*r^2 may be parameterized by r=50m, U=2500+35000m^2. Direct substitution gives
+V^2=17500^2*(1+14m^2)*(100m^2-4m+9)*(100m^2+4m+9).
+For m=a/b in lowest terms,
+F0=b^2+14a^2,
+F-=100a^2-4ab+9b^2,
+F+=100a^2+4ab+9b^2,
+and rational translated-lift points satisfy
+Y_h^2=F0*F-*F+.
+The pairwise resultant values are exactly
+900, 900, 57600,
+so the pairwise common-prime support of the three primitive homogeneous factors is contained in {2,3,5}.
+Moreover
+F0=N(b+a*sqrt(-14)),
+25F+=N((50a+b)+4b*sqrt(-14)),
+25F-=N((50a-b)+4b*sqrt(-14)),
+and
+F0*F-*F+
+=
+[b*(124a^2+9b^2)]^2
++
+14*[a*(100a^2+7b^2)]^2.
+Thus the translated-lift square condition is a single Q(sqrt(-14)) norm-square equation, primitive away from {2,3,5}.
+POPULATION:
+Exact x=27/40 singular physical carrier inherited from M3-T11-045 through M3-T11-057.
+HEIGHT:
+Exact physical R<=B remains inherited. This card changes only the arithmetic presentation of the fixed carrier.
+DEPENDS_ON:
+M3-T11-056;
+M3-T11-057;
+exact conic parameterization of U-2500=14r^2;
+exact polynomial factorization and resultant identities.
+IMPLIES:
+A new exact receiver
+X27Over40CommonMinus14NormSquare.
+The finite S={2,3,5} squareclass behavior is visible directly on the saturated translated-lift model.
+The next arithmetic attack may use ideal/squareclass descent in Q(sqrt(-14)) and intersect its finite packets with the M3-T11-057 Mordell-Weil residue classes.
+ALIASES:
+X27Over40TranslatedLiftMinus14NormFactorization;
+X27Over40CommonMinus14NormSquare;
+X27Over40Minus14IdealClassDescent.
+DUPLICATE_OF:
+none.
+SUPERSEDES:
+none; the earlier three-packet S={2,3,5} descent is retained as an equivalent older coordinate presentation, while this card supplies a new common-norm presentation on the saturated translated-lift model.
+DO_NOT_REPEAT:
+Do not infer rational-point classification merely because the norm factors have pairwise gcd support {2,3,5}.
+Do not infer unique factorization in Q(sqrt(-14)).
+Do not infer |n|<M/2 from the norm identity.
+Do not charge fixed-power or P/M3 credit from this structural reparameterization alone.
+REOPEN_CONDITION:
+Classify the finite ideal/squareclass packets of
+Y_h^2=R^2+14I^2
+with gcd(R,I) supported on {2,3,5}, and show that every packet is either physically excluded or reduces to a globally solvable lower-genus/Thue/elliptic problem. Intersect surviving packets with the M3-T11-057 congruence certificate.
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 65.
+FLAGS:
+M3_T11_X_27_OVER_40_TRANSLATED_LIFT_MINUS14_NORM_FACTORIZATION=true
+M3_T11_X_27_OVER_40_TRANSLATED_LIFT_PAIRWISE_GCD_SUPPORT_235=true
+M3_T11_X_27_OVER_40_SINGLE_MINUS14_NORM_IDENTITY=true
+M3_T11_X_27_OVER_40_COMMON_MINUS14_NORM_RECEIVER=true
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40CommonMinus14NormIdealClassDescent
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+RESEARCH_CARD=M3-T11-05
+## M3-T11-059
+ID:
+M3-T11-059
+TYPE:
+EXACT_DESCENT / THEOREM_GATE
+TITLE:
+Primitive common-norm descent to four exact squarefree-kernel packets
+STATUS:
+PROVED_EXACT_DESCENT / GLOBAL_CLASSIFICATION_OPEN
+
+
+CLAIM:
+In the M3-T11-058 common-norm presentation
+R=b*(124a^2+9b^2),
+I=a*(100a^2+7b^2),
+Y_h^2=R^2+14I^2,
+gcd(a,b)=1, b>0,
+put d=gcd(R,I). Then d is supported on {2,3,5} with exact valuations
+v_3(d)=min(v_3(a),2),
+v_5(d)=min(v_5(b),2),
+and
+v_2(d)=0 if b odd,
+v_2(d)=2 if v_2(b)>=2,
+while for b=2c with c odd,
+v_2(d)=min(3+v_2(31a^2+9c^2),2+v_2(25a^2+7c^2)) in {5,6}.
+
+
+After primitive normalization
+R0=R/d, I0=I/d, Y0=Y_h/d,
+one has
+gcd(R0,I0)=1,
+R0 odd,
+I0 even,
+7∤R0.
+Putting
+A=(Y0+R0)/2,
+B=(Y0-R0)/2
+gives gcd(A,B)=1 and
+A*B=14*(I0/2)^2.
+Therefore there is a unique delta in {1,2,7,14} and coprime u,v such that
+A=delta*u^2,
+B=(14/delta)*v^2,
+hence
+R0=delta*u^2-(14/delta)*v^2,
+I0=2uv,
+Y0=delta*u^2+(14/delta)*v^2.
+
+
+This is an exact four-packet classification of the primitive Q(sqrt(-14)) common-norm receiver and uses no UFD assumption.
+
+
+LOCAL CONSEQUENCES:
+- if b odd, a must be even;
+- if v_2(b)>=2, the translated-lift equation has no solution;
+- if v_2(b)=1, b=2c, a,c odd, a solution requires
+  c^2==a^2 mod 32;
+- necessarily
+  7∤b*(a^2-b^2).
+
+
+POPULATION:
+Exact x=27/40 translated-lift carrier inherited from M3-T11-045 through M3-T11-058.
+
+
+DEPENDS_ON:
+M3-T11-056;
+M3-T11-057;
+M3-T11-058;
+elementary primitive factorization of (Y0-R0)(Y0+R0)=14I0^2.
+
+
+IMPLIES:
+The M3-T11-058 ideal-class descent is no longer an open abstract class-group classification problem. It is replaced by four explicit squarefree-kernel packets delta=1,2,7,14 together with exact 2,3,5 common-content valuations and a ramified-7 exclusion.
+
+
+ALIASES:
+X27Over40FourNormPackets;
+X27Over40PrimitiveMinus14NormPacketDescent;
+X27Over40FourNormPacketsFactorDistribution.
+
+
+DO_NOT_REPEAT:
+Do not invoke unique factorization in Z[sqrt(-14)].
+Do not reopen a generic ideal-class enumeration before using the four explicit packets.
+Do not treat the four-packet classification as a rational-point classification.
+Do not promote fixed-power saving or P/M3 credit from these local/descent constraints alone.
+
+
+REOPEN_CONDITION:
+Distribute the nearly-coprime factors of
+I=a*(100a^2+7b^2)
+across u,v in each delta packet, respecting the exact d valuation profile, and reduce every surviving packet to a solvable lower-genus/Thue/elliptic problem; intersect with M3-T11-057.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 66.
+
+
+FLAGS:
+M3_T11_X_27_OVER_40_COMMON_CONTENT_VALUATIONS_EXACT=true
+M3_T11_X_27_OVER_40_PRIMITIVE_NORM_FOUR_PACKETS=true
+M3_T11_X_27_OVER_40_PRIMITIVE_NORM_R_ODD_I_EVEN=true
+M3_T11_X_27_OVER_40_RAMIFIED_7_EXCLUSION=true
+M3_T11_X_27_OVER_40_V2B_GE2_EXCLUDED=true
+M3_T11_X_27_OVER_40_V2B_EQ1_MOD32_FILTER=true
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40FourNormPacketsFactorDistribution
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+RESEARCH_CARD=M3-T11-059
+## M3-T11-060
+ID:
+M3-T11-060
+TYPE:
+EXACT_STRUCTURE / THEOREM_GATE
+TITLE:
+Fresh-prime inert/split allocation router on the four norm packets
+STATUS:
+PROVED_EXACT_STRUCTURE / GLOBAL_CLASSIFICATION_OPEN
+CLAIM:
+Retain M3-T11-059 and put J=100*a^2+7*b^2, d=2^e2*3^e3*5^e5 with the exact M3-T11-059 valuations. For non-boundary a!=0 set a0=a/3^e3 and J0=J/(2^e2*5^e5). Then I0=a0*J0 and gcd(a0,J0)|7. After removing the forced factor 2,
+H=a0/2, K=J0 for b odd,
+H=a0, K=J0/2 for b even,
+one has uv=HK and gcd(H,K)|7.
+For every odd fresh prime p notin {2,3,5,7}, p divides exactly one of u,v. If p|H, then R0 has squareclass [b/d] mod p and
+p|u => (-delta*b/(14*d)|p)=+1,
+p|v => (b/(delta*d)|p)=+1.
+If p|K, then R0 has squareclass [2*b/d] mod p and
+p|u => (-delta*b/(7*d)|p)=+1,
+p|v => (2*b/(delta*d)|p)=+1.
+The ratio of the two allocation-test squareclasses is [-14]. Therefore every fresh prime inert in Q(sqrt(-14)) is routed uniquely to u or v, while split primes are locally ambiguous. The residual factor-distribution problem is supported only on split primes plus {2,3,5,7}.
+POPULATION:
+Exact x=27/40 translated-lift carrier inherited from M3-T11-045 through M3-T11-059, excluding the already-known a=0 boundary point for the fresh-prime statement.
+DEPENDS_ON:
+M3-T11-058;
+M3-T11-059;
+gcd(a,100*a^2+7*b^2)|7;
+elementary quadratic-character comparison in the four delta packets.
+IMPLIES:
+The active factor-distribution subattack is reduced to X27Over40SplitPrimeResidualGlobalSquareclass. Blind arbitrary divisor splitting across u,v is no longer the correct model.
+ALIASES:
+X27Over40FreshInertPrimeAllocation;
+X27Over40SplitPrimeResidualGlobalSquareclass;
+X27Over40HKFactorCompression.
+DUPLICATE_OF:
+none found under the required semantic-neighborhood sweep; earlier principal root-line cards concern the moving fixed-content active-tau measure, not this fixed x=27/40 translated-lift norm packet.
+SUPERSEDES:
+the broad M3-T11-059 continuation instruction to distribute all nearly-coprime factors across u and v without distinguishing inert from split fresh primes.
+DO_NOT_REPEAT:
+Do not treat split fresh primes as uniquely allocated by the local character test.
+Do not infer rational-point classification from deterministic inert-prime routing.
+Do not charge fixed-power or P/M3 credit from this fixed-carrier structural reduction.
+REOPEN_CONDITION:
+Derive a global squareclass/product constraint on the split-prime parts of H and K strong enough to reduce each delta packet to finitely many lower-genus/Thue/elliptic cases, or complete the independent elliptic-log / quadratic-Chabauty classification.
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 67.
+FLAGS:
+M3_T11_X_27_OVER_40_TWO_FACTOR_HK_COMPRESSION=true
+M3_T11_X_27_OVER_40_FRESH_INERT_PRIME_ALLOCATION_DETERMINISTIC=true
+M3_T11_X_27_OVER_40_SPLIT_PRIME_ALLOCATION_RESIDUAL=true
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40SplitPrimeResidualGlobalSquareclass
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+RESEARCH_CARD=M3-T11-060
+
+
+
+
+
+
+
+
+
+
+## M3-T11-061
+ID:
+M3-T11-061
+TYPE:
+EXACT_STRUCTURE / THEOREM_GATE REFINEMENT
+TITLE:
+K-side biquadratic split filter and exact ramified-7 routing
+STATUS:
+PROVED_EXACT_STRUCTURE / GLOBAL_CLASSIFICATION_OPEN
+CLAIM:
+Retain M3-T11-059/060, with J=100*a^2+7*b^2 and u*v=H*K, gcd(H,K)|7.
+
+
+For every odd fresh prime p notin {2,3,5,7} dividing K, primitiveness gives p∤a*b and p|J, hence
+(10*a/b)^2 == -7 (mod p).
+Therefore
+Legendre_p(-7)=+1
+and on K-side
+Legendre_p(-14)=Legendre_p(2).
+Thus K-side fresh primes are split/locally ambiguous exactly when p==1 or 7 mod 8, and inert/deterministically routed exactly when p==3 or 5 mod 8. Equivalently, after combining with Legendre_p(-7)=+1:
+K-side split/ambiguous classes mod 56 are
+{1,9,15,23,25,39},
+while K-side inert/deterministic classes mod 56 are
+{11,29,37,43,51,53}.
+
+
+The ramified prime 7 is also exact. If 7∤a then 7∤J and gcd(H,K)=1. If 7|a with h=v_7(a)>=1, then v_7(J)=1, v_7(H)=h, v_7(K)=1, so gcd(H,K)=7 and all 7^(h+1) in u*v lies on exactly one of u,v. In the four delta packets:
+delta in {1,2} forces all 7-power into v and Legendre_7(b/d)=+1;
+delta in {7,14} forces all 7-power into u and Legendre_7(b/d)=-1.
+Hence 7 is not a free exceptional allocation prime.
+
+
+POPULATION:
+Exact x=27/40 translated-lift carrier inherited from M3-T11-045 through M3-T11-060, excluding the already-handled boundary for fresh-prime statements.
+DEPENDS_ON:
+M3-T11-059;
+M3-T11-060;
+J=100*a^2+7*b^2;
+gcd(a,b)=1;
+support(d) subset {2,3,5};
+the four exact delta packets.
+IMPLIES:
+The residual split-prime problem is narrower than M3-T11-060: unresolved allocation freedom remains only on H-side primes split in Q(sqrt(-14)), K-side primes in the six biquadratic split classes {1,9,15,23,25,39} mod 56, and finite 2,3,5 normalization data. The ramified prime 7 is completely routed.
+ALIASES:
+X27Over40KSideBiquadraticSplitFilter;
+X27Over40Ramified7ExactRouting;
+X27Over40KSplitMod56SixClasses.
+DUPLICATE_OF:
+none found under semantic rematch of the active ROUTE and RESULT-LEDGER; M3-T11-060 only distinguishes Q(sqrt(-14)) inert versus split and leaves split primes plus {2,3,5,7} residual.
+SUPERSEDES:
+the part of M3-T11-060 that treats 7 as residual allocation freedom and treats all K-side Q(sqrt(-14))-split primes as equally ambiguous.
+DO_NOT_REPEAT:
+Do not infer that H-side split primes satisfy Legendre_p(-7)=+1.
+Do not promote the six K-side residue classes to a rational-point classification.
+Do not charge fixed-power or P/M3 credit from this structural refinement.
+REOPEN_CONDITION:
+Derive a global product/squareclass constraint on the remaining H-split and K-biquadratic-split parts strong enough to reduce the four delta packets to finitely solvable lower-genus/Thue/elliptic cases, then intersect with M3-T11-057.
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 68.
+FLAGS:
+M3_T11_X_27_OVER_40_K_FRESH_MINUS7_SPLIT=true
+M3_T11_X_27_OVER_40_K_SPLIT_EQ_TWO_CHARACTER=true
+M3_T11_X_27_OVER_40_K_SPLIT_MOD56_SIX_CLASSES=true
+M3_T11_X_27_OVER_40_RAMIFIED7_ROUTING_EXACT=true
+M3_T11_X_27_OVER_40_GCD_HK_EXACT_ONE_OR_SEVEN=true
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40SplitPrimeResidualGlobalSquareclass
+CURRENT_X27_FIRST_SUBATTACK=X27Over40KSideBiquadraticSplitFilterAndRamified7Routing
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+RESEARCH_CARD=M3-T11-06
+
+
+## M3-T11-062
+ID:
+M3-T11-062
+TYPE:
+EXACT_STRUCTURE / THEOREM_GATE REFINEMENT
+TITLE:
+Principal-factor product squareclass bridge for the x=27/40 translated lift
+STATUS:
+PROVED_EXACT_STRUCTURE / GLOBAL_CLASSIFICATION_OPEN
+CLAIM:
+In K=Q(sqrt(-14)), s=sqrt(-14), define
+alpha0=b+a*s,
+alpha-=50*a-b+4*b*s,
+alpha+=50*a+b+4*b*s.
+Then
+N(alpha0)=F0,
+N(alpha-)=25F-,
+N(alpha+)=25F+,
+and exactly
+alpha0*alpha-*alpha+
+=
+25*(-R+I*s),
+with R=b*(124a^2+9b^2), I=a*(100a^2+7b^2).
+After the M3-T11-059 primitive normalization R=dR0, I=dI0 and
+R0=delta*u^2-(14/delta)*v^2,
+I0=2uv,
+delta in {1,2,7,14},
+one has
+alpha0*alpha-*alpha+
+=
+-25*d*delta*(u-(v/delta)*s)^2.
+Hence
+[alpha0*alpha-*alpha+]=[-d*delta]
+in K^x/K^x2.
+Because s^2=-14, [7]=[-2], so the four values of [-delta] are respectively
+[-1],[-2],[2],[1].
+Since d is supported on {2,3,5}, no moving prime outside {2,3,5} survives in the global element-squareclass.
+Moreover the coefficient determinants of the three linear factors are
+-106-s, -106+s, 100
+with norms
+11250,11250,10000.
+Therefore the three principal factors are pairwise ideal-coprime away from primes above {2,3,5}. For every prime ideal away from {2,3,5,7}, its valuation in the unique alpha_j that contains it is even.
+POPULATION:
+Exact x=27/40 translated-lift carrier inherited from M3-T11-045 through M3-T11-061.
+DEPENDS_ON:
+M3-T11-058 principal norm forms;
+M3-T11-059 exact d normalization and four delta packets;
+elementary multiplication in Q(sqrt(-14)).
+IMPLIES:
+The M3-T11-061 residual moving split-prime allocation is finite-S at the element-squareclass level. The next non-duplicative task is a finite local match of the alpha_j squareclasses above 2,3,5 against the already-retained three rational packets of M3-T11-048, followed by the M3-T11-057 Mordell-Weil residue intersection.
+ALIASES:
+X27Over40PrincipalFactorProductSquareclass;
+X27Over40FiniteSElementSquareclassMatchToThreePackets;
+X27Over40GlobalMinusDDeltaSquareclass.
+DUPLICATE_OF:
+Not a duplicate of M3-T11-048: that card classifies rational norm-factor squareclasses after a 64-to-3 local descent. M3-T11-062 gives an element-level Q(sqrt(-14)) product identity and directly identifies the four delta-packet scalar class [-d*delta]. It is compatible with, and must be matched back to, M3-T11-048 rather than reopening it.
+SUPERSEDES:
+The wording in M3-T11-061 that leaves the residual split-prime allocation as an unstructured moving product problem. At element-squareclass level it is finite-S.
+DO_NOT_REPEAT:
+Do not restart arbitrary split-prime divisor allocation.
+Do not rerun the old 64 rational S-squareclass search.
+Do not infer rational-point classification or fixed-power saving from the finite-S element class alone.
+REOPEN_CONDITION:
+Compute the finite local element-squareclass possibilities of alpha0,alpha-,alpha+ above 2,3,5 for each d/delta profile, identify their images in the three M3-T11-048 packets, and intersect with M3-T11-057.
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 69.
+FLAGS:
+M3_T11_X_27_OVER_40_PRINCIPAL_LINEAR_FACTOR_PRODUCT_IDENTITY=true
+M3_T11_X_27_OVER_40_GLOBAL_ELEMENT_SQUARECLASS_MINUS_D_DELTA=true
+M3_T11_X_27_OVER_40_SPLIT_PRIME_IDEAL_PARITY_FINITE_S=true
+M3_T11_X_27_OVER_40_RAMIFIED7_NO_NEW_SQUARECLASS_GENERATOR=true
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40FiniteSElementSquareclassMatchToThreePackets
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+RESEARCH_CARD=M3-T11-06
+
+
+## M3-T11-063
+ID:
+M3-T11-063
+TYPE:
+EXACT_STRUCTURE / THEOREM_GATE REFINEMENT
+TITLE:
+Exact three-packet/common-content bridge and square-content collapse
+STATUS:
+PROVED_EXACT_STRUCTURE / GLOBAL CLASSIFICATION OPEN
+CLAIM:
+On the x=27/40 translated-lift carrier, M3-T11-049 and M3-T11-058 give the exact coordinate bridge t=epsilon/(6m). For primitive m=a/b this is t=epsilon*b/(6a). Under this substitution the M3-T11-048 three rational S={2,3,5} packets map exactly to the current norm factors F0=b^2+14a^2, F-=100a^2-4ab+9b^2, F+=100a^2+4ab+9b^2 as follows: Packets I/II have [F0]=2 and {[F-],[F+]}={1,2}; Packet III has [F0]=[F-]=[F+]=1.
+The deeper M3-T11-048 2- and 3-adic residues, combined with the exact M3-T11-059 common-content valuations, force d=gcd(R,I)=64 on Packets I/II. On Packet III they force v2(d)=0, v3(d)=2; the square conditions on F-/F+ exclude v5(b)=1, so d is exactly 9 or 225. Therefore d is a rational square on every canonical three-packet survivor.
+Consequently the M3-T11-062 global element-squareclass identity sharpens from [alpha0*alpha-*alpha+]=[-d*delta] to [alpha0*alpha-*alpha+]=[-delta] on the actual translated-lift survivor locus. The generic scalar 3- and 5-generators disappear from the product squareclass; only the four delta classes [-1],[-2],[2],[1] remain.
+POPULATION:
+Exact x=27/40 translated-lift carrier inherited from M3-T11-045 through M3-T11-062, restricted to the canonical M3-T11-048 three-packet local-survivor locus.
+HEIGHT:
+Exact physical R<=B inherited; this card changes only the fixed-carrier arithmetic classification.
+DEPENDS_ON:
+M3-T11-048;
+M3-T11-049;
+M3-T11-058;
+M3-T11-059;
+M3-T11-062.
+IMPLIES:
+The first continuation in M3-T11-062 no longer needs a generic enumeration over all 2,3,5 common-content profiles. The only exact content cases are d=64 for Packets I/II and d in {9,225} for Packet III. The remaining finite local task is individual alpha-factor element classes above 2,3,5 and their compatibility with delta, followed by the M3-T11-057 Mordell-Weil residue intersection.
+ALIASES:
+X27Over40ThreePacketCommonContentBridge;
+X27Over40CommonContentSquareOnThreePackets;
+X27Over40GlobalMinusDeltaSquareclass;
+X27Over40DeltaPacketLocalElementClassMatch.
+DUPLICATE_OF:
+none found under semantic rematch. M3-T11-048 supplies the rational three packets but does not identify the M3-T11-059 content d in translated-lift coordinates. M3-T11-062 gives [-d*delta] generically but does not prove d square on the canonical survivor locus.
+SUPERSEDES:
+The generic d/delta profile enumeration in the first continuation step of M3-T11-062. M3-T11-062 itself remains canonical for the principal-factor product identity and pairwise ideal-coprimality.
+DO_NOT_REPEAT:
+Do not reopen the old 64 rational S-squareclass search.
+Do not enumerate generic d supported on {2,3,5}; on the canonical three-packet locus d is exactly 64, 9, or 225 as stated.
+Do not infer that each individual alpha factor has trivial finite-S element class merely because their product class is [-delta].
+Do not infer rational-point classification, fixed-power saving, or P/M3 credit from the square-content collapse.
+REOPEN_CONDITION:
+Compute the individual local element-squareclasses of alpha0, alpha-, alpha+ above 2,3,5 for d=64 and d in {9,225}, resolve the allowed delta classes in each packet symmetry species, and intersect the survivors with the M3-T11-057 Mordell-Weil residue classes.
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 70.
+FLAGS:
+M3_T11_X_27_OVER_40_T_TO_M_BRIDGE_EXACT=true
+M3_T11_X_27_OVER_40_NORM_PACKET_CLASSES_MATCHED=true
+M3_T11_X_27_OVER_40_PACKET_I_II_D_EXACT_64=true
+M3_T11_X_27_OVER_40_PACKET_III_D_EXACT_9_OR_225=true
+M3_T11_X_27_OVER_40_COMMON_CONTENT_SQUARE_ON_THREE_PACKETS=true
+M3_T11_X_27_OVER_40_GLOBAL_ELEMENT_SQUARECLASS_MINUS_DELTA=true
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40DeltaPacketLocalElementClassMatch
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+RESEARCH_CARD=M3-T11-06
+## M3-T11-064
+ID:
+M3-T11-064
+TYPE:
+EXACT_LOCAL_STRUCTURE / THEOREM_GATE REFINEMENT
+TITLE:
+Exact split-3 delta-parity router on the three-packet survivor locus
+STATUS:
+PROVED_EXACT_LOCAL_STRUCTURE / GLOBAL CLASSIFICATION OPEN
+CLAIM:
+On the canonical x=27/40 three-packet survivor locus, the M3-T11-062 principal-factor product has local squareclass [-delta] at both primes above 3 because M3-T11-063 makes d a rational square. Using the Hensel roots s=38,205 modulo 243 of s^2=-14, the exact M3-T11-048 3-adic packet residues give:
+Packets I/II: [-delta]=[b] in Q_3^x/Q_3^x2.
+Packet III: [-delta]=[2b] in Q_3^x/Q_3^x2.
+Therefore the four delta values are halved pointwise:
+Packets I/II: b==1 mod3 => delta in {2,14}; b==2 mod3 => delta in {1,7}.
+Packet III: b==1 mod3 => delta in {1,7}; b==2 mod3 => delta in {2,14}.
+POPULATION:
+Exact x=27/40 translated-lift carrier restricted to the canonical M3-T11-048 three-packet survivor locus.
+DEPENDS_ON:
+M3-T11-048;
+M3-T11-059;
+M3-T11-062;
+M3-T11-063.
+IMPLIES:
+The active delta-class match no longer has four live packets per survivor. The remaining local bit is whether the allowed parity class contains the factor 7. The next non-duplicative attack is the split-5 element-squareclass discriminator, then intersection with M3-T11-057.
+ALIASES:
+X27Over40Split3DeltaParityRouter;
+X27Over40DeltaCandidatesHalved;
+X27Over40Split5DeltaSevenBitRouter.
+DUPLICATE_OF:
+none found. M3-T11-059 creates four delta packets; M3-T11-063 collapses d to a square but does not separate the four delta classes locally.
+DO_NOT_REPEAT:
+Do not reopen all four delta values after the b mod3 class is known.
+Do not infer rational-point classification, fixed-power saving, or P/M3 credit from the two-candidate reduction.
+REOPEN_CONDITION:
+Compute the split-5 local element-squareclass of the principal-factor product on the surviving two delta candidates, preferably resolving the factor-7 bit exactly; then intersect survivors with M3-T11-057.
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 71.
+FLAGS:
+M3_T11_X_27_OVER_40_SPLIT3_DELTA_PARITY_ROUTER=true
+M3_T11_X_27_OVER_40_DELTA_CANDIDATES_HALVED=true
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40Split5DeltaSevenBitRouter
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+RESEARCH_CARD=M3-T11-064
+
+
+
+
+
+
+## M3-T11-065
+ID:
+M3-T11-065
+TYPE:
+EXACT_LOCAL_STRUCTURE / THEOREM_GATE REFINEMENT
+TITLE:
+Exact split-5 factor-7-bit router and pointwise delta determination
+STATUS:
+PROVED_EXACT_LOCAL_STRUCTURE / GLOBAL CLASSIFICATION OPEN
+CLAIM:
+Retain M3-T11-048, M3-T11-057, and M3-T11-059 through M3-T11-064. In K=Q(s), s^2=-14, put
+Z=-R+I*s,
+R=b*(124*a^2+9*b^2),
+I=a*(100*a^2+7*b^2).
+By M3-T11-058, N(Z)=R^2+14*I^2=Y_h^2 is a rational square. Since 5 splits in K, the two local Q_5 squareclasses of Z are equal. Reducing at the two split roots s==+1 and s==-1 modulo 5 gives exactly
+Z_+ == b*(a+b)^2 (mod 5),
+Z_- == b*(a-b)^2 (mod 5).
+Hence whenever 5 does not divide b, at least one of a+b,a-b is a 5-adic unit and therefore both split-place classes satisfy [Z]=[b].
+
+
+M3-T11-063 already gives 5 does not divide b on Packets I/II, so
+Packets I/II: [-delta]=[b] in Q_5^x/Q_5^x2.
+
+
+For Packet III:
+- if d=9, then 5 does not divide b and again [-delta]=[b];
+- if d=225, then 5 divides b. The previous v_5(b)>=2 sharpens to v_5(b)>=3. Indeed v_5(b)=2, b=25c with 5 not dividing a*c, would make
+F-/25 == 4*a*(a-c) (mod 5),
+F+/25 == 4*a*(a+c) (mod 5),
+and for c/a in F_5^x one of these two unit residues is nonsquare (the cases c/a=+/-1 leave the other residue nonsquare), contradicting that Packet III has both F- and F+ rational squares. For v_5(b)>=3, v_5(R)>=3 and v_5(I)=2, so at s==+/-1
+Z/25 == +/-4*a^3 (mod 5),
+whose squareclass is [a] because -1 and 4 are squares in Q_5. Thus Packet III,d=225 has [-delta]=[a].
+
+
+Because the M3-T11-064 split-3 router leaves exactly two delta values differing by a factor 7, and 7 is a nonsquare modulo 5, the split-5 class selects exactly one. Explicitly, with chi5 the Legendre symbol modulo 5:
+Packets I/II:
+ b==1 (mod 3): chi5(b)=+1 => delta=14; chi5(b)=-1 => delta=2.
+ b==2 (mod 3): chi5(b)=+1 => delta=1;  chi5(b)=-1 => delta=7.
+Packet III:
+ b==1 (mod 3): chi5(beta)=+1 => delta=1;  chi5(beta)=-1 => delta=7.
+ b==2 (mod 3): chi5(beta)=+1 => delta=14; chi5(beta)=-1 => delta=2,
+where beta=b on d=9 and beta=a on d=225.
+
+
+This closes the local delta ambiguity but does not classify rational points. The M3-T11-057 infinite Mordell-Weil progressions remain.
+POPULATION:
+Exact x=27/40 translated-lift carrier restricted to the canonical M3-T11-048 three-packet survivor locus.
+DEPENDS_ON:
+M3-T11-048;
+M3-T11-057;
+M3-T11-058;
+M3-T11-059;
+M3-T11-062;
+M3-T11-063;
+M3-T11-064.
+NEW_RECEIVERS:
+X27Over40Split5DeltaSevenBitRouter;
+X27Over40DeltaPointwiseUnique;
+X27Over40PacketIIID225V5BGe3.
+DO_NOT_REPEAT:
+Do not reopen two delta candidates after the 3-adic and 5-adic characters are known. Do not treat d=225 Packet III as merely v_5(b)>=2; the exact surviving branch has v_5(b)>=3. Do not infer rational-point classification from local delta uniqueness.
+REOPEN_CONDITION:
+Intersect the uniquely determined delta packet with the exact u*v=H*K factorization and the M3-T11-057 Mordell-Weil residue classes. A productive route should transport the required denominator/numerator characters onto nQ+epsilon*T (for example through division-polynomial or elliptic-denominator characters) or produce a lower-genus global packet; another unconstrained finite-prime sieve is not sufficient.
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 72.
+FLAGS:
+M3_T11_X_27_OVER_40_SPLIT5_DELTA_SEVEN_BIT_ROUTER=true
+M3_T11_X_27_OVER_40_DELTA_POINTWISE_UNIQUE=true
+M3_T11_X_27_OVER_40_PACKET_III_D225_V5B_GE3=true
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40DeltaResolvedHKFactorDistributionWithMWIntersection
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+RESEARCH_CARD=M3-T11-065
+
+
+## M3-T11-066
+ID:
+M3-T11-066
+TYPE:
+EXACT_STRUCTURE / MORDELL-WEIL INTERSECTION BRIDGE
+TITLE:
+Kummer-parity packet router and canonical E2 root-character bridge
+STATUS:
+PROVED_EXACT_STRUCTURE / MORDELL-WEIL CHARACTER INTERSECTION OPEN
+
+
+CLAIM:
+Retain M3-T11-049, M3-T11-050, M3-T11-056, M3-T11-057, and M3-T11-063 through M3-T11-065. Write every rational E2 point as
+R=nQ+epsilon*T,
+Q=(50,5600), T=(0,0),
+and every finite translated-lift x-coordinate canonically as
+U=d0*(A/C)^2,
+d0 in {1,2}, A,C>0, gcd(A,C)=1.
+
+
+1. The standard 2-isogeny Kummer map satisfies alpha(Q)=[2] and alpha(T)=[562500]=1. Hence
+alpha(nQ+epsilon*T)=[2]^n.
+Using M3-T11-049,
+n odd iff Packets I/II,
+n even iff Packet III
+on every finite canonical three-packet survivor.
+Since M=2656080 is even, the M3-T11-057 survivor cosets therefore split exactly:
+epsilon=0, n==0,+/-2 mod M -> Packet III for finite affine survivors;
+epsilon=1, n==+/-1 mod M -> Packets I/II.
+
+
+2. The M3-T11-063/065 packet data give the exact canonical root dictionary. If F0=b^2+14a^2:
+- Packets I/II: write b=2C and F0=2w^2. Then U=2*(25w/C)^2, so d0=2, A=25w, C=b/2.
+- Packet III,d=9: write F0=w^2. Then U=(50w/b)^2, so d0=1, A=50w, C=b.
+- Packet III,d=225: M3-T11-065 gives v_5(b)>=3. Put C=b/25 and F0=w^2. Then U=(2w/C)^2, so d0=1, A=2w, C=b/25, and (A|5)=(a|5).
+The displayed pairs are reduced; the proofs use primitiveness together with the retained 7∤b exclusion and the exact 5-adic packet data.
+
+
+Thus the common content is determined directly by the Mordell-Weil root coordinates:
+n odd => d=64;
+n even and 5∤C => d=9;
+n even and 5|C => d=225.
+In particular 5|C occurs exactly on Packet III,d=225.
+
+
+3. Define
+kappa5(R)=(C|5) if 5∤C,
+kappa5(R)=(A|5) if 5|C.
+Write delta=2^e2*7^e7. Then M3-T11-064/065 become the uniform exact identities
+(-1)^e2=(C|3),
+(-1)^e7=(-1)^n*(C|3)*kappa5(R).
+Equivalently,
+e2=(1-(C|3))/2,
+e7=(1-(-1)^n*(C|3)*kappa5(R))/2,
+delta=2^e2*7^e7.
+Therefore delta is pointwise reconstructible from the Mordell-Weil coefficient parity and the canonical root numerator/denominator characters.
+
+
+4. Because M3-T11-059 gives 7∤b and
+U-2500=14*(50a/b)^2,
+one has
+v_7(U-2500)=1+2v_7(a).
+Hence
+7|a iff v_7(U-2500)>=3.
+On this branch the M3-T11-065 ramified-7 condition becomes
+(C|7)=(-1)^n*(C|3)*kappa5(R),
+because b/C is 2,1,25 in the three root cases and each is a square modulo 7.
+
+
+5. Adding T acts by
+U(P+T)=562500/U(P).
+For canonical U(P)=d0*(A/C)^2:
+- d0=1: with g=gcd(A,750), root pair maps to (750C/g, A/g);
+- d0=2: with g=gcd(A,375), root pair maps to (375C/g, A/g).
+Thus the epsilon=1 denominator-character problem is reducible to numerator/denominator data of nQ after removing only fixed {2,3,5}-support.
+
+
+POPULATION:
+Exact x=27/40 translated-lift carrier restricted to the canonical M3-T11-048 three-packet survivor locus and the saturated E2 Mordell-Weil decomposition of M3-T11-056/057.
+
+
+DEPENDS_ON:
+M3-T11-049;
+M3-T11-050;
+M3-T11-056;
+M3-T11-057;
+M3-T11-059;
+M3-T11-063;
+M3-T11-064;
+M3-T11-065;
+the standard 2-isogeny Kummer homomorphism on y^2=x(x^2+1244x+562500).
+
+
+IMPLIES:
+The requested M3-T11-065 numerator/denominator-character bridge to nQ+epsilon*T is now exact. Packet species, d, and delta no longer require returning to generic a/b packet enumeration. The remaining infinite-progressions problem can be attacked directly through division-polynomial, elliptic-divisibility, or formal-group laws for the canonical root numerator/denominator of nQ+epsilon*T at 3,5,7.
+
+
+NEW_RECEIVERS:
+X27Over40KummerParityPacketRouter;
+X27Over40CanonicalEllipticRootCharacterBridge;
+X27Over40DeltaOnMWRootCoordinates;
+X27Over40Ramified7MWCoordinateCompatibility;
+X27Over40TorsionRootReciprocity;
+X27Over40DivisionPolynomialCharacterSequencesOnMWSurvivorProgressions.
+
+
+ALIASES:
+X27Over40KummerParityPacketRouter;
+X27Over40CanonicalEllipticDenominatorCharacterBridge;
+X27Over40MWRootDeltaFormula.
+
+
+DUPLICATE_OF:
+none found. M3-T11-049/050 identify the two U-squareclasses and the Kummer image but do not identify packet species with n parity. M3-T11-065 requests, but does not provide, the exact transfer of b/a characters to canonical Mordell-Weil root coordinates.
+
+
+DO_NOT_REPEAT:
+Do not reopen packet species after n parity is known.
+Do not reopen generic d profiles: d is 64,9,225 according to the exact root-coordinate rule above.
+Do not return to a/b merely to recover delta; use the canonical root characters.
+Do not infer that the denominator/root characters are globally periodic in k on n=n0+k*M until a division-polynomial, EDS, or formal-group proof is supplied.
+Do not infer rational-point classification, fixed-power saving, primary theorem-gate closure, or P/M3 credit from this bridge alone.
+
+
+REOPEN_CONDITION:
+For the five M3-T11-057 residue classes n=n0+k*2656080, prove the exact 3-,5-,7-adic character laws of the canonical root denominator C(nQ+epsilon*T), and of A only on the 5|C branch, preferably via division polynomials / elliptic divisibility sequences / formal groups. Intersect those laws with
+(-1)^e2=(C|3),
+(-1)^e7=(-1)^n*(C|3)*kappa5,
+and, when v_7(U-2500)>=3,
+(C|7)=(-1)^n*(C|3)*kappa5.
+A lower-genus global reduction of the same delta-resolved H*K packet is also acceptable. Another unconstrained auxiliary-prime sieve is not sufficient.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 73.
+
+
+FLAGS:
+M3_T11_X_27_OVER_40_KUMMER_PACKET_PARITY_ROUTER=true
+M3_T11_X_27_OVER_40_MW_SIEVE_COSETS_PACKET_SEPARATED=true
+M3_T11_X_27_OVER_40_CANONICAL_ROOT_DENOMINATOR_BRIDGE=true
+M3_T11_X_27_OVER_40_COMMON_CONTENT_FROM_MW_ROOT=true
+M3_T11_X_27_OVER_40_DELTA_BITS_ON_MW_ROOT_COORDINATES=true
+M3_T11_X_27_OVER_40_RAMIFIED7_MW_COORDINATE_COMPATIBILITY=true
+M3_T11_X_27_OVER_40_TORSION_ROOT_RECIPROCITY=true
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40DivisionPolynomialCharacterSequencesOnMWSurvivorProgressions
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+RESEARCH_CARD=M3-T11-06
+
+
+## M3-T11-067
+ID:
+M3-T11-067
+TYPE:
+EXACT_LOCAL_STRUCTURE / MORDELL-WEIL SIEVE REFINEMENT
+TITLE:
+Bad-prime denominator-order router, zero-coset closure, and Packet III d=225 removal
+STATUS:
+PROVED_EXACT_STRUCTURE / ONE MW PROGRESSION CLOSED / GLOBAL CLASSIFICATION OPEN
+CLAIM:
+Retain M3-T11-056/057/063/066. On
+E2: V^2=U*(U^2+1244U+562500),
+Q=(50,5600),
+write
+U(nQ)=d0*(A_n/C_n)^2
+with d0=2 for n odd, d0=1 for n even, A_n,C_n>0 and gcd(A_n,C_n)=1.
+The displayed model has c4=-2239424, a p-adic unit for p=3,5,7, hence is minimal at those primes. For E_1(Q_p), the kernel of reduction to O,
+p|C_n iff nQ lies in E_1(Q_p).
+
+
+Exact reduced root pairs are
+(A_1,C_1)=(5,1),
+(A_2,C_2)=(50,1),
+(A_3,C_3)=(125,7),
+(A_4,C_4)=(325,18),
+(A_6,C_6)=(374,161),
+(A_12,C_12)=(94480798816781,588799889370).
+Therefore Q has exact order
+4 in E2(Q_3)/E_1(Q_3),
+12 in E2(Q_5)/E_1(Q_5),
+3 in E2(Q_7)/E_1(Q_7),
+and consequently
+3|C_n iff 4|n,
+5|C_n iff 12|n,
+7|C_n iff 3|n.
+
+
+Since M3-T11-057 has M=2656080 with 12|M, every nonzero n==0 mod M has 3|C_n, contradicting the exact translated-lift three-packet/root dictionary where every finite survivor has 3∤C. The n=0 representative is O and is non-affine. Hence the epsilon=0 zero progression is empty.
+
+
+The only live M3-T11-057 progressions are therefore
+epsilon=0, n==+/-2 mod M,
+epsilon=1, n==+/-1 mod M.
+For n==+/-2 mod M one has n==+/-2 mod12, so 5∤C_n. M3-T11-066 then forces Packet III common content d=9; the d=225 branch is absent from every live MW survivor. Hence on all four live progressions kappa5=(C|5), and the A-at-5 branch of M3-T11-066 is no longer needed.
+
+
+POPULATION:
+Exact x=27/40 translated-lift carrier restricted to the saturated E2 Mordell-Weil decomposition and the M3-T11-057 sieve certificate.
+DEPENDS_ON:
+M3-T11-056;
+M3-T11-057;
+M3-T11-063;
+M3-T11-066;
+exact multiplication on E2 through 12Q;
+the reduction-kernel criterion p|C_n iff nQ in E_1(Q_p).
+IMPLIES:
+The live MW character intersection has four, not five, infinite progressions.
+Packet III,d=225 is removed on the live sieve locus.
+The remaining first attack needs only denominator characters C at 3,5,7; no numerator A-character at 5 is needed.
+ALIASES:
+X27Over40BadPrimeDenominatorOrderRouter;
+X27Over40MWZeroCosetClosure;
+X27Over40PacketIIID225RemovalOnMWSurvivors;
+X27Over40DenominatorCharacterSequencesOnFourMWSurvivorProgressions.
+DUPLICATE_OF:
+none found under semantic rematch. M3-T11-057 leaves the zero progression live; M3-T11-066 explicitly retains a possible 5|C / d=225 / A-character branch. This card removes both using exact reduction-kernel orders.
+DO_NOT_REPEAT:
+Do not carry epsilon=0,n==0 mod M as a live progression.
+Do not carry Packet III,d=225 into n==+/-2 mod M.
+Do not ask for the M3-T11-066 A-at-5 character on the four live progressions.
+Do not infer rational-point classification or theorem-gate closure from the four-progression reduction.
+REOPEN_CONDITION:
+Prove the exact global characters of the positive reduced denominator C(nQ+epsilon*T) at p=3,5,7 on the four live progressions and intersect them with
+(-1)^e2=(C|3),
+(-1)^e7=(-1)^n*(C|3)*(C|5),
+and, when v_7(U-2500)>=3,
+(C|7)=(-1)^n*(C|3)*(C|5).
+A successful elliptic-log height bound or split-Jacobian quadratic-Chabauty classification remains an independent acceptable closure.
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 74.
+FLAGS:
+M3_T11_X_27_OVER_40_BAD_PRIME_DENOMINATOR_ORDERS_EXACT=true
+M3_T11_X_27_OVER_40_MW_ZERO_COSET_CLOSED=true
+M3_T11_X_27_OVER_40_MW_LIVE_PROGRESSIONS=4
+M3_T11_X_27_OVER_40_PACKET_III_D225_REMOVED_ON_MW_SURVIVORS=true
+M3_T11_X_27_OVER_40_KAPPA5_DENOMINATOR_ONLY_ON_MW_SURVIVORS=true
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40DenominatorCharacterSequencesOnFourMWSurvivorProgressions
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+RESEARCH_CARD=M3-T11-067
+
+
+## M3-T11-068
+ID:
+M3-T11-068
+TYPE:
+NEGATIVE_RESULT / FIREWALL / THEOREM_GATE REFINEMENT
+TITLE:
+Reduction-kernel classes do not determine the normalized denominator characters
+STATUS:
+PROVED_EXACT_NEGATIVE / ACTIVE FIREWALL
+CLAIM:
+Retain M3-T11-067. Let U(nQ)=d0*(A_n/C_n)^2 with positive reduced C_n. The exact bad-prime reduction-kernel orders are 4 at p=3, 12 at p=5, and 3 at p=7, but the Legendre character of C_n is not a function of n modulo those orders.
+Exact counterexamples from the rational group law on E2 are:
+- p=3: n=1 and n=9 are congruent modulo 4 and both have 3 not dividing C_n, but C_1=1 gives (C_1|3)=+1 while C_9=57369809 is 2 modulo 3 and gives (C_9|3)=-1.
+- p=5: n=1 and n=13 are congruent modulo 12 and both have 5 not dividing C_n, but C_1=1 gives (C_1|5)=+1 while C_13=21024997727248007 is 2 modulo 5 and gives (C_13|5)=-1.
+- p=7: n=1 and n=10 are congruent modulo 3 and both have 7 not dividing C_n, but C_1=1 gives (C_1|7)=+1 while C_10=2692585801 is 3 modulo 7 and gives (C_10|7)=-1.
+Therefore the M3-T11-067 reduction-kernel data p|C_n iff ord_p(Q)|n controls denominator divisibility only. It cannot by itself be upgraded to the unit squareclass characters required by M3-T11-066/067.
+This does not rule out an exact character law on the four much thinner residue classes modulo M=2656080. It rules out only the shortcut that tries to derive those characters from the bad-prime reduction class or quotient order alone.
+POPULATION:
+The rank-one E2 Mordell-Weil sequence attached to Q=(50,5600), with the active M3-T11-067 translated-lift application on the four surviving progressions.
+DEPENDS_ON:
+M3-T11-066;
+M3-T11-067;
+exact rational multiplication on E2 at n=9,10,13.
+IMPLIES:
+The current first attack must retain globally normalized denominator-unit information. A legal continuation is a normalized division-polynomial / elliptic-divisibility-sequence unit law, or an equivalent global recurrence, specialized to the four M-progressions and then transported through the epsilon=1 torsion shift. Pure reduction-kernel periodicity is RED.
+ALIASES:
+X27Over40ReductionKernelCharacterFirewall;
+X27Over40NormalizedDenominatorUnitRequired;
+X27Over40BadPrimeQuotientOrderInsufficient.
+DUPLICATE_OF:
+none found under semantic rematch. M3-T11-066 warned not to infer global periodicity without a division-polynomial/EDS/formal-group proof; M3-T11-067 proved only divisibility orders. This card supplies explicit counterexamples showing why quotient-order data alone cannot prove the needed unit characters.
+DO_NOT_REPEAT:
+Do not infer (C_n|p) from n modulo 4,12,3 at p=3,5,7 respectively.
+Do not treat p|C_n periodicity as equivalent to denominator-unit character periodicity.
+Do not use p-adic reduction continuity alone as a substitute for globally normalized denominator-unit control.
+Do not infer that no character law exists on n=n0+kM; that narrower question remains open.
+REOPEN_CONDITION:
+Produce an exact normalized division-polynomial, EDS, sigma/formal-group-plus-global-normalization, or equivalent recurrence that computes the unit squareclass of C(nQ+epsilon*T) on the four live M3-T11-067 progressions. The proof must control normalization/cancellation, not only the local point in E2(Q_p)/E_1(Q_p).
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 75.
+FLAGS:
+M3_T11_X_27_OVER_40_REDUCTION_KERNEL_CHARACTER_SHORTCUT_REJECTED=true
+M3_T11_X_27_OVER_40_NORMALIZED_DENOMINATOR_UNIT_REQUIRED=true
+M3_T11_X_27_OVER_40_MW_LIVE_PROGRESSIONS=4
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40NormalizedDenominatorUnitRecurrenceOnFourMWSurvivorProgressions
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+RESEARCH_CARD=M3-T11-068
+
+
+## M3-T11-069
+ID:
+M3-T11-069
+TYPE:
+EXACT_STRUCTURE / NORMALIZATION_BRIDGE / THEOREM_GATE REFINEMENT
+TITLE:
+Odd bad-prime EDS cancellation is exactly troublemaker-controlled; global denominator normalization reduces to p=2
+STATUS:
+PROVED_EXACT_PARTIAL / ACTIVE CONTINUATION
+CLAIM:
+Retain M3-T11-068. On
+E2: V^2=U*(U^2+1244U+562500),
+Q=(50,5600),
+let W_n=psi_n(Q) and write
+U(nQ)=d0*(A_n/C_n)^2
+with positive reduced A_n,C_n. Then C_n is the standard EDS denominator root. The integral model has
+Delta=-2^19*3^4*5^12*7^3,
+c4=-2^6*11*3181.
+At p=3,5,7 the model is multiplicative. Q has nonsingular reduction at p=3 and singular reduction at p=5,7.
+
+
+By Stange, Theorem 9.3 together with the denominator comparison used in Lemma 11.4:
+v_3(W_n)=v_3(C_n),
+v_5(W_n)-v_5(C_n)=R_n(2,12),
+v_7(W_n)-v_7(C_n)=R_n(1,3).
+For p=5 the component parameter is 2 or 10, which give the same troublemaker sequence; for p=7 it is 1 or 2, likewise symmetric. The parameter is pinned by W_2=11200 and C_2=1.
+
+
+Hence, defining e_2(n)=v_2(W_n)-v_2(C_n),
+|W_n|=C_n*2^{e_2(n)}*5^{R_n(2,12)}*7^{R_n(1,3)}
+exactly. There is no remaining unspecified odd-prime cancellation.
+
+
+For M=2656080 and the four live M3-T11-067 progressions:
+- R_n(2,12) is even on all n==+/-1,+/-2 mod M;
+- R_n(1,3) is even on n==+/-1 mod M;
+- R_n(1,3) is odd on n==+/-2 mod M.
+Thus the 5-correction is a square on every live progression, while the 7-correction contributes fixed squareclass 1 on the epsilon=1 branches and [7] on the epsilon=0 branches.
+
+
+Exact EDS computation for 1<=n<=20 gives
+e_2(n)=0,6,13,26,39,58,78,104,130,162,195,234,273,318,364,416,468,526,585,650,
+matching 5*R_n(1,2)+R_n(1,4) on that finite range. This p=2 formula is NOT promoted; it remains a diagnostic until proved for all n by an exact 2-adic potential-multiplicative calculation.
+
+
+POPULATION:
+The rank-one E2 Mordell-Weil sequence generated by Q, with the four M3-T11-067 translated-lift progressions.
+DEPENDS_ON:
+M3-T11-056;
+M3-T11-067;
+M3-T11-068;
+Stange 2016, Theorem 9.3 and denominator comparison in Lemma 11.4;
+exact W_2 and reduction checks at p=3,5,7.
+IMPLIES:
+The normalization obstruction of M3-T11-068 is no longer an unconstrained {2,5,7}-problem. The odd bad-prime cancellation is completely explicit. The next theorem-level normalization task is the 2-adic correction, after which the normalized EDS unit squareclasses modulo 3,5,7 can be attacked on the four M-progressions.
+ALIASES:
+X27Over40OddBadPrimeEDSNormalization;
+X27Over40TroublemakerCancellationBridge;
+X27Over40GlobalNormalizationReducedToP2.
+DUPLICATE_OF:
+none found under semantic rematch. M3-T11-067 determined only p|C_n and M3-T11-068 rejected quotient-order-to-character inference; this card instead identifies the exact global W_n/C_n cancellation exponents at the odd bad primes.
+DO_NOT_REPEAT:
+Do not reopen the p=5 or p=7 cancellation valuation calculation.
+Do not infer the p=2 closed formula from the n<=20 diagnostic.
+Do not infer denominator characters merely from the correction exponents; normalized EDS unit residues are still required.
+Do not promote rational-point classification, fixed-power saving, or P/M3 credit.
+REOPEN_CONDITION:
+Produce an all-n proof or disproof of
+e_2(n)=5*R_n(1,2)+R_n(1,4),
+or another exact formula for e_2(n), and then combine the full normalization with an exact recurrence/finite-state law for the normalized EDS unit squareclasses on the four live progressions.
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 76.
+FLAGS:
+M3_T11_X_27_OVER_40_ODD_BAD_PRIME_EDS_NORMALIZATION_EXACT=true
+M3_T11_X_27_OVER_40_P3_EDS_DENOMINATOR_VALUATIONS_EQUAL=true
+M3_T11_X_27_OVER_40_P5_TROUBLEMAKER_R_2_12=true
+M3_T11_X_27_OVER_40_P7_TROUBLEMAKER_R_1_3=true
+M3_T11_X_27_OVER_40_GLOBAL_NORMALIZATION_REDUCED_TO_P2=true
+M3_T11_X_27_OVER_40_P2_TROUBLEMAKER_FORMULA_PROVED=false
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40TwoAdicTroublemakerNormalizationThenUnitRecurrence
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+RESEARCH_CARD=M3-T11-069
+
+
+
+
+## M3-T11-070
+ID:
+M3-T11-070
+TYPE:
+EXACT_STRUCTURE / NORMALIZATION_BRIDGE / THEOREM-GATE REFINEMENT
+TITLE:
+The p=2 troublemaker formula is exact for all n; EDS denominator normalization is fully explicit
+STATUS:
+PROVED_EXACT_PARTIAL / P=2 NORMALIZATION CLOSED / ACTIVE CONTINUATION
+
+
+
+
+CLAIM:
+Retain M3-T11-069. On
+E2: V^2=U*(U^2+1244U+562500),
+Q=(50,5600),
+W_n=psi_n(Q),
+and
+U(nQ)=d0*(A_n/C_n)^2
+with positive reduced A_n,C_n, define
+e_2(n)=v_2(W_n)-v_2(C_n).
+
+
+
+
+Then for every positive integer n,
+boxed:
+e_2(n)=5*R_n(1,2)+R_n(1,4).
+
+
+
+
+Equivalently,
+e_2(n)=13*(n^2-1)/8 for n odd,
+e_2(n)=(13*n^2-4)/8 for n==2 mod4,
+e_2(n)=13*n^2/8 for 4|n.
+
+
+
+
+The proof is exact. Since v_2(Delta)=19 and v_2(c4)=6, v_2(j)=-1. Stange Theorem 10.1 transfers the EDS to a minimal multiplicative curve over a ramified extension of degree d and gives
+d*v_2(W_n)=(3/2)d(n^2-1)+v1(W'_n).
+
+
+
+
+Exact values
+v_2(W_2)=6,
+v_2(W_3)=13,
+v_2(W_4)=27
+force the transformed point to have singular multiplicative reduction, component order 2, component parameter a=d/2, formal parameter s=d, and the p=2 exceptional formal correction w=d/2. Stange Theorem 9.3 plus Definition 5.3 then gives
+v_2(W_n)
+=
+13*(n^2-1)/8 for n odd,
+(13*n^2-4)/8 for n==2 mod4,
+13*n^2/8+v_2(n)-1 for 4|n.
+
+
+
+
+Independently,
+2Q=(2500,-157500),
+3Q=(31250/49,11500000/343),
+4Q=(105625/324,-109143125/5832),
+and
+z(4Q)=-x/y=234/13433
+has v_2=1.
+Thus Q has exact order 4 modulo E_1(Q_2). The original formal group has a1=a3=0, so for v_2(z)>=1,
+v_2([2]z)=v_2(z)+1,
+while odd multiplication preserves v_2(z).
+Hence
+v_2(C_n)=0 if 4 does not divide n,
+and
+v_2(C_n)=v_2(n)-1 if 4|n.
+
+
+
+
+Subtracting proves the displayed e_2 formula.
+
+
+
+
+Together with M3-T11-069, the global normalization is now exactly
+boxed:
+|W_n|
+=
+C_n
+*2^(5*R_n(1,2)+R_n(1,4))
+*5^R_n(2,12)
+*7^R_n(1,3).
+
+
+
+
+No unspecified prime-valuation cancellation remains.
+
+
+
+
+POPULATION:
+The rank-one E2 Mordell-Weil sequence generated by Q, restricted downstream to the four M3-T11-067 live translated-lift progressions.
+
+
+
+
+DEPENDS_ON:
+M3-T11-067;
+M3-T11-068;
+M3-T11-069;
+Stange 2016, Definition 5.3, Theorem 6.1, Theorem 9.3, Theorem 10.1;
+exact W_2,W_3,W_4 and exact Q,2Q,3Q,4Q calculations.
+
+
+
+
+IMPLIES:
+The p=2 normalization obstruction of M3-T11-069 is closed. The next first attack is purely the normalized EDS unit-squareclass recurrence modulo 3,5,7 on the four live MW progressions, with epsilon=1 torsion reciprocity retained.
+
+
+
+
+ALIASES:
+X27Over40ExactTwoAdicTroublemakerNormalization;
+X27Over40FullyExplicitEDSNormalization;
+X27Over40P2NormalizationClosed.
+
+
+
+
+DUPLICATE_OF:
+none found under semantic rematch. M3-T11-069 only recorded an n<=20 diagnostic for the p=2 formula and explicitly withheld theorem credit. This card supplies the all-n proof.
+
+
+
+
+DO_NOT_REPEAT:
+Do not reopen the p=2 troublemaker valuation calculation.
+Do not reopen the already-closed p=5 or p=7 troublemaker valuations.
+Do not infer denominator unit characters from valuation normalization alone.
+Do not infer rational-point classification, fixed-power saving, primary theorem-gate closure, or P/M3 credit.
+
+
+
+
+REOPEN_CONDITION:
+Only if the Stange potential-multiplicative transfer, the exact low-index division-polynomial values, or the formal-kernel denominator calculation is retracted. Otherwise continue with the normalized unit recurrence on the four live MW progressions.
+
+
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 77.
+
+
+
+
+FLAGS:
+M3_T11_X_27_OVER_40_P2_TROUBLEMAKER_FORMULA_PROVED=true
+M3_T11_X_27_OVER_40_P2_DENOMINATOR_ROOT_EXACT=true
+M3_T11_X_27_OVER_40_ALL_BAD_PRIME_EDS_NORMALIZATION_EXACT=true
+M3_T11_X_27_OVER_40_GLOBAL_NORMALIZATION_FULLY_EXPLICIT=true
+M3_T11_X_27_OVER_40_NORMALIZED_UNIT_RECURRENCE_PROVED=false
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40FullyNormalizedEDSUnitRecurrenceOnFourMWSurvivorProgressions
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+RESEARCH_CARD=M3-T11-070
+## M3-T11-071
+ID:
+M3-T11-071
+TYPE:
+EXACT_LOCAL_STRUCTURE / MORDELL-WEIL CHARACTER INTERSECTION / THEOREM-GATE REFINEMENT
+TITLE:
+The p=5 denominator character is +1 on all four live Mordell-Weil progressions, including the torsion-shifted branches
+STATUS:
+PROVED_EXACT_P5_CHARACTER / ACTIVE CONTINUATION
+CLAIM:
+Retain M3-T11-066 through M3-T11-070. Let M=2656080 and let the four live translated-lift progressions be
+epsilon=0, n==+/-2 mod M,
+epsilon=1, n==+/-1 mod M.
+For the base points nQ, use the split multiplicative Tate model at p=5. The reduction is the split nodal cubic V^2=U^2(U-1), v_5(Delta)=12, and the Tate parameter q=5^12*q0 has q0==1 mod5. Choosing component valuation a=2 and applying Stange's Tate theta identity, the normalized EDS unit satisfies, for 6 not dividing n,
+( W_n/5^R_n(2,12) | 5 )
+=
+L^(n^2-1)*U0^[n(n-1)/2-n*floor(n/6)],
+where L and U0 are the two unit squareclasses coming from the minimal Tate isomorphism and the Tate point parameter. The exact value W_2/5^2=448==3 mod5 gives L*U0=-1. Hence the normalized EDS unit has character +1 on n==+/-1 mod M and -1 on n==+/-2 mod M.
+Combining this with M3-T11-070,
+|W_n|=C_n*2^e2(n)*5^R_n(2,12)*7^R_n(1,3),
+with e2 even on all four live classes and R_n(1,3) even on +/-1 but odd on +/-2, gives
+boxed:
+(C_n|5)=+1
+for the canonical denominator of U(nQ) on all n==+/-1,+/-2 mod M.
+For epsilon=1 the actual translated-lift point is nQ+T, so the M3-T11-066 reciprocal root transform must still be applied. On n==+/-1 mod M, Tate continuity and 5|(M/12) give
+U(nQ)/25 == U(+/-Q)/25 ==2 mod5.
+Thus v_5(A_n)=1 and
+(A_n/5)^2*C_n^(-2)==1 mod5,
+so (A_n/5|5)=(C_n|5)=+1. At p=3, n==+/-1 mod4 has the same nonsingular reduction as +/-Q with x==2 mod3, so 3 does not divide A_n. Therefore gcd(A_n,375)=5 and the torsion-shifted canonical denominator is exactly A_n/5. It also has character +1.
+Consequently, on the actual four translated-lift progressions,
+boxed:
+kappa5=(C|5)=+1.
+The M3-T11-066 delta router collapses to
+(-1)^e2=(C|3),
+(-1)^e7=(-1)^n*(C|3).
+Thus:
+- epsilon=0, n even, Packet III,d=9: (C|3)=+1 gives delta=1, while (C|3)=-1 gives delta=14;
+- epsilon=1, n odd, Packets I/II: (C|3)=+1 gives delta=7, while (C|3)=-1 gives delta=2.
+POPULATION:
+The exact x=27/40 translated-lift carrier restricted to the four M3-T11-067 live Mordell-Weil progressions.
+DEPENDS_ON:
+M3-T11-066;
+M3-T11-067;
+M3-T11-069;
+M3-T11-070;
+Stange 2016, Tate theta identity (9.3) and split multiplicative parametrization;
+exact E2 invariants and W_2=11200.
+IMPLIES:
+The p=5 unit-character branch is closed, including epsilon=1 torsion reciprocity. The local delta packet is now determined entirely by the p=3 denominator character. The first attack reduces to the p=3 denominator character on the four live progressions and the retained ramified-7 compatibility condition.
+ALIASES:
+X27Over40P5DenominatorCharacterAllLivePlus;
+X27Over40TateThetaP5CharacterClosure;
+X27Over40P5TorsionShiftCharacterClosure;
+X27Over40DeltaReducedToP3Character.
+DUPLICATE_OF:
+none found under semantic rematch. M3-T11-068 explicitly leaves global denominator-unit characters open, while M3-T11-069/070 close valuation normalization only. This card uses the split Tate theta unit, not reduction-kernel periodicity, and separately transports the result through the epsilon=1 reciprocal root map.
+DO_NOT_REPEAT:
+Do not reopen the p=5 denominator character on any of the four live progressions.
+Do not confuse the base denominator C_n of U(nQ) with the epsilon=1 translated denominator; the latter is covered by the exact gcd=5 reciprocal step above.
+Do not infer the p=3 character or the ramified-7 condition from this p=5 closure.
+Do not promote rational-point classification, fixed-power saving, primary theorem-gate closure, or P/M3 credit.
+REOPEN_CONDITION:
+Only if the split multiplicative Tate identification at p=5, the M3-T11-070 normalization, or the M3-T11-066 torsion-root reciprocity is retracted. Otherwise continue with p=3 and ramified-7 compatibility, or either retained global closure route.
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 78.
+FLAGS:
+M3_T11_X_27_OVER_40_P5_DENOMINATOR_CHARACTER_ALL_LIVE_PLUS=true
+M3_T11_X_27_OVER_40_P5_TORSION_SHIFT_CHARACTER_CLOSED=true
+M3_T11_X_27_OVER_40_DELTA_REDUCED_TO_P3_CHARACTER=true
+M3_T11_X_27_OVER_40_NORMALIZED_UNIT_RECURRENCE_PROVED=false
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40P3DenominatorCharacterThenRamified7CompatibilityOnFourMWSurvivorProgressions
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+RESEARCH_CARD=M3-T11-071
+## M3-T11-072
+ID:
+M3-T11-072
+TYPE:
+EXACT_CHARACTER_LAW / NEGATIVE_RESULT / FIREWALL / THEOREM-GATE REFINEMENT
+TITLE:
+The p=3 base denominator character is a Sturmian real-sign law, not a constant Mordell-Weil progression character
+STATUS:
+PROVED_EXACT_BASE_CHARACTER_LAW / EPSILON1 TORSION-ROOT CHARACTER OPEN
+CLAIM:
+Retain M3-T11-067 through M3-T11-071. For W_n=psi_n(Q), exact residues modulo3 give rank of apparition 4 and Ward symmetry constants a_3=1, b_3=2, hence
+W_(n+4h)==W_n*(-1)^h mod3.
+Since M=2656080 has M/4=664020 even,
+W_(n+M)==W_n mod3.
+Thus on n==n0 modM the signed residue is fixed as
+rho(+1)=rho(+2)=+1,
+rho(-1)=rho(-2)=-1.
+By M3-T11-069/070 all explicit normalization factors have square character modulo3 on the live classes: e2 is even, R_n(2,12) is even, and 7==1 mod3. Hence
+(C_n|3)=(|W_n||3)
+for the canonical denominator of U(nQ).
+The real curve E2(R) is connected because U^2+1244U+562500 has discriminant -702464<0, and Q is non-torsion. Silverman-Stephens' EDS sign theorem therefore supplies a fixed sigma in {+1,-1} and an irrational beta such that
+sign(W_n)=sigma^(n-1)*(-1)^floor(n*beta).
+Consequently the exact base denominator law on every live class is
+boxed:
+(C_n|3)=rho(n0)*sigma^(n-1)*(-1)^floor(n*beta),
+for n==n0 modM, n0 in {+1,-1,+2,-2}.
+Since M is even and M*beta is irrational, floor((n0+kM)*beta) mod2 takes both parities infinitely often. Therefore (C_n|3) takes both +1 and -1 infinitely often on every ambient live MW progression.
+For epsilon=0 this is already the actual translated-root denominator character. It proves that no constant p=3 character, and hence no constant delta in {1,14}, can be assigned to an entire even progression before the translated-lift condition is imposed.
+For epsilon=1 this theorem controls the base denominator C_n of U(nQ), not the reciprocal translated denominator A_n/g. The additional positive-root sign in the torsion transform remains open.
+POPULATION:
+The rank-one E2 Mordell-Weil sequence on the four M3-T11-067 live residue classes; translated-lift interpretation is exact for epsilon=0 and is a base-coordinate statement only for epsilon=1.
+DEPENDS_ON:
+M3-T11-056;
+M3-T11-067;
+M3-T11-069;
+M3-T11-070;
+M3-T11-071;
+Ward's finite-field EDS symmetry formula;
+Silverman-Stephens, The Sign of an Elliptic Divisibility Sequence, Theorem 4.
+IMPLIES:
+The remaining p=3 obstruction is not signed-EDS periodicity: that part is already closed. It is the archimedean sign required by the positive denominator normalization, together with the epsilon=1 positive-root sign after torsion reciprocity. A legal continuation must keep the Sturmian sign law and intersect it with torsion-root sign, ramified-7 compatibility, or the global delta-resolved packet. Pure p-adic reduction-class or finite signed-EDS periodicity cannot close the branch.
+ALIASES:
+X27Over40P3BaseDenominatorSturmianLaw;
+X27Over40P3SignedEDSPeriodM;
+X27Over40P3ConstantProgressionFirewall;
+X27Over40ArchimedeanSignNormalizationObstruction.
+DUPLICATE_OF:
+none found. M3-T11-068 rejects bad-prime quotient-order determination of denominator unit characters, but does not identify the missing global bit. This card identifies that bit at p=3 as the real EDS sign and proves nonconstancy on each M-progression.
+DO_NOT_REPEAT:
+Do not seek a constant value of (C_n|3) on n==n0 modM.
+Do not infer the positive denominator character from the signed residue W_n mod3 alone.
+Do not apply the base C_n law directly to epsilon=1 after adding T; its denominator is A_n/g and the root-sign transfer remains open.
+Do not claim that both delta values occur among translated-lift solutions; only the ambient MW progression has both p=3 character values infinitely often.
+Do not promote rational-point classification, fixed-power saving, primary theorem-gate closure, or P/M3 credit.
+REOPEN_CONDITION:
+Only if the retained rank-one EDS, Ward mod-3 symmetry, or Silverman-Stephens sign theorem is inapplicable. Otherwise continue by controlling the epsilon=1 positive-root sign and/or intersecting the exact Sturmian p=3 law with ramified-7/global packet conditions.
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 79.
+FLAGS:
+M3_T11_X_27_OVER_40_P3_SIGNED_EDS_PERIOD_M=true
+M3_T11_X_27_OVER_40_P3_BASE_DENOMINATOR_STURMIAN_LAW=true
+M3_T11_X_27_OVER_40_P3_BASE_CHARACTER_NONCONSTANT_EACH_LIVE_PROGRESSION=true
+M3_T11_X_27_OVER_40_P3_CONSTANT_PROGRESSION_SHORTCUT_REJECTED=true
+M3_T11_X_27_OVER_40_EPSILON1_ACTUAL_P3_ROOT_CHARACTER_PROVED=false
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40P3SturmianTorsionRootSignAndRamified7Compatibility
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+RESEARCH_CARD=M3-T11-072
+
+
+
+
+## M3-T11-073
+ID:
+M3-T11-073
+TYPE:
+EXACT_LOCAL_STRUCTURE / FIREWALL / THEOREM_GATE REFINEMENT
+TITLE:
+Ramified-7 is exactly routed on the four live Mordell-Weil progressions and its compatibility is automatic
+STATUS:
+PROVED_EXACT / RAMIFIED-7 SUBROUTE CLOSED / GLOBAL CLASSIFICATION OPEN
+
+
+CLAIM:
+Retain M3-T11-066 through M3-T11-072. On
+E2: V^2=U*(U^2+1244U+562500),
+Q=(50,5600),
+T=(0,0),
+M=2656080,
+the four live translated-lift progressions are
+epsilon=0, n==+/-2 mod M,
+epsilon=1, n==+/-1 mod M.
+
+
+The M3-T11-066 ramified condition
+7|a iff v_7(U(nQ+epsilon*T)-2500)>=3
+is routed exactly as follows:
+- on both epsilon=0 progressions it is always true;
+- on both epsilon=1 progressions it is always false.
+
+
+More precisely, with z=-U/V,
+z(3Q)=-7/368 and
+v_7(z(mQ))=1+v_7(m)
+for nonzero 3|m.
+The exact translated formal expansions imply
+v_7(U(nQ)-2500)=2+v_7(n-2)
+for n==2 mod3, n!=2,
+and
+v_7(U(nQ)-2500)=2+v_7(n+2)
+for n==1 mod3, n!=-2,
+with +infinity at n=+/-2.
+Since 7|M, epsilon=0 is therefore always ramified.
+
+
+For epsilon=1, the +/-Q expansion gives
+v_7(U(nQ)-225)=1.
+Using U(nQ+T)=562500/U(nQ),
+one gets exactly
+v_7(U(nQ+T)-2500)=1,
+so epsilon=1 is never ramified.
+
+
+On the two epsilon=0 progressions the compatibility itself is also automatic. At p=7 the model has split multiplicative type I_3 and Tate unit
+q/7^3 == -1 mod7.
+Tate-theta normalization gives
+chi_7(W_n/7^R_n(1,3))=+1
+for n==+2 mod M,
+and
+chi_7(W_n/7^R_n(1,3))=-1
+for n==-2 mod M.
+After the already-closed global normalization,
+(C_n|7)=rho7(n0)*sign(W_n),
+rho7(+2)=+1,
+rho7(-2)=-1.
+M3-T11-072 gives
+(C_n|3)=rho3(n0)*sign(W_n)
+with the identical rho3 values. Hence
+(C_n|7)=(C_n|3)
+identically on both even live progressions, exactly matching the M3-T11-066 ramified relation because n is even and M3-T11-071 gives kappa5=+1.
+
+
+Therefore ramified-7 contributes no additional pruning on the four live progression sieve locus and is removed from the unresolved first attack.
+
+
+POPULATION:
+Exact x=27/40 translated-lift carrier restricted to the four M3-T11-067 Mordell-Weil progressions.
+
+
+DEPENDS_ON:
+M3-T11-066;
+M3-T11-067;
+M3-T11-069;
+M3-T11-070;
+M3-T11-071;
+M3-T11-072;
+exact points Q, 2Q, 3Q;
+7-adic formal group on E2;
+split Tate theta normalization at p=7.
+
+
+IMPLIES:
+The first attack splits cleanly:
+- epsilon=0: use the M3-T11-072 Sturmian p=3 character and its delta in {1,14} directly in the delta-resolved H*K/global packet; there is no independent ramified-7 filter left.
+- epsilon=1: ramified-7 is absent; determine the actual reciprocal-root p=3 character of A_n/5, then use delta in {7,2} in the same global packet.
+
+
+ALIASES:
+X27Over40Ramified7LiveProgressionRouter;
+X27Over40Ramified7CompatibilityAutomaticEven;
+X27Over40P7P3SignedEDSMatch;
+X27Over40SturmianDeltaHKIntersectionWithEpsilon1TorsionRootSign.
+
+
+DUPLICATE_OF:
+none found under semantic rematch. M3-T11-066 identifies the generic ramified condition and compatibility but does not decide whether it occurs on the four M3-T11-067 progressions. M3-T11-069 gives only valuation normalization, and M3-T11-072 treats p=3, not the p=7 Tate-unit compatibility.
+
+
+DO_NOT_REPEAT:
+Do not carry ramified-7 as an unresolved obstruction on the four live M3-T11-067 progressions.
+Do not search for a ramified-7 condition on epsilon=1; it is exactly absent.
+Do not claim the epsilon=0 ramified relation prunes points; it is an identity after the p=7 and p=3 normalized EDS laws are matched.
+Do not reopen p=5 or any valuation-normalization work.
+Do not infer rational-point classification, fixed-power saving, primary theorem-gate closure, or P/M3 credit.
+
+
+REOPEN_CONDITION:
+Only reopen ramified-7 if one of the exact inputs M3-T11-066/067/069/070/071/072 or the formal/Tate calculation in this card is retracted. Otherwise continue with the delta-resolved H*K/global packet, with the epsilon=1 reciprocal-root p=3 sign as the remaining local-character gap.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE, Section 80.
+
+
+FLAGS:
+M3_T11_X_27_OVER_40_RAMIFIED7_LIVE_ROUTER_PROVED=true
+M3_T11_X_27_OVER_40_RAMIFIED7_EPSILON0_ALWAYS=true
+M3_T11_X_27_OVER_40_RAMIFIED7_EPSILON1_NEVER=true
+M3_T11_X_27_OVER_40_P7_SIGNED_EDS_UNIT_EVEN_LAW=true
+M3_T11_X_27_OVER_40_RAMIFIED7_COMPATIBILITY_AUTOMATIC_EVEN=true
+M3_T11_X_27_OVER_40_RAMIFIED7_ADDS_NO_PRUNING_ON_FOUR_LIVE=true
+M3_T11_X_27_OVER_40_EPSILON1_ACTUAL_P3_ROOT_CHARACTER_PROVED=false
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X27_FIRST_ATTACK=X27Over40SturmianDeltaHKIntersectionWithEpsilon1TorsionRootSign
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty
+RESEARCH_CARD=M3-T11-073
+
+
+
+
+## M3-T11-074 — torsion-shifted p=3 EDS normalization closes the epsilon=1 reciprocal-root character
+ID:
+M3-T11-074
+
+
+TYPE:
+EXACT_STRUCTURE / FIREWALL
+
+
+STATUS:
+PROVED_EXACT
+
+
+CLAIM:
+Let Q_T=Q+T=(11250,-1260000) on
+E2: V^2=U*(U^2+1244U+562500).
+On the epsilon=1 live Mordell-Weil classes n==+/-1 mod M, M=2656080, n is odd and
+nQ+T=nQ_T.
+The canonical positive root denominator C_n^T of U(nQ_T) is exactly the formerly open reciprocal denominator A_n/5.
+
+
+For W_n^T=psi_n(Q_T), the exact all-prime normalization is
+|W_n^T|
+=
+C_n^T
+*2^(5*R_n(1,2)+R_n(1,4))
+*3^R_n(2,4)
+*5^R_n(4,12)
+*7^R_n(1,3).
+
+
+At p=3, after unramified splitting of the nonsplit I_4 reduction and exact Tate-theta normalization,
+W_n^T/3^R_n(2,4)
+==(-1)^((n-1)/2) mod3
+for every odd n.
+
+
+Hence on n==n0 modM, n0 in {+1,-1},
+(C_n^T|3)
+=
+rho_T(n0)*sign(W_n^T),
+rho_T(+1)=+1,
+rho_T(-1)=-1.
+
+
+Because E2(R) is connected and Q_T is non-torsion, there are fixed sigma_T in {+1,-1} and irrational beta_T such that
+sign(W_n^T)=sigma_T^(n-1)*(-1)^floor(n*beta_T).
+Therefore
+(A_n/5|3)
+=
+rho_T(n0)*sigma_T^(n-1)*(-1)^floor(n*beta_T)
+on the epsilon=1 live classes.
+
+
+Both p=3 character values occur infinitely often on each ambient epsilon=1 progression. The pointwise delta is
+(C_n^T|3)=+1 => delta=7,
+(C_n^T|3)=-1 => delta=2.
+
+
+POPULATION:
+Exact x=27/40 translated-lift carrier restricted to epsilon=1, n==+/-1 mod 2656080, together with the ambient rank-one Mordell-Weil progressions used by the retained sieve.
+
+
+HEIGHT:
+Inherited exact physical Stage37 height/reconstruction conditions. This card changes no height measure and gives no counting exponent by itself.
+
+
+DEPENDS_ON:
+M3-T11-066;
+M3-T11-067;
+M3-T11-069;
+M3-T11-070;
+M3-T11-071;
+M3-T11-072;
+M3-T11-073;
+the exact torsion identity U(P+T)=562500/U(P);
+the retained Silverman-Stephens EDS sign theorem.
+
+
+IMPLIES:
+The epsilon=1 reciprocal-root p=3 character gap is closed exactly.
+Together with M3-T11-072 and M3-T11-073, all local character gaps on the four live MW progressions are closed.
+The active first attack becomes the global intersection of the two exact Sturmian delta laws with the retained u*v=H*K, gcd(H,K)|7, principal-factor/squareclass packet.
+
+
+ALIASES:
+X27Over40ShiftedEDSGenerator;
+X27Over40Epsilon1P3SturmianRootCharacter;
+X27Over40ReciprocalRootP3Closure;
+X27Over40TwoSturmianDeltaHKGlobalPacketIntersection.
+
+
+DUPLICATE_OF:
+none found under semantic rematch. M3-T11-072 controls the base-Q denominator only and explicitly leaves the epsilon=1 reciprocal-root sign open. M3-T11-066 supplies only the reciprocal coordinate transform. M3-T11-073 closes ramified-7 but leaves this p=3 gap open.
+
+
+SUPERSEDES:
+the unresolved 
