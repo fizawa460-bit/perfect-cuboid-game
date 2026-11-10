@@ -1,0 +1,44 @@
+{
+  "schema": "DRIVE_TEXT_BUNDLE_V1",
+  "folder": "https://drive.google.com/drive/folders/1MFh08y2Z7HEy3PtZLuQjkwrZHtfnL1is",
+  "read_only_snapshot": true,
+  "batch": 0,
+  "files": [
+    {
+      "title": "00_INDEX.md",
+      "id": "14--HCctcqk6x_34VMzQ669MKn82wK5cD",
+      "url": "https://drive.google.com/file/d/14--HCctcqk6x_34VMzQ669MKn82wK5cD/view?usp=drivesdk",
+      "mime": "text/markdown",
+      "size": 3884,
+      "modified": "2026-10-02T20:46:08.266Z",
+      "content": "# CAMPEDELLI-UNIFORM-TORSOR 作業フォルダ — INDEX（最新）\n\n対象: `K16-C3-CAMPEDELLI-UNIFORM-TORSOR` / 受け皿 `R29-CAMP2`\n基準: Stage36 / `36-09FE` からの続き\n**最終更新:** ログ0Cまで反映（2026-10-02）\n\n## ファイルの命名規則\n\n- `NN_LOG_...md` : 作業ログ。やった順に番号を増やす。1ステップ1ファイル。後から書き換えない（訂正は新しい番号のログで行う）。\n- **番号は2桁の36進（0-9 のあとに A-Z）：** `00, 01, ... 09, 0A, 0B, ... 0Z, 10, 11, ... 19, 1A, ... 1Z, 20, ...`\n- `NN_REVIEW_BUNDLE_...md` : 外部査読用の自己完結ファイル（他のAI・人に貼る用）。\n- `CAMPEDELLI_WORKING.md` : 作業用（ログ0C で更新済み）。\n- `CAMPEDELLI_RESULTS.md` : 成果まとめ（R-1〜R-14）。\n- `code_*.py` : 計算スクリプト（ログから参照）。\n- **更新の方法（2026-10-02 に確認）：** Drive のコネクタの `update_file` は、現在もタイトルと親フォルダの変更だけで、中身は書き換えられない。更新が必要なものは、旧版を `_vN_old` に改名して新版を同名で作る。\n\n## 運用ルール\n\n- 数値走査の結果は「調査到達点」であり、無限性の証明ではない。ログにそう書く。\n- 「証明案」と「確立した結果」を混ぜない。RESULTS への昇格は、外部査読の後。昇格した項目には検証の水準を書く。\n- 結果の記録は、命題・前提・「含意しないこと」をセットで書く。\n\n## ログ一覧（新しいものを下に追加）\n\n| 番号 | 内容 | 状態 |\n|---|---|---|\n| 01 | 1ファイルを WORKING / RESULTS に分割 | 完了 |\n| 02 | 種17の強制CRT枝の走査（`j<5,000,000`、実現77個） | 完了（数値のみ） |\n| 03 | 36-09EP/EY/FA/FB を読み、Sel2 を独立実装して FB の診断を再現 | 完了 |\n| 04 | `(1,e)∈Sel2 ⇔ B=+1` の証明案 | R-14 に統合 |\n| 05 | 記号モデルと `2^17` 通りの網羅（`dim=2/4` の二分性） | R-14 に昇格 |\n| 06 | 36-09EM/EN との照合（局所像の公式が既存の定理と一致） | 完了 |\n| 07 | Sel2 の三部グラフ簡約、偶奇・下界、因数形の二分性の手計算 | R-11, R-12, R-14 に昇格 |\n| 08 | 種素数による強制の効果：対角セクターの補題、`dim Sel2=2` の薄さの評価 | 補題は R-13 に昇格、薄さは WORKING |\n| 09 | 命題 T と補題の自己検算、外部査読用ファイルの作成 | 完了 |\n| 09（成果物） | `09_REVIEW_BUNDLE_for_external_AI.md`（v2 が最新、v1 は `_v1_old`） | 査読1回済み |\n| 0A | 外部査読1回目の取り込みと訂正 | 完了 |\n| 0B | RESULTS への昇格（R-11〜R-14） | 完了 |\n| 0C | WORKING の更新（ログ05〜0B を反映、W-7 は昇格済み、W-8 に薄さの評価） | 完了 |\n\n## 現在の状態（要約）\n\n- **確立した結果（RESULTS R-11〜R-14、水準：AI査読1回通過、人手の確認なし、局所像は 36-09EM/EN の借用）：** 進行 `u≡17627 (mod 34440)` 上の任意の u で `dim Sel² = 1 + nullity(Adj G)`（三部グラフ）。偶奇・下界、`dim=2` の必要条件。対角セクターの補題（41 は常時、種17は強制枝のみ）。因数形の二分性（B=-1→2、B=+1→4）。\n- **WORKING にあるもの：** `dim Sel²=2` の薄さ（数値、ヒューリスティック）、ブロックされた道、未解決の点、検討メモ。\n- **未解決：** `dim Sel²=2` となる u が無限にあるか。`dim Sel²=4` のときの rank。人手の確認。\n\n## 次の一段（候補）\n\n- 0D. `dim Sel²=4` の場合に rank を決める道（Cassels–Tate 対）が三部グラフの言葉で書けるか。\n- 第2の外部査読（薄さのヒューリスティック、CT 対の書き方、または人手の確認）。\n"
+    },
+    {
+      "title": "01_LOG_split_working_results.md",
+      "id": "1ubcQS8ckeQl5XG21WMq2NBwg7FW28mYJ",
+      "url": "https://drive.google.com/file/d/1ubcQS8ckeQl5XG21WMq2NBwg7FW28mYJ/view?usp=drivesdk",
+      "mime": "text/markdown",
+      "size": 1091,
+      "modified": "2026-10-01T22:07:32.838Z",
+      "content": "# 01_LOG — 1ファイルを WORKING / RESULTS に分割\n\n**日付:** 2026-10-01\n**入力:** `CAMPEDELLI-UNIFORM-TORSOR_stage36_handoff_EN.md`（36-09FE 時点の自己完結ハンドオフ）\n\n## やったこと\n- 成果（確立した命題）と、未解決・ブロック・非含意を分離。\n- `CAMPEDELLI_RESULTS.md`：R-1〜R-10（商と H-torsor、一方向の含意、Q上の対称性、点ごとの持ち上げ類、固定pの除外基準、Sel2の組合せ行列、K=729の族、1ビット→Frobenius→CRT、再利用構造、閉包フラグ）。\n- `CAMPEDELLI_WORKING.md`：W-1 現在の前線、W-2 ブロックされた道、W-3 未解決、W-4 含意しないこと、W-5 メモ欄、昇格ログ、Drive出典リンク。\n\n## 判断したこと\n- 「36-09FE の有限整合性」は確立済みとして RESULTS、「無限に成り立つか」は未解決として WORKING。\n- 昇格基準：正確な命題として書け、穴や反例の指摘に耐えたものだけ。\n\n## 含意しないこと\n- 分割は整理であり、数学的内容の追加はない。\n"
+    },
+    {
+      "title": "02_LOG_forced_crt_scan.md",
+      "id": "1Mv2izXjdpnluHyKL-HG5vE8ynlpAcfgD",
+      "url": "https://drive.google.com/file/d/1Mv2izXjdpnluHyKL-HG5vE8ynlpAcfgD/view?usp=drivesdk",
+      "mime": "text/markdown",
+      "size": 1339,
+      "modified": "2026-10-01T22:07:40.365Z",
+      "content": "# 02_LOG — 種17の強制CRT枝の走査\n\n**日付:** 2026-10-01\n**コード:** `code_scan_campedelli_factor_shape.py`\n\n## 設定\n- `u = 17627 + 34440 j`、`j ≡ 6, 9 (mod 17)`（種17の強制CRT枝）\n- 36-09FB の因数形：`d=u, f=2u+729, e=4u+729` がそれぞれ素数（≡3,7,5 mod 8）、`P/7` が相異なる2素数（≡1 mod 8、mod 3 のラベル条件つき）、`|Q|/41` が相異なる2素数（≡7 mod 8）。\n- 範囲：`0 ≤ j < 5,000,000`\n\n## 結果（数値のみ）\n- 完全な実現 **77個**（`j<400000` で15個、`400000≤j<5000000` で62個）。\n- 36-09FE の表の4例（j=1029, 19117, 47691, 73259）を独立に再検証：一致。\n- 77個すべてで `B=(p1/e)=(p2/e)=-1`、すべて `17` が `P/7` の素因子。36-09FC の「型(2,2) → B=-1」と整合。反例なし。\n- 失敗の内訳（`400000≤j<5000000`）：`s` が2素数の積でない 2871件、`t` が2素数の積でない 219件、mod 8 の不成立 44件。実現が少ない主因は `s` の因数分解の形。\n\n## 分かったこと\n- この枝は種17で `F` が型(2,2)になるよう強制しているため、**B=+1 は構造上現れない**。\n\n## 含意しないこと\n- 有限個の実現の列挙は、無限性の証明ではない。実現数が素数定理型の見込みに合うかの定量比較は未了。\n"
+    },
+    {
+      "title": "03_LOG_sel2_independent_impl.md",
+      "id": "1QvXl1NKnVsCG4iwENTDxYNbQAYFE3G21",
+      "url": "https://drive.google.com/file/d/1QvXl1NKnVsCG4iwENTDxYNbQAYFE3G21/view?usp=drivesdk",
+      "mime": "text/markdown",
+      "size": 1445,
+      "modified": "2026-10-01T22:07:49.192Z",
+      "content": "# 03_LOG — Sel2 の独立実装と FB 診断の再現\n\n**日付:** 2026-10-01\n**読んだ資料（Drive）:** 36-09EP（Sel2 行列の定義）、36-09EY、36-09FA、36-09FB\n**コード:** `code_sel2_rho.py`\n\n## 実装\n- 曲線 `E: y^2 = X(X-P^2)(X-Q^2)`、`P=a^2+2ab-b^2`, `Q=a^2-2ab-b^2`（`a=2u, b=2u+729`）。\n- 全 2-Selmer を F2 線形代数で計算。生成元は `-1, 2` と S の奇素数（n=12、24×24 行列）。\n- 局所像：\n  - v|P：`(ν,ν)` と、v≡3 (mod 4) なら `(1,ν)`、v≡1 (mod 4) なら `(v,v)`\n  - v|Q：`(ν,1)` と、v≡3 (mod 4) なら `(1,ν)`、v≡1 (mod 4) なら `(v,1)`\n  - v|D（ラベルD）：`{1}×(Q_v^*/sq)` 全体\n  - v=2：点の探索で計算（像の次元は3）\n  - ∞：`(+,-)` で生成される次元1\n  （ν は非平方の単数。`E(Q_v)/2E(Q_v)` の位数が `|E(Q_v)[2]|=4`（v奇）であることを使い、点を具体的に挙げて次元を確定。）\n\n## 結果\n- 36-09FA/FB の実現例で `dim=2`（rank 22）を再現。\n- 進行全体の `j<200000` の因数形実現 **43例**：\n  - `B=-1` の25例は `dim=2`（rank 22）\n  - `B=+1` の18例は `dim=4`（rank 20）\n  - 36-09FB の診断（25/25、18/18）と完全に一致。\n- 前に「B=+1 は未調査」とした記述は誤りだった（FB に診断があった）。WORKING を訂正済み。\n\n## 注意\n- 局所像の公式は手導出で、36-09EM との照合は未了（ログ06の予定）。\n"
+    }
+  ]
+}
