@@ -1,3 +1,14 @@
+> **External Drive checkpoint (2026-11-10, NOT an audited mathematical promotion).**
+> Before using this legacy Stage36 controller to resume work, read
+> `stages/stage36/DRIVE-RECONCILIATION.json` and `stages/stage36/DRIVE-RECONCILIATION.md`.
+> They record Stage38's October closure, Stage36's subsequent 36R restart,
+> and 36R-06's **provisional parking**. The legacy `MAIN-STATE.json` and
+> its frozen `36-09FF` pointer preserve earlier GitHub history, **not** the
+> newest Drive research routing. Do not enter `36-09FF` from that pointer
+> without independent review of 36R and an explicit current-main integration
+> decision. This external checkpoint changes no Stage36 theorem, source lock,
+> claim credit, or receiver/endpoint flags.
+
 # Stage36 MAIN constitution — Campedelli uniform H-torsor arithmetic
 
 Stage36 is the dedicated attack on the Stage29 Class-3 kernel
@@ -13,9 +24,10 @@ After confirming the live branch/PR head with the GitHub connector, read only:
 
 1. `AGENTS.md`
 2. this file
-3. `stages/stage36/MAIN-STATE.json`
-4. `stages/stage36/MAIN-BATCH-HANDOFF.md`
-5. only the immediate files named by `current_leaf_working_set`
+3. `stages/stage36/DRIVE-RECONCILIATION.json` and `.md` (external status mirror; no proof promotion)
+4. `stages/stage36/MAIN-STATE.json` (frozen historical GitHub authority)
+5. `stages/stage36/MAIN-BATCH-HANDOFF.md`
+6. only the immediate files named by `current_leaf_working_set` **when a current legal leaf is explicitly released**
 
 This list is the sole routine Stage36 startup enumeration authority.
 
