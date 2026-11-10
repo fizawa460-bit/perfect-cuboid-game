@@ -1,0 +1,61 @@
+﻿STAGE37-NEW-INPUT-DELTA-AUDIT-229HI-A46 — EXACT DISCRIMINANT-MONOTONE QUARTIC ANGULAR EXCLUSION FOR VALID HI150 SOURCE
+2026-10-12 JST. CURRENT=A46; PREVIOUS=A45 row726; CARD-INDEX SOURCE ROW727. CARD_ID=1NcEj6UypGhpELD_oL0xAoYDZJGrXcSQQBWOUFv3xSHo.
+STATUS=PROVED_SCOPED_ALL_HEIGHT_TRUE_ORIGINAL_ONE_VALID_HI150_KEY_NEW_1633_FIRST_PAIR_SUPPORT_ZERO / NOT_GLOBAL_COUNT / CREDIT0_GATE_OPEN_HOLD.
+MATHEMATICAL OBJECT AND STRICT SCOPE
+Original SAME-P positive primitive integral four-square perfect-cuboid candidate with three integral face diagonals plus integral space diagonal, R=pqr<=B, distinct split rational primes 5<=p<q<r, in validated canonical414/HI remaining150/FJ330 signed key 000.011.102:0 ONLY. Primitive Gaussian p²=a²+b², q²=c²+d², r²=h²+w², a,c,h positive odd, b,d,w positive divisible by4. The original HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/K-null/EX, positivity, primitivity, and physical R-height are retained as filters; this result excludes an entire valid signed necessary-source angular packet before any third-prime/selector enumeration. It neither certifies occupied original P nor covers the other 149 HI keys, other FJ330, omega>=4, repeated powers, or any source-map external hostile audit.
+RETAINED NECESSARY EQUATION (A40 ROW721)
+t=b/a>0, X=d/c>0, Y=w/h>0, u=tX=bd/(ac)>0. The genuine signed source satisfies
+f(Y)=(t²+u)Y²+[u(u-2)/t-t]Y+u(u-1)=0.
+A40 previously excluded W1:u>=2 or W2:t>=1 and u>=3/2 at every third-prime height. Its exact 8192<=p<q<16384 prime-angle first-pair shell has 432 split p, 93096 pairs, old excluded union 36124; original selected full P occupancy was already finitely zero by A37 and is NOT counted anew.
+NEW ALL-HEIGHT THEOREM A46.1
+In addition to A40, all ORIGINAL physical P assigned this one true signed source are impossible whenever t>=1, 13/10<=u<2, and
+P(u):=u^4-8u^3+2u²+8u+1<0.
+Equivalent all-integer test: b>=a, 10bd>=13ac, bd<2ac, and
+(bd)^4-8(bd)^3(ac)+2(bd)^2(ac)^2+8(bd)(ac)^3+(ac)^4<0.
+In particular this excludes a new positive-width subwedge with approximately 1.3032254<u<1.5, t>=1, beyond A40's t>=1/u>=1.5 wedge. NO existence or rationality claim for any surviving angles.
+PROOF (REAL POSITIVITY, EXACT)
+For 1<u<2 the quadratic f=AY²+BY+C has A=t²+u>0,C=u(u-1)>0 and B=-t-u(2-u)/t<0. Its discriminant is
+D(t,u)=(1+4u-4u²)t²+(4u+2u²-4u³)+u²(2-u)²/t².
+For u>=13/10, 1+4u-4u²<0. Therefore t>=1 implies D(t,u)<=D(1,u) (both t² term and positive 1/t² term weakly decrease when t grows). Direct expansion D(1,u)=P(u). If P(u)<0 then D(t,u)<0 for every t>=1 and there is NO real Y; in particular no positive rational primitive signed third Gaussian leg and no original selected physical P at ANY third-prime height. Strict and all-integer. This strengthens a nonfinite zero-sector of A40, NOT an occupied-point asymptotic.
+EXECUTED EXACT PRIME-PAIR SUPPORT TEST
+Use A40 identical shell 8192<=p<q<16384, p,q≡1(mod4), unique canonical p=u0²+v0² with u0>v0>0, p²=a²+b² a=u0²-v0²>0,b=2u0v0. Exhaustive sieve 432 primes / 93096 first pairs. Old A40 W1 count32672, W2 count30119, old union36124. NEW exact union of old W1/W2 plus A46 quartic condition=37757; EXACT 1633 previously non-excluded first-pair Gaussian angle inputs become all-height physically EMPTY for this valid one key; remaining angle supports55339. Fraction excluded 37757/93096=40.557059%; improvement 1633/93096=1.754103 percentage points. These are NOT 1633 original P points, NOT 1633 newly proved globally absent points, NOT an actual occupancy proportion. All corresponding finite original physical P are already zero under A37; the novelty is exact ALL-HEIGHT real-angle SOURCE constraint.
+REPRODUCIBLE PYTHON3 (NO EXTERNAL LIBRARY / EXACT INTEGER COMPARISONS)
+from math import isqrt
+def split_primes(lo,hi):
+    s=bytearray(b'\x01')*hi;s[0:2]=b'\x00\x00'
+    for k in range(2,isqrt(hi-1)+1):
+        if s[k]:s[k*k:hi:k]=b'\x00'*len(range(k*k,hi,k))
+    return [p for p in range(lo,hi) if s[p] and p%4==1]
+def legs(p):
+    for v0 in range(1,isqrt(p//2)+2):
+        z2=p-v0*v0
+        if z2<=0: break
+        u0=isqrt(z2)
+        if u0*u0==z2 and u0>v0 and u0%2!=v0%2:
+            return u0*u0-v0*v0,2*u0*v0
+    raise ValueError(p)
+L=split_primes(8192,16384)
+assert len(L)==432
+n1=n2=old=new=added=0
+for i,p in enumerate(L):
+    a,b=legs(p)
+    for q in L[i+1:]:
+        c,d=legs(q);v=b*d;w=a*c
+        w1=v>=2*w
+        w2=b>=a and 2*v>=3*w
+        quartic=v**4-8*v**3*w+2*v*v*w*w+8*v*w**3+w**4
+        extra=b>=a and 10*v>=13*w and v<2*w and quartic<0
+        n1+=w1;n2+=w2;old+=w1 or w2;new+=w1 or w2 or extra
+        added+=(not (w1 or w2)) and extra
+assert len(L)*(len(L)-1)//2==93096
+assert (n1,n2,old,new,added)==(32672,30119,36124,37757,1633)
+INDEPENDENT DISCRIMINANT CHECK
+Using Fraction(b,a),Fraction(d,c), all 1633 newly excluded pair instances independently tested f discriminant B²-4AC EXACTLY <0 (PASS 1633/1633). This is a check only; global theorem above has no finite cutoff.
+LOOP / STRATEGY AUDIT
+Canonical CARD-INDEX all prior source rows2:726 scanned across mathematical-object/method/barrier labels (Q/R/S, E:I); targeted predecessors A37-A42 rows718:723, A43-A45 rows724:726, old 229AR row509, T11-207 row436, 229CY row568 and NEGATIVE HOLD/RETRACTED (DT/DU/GW/GZ invalid independent local sieve and A36 row717 invalid noncanonical 414). Key equality and f equation reproduced from A40 row721; A40 already proved t>=1/u>=3/2 zero, so NO re-credit of old union36124. A41 norm factor height and A42 mod27 rule are different restrictions; no multiplication of their densities. A43-A45 finite 2-face+space CORE does not impose true third face and cannot be counted as original P; new angle exclusion instead attacks genuine four-square source all-height. Prior last20 A26..A45 show no global one-third endpoint exponent improvement; alternatives Wminus high-support and finite cutoff and local sieve compared, and new nonfinite discriminant-monotonic angular exclusion executed. No formal route change.
+REMAINING OPEN COUNTING BARRIER
+The balanced angle complement for this ONE valid key remains 55339/93096 first-pair supports on test shell; NO bound for actually occupied original GOOD(p,r)=o(Q) jointly with D-square integer condition, primitive third Gaussian r norm, original masks and R<=B. The other149 HI keys, other FJ330, omega>=4 and repeated prime powers remain unclosed. New angular support elimination is a genuine all-height scoped obstruction, but does NOT prove full #P(B)=o(B^(1/3)) or GLOBAL_COUNTING_CREDIT>0.
+NEXT
+On the remaining balanced same-P HI150 key000.011.102:0 complement, combine exact A37 integer D-square with A41 r|(uc-vd)(vc+ud), the positive primitive signed third Gaussian norm and all HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/K-null/EX; establish moving OCCUPIED GOOD(p,r)=o(Q), not another constant fraction of prime-pair support. Alternatively independently establish selector-aware high Wminus weighted dyadic physical occupancy o(B^(1/3)) with third face imposed, using A44 fiber and exact masks. No silent formal route switch.
+GOVERNANCE UNCHANGED
+OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED; PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; RESEARCH_PRODUCTION_STATUS=HOLD; potential130/unaccounted128, closure unchanged; EXTERNAL_FJ_FO_HOSTILE_NOT_RUN; FORMAL_ROUTE_SWITCH=NONE; GitHub_NOT_USED.

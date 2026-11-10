@@ -1,0 +1,58 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229HI-A44 — TWO DIFFERENCE-OF-SQUARES FIBERS FOR THE ACTUAL PRIMITIVE FOUR-SQUARE CORE
+DATE=2026-10-12 JST. PREVIOUS=A43 source row724; TARGET=source row725. CARD_ID=15gxR2gM7cEHZvgVMmfPVT6n2M0amotbKuvUHpwfa0XU.
+SCOPE=PROVED_EXACT_UNIFORM_FIXED_WMINUS_FIBER_AND_SCOPED_TRUE_PHYSICAL_SMALL_WMINUS_LOG_POWER_COUNT; GLOBAL_COUNTING_CREDIT=0; FORMAL_ROUTE_SWITCH=NONE; SOURCE_HOSTILE=HOLD; FULL_P_COUNT=OPEN.
+
+
+EXACT INPUT / TRUE PHYSICAL CORE (no norm proxy):
+Take strictly positive integers (e,x,y,U,V,R) with e²+x²=U², e²+y²=V², e²+x²+y²=R²; assume 0<x<=y, gcd(e,x,y)=1, R<=B. Define W=UV-eR. Prior 229AR row509 already established macro Pythagorean identity (eR)²+(xy)²=(UV)², positivity W>0, and sf_odd(W)=sf_odd(G*) with G*=gcd(eR,xy). A43 row724 already provided exact B<=200000 enumeration and an unrestricted physical-core W collision. Here no original HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/K-null/EX masks are dropped in transfers: they can only select a subset of this explicitly larger population.
+
+
+NEW THEOREM A44.1 (absolute all-height exact fiber bound).
+Let N_core(W;B) denote the number of normalized positive integral physical core endpoints above with fixed W=UV-eR>0, arbitrary height R<=B. Then for EVERY W>=1 and EVERY B,
+  N_core(W;B) <= d(2W)^2 ,
+where d(n)=number of positive divisors. For ordered unnormalized physical edge-labeling, at most the harmless factor 2 (or <=6 when all choices of common edge are charged) is needed. In particular W<B² and d(2W)^2=exp(O(log(3B)/loglog(10B)))=B^o(1) UNIFORMLY; the fixed-W receiver of prior A43 is now proved and DOES NOT assume injectivity.
+PROOF: From three exact physical squares, U²+V²=R²+e². Consequently
+ (U+V)²-(R+e)²=2(UV-eR)=2W,
+ (R-e)²-(V-U)²=2(UV-eR)=2W.
+All four factors in each difference are positive integers, since R>e and U+V>R+e and R-e>|V-U| (W>0). Write
+ a=(U+V)-(R+e)>0, b=(U+V)+(R+e)>0,
+ c=(R-e)-(V-U)>0, d=(R-e)+(V-U)>0.
+Then ab=cd=2W. From a,b uniquely recover A=U+V=(a+b)/2 and B0=R+e=(b-a)/2. From c,d uniquely recover C0=R-e=(c+d)/2 and D0=V-U=(d-c)/2>=0. Finally R=(B0+C0)/2, e=(B0-C0)/2, U=(A-D0)/2, V=(A+D0)/2; x²=U²-e², y²=V²-e². Each pair of positive divisors (a,c) of 2W admits at MOST ONE normalized core P (many fail positivity, parity or square constraints). Thus bound d(2W)^2. No prime, sieve, elliptic-curve, height regularity or selector independence assumed. The bound is valid for repeated powers, omega>=4 and non-squarefree R.
+
+
+NEW THEOREM A44.2 (genuine scoped small-W physical count).
+Let N_core(W<=X;B) denote normalized true core endpoints R<=B with 1<=UV-eR<=X. Then, uniformly B,X>=2,
+ N_core(W<=X;B) <= 2X(1+log(2X))^3.
+Reason: coefficientwise d(n)^2<=d_4(n), since for each prime power p^a, (a+1)^2<=C(a+3,3) (difference=(a+1)a(a-1)/6>=0). Consequently sum_{1<=w<=X}d(2w)^2<=sum_{n<=2X}d_4(n)<=2X(H_floor(2X))^3<=2X(1+log(2X))^3 via 4-fold divisor convolution. ALL full ORIGINAL SAME-P HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/K-null/EX endpoints in this scalar range are a subset (up to finite orientation multiplicity). For any fixed kappa>0 and B sufficiently large, X_B=B^(1/3)/(1+log B)^(3+kappa), giving original selected same-P count O_kappa(B^(1/3)/(log B)^kappa)=o(B^(1/3)) on W<=X_B. This is a new true-physical, albeit SMALL W subpopulation; NO full asymptotic exponent improvement or #P(B) closure follows. It must NOT be multiplied with prior A43 empirical 46/47 high K, or with 229AR/BF local receiver.
+
+
+INDEPENDENT ARITHMETIC REPLAY (Python 3 stdlib):
+from math import gcd,isqrt
+def certify(e,x,y,R):
+ assert min(e,x,y)>0 and x<=y and gcd(gcd(e,x),y)==1
+ U=isqrt(e*e+x*x);V=isqrt(e*e+y*y)
+ assert U*U==e*e+x*x and V*V==e*e+y*y
+ assert R*R==e*e+x*x+y*y
+ W=U*V-e*R;assert W>0
+ a,b=U+V-R-e,U+V+R+e
+ c,d=R-e-V+U,R-e+V-U
+ assert a*b==c*d==2*W and min(a,b,c,d)>0
+ AA,BB=(a+b)//2,(b-a)//2
+ CC,DD=(c+d)//2,(d-c)//2
+ assert ((BB+CC)//2,(BB-CC)//2,(AA-DD)//2,(AA+DD)//2)==(R,e,U,V)
+ return W,(a,b,c,d)
+p1=(3960,7616,16095,18241)
+p2=(58464,16095,50048,78625)
+assert certify(*p1)==(70045440,(2958,47360,6290,22272))
+assert certify(*p2)==(70045440,(510,274688,3840,36482))
+The two A43 collision points are distinct divisor-pair preimages of the SAME W; hence the A44 upper bound correctly allows collision. Independent execution on all 15 A43 core endpoints R<=5000 PASS; equality of factor products and reconstruction verified throughout. The M3-T11-200 'W' is a DIFFERENT older scalar, NOT this bilinear Wminus.
+
+
+WHOLE-HISTORY ANTI-LOOP / NEGATIVE: canonical native CARD-INDEX ALL prior source rows2:724 (723 records) searched by object/method/barrier, especially Wminus/fixed fiber/physical macro/low scalar; named 229AR row509 OLD Wminus squareclass (NO fixed W bound), 229BO row532 OLD B^o fixed Theta_x=G0*Kx² or Theta_y=G0*Ky² with scalar height<=B^6 (NOT Wminus), 229BY row542 fixed H_j fibers, 229CW row566 fixed anisotropy scalar, 229CY row568 AR/BF same-source double-count NO-GO, 229EF row601 fixed SPACE hypotenuse, old M3-T11-200 row429 fixed unrelated W, A43 row724 collision and core census. NEGATIVE-REGISTER DT/DU/GW/GZ HOLD/RETRACTED: no independent local density multiplication, no unverified source sufficiency. A36 invalid canonical 414 RETRACTED; A37-A42 older valid-key HI150 routes unrelated to this broad core scalar. Distinct new contribution is TWO simultaneous difference-of-squares factorizations, uniform ALL-W physical fiber, genuine small-W count at a logarithmically near one-third threshold. Novelty NOT claimed in literature or for general four-square nonprimitive signed allocation. >=5 batches without change to unrestricted P(B) barrier: alternate physical 229AR route preflight executed, no formal switch.
+
+
+REMAINING GATE: occupied high-W scalar image under exact original SAME-P selectors must satisfy # {W > X_B, W realized on original high-K selected P(R<=B)}=o(B^(1/3))/B^o(1), or an equivalent weighted image count. A44 fixed fibers alone CANNOT prove that. Existing high sf(G*)>B^(1/3-delta) forces odd-squarefree support in W but its possible value count up to B² is enormous. Strongest honest reduction: low-W packet now o(B^(1/3)), high-W occupied image untouched. Independently valid HI150 000.011.102:0 balanced D-square + r norm physical GOOD(p,r)=o(Q) remains OPEN. Other149 HI, FJ330 residual, omega>=4/repeated powers are INCLUDED IN FIBER THEOREM but NOT counted at large W. Independent FJ/FO hostile audit NOT_RUN.
+
+
+NEXT=On SAME physical P with original HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/K-null/EX and R<=B, prove NONTRIVIAL WEIGHTED occupied Wminus support for W>X_B: e.g. dyadic #realized W in [T,2T] with B^o multiplicity summable o(B^(1/3)), using both explicit factor-pair charts jointly with primitive square and K* constraints. Test exact selector map, not the bare 116-core finite proxy; in parallel resume valid A42 first/third norm and D-square moving GOOD(p,r) if no W support saving. Route switch only by formal independent preflight; no automatic 229AR promotion.
+GOVERNANCE: OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED; M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; RESEARCH_PRODUCTION_STATUS=HOLD; potential130/unaccounted128 unchanged; closure unchanged; FORMAL_ROUTE_SWITCH=NONE; GitHub=NOT_USED.

@@ -1,0 +1,67 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229HI-A39
+TITLE: PRIMITIVE 2-ADIC GAUSSIAN THIRD-PRIME HEIGHT TAIL, TWO-DIVISOR CEILING, AND TRUE PHYSICAL NONCLOSURE
+DATE: 2026-10-12 JST. PREVIOUS A38 row719. NEW INDEX row720. CARD_ID=1UcQT81WLjXujf3bUWqf8Wl6KXJ3U2-bTKKYgYvpl65w.
+STATUS: PROVED_SCOPED_ALL_HEIGHT_TRUE_ORIGINAL_HI150_SOURCE_R_GT_PQ2_OVER4_EMPTY / MAX_TWO_DISTINCT_THIRD_SPLIT_PRIME_DIVISORS_PER_PQ / QUANTITATIVE_GLOBAL_COUNTING_UNCHANGED / NO_NEW_GATE_CREDIT.
+AUTHORITY: M3-T11-229; mathematical construction M3-T11-228; M3-T11-230 NOT_ISSUED; primary M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; RESEARCH_PRODUCTION_STATUS=HOLD; potential130/unaccounted128 unchanged; external FJ/FO hostile NOT_RUN; GitHub NOT_USED; formal ROUTE_SWITCH NONE.
+
+
+1. EXACT PHYSICAL SCOPE AND SOURCE VALIDITY
+Only the independently crosswalk-verified canonical 414 source key j=000.011.102:0, historically in HI remaining150 and FJ330. The assigned object is an ORIGINAL positive primitive same-P full-four-square endpoint with squarefree odd R=pqr, rational split primes 5<=p<q<r, primitive positive Gaussian coordinates p²=a²+b², q²=c²+d², r²=h²+w², a,c,h odd and b,d,w divisible4, and source F_j(b/a,d/c,w/h)=0. All physical HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/K-null/EX and R<=B conditions remain required as restrictions; this result does not assume each source root produces an endpoint. Other149 valid HI keys, other FJ330, repeated exponents and omega>=4 not covered. Source-map independent hostile audit remains HOLD.
+Retained source from A37: F/2=t(X+t)Y²+(tX²−2X−t)Y+tX(tX−1); integer A=bc(ad+bc), B=-a(2acd+bc²−bd²), C=-bd(ac−bd), D=B²−4AC integer square necessary for rational Y. A37 already established zero integer D squares for ALL first split prime pairs p<q<=300000. Do not recredit this finite domain.
+
+
+2. NONFINITE ALL-HEIGHT TRUE-PHYSICAL TAIL EXCLUSION
+Retained A38/GX/HC one-sign norm necessary theorem for THIS F: every signed physical root with third primitive split prime r>q forces r | M, M:=2acd+b(c²−d²), and A38 proves M!=0 for EVERY admissible primitive split p,q. No independent discovery of r|M is claimed.
+NEW use the ORIGINAL prime-square Gaussian orientation and its even-leg valuation: for each rational split prime n=u²+v² with u,v coprime opposite parity, n²=(u²−v²)²+(2uv)², the even leg 2uv is a multiple of 4. Hence 4|b and 4|d, so 4|M. As r is odd and gcd(r,4)=1, r|M implies r|(M/4).
+Crucially
+ M=Im[(a+i b)(c+i d)²],
+ |M| <= |a+i b| |c+i d|² = p q².
+In fact strict inequality: Re[(a+i b)(c+i d)²] = a(c²−d²)−2bcd is odd (a,c odd and b,d even), hence nonzero; so |M| < p q². It follows for every ORIGINAL signed necessary physical P in this one j class that
+  q < r <= |M|/4 < p q² /4.
+Consequently the entire moving-height physical tail r>=p q²/4 (in particular r>=2Q³ whenever Q<=p<q<=2Q) is identically EMPTY at EVERY first-pair height, without restricting p,q to a numerical cutoff or restricting the third-prime search height. This is a physical-subset implication conditional on the retained j-source necessity, NOT a whole-P bound.
+Moreover 0<|M|/4 < p q²/4 < q³. Three DISTINCT primes r1,r2,r3>q dividing |M|/4 would have product >q³, contradiction. Thus at most TWO distinct admissible r>q per fixed (p,q), sharpening A38's <=3; all additional norm, discriminant-square, Gaussian r-primitive and SAME-P masks can only remove candidates.
+The strict 2-adic strengthening extends to r | M/2^m where m=min(v2(b), 1+v2(d))>=2, because both terms of M divisible by 2^m. Thus r < p q² / 2^m for each pair; no uniform m>2 and no logarithmic average saving proved.
+These are nonfinite source-conditioned exact empty-height sector and candidate cardinality, not a proof of overall occupied first/outer prime count.
+
+
+3. INDEPENDENT FINITE ARITHMETIC REPLAY (NOT PHYSICAL)
+Exact enumeration of rational split primes p<q<2000: 147 split primes, 10731 ordered pairs, with a,b,c,d from unique primitive positive Gaussian prime-square representation. For ALL pairs M!=0, 4|M and |M|<p q². Factor abs(M)//4, retain DISTINCT factors r>q, r≡1(mod4). Number of (p,q) having respectively 0,1,2 eligible r: 7199,3272,260 (sum10731). Restricted further to p,q,r≡1(mod8): 1945,328,5 (sum2278). These count ONLY norm-divisor first-pair candidate superpopulations, never an actual signed rational third root or full physical P: A37 independently proves D integer-square=0 for all this finite domain. No actual endpoint, positive density or asymptotic count is inferred.
+Reproduction (Python 3 with SymPy factorint):
+from math import isqrt
+from sympy import factorint
+P=[]
+for p in range(5,2000,4):
+    if any(p%d==0 for d in range(3,isqrt(p)+1,2)): continue
+    for u in range(1,isqrt(p)+1):
+        vv=p-u*u
+        if vv>0 and isqrt(vv)**2==vv and u>isqrt(vv):
+            v=isqrt(vv)
+            P.append((p,u*u-v*v,2*u*v))
+            break
+assert len(P)==147
+T=[0,0,0,0]; T8=[0,0,0,0]
+for i,(p,a,b) in enumerate(P):
+    for q,c,d in P[i+1:]:
+        M=2*a*c*d+b*(c*c-d*d)
+        assert M!=0 and M%4==0 and abs(M)<p*q*q
+        primes=factorint(abs(M)//4)
+        eligible=[r for r in primes if r>q and r%4==1]
+        assert len(eligible)<=2
+        T[len(eligible)]+=1
+        if p%8==q%8==1:
+            eligible8=[r for r in primes if r>q and r%8==1]
+            assert len(eligible8)<=2
+            T8[len(eligible8)]+=1
+assert T==[7199,3272,260,0]
+assert T8==[1945,328,5,0]
+print("A39 EXACT REPLAY PASS",T,T8)
+END REPRODUCTION.
+
+
+4. WHOLE-HISTORY LOOP AND STRATEGIC AUDIT
+Actual source index ALL rows2:719 (718 pre-A39 records) scanned for true same-P pqr prime pair, norm, 2-adic primitive even leg, height-tail, finite root/discriminant, local false positive, and failure/HOLD/RETRACTED. Most relevant A37 row718 true HI150 D-square finite zero; A38 row719 same exact j r|M old and m!=0, <=3; historic GX row670 universal one-sign r²|S0; HC row675 partition198/42/90 and old lattice at fixed(p,r); A24 row705 bounded q finite; A26/A27 rows707/708 Q^(7/4) thin-set bound inadequate; A28-A35 rows709:716 historically already HI globally-empty j000.001.010:0 (no novelty); A36 row717 invalid414 and explicitly retracted; old 229AR row509 physical Wminus macro content receiver, formal route audit not performed. Negative register DT/DU/GW/GZ independent local-density no-go, source false positives and HOLD, A11 row692 retracted in A12 row693. Historical original norm mechanism and physical Gaussian 4|b,d ALREADY KNOWN INDEPENDENTLY; only their joint all-height r height ceiling and <=2 third norm-prime candidates are new scoped consequences relative to A38, not standalone novel global machinery, not independent external hostile PASS.
+Latest >=5 A34-A38 main count obstacle remains unimproved. Compared (a) continuing finite q cutoff (rejected), (b) fixed local p/2-adic density transfer (NEG), (c) existing norm divisor plus exact primitive parity for unbounded height (EXECUTED), (d) 229AR Wminus squarefree content physical route (not yet formally switched). Selected (c) as nonfinite, source-conditioned physical exclusion; the <=2 candidates still leave O(Q²/log²Q) first-prime pairs and cannot yield o(Q) moving GOOD(p,r) or P(B)=o(B^(1/3). The complete 330 sources and other omega remain open. Formal ROUTE_SWITCH NONE.
+
+
+5. NEXT
+Do not re-run <=300000 or scale norm-divisor candidates as densities. For THIS certified live HI150 key j000.011.102:0, in genuine balanced Q<=p<q<r<=2Q (where the new height tail is inoperative once Q large), exploit a SAME-P correlation between first integer-square D, the signed one-root third primitive Gaussian norm r²=h²+w², and the original HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/K-null/EX selectors, to prove count of truly OCCUPIED outer (p,r) =o(Q); count norm-only (p,q,r) superpopulations separately without equating them to P. If that cannot pay Q/log²Q outer-prime floor, conduct 229AR Wminus formal route-switch PREFLIGHT using established independent strategy protocol and compare projected threshold/height strength before any switch. Source scope, authority, credit, gate, closure unchanged.

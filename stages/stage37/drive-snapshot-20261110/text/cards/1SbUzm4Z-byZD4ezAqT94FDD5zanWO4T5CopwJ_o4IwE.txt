@@ -1,0 +1,60 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229HI-A43 — EXACT CORE PHYSICAL OCCUPANCY / 229AR Wminus INVERSE COLLISION
+DATE=2026-10-12 JST; PREVIOUS=A42 CARD-INDEX SOURCE_ROW723; NEW=SOURCE_ROW724; CARD_DOC_ID=1SbUzm4Z-byZD4ezAqT94FDD5zanWO4T5CopwJ_o4IwE.
+STATUS=EXACT_FINITE_PRIMITIVE_PHYSICAL_CORE_CENSUS_AND_WMINUS_NONINJECTIVITY_COUNTEREXAMPLE / STRATEGY_PREFLIGHT_ONLY / NO_ASYMPTOTIC_IMPROVEMENT / GLOBAL_COUNTING_CREDIT0 / ROUTE_SWITCH_NONE.
+SCOPE / FIREWALL.
+The enumeration is of strictly positive integer physical core endpoints (e,x,y,U,V,R), satisfying e²+x²=U², e²+y²=V², e²+x²+y²=R², gcd(e,x,y)=1, 0<x<=y and R<=B. This is a normalized SAME-P CORE PHYSICAL SUPERPOPULATION: every item is an actual integral 4-square-compatible primitive brick, not a Gaussian prime-norm or first-pair proxy. However the ORIGINAL HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/K-null/EX and FJ/FO signed canonical source allocation are NOT jointly checked. Hence these counts are NOT certified #P(B), not the A42 key 000.011.102:0 occupied count, and not an all-source counting theorem. Selection by squarefree R=pqr with distinct p<q<r ≡1(mod4) is exact on this core only.
+RESEARCH EXECUTED: INDEPENDENT ALTERNATIVE TO LATEST A42 LOCAL-3ADIC HI150 STUDY.
+Instead of increasing A37 q cutoffs or multiplying A42 local densities, execute a 229AR Wminus/high-K physical route preflight on real positive primitive full-four-square equations. The old 229AR row509 already proves Wminus=UV-eR>0, G*=gcd(eR,xy), Wminus=2^epsilon G* s² and sf_odd(Wminus)=sf_odd(G*), but DOES NOT prove fixed-W fiber B^o(1) or occupied-W support saving. Old 229CY row568 explicitly cautions 229AR and 229BF share the SAME source and cannot have sieve gains multiplied.
+ALGORITHM / EXACT COMPLETENESS FOR FINITE B.
+Generate ALL primitive Pythagorean legs from m>n>0 coprime opposite parity, h=m²+n²<=B, and all k>=1 with kh<=B: legs k(m²−n²),k(2mn) and hypotenuse kh. For every common positive e used as either leg, group all opposite x for which e²+x² is an integer square. For x<=y in same e bucket, accept only integer R=isqrt(e²+x²+y²)<=B with R²=e²+x²+y² and gcd(e,x,y)=1. Every physical core endpoint has both (e,x,U),(e,y,V) Pythagorean integer triangles so is generated; dedup sets eliminate duplicate Euclid parametrizations. Independently checked at B=2000 by direct exhaustive loops over every 1<=e<U<=2000 with isqrt(U²−e²), reproducing exactly the five Euclid-derived core endpoints. For all B<=200000, every retained endpoint has exact U,V integral, exact macro identity (eR)²+(xy)²=(UV)² and Wminus/G* a square or twice a square.
+REPRODUCTION (Python 3 standard library; factorization can be trial division or sympy.factorint):
+from math import gcd,isqrt
+from collections import defaultdict
+def core(B):
+ g=defaultdict(set)
+ for m in range(2,isqrt(B)+2):
+  for n in range(1,m):
+   if gcd(m,n)>1 or (m-n)%2==0:continue
+   a=m*m-n*n;b=2*m*n;h=m*m+n*n
+   if h>B:continue
+   for k in range(1,B//h+1):
+    g[k*a].add(k*b);g[k*b].add(k*a)
+ out=[]
+ for e,L in g.items():
+  for x in L:
+   for y in L:
+    if y<x:continue
+    R=isqrt(e*e+x*x+y*y)
+    if R<=B and R*R==e*e+x*x+y*y and gcd(gcd(e,x),y)==1:
+     out.append((e,x,y,R))
+ return sorted(out,key=lambda z:(z[3],z[0],z[1]))
+def kernel(n):
+ k=1;d=2
+ while d*d<=n:
+  z=0
+  while n%d==0:n//=d;z^=1
+  if z:k*=d
+  d+=1 if d==2 else 2
+ if n>1:k*=n
+ return k
+def recv(P):
+ e,x,y,R=P
+ U=isqrt(e*e+x*x);V=isqrt(e*e+y*y)
+ G=gcd(e*R,x*y);W=U*V-e*R
+ return U,V,G,W,kernel(G)
+s=core(200000)
+# pqr classification: factor R, require exactly 3 distinct prime factors with exponent1, each =1(mod4).
+EXACT CUMULATIVE COUNTS (counts use threshold of stated B, not each R):
+B=5000: core15; squarefree three-split-prime-R7; among those K*>B^(1/3) 7; K*>B^(1/3-0.05) 7; unique Wminus7.
+B=10000: core25; pqr12; highK strict12; highK delta.05 12; unique Wminus12.
+B=30000: core51; pqr24; highK strict23; highK delta.05 23; unique Wminus24.
+B=100000: core89; pqr34; highK strict31; highK delta.05 33; unique Wminus34.
+B=200000: core116; pqr47; highK strict44; highK delta.05 46; unique Wminus47.
+For the 47 pqr actual CORE solutions at B=200000, no collision of Wminus; this is FINITE ONLY. All116 core solutions have 115 distinct Wminus values, maximum observed multiplicity2. The pqr 1/47 with K*<=B^(1/3-.05) is (e,x,y,R)=(3124,4557,9840,11285=5*37*61), (U,V,G*,Wminus,K*)=(5525,10324,20,21785760,5). The observed 46 high-K pqr are NOT a positive lower bound for original selected P(B), since full masks were not checked. Do not infer any asymptotic exponent from these finite counts.
+NEW EXACT WHOLE-PHYSICAL Wminus COLLISION (NOT PQR-SCOPED).
+The DISTINCT, primitive, positive core endpoints P1=(e,x,y,R)=(3960,7616,16095,18241) and P2=(58464,16095,50048,78625) satisfy all three squared physical identities exactly. P1 has (U,V)=(8584,16575), gcd(eR,xy)=2188920; P2 has (U,V)=(60639,76960), gcd(eR,xy)=8755680. Both yield Wminus=UV-eR=70045440, and both have K*=sf(G*)=547230. gcd(e,x,y)=1 for each; x<y and R heights distinct. P1 R=18241=17*29*37 is squarefree pqr; P2 R=78625=5³*17*37 is NOT squarefree pqr. This is an EXACT COUNTEREXAMPLE to injectivity of the Wminus receiver on unrestricted primitive positive core physical endpoints (even with K* fixed). It does NOT refute conjectural B^o(1) fixed-W fibers, and does NOT show a Wminus collision within the strict squarefree-pqr subset.
+LOOP / LONG HISTORY / NEGATIVE.
+Canonical CARD-INDEX entire prior source rows2:723 screened in indexed tags (same original physical core, actual occupied count, Wminus, macro Pythagorean identity, 229AR scalar, prime height, negative/RETRACTED); focused old 229AR row509, 229CY row568, 229EF row601, A37-A42 rows718:723, historic A36 row717 RETRACTED invalid canonical key, A28-A35 old globally HI-empty, and NEGATIVE DT/DU/GW/GZ warning against independent local-density or source-proxy promotion. Known: physical macro identity, full odd kernel, fixed-W upper-height and unresolved fiber/support (old 229AR). NEW: complete exact finite enumeration on actual core R<=200000; intersection with truly squarefree 3-split-prime R and quantitative high-K; explicit distinct Wminus inverse collision. UNRESOLVED: complete original SAME-P selector-conditioned high-K #P(B); fixed-W physical B^o fiber and occupied support one-third; true A42 valid-key D-square+third Gaussian prime r norm balanced moving GOOD(p,r)=o(Q); omega>=4 and repeated powers.
+>=5 MAIN-GATE STALL: selected 229AR physical receiver evaluation instead of A42 local residue/range inflation. Quantitatively high-K core physical support remains (46/47 at B200k) and its Wminus values distinct in pqr sample; this cannot demonstrate o(B^(1/3)) nor a route qualification. Compared 229AR low-height O(B²) receiver, 229BO Theta O(B^6) solved B^o fibers but occupied image unknown, and A37-A42 discriminant/local route. Formal independent route switch protocol was NOT run; do not switch.
+NEXT: (1) on THE SAME core P with exact original HIGH/sf(G0)/Kcross/rad(Sd)/q/Gres/K-null/EX/positive primitive R<=B selectors, prove a uniform fixed-W fiber B^o(1) AND occupied-W value count o(B^(1/3)) (or directly count high-K source); handle Wminus collisions incl repeated-power R and external hostile FJ/FO; (2) independently on valid 000.011.102:0 prove balanced moving GOOD(p,r)=o(Q) jointly with D exact square, r norm and full selectors. Prohibit finite-cutoff extrapolation or unearned local detector density multiplication; if attempting formal 229AR route SWITCH perform prior governance/independent audit.
+GOVERNANCE UNCHANGED: OPERATIONAL_AUTHORITY=M3-T11-229; LATEST_MATHEMATICAL_CONSTRUCTION=M3-T11-228; M3-T11-230 NOT_ISSUED; PRIMARY_GATE=M3-T11-GATE-001 OPEN; GLOBAL_COUNTING_CREDIT=0; P_OVER_M3_LIMIT_PROVED=false; RESEARCH_PRODUCTION_STATUS=HOLD; potential130/unaccounted128 unchanged; external FJ/FO HOSTILE_NOT_RUN; FORMAL_ROUTE_SWITCH_NONE; GitHub_NOT_USED.
