@@ -4,7 +4,7 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-STATE = ROOT / "stages/stage36/MAIN-STATE.json"
+STATE = ROOT / "stages/stage36/historical/MAIN-STATE-V296R3-36-09FE.json"  # Historical FE-only verifier; current MAIN state follows Drive 36R
 RECEIPT = ROOT / "stages/stage36/36-09FE/current-main-integration.json"
 OLD_CONSUMPTION = ROOT / "stages/stage36/36-09FE/current-main-hostile-audit-pass-consumption.json"
 FE_CERT = ROOT / "stages/stage36/36-09FE/rho-forced-crt-factor-shape-realization-preflight.json"
