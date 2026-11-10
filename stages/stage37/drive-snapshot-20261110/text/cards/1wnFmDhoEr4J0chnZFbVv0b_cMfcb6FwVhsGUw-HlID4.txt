@@ -1,0 +1,475 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229AQ — four-short-gap squarefree-kernel collapse and central-gap divisor chart
+
+
+STATUS: POST_229AP_SHORT_GAP_SQUAREFREE_COLLAPSE_COMPLETE / PROVED_FOUR_PHYSICAL_GAPS_CARRY_EXACT_ODD_CONTENT_SQUAREFREE_KERNELS / PROVED_CANONICAL_TWIST_EQUALS_SF_OF_FOUR_SHORT_GAP_PRODUCT / PROVED_POSITIVE_CENTRAL_GAP / PROVED_CENTRAL_GAP_HYPERBOLA_IDENTITIES / PROVED_TWO_LINEAR_HEIGHT_O_B_TWIST_RECEIVER / PROVED_TWO_PACKET_ONE_SIXTH_THRESHOLD / PROVED_SMALL_OUTER_GAP_PRODUCT_SECTOR_H_ONE_PLUS_O1 / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229AP EXACT SQUAREFREE-KERNEL RECEIVER / POSITIVE SHORT-GAP CHART / DIVISOR-FIBER COUNT / TWO-LINEAR-PACKET THRESHOLD IMPROVEMENT / METHOD FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229AP
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1wnFmDhoEr4J0chnZFbVv0b_cMfcb6FwVhsGUw-HlID4
+
+
+1. Scope
+
+
+229AP upgraded the edge-content packetization from odd inert primes to every odd prime in a,b, but its preferred edge receiver used radicals and still left c12,c21 as a separate residual split-support pair.
+
+
+The current whole-population gate, however, is a squarefree-kernel gate:
+  K_* = sf(gcd(eR,xy))
+      = sf(a b c12 c21).
+
+
+229M already supplied the elementary Pythagorean content-squareclass lemma and the four positive gap factors
+  U-e, V-e, R-U, R-V.
+This card pushes that retained lemma one step further at the exact integer level, then uses the physical metric identities to compress the four gaps to a positive central-gap divisor chart.
+
+
+The result is:
+- the odd squarefree part of the entire K_* support is exactly carried by the four positive short gaps;
+- the canonical moving twist itself is exactly the squarefree kernel of their product;
+- the same product is square-equivalent to a product of only two O(B)-height linear physical forms;
+- after removing their common odd gcd, this gives a two-packet squarefree receiver with threshold T^(1/2), hence B^(1/6-delta/2) at the current one-third gate;
+- the sector with small outer-gap product (R-U)(R-V) has an unconditional H^(1+o(1)) same-physical count.
+
+
+No full large-tail estimate follows yet.
+
+
+Notation:
+sf(n) denotes the positive squarefree representative of n in Q*/Q*2.
+sf_odd(n) denotes its odd part.
+
+
+2. Four positive short gaps carry the four content squarefree kernels exactly
+
+
+Set
+  A := U-e,
+  B := V-e,
+  C := R-U,
+  D := R-V.                                      (229AQ.1)
+
+
+All four are positive because
+  e<U<R,
+  e<V<R.
+
+
+Retain the four physical Pythagorean triples and their contents:
+  (e,x,U) has content b,
+  (e,y,V) has content a,
+  (U,y,R) has content c12,
+  (V,x,R) has content c21.
+
+
+Retain Lemma 229M.2:
+if a positive integral Pythagorean triple
+  X^2+Y^2=Z^2
+has content c and X is the selected leg, then
+  Z-X = c s^2
+or
+  Z-X = 2 c s^2
+for some positive integer s, according to the primitive-leg parity.
+
+
+Applying it to the four triples gives positive integers
+  s_b,s_a,s_12,s_21
+and bits
+  rho_b,rho_a,rho_12,rho_21 in {0,1}
+such that
+  A = 2^rho_b  b   s_b^2,
+  B = 2^rho_a  a   s_a^2,
+  C = 2^rho_12 c12 s_12^2,
+  D = 2^rho_21 c21 s_21^2.                       (229AQ.2)
+
+
+Therefore, exactly,
+  sf_odd(A)=sf_odd(b),
+  sf_odd(B)=sf_odd(a),
+  sf_odd(C)=sf_odd(c12),
+  sf_odd(D)=sf_odd(c21).                          (229AQ.3)
+
+
+Because a,b,c12,c21 are pairwise coprime by 229M, the four odd squarefree gap kernels in (229AQ.3) are pairwise coprime.
+
+
+RESULT_229AQ_FOUR_SHORT_GAPS_EXACT_ODD_CONTENT_SQUAREFREE_KERNELS=PROVED_EXACT.
+RESULT_229AQ_FOUR_SHORT_GAP_ODD_KERNELS_PAIRWISE_COPRIME=PROVED_EXACT.
+
+
+This is stronger for the current K_* gate than replacing squarefree kernels by radicals: square factors in a,b,c12,c21 are removed exactly rather than overcounted.
+
+
+3. Exact four-gap representation of K_* and the canonical twist
+
+
+Let
+  S_gap := A B C D
+         = (U-e)(V-e)(R-U)(R-V).                 (229AQ.4)
+
+
+Multiplying (229AQ.2),
+  S_gap
+   = 2^rho a b c12 c21 * square,
+where
+  rho = rho_b+rho_a+rho_12+rho_21.
+
+
+Hence the odd part of the current quotient-free support invariant is exactly
+  K_odd
+   := odd part of K_*
+    = sf_odd(a b c12 c21)
+    = sf_odd(S_gap).                              (229AQ.5)
+
+
+By 229M, the canonical positive squarefree moving twist is the positive squarefree representative of the same rational squareclass as S_gap. Therefore exactly
+  d_tw = sf(S_gap).                               (229AQ.6)
+
+
+Equivalently, K_* and d_tw differ, if at all, only in their 2-adic bit, while their odd parts are identical.
+
+
+RESULT_229AQ_KSTAR_ODD_EQUALS_FOUR_SHORT_GAP_KERNEL=PROVED_EXACT.
+RESULT_229AQ_CANONICAL_TWIST_EQUALS_SF_FOUR_SHORT_GAP_PRODUCT=PROVED_EXACT.
+
+
+4. Positive central gap
+
+
+Define the new central short-gap difference
+  lambda := U+V-R-e.                              (229AQ.7)
+
+
+This lambda is positive.
+
+
+Indeed,
+  A = U-e = x^2/(U+e),
+  D = R-V = x^2/(R+V).
+Since R>U and V>e,
+  R+V > U+e,
+so
+  A>D.
+Thus
+  lambda=A-D>0.
+
+
+Similarly,
+  B = y^2/(V+e),
+  C = y^2/(R+U),
+and R+U>V+e, so B>C and
+  lambda=B-C.
+
+
+Therefore
+  A=D+lambda,
+  B=C+lambda.                                    (229AQ.8)
+
+
+Also
+  0<lambda<A<R-e,
+so
+  lambda<R-e.                                    (229AQ.9)
+
+
+RESULT_229AQ_CENTRAL_GAP_POSITIVE=PROVED_EXACT.
+RESULT_229AQ_GAP_PAIR_TRANSLATION=A_MINUS_D_EQ_B_MINUS_C_EQ_LAMBDA.
+
+
+5. Central-gap hyperbola identities
+
+
+Use
+  x^2=A(U+e)=D(R+V).
+Substitute A=D+lambda and
+  R+V-(U+e)=2C+lambda.
+Then
+  (D+lambda)(U+e)=D[(U+e)+(2C+lambda)].
+After cancellation,
+  lambda(U+e)=D(2C+lambda).
+
+
+Since U=e+D+lambda, this becomes
+  lambda(2e+D+lambda)=2CD+D lambda,
+hence
+  lambda(2e+lambda)=2 C D.                       (229AQ.10)
+
+
+The y-side gives the same identity.
+
+
+Using A=D+lambda and B=C+lambda,
+  A B
+   = (D+lambda)(C+lambda)
+   = C D + lambda(C+D)+lambda^2.
+Combine with (229AQ.10) and
+  R=e+C+D+lambda
+to obtain
+  lambda(2R+lambda)=2 A B.                       (229AQ.11)
+
+
+Thus the two short-gap products satisfy the exact paired hyperbola system
+  2(R-U)(R-V)
+    = lambda(e+U+V-R),                            (229AQ.12)
+  2(U-e)(V-e)
+    = lambda(R+U+V-e).                            (229AQ.13)
+
+
+Here
+  2e+lambda = e+U+V-R,
+  2R+lambda = R+U+V-e.
+
+
+RESULT_229AQ_CENTRAL_GAP_HYPERBOLA_IDENTITIES=PROVED_EXACT.
+
+
+6. Two O(B)-height linear forms carry the entire moving twist
+
+
+Define
+  L_- := 2e+lambda = e+U+V-R,
+  L_+ := 2R+lambda = R+U+V-e.                    (229AQ.14)
+
+
+By positivity of lambda,
+  0<L_-<L_+.
+
+
+Multiply (229AQ.10) and (229AQ.11):
+  4 A B C D
+    = lambda^2 L_- L_+.                          (229AQ.15)
+
+
+Both 4 and lambda^2 are perfect squares. Hence
+  [S_gap]=[L_- L_+]
+in Q*/Q*2, and using (229AQ.6),
+  d_tw = sf(L_- L_+).                            (229AQ.16)
+
+
+For the current quotient-free support invariant,
+  K_odd = sf_odd(L_- L_+).                       (229AQ.17)
+
+
+The two forms have exact physical height O(B):
+from lambda<R-e,
+  L_- =2e+lambda < e+R <2B,
+  L_+ =2R+lambda <3R-e <3B.                     (229AQ.18)
+
+
+RESULT_229AQ_TWO_LINEAR_HEIGHT_O_B_TWIST_RECEIVER=PROVED_EXACT.
+
+
+This removes both the four-gap product and the separate edge/split squarefree-support bookkeeping at the level of the canonical twist class. It does not remove the physical selector equations.
+
+
+7. Exact two-packet odd squarefree receiver and improved threshold
+
+
+Let
+  g_L := gcd_odd(L_-,L_+),
+and define
+  ell_- := L_-/g_L,
+  ell_+ := L_+/g_L.                              (229AQ.19)
+
+
+Then
+  gcd_odd(ell_-,ell_+)=1,
+and
+  L_-L_+ = g_L^2 ell_- ell_+.
+Since g_L^2 is a square,
+  K_odd
+   = sf_odd(ell_- ell_+)
+   = sf_odd(ell_-) sf_odd(ell_+),                (229AQ.20)
+with the two displayed squarefree factors odd-coprime.
+
+
+Therefore, for every T>=1,
+  K_*>T
+implies
+  K_odd>T/2,
+and hence
+  max(sf_odd(ell_-), sf_odd(ell_+))
+    > (T/2)^(1/2).                               (229AQ.21)
+
+
+At the current gate
+  T=B^(1/3-delta),
+one of the two packets satisfies
+  sf_odd(ell_±)
+    > 2^(-1/2) B^(1/6-delta/2).                 (229AQ.22)
+
+
+RESULT_229AQ_TWO_ODD_COPRIME_LINEAR_PACKETS=PROVED_EXACT.
+RESULT_229AQ_CURRENT_ONE_THIRD_GATE_TWO_PACKET_THRESHOLD=B_TO_ONE_SIXTH_MINUS_DELTA_OVER_TWO.
+
+
+This is a theorem-interface improvement over the four-packet T^(1/4) edge receiver when the target is the full squarefree K_* support. The 229AP receiver remains useful because it retains finer edge-prime sign and height information.
+
+
+No count for the large ell_- or ell_+ squarefree-kernel tails is proved here.
+
+
+8. Divisor chart and a genuine scoped same-physical count
+
+
+Equation (229AQ.10) gives
+  lambda | 2 C D.                                (229AQ.23)
+
+
+Moreover, given positive integers C,D,lambda from a physical endpoint,
+  e = (2CD/lambda-lambda)/2,                     (229AQ.24)
+and then uniquely
+  U=e+D+lambda,
+  V=e+C+lambda,
+  R=e+C+D+lambda.                                (229AQ.25)
+
+
+Once e,U,V,R are fixed, positive x,y,z, if they exist, are uniquely determined by
+  x^2=U^2-e^2,
+  y^2=V^2-e^2,
+  z^2=R^2-e^2.
+Thus the map from physical endpoints to labelled triples
+  (C,D,lambda)
+is injective.
+
+
+Let
+  N_out(H;B)
+   := #{positive primitive physical endpoints R<=B :
+         (R-U)(R-V)<=H}.
+
+
+For each fixed C,D with CD<=H, lambda is a positive divisor of 2CD. Therefore
+  N_out(H;B)
+   <= sum_{C D<=H} tau(2CD)
+   = H^(1+o(1)),                                 (229AQ.26)
+uniformly in B.
+
+
+Equivalently, for every fixed eta>0,
+  N_out(B^(1/3-eta);B)
+    = B^(1/3-eta+o(1))
+    = o(B^(1/3)).                                (229AQ.27)
+
+
+RESULT_229AQ_SMALL_OUTER_GAP_PRODUCT_COUNT=PROVED_SCOPED_o_M3_SCALE.
+
+
+Because A>D and B>C,
+  A B > C D.
+Hence the small inner-gap-product sector AB<=H is contained in the already-counted CD<=H sector.
+
+
+The current large-K_* gate may therefore, at an o(B^(1/3)) cost, be restricted for any fixed eta>0 to
+  (R-U)(R-V) > B^(1/3-eta).                      (229AQ.28)
+
+
+RESULT_229AQ_HARD_TAIL_OUTER_GAP_PRODUCT_LOCALIZATION=PROVED_SCOPED.
+
+
+This is a genuine same-physical counting deduction, but it is only a sector disposal. It does not imply a global count and does not change GLOBAL_COUNTING_CREDIT=0.
+
+
+9. Current theorem interface after 229AQ
+
+
+CURRENT_PREFERRED_GATE remains:
+  #{positive primitive physical endpoints R<=B :
+      sf(gcd(eR,xy)) > B^(1/3-delta)}
+    = o(B^(1/3))
+for some fixed delta>0.
+
+
+CURRENT_PREFERRED_WHOLE_KSTAR_STRUCTURAL_RECEIVER:
+  229AQ two O(B)-height linear forms
+    L_-=e+U+V-R,
+    L_+=R+U+V-e,
+  with
+    K_odd=sf_odd(L_-L_+),
+  normalized to two odd-coprime packets at threshold
+    B^(1/6-delta/2).
+
+
+CURRENT_PREFERRED_SHORT_GAP_EXACT_RECEIVER:
+  d_tw=sf((U-e)(V-e)(R-U)(R-V))
+      =sf(L_-L_+).
+
+
+CURRENT_PREFERRED_EDGE_REFINEMENT:
+  229AP full-odd a,b four-packet sign/gap receiver and height localization.
+
+
+SCOPED_DISPOSED_SECTOR:
+  (R-U)(R-V)<=B^(1/3-eta)
+for any fixed eta>0 contributes o(B^(1/3)).
+
+
+HARD_REMAINDER may therefore be required to satisfy simultaneously
+  sf(gcd(eR,xy))>B^(1/3-delta),
+  (R-U)(R-V)>B^(1/3-eta),
+plus the exact two-linear packet structure above.
+
+
+NEXT_USEFUL_INPUT:
+(A) same-physical squarefree-kernel tail estimate for one or both normalized linear packets ell_± at the B^(1/6-delta/2) threshold;
+(B) exploit the central divisor chart lambda(2e+lambda)=2(R-U)(R-V) together with the remaining selector-square conditions;
+(C) combine 229AP sign-resolved edge divisibility with the 229AQ two-linear whole-K_* packets;
+(D) direct realized d_tw support count using d_tw=sf(L_-L_+).
+
+
+10. Firewalls and unchanged global state
+
+
+Do not:
+- replace squarefree kernel by radical when invoking the new two-packet threshold;
+- infer independence of L_- and L_+;
+- infer a large-tail count from the O(B) height alone;
+- promote the scoped CD-small estimate to the complementary CD-large sector;
+- treat the central divisor relation as sufficient for the face/sphere square selectors;
+- discard 229AP, whose finer sign-resolved edge divisibility remains independent useful structure.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_OPERATION=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+PRIMARY_GATE=M3-T11-GATE-001 OPEN.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+INTEGRATED_AUDIT_186_229O_SCOPE=UNCHANGED_NOT_EXTENDED_TO_229P_THROUGH_229AQ.
+
+
+11. Dependencies and verification scope
+
+
+Load-bearing internal inputs:
+- 229M Pythagorean content-squareclass lemma and four physical content crosswalk;
+- 229N/O exact K_*=sf(gcd(eR,xy)) support receiver;
+- 229AD pairwise coprime content buckets and 2-adic separation;
+- 229AP full-odd edge refinement;
+- current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+The central-gap identities, two-linear collapse, and scoped divisor count are direct exact deductions from the retained physical equations. No new external theorem is invoked.
+
+
+Independent hostile audit of 229AQ has not been run. Existing operational authority, latest mathematical construction, global counting credit, primary gate, closure states, retractions, production HOLD and integrated-audit scope are otherwise unchanged.
+
+
+
+
+FINAL_READBACK_RECEIPT: PASS
+READBACK_CONFIRMED: 229AQ card body / CARD-INDEX row508 / 案内 latest routing / RESULT-LEDGER 229AQ change record / MAIN current authority override=229AQ / active ROUTE POST-229AQ block.
+DRIVE_LOCATION_CONFIRMED: M3-Research-Cards folder (parent 1PTFrohNcPTyhLT-b51IT3VUy-tikkxLz).
+AUTHORITY_CREDIT_GATE_CLOSURE_CHECK: unchanged except latest post-229 delta pointer advanced to229AQ; M3-T11-229 operational authority, M3-T11-228 latest mathematical construction, PRIMARY_GATE OPEN, GLOBAL_COUNTING_CREDIT=0, M3-T11-230 unissued, production HOLD, P_OVER_M3_LIMIT_PROVED=false, integrated audit186-229O scope unchanged.
+NEW_SCOPED_COUNT_CHECK: low outer-gap-product sector (R-U)(R-V)<=B^(1/3-eta) is recorded only as scoped o(B^(1/3)); no complementary large-tail or global counting promotion assigned.
+STRUCTURAL_RECEIVER_CHECK: current whole-K_* structural receiver is229AQ two O(B)-height linear forms normalized to two odd-coprime squarefree packets at threshold B^(1/6-delta/2);229AP remains retained as finer sign-resolved edge refinement.
+CONCURRENCY_CHECK: no Stage37-NEW-INPUT-DELTA-AUDIT-229AR found at final readback.
+NEXT_NEW_CHAT_CAN_RESUME_FROM_DRIVE_ONLY=true.

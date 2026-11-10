@@ -1,0 +1,277 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229AG — canonical 2-adic normalization correction and three-packet reciprocity
+
+
+STATUS: POST_229AF_SCOPED_2ADIC_NORMALIZATION_CORRECTION / RETAIN_RAW_GAP_BITS / PROVED_CANONICAL_TAU_ROUTER / CORRECTED_LAPLACIAN_AND_RECIPROCITY / PROVED_SPLIT_ONLY_FIREWALL_SURVIVES / PROVED_FULL_THREE_PACKET_SPLIT_INERT_BOUNDARY_IDENTITIES / PROVED_FULLY_SPLIT_PACKETWISE_MOD8_CONSTRAINTS / NO_COUNTING_PROMOTION / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+TYPE: POST-229AF SCOPED CORRECTION / CANONICAL 2-ADIC SQUARECLASS NORMALIZATION / THREE-PACKET QUADRATIC-RECIPROCITY COMPRESSION / METHOD FIREWALL
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229AF
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1O7lPqStpIcoinunvV280KFfw8yEYW76u4msaiLwUoS8
+
+
+1. Scope and scoped correction target
+
+
+229AF correctly computed the parity of the extra factor 2 contributed by the four Pythagorean gap squareclasses. It then identified those raw gap exponents with the canonical squarefree 2-adic bits of Delta+ and Delta-. That identification is not valid when the physical content bucket a or b is even: the content itself contributes v2(a) or v2(b) to the squareclass.
+
+
+229E proves only that the even member of {a,b} is divisible by 4 in the G-EVEN and BOTH-ODD types; it does not fix the parity of its 2-adic valuation. Therefore the 229AF sentence
+  "the canonical moving twist is even exactly in G-EVEN"
+is withdrawn.
+
+
+This is a scoped correction. The raw gap formulas are retained, and the 229AF residue-matrix firewall survives after replacing the raw exponents by the actual canonical 2-adic bits. No authority, global credit, gate, closure flag, or production status is promoted.
+
+
+RESULT_229AF_CANONICAL_TWIST_EVEN_IFF_G_EVEN=RETRACTED_SCOPED_BY_229AG.
+RESULT_229AF_RAW_GAP_EXPONENT_FORMULAS=RETAINED.
+RESULT_229AF_SPLIT_ONLY_MATRIX_FIREWALL=RETAINED_AFTER_CANONICAL_NORMALIZATION.
+
+
+2. Raw gap exponents versus canonical squarefree bits
+
+
+Retain 229AD/M notation
+  e=gab,
+  x=d0 b c,
+  y=d0 a f,
+  z=d0 q,
+  h=gcd(g,q),
+with c12,c21 odd by 229AD because they divide primitive Pythagorean hypotenuses.
+
+
+From 229M's gap lemma,
+  [Delta+] = [2^{g_+} b c12],
+  g_+ = 1_{ga odd} + 1_{b odd} mod 2,
+and
+  [Delta-] = [2^{g_-} a c21],
+  g_- = 1_{gb odd} + 1_{a odd} mod 2.             (229AG.1)
+
+
+The canonical squarefree 2-adic bits are therefore
+  tau_+ = g_+ + v2(b) mod 2,
+  tau_- = g_- + v2(a) mod 2.                     (229AG.2)
+
+
+For the base packet, 229AD gives
+  [Delta0]=[2(R-e)(z-x)].
+Apply the same gap lemma to (e,z,R), whose content is h, and to (x,y,z), whose content is d0. Since h is odd by 229E,
+  [Delta0]=[2^{g_0} h d0],
+  g_0 = 1 + 1_{(g/h)ab odd} + 1_{bc odd} mod 2,  (229AG.3)
+and the canonical base bit is
+  tau_0 = g_0 + v2(d0) mod 2.                    (229AG.4)
+
+
+RESULT_229AG_CANONICAL_THREE_PACKET_2ADIC_BITS=PROVED_EXACT.
+
+
+3. Corrected physical parity router
+
+
+Write k=v2(the even member of {a,b}); whenever such an even member occurs, 229E gives k>=2 but does not fix k mod2.
+
+
+G-EVEN:
+  d0,c,f are odd; a,b have opposite parity.
+If b is odd and a is even with v2(a)=k,
+  tau_0=0, (tau_+,tau_-)=(1,k mod2).
+If a is odd and b is even with v2(b)=k,
+  tau_0=1, (tau_+,tau_-)=(k mod2,1).
+Hence the canonical twist bit
+  tau_D=tau_++tau_- = 1+k mod2.
+So in G-EVEN the canonical twist is even iff k is even.
+
+
+D-EVEN:
+  a,b are odd, d0 is even.
+Then
+  (tau_+,tau_-)=(0,0),
+  tau_D=0,
+while
+  tau_0 = 1_{c odd}+v2(d0) mod2.
+Thus the canonical moving twist is odd in D-EVEN.
+
+
+BOTH-ODD:
+  d0 is odd; a,b have opposite parity.
+If b is odd and a is even with v2(a)=k,
+  tau_0=0, (tau_+,tau_-)=(1,1+k mod2).
+If a is odd and b is even with v2(b)=k,
+  tau_0=1, (tau_+,tau_-)=(1+k mod2,1).
+Hence
+  tau_D=k mod2.
+So in BOTH-ODD the canonical twist is even iff k is odd.
+
+
+RESULT_229AG_CORRECTED_CANONICAL_PARITY_ROUTER=PROVED_EXACT.
+In particular, the physical parity type alone does not determine the canonical twist parity in G-EVEN or BOTH-ODD.
+
+
+4. Corrected 229AF Laplacian and survival of the firewall
+
+
+Let S and I be the odd split and inert prime supports of the moving twist and keep 229AF's split graph Laplacian L_S, inert-boundary vectors mu,beta, and theta_i defined by
+  (-1)^{theta_i}=(2/ell_i).
+
+
+The exact affine system has the same form as 229AF after replacing the raw exponents by the canonical bits:
+  [L_S + diag(mu+(tau_++tau_-)theta)] x
+    = (1+tau_+)theta + beta.                     (229AG.5)
+
+
+The corrected twist-side global reciprocity identity is
+  (I_-/S_+)(I_+/S_-)
+   = (2/S_+)^{1+tau_-}(2/S_-)^{1+tau_+}.         (229AG.6)
+
+
+On split-only support:
+- D-EVEN has (tau_+,tau_-)=(0,0), hence L_S x=theta. The 229AF connected-component obstruction is unchanged: every connected component must contain an even number of primes ell==5 mod8.
+- G-EVEN permits canonical pairs among (1,0),(0,1),(1,1). For (1,0), x=0 solves the system; for (0,1), x=1 solves it; for (1,1), x=0 solves L_S x=0.
+- BOTH-ODD permits the same three canonical pairs, and the same explicit solutions apply.
+
+
+Therefore the load-bearing 229AF method conclusion survives:
+  residue-matrix solvability alone cannot filter the full physical population.
+The correction removes the claimed parity classification, not the firewall.
+
+
+RESULT_229AG_SPLIT_ONLY_FIREWALL_SURVIVES=PROVED_EXACT.
+RESULT_229AF_D_EVEN_COMPONENT_OBSTRUCTION=RETAINED.
+RESULT_229AF_G_EVEN_AND_BOTH_ODD_AUTOMATIC_SOLVABILITY=RETAINED_IN_CORRECTED_TAU_FORM.
+
+
+5. Full three-packet split/inert reciprocity
+
+
+Now retain the base packet instead of eliminating Delta0. Choose canonical squarefree representatives
+  Delta0 = 2^{tau_0} S0 I0,
+  Delta+ = 2^{tau_+} S+ I+,
+  Delta- = 2^{tau_-} S- I-,                     (229AG.7)
+where Sj is the product of odd split primes (1 mod4) in packet j and Ij is the product of odd inert primes (3 mod4). By 229AD the three odd supports are pairwise disjoint, with inert support localized physically as
+  I0 | d0,
+  I+ | b,
+  I- | a.                                        (229AG.8)
+
+
+Multiply the exact 229AE character rows over the split primes of the relevant packets and use quadratic reciprocity between split denominators. This gives three exact boundary identities:
+  (I+/S0)(I0/S+)
+   = (2/S0)^{tau_+}(2/S+)^{1+tau_0},             (229AG.9)
+
+
+  (I-/S0)(I0/S-)
+   = (2/S0)^{tau_-}(2/S-)^{tau_0},               (229AG.10)
+
+
+  (I-/S+)(I+/S-)
+   = (2/S+)^{1+tau_-}(2/S-)^{1+tau_+}.           (229AG.11)
+
+
+Equation (229AG.11) is the canonically normalized version of the 229AF twist boundary identity. Equations (229AG.9)-(229AG.10) are new base-to-twist boundary identities.
+
+
+RESULT_229AG_FULL_THREE_PACKET_SPLIT_INERT_BOUNDARY_RECIPROCITY=PROVED_EXACT.
+
+
+6. Fully split three-packet consequences
+
+
+Assume I0=I+=I-=1. Put
+  (2/Sj)=(-1)^{alpha_j}, alpha_j in F2.
+Then (229AG.9)-(229AG.11) become
+  tau_+ alpha0 = (1+tau_0) alpha+,               (229AG.12)
+  tau_- alpha0 = tau_0 alpha-,                   (229AG.13)
+  (1+tau_-) alpha+ = (1+tau_+) alpha-.           (229AG.14)
+
+
+Insert the corrected physical router.
+
+
+D-EVEN:
+  alpha+=alpha-=0.
+Equivalently
+  (2/S+)=(2/S-)=+1
+packetwise, independently of tau0.
+
+
+G-EVEN:
+- if b is odd, then alpha0=alpha+=0;
+- if a is odd, then alpha0=alpha-=0.
+
+
+BOTH-ODD:
+- if b is odd, then alpha0=alpha+=0;
+- if a is odd, then alpha0=alpha-=0.
+
+
+Thus the fully split sector satisfies packetwise mod-8/Jacobi restrictions stronger than the twist-product condition alone.
+
+
+RESULT_229AG_FULLY_SPLIT_PACKETWISE_MOD8_CONSTRAINTS=PROVED_EXACT.
+
+
+These are necessary arithmetic restrictions, not a Stage37 numerator bound. They are constant-factor/mod-8 information unless combined with a same-physical distribution theorem.
+
+
+7. Operational consequence
+
+
+No counting promotion follows from 229AG.
+
+
+CURRENT_PREFERRED_GATE remains:
+  #{positive primitive physical endpoints R<=B :
+      sf(gcd(eR,xy)) > B^(1/3-delta)}
+    = o(B^(1/3))
+for some fixed delta>0.
+
+
+CM_PAIR_DEPENDENCE_SUBGATE remains CLOSED_FOR_ONE_THIRD_BUDGET by229AB.
+CM_PAIR_INDEPENDENT_BRANCH remains OPEN.
+CM_INDEPENDENT_PAIR_GENERIC_RANK_STATISTICS_ROUTE remains HOLD by229AC.
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+PRIMARY_GATE_STATUS=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+Integrated audit186-229O remains unchanged in scope and is not silently extended to229P-229AG.
+
+
+NEXT_USEFUL_INPUT:
+(A) a same-physical support count preserving the six-bucket realization, corrected canonical tau bits, inert localization, and the full three-packet boundary identities;
+(B) a direct realized-twist/support theorem meeting o(B^(1/3));
+(C) the retained direct same-physical sf(gcd(eR,xy)) large-tail theorem.
+
+
+DO_NOT_REPEAT:
+- do not use 229AF raw gap exponents as canonical squarefree 2-adic bits;
+- do not state that canonical twist parity is determined solely by the G/D/BOTH parity type;
+- do not discard the base packet before theorem matching when the three-packet reciprocity may matter;
+- do not assign a power saving to the packetwise mod-8/Jacobi restrictions without a same-physical count;
+- do not reopen generic rank/Selmer routes barred by229AC;
+- do not reopen CM dependence unless229AB fails audit.
+
+
+8. Verification scope and dependencies
+
+
+Internal load-bearing inputs:
+-229AF split/inert Laplacian organization and method firewall;
+-229AE exact three-color split-prime character table;
+-229AD six pairwise-coprime physical content buckets;
+-229M Pythagorean content-squareclass lemma;
+-229E exact four-triple parity/v2 trichotomy, including only v2(even bucket)>=2 rather than a fixed parity;
+-229D nested primitive Pythagorean factorization;
+-229L Hilbert-90 twist router;
+-current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+No external theorem is used.
+
+
+
+
+FINAL_READBACK_RECEIPT: PASS. The 229AG research card is stored under M3-Research-Cards; CARD-INDEX row498 and 案内 identify229AG as latest post-229 delta; row497 marks229AF's canonical-parity statement as scoped-superseded while retaining its raw-gap identities and split-only firewall. RESULT-LEDGER, MAIN current override, and active ROUTE were read back from Drive and agree on the canonical tau correction, the retained D-EVEN obstruction / G-EVEN-BOTH-ODD automatic-solvability firewall, and the new full three-packet split/inert boundary reciprocity. Existing authority and status are unchanged: operational authority M3-T11-229, latest mathematical construction M3-T11-228, preferred sf(gcd(eR,xy)) gate OPEN, CM dependence CLOSED by229AB, CM-independent branch OPEN, generic rank/Selmer route HOLD by229AC, GLOBAL_COUNTING_CREDIT=0, M3-T11-230 unissued, production HOLD, P/M3 unproved, and integrated audit186-229O scope unchanged.

@@ -1,0 +1,467 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229AF — exact Hilbert 2-adic router and split-row reciprocity Laplacian firewall
+
+
+STATUS: POST_229AE_2ADIC_AND_RECIPROCITY_REFINEMENT / PROVED_EXACT_EPLUS_EMINUS_FROM_PHYSICAL_PARITY_TYPE / PROVED_TWIST_2ADIC_BIT_COMPLETELY_ROUTED / PROVED_SPLIT_INERT_BOUNDARY_RECIPROCITY_IDENTITY / PROVED_SPLIT_ONLY_GRAPH_LAPLACIAN_NORMAL_FORM / PROVED_D_EVEN_COMPONENT_PARITY_OBSTRUCTION / PROVED_G_EVEN_AND_BOTH_ODD_SPLIT_ONLY_RESIDUE_SYSTEM_AUTOMATICALLY_SOLVABLE / RESIDUE_MATRIX_ONLY_SUPPORT_ROUTE_FIREWALL / NO_COUNTING_PROMOTION / GLOBAL_GATE_UNCHANGED / GLOBAL_CREDIT=0 / NO_REOPEN
+
+
+TYPE: POST-229AE EXACT 2-ADIC HILBERT BIT ROUTER / QUADRATIC RECIPROCITY COMPRESSION / F2 GRAPH-LAPLACIAN NORMAL FORM / METHOD FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229AE
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+CARD_DOC_ID: 1OwaSuOqDdDOEJrwNqv1nti4Y9oCKh2Y8tAuNisInkFk
+
+
+1. Scope
+
+
+229AE produced an affine F2 residue system for the twist packet
+  D = Delta+ Delta-
+but left the two 2-adic packet bits
+  e_+, e_- in {0,1}
+as input data.
+
+
+229E already gives an exact physical 2-adic trichotomy for the nested Pythagorean system. Combining229E with the individual gap-squareclass formulas of229M determines e_+,e_- exactly.
+
+
+This card then rewrites229AE by quadratic reciprocity. On the split-only odd twist sector, the matrix becomes a genuine graph Laplacian over F2. This reveals a sharp method-level fact: the residue system itself can exclude twist values only in the D-EVEN physical parity type. In the G-EVEN and BOTH-ODD split-only types it is automatically solvable for every abstract split-prime twist D.
+
+
+No claim is made that all such abstract D are physically realized.
+
+
+2. Retained physical parity trichotomy
+
+
+Use229D/E notation
+  e = g a b,
+  x = d0 b c,
+  y = d0 a f,
+with primitive face triples
+  (g a, d0 c, n1),
+  (g b, d0 f, n2).
+
+
+Retain
+  c12 | n1,
+  c21 | n2.
+Because n1,n2 are primitive Pythagorean hypotenuses, n1,n2 are odd. Therefore
+  c12,c21 are odd.                               (229AF.1)
+
+
+The three physical parity types from229E are:
+
+
+G-EVEN:
+  g even, d0,c,f odd, a,b opposite parity.
+
+
+D-EVEN:
+  d0 even, g,a,b odd, c,f opposite parity.
+
+
+BOTH-ODD:
+  g,d0 odd; a,b opposite parity; c,f opposite parity crosswise.
+
+
+3. Exact individual 2-adic bits of Delta+ and Delta-
+
+
+Retain229M:
+  [Delta+] = [(U-e)(R-U)],
+  [Delta-] = [(V-e)(R-V)],                       (229AF.2)
+with
+  U=b n1,
+  V=a n2.
+
+
+Apply229M.2 separately to the two Pythagorean gaps forming Delta+.
+
+
+For (e,x,U), the content is b and the first primitive leg is
+  e/b = g a.
+Hence
+  [U-e] = [2^{u1} b],
+where
+  u1=1 iff g a is odd.                           (229AF.3)
+
+
+For (U,y,R), the content is c12 and the first primitive leg is
+  U/c12 = b(n1/c12).
+By (229AF.1), n1/c12 is odd. Hence
+  [R-U] = [2^{u2} c12],
+where
+  u2=1 iff b is odd.                             (229AF.4)
+
+
+Therefore
+  [Delta+] = [2^{e_+} b c12],
+  e_+ = 1_{g a odd} + 1_{b odd} mod2.            (229AF.5)
+
+
+Similarly,
+  [V-e] = [2^{v1} a],   v1=1 iff g b odd,
+  [R-V] = [2^{v2} c21], v2=1 iff a odd,
+so
+  [Delta-] = [2^{e_-} a c21],
+  e_- = 1_{g b odd} + 1_{a odd} mod2.            (229AF.6)
+
+
+RESULT_229AF_INDIVIDUAL_HILBERT_2ADIC_BITS=PROVED_EXACT.
+
+
+4. Evaluate the bits in the three physical parity types
+
+
+G-EVEN:
+g is even, so ga and gb are even. Therefore
+  e_+ = 1_{b odd},
+  e_- = 1_{a odd}.
+Since a,b have opposite parity,
+  (e_+,e_-) is either (1,0) or (0,1),            (229AF.7)
+and the position of the 2-factor is determined by which of a,b is odd.
+
+
+D-EVEN:
+g,a,b are all odd. Hence
+  e_+ = 1+1 =0,
+  e_- = 1+1 =0.                                 (229AF.8)
+
+
+BOTH-ODD:
+g is odd and a,b have opposite parity. Hence
+  e_+ = 1_{a odd}+1_{b odd}=1,
+  e_- = 1_{b odd}+1_{a odd}=1.                  (229AF.9)
+
+
+Thus the exact router is
+
+
+  G-EVEN   -> (e_+,e_-) in {(1,0),(0,1)};
+  D-EVEN   -> (e_+,e_-)=(0,0);
+  BOTH-ODD -> (e_+,e_-)=(1,1).                  (229AF.10)
+
+
+RESULT_229AF_PHYSICAL_PARITY_TO_PACKET_BITS=PROVED_EXACT.
+
+
+The total twist 2-adic bit is
+  epsilon = e_+ + e_- mod2.
+Therefore
+
+
+  epsilon=1 exactly in G-EVEN,
+  epsilon=0 in D-EVEN and BOTH-ODD.              (229AF.11)
+
+
+Equivalently, the canonical squarefree moving twist of229M/L is even exactly in the G-EVEN physical parity type.
+
+
+RESULT_229AF_TWIST_2ADIC_BIT_COMPLETELY_ROUTED=PROVED_EXACT.
+
+
+This removes the formerly unspecified parity bit in229M.5-229M.6.
+
+
+5. Split/inert decomposition of the229AE system
+
+
+Write the odd prime support of D as a disjoint union
+  S union I,
+where
+  S={ell: ell|D, ell==1 mod4},
+  I={q: q|D, q==3 mod4}.
+
+
+Let
+  S_+, S_-, I_+, I_-
+be the products of the primes from S or I assigned respectively to Delta+ and Delta-.
+
+
+For split vertices ell_i in S, retain229AE
+  (-1)^lambda_ij = (ell_j/ell_i),
+  (-1)^theta_i   = (2/ell_i).                   (229AF.12)
+
+
+Let x_i encode the packet color:
+  x_i=1 for Delta+,
+  x_i=0 for Delta-.
+
+
+Among split vertices define the F2 graph G_S with an edge i-j iff
+  lambda_ij=1.
+Quadratic reciprocity gives
+  lambda_ij=lambda_ji
+for split i,j, because both primes are 1 mod4.
+
+
+Let L_S be the graph Laplacian over F2:
+  (L_S)_{ij}=lambda_ij for i!=j,
+  (L_S)_{ii}=sum_{j in S,j!=i} lambda_ij.         (229AF.13)
+
+
+For each split row put
+  mu_i   = sum_{q_j in I} lambda_ij,
+  beta_i = sum_{q_j in I} lambda_ij x_j.          (229AF.14)
+
+
+Then229AE.19 becomes exactly
+
+
+ [ L_S + diag(mu + (e_+ + e_-) theta) ] x_S
+    = (1+e_+) theta + beta                        (229AF.15)
+
+
+over F2.
+
+
+RESULT_229AF_SPLIT_INERT_BOUNDARY_LAPLACIAN_FORM=PROVED_EXACT.
+
+
+The split-split part is therefore symmetric Laplacian data; all inert-prime effects enter only as a diagonal boundary term mu and a forcing vector beta.
+
+
+6. Global reciprocity boundary identity
+
+
+Multiply the pure twist residue equations229AE.16 over all split primes in Delta+:
+  (Delta-/S_+)=(2/S_+).                          (229AF.16)
+
+
+Expanding Delta-=2^{e_-} S_- I_- gives
+  (S_-/S_+)(I_-/S_+)
+    =(2/S_+)^{1+e_-}.                            (229AF.17)
+
+
+Similarly
+  (S_+/S_-)(I_+/S_-)
+    =(2/S_-)^{1+e_+}.                            (229AF.18)
+
+
+All primes of S_+,S_- are 1 mod4, so quadratic reciprocity gives
+  (S_-/S_+)=(S_+/S_-).
+
+
+Multiplying (229AF.17)-(229AF.18) yields the exact global compatibility
+
+
+  (I_-/S_+) (I_+/S_-)
+   =
+  (2/S_+)^{1+e_-}
+  (2/S_-)^{1+e_+}.                               (229AF.19)
+
+
+Because the denominators on the left are split, reciprocity also permits
+  (I_-/S_+)=(S_+/I_-),
+  (I_+/S_-)=(S_-/I_+).                           (229AF.20)
+
+
+RESULT_229AF_GLOBAL_SPLIT_INERT_RECIPROCITY_IDENTITY=PROVED_EXACT.
+
+
+This is the row-sum compatibility hidden inside229AE, now expressed directly as a Jacobi-symbol relation between the split and inert packet boundaries.
+
+
+7. Split-only twist sector
+
+
+Assume
+  I_+=I_-=1.
+Then
+  mu=beta=0,
+and (229AF.15) becomes
+
+
+  [L_S + (e_+ + e_-) diag(theta)] x
+    = (1+e_+) theta.                             (229AF.21)
+
+
+The global identity becomes
+  (2/S_+)^{1+e_-}(2/S_-)^{1+e_+}=1.              (229AF.22)
+
+
+Now insert the exact physical bit router.
+
+
+7A. D-EVEN
+
+
+Here
+  (e_+,e_-)=(0,0).
+Therefore
+  L_S x = theta.                                 (229AF.23)
+
+
+Because L_S is a symmetric graph Laplacian, the indicator vector of every connected component C of G_S lies in ker L_S. Hence solvability of (229AF.23) forces
+
+
+  sum_{ell_i in C} theta_i =0 mod2               (229AF.24)
+
+
+for every connected component C.
+
+
+Since theta_i=1 exactly when
+  ell_i==5 mod8,
+every component must contain an even number of 5 mod8 primes.
+
+
+RESULT_229AF_D_EVEN_SPLIT_ONLY_COMPONENT_PARITY_OBSTRUCTION=PROVED_EXACT.
+
+
+In particular, globally
+  (2/D_odd)=1,                                   (229AF.25)
+equivalently the total number of split prime factors ell==5 mod8 is even.
+
+
+This condition is necessary, not claimed sufficient in general because the F2 Laplacian may have kernel larger than the component-constant subspace.
+
+
+7B. BOTH-ODD
+
+
+Here
+  (e_+,e_-)=(1,1),
+so
+  L_S x=0.                                       (229AF.26)
+
+
+Thus x=0 and x=1 are always solutions of the residue system for every abstract split-prime D.
+
+
+RESULT_229AF_BOTH_ODD_SPLIT_ONLY_RESIDUE_SYSTEM=AUTOMATICALLY_SOLVABLE.
+
+
+This means the229AE residue condition alone imposes no twist-support exclusion in this parity type.
+
+
+7C. G-EVEN
+
+
+Here e_++e_-=1.
+
+
+If
+  (e_+,e_-)=(1,0),
+then
+  [L_S+diag(theta)]x=0,                           (229AF.27)
+which always has x=0.
+
+
+If
+  (e_+,e_-)=(0,1),
+then
+  [L_S+diag(theta)]x=theta,                       (229AF.28)
+which always has x=1 because L_S 1=0.
+
+
+Therefore the residue system is again automatically solvable for every abstract split-prime D.
+
+
+RESULT_229AF_G_EVEN_SPLIT_ONLY_RESIDUE_SYSTEM=AUTOMATICALLY_SOLVABLE.
+
+
+8. Method firewall
+
+
+229AE suggested a possible residue-matrix support count. 229AF shows exactly where that idea can and cannot act.
+
+
+On the split-only odd support:
+- BOTH-ODD: the residue system is automatically solvable for every D;
+- G-EVEN: the residue system is automatically solvable for every D;
+- D-EVEN: a genuine obstruction exists; at minimum, every residue-graph component must contain an even number of 5 mod8 primes.
+
+
+Therefore a theorem that counts only solvability of the229AE cut system, while forgetting the physical six-bucket realization, cannot by itself be a universal Stage37 twist-support filter. Two of the three physical parity types have an identically nonempty abstract solution set on the split-only sector.
+
+
+RESULT_229AF_RESIDUE_MATRIX_ONLY_SUPPORT_ROUTE=FIREWALLED_AS_INSUFFICIENT_FOR_FULL_POPULATION.
+
+
+This does NOT say the physical G-EVEN or BOTH-ODD endpoint populations are large. Their actual scarcity may still come from:
+- the exact229AD six-bucket realization;
+- the base Delta0 packet;
+- inert/split boundary interaction;
+- the four primitive Pythagorean equations;
+- physical R-height;
+- the CM-independent two-point condition;
+- the direct same-physical radical structure.
+
+
+It says only that residue-matrix solvability alone cannot supply the missing full-support theorem.
+
+
+9. Refined next theorem target
+
+
+The next useful input should therefore not be merely
+  “rank/solvability of the split-row matrix”.
+
+
+It must preserve at least one genuinely physical layer beyond that matrix.
+
+
+Preferred targets:
+
+
+(A) SIX_BUCKET_PLUS_RECIPROCITY_SUPPORT_COUNT:
+count realized
+  (h,d0,a,b,c12,c21)
+under229AD pairwise coprimality, split-only h/c12/c21,229AF exact 2-adic type,229AE character rules, the four primitive Pythagorean equations, and R<=B;
+
+
+(B) D_EVEN_PHYSICAL_RESIDUE_COUNT plus separate control of G-EVEN and BOTH-ODD from stronger physical structure;
+
+
+(C) DIRECT_SAME_PHYSICAL_RADICAL_SUPPORT:
+the retained preferred theorem for
+  sf(gcd(eR,xy));
+
+
+(D) another selector-conditioned support theorem meeting o(B^(1/3)).
+
+
+DO_NOT_CONTINUE:
+- do not treat generic solvability/rank statistics of the229AE matrix as a full-population support saving;
+- do not forget the exact parity router229AF.10;
+- do not keep229M's twist parity bit as “unspecified”: it is now exactly routed by229AF;
+- do not infer that D-EVEN component parity alone gives a power saving without a same-physical distribution theorem;
+- do not infer physical realization of arbitrary abstract split-prime D from automatic residue solvability;
+- do not reopen generic rank/Selmer routes barred by229AC unless its exponent contract is met;
+- do not reopen CM dependence unless229AB fails audit.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+PRIMARY_GATE_STATUS=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+
+
+Integrated audit186-229O remains unchanged in scope and is not silently extended to229P-229AF.
+
+
+10. Verification scope and sources
+
+
+Internal load-bearing inputs:
+-229AE affine split-prime cut system;
+-229AD six-bucket pairwise-coprime packet;
+-229M individual gap-squareclasses and twist content;
+-229E exact physical 2-adic trichotomy;
+-229D nested factorization;
+-229L Hilbert-90 twist router;
+-current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+No external theorem is used.
+
+
+FINAL_READBACK_RECEIPT: PASS. Card, CARD-INDEX row497 and 案内, RESULT-LEDGER, MAIN current override, and active ROUTE were read back from Drive and agree on 229AF. The individual Hilbert 2-adic packet bits are now exactly routed by physical parity type; the moving twist is even exactly in G-EVEN. The229AE cut system is compressed to a split-prime F2 graph-Laplacian with inert boundary data. On split-only support D-EVEN has a genuine component parity obstruction, while G-EVEN and BOTH-ODD are abstractly automatically solvable, so residue-matrix solvability alone is firewalled as insufficient for full support counting. Preferred same-physical radical-gcd gate and CM-pair independent branch remain OPEN; CM dependence remains closed by229AB; generic rank/Selmer route remains HOLD by229AC; GLOBAL_COUNTING_CREDIT=0; M3-T11-230 remains unissued; production HOLD and integrated-audit186-229O scope are unchanged.
