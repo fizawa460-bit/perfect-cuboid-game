@@ -1,0 +1,6392 @@
+
+
+
+DUPLICATE_OF:
+a Gaussian-coordinate refinement of M3-CROSSCORE-GATE-001.
+
+
+SUPERSEDES:
+the raw rank-one equation A*B=C*E as a sufficient receiver.
+
+
+DO_NOT_REPEAT:
+The rank-one Gaussian norm equation alone has no certified power saving.
+
+
+REOPEN_CONDITION:
+a reciprocal-completion theorem beyond the rank-one identity.
+
+
+DETAIL_DOC:
+LEGACY-COLD Receiver 104-R1.
+
+
+---
+
+
+## M3-PHYS-SQ-001
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+Let
+p=gcd(P,Z),
+d=gcd(Q,Y).
+Then
+L_- square
+iff
+Xi(E)=p*(Q+iY)/[d*(P+iZ)]
+is a square in Q(i).
+Equivalently the two physical Gaussian factors have the same squareclass.
+The same condition is also equivalent to the rational scalar
+Psi(E)=p*(T+PQ+YZ)/(2*d*T)
+being a rational square,
+and to the positive physical integer
+S_-(E)=2*h*T*(T+PQ+YZ)
+being an integer square.
+
+
+POPULATION:
+exact primitive canonical physical M3.
+
+
+HEIGHT:
+unchanged exact physical height.
+
+
+DEPENDS_ON:
+physical Gaussian gcd dictionary and M3-ONE-001.
+
+
+IMPLIES:
+the one-factor receiver has canonical Gaussian, rational, and integer-square formulations using only physical data.
+
+
+ALIASES:
+PhysicalGaussianSquareclassEquality;
+CanonicalPhysicalRationalSquareReceiver;
+PhysicalIntegerSquareSieveReceiver.
+
+
+DUPLICATE_OF:
+equivalent formulations of M3-ONE-GATE-001, not separate filters.
+
+
+SUPERSEDES:
+source-dependent squareclass receivers for L_-.
+
+
+DO_NOT_REPEAT:
+Do not multiply these equivalent square tests as independent constraints.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD Section105, Theorems 105-C through 105-E.
+
+
+---
+
+
+## M3-PHYS-SQ-002
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+The minimal integral scalar receiver is
+F_-(E)=G*(PQ-YZ),
+where G=gcd(PQ,YZ):
+L_- square iff F_-(E) is an integer square.
+In half-angle coordinates u,v,
+PQ-YZ=X^2*(u^2+v^2)/(2uv),
+PQ+YZ=X^2*(1+u^2v^2)/(2uv).
+Thus the canonical terminal factors correspond to
+A_-=u^2+v^2,
+A_+=1+u^2v^2
+up to the common squareclass normalization.
+
+
+POPULATION:
+exact physical M3.
+
+
+HEIGHT:
+unchanged.
+
+
+DEPENDS_ON:
+M3-ONE-001 and M3-DIV-001.
+
+
+IMPLIES:
+square-sieve work can use one integral physical integer F_- without Gaussian denominators.
+
+
+ALIASES:
+MinimalPhysicalMinusSquareReceiver;
+HalfAngleTerminalFactorization.
+
+
+DUPLICATE_OF:
+equivalent to M3-PHYS-SQ-001 and M3-ONE-GATE-001.
+
+
+SUPERSEDES:
+the larger integer S_- as the preferred scalar square-sieve receiver.
+
+
+DO_NOT_REPEAT:
+Do not treat A_- before common-gcd normalization as identical to L_- squareclass without the twist factor.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD Section106, Theorems 106-A and 106-B.
+
+
+---
+
+
+## M3-LOCAL-003
+TYPE: THEOREM
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+For every good odd prime p, on the complete local parameter measure conditioned on the Euler-square predicate E(u,v):
+Pr(chi_p(A_-)=+1 | E square)
+=
+1/2+O(p^-1/2),
+and similarly for A_+.
+Moreover the pair is locally asymptotically uniform:
+Pr(chi_p(A_-)=eps_-, chi_p(A_+)=eps_+ | E square)
+=
+1/4+O(p^-1/2)
+uniformly in eps_-,eps_+ in {+1,-1}.
+
+
+POPULATION:
+complete good-prime local half-angle parameter measure.
+
+
+HEIGHT:
+pure local statement; no physical global transfer.
+
+
+DEPENDS_ON:
+Weil-type character-sum bounds for E,A_-,A_+.
+
+
+IMPLIES:
+the canonical terminal factors are locally unbiased after conditioning on the Euler-square condition.
+
+
+ALIASES:
+OneFactorLocalMarginal;
+PlusFactorLocalMarginal;
+LocalTerminalFactorPairUniformity.
+
+
+DUPLICATE_OF:
+stronger and more tailored than the old product-character law for the current one-factor receiver.
+
+
+SUPERSEDES:
+using only the product character when the separate factor marginals are needed.
+
+
+DO_NOT_REPEAT:
+Do not promote this local law to exact-M3 global equidistribution.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD Section106, Theorems 106-C through 106-E.
+
+
+---
+
+
+## M3-LOCAL-GATE-002
+TYPE: THEOREM_GATE
+STATUS: PAUSED
+
+
+CLAIM:
+Transfer the local cancellation of chi_p(L_-) to exact physical M3(B), uniformly enough over good odd primes to run a square sieve:
+sum_{E in M3_good,p(B)} chi_p(L_-(E))
+=o(M3(B))
+for fixed p, with a growing-prime version if available.
+
+
+POPULATION:
+exact physical M3, after explicit zero/common-gcd strata.
+
+
+HEIGHT:
+exact R<=B.
+
+
+DEPENDS_ON:
+M3-LOCAL-003 and M3-PHYS-SQ-002.
+
+
+IMPLIES:
+a growing-prime form proves M3-ONE-GATE-001; even a fixed-prime form is genuine same-M3 equidistribution progress.
+
+
+ALIASES:
+SameM3MinusFactorCharacterTransfer;
+minus-factor character transfer.
+
+
+DUPLICATE_OF:
+a one-factor-specific descendant of M3-LOCAL-GATE-001.
+
+
+SUPERSEDES:
+ambient complete-residue character sums as a closure claim.
+
+
+DO_NOT_REPEAT:
+Do not skip the moving common-gcd strata.
+
+
+REOPEN_CONDITION:
+a physical-height exact-M3 character-transfer theorem.
+
+
+DETAIL_DOC:
+LEGACY-COLD Receiver 106-R1.
+
+
+---
+
+
+## M3-LOCAL-GATE-003
+TYPE: THEOREM_GATE
+STATUS: PAUSED
+
+
+CLAIM:
+For one fixed good odd prime p and sign epsilon, prove
+#{E in M3_good,p(B): chi_p(L_-(E))=epsilon}
+=
+(1/2+O(p^-1/2))*M3_good,p(B)+o(M3(B)).
+Equivalent weighted form:
+sum_{E in M3_good,p(B)} chi_p(L_-(E))=o(M3(B)).
+
+
+POPULATION:
+exact physical M3.
+
+
+HEIGHT:
+exact R<=B.
+
+
+DEPENDS_ON:
+M3-LOCAL-003.
+
+
+IMPLIES:
+the first nontrivial fixed-prime same-M3 equidistribution theorem for the one-factor observable.
+
+
+ALIASES:
+FixedPrimePhysicalM3Count.
+
+
+DUPLICATE_OF:
+the fixed-p specialization of M3-LOCAL-GATE-002.
+
+
+SUPERSEDES:
+none.
+
+
+DO_NOT_REPEAT:
+Do not claim fixed-prime transfer from the finite-field complete sum alone.
+
+
+REOPEN_CONDITION:
+a proof in exact odd-edge divisor coordinates or any equivalent exact physical model.
+
+
+DETAIL_DOC:
+LEGACY-COLD Receiver 107-R1.
+
+
+---
+
+
+## M3-TWIST-001
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+In half-angle/norm coordinates the same moving squareclass 2h twists both raw terminal factors:
+[A_-]=[2hL_-],
+[A_+]=[2hL_+].
+For a fixed good prime ell, the normalized character admits the exact divisor-slice expansion
+chi_ell(L_-)
+=
+chi_ell(2)*
+sum_{d|N_-, d|N_+} lambda_ell(d)*chi_ell(A_-),
+with all nontrivial prime factors of the contributing d forced into the nonresidue class modulo ell.
+
+
+POPULATION:
+exact physical M3 away from the explicit bad/zero strata.
+
+
+HEIGHT:
+unchanged.
+
+
+DEPENDS_ON:
+M3-NORM-001 and the moving common core h.
+
+
+IMPLIES:
+the moving-gcd normalization can be exposed as a weighted common-divisor convolution rather than hidden inside L_-.
+
+
+ALIASES:
+CommonTwistMinusFactor;
+CommonTwistPlusFactor;
+CommonDivisorSliceExpansion;
+NonresidueSupportedCommonDivisorExpansion.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+treating the h-twist as an opaque normalization error.
+
+
+DO_NOT_REPEAT:
+Do not discard the d-sum when transferring local A_- cancellation to L_-.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD Section108.
+
+
+---
+
+
+## M3-TWIST-GATE-001
+TYPE: THEOREM_GATE
+STATUS: PAUSED
+
+
+CLAIM:
+For fixed good ell, prove a summable estimate for
+C_d(B;ell)
+=
+sum_{E in M3(B), d|N_-(E), d|N_+(E)}
+chi_ell(A_-(E))
+uniformly over the nonresidue-supported d occurring in the exact divisor expansion, strong enough to sum against lambda_ell(d).
+
+
+POPULATION:
+exact physical M3 common-divisor slices.
+
+
+HEIGHT:
+exact R<=B.
+
+
+DEPENDS_ON:
+M3-TWIST-001 and M3-LOCAL-003.
+
+
+IMPLIES:
+M3-LOCAL-GATE-002.
+
+
+ALIASES:
+CommonDivisorSlicedM3CharacterTransfer.
+
+
+DUPLICATE_OF:
+a more precise formulation of the moving-gcd part of M3-LOCAL-GATE-002.
+
+
+SUPERSEDES:
+fixed-prime transfer statements that omit the common-divisor convolution.
+
+
+DO_NOT_REPEAT:
+Preserve primitive, canonical, height, Euler-square, and one-object/one-count masks in every d-slice.
+
+
+REOPEN_CONDITION:
+a same-M3 character theorem uniform in common norm divisor d.
+
+
+DETAIL_DOC:
+LEGACY-COLD Receiver 108-R1.
+
+
+---
+
+
+## M3-TERM-002
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+The physical terminal square sequence
+T=X^2+Y^2+Z^2
+has squareclass
+[T]=[(u^2+v^2)(1+u^2v^2)]
+=[L_-L_+].
+Thus the moving common twist h cancels from the product.
+In exact odd-edge divisor coordinates,
+chi_ell(T)
+=
+chi_ell((A^2+C^2)*(X^4+A^2C^2)).
+No hidden normalization factor is present.
+
+
+POPULATION:
+exact physical M3.
+
+
+HEIGHT:
+exact divisor-coordinate height.
+
+
+DEPENDS_ON:
+M3-DIV-001 and M3-ONE-001.
+
+
+IMPLIES:
+the historical product-character route can be written as a fully integral fixed-prime observable on one-object/one-count physical coordinates.
+
+
+ALIASES:
+TerminalProductRawSquareclass;
+ExactDivisorCoordinateTerminalCharacter.
+
+
+DUPLICATE_OF:
+M3-LOCAL-003 separates the two factors; this card retains only their product.
+
+
+SUPERSEDES:
+product-character formulations with an unnecessary moving-gcd normalization.
+
+
+DO_NOT_REPEAT:
+Do not infer single-factor cancellation from product-character cancellation.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD Section109, Theorems 109-A and 109-B.
+
+
+---
+
+
+## M3-TERM-GATE-002
+TYPE: THEOREM_GATE
+STATUS: PAUSED
+
+
+CLAIM:
+For every fixed good odd prime ell, prove
+sum_{E in M3(B)} chi_ell(T(E))=o(M3(B))
+on the exact physical M3 measure, using the integral divisor-coordinate terminal character.
+
+
+POPULATION:
+exact primitive canonical M3.
+
+
+HEIGHT:
+exact R<=B.
+
+
+DEPENDS_ON:
+M3-TERM-002.
+
+
+IMPLIES:
+a fixed-prime terminal product transfer theorem; a modulus-uniform strengthening feeds a square sieve on T.
+
+
+ALIASES:
+FixedPrimeTerminalProductTransfer.
+
+
+DUPLICATE_OF:
+a product-observable counterpart to M3-LOCAL-GATE-003.
+
+
+SUPERSEDES:
+none.
+
+
+DO_NOT_REPEAT:
+Do not claim the complete local O(ell^-1/2) bias already transfers to physical M3.
+
+
+REOPEN_CONDITION:
+a same-M3 fixed-prime character-transfer theorem for T.
+
+
+DETAIL_DOC:
+LEGACY-COLD Receiver 109-R1.
+
+
+---
+
+
+## M3-FOUR-001
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+Every primitive canonical Euler-brick candidate has a unique four-variable encoding by positive odd
+a<b,
+c<f,
+gcd(a,b)=gcd(c,f)=1,
+af<bc,
+with
+g=gcd(ab,cf),
+X=abcf/g,
+Y=cf(b^2-a^2)/(2g),
+Z=ab(f^2-c^2)/(2g),
+P=cf(a^2+b^2)/(2g),
+Q=ab(c^2+f^2)/(2g).
+The M3 predicate is
+E4(a,b,c,f)=square,
+the endpoint predicate is
+H4(a,b,c,f)=square,
+and
+H4-E4=(2abcf)^2.
+The exact physical cutoff is
+H4<=4g^2B^2.
+
+
+POPULATION:
+exact primitive canonical physical Euler-brick candidates.
+
+
+HEIGHT:
+exact physical R<=B.
+
+
+DEPENDS_ON:
+resolved Section32 divisor coordinates.
+
+
+IMPLIES:
+the Class-3 problem is an exact four-variable polynomial double-square problem with an explicit square difference.
+
+
+ALIASES:
+UniqueFaceScaleRecovery;
+FourVariablePhysicalDictionary;
+FourVariableM3Predicate;
+FourVariableTerminalPredicate;
+DoubleSquareDifferenceIdentity.
+
+
+DUPLICATE_OF:
+M3-DIV-001 is the divisor-coordinate predecessor; this card resolves those divisors into four primitive factors.
+
+
+SUPERSEDES:
+four-parameter models lacking one-object/one-count or exact physical height.
+
+
+DO_NOT_REPEAT:
+Do not treat the reconstructed face scales as extra free variables.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD Section110, Theorems 110-A through 110-E.
+
+
+---
+
+
+## M3-FOUR-002
+TYPE: THEOREM
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+For fixed n=a*b*c*f occurring below physical height B,
+#{E in M3(B): abcf=n}
+<=B^o(1)
+uniformly.
+Also
+n<=B^2.
+
+
+POPULATION:
+exact physical M3 in four-variable coordinates.
+
+
+HEIGHT:
+exact R<=B.
+
+
+DEPENDS_ON:
+M3-FOUR-001 and divisor-factor multiplicity.
+
+
+IMPLIES:
+the primitive face-product n is another exact anti-concentration coordinate.
+
+
+ALIASES:
+FixedPrimitiveFaceProductMultiplicity.
+
+
+DUPLICATE_OF:
+analogous but distinct from M3-ODD-001 and M3-NORM-002.
+
+
+SUPERSEDES:
+none.
+
+
+DO_NOT_REPEAT:
+The natural n-range is B^2, so fixed-n multiplicity alone does not solve the density problem.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD Theorem 110-F.
+
+
+---
+
+
+## M3-FOUR-GATE-001
+TYPE: THEOREM_GATE
+STATUS: PAUSED
+
+
+CLAIM:
+For each fixed good odd prime ell, prove physical conditional character transfer
+sum_{primitive canonical quadruples,
+E4 square,
+physical height<=B}
+chi_ell(H4)
+=o(M3(B)).
+
+
+POPULATION:
+exact four-variable M3 measure.
+
+
+HEIGHT:
+exact gcd-dependent physical cutoff H4<=4g^2B^2.
+
+
+DEPENDS_ON:
+M3-FOUR-001.
+
+
+IMPLIES:
+fixed-prime same-M3 terminal character cancellation.
+
+
+ALIASES:
+FourVariableConditionalCharacterTransfer.
+
+
+DUPLICATE_OF:
+equivalent in goal to M3-TERM-GATE-002, but expressed in exact four-variable polynomial coordinates.
+
+
+SUPERSEDES:
+ambient four-variable complete-sum claims as a global theorem.
+
+
+DO_NOT_REPEAT:
+Primitive lattice, gcd-dependent height and the E4-square conditioning must all be retained.
+
+
+REOPEN_CONDITION:
+an incomplete-sum/geometry-of-numbers transfer theorem for the physical four-variable region.
+
+
+DETAIL_DOC:
+LEGACY-COLD Receiver 110-R1.
+
+
+---
+
+
+## M3-FOUR-003
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+In the fully factored four-variable model, the cross gcd
+g=gcd(ab,cf)
+is exactly a product r*s*t*u of four cross factors.
+The raw terminal factors M_-,M_+ satisfy
+M_-=(r*u)^2*N_-,
+M_+=(s*t)^2*N_+,
+and
+gcd(M_-,M_+)=gcd(N_-,N_+)=h.
+Hence
+L_- square iff M_-/h square,
+and similarly for L_+.
+The M3 third-face reduction also forces the exact 2-adic mask
+v2(b^2-a^2) != v2(f^2-c^2).
+
+
+POPULATION:
+exact four-variable physical M3.
+
+
+HEIGHT:
+unchanged exact physical height.
+
+
+DEPENDS_ON:
+M3-FOUR-001 and M3-NORM-001.
+
+
+IMPLIES:
+the common core and one-factor criterion are visible directly in raw four-variable polynomials; no Master representation is required.
+
+
+ALIASES:
+CrossGcdProduct;
+RawToPrimitiveNormFactorization;
+RawTerminalGcdEqualsCommonCore;
+RawOneFactorCriterion;
+ThirdFace2AdicMismatch.
+
+
+DUPLICATE_OF:
+physical/raw-coordinate restatement of M3-NORM-001 and M3-ONE-002.
+
+
+SUPERSEDES:
+hidden-coordinate common-core descriptions.
+
+
+DO_NOT_REPEAT:
+Do not count the raw square factors (r*u)^2,(s*t)^2 as arithmetic restrictions.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD Section111.
+
+
+---
+
+
+## M3-FOUR-LOCAL-001
+TYPE: THEOREM
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+For every good odd prime p, the complete four-variable character sums for
+E4,
+H4,
+and
+E4*H4
+are each O(p^(7/2)), giving square-root-quality saving relative to p^4 volume.
+The exact physical dyadic region satisfies
+max(AF,BC)*max(AC,BF) << G*B_phys
+and in particular
+ABCF << G*B_phys.
+
+
+POPULATION:
+complete local four-variable family plus exact physical dyadic boxes.
+
+
+HEIGHT:
+the second statement is the exact physical product constraint.
+
+
+DEPENDS_ON:
+M3-FOUR-001 and two-variable Weil bounds.
+
+
+IMPLIES:
+the local polynomial family has strong complete-sum cancellation; the remaining difficulty is incomplete anisotropic physical boxes and E4-square conditioning.
+
+
+ALIASES:
+CompleteFourVariableMixedCharacterBounds;
+DyadicPhysicalProductConstraint.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+claims that the four-variable polynomials lack square-root-quality local cancellation.
+
+
+DO_NOT_REPEAT:
+Do not identify complete-sum cancellation with a physical M3 global theorem.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD Section112, Theorems 112-B and 112-C.
+
+
+---
+
+
+## M3-FOUR-SIEVE-GATE-001
+TYPE: THEOREM_GATE
+STATUS: PAUSED
+
+
+CLAIM:
+Prove incomplete mixed-character bounds on physical dyadic four-variable boxes combining:
+complete-sum square-root cancellation,
+completion/q-van der Corput saving,
+the exact gcd-dependent physical region,
+primitive/canonical masks,
+and enough modulus uniformity for a two-stage square sieve.
+The terminal quantitative target is an endpoint upper bound below B^(1/3-o(1)).
+
+
+POPULATION:
+exact four-variable physical candidate/M3 measure.
+
+
+HEIGHT:
+exact physical dyadic constraint.
+
+
+DEPENDS_ON:
+M3-FOUR-LOCAL-001 and M3-FOUR-001.
+
+
+IMPLIES:
+a direct absolute endpoint bound strong enough to beat the certified M3 denominator.
+
+
+ALIASES:
+PhysicalDoubleSquareSieve.
+
+
+DUPLICATE_OF:
+a more ambitious absolute-count route than M3-FOUR-GATE-001.
+
+
+SUPERSEDES:
+none.
+
+
+DO_NOT_REPEAT:
+A weaker absolute power saving still above B^(1/3) does not by itself close P/M3.
+
+
+REOPEN_CONDITION:
+an incomplete-sum theorem with sufficient exponent budget.
+
+
+DETAIL_DOC:
+LEGACY-COLD Receiver 112-R1.
+
+
+---
+
+
+## M3-FOURIER-001
+TYPE: THEOREM
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+For the four-variable polynomials E4,H4,E4H4 at a good prime p, additive Fourier coefficients satisfy:
+zero frequency O(p^(7/2));
+one variable-pair degenerate frequency O(p^(5/2));
+generic nonzero frequency O(p^2).
+Consequently a prime incomplete box obeys
+|sum_box chi_p(...)|
+<<
+V*p^(-1/2)
++
+p^(1/2)*(AB+CF)*(log p)^2
++
+p^2*(log p)^4,
+and the squarefree-modulus analogue is
+<< q^epsilon [V*q^(-1/2)+q^(1/2)(AB+CF)+q^2].
+
+
+POPULATION:
+ambient four-variable boxes for E4,H4,E4H4.
+
+
+HEIGHT:
+usable inside physical dyadic decomposition, but not itself conditioned on M3.
+
+
+DEPENDS_ON:
+M3-FOUR-LOCAL-001 and explicit finite-field Fourier analysis.
+
+
+IMPLIES:
+the exact incomplete-sum ceiling for elementary completion methods is quantified.
+
+
+ALIASES:
+ExplicitPrimeFourierBounds;
+PrimeIncompleteBoxCharacterBound;
+SquarefreeIncompleteBoxCharacterBound.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+generic completion estimates that ignore the frequency-degeneracy hierarchy.
+
+
+DO_NOT_REPEAT:
+Do not claim these ambient box bounds already incorporate the E4-square M3 conditioning.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD Section113, Theorems 113-A through 113-C.
+
+
+---
+
+
+
+
+
+
+## M3-PARAM-001
+TYPE: THEOREM
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+For every sufficiently large good odd prime p, on the admissible Master-Hit parameter measure,
+Pr(H is a nonzero square | M is a nonzero square)
+=
+1/2+O(p^(-1/2)),
+with an absolute implied constant.
+The proof is by uniform Weil bounds for the one-variable quartics M(n), H(n), and M(n)H(n), with only an O(p)-thin discriminant exception in the outer parameters.
+
+
+POPULATION:
+admissible Master-Hit parameter residue classes modulo p.
+
+
+HEIGHT:
+local parameter measure only; no physical R<=B transfer.
+
+
+DEPENDS_ON:
+explicit quartic discriminants and Weil character-sum bounds.
+
+
+IMPLIES:
+the correct conditional local factor on the raw Master parameter measure is asymptotically one half.
+
+
+ALIASES:
+Step1.6 conditional local law;
+Master parameter conditional square law.
+
+
+DUPLICATE_OF:
+M3-LOCAL-003 is the later half-angle local law for canonical terminal factors; this card concerns the historical M/H Master predicates.
+
+
+SUPERSEDES:
+heuristic conditional local probabilities for M and H on the parameter measure.
+
+
+DO_NOT_REPEAT:
+Do not call this a theorem on exact physical M3(B).
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD Section6.
+
+
+---
+
+
+## M3-PARAM-002
+TYPE: THEOREM
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+For any fixed finite set S of sufficiently large good odd primes, CRT gives exact independence of the local Master residue states across p in S, hence
+Pr(H square at every p in S | M square at every p in S)
+=
+product_{p in S}(1/2+O(p^(-1/2))).
+For S={p:p0<=p<=z}, the parameter-measure survival decays as
+exp(-Theta(z/log z))
+as z->infinity.
+
+
+POPULATION:
+uniform Master-Hit parameter residue measure modulo the product modulus.
+
+
+HEIGHT:
+parameter-side only; no physical/canonical height transfer.
+
+
+DEPENDS_ON:
+M3-PARAM-001, CRT and standard prime-sum estimates.
+
+
+IMPLIES:
+the historical local algebra and growing-prime sieve are already strong on the ambient parameter measure; the unresolved issue is the same-measure physical adapter.
+
+
+ALIASES:
+fixed-finite-prime Master contraction;
+parameter growing sieve;
+CRT Master square sieve.
+
+
+DUPLICATE_OF:
+M3-LOCAL-GATE-001 asks for the missing exact-M3 analogue, not this parameter theorem.
+
+
+SUPERSEDES:
+claims that an additional Selberg-weight mechanism is necessary merely to obtain parameter-side growing-prime decay.
+
+
+DO_NOT_REPEAT:
+Never transfer exp(-Theta(z/log z)) directly to P(B)/M3(B).
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD Sections7-8.
+
+
+---
+
+
+## M3-PARAM-NEG-001
+TYPE: NEGATIVE_RESULT
+STATUS: CORRECTED_FROZEN
+
+
+CLAIM:
+The historical fixed-g Davenport/lattice-point route does not currently provide a certified transfer from the parameter-side CRT/Weil laws to exact physical M3 equidistribution.
+An earlier Section14 calculation estimated
+Vol(D_g)~gB log(gB)
+and from it a summed boundary scale around O(B^(1/2) log B).
+Section18.1 later identified that this volume model omitted the density loss already imposed by
+g|U1 and g|U2,
+so the quantitative Section14 estimate is not retained as a proved bound.
+The safe conclusion is only that the naive Branch0 lattice-transfer route remains unproved and must be re-derived before any exponent credit is used.
+
+
+POPULATION:
+attempted exact physical Master-Hit count stratified by g.
+
+
+HEIGHT:
+exact R<=B was the intended target.
+
+
+DEPENDS_ON:
+historical Sections14 and 18.1.
+
+
+IMPLIES:
+parameter-side CRT/Weil results cannot be promoted to exact physical M3 by citing the old Section14 Davenport calculation.
+
+
+ALIASES:
+fixed-g Davenport wall;
+Branch0 physical-transfer failure;
+Section14 volume correction.
+
+
+DUPLICATE_OF:
+M3-HEIGHT-NEG-001 forbids raw square-box truncation; this card records the separate failure/correction of the fixed-g physical-region lattice transfer.
+
+
+SUPERSEDES:
+the previous Ledger wording that treated the O(B^(1/2) log B) boundary scale as a retained quantitative theorem.
+
+
+DO_NOT_REPEAT:
+Do not reuse Vol(D_g)~gB log(gB), or any exponent derived from it, without rebuilding the g-divisibility density and boundary analysis.
+Do not cite the parameter-side sieve as physical M3 progress without a new exact-measure transfer theorem.
+
+
+REOPEN_CONDITION:
+a corrected fixed-g volume/boundary theorem incorporating g|U1,g|U2 and primitive/canonical physical weighting, or a different global transfer mechanism.
+
+
+DETAIL_DOC:
+LEGACY-COLD Sections14 and 18.1.
+
+
+---
+
+
+## M3-HALF-001
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+On the genuine M3 Pythagorean base, every nondegenerate endpoint gives the same rational X-coordinate point simultaneously divisible by 2 on two split-full-2 elliptic curves E_t and E_r, with r^2=1+t^2.
+After choosing a half Q=(x,y) of the M3 point, the remaining endpoint condition is exactly the square condition on the four-linear product
+G_s(x)
+=
+[x(s-1)^2+8s^2]
+[x(s+1)^2+8]
+[x(s-1)^2+8]
+[x(s+1)^2+8s^2].
+
+
+POPULATION:
+nondegenerate endpoint points over the genuine M3 Pythagorean base.
+
+
+HEIGHT:
+structural adapter; no global count by itself.
+
+
+DEPENDS_ON:
+exact split-full-2 elliptic model and duplication formula.
+
+
+IMPLIES:
+the terminal condition has a precise half-point four-linear squareclass receiver.
+
+
+ALIASES:
+M3SameXDoubleDivisibilityForwardMap;
+M3HalvingFourLinearEndpointReceiver;
+same-X 2-divisibility adapter.
+
+
+DUPLICATE_OF:
+the later fixed-w/Stage35 genus-5 models describe the same terminal geometry in different coordinates but not the same explicit half-point function.
+
+
+SUPERSEDES:
+vague moving-fiber endpoint conditions lacking an explicit function.
+
+
+DO_NOT_REPEAT:
+Only the forward adapter is credited unless a converse with positivity/primitivity is separately proved.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section11.
+
+
+---
+
+
+## M3-HALF-NEG-001
+TYPE: NEGATIVE_RESULT
+STATUS: FROZEN
+
+
+CLAIM:
+The four-linear terminal class G_t on the split-full-2 elliptic curve is generically not contained in the standard E_t[2] Kummer subgroup generated by x, x+4, x+4t^2.
+Its quadratic extension is branched at eight generic points and therefore gives a genus-5 cover, not an unramified standard 2-isogeny/Kummer cover.
+
+
+POPULATION:
+genuine Pythagorean-base half-point family.
+
+
+HEIGHT:
+structural; no count.
+
+
+DEPENDS_ON:
+M3-HALF-001 and divisor parity at the eight branch points.
+
+
+IMPLIES:
+standard 2-isogeny/Kummer machinery does not directly identify or close the terminal squareclass receiver.
+
+
+ALIASES:
+FourLinearClassIsBranchedNonKummer;
+branched genus-5 half-point cover.
+
+
+DUPLICATE_OF:
+M3-DESC-NEG-001 concerns the earlier simple occupancy 2-descent; this card concerns the terminal four-linear class.
+
+
+SUPERSEDES:
+attempts to treat G_t as a standard full-2 Kummer class.
+
+
+DO_NOT_REPEAT:
+Do not restart the same receiver as another 2-isogeny normalization.
+
+
+REOPEN_CONDITION:
+a moving-family theorem exploiting the special genus-5 branch geometry rather than standard Kummer identification.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section17.
+
+
+---
+
+
+## M3-DELTA-002
+TYPE: THEOREM
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+For a fixed primitive Pythagorean base (P,Q,W), every signed-squarefree delta slice has the smooth even quartic
+y^2
+=
+-delta*P*Q*t^4
++W^2*t^2
+-(P*Q)/delta.
+Its binary-quartic invariants and geometric Jacobian j-invariant are independent of delta because the product of the outer coefficients is (PQ)^2.
+Thus delta changes the arithmetic twist/torsor class but creates no new elliptic moduli dimension.
+
+
+POPULATION:
+Section35 fixed-base squareclass/descent slices.
+
+
+HEIGHT:
+fixed-base structural theorem.
+
+
+DEPENDS_ON:
+M3-DELTA-001.
+
+
+IMPLIES:
+the delta descent and the moving elliptic-fibration route share the same moving-base quantifier; delta contributes only subpolynomial twist classes per base.
+
+
+ALIASES:
+FixedBaseDeltaQuartic;
+DeltaTwistNoNewModuli;
+R2R3 structural merge input.
+
+
+DUPLICATE_OF:
+M3-DELTA-001 gives the squareclass support; this card describes the geometry of each slice.
+
+
+SUPERSEDES:
+treating delta as an independent global moduli parameter.
+
+
+DO_NOT_REPEAT:
+Do not count the delta slices as a second independent closure mechanism from the moving-base fibration.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section14 delta audit.
+
+
+---
+
+
+## M3-MCK-NEG-001
+TYPE: NEGATIVE_RESULT
+STATUS: FROZEN
+
+
+CLAIM:
+The exact physical quasi-polarization on K_c lies on the boundary where the relevant McKinnon counting exponent denominator vanishes.
+A naive ample perturbation toward the physical ray makes the exponent blow up rather than converge to a useful physical-height estimate.
+Deleting the M-null boundary curves does not by itself repair this degeneration.
+
+
+POPULATION:
+K_c rational points under the exact physical polarization.
+
+
+HEIGHT:
+exact physical height ray.
+
+
+DEPENDS_ON:
+the audited McKinnon exponent specialization.
+
+
+IMPLIES:
+the naive McKinnon big-nef/ample-perturbation adapter does not supply the residual endpoint bound needed by Method D.
+
+
+ALIASES:
+McKinnonPhysicalBoundaryDegeneracy;
+McKinnon big-nef naive extension failure.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+the weaker statement that McKinnon is unusable merely because the published theorem assumes ampleness.
+
+
+DO_NOT_REPEAT:
+Do not retry a routine ample perturbation without a new argument for the boundary-growth sector.
+
+
+REOPEN_CONDITION:
+a genuinely new physical-open counting theorem exploiting additional arithmetic restrictions.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section20.
+
+
+---
+
+
+## M3-DEN-NEG-001
+TYPE: NEGATIVE_RESULT
+STATUS: FROZEN
+
+
+CLAIM:
+No rational surface, in particular no P^2, can dominate the smooth Euler-brick K3 surface K_c generically finitely in characteristic zero.
+Therefore a naive bounded-multiplicity Zariski-dense rational parametrization with at least two projective parameters cannot exist.
+
+
+POPULATION:
+global K_c denominator geometry.
+
+
+HEIGHT:
+geometric no-go; independent of a specific height count.
+
+
+DEPENDS_ON:
+K_c is a smooth K3 surface and hence not uniruled.
+
+
+IMPLIES:
+a super-half-power M3 lower bound cannot come merely from adding free rational parameters to obtain a dominant rational surface parametrization.
+
+
+ALIASES:
+NoDominantRationalSurfaceParameterizationOfKc;
+naive extra-parameter denominator-family no-go.
+
+
+DUPLICATE_OF:
+M3-LIN-NEG-001 closes one explicit linear family; this card is a global geometric obstruction.
+
+
+SUPERSEDES:
+random extra-free-parameter searches that ignore image dimension and fiber multiplicity.
+
+
+DO_NOT_REPEAT:
+A denominator upgrade may still come from moving curves/fibers or intrinsic K3 counting; this card does not rule those out.
+
+
+REOPEN_CONDITION:
+a construction whose image is not a generically finite rational-surface dominance, with controlled physical multiplicity.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section22.
+
+
+---
+
+
+## M3-CURVE-002
+TYPE: THEOREM
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+There are only finitely many physical rational degree-6 carriers on the fixed K_c.
+Combining this finiteness with the nonsplit degree-12 terminal lift gives a collective endpoint contribution
+O(B^(1/6+o(1)))
+from all degree-6 rational carriers, hence o(M3(B)).
+
+
+POPULATION:
+union of all physical rational degree-6 curves on K_c and their endpoint lifts.
+
+
+HEIGHT:
+exact physical projective height.
+
+
+DEPENDS_ON:
+M3-CURVE-001 plus bounded-degree Hilbert-scheme finiteness/non-uniruledness of K3.
+
+
+IMPLIES:
+the degree-6 rational-carrier family-count layer is closed; it no longer remains an open summation gate.
+
+
+ALIASES:
+FinitenessOfDegreeSixRationalCarriers;
+CollectiveDegreeSixEndpointBound.
+
+
+DUPLICATE_OF:
+M3-CURVE-001 is the fixed-single-curve bound; this card performs the finite union.
+
+
+SUPERSEDES:
+the degree-6 portion of the older M3-CURVE-GATE-001 family-count requirement.
+
+
+DO_NOT_REPEAT:
+This does not control moving genus-one families or the Zariski-dense residual population.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section23.
+
+
+---
+
+
+## M3-CURVE-003
+TYPE: THEOREM
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+There are no nonconstant physical rational curves of degrees 1, 2, or 3 meeting the nondegenerate positive chamber of K_c.
+For every fixed positive physical degree d, the aggregate endpoint contribution from rational carriers of degree d is o(B^(1/3)).
+Consequently every fixed finite band of rational-curve degrees is negligible in P(B)/M3(B).
+
+
+POPULATION:
+physical rational curves on K_c and their endpoint lifts.
+
+
+HEIGHT:
+exact physical degree/height.
+
+
+DEPENDS_ON:
+explicit degree-1/2/3 binary-form elimination, finiteness at fixed degree, and nonsplit endpoint-cover bounds.
+
+
+IMPLIES:
+Method D's rational-curve obstruction is reduced to degrees growing with B; moving genus-one families and residual surface points remain separate.
+
+
+ALIASES:
+NoPhysicalM1RationalCurveOnKc;
+NoPhysicalM2RationalCurveOnKc;
+NoPhysicalM3RationalCurveOnKc;
+FixedDegreeRationalCarrierNegligibility.
+
+
+DUPLICATE_OF:
+extends M3-CURVE-002 from degree 6 to every fixed rational degree.
+
+
+SUPERSEDES:
+older concern that a fixed low-degree rational-carrier spectrum could carry terminal mass at B^(1/3) scale.
+
+
+DO_NOT_REPEAT:
+Do not infer that the union over degrees d=d(B)->infinity is negligible.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section27.
+
+
+---
+
+
+## M3-FIB-MERGE-001
+TYPE: FIREWALL
+STATUS: FROZEN
+
+
+CLAIM:
+The two-transverse-rational-fibration incidence branch is, after the exact Section31-34 adapter, the already-known E_-/E_+ ambient double-square cover.
+It is not an independent counting route and no extra transversality saving may be multiplied on top without a separate theorem.
+The genuinely distinct R3 route is the single moving-base weighted energy problem.
+
+
+POPULATION:
+K_c two-fibration/double-square architecture.
+
+
+HEIGHT:
+exact physical adapter retained.
+
+
+DEPENDS_ON:
+M3-FIB-005 and M3-QUOT-001.
+
+
+IMPLIES:
+merge R3_TWO_FIBRATION_INCIDENCE into ambient double-square analysis; keep only the moving-base energy gate as independent fibration work.
+
+
+ALIASES:
+TwoFibrationBranchMerge;
+two-fibration no-double-credit firewall.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+treating transverse fibrations and double-square coordinates as two separate closure mechanisms.
+
+
+DO_NOT_REPEAT:
+Do not claim an additional saving merely from calling the same double-square geometry a transverse-fibration incidence.
+
+
+REOPEN_CONDITION:
+a theorem exploiting genuinely new information across the moving base beyond the ambient double-square model.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section25.
+
+
+---
+
+
+## M3-BASE-001
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+Let w=D/X on the physical dense open.
+An M3 point is an endpoint exactly when w lies in the degree-two Pythagorean thin image
+w=2*tau/(1-tau^2).
+Equivalently, the endpoint surface is birational to the normalization of the base change
+K_c x_{P1_w} C_base.
+For every nonzero rational w, the normalized fixed-w M3 fiber is a genus-5 V4 cover.
+
+
+POPULATION:
+exact physical M3 and endpoint population on the w=D/X base.
+
+
+HEIGHT:
+physical height inherited from K_c.
+
+
+DEPENDS_ON:
+the endpoint identity X^2+D^2=R^2.
+
+
+IMPLIES:
+P(B) is exactly the M3 mass carried by a degree-two thin subset of the physical w-pushforward.
+
+
+ALIASES:
+EndpointAsPythagoreanBaseChange;
+FixedDXRatioGenusFive;
+Pythagorean thin-base formulation.
+
+
+DUPLICATE_OF:
+M3-PAIR-GATE-001 studies the occupied (X,D) image; this card factors the endpoint predicate through their ratio.
+
+
+SUPERSEDES:
+pointwise endpoint formulations that hide the thin-base map.
+
+
+DO_NOT_REPEAT:
+Faltings on each fixed w is not a uniform bound on the moving thin-base mass.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section28.
+
+
+---
+
+
+## M3-BASE-002
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+The w=D/X thin-base genus-5 family is birationally identical on the nondegenerate positive physical open to the Stage35 selected rank-3 genus-5 fibration with parameter t>1:
+w=2t/(t^2-1),
+R/X=(t^2+1)/(t^2-1).
+No population, height, field or multiplicity change is introduced.
+
+
+POPULATION:
+endpoint-active M3 thin-base family / Stage35 genus-5 family.
+
+
+HEIGHT:
+exact physical height preserved.
+
+
+DEPENDS_ON:
+M3-BASE-001.
+
+
+IMPLIES:
+Stage35 fiber geometry is reusable structural input, but its pointwise-for-every-t closure target is stronger than the M3 average thin-base-mass target.
+
+
+ALIASES:
+Stage35ThinBaseFiberAdapter;
+D/X-to-Stage35 genus-5 crosswalk.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+rediscovering the same Stage35 genus-5 fiber structure under w notation.
+
+
+DO_NOT_REPEAT:
+Do not inherit Stage35 uniform fiber emptiness as a necessary M3 goal; density only needs the total endpoint-active base mass to be o(M3).
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section29.
+
+
+---
+
+
+## M3-DELTA-LOCAL-001
+TYPE: THEOREM
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+On every nondegenerate positive physical fixed-(delta,z) chart, the endpoint polynomial P_delta(t,z) is a genuine nonsquare quartic in t.
+At inert primes p==3 mod4 away from delta, the corresponding quartic form has flat complete Fourier structure: zero zero-frequency trace and explicit nonzero Fourier transform of size p.
+The physical face-diagonal bound gives the exact height bridge
+H(t) << sqrt(B/(c*d))
+on the fixed packet.
+
+
+POPULATION:
+fixed delta/cross-gcd physical packets.
+
+
+HEIGHT:
+exact physical height bridge.
+
+
+DEPENDS_ON:
+M3-DELTA-001/002 and the Section34 physical coordinates.
+
+
+IMPLIES:
+the local Fourier algebra is not the remaining blocker; the missing theorem is physical packetization/averaging while retaining the M3 selector.
+
+
+ALIASES:
+FixedDeltaEndpointQuarticNonSquare;
+delta inert Fourier flatness;
+delta physical t-height bridge.
+
+
+DUPLICATE_OF:
+M3-PARAM-001/002 concern the older raw Master parameter measure.
+
+
+SUPERSEDES:
+local-algebra searches for whether the fixed-delta endpoint quartic is genuinely nonsquare.
+
+
+DO_NOT_REPEAT:
+Do not drop the M3 genus-one coupling and count ambient (t,z) points as density credit.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section30.
+
+
+---
+
+
+
+
+
+
+## M3-FOUR-NEG-001
+TYPE: NEGATIVE_RESULT
+STATUS: FROZEN
+
+
+CLAIM:
+Even after the exact generic additive Fourier bound O(q^2), a standard symmetric two-stage square sieve for the four-variable E4/H4 double-square problem, combined only with elementary completion, has best balanced generic scale
+B_phys^(4/5+epsilon).
+This is far above the absolute endpoint target o(B_phys^(1/3)).
+The obstruction is not weak complete finite-field cancellation but the global modulus/box-size balance.
+
+
+POPULATION:
+ambient four-variable E4/H4 physical dyadic boxes.
+
+
+HEIGHT:
+physical B_phys with the Section112 dyadic adapter.
+
+
+DEPENDS_ON:
+M3-FOURIER-001 and the elementary two-square sieve optimization.
+
+
+IMPLIES:
+merely sharpening the existing complete finite-field sums cannot make the elementary double-square route close the M3 density target.
+
+
+ALIASES:
+ElementaryDoubleSquareSieveCeiling;
+elementary B^(4/5) double-square ceiling.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+expectations that the already-proved square-root-quality complete sums should automatically yield an absolute endpoint exponent below 1/3.
+
+
+DO_NOT_REPEAT:
+Do not rerun the same elementary completion optimization without an additional structural mechanism such as differencing, determinant spacing, effective dimension reduction, or a relative-to-M3 argument.
+
+
+REOPEN_CONDITION:
+a genuinely stronger incomplete-sum mechanism that materially beats the 4/5 exponent ceiling.
+
+
+DETAIL_DOC:
+LEGACY-COLD Section113.5-113.9.
+
+
+---
+
+
+## M3-A-001
+TYPE: RECEIVER
+STATUS: PAUSED
+
+
+CLAIM:
+For one fixed directional two-face host, let rho_j(B) be the normalized correlation coefficient of the third-face and space-diagonal selectors.
+Any bound
+rho_j(B)=o(B^(-1/12))
+with the required log/epsilon control, or more concretely
+|rho_j(B)|<<B^(-1/12-delta)
+for some fixed delta>0,
+is sufficient for P(B)/M3(B)->0.
+
+
+POPULATION:
+exact directional physical two-face host.
+
+
+HEIGHT:
+exact R<=B.
+
+
+DEPENDS_ON:
+M3-ROOT-001 and the directional covariance normalization.
+
+
+IMPLIES:
+Method A needs only a 1/12-plus-margin correlation-power improvement, not full independence or an absolute endpoint count below B^(1/3).
+
+
+ALIASES:
+OneTwelfthCorrelationReceiver;
+centered directional selector receiver.
+
+
+DUPLICATE_OF:
+a quantitatively sharpened form of M3-A-GATE-001, not an independent method.
+
+
+SUPERSEDES:
+stronger unnecessary Method-A targets such as T_j->1.
+
+
+DO_NOT_REPEAT:
+Do not use the ambient B^(4/5) double-square ceiling as evidence that this centered covariance receiver is impossible; the normalizations differ.
+
+
+REOPEN_CONDITION:
+a physical-height-preserving centered selector expansion using the known nonzero-frequency cancellation without double-charging prior savings.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section19.
+
+
+---
+
+
+## M3-A-LOCAL-001
+TYPE: THEOREM
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+At every sufficiently good split prime, the two already-certified first-order blocker systems for the directional third-face and space-diagonal selectors have disjoint generic support.
+Their intersection has normalized mass O(p^-2), so the relative Euler product of the known blocker interaction converges absolutely after finitely many bad primes are removed.
+
+
+POPULATION:
+certified first-order local blocker systems on the directional physical host.
+
+
+HEIGHT:
+local statement only.
+
+
+DEPENDS_ON:
+the audited Stage19 and Stage20 first-order blocker support descriptions.
+
+
+IMPLIES:
+any B-power terminal interaction not explained by the known marginal blockers must come from genuinely global correlation, higher-order local structure, or exceptional/accumulating geometry.
+
+
+ALIASES:
+FirstOrderBlockerSupportsSeparate;
+known-blocker first-order separation.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+heuristics blaming the terminal enhancement on overlap of the two already-known first-order blocker supports.
+
+
+DO_NOT_REPEAT:
+This is not independence of the actual completion predicates and gives no bound on T_j or the global covariance.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section21.
+
+
+---
+
+
+
+
+
+
+## M3-EULERIAN-001
+TYPE: THEOREM
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+On the one-factor locus x^2=A-B with gcd(A,B)=1, let S and T be the odd-prime supports of the squarefree kernels of A and B.
+Form the bipartite nonresidue graph with edge ell--q exactly when (q/ell)=-1, adjoining the deterministic vertex 2 when the 2-adic parity requires it.
+Every vertex has even degree.
+For fixed odd supports with m=|S|>=1 and n=|T|>=1, the odd-prime Legendre sign patterns satisfying the one-factor constraints form a linear subspace of codimension
+m+n-1,
+with exactly
+2^((m-1)(n-1))
+admissible matrices out of 2^(mn).
+
+
+POPULATION:
+one-factor squarefree-support strata.
+
+
+HEIGHT:
+exact combinatorial/local reciprocity statement; no global physical distribution claim.
+
+
+DEPENDS_ON:
+M3-ONE-004 and quadratic reciprocity.
+
+
+IMPLIES:
+the moving-prime compatibility is an Eulerian cycle-space constraint, with exact symbol codimension increasing linearly in total squarefree support.
+
+
+ALIASES:
+OneFactorEulerianResidueGraph;
+OneFactorSymbolCodimension;
+Legendre incidence cycle space.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+treating each moving-prime residue condition as an unrelated independent bit.
+
+
+DO_NOT_REPEAT:
+The codimension count is not a theorem that Legendre symbol patterns are equidistributed on exact M3(B).
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD Sections91-92.
+
+
+---
+
+
+## M3-EULERIAN-FW-001
+TYPE: FIREWALL
+STATUS: FROZEN
+
+
+CLAIM:
+A small number of prime factors in the squarefree kernels of the one-factor variables cannot be declared density-zero on exact M3 by importing ordinary integer omega-distribution heuristics.
+The physical M3 cutoff and gcd normalization can bias the occupied population.
+Low-support strata must instead be counted using their exact reciprocity rigidity, Gaussian reconstruction, or another exact physical theorem.
+
+
+POPULATION:
+exact physical M3 one-factor strata with bounded squarefree-kernel support.
+
+
+HEIGHT:
+exact R<=B is essential to the warning.
+
+
+DEPENDS_ON:
+historical physical-height/gcd transfer failures and M3-EULERIAN-001.
+
+
+IMPLIES:
+the residue-rich / residue-poor split is legitimate only if both sides receive exact M3 counting arguments.
+
+
+ALIASES:
+kernel-poor heuristic prohibition;
+low-support omega firewall.
+
+
+DUPLICATE_OF:
+M3-PARAM-NEG-001 is the broader parameter-to-physical transfer failure; this card is specific to squarefree-support statistics.
+
+
+SUPERSEDES:
+generic claims that omega(A_sf)+omega(B_sf)<K(B) is automatically sparse inside M3.
+
+
+DO_NOT_REPEAT:
+Do not use ordinary random-integer prime-factor statistics as an exact M3 population theorem.
+
+
+REOPEN_CONDITION:
+an exact M3 theorem controlling low squarefree support.
+
+
+DETAIL_DOC:
+LEGACY-COLD Sections93-95.
+
+
+---
+
+
+
+
+
+
+CARD_ID: M3-T11-015
+TITLE: Equal-tau four-core decomposition and one-twelfth relative-spin receiver
+STATUS: PROVED_EXACT_STRUCTURE / NEW_NARROW_GATE
+ROUTE: TrivialSplitCyclicDirectionOneThird
+
+
+RESULT:
+On the Step-A complement write
+
+
+D_i=tau*c_i,
+c_1=h_2*h_3,
+c_2=h_1*h_3,
+c_3=h_1*h_2.
+
+
+Choose primitive Gaussian representatives A_i with N(A_i)=D_i and factor
+
+
+A_i=B_i Z_i,
+N(B_i)=c_i,
+N(Z_i)=tau.
+
+
+Primewise relative orientation of the equal-norm Z_i gives pairwise coprime factors
+
+
+tau=tau_0*tau_1*tau_2*tau_3
+
+
+and Gaussian cores G_j, N(G_j)=tau_j, such that up to bounded units
+
+
+Z_1=G_0*conj(G_1)*G_2*G_3,
+Z_2=G_0*G_1*conj(G_2)*G_3,
+Z_3=G_0*G_1*G_2*conj(G_3).
+
+
+Let q_j=G_j/conj(G_j), Q=q_0*q_1*q_2*q_3. After absorbing the fixed small c_i representations and the odd/even Pythagorean leg choice into norm-one coefficients r_i,
+
+
+C_i/D_i=Re(Q/r_i),
+
+
+with
+
+
+A=r_1^2+r_2^2+r_3^2,
+U=Q^2.
+
+
+The endpoint sphere equation is exactly
+
+
+conj(A) U^2 + 2U + A = 0.
+
+
+Hence the all-same orientation core G_0 is not free. A necessary common-phase condition is
+
+
+|A|^2-1=s^2
+
+
+for s in Q, followed by the torus square-lift U=Q^2. Once the other three cores and small packet are fixed, G_0 has only O(1) possibilities.
+
+
+Moreover
+
+
+|A|^2-1
+=
+lambda_12*lambda_13*lambda_23,
+
+
+where
+
+
+lambda_ij
+=
+r_i/r_j+r_j/r_i
+=
+2 Re(r_i/r_j)
+in Q.
+
+
+Thus the huge-tau endpoint condition contains the exact global triple-spin squareclass relation
+
+
+lambda_12*lambda_13*lambda_23 in Q^2,
+
+
+plus the torus-doubling condition.
+
+
+COUNTING_BUDGET:
+If c_i<=C, then
+
+
+h_1*h_2*h_3<=C^(3/2),
+
+
+so the number of ordered content triples is
+
+
+C^(3/2+o(1)).
+
+
+For fixed content triple, the small c_i Gaussian coefficient packets cost only B^o(1).
+
+
+At C=B^(1/6+xi), the outer packet count is
+
+
+B^(1/4+(3/2)xi+o(1)).
+
+
+Therefore a uniform bound
+
+
+N_rel(B; fixed content triple and packet)
+<<
+B^(1/12-delta)
+
+
+for some fixed delta>0 is sufficient for P(B)=o(B^(1/3)), after choosing xi small enough.
+
+
+NEW_GATE:
+CyclicFixedContentTripleRelativeSpinOneTwelfth.
+
+
+DO_NOT_REPEAT:
+Do not treat G_0 as an independent fourth moving equal-norm core.
+Do not multiply primewise tau root labels.
+Do not claim tH8/FI/Hecke readiness without an exact certificate for this triple-spin charged measure.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 17.
+
+
+---
+
+
+
+
+## M3-EXP-FW-001
+TYPE: CORRECTED_BUG
+STATUS: FROZEN
+
+
+CLAIM:
+Finite-field Master-Hit experiments must exclude the hypotenuse-degenerate states
+W1=r^2+s^2 == 0 mod p
+from the admissible domain.
+An early experiment omitted this condition and obtained exact 0/1 square frequencies at small primes.
+For small split primes, the remaining exclusions can accidentally coincide with the W1-degenerate lines, so small-p panels can be dominated by degeneration rather than the generic local law.
+
+
+POPULATION:
+finite-field Master-Hit residue experiments.
+
+
+HEIGHT:
+local diagnostic only.
+
+
+DEPENDS_ON:
+the exact admissibility conditions for primitive Pythagorean source data.
+
+
+IMPLIES:
+local experiments used as evidence for the generic Weil/character law must remove W1=0 and other stated degeneracies before statistics are interpreted.
+
+
+ALIASES:
+finite-field admissibility bug;
+hypotenuse-degenerate local panel;
+small-prime degeneration firewall.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+the initial p=5,11,13 diagnostic in which Pr(M square) collapsed to 0 or 1.
+
+
+DO_NOT_REPEAT:
+Do not use very small-prime raw panels as evidence for the generic local density until all admissibility degeneracies are removed.
+Do not interpret exact 0/1 frequencies as arithmetic structure before checking W1=0.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD Section1.2.
+
+
+---
+
+
+## M3-GCD-NEG-001
+TYPE: COMPUTATIONAL_NEGATIVE
+STATUS: FROZEN
+
+
+CLAIM:
+The heuristic
+"R<=B requires an abnormally large g=gcd(U1,U2), roughly of square-root size"
+is false.
+Exact Master-Hit reconstruction contains ordinary physical M3 examples with g=1.
+The same enumeration reproduced the retained small-B M3 baseline counts in the archive, providing a direct consistency check of the parameterization used in the refutation.
+
+
+POPULATION:
+exact enumerated Master-Hits mapping to physical M3.
+
+
+HEIGHT:
+bounded computational validation only; no asymptotic distribution theorem.
+
+
+DEPENDS_ON:
+exact Master-Hit reconstruction and canonical physical deduplication.
+
+
+IMPLIES:
+large-gcd concentration is not a necessary mechanism for physical M3 occupancy.
+
+
+ALIASES:
+large-gcd necessity heuristic refuted;
+g=1 M3 counterexample;
+Master-Hit baseline reconstruction check.
+
+
+DUPLICATE_OF:
+M3-GCD-001/002/003 analyze gcd statistics analytically; this card records the specific refutation of the earlier large-gcd necessity heuristic.
+
+
+SUPERSEDES:
+the withdrawn Section5.3 heuristic.
+
+
+DO_NOT_REPEAT:
+Do not build a physical-height argument on the premise that M3 points must lie in unusually large-g strata.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD Section5.3.
+
+
+---
+
+
+## M3-SQUARE-DENSITY-NEG-001
+TYPE: NEGATIVE_RESULT
+STATUS: FROZEN
+
+
+CLAIM:
+For fixed outer Master parameters, the third-face square condition is not correctly modeled by the density of squares among random integers of comparable size.
+The equation
+y^2=M(n)
+is generically a genus-one quartic in n.
+The archive's fixed-triple search enlarged n from 50 to 20000 without producing a second integral hit beyond the known one, illustrating the fixed-fiber arithmetic sparsity.
+The correct object is a family of genus-one rational/integral-point problems, not an independent random-square event.
+
+
+POPULATION:
+fixed-source slices of the Master-Hit third-face condition.
+
+
+HEIGHT:
+fiberwise arithmetic statement and computational negative; no uniform global count follows from the experiment.
+
+
+DEPENDS_ON:
+the quartic form of M(n).
+
+
+IMPLIES:
+naive hyperbola methods that insert a random-integer square density into the Master parameter volume are not valid models of M3(B).
+
+
+ALIASES:
+random-square-density failure;
+genus-one square-density correction;
+Master M(n) density heuristic rejection.
+
+
+DUPLICATE_OF:
+M3-FIB-002 gives a later explicit K_c elliptic fibration; this card records the earlier conceptual failure of random-square density.
+
+
+SUPERSEDES:
+the withdrawn Section5.8 square-density heuristic.
+
+
+DO_NOT_REPEAT:
+Do not multiply a raw parameter-volume count by approximately 1/sqrt(M) to model the M(n)=square condition.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD Section5.8.
+
+
+---
+
+
+## M3-FIB-SCAN-FW-001
+TYPE: COMPUTATIONAL_FIREWALL
+STATUS: FROZEN
+
+
+CLAIM:
+Empirical occupied-fiber/rank frequencies are highly sensitive to sampling and search depth.
+Sampling t-values obtained from already-found Master-Hits strongly oversamples occupied positive-rank fibers.
+Separately, using a fixed point-search bound while the Pythagorean base size grows creates a fake decline in observed occupancy: in the archive, enlarging the search bound by 3x recovered 17 of 75 previously "not found" cases and raised the apparent 10.7% bucket to about 31%.
+Therefore neither "40/40 found fibers have rank>=1" nor a fixed-bound declining occupancy curve estimates the underlying base distribution.
+
+
+POPULATION:
+computational scans of the K_c rational fibration.
+
+
+HEIGHT:
+finite search diagnostics only.
+
+
+DEPENDS_ON:
+M3-FIB-FW-001 and explicit point search on valid Pythagorean base values.
+
+
+IMPLIES:
+fiber-density experiments require unbiased base selection and a search bound scaled with base complexity.
+
+
+ALIASES:
+occupied-fiber selection bias;
+fixed-search-bound fake decline;
+fibration scan bias firewall.
+
+
+DUPLICATE_OF:
+M3-FIB-FW-001 states the stronger algebraic requirement that t itself be physical; this card concerns statistical/search bias after valid bases are chosen.
+
+
+SUPERSEDES:
+the old 40/40 interpretation and the initial declining-density plot.
+
+
+DO_NOT_REPEAT:
+Do not interpret "not found" as rank zero or unoccupied.
+Do not compare occupancy fractions across growing base ranges with a fixed point-search cutoff.
+
+
+REOPEN_CONDITION:
+a rigorously scaled search protocol or, preferably, an exact moving-base counting theorem.
+
+
+DETAIL_DOC:
+LEGACY-COLD Sections25.2, 26.3 and 27.1.
+
+
+---
+
+
+## M3-COMP-NEG-001
+TYPE: COMPUTATIONAL_NEGATIVE
+STATUS: FROZEN
+
+
+CLAIM:
+The explicit K_c fibration parameter search is not intrinsically faster than direct Master-Hit brute-force enumeration at matched physical height.
+The archive compares the natural size relations and obtains the same fourth-power search-scale behavior, with matched-cost ratio 1 in that model.
+Its value is structural, not an enumeration speedup.
+
+
+POPULATION:
+brute-force computational enumeration strategies for M3.
+
+
+HEIGHT:
+matched physical-height reach.
+
+
+DEPENDS_ON:
+the explicit fibration height formula and the direct Master-Hit size relation.
+
+
+IMPLIES:
+switching coordinates from Master-Hit to the K_c fibration does not by itself reduce brute-force computational complexity.
+
+
+ALIASES:
+K_c fibration no-speedup;
+Master-vs-fibration brute-force equivalence.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+the idea that the fibration construction alone gives a faster census algorithm.
+
+
+DO_NOT_REPEAT:
+Do not justify the fibration route as a computational acceleration unless a genuinely new search/pruning theorem is added.
+
+
+REOPEN_CONDITION:
+an algorithm exploiting additional arithmetic pruning, fast group structure, or a provably smaller search dimension.
+
+
+DETAIL_DOC:
+LEGACY-COLD Section27.3.
+
+
+---
+
+
+## M3-FIB-006
+TYPE: INTERMEDIATE_LEMMA
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+A rational fibration map on K_c may be valid even when the quadratic relation that motivated its construction vanishes identically on K_c.
+The fibration is defined by the nonconstant rational ratio map to P^1 and its curve fibers; nontriviality of the motivating quadric as an additional equation is not required.
+
+
+POPULATION:
+rational fibration constructions on K_c.
+
+
+HEIGHT:
+structural only.
+
+
+DEPENDS_ON:
+the explicit ratio constructions and the source paper's analogous mechanism.
+
+
+IMPLIES:
+identical vanishing of the motivating quadratic combination is not by itself a reason to discard a candidate fibration.
+
+
+ALIASES:
+identically-vanishing-quadric fibration correction;
+ratio-map fibration criterion.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+the mid-session claim that an identically true quadric cannot underlie a genuine fibration.
+
+
+DO_NOT_REPEAT:
+Test nonconstancy and the actual fiber geometry of the rational map; do not reject it solely because the motivating ideal relation vanishes on K_c.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD Section30.2.
+
+
+---
+
+
+## M3-FIB-FW-002
+TYPE: CORRECTED_BUG
+STATUS: FROZEN
+
+
+CLAIM:
+A candidate K_c fibration/point construction is not physically valid until all three defining K_c equations are checked on the reconstructed point.
+A third-fibration experiment enforced only two relations and appeared to produce a genus-0-like family with six hits.
+After the omitted equation
+b1^2=a2^2+a3^2
+was restored, the same search produced zero valid points.
+This repeats the earlier unrestricted-t omission and establishes an explicit validation checklist.
+
+
+POPULATION:
+constructed candidate points/fibers on K_c.
+
+
+HEIGHT:
+all computational or symbolic fibration experiments.
+
+
+DEPENDS_ON:
+M3-KC-001.
+
+
+IMPLIES:
+partial satisfaction of the equations used during parametrization can create entirely spurious low-genus/rich families.
+
+
+ALIASES:
+all-three-Kc-equations firewall;
+third-fibration self-caught bug;
+partial-Kc reconstruction bug.
+
+
+DUPLICATE_OF:
+M3-FIB-FW-001 says t must satisfy the missing base equation; this card generalizes the validation rule to every new fibration construction.
+
+
+SUPERSEDES:
+the spurious t=119/123 genus-0-looking search.
+
+
+DO_NOT_REPEAT:
+For every reconstructed candidate, explicitly verify b1^2=a2^2+a3^2, b2^2=a1^2+a3^2, and b3^2=a1^2+a2^2 before assigning geometric or counting meaning.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD Section30.4.
+
+
+---
+
+
+## M3-CURVE-FW-001
+TYPE: FIREWALL
+STATUS: FROZEN
+
+
+CLAIM:
+A low-degree curve classification proved on the full endpoint/cuboid surface S must not be silently treated as a low-degree rational-curve classification on the denominator K3 surface K_c.
+Any such transfer requires an explicit cover/quotient/curve adapter.
+Later archive work independently proves the physical K_c degree-1,2,3 statements retained in M3-CURVE-003; those later theorems do not retroactively validate the earlier unsupported surface-to-surface transfer.
+
+
+POPULATION:
+low-degree curve results on S versus K_c.
+
+
+HEIGHT:
+physical projective degree.
+
+
+DEPENDS_ON:
+the degree-two endpoint-to-denominator relationship S -> K_c.
+
+
+IMPLIES:
+source-surface provenance is load-bearing when importing curve classifications into Method D.
+
+
+ALIASES:
+endpoint-surface/Kc scope repair;
+low-degree curve transfer firewall.
+
+
+DUPLICATE_OF:
+M3-CURVE-002/003 contain the later valid K_c conclusions; this card preserves the proof-source firewall.
+
+
+SUPERSEDES:
+the earlier accidental reinterpretation of endpoint-surface degree<=6 classification as a complete K_c spectrum.
+
+
+DO_NOT_REPEAT:
+Do not cite a theorem about curves on S as a theorem about curves on K_c without an explicit adapter.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section24.
+
+
+---
+
+
+## M3-DELTA-FW-001
+TYPE: FIREWALL
+STATUS: FROZEN
+
+
+CLAIM:
+The balanced first-conic packet estimate
+N_balanced(delta,c0,d0,W)
+<<
+B^o(1)*(sqrt(B/(W*k))+1)
+uses C~D and gains from the cross-gcd k.
+It does not extend formally to the extreme C<<D or D<<C branches, because the product constraint C*D alone does not place both conic parameters in a balanced square box.
+No retained exact-M3 anti-concentration theorem deletes those extreme branches.
+
+
+POPULATION:
+Section34/35 fixed-delta first-conic packets.
+
+
+HEIGHT:
+exact physical R<=B.
+
+
+DEPENDS_ON:
+the balanced root-line spacing and physical face-diagonal bound.
+
+
+IMPLIES:
+balanced-packet savings cannot be promoted to the full delta family without a separate unbalanced-branch theorem.
+
+
+ALIASES:
+delta unbalanced C/D firewall;
+balanced conic packet limitation.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+implicit extensions of the balanced cross-gcd estimate to all first-conic packets.
+
+
+DO_NOT_REPEAT:
+Do not sum the balanced estimate over arbitrary C,D dyadic sectors as though the same geometry held in extreme aspect ratios.
+
+
+REOPEN_CONDITION:
+an exact unbalanced-packet count or anti-concentration theorem.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section31.5.
+
+
+---
+
+
+## M3-CM-DESC-NEG-001
+TYPE: NEGATIVE_RESULT
+STATUS: FROZEN
+
+
+CLAIM:
+In the xi=1 two-point CM-twist receiver, the standard 2-isogeny Kummer classes of the first-conic point P1 and the endpoint quotient point P2 are equal:
+alpha(P1)=alpha(P2)=[1+q^2].
+The tempting claim that the two classes differ by [-1] is false.
+Therefore simple 2-isogeny descent does not separate the points, prove rank at least 2, or yield an extra Selmer-dimension saving.
+
+
+POPULATION:
+the fixed-twist two-point CM receiver.
+
+
+HEIGHT:
+structural; no global count.
+
+
+DEPENDS_ON:
+the exact rational 2-torsion cubic model and M3 square relation.
+
+
+IMPLIES:
+the genuinely new information in this route is off-diagonal two-point incidence inside one descent class, not two independent descent classes.
+
+
+ALIASES:
+CM two-point Kummer-class equality;
+2-isogeny separation failure.
+
+
+DUPLICATE_OF:
+M3-DESC-NEG-001 concerns the earlier one-point occupancy descent; this is the later two-point CM receiver.
+
+
+SUPERSEDES:
+the false [-1]-class separation claim.
+
+
+DO_NOT_REPEAT:
+Do not credit rank>=2 or Selmer growth from the existence of the second point without a different independence argument.
+
+
+REOPEN_CONDITION:
+a genuine Mordell-Weil independence theorem or a different descent invariant separating P1 and P2.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section33.5.
+
+
+---
+
+
+## M3-CM-LOCAL-NEG-001
+TYPE: NEGATIVE_RESULT
+STATUS: FROZEN
+
+
+CLAIM:
+On the endpoint-support-synchronized CM route, the local congruence imposed by the second point is already forced by the base support and the first-point condition.
+At the relevant odd primes,
+base support gives h^4==1 mod p,
+the first point gives z1^4==1 mod p,
+and z2=h*z1 then automatically satisfies z2^4==1 mod p.
+Thus the second point supplies no third independent local restriction and no cubic-in-n local saving may be charged.
+
+
+POPULATION:
+fixed-base CM two-point endpoint packets.
+
+
+HEIGHT:
+local arithmetic statement.
+
+
+DEPENDS_ON:
+the exact circle-ratio identities and support synchronization.
+
+
+IMPLIES:
+the three apparent local filters are dependent; only already-charged information is present at first order.
+
+
+ALIASES:
+second-point local redundancy;
+CM three-filter dependence;
+no cubic-in-n saving.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+the heuristic product of base, first-point and second-point local savings.
+
+
+DO_NOT_REPEAT:
+Do not multiply the three local survival factors as independent.
+
+
+REOPEN_CONDITION:
+a genuinely transverse higher-order or global condition from the second point.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section34.3.
+
+
+---
+
+
+## M3-CM-AUT-NEG-001
+TYPE: NEGATIVE_RESULT
+STATUS: FROZEN
+
+
+CLAIM:
+For the fixed-(delta,z) M3 quartic, the three natural base involutions generating the generic V4 automorphism group preserve both the M3 squareclass and the endpoint squareclass up to rational fourth-power factors.
+On the nondegenerate physical rational open there is no rational j=0 or j=1728 enlargement.
+Therefore finite V4 orbit pairing does not mix endpoint and non-endpoint states and cannot produce a half-density terminal contraction.
+
+
+POPULATION:
+fixed-(delta,z) M3 quartic and endpoint selector.
+
+
+HEIGHT:
+structural; no global count.
+
+
+DEPENDS_ON:
+the exact transformation formulas for H_q(t), P_q(t) and the j-invariant.
+
+
+IMPLIES:
+automorphism pairing is not an independent density-saving mechanism for this route.
+
+
+ALIASES:
+V4 endpoint-selector invariance;
+automorphism-mixing failure.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+the idea that the quartic's finite automorphisms might pair endpoint survivors with nonsurvivors.
+
+
+DO_NOT_REPEAT:
+Do not claim a factor-1/2 saving from V4 orbits when both squareclasses are orbit-invariant.
+
+
+REOPEN_CONDITION:
+a different automorphism or correspondence that provably changes the endpoint selector on the physical open.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section34.4.
+
+
+---
+
+
+## M3-ALLOC-NEG-001
+TYPE: NEGATIVE_RESULT
+STATUS: FROZEN
+
+
+CLAIM:
+The terminal Pythagorean/product allocation into the displayed alpha,beta factors is exact structural information but, by itself, yields no additional independent squareclass or congruence restriction beyond the original M3 plus endpoint system.
+The remaining divisor allocations of PQ into P,Q and YZ into Y,Z retain the original shared-X face equations.
+
+
+POPULATION:
+terminal allocation coordinates on exact physical endpoint candidates.
+
+
+HEIGHT:
+unchanged physical height.
+
+
+DEPENDS_ON:
+the exact terminal product identities.
+
+
+IMPLIES:
+the allocation may be used as a coordinate dictionary but receives zero standalone counting saving.
+
+
+ALIASES:
+terminal product allocation no-saving result;
+alpha-beta allocation limitation.
+
+
+DUPLICATE_OF:
+M3-TERM-001 records the exact terminal allocation structure; this card records its audited counting limitation.
+
+
+SUPERSEDES:
+attempts to promote the allocation identity itself into an independent sieve bit.
+
+
+DO_NOT_REPEAT:
+Do not count a reallocation of already-imposed endpoint factors as a new restriction.
+
+
+REOPEN_CONDITION:
+a new restriction derived from the allocation that is proved not to be implied by the existing M3/endpoint equations.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section35.4.
+
+
+---
+
+
+## M3-XG-NEG-002
+TYPE: CORRECTED_NEGATIVE
+STATUS: FROZEN
+
+
+CLAIM:
+The proposed large-cross-gcd fixed-c estimate
+N_c(B) << B^(1/2+o(1))*c^(-2)
+does not follow from the raw c^2 determinant spacing.
+In a balanced raw Euclid box r,s,m,n~T with bounded g, physical height has scale R~T^4, so R<=B corresponds to ambient four-variable volume T^4~B, not B^(1/2).
+The independent global endpoint bound P(B)<<B^(1/2+epsilon) cannot simply be multiplied by the c^(-2) lattice density: that would assume the missing same-sparse-measure transfer theorem.
+Hence the derived B^(1/2)/C large-c tail is not certified.
+
+
+POPULATION:
+cross-gcd-stratified endpoint/M3 raw Euclid parameter packets.
+
+
+HEIGHT:
+exact physical R<=B is the target; the rejected multiplication mixes incompatible measures.
+
+
+DEPENDS_ON:
+the Section36 c^2 determinant statement and physical scaling R~T^4.
+
+
+IMPLIES:
+large-c savings require a same-measure cross-gcd-stratified counting theorem such as M3-XG-GATE-002, not external multiplication of two independent-looking upper bounds.
+
+
+ALIASES:
+large-c B-half-over-C heuristic rejection;
+cross-gcd density multiplication firewall.
+
+
+DUPLICATE_OF:
+M3-XG-GATE-002 is the surviving positive theorem target; this card records the corrected false derivation it replaced.
+
+
+SUPERSEDES:
+the proposed N_c(B)<<B^(1/2+o(1))*c^(-2) consequence and its B^(1/2)/C tail.
+
+
+DO_NOT_REPEAT:
+Do not multiply the global endpoint ceiling by c^(-2) without proving the determinant saving on the same conditioned physical measure.
+
+
+REOPEN_CONDITION:
+a source-locked same-measure cross-gcd tail theorem.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section37.2.
+
+
+---
+
+
+
+
+
+
+## M3-ETA-001
+TYPE: INTERMEDIATE_LEMMA
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+On the fixed-delta first-conic chart
+C=f^2+delta*e^2,
+D=f^2-delta*e^2,
+with gcd(e,f)=1, define
+m=f^4+delta^2*e^4=(C^2+D^2)/2
+and let eta=sqf(m)>0.
+Then gcd(delta,m)_odd=1 and every odd prime dividing eta is split, hence eta_odd is supported on primes congruent to 1 mod 4.
+On the endpoint locus, the endpoint equation forces
+eta_odd | X*Y | P*Q,
+so in particular
+eta_odd | rad(PQ).
+Together with delta_odd | rad(PQ), both moving squarefree cores are restricted to the fixed Pythagorean base support.
+
+
+POPULATION:
+endpoint points inside the fixed-delta first-conic parameterization.
+
+
+HEIGHT:
+structural endpoint condition; physical height unchanged.
+
+
+DEPENDS_ON:
+primitive first-conic coordinates and the endpoint square parity argument modulo primes dividing eta.
+
+
+IMPLIES:
+for one fixed Pythagorean base, both delta_odd and eta_odd have only
+2^omega(PQ)=(PQ)^o(1)
+possible odd supports.
+
+
+ALIASES:
+second squarefree core;
+endpoint CM-support synchronization;
+eta support on rad(PQ).
+
+
+DUPLICATE_OF:
+M3-DELTA-001 controls the first squarefree core delta; this card is the distinct endpoint-only second core eta.
+
+
+SUPERSEDES:
+treating eta as a polynomially free moving squareclass on a fixed base.
+
+
+DO_NOT_REPEAT:
+The eta restriction is endpoint-only; do not impose eta_odd|rad(PQ) on arbitrary M3 packets.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Sections33.1, 33.3 and 33.4.
+
+
+---
+
+
+## M3-ETA-002
+TYPE: THEOREM
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+Fix nonzero delta, positive squarefree eta, and one Gaussian orientation
+K=A+iB with Norm(K)=eta.
+The equation
+f^4+delta^2 e^4=eta r^2
+reduces, after primitive Gaussian factorization, to a smooth degree-4 genus-one intersection of two quadrics:
+A(u^2-v^2)-2Buv-f^2=0,
+B(u^2-v^2)+2Auv-delta e^2=0.
+On a dyadic block r~R, its projective height satisfies
+H << eta^(1/4)*R^(1/2).
+Applying the uniform degree-four projective-curve bound retained from the Stage15-6ao method gives
+N_{delta,eta}(R)
+<<_epsilon
+B^epsilon * eta^(1/8) * R^(1/4),
+with theorem constant depending only on epsilon and degree 4, not on delta or eta.
+
+
+POPULATION:
+fixed-(delta,eta,Gaussian orientation) endpoint packets.
+
+
+HEIGHT:
+dyadic r-height with the stated projective-height adapter.
+
+
+DEPENDS_ON:
+M3-ETA-001 and primitive Gaussian factorization.
+
+
+IMPLIES:
+each fixed second-core packet has a quantitative degree-four genus-one upper bound.
+
+
+ALIASES:
+Stage15-6ao degree-four adapter;
+fixed delta-eta quartic count;
+second-core degree-four bound.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+purely qualitative finiteness on a fixed eta packet.
+
+
+DO_NOT_REPEAT:
+This fixed-packet estimate does not sum the moving Pythagorean bases and gives no standalone global P/M3 theorem.
+
+
+REOPEN_CONDITION:
+a summation theorem over the moving base and allowed delta/eta supports.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section33.5.
+
+
+---
+
+
+## M3-XD-LOCAL-001
+TYPE: INTERMEDIATE_LEMMA
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+For an odd prime p define
+Omega_p
+=
+{[x:d] in P^1(F_p): x^2+d^2 is a square in F_p},
+with zero counted as a square local value.
+Then exactly
+|Omega_p|
+=
+(p+2+chi_p(-1))/2.
+In particular, for every inert prime p==3 mod4,
+|Omega_p|=(p+1)/2,
+so the endpoint local necessary condition accepts exactly one half of the projective residue classes.
+
+
+POPULATION:
+projective physical (X,D) residue classes modulo p.
+
+
+HEIGHT:
+pure local finite-field statement.
+
+
+DEPENDS_ON:
+the identity
+sum_{w in F_p} chi_p(1+w^2)=-1.
+
+
+IMPLIES:
+the fixed-q occupied-(X,D) route has an exact local half-set at inert primes; the remaining difficulty is the distribution of the occupied M3 image across that half-set.
+
+
+ALIASES:
+inert-prime projective half-set;
+physical XD local half law.
+
+
+DUPLICATE_OF:
+M3-LOCAL-003 concerns half-angle terminal factors on the local Euler-square measure; this card is directly on physical projective (X,D).
+
+
+SUPERSEDES:
+heuristic "about one half" statements for the inert-prime endpoint base condition.
+
+
+DO_NOT_REPEAT:
+Do not infer that exact physical M3 points are uniformly distributed on P^1(F_p) from this local set size alone.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+LEGACY-COLD route-audit Section34.6.
+
+
+---
+
+
+## M3-KC-003
+TYPE: INTERMEDIATE_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+A genuine rank-4 quadric in the ideal of K_c is
+b1^2+b3^2=b2^2+2a2^2,
+obtained as the exact linear combination -Q1+Q2-Q3 of the three defining quadrics.
+Factoring this relation over the natural quadratic extension and solving both induced linear relations yields the verified auxiliary fibration
+W^2
+=
+2(t^4+1)
++
+b2^2(t^2-1)^2
+-
+4it*b2*(t^2-1).
+For real Euler-brick points the natural parameter t is generally complex, so this fibration is bona fide K_c geometry but is not presently a direct real-height counting coordinate.
+
+
+POPULATION:
+K_c over the relevant quadratic/complex extension.
+
+
+HEIGHT:
+structural only; no physical-height counting claim.
+
+
+DEPENDS_ON:
+M3-KC-001 and exact linear-combination/factorization of the K_c quadrics.
+
+
+IMPLIES:
+the K_c fibration toolkit contains explicit rank-4-quadric constructions beyond the primary rational t=a2/a3 fibration.
+
+
+ALIASES:
+genuine Kc rank-4 quadric;
+complex auxiliary Kc fibration;
+solve-both-linear-relations construction.
+
+
+DUPLICATE_OF:
+M3-FIB-002 is the primary rational physical fibration; M3-FIB-005 is the second rational transverse quotient. This card records a distinct auxiliary fibration over an extension.
+
+
+SUPERSEDES:
+the unresolved one-linear-relation attempt that failed to produce a clean fiber equation.
+
+
+DO_NOT_REPEAT:
+Do not use only one of the two factorization-induced linear relations when reconstructing this fibration.
+Do not assign physical-height counting credit merely because the fibration exists.
+
+
+REOPEN_CONDITION:
+an exact real/physical-height adapter showing this auxiliary fibration controls a relevant rational subfamily.
+
+
+DETAIL_DOC:
+LEGACY-COLD Sections29.4-29.5.
+
+
+---
+
+
+
+
+
+
+CARD_ID: M3-T11-016
+TITLE: Fixed-two relative-core triple-spin fiber is subpolynomial
+STATUS: PROVED_EXACT / FIBER_ANTICONCENTRATION
+ROUTE: TrivialSplitCyclicDirectionOneThird
+
+
+RESULT:
+Parameterize the norm-one torus by
+
+
+r(t)=(1-t^2+2*i*t)/(1+t^2).
+
+
+For fixed r_1=r(a), r_2=r(b), the moving pairwise trace is
+
+
+lambda_a(t)
+=
+2*Q_a(t)/[(1+a^2)(1+t^2)],
+
+
+Q_a(t)
+=
+(1-a^2)(1-t^2)+4*a*t.
+
+
+The exact resultant is
+
+
+Res_t(Q_a,Q_b)
+=
+-16*(a-b)^2*(a*b+1)^2.
+
+
+Thus branch degeneration occurs exactly for r_2=+/-r_1.
+
+
+Both degenerate cases are physically empty:
+- r_2=-r_1 contradicts positivity of the corresponding normalized physical legs;
+- r_2=r_1 forces, through the triple-spin square relation, lambda_13=0, then the endpoint sphere forces the first two normalized legs to vanish.
+
+
+Hence every positive physical endpoint gives a smooth quartic
+
+
+Y^2=d_{a,b} Q_a(t)Q_b(t)
+
+
+with four distinct rational projective branch points and full rational 2-torsion on the Jacobian.
+
+
+Using the same uniform bounded-height rational-torsion theorem as Stage14-t22/t36/t37,
+
+
+#{G_3 for fixed packet,G_1,G_2 satisfying the triple-spin condition}
+<=
+B^o(1).
+
+
+The torus-double-lift and physical reconstruction are post-filters, so the bound remains valid for actual endpoint-compatible G_3.
+
+
+IMPLIES:
+The Section-17 fixed-content-triple problem reduces from three moving relative cores to an active ordered-pair count.
+
+
+NEW_GATE:
+CyclicRelativeCorePairIncidenceOneTwelfth.
+
+
+DO_NOT_REPEAT:
+Do not treat the resultant-degenerate pairs as a large exceptional family; they are empty on the positive physical endpoint locus.
+Do not claim this fixed-two B^o(1) result alone closes the B^(1/12) fixed-content receiver.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 18.
+
+
+---
+
+
+
+
+CARD_ID: M3-T11-017
+TITLE: Fixed-content endpoint count is active-tau count at power scale
+STATUS: PROVED_EXACT / RECEIVER_SIMPLIFICATION
+ROUTE: TrivialSplitCyclicDirectionOneThird
+
+
+RESULT:
+Fix a labeled content triple (h_1,h_2,h_3) and tau.
+
+
+Then
+
+
+D_1=tau*h_2*h_3,
+D_2=tau*h_1*h_3,
+D_3=tau*h_1*h_2
+
+
+are fixed primitive Pythagorean hypotenuses.
+
+
+For each fixed D_i the number of primitive oriented Pythagorean directions is D_i^o(1). Therefore the total number of exact endpoint candidates above fixed (h_1,h_2,h_3,tau) is B^o(1); all cyclic, sphere, triple-spin and reconstruction conditions only reduce this set.
+
+
+Hence for fixed content triple,
+
+
+endpoint count
+<=
+B^o(1) * active-tau count,
+
+
+and the two counts have the same power exponent.
+
+
+Combined with the Section-17 outer budget
+
+
+#content triples
+<=
+B^(1/4+(3/2)xi+o(1)),
+
+
+it is sufficient to prove uniformly
+
+
+A_tau(B;h_1,h_2,h_3)
+<<
+B^(1/12-delta)
+
+
+for some fixed delta>0, with xi small enough.
+
+
+NEW_GATE:
+CyclicFixedContentActiveTauOneTwelfth.
+
+
+The triple-spin and torus-double-lift structures from M3-T11-015/016 are retained as arithmetic selectors for which tau are active.
+
+
+DO_NOT_REPEAT:
+Do not demand B^o(1) multiplicity for a moving tau family; fixed tau is already B^o(1).
+Do not count all split-prime-supported tau as active.
+Do not discard the triple-spin structure merely because the minimal counting object is now tau.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 19.
+
+
+---
+
+
+
+
+CARD_ID: M3-T11-018
+TITLE: Triple-spin active-tau selector is an exact six-bilinear square cover
+STATUS: PROVED_EXACT / POLYNOMIAL_NORMAL_FORM
+ROUTE: TrivialSplitCyclicDirectionOneThird
+
+
+RESULT:
+For the rational norm-one torus parameters
+
+
+r_i=(1-t_i^2+2*i*t_i)/(1+t_i^2),
+
+
+the pairwise traces satisfy
+
+
+lambda_ij
+=
+2*Q_ij/[(1+t_i^2)(1+t_j^2)],
+
+
+with
+
+
+Q_ij
+=
+(1-t_i^2)(1-t_j^2)+4*t_i*t_j
+=
+(1+t_i-t_j+t_i*t_j)
+(1-t_i+t_j+t_i*t_j).
+
+
+Therefore
+
+
+lambda_12*lambda_13*lambda_23 in Q^2
+
+
+is exactly equivalent to
+
+
+W^2
+=
+2*
+prod_{i<j}
+(1+t_i-t_j+t_i*t_j)
+(1-t_i+t_j+t_i*t_j).
+
+
+Thus the active-tau triple-spin selector is a six-bilinear square-value cover.
+
+
+If any one of the six factors vanishes, then lambda_ij=0 for some pair, equivalently r_j=+/-i*r_i. The corresponding two normalized physical legs already have squared sum 1, so the endpoint sphere forces the third leg to be zero. Hence all six zero-factor branches are empty on the positive physical endpoint locus.
+
+
+IMPLIES:
+There is now an explicit nondegenerate three-variable polynomial square selector for testing FI/Hecke/tH dispersion on the fixed-content active-tau gate.
+
+
+DO_NOT_REPEAT:
+Do not count a zero-factor branch as an exceptional physical family.
+Do not apply ambient square-sieve density without an exact active-tau height/multiplicity adapter.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 20.
+
+
+---
+
+
+
+
+CARD_ID: M3-T11-019
+TITLE: Six-bilinear Plucker eliminants on the active-tau selector
+STATUS: PROVED_EXACT_STRUCTURE / DETERMINANT_PREFLIGHT_OPEN
+ROUTE: TrivialSplitCyclicDirectionOneThird
+
+
+RESULT:
+Homogenize the Section-20 torus coordinates by
+
+
+t_i=v_i/u_i,
+H_i=u_i^2+v_i^2.
+
+
+Define
+
+
+A_ij=u_i*u_j+v_i*v_j,
+B_ij=v_i*u_j-u_i*v_j,
+F_ij^+=A_ij+B_ij,
+F_ij^-=A_ij-B_ij.
+
+
+Then the six-bilinear square selector is, up to a square denominator,
+
+
+W^2
+=
+2*
+product_{i<j}
+F_ij^+ F_ij^-.
+
+
+For fixed i, the map
+
+
+(u_j,v_j)->(F_ij^+,F_ij^-)
+
+
+has exact determinant
+
+
+2H_i.
+
+
+The six factors satisfy exact charged-once eliminants:
+
+
+F_12^+ F_13^+ + F_12^- F_13^-
+=
+H_1(F_23^+ + F_23^-),
+
+
+F_12^+ F_13^- - F_12^- F_13^+
+=
+-H_1(F_23^+ - F_23^-),
+
+
+together with cyclic permutations.
+
+
+Thus two factor-pairs incident to one torus core reconstruct the third pair with denominator H_i.
+
+
+CARD_ROUTER_MATCH:
+This meets the structural reopen condition in M3-A-GATE-001 for a charged-once eliminant.
+
+
+It is theorem-species adjacent to M3-CROSSCORE-002 but not a duplicate:
+the old card is a different reciprocal-product identity on a different physical common-core measure.
+
+
+NO_CREDIT_YET:
+No determinant or lattice saving is claimed until it is proved that the factor H_i is genuinely uncharged on the fixed-content active-tau measure and that the pushforward multiplicity/height contract is exact.
+
+
+NEXT_ATTACK:
+CyclicSixBilinearEliminantDeterminantNovelty.
+
+
+DO_NOT_REPEAT:
+Do not multiply the determinant 2H_i by an already-paid four-core/tau spacing.
+Do not import M3-CROSSCORE-002 savings across measures.
+Do not call a generic determinant theorem before proving the exact physical-height adapter.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 21.
+
+
+---
+
+
+
+
+CARD_ID: M3-T11-020
+TITLE: Six-bilinear determinant novelty preflight is negative
+STATUS: PROVED_EXACT_NEGATIVE_STRUCTURE / STRUCTURAL_ELIMINANT_RETAINED
+ROUTE: TrivialSplitCyclicDirectionOneThird
+
+
+RESULT:
+For fixed core i, the Section-21 linear map
+
+
+T_i:
+(u_j,v_j)
+->
+(F_ij^+,F_ij^-)
+
+
+has matrix
+
+
+[[u_i+v_i, v_i-u_i],
+ [u_i-v_i, u_i+v_i]].
+
+
+Exactly,
+
+
+det(T_i)=2H_i,
+
+
+and more strongly
+
+
+T_i^T T_i=2H_i I.
+
+
+Hence
+
+
+(F_ij^+)^2+(F_ij^-)^2=2H_i H_j.
+
+
+The image lattice Lambda_i=T_i Z^2 has covolume 2H_i, while every physical region is enlarged in area by the same factor 2H_i. Therefore the lattice-index gain cancels the Jacobian exactly on the pushforward measure.
+
+
+Thus 2H_i is not a new arithmetic sparsity factor. It is a coordinate Jacobian. The Plucker eliminants remain exact structural identities but carry no standalone determinant/lattice saving.
+
+
+IMPLIES:
+The SR-STR-166 determinant-novelty branch is RED for this exact eliminant.
+
+
+DO_NOT_REPEAT:
+Do not charge a factor 1/H_i from the image-lattice index.
+Do not combine that index with four-core/tau spacing as a second saving.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 22.1.
+
+
+---
+
+
+CARD_ID: M3-T11-021
+TITLE: Six-bilinear selector inherits tH8/tH9 Route-A Hecke infrastructure
+STATUS: PROVED_EXACT_ADAPTER / PRINCIPAL_ENERGY_OPEN
+ROUTE: TrivialSplitCyclicDirectionOneThird
+
+
+RESULT:
+Let
+
+
+P_x
+=
+2*product_{i<j} F_ij^+F_ij^-
+
+
+be the integer six-bilinear detector for one ambient fixed-content relative-core packet x.
+
+
+The raw character
+
+
+chi_l(P_x)
+
+
+does not admit the separated one-variable coefficient structure required by the direct quadratic/Jacobi large-sieve route.
+
+
+However, with an external good split auxiliary prime l=N(varpi), the exact tH8 trilinear form applies:
+
+
+T
+=
+sum_varpi sum_x
+a_varpi d_x chi_{N(varpi)}(P_x).
+
+
+After one Cauchy step,
+
+
+K_L(x,y)
+=
+sum_varpi
+chi_{N(varpi)}(P_xP_y).
+
+
+Writing sigma_x=[P_x], every good auxiliary prime satisfies
+
+
+chi_l(P_xP_y)
+=
+chi_{D(sigma_x sigma_y)}(l).
+
+
+Therefore the tH9 Route-A norm-induced quadratic-Hecke certificate is available for every nonprincipal squareclass cross-kernel.
+
+
+BOUNDARY:
+Actual endpoint packets have sigma_x=1. Hence the endpoint target is a principal squareclass fiber, on which the Hecke character gives no cancellation.
+
+
+The remaining problem is the same-measure principal squareclass incidence after summing over moving ordered relative-core pairs.
+
+
+M3-T11-016 supplies only the fixed-two fiber B^o(1) input.
+
+
+NEW_GATE:
+CyclicSixBilinearPrincipalSquareclassPairIncidenceOneTwelfth.
+
+
+REQUIRED_OUTPUT:
+For each fixed content/coefficient packet, prove enough principal-incidence sparsity to give
+
+
+# active tau
+<<
+B^(1/12-delta)
+
+
+for some fixed delta>0.
+
+
+DO_NOT_REPEAT:
+Do not call the raw selector FI-ready.
+Do not count nonprincipal Hecke cancellation as a saving on the principal endpoint class.
+Do not treat fixed-two B^o(1) as a moving-pair bound.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE sections 22.2-22.4.
+
+
+---
+
+
+
+
+## M3-HIST14-ROOTSIGN-NEG-001
+TYPE: FIREWALL
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+On the Stage14 physical two-face/integral-space-diagonal population, the odd good prime powers of the partner leg are routed deterministically into an exact 2x2 half-angle gcd matrix:
+q--*q-+*q+-*q++ = X2_good.
+The primewise root-sign choices are therefore divisor-allocation data already encoded by physicality, not independent Bernoulli trials.
+A formal two-root choice at each prime does not justify an extra factor 2^(-omega(X2_good)) or any root-sign-only fixed-power saving.
+The transferred cross-square equation is a necessary condition on the actual physical image; Stage14 did not prove that an arbitrary primitive-face pair satisfying that equation is physical.
+
+
+POPULATION:
+Stage14 primitive/canonical exactly-two-face cuboids with integral space diagonal, in the s6 physical ordered-edge coordinates; not the exact Stage37 M3 population.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+Stage14 s6-07 exact third-face transfer and dual half-angle gcd matrix; Arsenal AR-003/AR-028 provide general gluing/accounting context.
+
+
+IMPLIES:
+analogous Stage37 root-sign or square-root allocations must be checked for deterministic dependence before being charged as independent local savings.
+
+
+ALIASES:
+Stage14 root-sign no-go;
+deterministic half-angle gcd allocation;
+TB-WARNING-deterministic-allocation-not-random.
+
+
+DUPLICATE_OF:
+none; Arsenal contains the general no-double-charge discipline but not this concrete Stage14 root-sign identity as a separate weapon.
+
+
+SUPERSEDES:
+the heuristic independent-Bernoulli model for physical root signs.
+
+
+DO_NOT_REPEAT:
+Do not multiply a physical count by 2^(-omega) merely because each local quadratic congruence has two formal roots.
+Do not reverse the transferred physical-image square condition without an exact reconstruction theorem.
+
+
+REOPEN_CONDITION:
+a new condition proved independent of the already-forced half-angle gcd allocation on the same physical measure.
+
+
+DETAIL_DOC:
+Stage14 14-s6-07/result.md; Stage14 toolbox deterministic-allocation and necessary-versus-sufficient warnings.
+
+
+---
+
+
+## M3-HIST14-GAUSS-FW-001
+TYPE: FIREWALL
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+At the Stage14 s7-33 top-corner common-core receiver, the primitive common-core root-line orientation and the Gaussian divisor orientation are the same primewise orientation data.
+They cannot be multiplied as two independent modulus-spacing gains.
+After cancelling that common orientation, the stronger proposed canonical S/T split is not universally valid; Stage14 froze an exact physical counterexample.
+Hence the remaining Gaussian square-divisor transfer cannot be replaced by a unique associate factorization or credited with an extra common-core power saving.
+
+
+POPULATION:
+Stage14 nonproportional common-core Gaussian packets on the physical integral-space-diagonal population.
+
+
+HEIGHT:
+Stage14 physical d<=B, fixed top-corner packet.
+
+
+DEPENDS_ON:
+Stage14 s7-29 root-line lattice count and s7-33 Gaussian orientation identification; Arsenal AR-009 and AR-028.
+
+
+IMPLIES:
+common-core root-line and Gaussian orientation descriptions are alternate coordinate views of one charged object in this receiver.
+
+
+ALIASES:
+common-core Gaussian orientation double-charge no-go;
+strong canonical S/T split counterexample;
+Stage14 s7-33.
+
+
+DUPLICATE_OF:
+none; AR-028 is the generic accounting rule, while this card records the exact arithmetic identification and counterexample.
+
+
+SUPERSEDES:
+the attempted second independent C-spacing gain and the universal canonical S/T split.
+
+
+DO_NOT_REPEAT:
+Do not charge a root-line modulus and its identified Gaussian prime orientation twice.
+Do not assume the residual S/T orientation is canonically forced without a new theorem overcoming the frozen counterexample.
+
+
+REOPEN_CONDITION:
+a genuinely new post-cancellation invariant or factorization that separates the residual orientations on the same physical packet.
+
+
+DETAIL_DOC:
+Stage14 14-s7-33/result.md.
+
+
+---
+
+
+## M3-HIST14-DET-FW-001
+TYPE: FIREWALL
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+At the Stage14 square-root saturation receiver, the two legal primitive determinant/root-line counts already sum to the full exponent 1/2.
+The associated row/column sign and orientation labels carry only B^o(1) entropy.
+Eliminating a fixed fraction of those labels, correlating the two orientation systems, or applying the same common core as a second determinant modulus cannot produce a fixed B^(-delta) saving.
+Any strict sub-square-root improvement from that receiver requires a genuinely new compatibility/energy estimate for physical pairs on the two primitive root lines.
+
+
+POPULATION:
+Stage14 s7-44 globally odd primitive full-core dual-root-line saturation packets.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+Stage14 primitive root-line determinant reductions; Arsenal AR-009, AR-024, AR-028.
+
+
+IMPLIES:
+the local orientation/determinant bookkeeping at this Stage14 receiver was exhausted at square-root scale.
+
+
+ALIASES:
+Stage14 dual-root-line determinant no-go;
+orientation-only correlation no fixed-power saving;
+second-full-core determinant firewall.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+attempts to break the Stage14 square-root barrier by another orientation peel or a second use of the already-charged common core.
+
+
+DO_NOT_REPEAT:
+Do not reinterpret B^o(1) orientation entropy as a polynomial saving.
+Do not multiply two determinant spacings sourced from the same charged core without a new independent equation.
+
+
+REOPEN_CONDITION:
+a same-measure joint incidence, bilinear, spectral, determinant-variety, or energy theorem giving B^(1/2-delta+o(1)) on the exact physical compatibility set.
+
+
+DETAIL_DOC:
+Stage14 14-s7-44/result.md.
+
+
+---
+
+
+## M3-HIST14-COV-FW-001
+TYPE: FIREWALL
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+The three Stage14 pairwise covariance branches obtained from the available projections are coordinate views of one common two-projection physical covariance mass.
+They are not three independent receivers and cannot be double- or triple-charged.
+Reparametrizing the same pairwise covariance does not create a second independent modulus-density saving.
+
+
+POPULATION:
+Stage14 square-root saturation covariance receiver.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+Stage14 s7-54 projection comparison and the prior charged-once covariance decomposition.
+
+
+IMPLIES:
+a later covariance decomposition must prove genuinely different sigma-algebras/conditions before multiplying pairwise savings.
+
+
+ALIASES:
+pairwise covariance projection equivalence;
+Stage14 s7-54;
+covariance double-charge firewall.
+
+
+DUPLICATE_OF:
+M3-A-GATE-001 and M3-A-001 use covariance as a Stage37 target but do not record this Stage14 projection-equivalence result.
+
+
+SUPERSEDES:
+the idea that three coordinate presentations of the pairwise covariance yield independent fixed-power factors.
+
+
+DO_NOT_REPEAT:
+Do not multiply covariance savings solely because the same interaction has three projection formulas.
+
+
+REOPEN_CONDITION:
+an exact decomposition proving independent or orthogonal new arithmetic information beyond the common two-projection receiver.
+
+
+DETAIL_DOC:
+Stage14 14-s7-54/result.md.
+
+
+---
+
+
+## M3-HIST14-COV-NEG-001
+TYPE: NEGATIVE_RESULT
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+For the Stage14 dense pair-covariance receiver, square-root exponent saturation forces only an exponent-zero covariance ratio eta=B^(-o(1)).
+It does not force near-deterministic coupling or eta=1-B^(-delta+o(1)).
+The exact Bernoulli Frechet envelope permits positive exponent-zero covariance that stays a fixed distance from deterministic equality.
+Therefore no fixed-power saving follows merely by replacing a square-root-saturating pairwise interaction with a "nearly deterministic coupling" description.
+
+
+POPULATION:
+Stage14 dense pairwise covariance branch after the previous variance/joint-density peels.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+exact Bernoulli Frechet bounds and Stage14 s7-57 normalization.
+
+
+IMPLIES:
+exponent saturation is weaker than structural determinism; an arithmetic factorization or correlation theorem is still required.
+
+
+ALIASES:
+Frechet envelope no-go;
+square-root saturation does not imply near determinism;
+Stage14 s7-57.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+the proposed promotion from exponent-zero covariance to near-deterministic pair coupling.
+
+
+DO_NOT_REPEAT:
+Do not infer near equality of two predicates from the fact that their covariance survives at exponent-zero scale.
+
+
+REOPEN_CONDITION:
+a new arithmetic theorem proving that the actual physical covariance, unlike the abstract Frechet envelope, concentrates near an extremal coupling.
+
+
+DETAIL_DOC:
+Stage14 14-s7-57/result.md.
+
+
+---
+
+
+## M3-HIST14-FIBER-FW-001
+TYPE: FIREWALL
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+In the Stage14 fixed-Q Gaussian background, each live completion fiber has only B^o(1) states.
+Consequently any nonempty principal event already has conditional density at least B^(-o(1)).
+A fixed-power density loss cannot be created solely inside such a subpolynomial fiber except by making the accepted fiber empty at fixed-power frequency.
+The first remaining polynomial-scale object is therefore the support/weight of the outer Q fibers, not within-fiber density or variance.
+
+
+POPULATION:
+Stage14 fixed-U/fixed-Q Gaussian completion tower on the t-route.
+
+
+HEIGHT:
+Stage14 physical d<=B with the frozen fixed-U outer measure.
+
+
+DEPENDS_ON:
+Stage14 t89 finite-fiber bound and t105 exact two-level fiber decomposition; conceptually adjacent to Arsenal AR-016.
+
+
+IMPLIES:
+small-fiber conditional density is not an independent polynomial-length saving mechanism; one must attack occupied outer-fiber support or another polynomial-scale variable.
+
+
+ALIASES:
+background Gaussian fiber density no-go;
+outer-Q support reduction;
+Stage14 t105.
+
+
+DUPLICATE_OF:
+M3-FIB-001 records B^o(1) multiplicity on a different Stage37 fibration; this card records the distinct Stage14 deduction that a B^o(1) fiber cannot host an independent fixed-power density deficit.
+
+
+SUPERSEDES:
+attempts to obtain a polynomial saving from centered variance or fractional density entirely inside the tiny fixed-Q completion fiber.
+
+
+DO_NOT_REPEAT:
+Do not treat B^o(1)-sized fiber density as a new fixed-power length.
+Do not identify the Stage14 fixed-Q outer measure with Stage37 M3 without an exact adapter.
+
+
+REOPEN_CONDITION:
+a theorem showing fixed-power sparsity of occupied outer Q fibers, or a new polynomial-scale variable inside the actual target measure.
+
+
+DETAIL_DOC:
+Stage14 14-t105/result.md.
+
+
+---
+
+
+## M3-HIST14-EQ-NEG-001
+TYPE: NEGATIVE_RESULT
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+For the Stage14 charged projective-class block,
+T_Omega = M_Omega + D_Omega,
+where M_Omega is the uniform principal-class mass and D_Omega is the centered physical discrepancy.
+Ordinary equidistribution, meaning D_Omega=o(M_Omega), preserves the exponent of M_Omega.
+Since the projective principal factor is only B^(-o(1)), small centered discrepancy alone cannot yield a fixed B^(-delta) saving.
+A fixed-power depletion with positive principal mass requires principal-scale negative discrepancy: the physically selected class must be systematically underrepresented relative to its uniform share.
+
+
+POPULATION:
+Stage14 fixed-U charged cofactor/projective-class blocks.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+Stage14 t112 exact principal-plus-discrepancy identity and t113 no-go; Arsenal AR-024/AR-027 supply the general measure/quantifier firewalls.
+
+
+IMPLIES:
+"better equidistribution" can be the wrong theorem species when the desired conclusion is a power-saving deficit relative to a subpolynomial principal share.
+
+
+ALIASES:
+ordinary equidistribution no-go;
+principal-scale depletion criterion;
+Stage14 t113.
+
+
+DUPLICATE_OF:
+none; current M3 local-equidistribution gates ask for transfer on different populations and do not contain this principal-vs-centered sign criterion.
+
+
+SUPERSEDES:
+the expectation that a small centered projective discrepancy automatically gives a fixed-power survivor saving.
+
+
+DO_NOT_REPEAT:
+Do not cite ordinary class equidistribution as a power-saving theorem unless the principal mass is already power-small or the discrepancy has the required negative principal-scale sign.
+
+
+REOPEN_CONDITION:
+a same-measure theorem proving power-small principal mass or systematic principal-scale negative discrepancy for the target selected classes.
+
+
+DETAIL_DOC:
+Stage14 14-t113/result.md.
+
+
+---
+
+
+## M3-HIST14-SQSIEVE-NEG-001
+TYPE: NEGATIVE_RESULT
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+At the historical Stage14 13/14 checkpoint, the proved square-root square-sieve architecture had a genuine dimension barrier:
+the active thin two-cell receiver gave relative saving A^(-1/3), while the thick four-variable receiver gave H^(-4/5).
+Merely adding more cells made the square-root completion exponent weaker unless the added cells had a new forced positive-power product or an exact relation reduced the effective dimension.
+Threshold retuning alone could not improve that 13/14 minimax checkpoint.
+The numerical exponent 13/14 is historical and was later superseded by stronger Stage14 work; the reusable content is the dimension/no-naive-multicell diagnosis.
+
+
+POPULATION:
+historical Stage14 square-sieve packet architecture before later improvements.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+Stage14 4bz and the then-proved two-cell/four-variable square-root Fourier receivers.
+
+
+IMPLIES:
+higher-dimensional square-sieve enlargement is not automatically stronger; effective dimension and forced product size must both be audited.
+
+
+ALIASES:
+historical 13/14 square-sieve dimension barrier;
+naive multicell enlargement no-go;
+Stage14 4bz.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+threshold-only optimization and naive higher-cell enlargement within that historical architecture.
+
+
+DO_NOT_REPEAT:
+Do not cite 13/14 as the current Stage14 bound.
+Do not add sieve variables unless they bring new forced size, independent structure, or an exact dimension reduction.
+
+
+REOPEN_CONDITION:
+a new structural lower bound on the added variables, an exact relation lowering effective dimension, or cancellation beyond the square-root completion law.
+
+
+DETAIL_DOC:
+Stage14 14-4bz/result.md.
+
+
+---
+
+
+## M3-HIST14-RATIO-001
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+The Stage14 reciprocal scale-free ratio family is a bidegree-(2,2) curve.
+For nonzero lambda its projective fiber is singular/reducible exactly at lambda=+4 or -4; in the positive physical chamber the only singular value is lambda=4.
+At lambda=4 the fiber splits into two (1,1) components, and exactly one meets the physical chamber:
+u*v-u-v-1=0.
+Equivalently,
+A/D + P/Q + (A/D)(P/Q)=1,
+or in host variables
+D*(Q-P)=A*(Q+P).
+For physical lambda!=4 the fiber is smooth and geometrically irreducible of genus one.
+The rational singular branch and smooth genus-one branch therefore require separate counting treatments.
+
+
+POPULATION:
+Stage14 reciprocal biquadratic ratio packets on the physical chamber.
+
+
+HEIGHT:
+structural classification; no standalone whole-family power saving.
+
+
+DEPENDS_ON:
+Stage14 s7-27 exact ratio equation and X5 singular-locus calculation.
+
+
+IMPLIES:
+generic genus-one point bounds must not be applied across the lambda=4 rational component without splitting it off first.
+
+
+ALIASES:
+reciprocal biquadratic singular locus;
+lambda=4 Mobius branch;
+Stage14 X5.
+
+
+DUPLICATE_OF:
+M3-QUOT-001 is a later Stage37 bidegree-(2,2) model with different variables/population; this is a historical Stage14 ratio-fiber classification.
+
+
+SUPERSEDES:
+treating all ratio fibers uniformly as smooth genus-one curves.
+
+
+DO_NOT_REPEAT:
+Do not merge the rational lambda=4 component back into a generic (2,2) genus-one count.
+Do not transfer this Stage14 classification to exact M3 without an explicit coordinate/population adapter.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+Stage14 14-X5/result.md.
+
+
+---
+
+
+
+
+
+
+## M3-HIST14-SELECTOR-FW-001
+TYPE: FIREWALL
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+In the Stage14 square-root saturation selector, the Gaussian/root-orientation component admits an exact B^o(1)-cost Walsh/Hecke expansion, and finite gcd/primitivity masks admit divisor/Mobius expansion.
+However the full physical selector remains nonmultiplicative because balanced divisor splits, dyadic/range windows, charged-once chart masks, and reciprocal-completion masks are not multiplicative.
+Therefore a multiplicative expansion of the orientation component cannot be promoted by itself to a multiplicative expansion of the full physical selector or to a fixed-power saving.
+
+
+POPULATION:
+Stage14 full-conductor interior-dense square-root saturation packets.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+Stage14 s7-58 and the prior exact orientation expansion.
+
+
+IMPLIES:
+future multiplicative/Hecke attacks must identify which remaining physical masks are compatible with the claimed factorization rather than treating the entire selector as multiplicative.
+
+
+ALIASES:
+Stage14 nonmultiplicative mask barrier;
+partial Hecke factorization;
+s7-58.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+the attempted promotion from orientation-factorization to a factorization of the complete physical selector.
+
+
+DO_NOT_REPEAT:
+Do not infer multiplicativity of a physical selector from multiplicativity of only one factor.
+Balanced-divisor existence, range windows, charged-once masks, and reciprocal completion must be handled on their actual measure.
+
+
+REOPEN_CONDITION:
+an exact decomposition or adapter that makes the residual physical masks multiplicative or proves their influence power-small on the same charged measure.
+
+
+DETAIL_DOC:
+Stage14 14-s7-58/result.md.
+
+
+---
+
+
+## M3-HIST14-INFLUENCE-001
+TYPE: AUXILIARY
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+The unresolved Stage14 positive zero-mode uplift admits an exact bounded martingale/telescoping decomposition into O(1) physical-mask influences.
+After the already-controlled orientation/gcd/common-prime components are removed, any square-root-saturating sequence must have exponent-zero response in at least one residual physical influence.
+The four residual mask influences contract arithmetically to one coupled receiver:
+disjoint-prime balanced allocation plus reciprocal completion.
+Balanced allocation and reciprocal completion are not independent savings.
+
+
+POPULATION:
+Stage14 full-conductor interior-dense square-root saturation zero-mode branch.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+Stage14 s7-59, after s7-58 and the common-prime peel.
+
+
+IMPLIES:
+an opaque conditional uplift can be reduced to a finite list of explicit mask influences without assuming probabilistic independence.
+
+
+ALIASES:
+physical cofactor influence decomposition;
+martingale mask decomposition;
+s7-59.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+treating the residual positive uplift as one undifferentiated selector-density phenomenon.
+
+
+DO_NOT_REPEAT:
+Do not multiply balanced-allocation and reciprocal-completion gains.
+Do not infer a saving from the existence of the O(1)-term decomposition; it only localizes the obstruction.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+Stage14 14-s7-59/result.md.
+
+
+---
+
+
+## M3-HIST14-PRIMEFLIP-FW-001
+TYPE: FIREWALL
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+After all other Stage14 allocation data are frozen, one active split prime ell can be represented by one allocation bit moving ell between two admissible divisor cells.
+The two states form an explicit complementary two-square admissibility packet.
+Reciprocal/post-column completion has only B^o(1) multiplicity once the divisor allocation is fixed.
+A divisor switch is therefore a reparametrization of the same factorization packet, not a second source of 1/ell spacing or an independent reciprocal-support saving.
+
+
+POPULATION:
+Stage14 s7-60 single-prime allocation receiver.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-INFLUENCE-001 and Stage14 s7-46 finite completion.
+
+
+IMPLIES:
+single-prime influence may be studied as a Boolean physical-admissibility boundary, but the same prime allocation cannot be double charged through forward/reverse divisor coordinates.
+
+
+ALIASES:
+single-prime allocation bit;
+divisor-switch no-go;
+two-square allocation packet;
+s7-60.
+
+
+DUPLICATE_OF:
+M3-HIST14-ROOTSIGN-NEG-001 concerns an earlier deterministic root-sign allocation; this card records the later explicit allocation-flip/two-square receiver.
+
+
+SUPERSEDES:
+fresh divisor-switch fixed-power saving from the same allocation bit.
+
+
+DO_NOT_REPEAT:
+Do not attach an independent modulus factor or reciprocal-completion density to a prime allocation already determining that completion up to B^o(1).
+
+
+REOPEN_CONDITION:
+a new independent equation or measure not determined by the frozen allocation packet.
+
+
+DETAIL_DOC:
+Stage14 14-s7-60/result.md.
+
+
+---
+
+
+## M3-HIST14-PRIME-LOCAL-NEG-001
+TYPE: NEGATIVE_RESULT
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+For the Stage14 single-prime two-square influence, local admissibility forces the active odd mover prime ell into the already-known Gaussian split support, in particular ell congruent to 1 mod 4 outside frozen exceptional support.
+This local congruence creates no fresh thin residue family, no new ell^(-1) factor, and no independent growing-modulus sparsity.
+Moreover simultaneous admissibility of both prime-allocation states is strictly stronger than the actual XOR influence event and cannot be charged against the full influence receiver without an additional bridge.
+
+
+POPULATION:
+Stage14 s7-61 single-prime two-square boundary-crossing receiver.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-PRIMEFLIP-FW-001.
+
+
+IMPLIES:
+a local calculation that merely rediscovers the already-charged Gaussian splitting condition yields no new power saving.
+
+
+ALIASES:
+single-prime residue-support no-go;
+Gaussian-splitting recharge firewall;
+s7-61.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+the proposed fresh residue-sparsity saving on the prime-flip receiver.
+
+
+DO_NOT_REPEAT:
+Do not recharge ell congruent to 1 mod 4 after Gaussian splitting has already been imposed.
+Do not replace an XOR boundary event by the smaller both-states-admissible event without proving the necessary density bridge.
+
+
+REOPEN_CONDITION:
+a new local condition independent of Gaussian splitting or a theorem linking exponent-zero XOR influence to a sparse collision/simultaneous-admissibility subfamily.
+
+
+DETAIL_DOC:
+Stage14 14-s7-61/result.md.
+
+
+---
+
+
+## M3-HIST14-MOVER-001
+TYPE: AUXILIARY
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+On the pure arithmetic, range-stable Stage14 mover branch, the active mover prime must satisfy ell=B^o(1).
+A fixed-power-size ell necessarily changes the archimedean scale and belongs to the separately charged range/sector branch.
+The prime-flip boundary is given by degree-at-most-two divisor graphs in ell.
+Consequently the total range-stable mover-prime image has size B^o(1).
+If the mover incidence saturates at B^(1/2-o(1)), Cauchy therefore forces collision energy at least B^(1-o(1)); the diffuse-image alternative disappears.
+
+
+POPULATION:
+Stage14 s7-62 range-stable arithmetic mover receiver.
+
+
+HEIGHT:
+Stage14 physical d<=B, theta-quarter saturation packet.
+
+
+DEPENDS_ON:
+M3-HIST14-PRIME-LOCAL-NEG-001 and the earlier finite candidate/image-energy dichotomy.
+
+
+IMPLIES:
+range-stable square-root saturation localizes onto a small prime image with near-maximal collision energy.
+
+
+ALIASES:
+range-stable subpolynomial mover;
+forced norm-ratio collision energy;
+s7-62.
+
+
+DUPLICATE_OF:
+M3-TQ-GATE-002 contains a different Stage37 collision-energy gate.
+
+
+SUPERSEDES:
+the diffuse B^(1/2)-sized mover-prime image alternative on the pure arithmetic branch.
+
+
+DO_NOT_REPEAT:
+Do not interpret forced large energy as a saving theorem; it localizes the obstruction but does not upper-bound it.
+Do not mix fixed-power range movers back into the arithmetic branch.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+Stage14 14-s7-62/result.md.
+
+
+---
+
+
+## M3-HIST14-COLLISION-FW-001
+TYPE: FIREWALL
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+For the Stage14 fixed subpolynomial mover prime, proportional copies of one primitive divisor-pair direction contribute only B^(1/2+o(1)) energy and cannot explain the forced B^(1-o(1)) collision energy.
+Thus nonproportional energy is genuinely forced.
+Nevertheless the fixed-prime norm-ratio collision equation and its Lagrange determinant identity follow from the two individual fixed-prime norm equations; they add no fresh codimension and cannot be charged as an independent determinant saving.
+Collision energy is a localization device here, not a second arithmetic constraint.
+
+
+POPULATION:
+Stage14 s7-63 fixed-prime primitive divisor-pair receiver.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-MOVER-001.
+
+
+IMPLIES:
+large nonproportional collision energy need not imply an exploitable incidence theorem when the collision equation is algebraically tautological.
+
+
+ALIASES:
+proportional collision peel;
+fixed-prime collision tautology;
+s7-63.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+the idea that the forced collision pair automatically supplies an extra determinant/codimension saving.
+
+
+DO_NOT_REPEAT:
+Do not double charge collision energy after it has only served to select a heavy prime/family.
+Check whether the pair equation is independent of the one-state equations before invoking determinant heuristics.
+
+
+REOPEN_CONDITION:
+a genuinely independent pair relation not implied by the two single-state norm equations.
+
+
+DETAIL_DOC:
+Stage14 14-s7-63/result.md.
+
+
+---
+
+
+## M3-HIST14-SLOPE-001
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+After Stage14 primitive reduction r=g a, s=g b with gcd(a,b)=1 and g=B^o(1), the reduced rational slope u=a/b determines the primitive pair uniquely.
+Thus projective slope and apparent scale are not two independent polynomial coordinates; only B^o(1) scale-copy multiplicity remains.
+After freezing one subpolynomial Gaussian prime, root orientation, and one of B^o(1) atomic mover charts, the entire balanced-allocation plus reciprocal-completion condition collapses to a single Boolean physical-acceptance predicate A_phys(a,b) on primitive rational slopes, with B^o(1) witness multiplicity per accepted direction.
+B^o(1) witness multiplicity does not imply sparse acceptance.
+
+
+POPULATION:
+Stage14 s7-64 range-stable fixed-prime/fixed-root/fixed-chart primitive-slope receiver.
+
+
+HEIGHT:
+primitive pair height H=B^(1/4+o(1)); Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-COLLISION-FW-001 and the Stage14 primitive divisor-pair/finite-chart reductions.
+
+
+IMPLIES:
+the remaining Stage14 obstruction can be formulated as density of one explicit Boolean arithmetic predicate on primitive coprime rational slopes rather than as multiple scale/chart/completion coordinates.
+
+
+ALIASES:
+primitive rational-slope contraction;
+physical acceptance predicate;
+s7-64.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+treating projective slope, scale, atomic chart, and reciprocal-completion witnesses as independent polynomial supports.
+
+
+DO_NOT_REPEAT:
+Do not infer that B^o(1) witnesses per slope imply that only B^o(1) slopes are accepted.
+Do not charge the frozen chart label or residual common scale as new polynomial savings.
+
+
+REOPEN_CONDITION:
+a theorem proving a fixed-power density deficit for A_phys on the exact primitive-slope measure.
+
+
+DETAIL_DOC:
+Stage14 14-s7-64/result.md.
+
+
+---
+
+
+## M3-HIST14-RECIPROCAL-ADAPTER-NEG-001
+TYPE: NEGATIVE_RESULT
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+Stage14 global and s-route heavy receivers were exactly unified as one normalized radial reciprocal divisor-window selector on coordinates (n,L), with only B^o(1) divisor fiber after outer data are fixed.
+The fixed-U route has a superficially similar reciprocal hyperbola, but its arithmetic measure is different: it counts a weighted prime/projective-class condition rather than squareclass divisor-window existence.
+The common reciprocal-window geometry does not provide a measure-preserving arithmetic adapter, so savings cannot be cross-promoted between the two routes.
+Likewise global and s copies of the same normalized divisor coordinate are not independently chargeable.
+
+
+POPULATION:
+Stage14 heavy global/s reciprocal divisor-window receiver versus Stage14 fixed-U projective-prime receiver.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+Stage14 Work-brX30, with q14 and tH29 as later audits.
+
+
+IMPLIES:
+visual or algebraic similarity of reciprocal hyperbolas is insufficient for theorem transfer; population, weights, quantifiers, and prime/divisor conditions must match.
+
+
+ALIASES:
+reciprocal-window arithmetic-adapter no-go;
+radial divisor versus projective prime mismatch;
+Work-brX30;
+q14 boundary.
+
+
+DUPLICATE_OF:
+Arsenal AR-024 is the generic same-kernel/different-measure firewall; this card records the concrete late-Stage14 reciprocal-window identification and failed cross-route adapter.
+
+
+SUPERSEDES:
+the proposed direct transfer between global/s divisor-window occupancy and fixed-U projective-prime depletion.
+
+
+DO_NOT_REPEAT:
+Do not cross-promote divisor-window theorems to the fixed-U prime/projective measure or vice versa without an explicit physical-measure-preserving adapter.
+Do not multiply global and s counts after their common normalized radial coordinate has been identified.
+
+
+REOPEN_CONDITION:
+an explicit adapter preserving outer measure, quantifier order, squareclass-divisor versus prime/projective conditions, and physical masks.
+
+
+DETAIL_DOC:
+Stage14 14-Work-brX30/result.md; stage14-q14-summary.md; 14-tH29/result.md.
+
+
+---
+
+
+
+
+
+
+CARD_ID: M3-T11-022
+TITLE: Torus double-lift is a genuine second selector inside the triple-spin principal fiber
+STATUS: PROVED_EXACT_STRUCTURE / NARROWER_RECEIVER
+ROUTE: TrivialSplitCyclicDirectionOneThird
+
+
+RESULT:
+For a rational norm-one phase
+
+
+U=x+i*y,
+x^2+y^2=1,
+
+
+one has exactly
+
+
+U in T(Q)^2
+iff
+2*(1+x) in Q^2.
+
+
+Retain
+
+
+A=X+iY=r_1^2+r_2^2+r_3^2,
+
+
+and assume the triple-spin condition
+
+
+s^2=X^2+Y^2-1.
+
+
+Let
+
+
+R_A=X^2+Y^2=1+s^2.
+
+
+The two solutions of
+
+
+conj(A)U^2+2U+A=0
+
+
+are
+
+
+U_+=(-1+i*s)/conj(A),
+U_-=(-1-i*s)/conj(A).
+
+
+Therefore reconstruction of the all-same Gaussian core requires at least one of
+
+
+E_+
+=
+2*(R_A-X-sY)/R_A
+in Q^2,
+
+
+or
+
+
+E_-
+=
+2*(R_A-X+sY)/R_A
+in Q^2.
+
+
+The branch product satisfies exactly
+
+
+E_+*E_-
+=
+4*(X-1)^2/R_A.
+
+
+Hence the two branch squareclasses differ by [R_A]^{-1}; if R_A is nonsquare, at most one branch can pass.
+
+
+The double-lift is not implied by the triple-spin square relation. For the positive rational torus parameters
+
+
+t_1=1,
+t_2=5,
+t_3=6,
+
+
+one has
+
+
+lambda_12=10/13,
+lambda_13=24/37,
+lambda_23=960/481,
+
+
+and
+
+
+lambda_12*lambda_13*lambda_23=(480/481)^2,
+
+
+but the two double-lift values are
+
+
+E_+=746^2/(13*37*409),
+E_-=314^2/(13*37*1129),
+
+
+so neither is a rational square.
+
+
+This example is an algebraic independence certificate, not a physical endpoint example.
+
+
+IMPLIES:
+The six-bilinear principal-squareclass incidence is an enlarged receiver. Actual endpoint packets lie on an additional independent torus-square cover.
+
+
+NEW_GATE:
+CyclicTripleSpinDoubleLiftPrincipalIncidenceOneTwelfth.
+
+
+REQUIRED_OUTPUT:
+For each fixed Step-A content/coefficient packet, prove
+
+
+# active tau satisfying both square covers and reconstruction
+<<
+B^(1/12-delta)
+
+
+for some fixed delta>0.
+
+
+DO_NOT_REPEAT:
+Do not assume probabilistic independence of the two square selectors.
+Do not discard the double-lift as automatic after the triple-spin square.
+Do not infer a fixed-power saving merely from the algebraic independence example.
+
+
+DETAIL_DOC:
+K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE section 23.
+
+
+---
+
+
+
+
+## M3-HIST14-BINFORM-001
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+On the Stage14 primitive-slope receiver with gcd(a,b)=1, the two primitive arithmetic cores are
+F_-=ab
+and
+F_+=a^2+b^2
+up to already-frozen B^o(1) scale/endpoint/2-primary decorations.
+They are coprime:
+gcd(a^2+b^2,ab)=1.
+Hence fixed-power cross-sign prime sharing is impossible and cross-sign disjointness is automatic rather than an independent density selector.
+The minus allocation localizes canonically to divisors of the coprime coordinates a and b.
+Every odd prime dividing the primitive plus core is 1 mod 4, and the slope a/b fixes the Gaussian conjugate above each such rational prime; the remaining plus allocation is only a subset/divisor allocation among these split primes.
+
+
+POPULATION:
+Stage14 s7-65 through s7-67 primitive-slope physical packets.
+
+
+HEIGHT:
+primitive slope height B^(1/4+o(1)); Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-SLOPE-001 and the Stage14 canonical allocation reconstruction.
+
+
+IMPLIES:
+cross-sign separation, plus-prime Gaussian splitting, and plus-prime conjugate orientation are structural consequences of the primitive coordinates and cannot be charged again as separate density savings.
+
+
+ALIASES:
+coprime binary-form contraction;
+primitive signed-factor normalization;
+primitive Gaussian norm allocation;
+s7-65;
+s7-66;
+s7-67.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+treating cross-sign prime disjointness, minus signed-factor placement, or plus Gaussian orientation as independent selectors on the primitive-slope receiver.
+
+
+DO_NOT_REPEAT:
+Do not recharge gcd(F_+,F_-)=1, p congruent 1 mod 4 on F_+, or the Gaussian conjugate fixed by a/b.
+Do not infer a density saving merely because the physical witness fiber per slope is B^o(1).
+
+
+REOPEN_CONDITION:
+a new selector not forced by the binary-form identities or a theorem acting on the remaining balanced within-form divisor allocations.
+
+
+DETAIL_DOC:
+Stage14 14-s7-65/result.md; 14-s7-66/result.md; 14-s7-67/result.md.
+
+
+---
+
+
+## M3-HIST14-ALLOC-DENSITY-001
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+After canonicalizing the Stage14 integer/Gaussian allocation witnesses, the full physical acceptance density on primitive slopes factors exactly through two nested Boolean density stages:
+mu_can = density of slopes admitting at least one canonical balanced integer/Gaussian allocation witness,
+mu_recip = conditional density that an allocation-bearing slope admits reciprocal/post-column completion.
+Up to the already-charged B^o(1) finite-fiber change between slope and witness incidence measures,
+full acceptance density = mu_can * mu_recip.
+Square-root saturation forces both factors to have exponent-zero density; any fixed-power deficit in either factor closes the arithmetic branch.
+
+
+POPULATION:
+Stage14 s7-68 canonical primitive-slope background.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-BINFORM-001 and the finite witness multiplicity theorem.
+
+
+IMPLIES:
+the former six-block selector can be studied as two explicit nested conditional-density problems without assuming independence.
+
+
+ALIASES:
+canonical allocation density chain;
+integer-Gaussian allocation background;
+s7-68.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+the undifferentiated six-block balanced-allocation/reciprocal acceptance receiver.
+
+
+DO_NOT_REPEAT:
+The product is a chain rule on nested Boolean populations, not a probabilistic independence assertion.
+Do not multiply extra witness multiplicities into either density factor.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+Stage14 14-s7-68/result.md.
+
+
+---
+
+
+## M3-HIST14-FIRSTRECIP-FW-001
+TYPE: FIREWALL
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+Once a canonical Stage14 allocation witness is reconstructed, the first reciprocal equation is an identity rather than a new Boolean selector.
+Its two sides are already the same reconstructed physical product, and the coprime split involved has only divisor-many B^o(1) multiplicity.
+The final post-column reverse reconstruction is likewise B^o(1) once the opposite reciprocal data are fixed.
+Therefore no independent fixed-power density factor remains in the first reciprocal equation or in the final reverse-completion fiber.
+
+
+POPULATION:
+Stage14 s7-69 canonical allocation-bearing primitive slopes.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-ALLOC-DENSITY-001.
+
+
+IMPLIES:
+the only live polynomial-scale content of the reciprocal conditional factor must occur at the opposite/second reciprocal stage.
+
+
+ALIASES:
+first reciprocal selector elimination;
+first reciprocal tautology after allocation;
+s7-69.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+counting the first reciprocal equation or post-column finite completion as additional independent acceptance losses.
+
+
+DO_NOT_REPEAT:
+Do not assign a density saving to an equation that becomes an identity after the same allocation data are reconstructed.
+Do not convert divisor-many completion multiplicity into a new polynomial support length.
+
+
+REOPEN_CONDITION:
+a different reciprocal observable not algebraically reconstructed from the canonical allocation witness.
+
+
+DETAIL_DOC:
+Stage14 14-s7-69/result.md.
+
+
+---
+
+
+## M3-HIST14-SECONDRECIP-001
+TYPE: RECEIVER
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+After the first reciprocal selector is eliminated, the live Stage14 reciprocal condition reduces to a primitive Gaussian norm-divisibility selector for a B^o(1)-sized set of opposite-reciprocal candidates.
+After peeling B^o(1) common support, the event is a primitive root-line condition modulo the physical common-core modulus C0.
+This selector is not tautological after canonical allocation.
+Its local prime conditions only reproduce already-frozen Gaussian split-prime support and root orientation, so they yield no fresh local-congruence power saving.
+Once the root event holds, all remaining post-root completion is only B^o(1) multiplicity.
+
+
+POPULATION:
+Stage14 s7-70 canonical allocation-bearing slopes and their finite opposite-reciprocal candidate sets.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-FIRSTRECIP-FW-001.
+
+
+IMPLIES:
+the entire reciprocal conditional-density problem contracts to one explicit Boolean primitive Gaussian-root selector.
+
+
+ALIASES:
+second reciprocal Gaussian norm divisibility;
+opposite reciprocal root selector;
+s7-70.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+the broader opaque reciprocal-completion density receiver.
+
+
+DO_NOT_REPEAT:
+Do not recharge Gaussian splitting or local root orientation already present in the canonical background.
+Do not add a separate post-root completion density factor.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+Stage14 14-s7-70/result.md.
+
+
+---
+
+
+## M3-HIST14-ROOT-GATE-001
+TYPE: THEOREM_GATE
+STATUS: PAUSED
+
+
+CLAIM:
+The remaining Stage14 s-route reciprocal obstruction is the theorem-ready conditional density problem:
+on the canonical allocation-bearing primitive-slope family, each slope has only B^o(1) charged opposite-reciprocal candidates (C0,X0,Y0), and one asks for a uniform fixed delta>0 deficit in the proportion for which at least one candidate lies on the prescribed primitive Gaussian root line modulo C0.
+No second independent growing modulus is produced.
+Divisor switching changes the representation only by B^o(1) fibers.
+A pointwise root-line count does not uniformly close the receiver because C0 and the candidate vectors are correlated by the physical allocation equations.
+
+
+POPULATION:
+Stage14 s7-71 canonical allocation-bearing primitive slopes.
+
+
+HEIGHT:
+primitive slopes of height B^(1/4+o(1)) inside Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-SECONDRECIP-001.
+
+
+IMPLIES:
+further progress requires a same-measure averaged density/dispersion theorem for the correlated Gaussian root congruence, or a rigorous no-go showing full exponent can survive.
+
+
+ALIASES:
+CanonicalAllocationConditionalPrimitiveGaussianRootDensity;
+Stage14 sH71 gate;
+s7-71.
+
+
+DUPLICATE_OF:
+none; this is a historical Stage14 theorem gate, not the active Stage37 gate.
+
+
+SUPERSEDES:
+another internal divisor-switch, second-modulus, or local-root-line rewrite of the same receiver.
+
+
+DO_NOT_REPEAT:
+Do not use C0 twice as both the already-frozen Gaussian orientation modulus and an independent spacing modulus.
+Do not assume C0 and reciprocal candidates are independent.
+Do not reopen elementary divisor switching as a new power-saving mechanism.
+
+
+REOPEN_CONDITION:
+an exact same-measure Gaussian/Kloosterman dispersion, roots-of-minus-one large sieve, bilinear congruence incidence, divisor-correlated norm-form theorem, or a counterexample/no-go resolving the conditional density target.
+
+
+DETAIL_DOC:
+Stage14 14-s7-71/result.md.
+
+
+---
+
+
+## M3-HIST14-WITNESS-FW-001
+TYPE: FIREWALL
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+For the Stage14 primitive-slope physical predicate, each accepted slope has only B^o(1) physical witnesses after canonical allocation and reciprocal reconstruction.
+This finite witness multiplicity is a multiplicity statement only.
+It does not imply that the set of accepted primitive slopes has B^o(1) size, zero density, or any fixed-power density deficit.
+Balanced divisor-window existence by itself is also not fixed-power sparse on the relevant ambient ranges; full-exponent semiprime-type families can support balanced splits.
+Any saving must therefore use correlation between the binary-form values, their allowed allocations, and the live reciprocal/root selector.
+
+
+POPULATION:
+Stage14 s7-65 onward primitive-slope receiver.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-BINFORM-001 and Stage14 s7-47/s7-65 witness bounds.
+
+
+IMPLIES:
+finite-fiber reconstruction is valuable for coordinate compression but cannot be promoted into a density theorem for the outer primitive-slope family.
+
+
+ALIASES:
+finite witness multiplicity firewall;
+balanced divisor window no standalone saving;
+primitive-slope witness warning.
+
+
+DUPLICATE_OF:
+generic B^o(1)-is-not-saving principles appear elsewhere, but this card records the concrete Stage14 primitive-slope/balanced-window failure mode.
+
+
+SUPERSEDES:
+attempts to infer sparsity of accepted slopes from divisor-many witness fibers.
+
+
+DO_NOT_REPEAT:
+Do not confuse B^o(1) witnesses per object with B^o(1) objects.
+Do not charge balanced divisor-window existence as a standalone fixed-power loss without the coupled arithmetic selector.
+
+
+REOPEN_CONDITION:
+a theorem proving an outer-family density deficit for the coupled binary-form allocation/reciprocal event.
+
+
+DETAIL_DOC:
+Stage14 14-s7-65/result.md and 14-s7-68/result.md.
+
+
+---
+
+
+
+
+
+
+## M3-HIST14-ROOT-DISC-001
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+On the Stage14 canonical reciprocal-root receiver, stratify the common-core modulus by
+C0=B^(kappa+o(1)).
+For squarefree split-supported C0, the oriented primitive root line has model principal density
+rho_root(C0)=C0^(-1+o(1))=B^(-kappa+o(1)).
+Writing the physical root indicator exactly as
+1_root = rho_root(C0) + Delta_C0,
+gives an exact principal-plus-centered-discrepancy decomposition on the correlated physical sequence.
+For kappa>0 the principal term is already fixed-power small, so any saturating polynomial-core cell must be carried by exponent-zero centered discrepancy.
+For kappa=0 the principal term is only B^(-o(1)), so root density alone gives no fixed-power saving and the obstruction returns to canonical allocation density.
+
+
+POPULATION:
+Stage14 s7-72 through s7-74 canonical allocation-bearing reciprocal-root packets.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-ROOT-GATE-001 and the negative sH71 theorem audit.
+
+
+IMPLIES:
+the former single Gaussian-root density obstruction splits into two genuinely different branches: small common core / canonical allocation density, and polynomial common core / centered root discrepancy.
+
+
+ALIASES:
+common-core root-density stratification;
+principal plus centered discrepancy;
+small-core versus polynomial-core split;
+s7-72;
+s7-73;
+s7-74.
+
+
+DUPLICATE_OF:
+M3-HIST14-EQ-NEG-001 records the generic principal-versus-centered sign lesson on another Stage14 projective-class receiver; this card records the exact Gaussian-root decomposition and scale split.
+
+
+SUPERSEDES:
+the undifferentiated CanonicalAllocationConditionalPrimitiveGaussianRootDensity receiver.
+
+
+DO_NOT_REPEAT:
+Do not charge the model root density as an equidistribution theorem for the correlated physical sequence.
+Do not expect a fixed-power principal root saving when C0=B^o(1).
+Do not double charge the principal term and its centered remainder as independent selectors.
+
+
+REOPEN_CONDITION:
+a same-measure bound for the centered polynomial-core discrepancy or a fixed-power density theorem for the small-core canonical allocation branch.
+
+
+DETAIL_DOC:
+Stage14 14-s7-72/result.md; 14-s7-73/result.md; 14-s7-74/result.md.
+
+
+---
+
+
+## M3-HIST14-PROJCOLL-001
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+On a concentrated exact polynomial common-core modulus C, exponent-zero centered Stage14 root discrepancy forces quadratic-scale character energy.
+Diagonal self-pairs are fixed-power too small, so a saturating sequence must contain exponent-zero off-diagonal projective collision mass.
+For two primitive candidate vectors, zero determinant means the same primitive projective ray up to frozen finite labels; nonzero determinant gives a genuine mover relation det=kC.
+Thus concentrated saturation splits exactly into either heavy repeated primitive-ray incidence or genuine nonzero-determinant mover energy.
+The same C is already charged and neither C nor k is automatically a second independent modulus.
+
+
+POPULATION:
+Stage14 s7-75 through s7-77 concentrated polynomial-common-core branch.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-ROOT-DISC-001 and the Stage14 exact character-energy identity.
+
+
+IMPLIES:
+large centered discrepancy can be localized to a heavy primitive reciprocal ray or genuine determinant-mover energy, but not directly converted into a determinant saving.
+
+
+ALIASES:
+off-diagonal projective collision energy;
+heavy ray versus determinant mover split;
+s7-75;
+s7-76;
+s7-77.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+the generic concentrated character-energy receiver.
+
+
+DO_NOT_REPEAT:
+Do not discard repeated primitive rays as finite-fiber noise without a reverse-incidence bound.
+Do not treat det=kC as an independent second-modulus saving merely because k is nonzero.
+Do not count diagonal energy as capable of supporting the concentrated saturation scale.
+
+
+REOPEN_CONDITION:
+a reverse-incidence theorem bounding heavy-ray multiplicity or a same-measure theorem controlling the genuine determinant-mover branch.
+
+
+DETAIL_DOC:
+Stage14 14-s7-75/result.md; 14-s7-76/result.md; 14-s7-77/result.md.
+
+
+---
+
+
+## M3-HIST14-HEAVYRAY-001
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+On the Stage14 heavy primitive reciprocal-ray branch, fixing the primitive ray freezes the primitive reciprocal vector and its norm factor, but not the radial scale h.
+For each exact h, the reciprocal factorization dictionary has only divisor-many B^o(1) possibilities, so polynomial heavy-ray mass cannot come from factorization entropy.
+Every reciprocal-side signed-quotient pair lies on one exact one-dimensional radial line parameterized by h.
+Hence heavy-ray saturation must occur by either:
+(A) concentration on B^o(1) exact h values, forcing a potentially polynomial reverse fiber from one fixed reciprocal tuple back to canonical physical backgrounds; or
+(B) genuinely polynomially many radial dilations along the fixed primitive ray.
+The bound from fixed reciprocal data back to canonical background is explicitly unproved.
+
+
+POPULATION:
+Stage14 s7-78 through s7-80 heavy primitive reciprocal-ray packets.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-PROJCOLL-001.
+
+
+IMPLIES:
+divisor factorization is not a third polynomial source; the live obstruction is radial support or reverse multiplicity from fixed reciprocal data.
+
+
+ALIASES:
+heavy reciprocal ray radial-scale split;
+fixed-data background reverse fiber;
+s7-78;
+s7-79;
+s7-80.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+the vague heavy-ray reverse-multiplicity receiver.
+
+
+DO_NOT_REPEAT:
+Do not freeze one exact h at B^o(1) cost unless concentration on B^o(1) exact h values has been proved.
+Do not infer a B^o(1) reverse fiber from fixed reciprocal data merely from forward finite-fiber reconstruction.
+Do not charge reciprocal factorization entropy after fixing h.
+
+
+REOPEN_CONDITION:
+a bound on the fixed reciprocal-data to canonical-background reverse fiber, or a density theorem for the diffuse one-dimensional radial support.
+
+
+DETAIL_DOC:
+Stage14 14-s7-78/result.md; 14-s7-79/result.md; 14-s7-80/result.md.
+
+
+---
+
+
+## M3-HIST14-Q13-FW-001
+TYPE: FIREWALL
+STATUS: FROZEN
+
+
+CLAIM:
+The Stage14 q13 literature radar re-audited the post-collision-energy obstruction after the receiver had changed to correlation problems involving canonical balanced divisor allocation, projective determinant collisions, heavy primitive reciprocal rays, and diffuse Gaussian norm-factor graphs.
+The audit found no DIRECT theorem closing the full obstruction.
+Several sources were retained only as NEAR architectures: multivariable arithmetic-function means for the (a,b,a^2+b^2) tuple, bilinear Kloosterman-fraction bounds for the projective mover branch, and dispersion theorems for diffuse polynomial moduli.
+No fixed-power Stage14 saving was imported because the exact charged physical coefficients, transforms, or theorem hypotheses were not matched.
+
+
+POPULATION:
+Stage14 post-q12 correlation receivers on the physical square-root boundary.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+Stage14 q13 literature radar and the then-current s/global receiver split.
+
+
+IMPLIES:
+future reuse of those literature leads requires the missing exact adapter, not a vocabulary-level match.
+
+
+ALIASES:
+q13 correlation-only literature radar;
+post-collision literature near-misses.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+reopening the older q12 collision-energy theorem search after collision energy became only localization machinery.
+
+
+DO_NOT_REPEAT:
+Do not cross-promote a NEAR literature architecture as a Stage14 saving without matching coefficient space, quantifiers, masks, and parameter ranges.
+Do not reopen q13 solely because the same theorem names appear again under an unchanged receiver.
+
+
+REOPEN_CONDITION:
+a proved exact adapter to one retained literature theorem, or a materially changed receiver.
+
+
+DETAIL_DOC:
+stage14-q13-summary.md and associated q13 literature radar.
+
+
+---
+
+
+## M3-HIST14-Q15-FW-001
+TYPE: FIREWALL
+STATUS: FROZEN
+
+
+CLAIM:
+The Stage14 q15 literature radar isolated a localized unitary-divisor support problem and found no DIRECT theorem controlling the required physical support with a fixed-power deficit.
+Ordinary divisor-in-interval results, rough-integer divisor results, and localized-divisor density theorems were classified as NEAR only.
+The missing step is an exact transfer between the Stage14 unitary/coprime-complement divisor condition and an ordinary localized-divisor problem, together with compatibility of the actual shrinking/fixed-width physical window.
+No canonical reverse-completion theorem was found.
+
+
+POPULATION:
+Stage14 fixed-E localized unitary short-divisor shadow.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+Stage14 q15 literature radar.
+
+
+IMPLIES:
+ordinary divisor-window density results cannot be charged against the Stage14 unitary selector until the coprime-complement and window-width adapters are proved.
+
+
+ALIASES:
+q15 unitary short-divisor radar;
+localized unitary-divisor no-direct-theorem boundary.
+
+
+DUPLICATE_OF:
+M3-HIST14-RECIPROCAL-ADAPTER-NEG-001 concerns divisor-window versus projective-prime measure mismatch; this card concerns unitary-versus-ordinary divisor support inside the global/s divisor-window direction.
+
+
+SUPERSEDES:
+direct application of Ford-type ordinary divisor-window results to the unitary Stage14 selector.
+
+
+DO_NOT_REPEAT:
+Do not drop the unitary/coprime-complement restriction at B^o(1) cost without proof.
+Do not extrapolate a fixed-width localized-divisor theorem to an o(1)-exponent window without a compatibility argument.
+
+
+REOPEN_CONDITION:
+a unitary-to-ordinary transfer with controlled distortion on the charged physical packet and a compatible divisor-window theorem.
+
+
+DETAIL_DOC:
+stage14-q15-summary.md and associated q15 literature radar.
+
+
+---
+
+
+## M3-HIST14-PRODUCTSET-NEG-001
+TYPE: NEGATIVE_RESULT
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+For the Stage14 fixed-E principal rectangular product envelope with finite integer intervals D and V, the ambient distinct-product set has full polynomial exponent up to polylogarithmic loss.
+When both intervals are polynomial, the directly applicable asymmetric arithmetic-progression product-set theorem yields no fixed B-power compression.
+If one side is B^o(1), freezing one nonzero element of that side already gives an injective copy of the larger interval, again preventing fixed-power compression.
+Therefore the ambient multiplication image itself cannot supply the missing Stage14 power saving.
+Any remaining saving must come from the conditional physical lift inside the product support, not from multiplication-table capacity.
+
+
+POPULATION:
+Stage14 q16 fixed-E principal rectangular product envelope.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+Stage14 q16 and the fixed-E rectangular normalization.
+
+
+IMPLIES:
+product collisions may give logarithmic compression but not the required fixed-power deficit on this ambient rectangle.
+
+
+ALIASES:
+q16 rectangular product-capacity no-go;
+fixed-E multiplication-table barrier.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+attempts to obtain the Stage14 fixed-E saving solely from ambient distinct-product compression.
+
+
+DO_NOT_REPEAT:
+Do not treat polylogarithmic multiplication-table compression as a B^(-delta) saving.
+Do not identify the ambient product set with the physical accepted lift without an explicit physical-lift theorem.
+
+
+REOPEN_CONDITION:
+a theorem proving a fixed-power deficit for the conditional physical lift, or a materially different product normalization with new arithmetic restrictions.
+
+
+DETAIL_DOC:
+stage14-q16-summary.md and associated q16 literature radar.
+
+
+---
+
+
+## M3-HIST14-ENDPOINT-WEDGE-FW-001
+TYPE: FIREWALL
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+The Stage14 fixed-U endpoint-headroom branch admits an exact triangular reciprocal-hyperbola corner-wedge description in logarithmic coordinates.
+For fixed positive headroom parameter theta, this wedge is geometrically narrow but not deterministically fixed-power small.
+Neither its cofactor projection nor its split-prime projection has a proved fixed-power density deficit, and principal mass may concentrate arbitrarily near the hyperbola corner at theorem level.
+Therefore endpoint geometry alone does not close the branch.
+
+
+POPULATION:
+Stage14 t129 fixed-U endpoint-headroom cofactor/prime packets.
+
+
+HEIGHT:
+Stage14 physical d<=B under the fixed-U packet.
+
+
+DEPENDS_ON:
+Stage14 t128 endpoint/interior split and Work-brX30 measure boundary.
+
+
+IMPLIES:
+the endpoint branch must be treated as a charged reciprocal-hyperbola corner-wedge projective-prime depletion problem, not as a purely geometric thin-region estimate.
+
+
+ALIASES:
+endpoint logarithmic wedge;
+reciprocal-hyperbola corner wedge;
+t129.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+the idea that a visually thin endpoint wedge automatically gives a polynomial counting loss.
+
+
+DO_NOT_REPEAT:
+Do not infer fixed-power thinness from fixed-width logarithmic geometry.
+Do not import the global/s divisor-window measure onto this prime-weighted wedge without a measure-preserving adapter.
+
+
+REOPEN_CONDITION:
+a same-measure projective-prime depletion theorem on the endpoint wedge or a new measure adapter.
+
+
+DETAIL_DOC:
+Stage14 14-t129/result.md.
+
+
+---
+
+
+## M3-HIST14-FIXEDCLASS-001
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+The late Stage14 fixed-U projective receiver admits three successive exact contractions.
+For real/order-two projective characters, generic Gaussian orientation is invisible: conjugate Gaussian choices have the same real-character value, leaving a completely multiplicative scalar norm phase.
+For nonreal characters, orientation dependence remains but compresses to a B^o(1)-sized norm-fiber Fourier coefficient attached to the polynomial scalar norm n.
+Finally, the nonnegative class decomposition shows that any principal-scale fixed-power depletion localizes to one exact projective cofactor class at only B^o(1) cost, with the target prime class then fixed as its inverse.
+Thus the minimal cofactor-side receiver is a fixed projective cofactor class scalar-norm weight against reciprocal fixed projective-prime-class depletion; the moving selected-class and real/nonreal cofactor splits are no longer minimal receivers.
+
+
+POPULATION:
+Stage14 t130 through t132 fixed-U nonboundary projective cofactor/prime packets.
+
+
+HEIGHT:
+Stage14 physical d<=B under fixed U.
+
+
+DEPENDS_ON:
+M3-HIST14-ENDPOINT-WEDGE-FW-001 and the prior t125-t127 projective Fourier decomposition.
+
+
+IMPLIES:
+the polynomial outer coordinate is the scalar cofactor norm n; orientation complexity is either removed or compressed, and a bad packet can be frozen to one exact projective class.
+
+
+ALIASES:
+real projective orientation blindness;
+nonreal norm-fiber orientation coefficient;
+fixed projective class localization;
+t130;
+t131;
+t132.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+moving-selected-class as the minimal fixed-U receiver;
+real/nonreal cofactor branch split as the minimal cofactor-side receiver.
+
+
+DO_NOT_REPEAT:
+Do not treat generic Gaussian orientation as an independent real-character coordinate.
+Do not infer cancellation from a B^o(1) norm-fiber coefficient bound.
+Do not keep averaging over moving projective cofactor classes after the fixed-class localization is available.
+
+
+REOPEN_CONDITION:
+an arithmetic opening or theorem for the fixed-class scalar norm weight against the reciprocal fixed prime class.
+
+
+DETAIL_DOC:
+Stage14 14-t130/result.md; 14-t131/result.md; 14-t132/result.md.
+
+
+---
+
+
+
+
+
+
+## M3-HIST14-FOURFACTOR-001
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+On the Stage14 fixed-heavy-ray radial receiver, the fixed-kernel square-value condition is equivalent to one exact four-factor squareclass parity relation.
+If the accepted radial support is polynomial, then at least one of the four physical factors must have polynomial value support.
+That factor's mobility splits quantitatively into either polynomially many squarefree kernels or polynomially many square parts within one fixed kernel.
+No per-prime Bernoulli model or generic square-density factor is justified because the four factor squareclasses are reconstructed from one correlated physical background.
+
+
+POPULATION:
+Stage14 s7-81 through s7-83 heavy primitive reciprocal-ray packets.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-HEAVYRAY-001 and merged fixed-kernel square-value incidence.
+
+
+IMPLIES:
+polynomial radial mobility must appear at factor level, but only through a correlated kernel/square-part dichotomy.
+
+
+ALIASES:
+four-factor squareclass parity;
+factor mobility split;
+s7-81;
+s7-82;
+s7-83.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+generic random-square or independent factor-kernel models for the fixed-kernel heavy-ray packet.
+
+
+DO_NOT_REPEAT:
+Do not charge one half per prime from the valuation-parity relation.
+Do not treat the four factor kernels as independent random squareclasses.
+Do not infer a saving merely from selecting one polynomially mobile factor.
+
+
+REOPEN_CONDITION:
+a same-measure theorem controlling either the diffuse factor-kernel correlation or the fixed-kernel polynomial square-part incidence.
+
+
+DETAIL_DOC:
+Stage14 14-s7-81/result.md; 14-s7-82/result.md; 14-s7-83/result.md.
+
+
+---
+
+
+## M3-HIST14-ROOTOVERLAP-001
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+After the merged agreement-pair compression, polynomial factor mobility on the Stage14 heavy-ray packet cannot occur on the agreement side and must occur in the two root factors.
+The product squareclass of the root pair is fixed.
+Writing their squarefree kernels shows that all polynomial kernel mobility is carried by one shared squarefree overlap J after a B^o(1)-cost split of the fixed noncommon kernel.
+Combining the shared overlap and root square parts with the exact radial identity gives a divisor-many fiber over each exact radial scale h.
+Thus the earlier separate kernel-diffusion and square-part branches recombine into one short-radial mass-capacity obstruction rather than two independent saving mechanisms.
+
+
+POPULATION:
+Stage14 s7-84 through s7-86 fixed heavy-ray/fixed-agreement packets.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-FOURFACTOR-001 and the merged agreement-pair compression.
+
+
+IMPLIES:
+the surviving root-side mobility is a shared-overlap/radial factorization problem; agreement-side mobility and independent root-kernel diffusion are eliminated.
+
+
+ALIASES:
+shared root squarefree overlap;
+root-overlap radial factorization;
+short-radial mass-capacity contraction;
+s7-84;
+s7-85;
+s7-86.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+independent root-factor kernel diffusion and fixed-kernel square-part mobility as separate minimal receivers.
+
+
+DO_NOT_REPEAT:
+Do not recharge the common-core root line.
+Do not treat J, the root square parts, and h as independent polynomial coordinates after the exact radial equation is imposed.
+Do not infer a whole-family saving solely from the short support capacity.
+
+
+REOPEN_CONDITION:
+a quantitative mass-versus-capacity inequality or an additional arithmetic restriction on the normalized radial factorization.
+
+
+DETAIL_DOC:
+Stage14 14-s7-84/result.md; 14-s7-85/result.md; 14-s7-86/result.md.
+
+
+---
+
+
+## M3-HIST14-RADIALNORM-001
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+The late Stage14 heavy-ray packet admits an exact normalized radial coordinate n after peeling fixed rational-square coefficients.
+One fixed denominator d0 gives h=d0*n, and the fixed numerator c0 can be absorbed at B^o(1) cost into frozen prime-power allocations.
+The moving multiplicative structure becomes a coefficient-free ternary product
+n=J1*a1*b1
+with J1 squarefree.
+The root pair has a fixed-coefficient normal form with J1 as common squarefree dilation and a1/b1 as the projective square-ratio coordinate.
+This separates common radial dilation from projective ratio without introducing a new density factor.
+
+
+POPULATION:
+Stage14 s7-87 through s7-90 normalized heavy-ray packets.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-ROOTOVERLAP-001 and the merged radial-support lower/upper ledger.
+
+
+IMPLIES:
+the heavy-ray obstruction may be studied on normalized integers n with a shared squarefree dilation and primitive ratio, rather than on the original four-factor packet.
+
+
+ALIASES:
+normalized radial coordinate;
+coefficient-peeled ternary product;
+shared squarefree dilation;
+s7-87;
+s7-88;
+s7-89;
+s7-90.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+the unnormalized short-radial coordinate and the fixed rational coefficient clutter.
+
+
+DO_NOT_REPEAT:
+Do not charge d0 as a density factor after normalization.
+Do not treat J1 as support independent of n.
+Do not charge generic squarefree, square, multiplication-table, or fixed-n divisor density from this normal form alone.
+
+
+REOPEN_CONDITION:
+a same-measure sparsity theorem for the normalized physical occupancy or a further exact relation reducing the primitive ratio/dilation degrees of freedom.
+
+
+DETAIL_DOC:
+Stage14 14-s7-87/result.md; 14-s7-88/result.md; 14-s7-89/result.md; 14-s7-90/result.md.
+
+
+---
+
+
+## M3-HIST14-UNITARY-001
+TYPE: RECEIVER
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+For the Stage14 normalized heavy-ray interior branch, eliminating the common dilation reduces the root-window condition to existence of a primitive coprime ratio (u,v) in a multiplicatively short physical interval, with complementary factor E=n/(uv) carrying the inherited physical masks.
+Writing q=uv, the coprime pair is exactly equivalent to choosing a unitary divisor u||q; the ratio window becomes an ordinary short interval for that unitary divisor.
+The full physical incidence is therefore a weighted short-unitary-divisor occupancy problem in the outer normalized integer n, with the correlated complementary-E/canonical/reverse-completion weight retained.
+For each fixed n, the candidate fiber is only B^o(1), but that cannot be reused as an outer density saving.
+
+
+POPULATION:
+Stage14 s7-91 through s7-95 interior normalized heavy-ray packets.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-RADIALNORM-001 and the merged outer radial endpoint discharge.
+
+
+IMPLIES:
+the earlier primitive-ratio and reciprocal-divisor coordinates are the same charged arithmetic coordinate; the theorem-shaped inner object is weighted unitary-divisor short-interval occupancy.
+
+
+ALIASES:
+primitive coprime divisor-ratio selector;
+weighted unitary-divisor short interval;
+s7-91;
+s7-92;
+s7-93;
+s7-94;
+s7-95.
+
+
+DUPLICATE_OF:
+M3-HIST14-Q15-FW-001 records the literature-transfer failure for localized unitary divisors; this card records the exact internal reduction producing that receiver.
+
+
+SUPERSEDES:
+the less explicit primitive-ratio and squareclass reciprocal-divisor formulations of this heavy interior branch.
+
+
+DO_NOT_REPEAT:
+Do not multiply the primitive-ratio count and the reciprocal L-coordinate count; they are finite-fiber equivalent descriptions.
+Do not recharge the fixed-n B^o(1) candidate fiber as outer density.
+Do not replace the correlated weighted unitary incidence by generic unitary-divisor density.
+
+
+REOPEN_CONDITION:
+a weight-preserving transfer to a unitary/ordinary short-divisor theorem or an internal decomposition of the residual canonical/reverse weight.
+
+
+DETAIL_DOC:
+Stage14 14-s7-91/result.md; 14-s7-92/result.md; 14-s7-93/result.md; 14-s7-94/result.md; 14-s7-95/result.md.
+
+
+---
+
+
+## M3-HIST14-RATIO-ENDPOINT-FW-001
+TYPE: FIREWALL
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+The Stage14 inner primitive-ratio endpoint is not the same object as the already-discharged outer radial endpoint.
+Outer radial endpoint means n lies near an endpoint of the reciprocal product window.
+Inner ratio endpoint means one side of the coprime factorization, such as u or v, is small or subpolynomial.
+The outer endpoint theorem does not imply that these inner ratio configurations are fixed-power sparse.
+Across polynomially many outer integers n, a small factor side can persist even though every fixed-n ratio fiber has only B^o(1) candidates.
+
+
+POPULATION:
+Stage14 s7-94/s7-95 normalized interior ratio receiver.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-UNITARY-001 and the merged outer radial endpoint discharge.
+
+
+IMPLIES:
+endpoint terminology must preserve which coordinate is becoming extreme; an endpoint saving cannot be transferred between outer n-space and inner divisor-ratio space without proof.
+
+
+ALIASES:
+inner ratio endpoint no-go;
+outer radial versus inner divisor endpoint firewall;
+s7-94.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+using the radial endpoint estimate to delete small-u or small-v unitary-divisor configurations.
+
+
+DO_NOT_REPEAT:
+Do not reuse the outer endpoint saving on the inner ratio coordinate.
+Do not infer outer-family sparsity from a B^o(1) fixed-n factorization fiber.
+
+
+REOPEN_CONDITION:
+a uniform same-measure theorem proving that inner endpoint unitary-divisor configurations occupy a fixed-power-small set of outer n.
+
+
+DETAIL_DOC:
+Stage14 14-s7-94/result.md; 14-s7-95/result.md.
+
+
+---
+
+
+## M3-HIST14-FIXEDRESIDUE-001
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+The late Stage14 fixed-U projective receiver can be unfolded from one fixed projective cofactor class to ordinary Gaussian residue coordinates.
+First, one D4 normalization sector is frozen at O(1) cost and the cofactor weight becomes a primitive Gaussian norm-representation count in one broad sector and one fixed raw projective class.
+Next, the projective cofactor coset contains only B^o(1) ordinary invertible Gaussian residues, so one exact cofactor residue can be frozen without losing a fixed-power depletion exponent.
+The selected prime projective class can then likewise be frozen to one exact Gaussian prime residue.
+After these steps the opaque scalar cofactor weight is unfolded to an actual primitive Gaussian cofactor set, and the target is an explicit fixed-residue cofactor/prime reciprocal hyperbola.
+
+
+POPULATION:
+Stage14 t133 through t135 fixed-U nonboundary packets.
+
+
+HEIGHT:
+Stage14 physical d<=B under fixed U.
+
+
+DEPENDS_ON:
+M3-HIST14-FIXEDCLASS-001.
+
+
+IMPLIES:
+the former opaque cofactor/projective coefficient is not the final obstruction; theorem applicability should be tested on an explicit fixed-sector, fixed-residue Gaussian cofactor/prime incidence.
+
+
+ALIASES:
+fixed Gaussian residue localization;
+cofactor-projective-to-residue lift;
+fixed-residue reciprocal hyperbola;
+t133;
+t134;
+t135.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+the opaque fixed-projective-class scalar norm weight as the minimal theorem input.
+
+
+DO_NOT_REPEAT:
+Do not recharge the B^o(1) projective-coset residue family as a density saving.
+Do not keep the cofactor weight opaque after the exact Gaussian residue unfolding is available.
+
+
+REOPEN_CONDITION:
+none.
+
+
+DETAIL_DOC:
+Stage14 14-t133/result.md; 14-t134/result.md; 14-t135/result.md.
+
+
+---
+
+
+## M3-HIST14-FIXEDU-PRIME-GATE-001
+TYPE: THEOREM_GATE
+STATUS: PAUSED
+
+
+CLAIM:
+After the explicit fixed-residue unfolding and the independent tH30 audit, the Stage14 fixed-U obstruction reduces to exactly two prime-side branches:
+(A) endpoint-short fixed-Gaussian-residue prime occupancy deficit, where the moving prime interval may have arbitrarily small multiplicative headroom; and
+(B) long-headroom occupancy bias for one fixed Gaussian residue modulo an individual modulus d=B^o(1), where no uniform theorem is available over the full allowed conductor range and possible real exceptional-character bias remains.
+The earlier physical-cofactor Type-I/II adapter obstruction is removed, and the old real/nonreal cofactor split is not reopened.
+
+
+POPULATION:
+Stage14 t136 fixed-U explicit fixed-residue cofactor/prime reciprocal-hyperbola packets.
+
+
+HEIGHT:
+Stage14 physical d<=B under fixed U.
+
+
+DEPENDS_ON:
+M3-HIST14-FIXEDRESIDUE-001 and completed Stage14 tH30.
+
+
+IMPLIES:
+future fixed-U progress should act on prime interval headroom and individual-modulus residue occupancy, not on an opaque cofactor decomposition.
+
+
+ALIASES:
+fixed-U endpoint versus long-headroom prime occupancy gate;
+t136;
+fixed Gaussian residue prime occupancy.
+
+
+DUPLICATE_OF:
+none; this is a historical Stage14 gate, not the active Stage37 gate.
+
+
+SUPERSEDES:
+the t128 three-way fixed-U receiver;
+the opaque cofactor Type-I/II theorem boundary;
+reopening real/nonreal cofactor branches as separate minimal receivers.
+
+
+DO_NOT_REPEAT:
+Do not reopen the eliminated opaque cofactor-adapter problem.
+Do not assume long headroom solves the modulus-uniformity or exceptional-character issue.
+Do not apply a long-interval prime theorem to the endpoint branch with unrestricted vanishing headroom.
+
+
+REOPEN_CONDITION:
+a uniform fixed-residue Gaussian-prime occupancy theorem for the relevant individual d=B^o(1) moduli, or an internal modulus-scale split reducing the long branch to a theorem-safe conductor range.
+
+
+DETAIL_DOC:
+Stage14 14-t136/result.md and Stage14-tH30 audit.
+
+
+---
+
+
+
+
+
+
+## M3-HIST14-ELOCAL-FW-001
+TYPE: FIREWALL
+STATUS: FROZEN
+
+
+CLAIM:
+In the late Stage14 heavy-ray unitary-divisor receiver, the physical Boolean can be split exactly into predicates depending only on the complementary dilation E and a residual canonical/reverse-completion Boolean without asserting independence.
+On fixed subpolynomial E, the E-local mask is exhausted and cannot be charged again.
+On polynomial-E fixed-product cells, the only named E-only arithmetic mask isolated in the merged source is gcd(sqf(E),K_Z)=1, and this mask has zero fixed-power deficit on the one-dimensional E interval.
+Pointwise replacement of unitary divisors by ordinary divisors is legal only as an absolute upper envelope; it removes the unitary restriction at zero cost for capacity bounds but does not prove bounded-distortion transfer of the physical weighted selector.
+
+
+POPULATION:
+Stage14 s7-96 through s7-107 global/s heavy packets after weighted-unitary normalization.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-UNITARY-001 and merged 4fk through 4fv / Work-bwX35.
+
+
+IMPLIES:
+any remaining fixed-power loss must come from ordinary-divisor support capacity, residual canonical/reverse completion, or their exact conjunction; not from recharging the exhausted E-local or unitary label.
+
+
+ALIASES:
+E-local mask exhaustion;
+unitary-to-ordinary absolute envelope;
+s7-96 through s7-107.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+treating unitary orientation, fixed-E local masks, or the squarefree-kernel coprimality condition as independent fixed-power saving factors.
+
+
+DO_NOT_REPEAT:
+Do not multiply the E-local and residual completion factors as independent probabilities.
+Do not infer a physical selector transfer merely from the pointwise unitary-to-ordinary upper envelope.
+Do not recharge gcd(sqf(E),K_Z)=1 as a polynomial deficit.
+
+
+REOPEN_CONDITION:
+a theorem-compatible normalization of the moving ordinary-divisor envelope or an exact arithmetic opening of the residual physical completion Boolean.
+
+
+DETAIL_DOC:
+Stage14 s7-96 through s7-107 reports/results; merged 4fk..4fv and Work-bwX35.
+
+
+---
+
+
+## M3-HIST14-COMPLETION-001
+TYPE: EXACT_STRUCTURE
+STATUS: PROVED_EXACT
+
+
+CLAIM:
+After the Stage14 ordinary-product capacity normalizations, all four active s heavy realizations admit a common nested-support decomposition
+ambient -> precompletion -> physical completion.
+For each exact candidate chi,
+C_phys(chi)=C_pre(chi)*C_ext(chi),
+where C_pre contains predicates already determined by reconstructed candidate data and C_ext is the existential nonemptiness of the still-required reverse/post-column extension set.
+The known reverse reconstruction bound #R(chi)<=B^o(1) controls multiplicity only, not existence.
+With exponents kappa, sigma, tau,
+delta_pre=kappa-sigma,
+delta_ext=sigma-tau,
+and heavy survival is exactly
+kappa-delta_pre-delta_ext>=mu.
+Near the ambient threshold, both deficits must be exponent-zero on any survivor.
+
+
+POPULATION:
+Stage14 s7-108 through s7-113 fixed-E endpoint, fixed-E two-sided, polynomial-E fixed-product, and polynomial-E fibered-product heavy realizations.
+
+
+HEIGHT:
+Stage14 physical d<=B.
+
+
+DEPENDS_ON:
+M3-HIST14-ELOCAL-FW-001 and merged Work-bxX36 / Work-byX37.
+
+
+IMPLIES:
+finite completion fibers cannot close the branch; the true obstruction is support/nonemptiness of completion after the prefilter on the same charged measure.
+
+
+ALIASES:
+precompletion versus existential completion;
+completion-lift nested support;
+s7-108 through s7-113.
+
+
+DUPLICATE_OF:
+none.
+
+
+SUPERSEDES:
+using bounded reverse-completion multiplicity as a substitute for a completion-existence theorem.
+
+
+DO_NOT_REPEAT:
+Do not infer C_ext=1 from #R(chi)<=B^o(1).
+Do not borrow headroom or a deficit from another realization; each branch keeps its own ambient/pre/physical ledger.
+
+
+REOPEN_CONDITION:
+an exact arithmetic description or theorem controlling C_pre, C_ext, or their nes
