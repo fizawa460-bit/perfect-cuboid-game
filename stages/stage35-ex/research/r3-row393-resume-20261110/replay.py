@@ -46,9 +46,25 @@ with tempfile.TemporaryDirectory(prefix='r3-resume-') as tmp:
     for name in wave_names:
         if json.loads((wave/name).read_text())!=json.loads((HERE/'wave2'/name).read_text()):
             raise RuntimeError('Wave2 result mismatch: '+name)
+    third=work/'wave3'
+    shutil.copytree(HERE/'wave3',third)
+    for name,item in json.loads((third/'PAYLOADS.json').read_text()).items():
+        data=gzip.decompress(base64.b64decode((third/item['stored']).read_text(),validate=False))
+        if len(data)!=item['bytes'] or hashlib.sha256(data).hexdigest()!=item['sha256']:
+            raise RuntimeError('Wave3 payload mismatch: '+name)
+        (third/name).write_bytes(data)
+    for script in ['verify_wave.py','analyse.py','private_support.py']:
+        run=subprocess.run([sys.executable,str(third/script)],capture_output=True,text=True)
+        commands.append(dict(script='wave3/'+script,exit_status=run.returncode,stdout_sha256=hashlib.sha256(run.stdout.encode()).hexdigest()))
+        if run.returncode:raise RuntimeError(run.stdout+run.stderr)
+        print('PASS wave3/'+script)
+    third_names=['verification_wave3.json','results_wave3.json','private_support_certificate.json']
+    for name in third_names:
+        if json.loads((third/name).read_text())!=json.loads((HERE/'wave3'/name).read_text()):
+            raise RuntimeError('Wave3 result mismatch: '+name)
     report=dict(status='AUTHOR_REPLAY_PASS_NOT_INDEPENDENT_AUDIT',python=sys.version,
         platform=platform.platform(),parent_files_verified=len(lock),commands=commands,
-        result_json_equal=names+wave_names,new_relations=590,formal_residual=180,p827_zero=False,
+        result_json_equal=names+wave_names+third_names,new_relations=645,formal_residual=180,p827_zero=False,
         unconditional_exclusions=0)
     if a.output: a.output.write_text(json.dumps(report,indent=2)+'\n')
     print('PASS exact result JSON equality; residual180; P827 not eliminated; exclusion0')

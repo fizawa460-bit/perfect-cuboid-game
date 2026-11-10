@@ -1,7 +1,7 @@
 {
   "status": "AUTHOR_REPLAY_PASS_NOT_INDEPENDENT_AUDIT",
   "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
-  "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
   "parent_files_verified": 123,
   "commands": [
     {
@@ -17,7 +17,7 @@
     {
       "script": "dual_obstruction.py",
       "exit_status": 0,
-      "stdout_sha256": "1eef315c783d86d345afd5dd79b42ca07ccccccd6a3e357023fb7ddc3683fec3"
+      "stdout_sha256": "feb312835c8323f0ffa887941ccc0dadf5710fa9a74c0155c76b13e5e799fa0c"
     },
     {
       "script": "verify_wave.py",
@@ -32,12 +32,27 @@
     {
       "script": "extract_dependency.py",
       "exit_status": 0,
-      "stdout_sha256": "b7d7964531fed3bb1765052d7c42f391d0073f68c597785db3ec5f78fa5b7326"
+      "stdout_sha256": "54fe0b8fdcda556a7dbbcc4eae69958f0500d17204384ada15c65255b75d447e"
     },
     {
       "script": "verify_linear.py",
       "exit_status": 0,
       "stdout_sha256": "d0ad4e4c4986ce3a9ad7e3bcf3d98abba21cf33d19786beabb1193a7a0925764"
+    },
+    {
+      "script": "wave3/verify_wave.py",
+      "exit_status": 0,
+      "stdout_sha256": "dc02021a1c64f3f9c6cd90a15bd7c98fc29de14ecb2d48e8ac31c663fa4dccbb"
+    },
+    {
+      "script": "wave3/analyse.py",
+      "exit_status": 0,
+      "stdout_sha256": "84b93434992d7068293ac54b1dfd1347de4e74fe5284819160c34c28ec12443c"
+    },
+    {
+      "script": "wave3/private_support.py",
+      "exit_status": 0,
+      "stdout_sha256": "651f8e56a2e9466912e4dfc678fb836048ea3e44385771abc1d6c4fec3ea9917"
     }
   ],
   "result_json_equal": [
@@ -49,19 +64,22 @@
     "results_wave2.json",
     "dependency_witness.json",
     "dual_wave2.json",
-    "linear_verification.json"
+    "linear_verification.json",
+    "verification_wave3.json",
+    "results_wave3.json",
+    "private_support_certificate.json"
   ],
-  "new_relations": 590,
+  "new_relations": 645,
   "formal_residual": 180,
   "p827_zero": false,
   "unconditional_exclusions": 0,
-  "base_commit": "c51736fafc7f1d68d7a022d62ff10e4a891dfce8",
-  "verification_scope": "Seven local exact verifiers and nine result JSON comparisons; hash-locked restored row393 parent. No external audit. Discovery completeness not claimed.",
+  "base_commit": "f4c72df02a14250dad5050e1a7af03af8c8c618f",
+  "verification_scope": "Ten local exact verifiers and twelve result JSON comparisons. All 55 previously deferred candidates accepted; private-support certificate proves no further old-support relations. No external audit.",
   "changed_files_sha256_excluding_this_record": {
     "stages/stage35-ex/MAIN-START-HERE.md": "54571a12b86875c19e65812653ad5d0da8095e439e3f1b7c87acef098792a40e",
-    "stages/stage35-ex/MAIN-BATCH-HANDOFF.md": "165fc28d7c0019def8c6f6068b6f8ef957cf200ed6d28da215936e9692fe59e4",
-    "stages/stage35-ex/research/r3-row393-resume-20261110/replay.py": "25498a8b969a7c9e4930784c77eee871573c61472e0fed882eafcd66b69301d8",
-    "stages/stage35-ex/research/r3-row393-resume-20261110/README.md": "d12a1f1fb4f819ebf7b27d9288b07dbc4ffe51a33891f48c0b565f0d982a64d9",
+    "stages/stage35-ex/MAIN-BATCH-HANDOFF.md": "30de3240d6b93f00ed1f0ed975efb19b3555a6bfb0420a606eefad58298c4c3b",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/replay.py": "ffd68ff74bdcdcc2e727399bf93a726b6a6521ebd65c176d30fda4abebc67db2",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/README.md": "885cab680934860f0e0e63248059b198d8f7725c9125b0309c43b1db50b502d0",
     "stages/stage35-ex/research/r3-row393-resume-20261110/requirements.txt": "a02062598c0dea230eac35aeaa97b4418fa9294ccda472d5b64514c352d69acb",
     "stages/stage35-ex/research/r3-row393-resume-20261110/PARENT-SHA256.json": "f6287dfd602dd720f0de6f7f1487e1fc35e5f4e5770893e22107b6de8eb64d70",
     "stages/stage35-ex/research/r3-row393-resume-20261110/new394/wide_scan_result.json": "ee158b6860cb99fcd908bdff6c18d3c534cc6db22e7ac017a2ce2a2e8d417210",
@@ -99,6 +117,23 @@
     "stages/stage35-ex/research/r3-row393-resume-20261110/new394/scan.log": "10b6b8808261637adacc621e4fa6dfa6229db257eed1c9cebd631243b67a1da6",
     "stages/stage35-ex/research/r3-row393-resume-20261110/new394/inverse_scan.log": "9b45607f2475e826463fcd9cc1878d3c02e619732621512e413b8cfe0c3935b2",
     "stages/stage35-ex/research/r3-row393-resume-20261110/new394/new_relations394.json": "2ce0da8af8d924532cfdfb9f86939061f5ab97b7da83ca54afdb6d83ce326ee8",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/wave3/recover.py": "4ebcae65dd447ada03a66f88c750cda6d7e943052e673951fc3c57fecdd6321d",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/wave3/private_support_certificate.json": "8b6e2edfb90e49bc0035a9de78057447fad6096b20707860dc9082768425a408",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/wave3/arbitrary_precision.py": "cf1aa403b7f2d3be7101e675b7cf41a4c68a91bc855fcc1e14726eb39ba2ca88",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/wave3/verification_wave3.json": "7ac5248c26519aa2cbfeb3c6d21e5fb1b16136b87ec6e2146534f63033eb6ef8",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/wave3/new_relations_wave3.json.gz.b64": "523f2e464db0571cc3578db3021fb62193868d7e66822f03274c8fb8fe260044",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/wave3/private_support.log": "651f8e56a2e9466912e4dfc678fb836048ea3e44385771abc1d6c4fec3ea9917",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/wave3/recover.log": "ed85bc74cdd958bf0addbcde0b5959371066a5f0cd6094680baf27a2a4e7f70a",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/wave3/results_wave3.json": "2cf0521b2ba80da43b6d46864d70121c5cdda9957fe972e45ea8f9d1361970cf",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/wave3/README.md": "32463f21551664d8087d7cbd1ab71137048c61d38060e2b28e742457798916d3",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/wave3/verify_wave.py": "2241894bd4e943d9aa907310b6f1a6ab971c9edf2f42fbc722b96c0ba819ff11",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/wave3/certificate_wave3.json": "4913c1a6f8a1ee14186bbe91ffc6b54faf7ff78685b47748083ed3d880a007dc",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/wave3/analyse.py": "39e0b15e8f695eaf9ffd074bd147891c7b451f0aa369109abe0ef83fd43f6cf9",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/wave3/verification.log": "dc02021a1c64f3f9c6cd90a15bd7c98fc29de14ecb2d48e8ac31c663fa4dccbb",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/wave3/PAYLOADS.json": "8095e66960c93e5c2c2f8989cce8b5e2e3fa5a0bc43b4fc38e80fd18b8011d53",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/wave3/prime_certificates.json.gz.b64": "49247507d0b2955433d41b4e3db439b7f85af71c24fd134aabcc0ad05cba6417",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/wave3/harvest_summary_wave3.json": "4ba62e42be76dbfab32a0557cc2674015c05463a74f715c10e590c22def8b046",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/wave3/private_support.py": "1fe792eb8ae2715943530693366bc6f14733943ddfab54a75e01f1a37fba2d73",
     "stages/stage35-ex/research/r3-row393-resume-20261110/wave2/3217-1_result.json": "829bde4d115bddb37492028fa562c3346360a46e6198c2fb62d24ffffeb8f42c",
     "stages/stage35-ex/research/r3-row393-resume-20261110/wave2/dual_wave2.json": "94336242de2ebcc6197ba8c1ad5cec5f93950e24dbceb86a4279b93efa494026",
     "stages/stage35-ex/research/r3-row393-resume-20261110/wave2/verification_wave2.json": "a849d85b86bad37c8bd65149aa5657d41caaa83a2c312531f1d5a7eab42ecf1c",
@@ -106,7 +141,7 @@
     "stages/stage35-ex/research/r3-row393-resume-20261110/wave2/certificate_wave2.json": "db87af21161583a1eb0c0521b13768866560519fb2b4ad196fe734e4ab06d472",
     "stages/stage35-ex/research/r3-row393-resume-20261110/wave2/results_wave2.json": "ded175987bc7494e9b7b72b6788f4ae261c24d6ab7209ce2d47e4ac695a1300e",
     "stages/stage35-ex/research/r3-row393-resume-20261110/wave2/2953-0_result.json": "dbdabc81638602b05eb60cee7df44f3d3780ad9cee2260773bca8b543b91fbdf",
-    "stages/stage35-ex/research/r3-row393-resume-20261110/wave2/README.md": "24c5796f19eed7617bcdbf2a50a9e54b0709674ca7ddabf986a18b19524ea081",
+    "stages/stage35-ex/research/r3-row393-resume-20261110/wave2/README.md": "889a80d55e25d379d956cf9e28c4cecbe4da0b69bc3976f531fa0615fecda569",
     "stages/stage35-ex/research/r3-row393-resume-20261110/wave2/prime_certificates.py": "21d64ead18860570e21f29feed5ab79ee4f75218ddac71edb4d4e4c3f62abb94",
     "stages/stage35-ex/research/r3-row393-resume-20261110/wave2/dependency_witness.json": "2cbac7941149812ffcd05372ad19483c16b91f53e237af4f0ae786a2e9520432",
     "stages/stage35-ex/research/r3-row393-resume-20261110/wave2/verify_wave.py": "ff5dba6daf02233b7133e8116c5a857b03e83dd2676d0d7f8c6502c59d183c3d",
@@ -130,6 +165,6 @@
     "stages/stage35-ex/research/r3-row393-resume-20261110/wave2/linear_verification.json": "7e8561f8c477e56828eca2ca31c11a31156501a07222c54c728617b0a58545e3",
     "stages/stage35-ex/research/r3-row393-resume-20261110/wave2/new_relations_wave2.json.gz.b64": "9940a6c45cb863daf948c73ef58bca9837842316eb53484ba8ac4a0326cc3075",
     "stages/stage35-ex/research/r3-row393-resume-20261110/wave2/verify_key_relation.py": "cee417062218674e9982168da87335abe723558d6fe982fc82db78383a459aa3",
-    "stages/stage35-ex/publication/routes/R3-07.md": "685e58c0a6f218bddf717ffff10abf60ef30be10033062e25f1078c84d8c28b0"
+    "stages/stage35-ex/publication/routes/R3-07.md": "7c0e41a966ab8588897072081d78a7e87722f0ed4c07b00931f029090d31f45f"
   }
 }
