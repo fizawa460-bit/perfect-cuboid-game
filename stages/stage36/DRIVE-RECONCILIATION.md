@@ -1,70 +1,49 @@
-# Stage36 / Stage38 external Drive reconciliation (snapshot 2026-10-16)
+# Stage36 / Stage38 — Google Drive正本との同期（2026-11-10）
 
-> **Operational status mirror only. No independent mathematical re-audit, new theorem credit, or receiver promotion.**
-> Updated in GitHub 2026-11-10 from the cited Google Drive records. Read the companion `DRIVE-RECONCILIATION.json` for machine-readable flags.
+**管理状態の正本：Google Drive。** このGitHub同期はDriveに記録された研究の進行・成果・保留・出典・監査状態を転記する作業であり、敵対的監査を前提条件としない。**数学的命題を新規に認証したという意味でもない。**
 
-## What changed outside GitHub
+## 現在の研究管理
 
-The legacy GitHub Stage36 `MAIN-STATE.json` remains an exact-head audited-history artifact. It records `36-09FE`, `HOSTILE_AUDIT_FREEZE`, and a gated `36-09FF` next leaf. It must **not** be mistaken for the most recent operational research history.
-
-The Google Drive documents report this sequence:
-
-| Date | Event | Credit boundary |
+| 対象 | Drive正本に基づく状態 | GitHubの参照先 |
 |---|---|---|
-| 2026-10-13 | Stage38 L1 formally closed its **A–G CT-pairing target** | Not Stage36, receiver, or Perfect Cuboid closure |
-| 2026-10-14 | Stage38 marked `CLOSED_FOR_NOW`: L2 results R-19/R-21/R-22 promoted in its records after one external AI review each; L3 logs 1G–1T frozen as unreviewed candidates | L2 is not an independent GitHub theorem promotion; L3 remains candidate evidence |
-| 2026-10-14 | Stage36 resumed as **36R**, inheriting selected Stage38 results | Old Stage36 MAIN in Drive intentionally frozen |
-| 2026-10-16 | Updated `36R-00` through `36R-06`, roadmap v3, and `04_STATE_local_after_36R-06.json` uploaded | **PARKED_PROVISIONAL**, not formally closed and not hostile-audited |
+| Stage38全体 | `CLOSED_FOR_NOW`（2026-10-14） | [Stage38 状態](../stage38/DRIVE-STATUS.md) |
+| Stage38-L1 | 2026-10-13にL1のみ正式閉鎖 | [Stage38 L1 closure v3](36R-import-20261110/sources/stage38_l1_closure_v3.md) |
+| Stage38-L2 | R-19/R-21/R-22をDrive側RESULTSに昇格済みと記録 | [Stage38 継承台帳](36R-import-20261110/sources/stage38_inheritance_ledger.md) |
+| Stage38-L3/本線 | 1G〜1Tを未査読候補として凍結、Stage36へ移管 | 同上 |
+| Stage36 | 2026-10-14に36Rとして研究再開 | [36R START-HERE](36R-import-20261110/sources/stage36_00_start_here.md) |
+| **Stage36現在** | **`PARKED_PROVISIONAL`（36R-06、Drive 2026-10-16更新）** | [MAIN-STATE.json](MAIN-STATE.json) |
+| 次のログ番号 | **36R-07**。現行の自動研究NEXTは無し | [Drive状態JSON](36R-import-20261110/sources/36R-06_state.json) |
 
-The 2026-10-16 Drive state is the latest indexed 36R management checkpoint *found in the checked folder*, not a claim to have inspected the separately hosted live Claude Docs RESULTS/WORKING/INDEX or future updates. Do not treat the stale `CAMPEDELLI_RESULTS.md` / `CAMPEDELLI_WORKING.md` Drive snapshots as the live results authority.
+**現在の主要分類**は `CLASS3_RETAINED_WITH_SHARPER_CAMPEDELLI_THEOREM`（暫定）。候補台帳は `LIVE=0`、`UNTESTED=2 (B7,N5)`。残る一様命題 `(T')` は未解決で、`R29_CAMP2_CLOSED=false`、`Q11_CAMPEDELLI_CLOSED=false`、`ENDPOINT_CLOSED=false`、完全直方体の存在・非存在とも結論無し。
 
-## Drive 36R mathematical delta (claims not independently checked here)
+## Driveから引き継いだ研究上の記録
 
-- `36R-04`: proposed `Im_U = Im_J ∩ Im_H` for all ten audited kernels and `(T') <=> U(Q)=empty`. This is an adapter/quantifier issue, not a proven receiver discharge by this sync.
-- `36R-05`: finite local endpoint-class experiment and a reported counterexample `p=53/8` to a **uniform local-class-elimination** conjecture. Finite percentages are not uniform conclusions.
-- `36R-06` Proposition A: an explicit Pythagorean boundary-point argument purports to give **infinitely many rational points on each** `C_H`. If audited, this refutes the strategy `C_H(Q)=empty`; the physical-open locus `U_H` is a different object.
-- `36R-06` Proposition B: an adelic boundary-point argument purports to show that the ordinary Brauer–Manin obstruction does **not** establish `U_H(Q)=empty`. Its etale-Brauer extension is only sketched.
-- The missing theorem is still the **all-rational-`p`, all-heights, pointwise** retained-point exclusion `(T')`, not a finite parameter scan or a density bound.
+- **36R-00/04**：`J`、`C_H`と端点の量化条件を再整理。記録上、`(T') ⇔ U(Q)=empty`。原文をそのまま保存。
+- **36R-01/02**：Selmer型の必要条件、自明類の曲線族への還元。部分結果と候補が混在するため原文の区分を維持。
+- **36R-03/05**：固定パラメータのQC等、`p=53/8`の第3類、有限範囲の計算結果。これらを`∀p`の定理に昇格しない。
+- **36R-06**：ピタゴラス境界点による`C_H(Q)`無限性（命題A）とBrauer–Maninの制限（命題B）を**Driveに記載された主張として引き継ぐ**。Drive自身が外部査読前と明記している状態を保持。
+- **Stage38**：L1閉鎖とL2のDrive側昇格とL3未査読候補を混同しない。
 
-**These are reported Drive proof claims, not GitHub-authorized mathematical facts.** In particular do not silently write Proposition A/B into the legacy `claims` or `promotion_gates` of `MAIN-STATE.json`.
+Drive `ROADMAP v3` の最新版コピーは [ROADMAP-CURRENT.md](ROADMAP-CURRENT.md)。従来の [ROADMAP.md](ROADMAP.md) は旧36-01〜36-10の履歴・既存source lockのためバイト変更せず保持。06_ADDENDUMの優先順位、旧Stage36の修正禁止条件も保存。
 
-## Stage36 36R triage and exact blockers
+## 旧GitHub版Stage36との関係
 
-The Drive `36R-06` parking audit reports `LIVE=0`, `UNTESTED=2` (`B7`: a mathematically applicable Campedelli-to-`U_H` transfer; `N5`: a uniform non-abelian Chabauty theorem/implementation). Other generated lenses are `BLOCKED`, `EQUIVALENT`, or `DOMINATED` *in that audit's scope*, not proved globally impossible.
+旧`36-09FE`状態と禁止された`36-09FF`のNEXTは、[履歴JSON](historical/MAIN-STATE-V296R3-36-09FE.json)へ原文のまま保存済み。旧数学証明書、source lock、有限計算、旧ロードマップは消していない。
 
-The classification is **provisional** `CLASS3_RETAINED_WITH_SHARPER_CAMPEDELLI_THEOREM`, pending:
+**現行の`MAIN-STATE.json`はDriveの36R-06を表し、旧36-09FFを研究NEXTとして再開しない。** 旧36-09FE専用の歴史的検証器は上記履歴JSONを読む。
 
-1. Independent hostile review of `36R-06` Proposition A and Proposition B;
-2. Review of `36R-04` Propositions 3 and 4, and the `36R-05` counterexample at `53/8`;
-3. A genuinely independent `BLIND_REDISCOVERY` from the exact receiver in a fresh session, because the recorded blind pass disclosed prior candidate-ledger exposure;
-4. A present-main/source-lock integration audit before changing any signed Stage36 authority or promotion gates.
+## 同期と数学的審査の線引き
 
-No new 36R mainline should automatically launch from GitHub's historic `36-09FF` instruction. The next action is review and reconciliation, *not* unbounded `FF` calculations or an unconditional parking promotion. Freeze remains until an independently auditable decision, and research may reopen on material new evidence.
+- **同期自体に敵対的監査は不要。** Driveの研究状況に記載された「未査読」「暫定」「保留」をそのまま引き継ぐ。
+- Driveの研究判断として、36R-04/05/06の数学的外部査読と独立の白紙再探索が今後の再開条件に書かれている。これは**GitHub同期の許可条件ではない**。
+- 参考に [DESK-REVIEW.md](36R-import-20261110/DESK-REVIEW.md) を保存したが、これは別途行われた部分的な数学検討であり、Driveの記録を改変したり同期をブロックしたりしない。
+- Claude Docsにある現行RESULTS/WORKING/INDEXの全内容まで取り込んだとは主張しない。同期範囲は確認できたDrive側の36R/Stage38正本（2026-10-16まで）。
 
-## Hard credit limits
+## Drive正本のリンク
 
-```text
-R29_CAMP2_CLOSED=false
-Q11_CAMPEDELLI_CLOSED=false
-ENDPOINT_CLOSED=false
-ALL_P_EXCLUSION=false
-PERFECT_CUBOID_EXISTENCE_CLAIM=false
-PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
-```
-
-Stage38 L1 closure, Stage36 36R provisional parking, and receiver mathematical closure are three different events. No old Stage36 source file, frozen certificate, CI evidence, or source hash is deleted or reinterpreted by this index.
-
-## Primary external provenance
-
-- [Stage38 overall freeze / handoff (2026-10-14)](https://drive.google.com/file/d/1JG1k2WrQR_rSZLBogcMRC-kuf_067Yis/view)
-- [Stage38 L1 closure v3 (2026-10-13)](https://drive.google.com/file/d/1W-wbABybDBGx0CVggF0Ms0vUmOuYdD39/view)
-- [36R START-HERE](https://drive.google.com/file/d/1ldBWYmbLq-iyMHRrh30AXpweeRJe0vVp/view)
-- [Stage38 → Stage36 inheritance ledger](https://drive.google.com/file/d/1pI9-eErCmdAGpAbcUz2cfY7mQkXj-qJ6/view)
-- [36R Addendum 06: unchanged receiver and completion terms](https://drive.google.com/file/d/1saADebG17MGv_VSigJgbt4c9vWHveFIs/view)
-- [36R ROADMAP v3](https://drive.google.com/file/d/11r4VP0790owxONdm2EeUPk9YAd1RJNvM/view)
-- [36R state after 36R-06](https://drive.google.com/file/d/1l9jXsKyawZtVvaE3-m6TckpXVQm6pV_n/view)
-- [36R-04 correspondence and adapter review](https://drive.google.com/file/d/1ImbfQknqCzl50NE9Lkd0t90Dgy6wscsk/view)
-- [36R-05 endpoint-class investigation](https://drive.google.com/file/d/174FB-hTAY1PqNyPYs1kPraFVAieWi7mM/view)
-- [36R-06 provisional parking audit](https://drive.google.com/file/d/1BiHaaXkFgosWjzMj-AkxUwcMyuUiJgoK/view)
-
-These are **external working sources**, not immutable GitHub blob-locked certificates. To make them cryptographically authoritative, import versioned proof/source files and run the required exact-head audits in a separate, explicit promotion PR.
+- [Stage36 36Rフォルダ](https://drive.google.com/drive/folders/1yvGV17wbZ7x1u8KtU1yiqCAPkCrTUnVL)
+- [Stage36 ROADMAP v3](https://drive.google.com/file/d/11r4VP0790owxONdm2EeUPk9YAd1RJNvM/view)
+- [36R-06 状態JSON](https://drive.google.com/file/d/1l9jXsKyawZtVvaE3-m6TckpXVQm6pV_n/view)
+- [36R-06 保留監査](https://drive.google.com/file/d/1BiHaaXkFgosWjzMj-AkxUwcMyuUiJgoK/view)
+- [Stage38 一時閉鎖記録](https://drive.google.com/file/d/1JG1k2WrQR_rSZLBogcMRC-kuf_067Yis/view)
+- [Stage38 → Stage36 継承台帳](https://drive.google.com/file/d/1pI9-eErCmdAGpAbcUz2cfY7mQkXj-qJ6/view)
