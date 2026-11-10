@@ -1,0 +1,359 @@
+﻿M3-T11-203 — Unitary content routing into phase and full-S denominators
+
+
+STATUS: PROVED_CONTENT_PHASE_UNITARY_ROUTER / PROVED_GCD_H_QPHASE_EQUALS_GCD_H_NT / PROVED_MEDIAN_TERNARY_DEPTH_LAW / SCOPED_VISIBLE_MEDIAN_QTAIL / HIDDEN_FULL_S_BRANCH_OPEN / GLOBAL_COUNTING_CREDIT=0.
+Authority: Stage37 MAIN, operational CARD-INDEX, short RESULT-LEDGER, active ROUTE only for exact content identities, latest202, and retained171/174/176/186. Gate OPEN. NEXT204. Independent hostile audit NOT RUN; separate-chat audit162–185 scope unchanged. TI parked;120 retracted;147–149 frozen. No retraction.
+
+
+1. Result and scope
+
+
+202 closed the direct large-W/phase normalization route. Return to174–176's all-content low-median gate.
+
+
+Retained content notation:
+h_i=gcd(R,e_i), H=h_1 h_2 h_3, R=H*tau,
+the h_i are pairwise coprime,
+D_i=R/h_i=tau*c_i.
+Sort the physical contents
+a<=b<=d
+with deterministic ties. Then174 gives exactly
+
+
+q_min=a*tau,
+D_min=q_min*b=a*b*tau,
+R=q_min*b*d.                                    (203.1)
+
+
+Here q_min is174's space/content quotient. It is NOT186's q_phase.
+
+
+Retained186 gives
+
+
+H*c_u*Den(S)=R^3,
+Den(S)=D_S^2,
+q_phase=R/D_S,
+c_u=tau*q_phase^2.                              (203.2)
+
+
+The new theorem is that every prime-power block of physical content is routed as a WHOLE block to q_phase or to D_S. Equivalently
+
+
+H_Q:=gcd(H,q_phase)=gcd(H,|N_T|)
+is a unitary divisor of H, and
+
+
+H_S:=H/H_Q divides D_S.                         (203.3)
+
+
+Hence
+
+
+H_Q^2 | c_u,
+H_S^2 | Den(S),
+gcd(H_Q,H_S)=1.                                 (203.4)
+
+
+For the median content b this yields an exact visible/hidden split
+
+
+b_Q:=gcd(b,q_phase)=gcd(b,|N_T|) || b,
+b_S:=b/b_Q,
+b_S | D_S.                                      (203.5)
+
+
+The symbol || means unitary divisor: gcd(b_Q,b/b_Q)=1.
+
+
+This is a new same-physical bridge between174's moving median content and186's phase/full-S receiver. It does NOT yet give a global count; the b_S branch can hide the full content block in D_S.
+
+
+2. Primewise derivation from the186 full-content table
+
+
+Fix any odd prime p dividing H. Pairwise coprimality of the h_i means p belongs to exactly one content. Write
+
+
+alpha=v_p(H)>0,
+beta=v_p(tau)>=0,
+lambda=v_p(R)=alpha+beta.                      (203.6)
+
+
+If beta>0, this is186's partial-content case with kappa=alpha<lambda. Its three exact rows are
+
+
+(A) v_p(c_u)=3lambda-alpha, v_p(Den(S))=0;
+(B) v_p(c_u)=lambda+alpha, v_p(Den(S))=2(lambda-alpha);
+(C) v_p(c_u)=lambda-alpha, v_p(Den(S))=2lambda.
+
+
+Since Den(S)=D_S^2 and q_phase=R/D_S, these are exactly
+
+
+(A) v_p(q_phase)=lambda, v_p(D_S)=0;
+(B) v_p(q_phase)=alpha,  v_p(D_S)=beta;
+(C) v_p(q_phase)=0,      v_p(D_S)=lambda.       (203.7)
+
+
+If beta=0,186's saturated-content two rows are precisely the collapse of(A)/(B) versus(C):
+
+
+v_p(q_phase)=alpha, v_p(D_S)=0,
+or
+v_p(q_phase)=0,     v_p(D_S)=alpha.             (203.8)
+
+
+Thus in ALL cases
+
+
+v_p(q_phase) is one of lambda, alpha, 0,         (203.9)
+
+
+where lambda and alpha coincide when beta=0.
+
+
+The key point is not merely q_phase*D_S=R. Equation(203.9) says the content exponent alpha is NEVER split partially between q_phase and D_S:
+- if p divides q_phase, q_phase contains the full p^alpha content block;
+- if p does not divide q_phase, D_S contains the full p^alpha content block.
+
+
+Therefore min(alpha,v_p(q_phase)) is either alpha or0. This proves that gcd(H,q_phase) is a unitary divisor of H, and its unitary complement divides D_S.
+
+
+3. Original full-S numerator bridge
+
+
+Retained184/186 define
+
+
+T=N_T/R^2,
+S=2T=2N_T/R^2.                                 (203.10)
+
+
+R is odd on the retained186 population. Hence
+
+
+v_p(Den(S))=max(0,2lambda-v_p(N_T)).            (203.11)
+
+
+Use the three rows above.
+
+
+(A) Den(S) has p-depth0, so v_p(N_T)>=2lambda.
+(B) Den(S) has p-depth2beta, so v_p(N_T)=2lambda-2beta=2alpha.
+(C) Den(S) has p-depth2lambda, so v_p(N_T)=0.  (203.12)
+
+
+For beta=0 the first two collapse to v_p(N_T)>=2alpha versus0.
+
+
+Therefore at every p^alpha||H,
+
+
+min(alpha,v_p(N_T))
+=
+min(alpha,v_p(q_phase))
+is either alpha or0.                             (203.13)
+
+
+Primewise multiplication gives the exact integer identity
+
+
+gcd(H,|N_T|)=gcd(H,q_phase)=H_Q,                (203.14)
+
+
+and H_Q is unitary in H.
+
+
+This is not the202 k0-clearing gcd. N_T here is the actual original physical numerator e1*f1+e2*f2+e3*f3, and H is the physical content product. The equality comes from186's realized content valuation table.
+
+
+4. Median-content ternary law
+
+
+Now specialize to174's sorted median b. Let
+
+
+p^alpha || b,
+beta=v_p(tau).                                  (203.15)
+
+
+Because the contents are pairwise coprime, p does not divide a or d. Hence from(203.1)
+
+
+v_p(q_min)=beta,
+v_p(D_min)=alpha+beta=lambda.                   (203.16)
+
+
+Combining with(203.7)-(203.8), every median-content prime obeys the exact ternary law
+
+
+v_p(q_phase) in { v_p(D_min), v_p(b), 0 },      (203.17)
+v_p(D_S)     in { 0, v_p(q_min), v_p(D_min) }, (203.18)
+
+
+with corresponding
+
+
+v_p(c_u) in {
+  2v_p(b)+3v_p(q_min),
+  2v_p(b)+v_p(q_min),
+  v_p(q_min)
+}.                                               (203.19)
+
+
+The rows are aligned in the displayed order. When v_p(q_min)=0, the first two rows coincide.
+
+
+Thus b_Q in(203.5) is exactly the product of the full median prime-power blocks using rows(A)/(B), and b_S is exactly the product of the row(C) blocks.
+
+
+5. Visible and hidden median components
+
+
+From(203.5):
+
+
+b_Q | q_phase,
+b_Q^2 | c_u,                                    (203.20)
+
+
+while
+
+
+b_S | D_S,
+b_S^2 | Den(S).                                 (203.21)
+
+
+The two factors are coprime and b=b_Q*b_S.
+
+
+Call b_Q the phase-visible median content and b_S the full-S-hidden median content.
+
+
+The terminology describes the retained receiver only:
+- on a visible prime, q_phase contains the full content exponent;
+- on a hidden prime, q_phase contains NONE of the content exponent and c_u contains only the tau contribution beta. The entire alpha+beta denominator depth is absorbed by D_S.
+
+
+In particular on a hidden median prime p^alpha||b_S,
+
+
+v_p(q_phase)=0,
+v_p(c_u)=v_p(q_min)=beta,
+v_p(D_S)=v_p(D_min)=alpha+beta,
+v_p(N_T)=0.                                     (203.22)
+
+
+Thus neither q_phase nor the common-u denominator c_u sees the hidden content exponent alpha. The original S numerator is also a p-unit there. The content is present only through the full S denominator and the physical edge/content data.
+
+
+This precisely identifies why186 conservation alone did not close the K>1 low-median multiplicity.
+
+
+6. Scoped counting consequence for the visible branch
+
+
+Retained186 proves for Z,D>=1
+
+
+#E(c_u<=Z, q_phase>=D) <= (Z/D) B^o.           (203.23)
+
+
+Since b_Q|q_phase, for every Y>=1,
+
+
+#E(c_u<=Z, b_Q>=Y)
+<= #E(c_u<=Z, q_phase>=Y)
+<= (Z/Y) B^o.                                   (203.24)
+
+
+This is a legitimate same-physical routing of a median-content condition into the existing186 summed tail. It is NOT an independent density saving and must not be multiplied by another q_phase tail.
+
+
+The present residual does not provide a sufficiently small global cap Z on c_u, so(203.24) does not close the primary gate. It does show that any future threshold-specific c_u cap immediately controls the phase-visible part of the median content without paying a separate b_Q sum.
+
+
+There is no corresponding retained upper tail for b_S: large b_S means large D_S and therefore SMALLER q_phase. Fixed-S results fix the full rational S, not only its denominator D_S. Hence the b_S branch remains the hard part.
+
+
+7. Relation to low-median content budget and no-double-charge
+
+
+176's general low-median outer budget counted sorted contents a<=b<=d with
+
+
+b<=K,
+b*d<=C,
+
+
+at cost at most 6*C*min(K,sqrt(C)) before the active-tau measure.
+
+
+203 does not remove that factor globally. Instead it decomposes its median label canonically into b_Q*b_S and proves:
+- b_Q is already paid through q_phase/c_u when a usable186 tail applies;
+- b_S cannot be charged to q_phase or c_u; it lives in D_S and must be attacked through full-S/original physical structure.
+
+
+Do NOT:
+- count H_Q^2|c_u and H_S^2|Den(S) as two independent square densities;
+- multiply(203.24) by183 fixed-c_u fibers or174 fixed-D_min fibers as independent gains;
+- identify q_min with q_phase;
+- assume b_S is small because q_phase is large; it is the complementary large-D_S branch;
+- treat the three local rows as probabilistically independent across primes.
+
+
+The router is exact structure, not a density model.
+
+
+8. NEXT204
+
+
+Restrict the unresolved K>1 low-median attack to the full-S-hidden median component b_S.
+
+
+Use the exact row(C) conditions(203.22):
+for every p^alpha||b_S with beta=v_p(tau),
+
+
+v_p(N_T)=0,
+v_p(D_S)=alpha+beta,
+v_p(q_phase)=0,
+v_p(c_u)=beta.
+
+
+Attack whether the simultaneous original conditions
+N_T=e1*f1+e2*f2+e3*f3,
+the three primitive space triangles D_i=tau*c_i,
+134 four-square/intrinsic-R lift,
+171 large-Sigma,
+174 large-D_min,
+and pairwise-coprime contents
+force a summed bound on occupied b_S or on its product with q_min.
+
+
+The needed theorem must control moving D_S while keeping the FULL rational S/original numerator data; generic square-divisor sparsity is already paid by186 and is not progress.
+
+
+If the hidden branch again admits every content depth without a cross-prime/global restriction, record that firewall and move to the separate large-c threshold branch. Do not restart K1-only177–181 or the134-superseded fresh-C_u route.
+
+
+Gate OPEN; global credit0. 200 small-W disposal and all previous scoped sectors retained. Physical endpoints enumerated=0.
+
+
+9. Verification and audit scope
+
+
+The proof is a direct specialization of the exact186 partial/saturated content depth tables, together with the retained ROUTE6/7 identities
+D_i=tau*c_i, R=H*tau, pairwise-coprime h_i,
+174's sorted-content identities(174.7), and S=2N_T/R^2.
+
+
+Primewise checks:
+- beta>0: substituting lambda=alpha+beta into all three186 rows gives(203.7),(203.12),(203.17)-(203.19);
+- beta=0: the saturated two rows agree with the collapsed formulas.
+Thus(203.14) and the unitary-divisor statement hold at every prime of H.
+
+
+Within-session exact symbolic/deductive review PASS. Independent hostile audit NOT RUN. Separate-chat audit162–185 remains the only independent audit scope. No retraction, closure or global-credit flag change.
