@@ -1,0 +1,198 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229K — Santens nonsplit fixed-local toric rematch and certified degree-four selector cover
+
+
+STATUS: POST_229J_CURRENT_THEOREM_AUDIT_COMPLETE / PROVED_SANTENS_NONSPLIT_TORIC_BASE_MATCH_WITH_PHYSICAL_SUP_HEIGHT / PROVED_FIXED_FINITE_LOCAL_TEST_FUNCTION_FRAMEWORK_AVAILABLE_ON_X0 / PROVED_SELECTOR_SQUARECLASS_INDEPENDENCE / PROVED_GENERIC_SIMULTANEOUS_COVER_DEGREE_4 / NO_GROWING_SUPPORT_ERROR_OR_GEOMETRIC_SIEVE / NO_REOPEN / GLOBAL_CREDIT=0
+
+
+TYPE: POST-229J THEOREM DELTA / NONSPLIT TORIC HEIGHT-ZETA REMATCH / FIXED-FINITE LOCAL CONDITIONS / SIMULTANEOUS DOUBLE-COVER DEGREE CERTIFICATION
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229J
+FOUNDATIONAL_INTERNAL_STRUCTURAL_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229F
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+
+
+1. Scope
+
+
+229J proved that the fixed reversed selector base
+  X0: X^2+Y^2=Z^2,
+      Z^2+T^2=S^2
+has dense Q-torus
+  T0 = Res^1_{Q(i)/Q} G_m x G_m,
+that the toric minimal resolution Xtilde0 is defined over Q, and that
+  -K_Xtilde0 = pi^* O_X0(1).
+It also proved that on the primitive positive physical chart [X:Y:Z:T:S]=[x:y:z:e:R], the standard projective sup-height is exactly R.
+
+
+The current task is not to extend the 229J identity chain. It is to rematch a concrete post-229J theorem input against the exact non-split Q-toric form and to certify the generic degree of the simultaneous selector cover.
+
+
+2. Santens 2026 now applies to the non-split reversed base with the physical height
+
+
+Tim Santens, “Manin's conjecture for integral points on toric varieties,” Proc. London Math. Soc. 133 (2026), e70203, first published 26 Aug 2026, DOI 10.1112/plms.70203, proves bounded-height asymptotics for smooth proper toric varieties over number fields without assuming that the relevant Neron-Severi torus is split. The paper explicitly notes that the universal-torsor method is used with nonsplit T_NS and that D=empty recovers a proof of Manin's conjecture for toric varieties.
+
+
+Theorem 1.1 allows a height corresponding to a big divisor. On Xtilde0 take
+  L = pi^* O_X0(1) = -K_Xtilde0.
+This is big. Pull back the standard adelic sup metric from O_X0(1). On the positive physical dense-torus points this height is exactly
+  H_L = max(x,y,z,e,R) = R,
+by 229F/229J.
+
+
+Therefore the previous 229J caveat “Batyrev–Tschinkel theorem species applies but an exact leading constant for the physical sup metric was not claimed” is no longer a height-applicability obstacle for this Santens theorem species: the physical sup metric itself is an admissible adelic height for the big line bundle L.
+
+
+RESULT_229K_SANTENS_NONSPLIT_BASE_MATCH=PROVED.
+RESULT_229K_PHYSICAL_SUP_HEIGHT_IS_ADMISSIBLE_SANTENS_HEIGHT=PROVED_ON_DENSE_PHYSICAL_TORUS.
+RESULT_229K_BASE_SPLITNESS_AND_METRIC_BLOCKER=REMOVED_FOR_SANTENS_BASE_COUNT.
+
+
+This is a result about the reversed toric base X0. It is NOT an identification of the exact Euler-brick M3 measure from LOCAL/225 with X0. The 229F reversal deliberately changes which square conditions define the base.
+
+
+3. Fixed finite local test functions are available
+
+
+Santens's height-zeta setup permits a finite set S of places at which the local factor f_v is prescribed; at finite places f_v is locally constant, and outside S it is the indicator of the chosen integral model. Thus fixed finite collections of p-adic residue neighbourhoods on the non-split toric base can be inserted into the same height-zeta framework.
+
+
+Consequently, after 229J, the obstacle on the reversed X0 base is no longer “can a non-split toric asymptotic see fixed local congruence conditions at all?”. It can, for each fixed finite local support.
+
+
+RESULT_229K_FIXED_FINITE_LOCAL_NEIGHBOURHOOD_COUNTING=AVAILABLE_ON_X0.
+
+
+However the published theorem gives an asymptotic for each fixed test function/local support; it does not provide the Huang-style conductor-uniform effective error needed to let the set or modulus of local conditions grow with the height bound. No non-split Ekedahl/geometric-sieve theorem with the required growing-support uniformity is extracted from Santens.
+
+
+RESULT_229K_GROWING_LOCAL_SUPPORT_UNIFORMITY=NOT_PROVED.
+RESULT_229K_NONSPLIT_EFFECTIVE_GEOMETRIC_SIEVE=STILL_OPEN.
+
+
+This distinction is load-bearing. A fixed finite set of local selector restrictions can change a leading constant, but Stage37 needs an absolute selector count strong enough against M3(B)>>B^(1/3), or an exact same-M3 receiver. An arbitrarily small fixed constant times a base count of order B polylog does not change the B-exponent. Letting the number of primes grow would require a uniform error/level-of-distribution theorem that is not present here.
+
+
+4. The two selector squareclasses are geometrically independent; generic cover degree is exactly 4
+
+
+229J gave on the split torus, after the degree-two isogeny p=uv, q=v/u, the squareclasses
+  F_plus  = (1+p^2)(1+q^2),
+  F_minus = (p^2-1)(q^2-1).
+
+
+Work over Qbar(p,q). Consider the prime divisor p-i. Then
+  ord_{p-i}(F_plus)=1,
+  ord_{p-i}(F_minus)=0.
+Hence F_plus is not a square and [F_plus] is nonzero in Qbar(p,q)^*/Qbar(p,q)^{*2}.
+
+
+Consider the prime divisor p-1. Then
+  ord_{p-1}(F_minus)=1,
+  ord_{p-1}(F_plus)=0.
+Hence F_minus is not a square.
+
+
+If [F_plus]=[F_minus], then F_plus*F_minus would be a square; but at p-i its valuation is 1. Thus [F_plus] and [F_minus] are linearly independent over F_2.
+
+
+Therefore
+  [Qbar(p,q)(sqrt(F_plus),sqrt(F_minus)) : Qbar(p,q)] = 4.
+The simultaneous double cover is generically degree 4 and geometrically integral on the dense torus. Since any squareclass dependence on the original Q-torus would persist after base change and pullback to the split torus, the original simultaneous selector cover is also generically degree 4.
+
+
+RESULT_229K_SELECTOR_SQUARECLASS_INDEPENDENCE=PROVED.
+RESULT_229K_SIMULTANEOUS_SELECTOR_GENERIC_DEGREE=4.
+RESULT_229K_SIMULTANEOUS_SELECTOR_COVER_GEOMETRICALLY_INTEGRAL_ON_DENSE_OPEN=PROVED.
+
+
+This upgrades the “most favorable possible generic degree d=4” grant in 229C from a preflight assumption to an exact structural fact for the 229J/229F selector cover. It does not improve the 229C height/exponent ceiling by itself.
+
+
+5. Why this still does not reopen production
+
+
+A. Geometry / reversed-base route:
+Santens now supplies non-split base asymptotics and fixed-finite local test functions at the exact physical R-height. But no growing-prime uniform error, geometric sieve, or direct count of the global square-lift image is supplied.
+
+
+B. Generic thin-set route:
+The selector fiber product is now certified geometrically integral degree 4, but 229C already showed that even a favorable degree-4 affine thin-set black-box, under its then-available physical normalization, does not meet the Stage37 exponent budget. 229K removes the degree-certification caveat, not the height/counting firewall.
+
+
+C. LOCAL route:
+M3-LOCAL-GATE-001 is on the exact Euler-brick M3 measure. X0 is the 229F reversed toric base obtained by making the face+space chain the base and moving the other two face-square conditions into the cover. Santens counting on X0 therefore does not supply the fixed-Q twisted exact-M3 asymptotic requested by 225. LOCAL_REOPEN remains false.
+
+
+D. PAIR/A/FIB:
+No exact occupied-M3 weight, centered covariance, or moving-base second moment is produced. All remain held.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+GEOMETRY_REOPEN=false.
+LOCAL_REOPEN=false.
+PAIR_REOPEN=false.
+A_REOPEN=false.
+FIB_REOPEN=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_GENUINELY_NEW_THEOREM_INPUT.
+
+
+6. Sharpened theorem watch after 229K
+
+
+The geometry watch can now be stated more narrowly.
+
+
+The missing theorem is NOT:
+- non-split toric Manin/base counting;
+- ability to impose a fixed finite set of local conditions;
+- generic irreducibility/degree of the simultaneous selector cover.
+
+
+Those pieces are now available/certified.
+
+
+The missing theorem IS one of:
+
+
+(A) NONSPLIT_TORIC_EFFECTIVE_LEVEL_OF_DISTRIBUTION:
+an effective congruence/equidistribution theorem for Xtilde0 or its nonsplit universal torsor with error uniform in a growing finite modulus/local support, strong enough to run an Ekedahl/Hilbert sieve on the two selector squareclasses and obtain a B-exponent deficit, not only a logarithmic or fixed-constant loss;
+
+
+(B) GAUSSIAN_NORM_TRIPLE_EXACT_HEIGHT_COUNT:
+a direct count for p in Q(i) with N(p), N(p^2-1), N(p^2+1) rational squares, preserving the 229F physical R-height and primitive/canonical multiplicity, with an exponent meeting the Stage37 denominator target;
+
+
+(C) FULL_FOUR_QUADRIC_SOURCE_COUNT:
+a theorem for the actual special four-quadric physical surface in seven projective coordinates, exploiting its special structure and exact R-height strongly enough to beat the existing B^(1/2+epsilon) endpoint bound / Stage37 threshold.
+
+
+Do not start another identity-only continuation from the degree-4 certification. The next legal geometry move is a theorem with quantitative growing-support or exact-height saving.
+
+
+7. Sources checked
+
+
+- Tim Santens, “Manin's conjecture for integral points on toric varieties,” Proc. London Math. Soc. 133 (2026), e70203, DOI 10.1112/plms.70203. Relevant points: arbitrary smooth proper toric variety over a number field; nonsplit Neron-Severi torus handled; big-divisor heights; D=empty recovers rational toric Manin; local factors f_v in the height-zeta setup are locally constant at finite places and unrestricted at a fixed finite set of places.
+- Zhizhong Huang, “Equidistribution of rational points and the geometric sieve for toric varieties,” arXiv:2111.01509v3. Effective congruence/geometric-sieve mechanism remains split-toric over Q.
+- Stage37-NEW-INPUT-DELTA-AUDIT-229J.
+- Stage37-NEW-INPUT-DELTA-AUDIT-229F.
+- Stage37-NEW-INPUT-DELTA-AUDIT-229C.
+- M3-T11-225.
+
+
+AUDIT SCOPE
+
+
+This is a post-229J theorem-applicability audit plus an exact function-field squareclass proof. It is not an independent hostile audit of cards 186–229. It claims no perfect-cuboid existence/nonexistence result and no global counting credit.
+
+
+FINAL_READBACK_RECEIPT: PASS. Card parent=M3-Research-Cards; card content present; MAIN latest delta=229K and card pointer present; active ROUTE 229K result block present; current LEDGER 229K change record present; CARD-INDEX row475 and 案内 latest/read-order updated. M3-T11-230 remains unissued; production HOLD; global credit0.

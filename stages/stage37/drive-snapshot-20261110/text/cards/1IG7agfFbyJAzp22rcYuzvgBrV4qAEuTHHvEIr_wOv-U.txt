@@ -1,0 +1,327 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229L — Gaussian norm-squareclass descent to congruent-number twists and uniform fixed-twist fiber bound
+
+
+STATUS: POST_229K_GAUSSIAN_TWIST_ADAPTER_COMPLETE / PROVED_NORM_SQUARECLASS_DESCENT_TO_Q / PROVED_CONGRUENT_NUMBER_TWIST_ROUTER / PROVED_DISTINGUISHED_2_DESCENT_LABELS / PROVED_PHYSICAL_SELECTOR_BOUNDARY_EMPTY / PROVED_ENDPOINT_TO_P_INJECTIVE / PROVED_FULL_ENDPOINT_MOVING_TWIST_SUPPORT_RECEIVER / PROVED_UNIFORM_FIXED_TWIST_ENDPOINT_FIBER_B_TO_O1_FROM_DUJELLA / MOVING_TWIST_SUPPORT_COUNT_OPEN / NO_REOPEN / GLOBAL_CREDIT=0
+
+
+TYPE: POST-229K GAUSSIAN NORM-TRIPLE ADAPTER / HILBERT-90 SQUARECLASS DESCENT / CONGRUENT-NUMBER QUADRATIC TWISTS / UNIFORM FIXED-TWIST POINT COUNT / NEW WHOLE-NUMERATOR RECEIVER
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229K
+GAUSSIAN_NORMAL_FORM_SOURCE: Stage37-NEW-INPUT-DELTA-AUDIT-229J
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+
+
+1. Scope
+
+
+229J proved that on the dense physical open of the fixed 229F base, every Q-rational selector point is represented by
+  p in K^* , K=Q(i),
+with
+  N(p) in Q^{*2},
+  N(p^2+1) in Q^{*2},
+  N(p^2-1) in Q^{*2},
+and exact physical projective height inherited from
+  p=((x+i y)(R+e))/z^2
+on [x:y:z:e:R] with R<=B.
+
+
+229K certified that the two selector squareclasses are geometrically independent and their simultaneous cover has generic degree 4, but no quantitative count was obtained.
+
+
+The current card does not extend the toric identity chain. It converts the Gaussian norm-square conditions into a moving family of elliptic curves to which a current uniform bounded-height theorem applies.
+
+
+For the physical positive population p is automatically nonzero. The apparent selector boundaries p^2=+-1 are treated exactly in Section 4 and are physically empty; thus the router below covers the full positive physical endpoint population.
+
+
+2. Hilbert-90 squareclass descent lemma over Q(i)
+
+
+LEMMA 229L.1.
+Let z in K^* with K=Q(i). If
+  N_{K/Q}(z)=r^2
+for some r in Q^*, then the K-squareclass of z comes from a rational squareclass:
+  z = delta * w^2
+for some delta in Q^* and w in K^*.
+
+
+Proof.
+Put xi=z/r. Then N(xi)=1. By Hilbert 90 there is w in K^* such that
+  xi=w/conj(w).
+But
+  w/conj(w)=w^2/N(w),
+and N(w) is rational. Hence
+  z=(r/N(w))*w^2.
+Take delta=r/N(w) in Q^*. QED.
+
+
+The rational squareclass is unique only modulo the kernel of
+  Q^*/Q^{*2} -> K^*/K^{*2};
+for K=Q(i), the sign class disappears because -1=i^2. We therefore use a positive squarefree integer representative whenever a canonical rational representative is needed.
+
+
+RESULT_229L_NORM_SQUARECLASS_DESCENT=PROVED_EXACT.
+
+
+3. Apply the lemma to the 229J Gaussian norm triple
+
+
+For every nondegenerate 229J selector point there exist
+  delta_0, delta_+, delta_- in Q^*
+and
+  c,a,b in K^*
+such that
+  p       = delta_0 c^2,
+  p^2+1   = delta_+ a^2,
+  p^2-1   = delta_- b^2.                       (229L.1)
+
+
+The first identity is equivalent to the base condition N(p) square at the squareclass level. The second and third are the two endpoint selector conditions.
+
+
+Put
+  D = delta_+ delta_-.
+Multiplying the last two equations gives
+  p^4-1 = D (ab)^2.                             (229L.2)
+
+
+The squareclass [D] in Q^*/(Q^{*2}*{+-1}) is canonically determined by p; changing delta_+ or delta_- by the sign kernel does not affect the elliptic curve below because only D^2 occurs.
+
+
+RESULT_229L_GAUSSIAN_TRIPLE_TO_RATIONAL_TWIST_CLASS=PROVED.
+
+
+4. Exact congruent-number elliptic twist router
+
+
+Define
+  X_E = D p^2,
+  Y_E = D^2 p a b.
+
+
+Using (229L.2),
+  Y_E^2
+    = D^4 p^2 a^2 b^2
+    = D^3 p^2(p^4-1)
+    = X_E^3-D^2 X_E.
+
+
+Thus every nondegenerate Gaussian norm-triple point maps to
+  E_D: Y^2=X^3-D^2 X                              (229L.3)
+over K=Q(i).
+
+
+This is the standard congruent-number quadratic-twist family, now used only as an exact Stage37 router. E_D has the K-rational 2-torsion points
+  (0,0), (D,0), (-D,0).
+
+
+The original two selector squareclasses are visible on E_D:
+  X_E+D
+    = D(p^2+1)
+    = delta_- (delta_+ a)^2,
+  X_E-D
+    = D(p^2-1)
+    = delta_+ (delta_- b)^2,
+and
+  X_E/D=p^2 is a K-square.                        (229L.4)
+
+
+Therefore the image lies in a distinguished 2-descent class of E_D, and the individual rational squareclasses delta_+,delta_- are recoverable from [X_E-D] and [X_E+D] in K^*/K^{*2}, up to the harmless rational sign kernel.
+
+
+There is also no hidden moving multiplicity from physical endpoints to p. For a Q-rational base point q=conj(p), while p=uv and q=v/u, hence v^2=pq=N(p). On the positive physical chamber v=(R+e)/z>0, so v is the unique positive rational square root of N(p), then u=p/v. The inverse formulas of 229J recover X/Z,Y/Z,S/Z,T/Z uniquely from u,v, and the primitive positive representative is unique. Thus a physical endpoint determines p injectively.
+
+
+For fixed canonical twist class d, X_E/d=p^2 determines p up to sign from the elliptic point; the physical first-quadrant condition selects the physical sign. Hence the endpoint-to-E_d router has O(1) (indeed physical-sign-one) multiplicity.
+
+
+Finally, the apparent excluded values are physically impossible. If p^2=1 then q=p, so u^2=p/q=1 and Y/Z=(u-u^(-1))/(2i)=0, hence y=0. If p^2=-1 then q=-p, so u^2=p/q=-1 and X/Z=(u+u^(-1))/2=0, hence x=0. Both contradict positive physical edges. Therefore no endpoint boundary term remains.
+
+
+RESULT_229L_CONGRUENT_NUMBER_TWIST_ROUTER=PROVED_EXACT.
+RESULT_229L_DISTINGUISHED_2_DESCENT_LABELS=PROVED_EXACT.
+RESULT_229L_FIXED_TWIST_ROUTER_MULTIPLICITY=O(1).
+
+
+5. Coarse physical-height control of the twist and elliptic point
+
+
+On the exact 229J physical chart
+  p=((x+i y)(R+e))/z^2,
+with positive integral physical coordinates bounded by R<=B.
+
+
+Hence the logarithmic Weil height satisfies
+  h_K(p)=O(log B).                                (229L.5)
+
+
+The K-squareclass of p^4-1 may be represented by a positive squarefree rational integer d. Indeed the denominator z^8 is already a square, while every rational prime occurring in d lies below a prime divisor of the Gaussian integer numerator
+  ((x+i y)(R+e))^4-z^8.
+Its norm is B^{O(1)}. Therefore one may choose the canonical squarefree representative with
+  |d| <= B^{O(1)},
+equivalently
+  log |d|=O(log B).                               (229L.6)
+
+
+After replacing D by this canonical representative, E_D is Q-isomorphic over K to E_d by a rational square scaling. The corresponding elliptic point has
+  h(P_d)=O(log B),                                (229L.7)
+so its exponential projective height is at most B^C for some absolute fixed C on this Stage37 chart.
+
+
+This is deliberately only a coarse polynomial-height adapter. No optimal exponent or leading constant is claimed.
+
+
+RESULT_229L_TWIST_CONDUCTOR_POLYNOMIAL_HEIGHT=PROVED_COARSE.
+RESULT_229L_ELLIPTIC_POINT_HEIGHT_POLYNOMIAL_IN_PHYSICAL_B=PROVED_COARSE.
+
+
+6. Dujella 2025 gives a uniform fixed-twist fiber bound
+
+
+Marta Dujella, “Uniform bounds for the number of rational points of bounded height on certain elliptic curves,” Acta Arithmetica 217 (2025), 309–332, DOI 10.4064/aa231221-9-10, proves the following theorem species:
+
+
+For an elliptic curve E over a fixed number field k having a k-rational point of exact prime order ell, the number of E(k) points of exponential height at most H is at most
+  exp(C(k) log H / log log H),
+with effective constant depending only on k.
+
+
+Apply this with
+  k=Q(i), ell=2,
+to every E_d in (229L.3). The curves E_d all have rational 2-torsion, and the constant is uniform in the twist d.
+
+
+Together with (229L.7), for every canonical twist class d,
+  # {Stage37 Gaussian norm-triple points with R<=B and twist d}
+      <= B^{o(1)},                                (229L.8)
+uniformly in d.
+
+
+This counts all K-rational points on E_d, so the distinguished 2-descent restriction can only reduce the count. The O(1) router multiplicity has no effect.
+
+
+RESULT_229L_UNIFORM_FIXED_TWIST_ENDPOINT_FIBER=B^{o(1)}.
+RESULT_229L_DUJELLA_THEOREM_MATCH=APPLIES_TO_FIXED_TWIST_FIBER_UNIFORMLY_IN_d.
+
+
+7. New exact whole-numerator receiver
+
+
+Let
+  T_tw(B)
+be the number of canonical positive squarefree twist classes d realized by physical endpoint points of height R<=B through the router above.
+
+
+Partitioning the endpoint population by d and using (229L.8) gives
+  P(B) <= T_tw(B) B^{o(1)},                       (229L.9)
+for the full positive physical endpoint count P(B).
+
+
+Therefore the exact new sufficient receiver is
+  T_tw(B) = o(B^{1/3})                             (229L.10)
+for absolute numerator closure on this dense open, because M3(B)>>B^{1/3} is retained.
+
+
+More generally any fixed-power estimate
+  T_tw(B) << B^{1/3-epsilon}
+closes the full endpoint numerator with room.
+
+
+This receiver is different from PAIR's weighted w=D/X image and from LOCAL's fixed-Q M3 residue contraction. It is an endpoint-defined moving quadratic-twist support count obtained after the exact Gaussian norm-triple adapter.
+
+
+RESULT_229L_MOVING_TWIST_SUPPORT_RECEIVER=PROVED_EXACT.
+RESULT_229L_FIXED_TWIST_POINT_COUNT_NO_LONGER_BLOCKER=true.
+RESULT_229L_PHYSICAL_SELECTOR_BOUNDARY=EMPTY_EXACT.
+RESULT_229L_ENDPOINT_TO_P_MULTIPLICITY=1_ON_POSITIVE_PHYSICAL_CHAMBER.
+RESULT_229L_REMAINING_GAUSSIAN_BLOCKER=MOVING_TWIST_SUPPORT_COUNT.
+
+
+8. Current theorem rematch and nontransfer checks
+
+
+Phillips 2026 gives asymptotics, often with power-saving error, for bounded-height points in the domain of morphisms of weighted projective stacks, including possibly infinite local conditions. This is a strong current theorem species, but no exact finite-defect morphism from the Stage37 moving twist-support space or the 229J K3 selector surface to the required weighted-projective-stack source is currently established. Therefore it does not presently bound T_tw(B).
+
+
+The old Stage37 quadratic-twist and 2-descent cards located by CARD-INDEX (including M3-T11-053, M3-T11-103, M3-DESC-NEG-001 and M3-T11-081) concern different singular/fixed-squareclass carriers. None states the 229J Gaussian norm-triple -> moving congruent-number twist router or the uniform fixed-twist fiber bound (229L.8). No supersession or retraction of those scoped results is implied.
+
+
+No theorem found in the current rematch bounds the number of realized d strongly enough for (229L.10).
+
+
+9. What changed and what did not
+
+
+Changed:
+- the Gaussian norm-square condition is no longer only a Kummer/K3 geometry target;
+- every nondegenerate selector point has a canonical moving congruent-number twist class;
+- for each fixed twist class, the entire endpoint fiber is uniformly B^{o(1)};
+- the quantitative geometry blocker is sharpened from “count the Gaussian norm triple” to “count the realized moving twist support T_tw(B)”; the apparent p^2=+-1 boundary is exactly empty on the positive physical population.
+
+
+Not changed:
+- T_tw(B)=o(B^{1/3}) is not proved;
+- no global endpoint exponent improves yet;
+- no exact-M3 LOCAL, PAIR, A or FIB receiver is supplied;
+- there is no remaining selector-boundary count: p=0 is outside the torus and p^2=+-1 forces x=0 or y=0, impossible physically;
+- no perfect-cuboid existence/nonexistence conclusion follows.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+GEOMETRY_REOPEN=false.
+LOCAL_REOPEN=false.
+PAIR_REOPEN=false.
+A_REOPEN=false.
+FIB_REOPEN=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_GENUINELY_NEW_THEOREM_INPUT.
+
+
+10. Sharpened next theorem watch
+
+
+Highest-value Gaussian route input is now:
+
+
+(A) MOVING_CONGRUENT_TWIST_SUPPORT:
+prove
+  T_tw(B)=o(B^{1/3}),
+or a stronger fixed-power bound, for twist classes d actually realized by the 229J physical chart with both selector conditions;
+
+
+(B) TWIST-SUPPORT SIEVE / SELMER SUPPORT:
+a theorem bounding the number of squarefree d for which E_d(Q(i)) contains a point in the distinguished 2-descent image (229L.4) with the inherited physical-height restrictions;
+
+
+(C) DIRECT GAUSSIAN/K3 COUNT:
+a direct theorem that bypasses twist support but implies (229L.9) with sufficient exponent.
+
+
+Dujella removes the fixed-twist rational-point multiplicity as a primary obstruction, and the physical selector boundary is empty. Do not spend another production card reproving fixed-d finiteness or generic Kummer structure. The next useful move must control moving d-support.
+
+
+11. Sources checked
+
+
+- Stage37-NEW-INPUT-DELTA-AUDIT-229J.
+- Stage37-NEW-INPUT-DELTA-AUDIT-229K.
+- M3-GOAL-001.
+- CARD-INDEX searches for quadratic twist / Kummer / CM elliptic / Gaussian norm triple / 2-descent.
+- Marta Dujella, Acta Arithmetica 217 (2025), 309–332, DOI 10.4064/aa231221-9-10.
+- Tristan Phillips, Journal of the London Mathematical Society 113 (2026), e70486, DOI 10.1112/jlms.70486.
+
+
+AUDIT SCOPE
+
+
+This is an exact algebraic adapter, coarse exact-height comparison, and current-theorem applicability audit. It is not an independent hostile audit of cards 186–229. No global counting credit, perfect-cuboid conclusion, or T11-230 production issuance is claimed.
+
+
+FINAL_READBACK_RECEIPT: PASS. Card parent=M3-Research-Cards; card algebra/height/Dujella/fixed-twist fiber/full P(B)<=T_tw(B)B^o(1)/physical-boundary-empty statements present; MAIN latest delta=229L and card pointer present; active ROUTE 229L result block present; current LEDGER 229L record present; CARD-INDEX row476 and 案内 latest/read-order updated. M3-T11-230 remains unissued; production HOLD; global credit0.

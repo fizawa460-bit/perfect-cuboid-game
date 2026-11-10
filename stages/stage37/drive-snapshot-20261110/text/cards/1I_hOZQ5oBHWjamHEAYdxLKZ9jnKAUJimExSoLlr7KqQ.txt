@@ -1,0 +1,378 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229T — odd-norm pullback and norm-five rational quartic carrier
+
+
+STATUS: POST_229S_ODD_NORM_PULLBACK_COMPLETE / PROVED_ODD_NORM_DEPENDENCE_EQUIVALENT_TO_CM_PULLBACK_WITH_RATIONAL_DOUBLE / PROVED_NORM5_XMAP_SQUARE_FACTOR / PROVED_NORM5_NONTRIVIAL_2DIVISION_COCYCLES_2ADICALLY_EMPTY / PROVED_NORM5_DEPENDENCE_REDUCES_TO_RATIONAL_QUARTIC_TWIST_CARRIERS / NORM5_PHYSICAL_COUNT_OPEN / NO_REOPEN / GLOBAL_CREDIT=0
+
+
+TYPE: POST-229S BOUNDED_CM_IMAGE_GATE REFINEMENT / ODD-NORM CM DIVISIBILITY / EXACT NORM5 LATTES MAP / 2-ADIC COCYCLE ELIMINATION / RATIONAL QUARTIC CARRIER
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229S
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+
+
+1. Scope
+
+
+229S reduced CM_PAIR_DEPENDENCE_GATE on the preferred large-radical tail to finitely many primitive Gaussian slopes
+  alpha=a-ib,
+  5<=N(alpha)<=M_delta,
+with
+  2P=[alpha]R+T,
+  R in E_d(Q) non-torsion,
+  T in E[2].
+
+
+This card attacks the first surviving norm, N(alpha)=5, and also proves a useful exact reduction for every ODD Gaussian norm.
+
+
+No endpoint saving is claimed.
+
+
+2. Odd-norm torsion absorption and Bezout pullback
+
+
+Assume a dependent physical point has
+  2P=[alpha]R+T,                                (229T.1)
+with R in E_d(Q), T in E[2], and N(alpha) odd.
+
+
+Because deg[alpha]=N(alpha) is odd, [alpha] acts bijectively on E[2]. Hence there is S in E[2] with
+  [alpha]S=T.
+Replacing R by
+  R':=R+S
+gives
+  2P=[alpha]R'.                                 (229T.2)
+
+
+Since alpha is coprime to 2 in Z[i], choose u,v in Z[i] with
+  2u+alpha v=1.                                 (229T.3)
+Define
+  Q=[u]R'+[v]P.
+Then
+  [alpha]Q=P,
+  [2]Q=R' in E_d(Q).                            (229T.4)
+
+
+Conversely, if for some non-torsion Q in E_d(Q(i))
+  P=[alpha]Q,
+  [2]Q=R in E_d(Q),                             (229T.5)
+then sigma(Q)-Q is in E[2]. Writing alpha=a-ib gives
+  A=P+sigma(P)=aR+torsion,
+  C=iota(P-sigma(P))=bR+torsion,
+so A,C are dependent with slope alpha.
+
+
+Therefore, for every primitive odd-norm slope alpha,
+
+
+  CM dependence with slope alpha
+  <==>
+  P lies in [alpha]E_d(Q(i)) with an alpha-preimage Q whose double is rational.
+
+
+RESULT_229T_ODD_NORM_PULLBACK_EQUIVALENCE=PROVED_EXACT.
+
+
+This removes the residual T in (229S.11) for all odd slopes and replaces the dependence condition by a fixed CM-divisibility problem plus one rational-double condition.
+
+
+3. Rational-double cocycle packet
+
+
+Let
+  r:=x(Q)/d in Q(i).
+Since 2Q is rational,
+  sigma(Q)=Q+S
+for some S in E[2].
+
+
+Using the retained normalized 2-torsion translation formulas, the four possible cocycles give
+
+
+  S=O:   bar(r)=r;
+  S=T0:  bar(r)=-1/r;
+  S=T+:  bar(r)=(r+1)/(r-1);
+  S=T-:  bar(r)=(1-r)/(1+r).                   (229T.6)
+
+
+The T0 case is impossible immediately because it gives
+  r bar(r)=-1.
+
+
+The two remaining nontrivial cases are equivalent to
+
+
+  S=T+:  N(r-1)=2,
+  S=T-:  N(r+1)=2.                              (229T.7)
+
+
+RESULT_229T_RATIONAL_DOUBLE_COCYCLE_PACKET=PROVED_EXACT.
+
+
+4. Exact norm-five CM x-map
+
+
+The primitive Gaussian slopes of norm 5 are, up to sign,
+  2+i, 2-i, 1+2i, 1-2i.
+
+
+For alpha=2+i, a direct addition calculation on
+  E_d:Y^2=X^3-d^2X
+with normalized coordinate r=x(Q)/d gives
+
+
+  x([2+i]Q)/d
+   = r *
+     [ ((2-i)r^2+i)(r^2-1+2i)
+        /(5r^4-2r^2+1) ]^2.                    (229T.8)
+
+
+For alpha=2-i the formula is the coefficient conjugate. The slopes 1+2i and 1-2i are obtained by composition with [i], which multiplies normalized x by -1; since -1=i^2 is a square in Q(i), all four norm-five maps have the form
+
+
+  x([alpha]Q)/d = r H_alpha(r)^2               (229T.9)
+
+
+for an explicit H_alpha in Q(i)(r).
+
+
+On the positive physical 229L image,
+  x(P)/d=p^2
+is a nonzero square in Q(i). Since P is non-torsion, the numerator/denominator exceptional torsion values in (229T.8) are absent. Therefore
+
+
+  r=x(Q)/d is itself a square in Q(i).           (229T.10)
+
+
+RESULT_229T_NORM5_XMAP_SQUARE_FACTOR=PROVED_EXACT.
+RESULT_229T_NORM5_PREIMAGE_X_IS_GAUSSIAN_SQUARE=PROVED_EXACT.
+
+
+5. 2-adic lemma: N(s^2 plus/minus 1) cannot equal 2
+
+
+Let K=Q(i), pi=1+i, and normalize v_pi(pi)=1. Then
+  v_2(N_{K/Q}(z))=v_pi(z).
+
+
+LEMMA 229T.1.
+For every s in K,
+  v_pi(s^2-1) != 1,
+  v_pi(s^2+1) != 1.                             (229T.11)
+
+
+Proof.
+If v_pi(s)>0, then s^2 has positive even valuation and s^2 plus/minus 1 is a unit, so the valuation is 0.
+
+
+If v_pi(s)<0, then s^2 dominates plus/minus 1 and
+  v_pi(s^2 plus/minus 1)=2v_pi(s),
+which is even.
+
+
+If v_pi(s)=0, the residue field is F_2. Hence s is congruent to 1 mod pi; also i is congruent to 1 mod pi. Thus
+  s^2-1=(s-1)(s+1)
+has both factors divisible by pi, and
+  s^2+1=(s-i)(s+i)
+also has both factors divisible by pi. In either case the valuation is at least 2.
+
+
+So valuation 1 never occurs. Consequently
+  N(s^2-1) != 2,
+  N(s^2+1) != 2.                                (229T.12)
+
+
+RESULT_229T_2ADIC_NORM2_SQUARE_LEMMA=PROVED_EXACT.
+
+
+6. Norm-five nontrivial rational-double cocycles are empty
+
+
+By Section 4 write
+  r=s^2
+with s in Q(i)^*.
+
+
+If the rational-double cocycle were T+, then (229T.7) gives
+  N(s^2-1)=2,
+contradicting Lemma 229T.1.
+
+
+If the cocycle were T-, then
+  N(s^2+1)=2,
+again impossible.
+
+
+T0 was already impossible.
+
+
+Therefore only
+  sigma(Q)=Q
+remains, so
+
+
+  Q in E_d(Q).                                  (229T.13)
+
+
+RESULT_229T_NORM5_NONTRIVIAL_2DIVISION_COCYCLES=PHYSICALLY_EMPTY_EXACT.
+RESULT_229T_NORM5_CM_PREIMAGE_IS_RATIONAL=PROVED_EXACT.
+
+
+This is a strict strengthening of 229S for N(alpha)=5.
+
+
+7. Rational normalized square classification
+
+
+For norm-five dependence we now have Q rational and
+  r=x(Q)/d in Q
+while r is a square in Q(i).
+
+
+If s=a+ib in Q(i) and s^2 is rational, then 2ab=0. Hence every rational Gaussian square is either a positive rational square or the negative of one.
+
+
+Thus there are
+  epsilon in {+1,-1},
+  t in Q^*
+such that
+  x(Q)/d=epsilon t^2.                            (229T.14)
+
+
+Write Q=(d epsilon t^2,y_Q). Since Q is non-torsion, t is nonzero. The curve equation gives
+
+
+  y_Q^2
+   =d^3 epsilon t^2(t^4-1).
+
+
+Set
+  W=y_Q/(dt) in Q.
+Then exactly
+
+
+  W^2=d(t^4-1)        if epsilon=+1,
+  W^2=d(1-t^4)        if epsilon=-1.             (229T.15)
+
+
+Therefore every physical norm-five dependence endpoint lies above one of the two rational genus-one quartic-twist carriers
+
+
+  C_d^+: W^2=d(t^4-1),
+  C_d^-: W^2=d(1-t^4),                           (229T.16)
+
+
+together with one of the four norm-five CM maps alpha and the retained physical selector conditions on
+  P=[alpha]Q.
+
+
+RESULT_229T_NORM5_DEPENDENCE_REDUCED_TO_RATIONAL_QUARTIC_TWIST_CARRIERS=PROVED_EXACT.
+
+
+Important: (229T.16) is a NECESSARY carrier reduction for the physical dependence locus, not an assertion that every rational point on these quartics maps to a physical endpoint.
+
+
+8. Consequence for BOUNDED_CM_IMAGE_GATE
+
+
+The first surviving Gaussian norm after 229S is no longer an opaque degree-five CM image.
+
+
+For N(alpha)=5 the dependence problem is now:
+
+
+  NORM5_RATIONAL_QUARTIC_GATE:
+  count or eliminate positive physical endpoints for which there exist
+    alpha in {2+i,2-i,1+2i,1-2i} up to sign,
+    epsilon in {+1,-1},
+    t,W in Q,
+  satisfying
+    W^2=d epsilon(t^4-1),
+    Q=(d epsilon t^2,y_Q) in E_d(Q),
+    P=[alpha]Q,
+  plus the retained physical selector/descent conditions defining the 229L image.
+
+
+The nontrivial Q(i)/Q 2-division cocycles have been eliminated entirely at norm 5. The remaining obstruction is purely rational and genus-one.
+
+
+This does NOT yet supply a same-physical count. In particular:
+- a genus-one carrier is not automatically sparse enough;
+- fixed degree still earns no counting credit;
+- no rank>=2 theorem is authorized merely from this reduction;
+- norms >=10/13/... within M_delta remain untreated.
+
+
+9. Route consequence
+
+
+The preferred whole-endpoint gate remains
+
+
+  #{positive primitive physical endpoints R_phys<=B:
+      sf(gcd(eR_phys,xy))>B^(1/3-delta)}
+    =o(B^(1/3)).
+
+
+GAUSSIAN_TWIST_RADICAL_GCD remains CONDITIONAL_RESERVE/THEOREM_WATCH.
+
+
+The next dependence targets are now ordered:
+
+
+(A) NORM5_RATIONAL_QUARTIC_GATE:
+    exploit the explicit rational quartics (229T.16) together with P=[alpha]Q and the physical selector conditions;
+
+
+(B) odd higher norms:
+    reuse the exact odd-norm pullback equivalence (229T.4)-(229T.5);
+
+
+(C) even remaining norms:
+    retain the 229S bounded CM-image formulation, because 2-torsion absorption/Bezout does not apply unchanged;
+
+
+(D) alternative restart:
+    selector-conditioned twist-support, sharper physical height-vs-d, or direct same-physical radical-support theorem.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+PRIMARY_GATE_STATUS=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+
+
+10. Sources checked
+
+
+Internal:
+- Stage37-NEW-INPUT-DELTA-AUDIT-229S;
+- 229R/Q CM trace/anti-trace and torsion firewall;
+- 229L/M/N/O physical twist/radical crosswalk;
+- current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+New mathematics in this card is derived directly from the retained curve
+  E_d:Y^2=X^3-d^2X,
+the j=1728 CM automorphism [i](X,Y)=(-X,iY),
+the retained 2-torsion translation packet,
+and exact addition/valuation calculations above. No new external theorem is used.
+
+
+AUDIT SCOPE
+
+
+This card proves an exact odd-norm pullback equivalence and an exact norm-five reduction to rational genus-one quartic carriers. It does not prove a physical endpoint saving, does not close BOUNDED_CM_IMAGE_GATE, does not change the preferred radical-gcd gate, does not retract 229L-S, and does not issue M3-T11-230. Integrated audit186–229O remains unchanged in scope.
+
+
+
+
+FINAL_READBACK_RECEIPT: PASS.
+Card identity/title/body read back from Drive. CARD-INDEX row485 and 案内 latest/read-order point to 229T. MAIN contains CURRENT AUTHORITY OVERRIDE=229T with unchanged preferred sf(gcd(eR,xy)) gate, T11-230 unissued, PRIMARY_GATE OPEN and GLOBAL_COUNTING_CREDIT=0. RESULT-LEDGER contains the 229T change record and card pointer. Active ROUTE contains the POST-229T odd-norm pullback / norm5 rational quartic block and NORM5_RATIONAL_QUARTIC_GATE. The odd-norm pullback equivalence, norm5 r-times-square x-map, 2-adic elimination of all nontrivial rational-double cocycles, and reduction to W^2=d(t^4-1) or d(1-t^4) are all present. No genus-one/fixed-degree counting credit is claimed. Integrated audit186–229O remains limited to its stated scope and is not silently extended to 229P–T. Production HOLD retained; P/M3 limit unproved.

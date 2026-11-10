@@ -1,0 +1,298 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229J — exact non-split Q-toric descent and Gaussian norm-selector normal form
+
+
+STATUS: POST_229I_STRUCTURAL_THEOREM_AUDIT_COMPLETE / PROVED_X0_IS_NON_SPLIT_Q_TORIC / PROVED_DENSE_TORUS_RES1_QI_Q_TIMES_GM / PROVED_GAUSSIAN_ONE_VARIABLE_SELECTOR_NORMAL_FORM / PROVED_BASE_SPLITNESS_BLOCKER_REMOVED_AT_TORIC_THEOREM_LEVEL / EFFECTIVE_THIN_COVER_COUNT_STILL_OPEN / NO_REOPEN / GLOBAL_CREDIT=0
+TYPE: POST-229I GEOMETRY/THEOREM DELTA AUDIT / NON-SPLIT TORIC DESCENT / SIMULTANEOUS KUMMER NORMAL FORM
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+FOUNDATIONAL_INTERNAL_STRUCTURAL_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229F
+PREVIOUS_EXTERNAL_THEOREM_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229I
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+
+
+1. Scope
+
+
+229F fixed the coefficient-free selector base
+  X0: X^2+Y^2=Z^2,
+      Z^2+T^2=S^2
+inside P^4, proved geometric type 4A1 quartic del Pezzo, and proved that on the primitive positive physical chart the standard projective sup-height is exactly the physical height R.
+
+
+229F correctly warned that the displayed Q-form is not split: it has two rational nodes and one conjugate pair over Q(i). The current task is to determine whether this Q-form is nevertheless a toric compactification over Q, and whether modern toric counting/sieve theorems then meet the simultaneous-cover contract.
+
+
+2. Exact Q-toric descent of X0
+
+
+Work on the dense open Z != 0 and set K=Q(i). Define
+  u=(X+iY)/Z,
+  v=(S+T)/Z.
+
+
+The first quadric gives
+  u * conjugate(u) = (X^2+Y^2)/Z^2 = 1,
+so u is a point of the norm-one torus Res^1_{K/Q} G_m.
+
+
+The second quadric gives
+  ((S+T)/Z)*((S-T)/Z)=1,
+hence v is in G_m and
+  (S-T)/Z=v^(-1).
+
+
+Conversely, from any
+  u in Res^1_{K/Q} G_m,
+  v in G_m,
+one recovers
+  X/Z=(u+u^(-1))/2,
+  Y/Z=(u-u^(-1))/(2i),
+  S/Z=(v+v^(-1))/2,
+  T/Z=(v-v^(-1))/2.
+
+
+Therefore
+  X0 intersect {Z != 0}
+is Q-isomorphic to the two-dimensional algebraic torus
+  T0 = Res^1_{Q(i)/Q} G_m x G_m.                 (229J.1)
+
+
+Over K, put
+  A=X+iY, B=X-iY, C=S+T, D=S-T.
+Then X0_K is given by the binomials
+  AB=Z^2,
+  CD=Z^2.
+Complex conjugation swaps A and B and fixes C,D,Z. Thus the split toric fan is Galois-invariant and descends to the displayed non-split Q-form.
+
+
+RESULT_229J_X0_Q_TORIC=PROVED.
+RESULT_229J_DENSE_TORUS=RES1_QI_OVER_Q_GM_TIMES_GM.
+RESULT_229J_SPLITTING_FIELD=Q_I / GALOIS_SWAPS_A_B_AND_PRESERVES_BINOMIAL_FAN.
+
+
+This removes the 229F uncertainty “geometric toric but Q-form not yet matched to a non-split toric theorem” for BASE counting. It does not yet count the simultaneous selector cover.
+
+
+3. Resolution and height class
+
+
+X0 is a degree-4 complete intersection of two quadrics, so adjunction gives
+  -K_X0 = O_X0(1)
+as a Cartier line bundle. Its four A1 singularities are du Val; the minimal resolution is crepant. Because X0 is Q-toric, its toric minimal resolution can be chosen over Q by the Galois-invariant fan subdivision. If
+  pi: Xtilde0 -> X0
+is this resolution, then
+  -K_Xtilde0 = pi^* O_X0(1).                     (229J.2)
+
+
+By 229F, the physical sup-height on primitive positive base points is exactly the standard projective O(1) height. Thus after pullback it is an anticanonical height on the smooth non-split toric resolution. For theorem matching, any fixed toric anticanonical metric is boundedly comparable to this fixed projective metric, so the height EXPONENT is preserved. An exact leading constant for the physical sup metric is not claimed here without a metric-level comparison.
+
+
+RESULT_229J_TORIC_RESOLUTION_HEIGHT_CLASS=PROVED / PHYSICAL_O1_CLASS_PULLS_BACK_TO_MINUS_K.
+RESULT_229J_EXACT_BT_LEADING_CONSTANT_FOR_PHYSICAL_SUP_METRIC=NOT_CLAIMED.
+
+
+4. Batyrev–Tschinkel applies to the non-split base theorem species
+
+
+Batyrev–Tschinkel, “Manin's conjecture for toric varieties”, arXiv:alg-geom/9510014, proves the anticanonical bounded-height asymptotic for arbitrary smooth projective equivariant compactifications of algebraic tori over number fields. Their setup explicitly uses a splitting field and a Galois-invariant fan; splitness over the ground field is not assumed. They also state that the anticanonical class need not be ample.
+
+
+Therefore the smooth Q-toric resolution Xtilde0 lies in their theorem species. The previous “split Q-form not certified” objection is removed for the BASE torus count.
+
+
+RESULT_229J_BT_NONSPLIT_BASE_MATCH=THEOREM_SPECIES_APPLIES_AFTER_Q_TORIC_RESOLUTION.
+RESULT_229J_229F_SPLIT_QFORM_BLOCKER=REMOVED_FOR_BASE_COUNT_ONLY.
+
+
+This still does not imply a power saving for the selector locus: Manin base counting does not say that rational points for which two prescribed Laurent functions are squares have fixed-power smaller mass.
+
+
+5. Exact simultaneous selector normal form on the split torus
+
+
+Use the physical identification from 229F:
+  [X:Y:Z:T:S]=[x:y:z:e:R].
+The two remaining face-square conditions are
+  U^2=T^2+X^2,
+  V^2=T^2+Y^2.
+
+
+On Z=1, with u,v as in Section 2,
+  X=(u+u^(-1))/2,
+  Y=(u-u^(-1))/(2i),
+  T=(v-v^(-1))/2.
+
+
+A direct calculation gives
+  4(T^2+X^2)
+    =(u^2+v^2)(u^2 v^2+1)/(u^2 v^2),
+  4(T^2+Y^2)
+    =(v^2-u^2)(u^2 v^2-1)/(u^2 v^2).             (229J.3)
+
+
+Since 4(u v)^2 is a square over K, the two selector squareclasses are represented by
+  (u^2+v^2)(u^2v^2+1),
+  (v^2-u^2)(u^2v^2-1).                           (229J.4)
+
+
+The first of these squareclass products overlaps the retained M3-TERM-002 formulation and is not claimed as wholly new. The new content here is its exact placement on the fixed 229F Q-torus together with the symmetric second selector.
+
+
+Now pass through the degree-2 split-torus isogeny
+  p=u v,
+  q=v/u.
+Then, up to square factors u^2,
+  selector + : (1+p^2)(1+q^2),
+  selector - : (p^2-1)(q^2-1).                  (229J.5)
+
+
+This is the simultaneous Kummer normal form. The corresponding quotient geometry is Kummer/K3-type and therefore matches the already-retained Stage14-t41/t42 and M3-T11-025 theorem species rather than bypassing their counting firewall. No K3 rational-point power saving is inferred.
+
+
+RESULT_229J_SPLIT_TORUS_SELECTOR_NORMAL_FORM=PROVED.
+RESULT_229J_KUMMER_CROSSWALK=STRUCTURAL_ONLY / EXISTING_K3_KUMMER_FIREWALL_RETAINED.
+
+
+6. Q-rational points collapse to one Gaussian variable
+
+
+For a Q-rational base point, conjugation sends u to u^(-1) while v is rational. Hence
+  q=v/u = conjugate(u v)=conjugate(p).
+
+
+Also
+  N_{K/Q}(p)=p q=v^2.                             (229J.6)
+
+
+Equations (229J.3)-(229J.5) therefore give the exact rational norm-square formulation
+  N(p)=v^2,
+  N(p^2+1)=(2v U/Z)^2,
+  N(p^2-1)=(2v V/Z)^2.                           (229J.7)
+
+
+Thus on the dense physical base, the simultaneous endpoint selectors are exactly:
+  p in Q(i)^*,
+  N(p) is a rational square (automatic from the base),
+  N(p^2+1) is a rational square,
+  N(p^2-1) is a rational square,
+with the inherited primitive/canonical/positive/physical-height conditions.
+
+
+RESULT_229J_GAUSSIAN_ONE_VARIABLE_NORMAL_FORM=PROVED_EXACT_ON_Z_NE_0_PHYSICAL_OPEN.
+RESULT_229J_SELECTOR_TARGET=SIMULTANEOUS_NORM_SQUARES_OF_P_P2_PLUS1_P2_MINUS1_WITH_EXACT_PHYSICAL_HEIGHT_ADAPTER_STILL_REQUIRED_FOR_COUNTING.
+
+
+Targeted CARD-INDEX search found no prior card stated in this exact one-Gaussian-variable p form. It is a new crosswalk, not a claim that the underlying Gaussian/Kummer theorem species is new.
+
+
+7. Current theorem applicability audit
+
+
+7.1 Huang effective geometric sieve
+
+
+Zhizhong Huang, arXiv:2111.01509v3 (revised 17 Jul 2026), proves effective equidistribution and an Ekedahl-type geometric sieve for smooth proper SPLIT toric varieties over Q.
+
+
+Our Xtilde0 is non-split over Q. Therefore Huang's current theorem cannot be black-box applied to the exact Q-form solely from (229J.1). A non-split analogue with quantitative error strong enough for the two Kummer selectors would be a genuine restart input.
+
+
+RESULT_229J_HUANG_V3=EFFECTIVE_BUT_SPLIT_ONLY / NO_DIRECT_NONSPLIT_TRANSFER.
+
+
+7.2 Bernert–Derenthal–Wilsch torsor equidistribution
+
+
+Bernert–Derenthal–Wilsch, arXiv:2607.14866, gives a general torsor-method transfer principle and applies it to smooth split quintic del Pezzo surfaces. It is useful infrastructure once a suitable source-side torsor asymptotic is available, but it does not itself supply the required non-split 4A1 simultaneous-selector count.
+
+
+RESULT_229J_BDW=GENERAL_EQUIDISTRIBUTION_TRANSFER_RELEVANT_BUT_NO_SOURCE_COUNT.
+
+
+7.3 Kim–Wang multihomogeneous diagonal systems
+
+
+Kim–Wang, arXiv:2507.20878, requires in Theorem 1.7
+  s >= R(n0(d)+1),
+with n0(d)>=2d.
+
+
+The projective full selector system is four diagonal quadrics in seven projective coordinates, so d=2, R=4, s=7. Already n0(2)>=4 forces the theorem threshold
+  s >= 4(4+1)=20,
+which fails sharply.
+
+
+RESULT_229J_KIM_WANG=NO_GO_BY_VARIABLE_THRESHOLD_7_LT_20.
+
+
+8. What changed and what did not
+
+
+Changed:
+- X0 is now proved to be a genuine non-split Q-toric compactification, not merely geometrically toric.
+- the Q-form/splitness uncertainty is removed for Batyrev–Tschinkel base counting.
+- the two remaining selectors have an exact simultaneous torus normal form.
+- on Q-points they collapse to the one-Gaussian-variable norm-square triple (229J.7).
+
+
+Not changed:
+- no theorem found gives a fixed-power upper bound for the simultaneous selector locus under exact physical height;
+- Huang's effective toric sieve remains split-only;
+- the Kummer/K3 reformulation does not itself imply rational-point sparsity;
+- Kim–Wang's many-variable theorem is far outside the variable range;
+- PAIR, LOCAL, A, FIB and the primary Stage37 gate remain open/held exactly as before.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+GEOMETRY_REOPEN=false.
+PAIR_REOPEN=false.
+LOCAL_REOPEN=false.
+A_REOPEN=false.
+FIB_REOPEN=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_GENUINELY_NEW_THEOREM_INPUT.
+
+
+9. Sharpened theorem watch
+
+
+The highest-value geometry input is now one of:
+
+
+(A) NONSPLIT_TORIC_KUMMER_SIEVE:
+an effective equidistribution/geometric-sieve theorem on
+  Res^1_{Q(i)/Q} G_m x G_m
+or its Q-toric compactification, strong enough to prove a fixed-power deficit for the simultaneous Laurent squareclasses in (229J.4);
+
+
+(B) GAUSSIAN_NORM_TRIPLE_COUNT:
+a direct exact-height count for p in Q(i) with
+  N(p), N(p^2-1), N(p^2+1)
+all rational squares, preserving the physical primitive/canonical multiplicity and yielding o(B^(1/3)) or another Stage37-sufficient bound;
+
+
+(C) FULL_FOUR_QUADRIC_SOURCE_COUNT:
+a rational/integral-point theorem for the actual four-quadric physical surface in the seven-variable range, with the exact R-height and exponent below the Stage37 denominator threshold.
+
+
+Do not continue another identity-only chain from (229J.7). The toric/Gaussian normal form is now the canonical geometry theorem target; restart production only on a theorem that actually supplies the missing source-side quantitative count.
+
+
+SOURCES CHECKED
+- Batyrev–Tschinkel, “Manin's conjecture for toric varieties”, arXiv:alg-geom/9510014.
+- Huang, “Equidistribution of rational points and the geometric sieve for toric varieties”, arXiv:2111.01509v3, revised 17 Jul 2026.
+- Bernert–Derenthal–Wilsch, “Equidistribution and the torsor method”, arXiv:2607.14866.
+- Kim–Wang, “Rational points on varieties defined by multihomogeneous diagonal forms”, arXiv:2507.20878.
+- Stage37-NEW-INPUT-DELTA-AUDIT-229F.
+- Stage37-NEW-INPUT-DELTA-AUDIT-229I.
+- M3-TERM-002.
+- M3-T11-025.
+- Stage14-t41/t42 Kummer theorem species.
+
+
+AUDIT SCOPE
+This is a current structural/theorem-applicability audit plus exact algebra on the 229F base. It is not an independent hostile proof audit of cards 186–229. No perfect-cuboid existence or nonexistence conclusion is claimed.

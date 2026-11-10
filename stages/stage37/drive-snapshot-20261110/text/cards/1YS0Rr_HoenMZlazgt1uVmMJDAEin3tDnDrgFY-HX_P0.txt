@@ -1,0 +1,312 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229R — selector-exact CM pair non-torsion and positive-rank support firewall
+
+
+STATUS: POST_229Q_SELECTOR_CM_PAIR_REFINEMENT_COMPLETE / PROVED_BOTH_CM_RATIONAL_COMPONENTS_NONTORSION_ON_PHYSICAL_d_GT_1 / PROVED_EXACT_CM_HEIGHT_SUM / IMPROVED_RATIONAL_SMALL_POINT_HEIGHT_FACTOR / PROVED_UNCONDITIONED_POSITIVE_RANK_SUPPORT_FIREWALL / CM_PAIR_DEPENDENCE_OPEN / NO_REOPEN / GLOBAL_CREDIT=0
+
+
+TYPE: POST-229Q EXACT SELECTOR-CM REFINEMENT / TORSION ELIMINATION / HEIGHT IDENTITY / MOVING-TWIST METHOD FIREWALL
+
+
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+PREVIOUS_POST_229_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229Q
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+
+
+1. Scope
+
+
+229Q proved that for the 229L congruent-number twist
+  E_d: Y^2=X^3-d^2 X
+over K=Q(i), the CM trace/anti-trace construction sends a non-torsion P in E_d(K) to at least one non-torsion point of E_d(Q). It also proved that for positive squarefree d>1 the physical 229L point P is non-torsion.
+
+
+This card uses the full selector conditions retained from 229J/L,
+  N(p) in Q^{*2},
+  N(p^2+1) in Q^{*2},
+  N(p^2-1) in Q^{*2},
+together with positivity/non-boundary, to prove more: BOTH rational CM components are non-torsion. It then records the exact canonical-height sum and a support-count firewall.
+
+
+No endpoint saving is claimed.
+
+
+2. Setup and exact CM pair
+
+
+Let sigma be complex conjugation and
+  iota(X,Y)=(-X,iY)
+the j=1728 CM automorphism of E_d over K.
+
+
+For the physical P in E_d(K), write
+  X(P)/d = p^2 =: z,
+  X(sigma P)/d = q^2 =: w,
+where q=conj(p), and p has nonzero positive real and imaginary parts on the positive physical chamber.
+
+
+Define
+  A=P+sigma(P),
+  C=iota(P-sigma(P)).
+As in 229Q,
+  A,C in E_d(Q),
+and
+  2P=A-iota(C).                                  (229R.1)
+
+
+Retain the 229Q torsion firewall
+  E_d(Q)_tors=E_d[2]
+for positive squarefree d>1.
+
+
+3. Translation by rational 2-torsion gives four Möbius transforms
+
+
+Let
+  T0=(0,0), T+=(d,0), T-=(-d,0).
+
+
+For any non-2-torsion point with normalized x-coordinate z=X/d, translation by these points has normalized x-coordinate
+
+
+  x(P+T0)/d = -1/z,
+  x(P+T+)/d = (z+1)/(z-1),
+  x(P+T-)/d = (1-z)/(1+z).                     (229R.2)
+
+
+The point at infinity gives the identity transform z.
+
+
+Because x(-P+T)=x(P+T), the same four transforms occur if
+  sigma(P)=T-P
+or
+  sigma(P)=P+T.
+
+
+RESULT_229R_2TORSION_MOBIUS_PACKET=PROVED_EXACT.
+
+
+4. The trace A cannot be torsion
+
+
+Assume A is torsion. By the retained rational torsion statement, A is one of
+  O,T0,T+,T-.
+Since A=P+sigma(P), this gives sigma(P)=A-P. Hence w must be one of the four transforms in Section 3.
+
+
+Case A=O:
+  w=z.
+Then z is real. But z=p^2 and p has nonzero real and imaginary parts, so p^2 is non-real. Contradiction.
+
+
+Case A=T0:
+  w=-1/z.
+Then
+  zw=-1.
+But zw=p^2 q^2=N(p)^2 is a positive rational square. Contradiction.
+
+
+Case A=T+:
+  w=(z+1)/(z-1).
+Then
+  N(p^2-1)
+   =(z-1)(w-1)
+   =2.
+But the physical selector requires N(p^2-1) in Q^{*2}, and 2 is not a rational square. Contradiction.
+
+
+Case A=T-:
+  w=(1-z)/(1+z).
+Then
+  N(p^2+1)
+   =(z+1)(w+1)
+   =2,
+again contradicting the selector square condition.
+
+
+Therefore
+  A is non-torsion.                                (229R.3)
+
+
+RESULT_229R_TRACE_NONTORSION=PROVED_EXACT_ON_PHYSICAL_d_GT_1.
+
+
+5. The anti-trace C cannot be torsion
+
+
+Assume C is torsion. Since iota permutes E_d[2],
+  P-sigma(P)=iota^{-1}(C)
+is a rational 2-torsion point T.
+Hence
+  sigma(P)=P-T=P+T.
+Taking x-coordinates gives exactly the same four Möbius transforms of Section 3.
+
+
+The four contradictions from Section 4 therefore apply verbatim:
+- identity transform makes p^2 real;
+- T0 gives N(p)^2=-1;
+- T+ forces N(p^2-1)=2;
+- T- forces N(p^2+1)=2.
+
+
+Therefore
+  C is non-torsion.                                (229R.4)
+
+
+RESULT_229R_ANTITRACE_NONTORSION=PROVED_EXACT_ON_PHYSICAL_d_GT_1.
+RESULT_229R_BOTH_Q_RATIONAL_COMPONENTS_NONTORSION=PROVED_EXACT.
+
+
+This is strictly stronger than the 229Q statement “at least one is non-torsion.” It is a refinement, not a retraction.
+
+
+6. Exact canonical-height sum and improved one-point height transfer
+
+
+The CM automorphism iota has degree 1 and preserves canonical height. Also sigma preserves canonical height. Therefore
+
+
+  hhat(C)=hhat(P-sigma(P)).
+
+
+By the parallelogram identity,
+
+
+  hhat(A)+hhat(C)
+   =hhat(P+sigma(P))+hhat(P-sigma(P))
+   =2hhat(P)+2hhat(sigma(P))
+   =4hhat(P).                                     (229R.5)
+
+
+Since both A and C are non-torsion, both heights are strictly positive. In particular,
+
+
+  min(hhat(A),hhat(C)) <= 2 hhat(P).              (229R.6)
+
+
+Thus the rational small-point transfer in 229Q improves from the safe factor 4 to factor 2 for the physical d>1 population.
+
+
+RESULT_229R_CM_HEIGHT_SUM=PROVED_EXACT.
+RESULT_229R_RATIONAL_SMALL_POINT_FACTOR=2_INSTEAD_OF_4.
+
+
+This changes no Stage37 exponent by itself because 229L only supplies hhat(P)=O(log B), and 229Q already showed that the retained d<=2B^2 envelope is far outside the Le Boudec one-third budget even in the optimistic alpha->0 limit.
+
+
+7. Important non-claim: no rank-two conclusion
+
+
+A and C are both non-torsion, but this does NOT prove that they are independent in E_d(Q) modulo torsion.
+
+
+They may lie in the same rank-one Mordell-Weil line. Therefore this card does not route physical twists into the rank>=2 twist subfamily and does not invoke any rank-two density theorem.
+
+
+Define the remaining CM-pair structural question:
+
+
+  CM_PAIR_DEPENDENCE_GATE:
+  control the physical endpoints for which A and C are dependent modulo E_d(Q)_tors.
+
+
+A proof that dependence is impossible or sufficiently sparse would be genuinely new input. No such statement is proved here.
+
+
+RESULT_229R_CM_PAIR_INDEPENDENCE=OPEN.
+
+
+8. Positive-rank support alone cannot be the missing theorem
+
+
+Alexander Smith proved that congruent numbers have positive natural density; in particular, a positive proportion of squarefree d give E_d(Q) a non-torsion rational point.
+
+
+Therefore an unconditioned theorem that merely counts squarefree twists d<=X with E_d(Q) non-torsion cannot have o(X) support. At the Stage37 ambient envelope X~B^2 this is vastly too large.
+
+
+Consequently the CM rationalization must retain genuinely restrictive information:
+- the inherited small-height relation,
+- the physical selector/descent origin,
+- the radical-gcd realization,
+- or an equally strong same-physical condition.
+
+
+Discarding these and counting all positive-rank congruent twists is a mathematically invalid route to the Stage37 B^(1/3) target.
+
+
+RESULT_229R_POSITIVE_RANK_SUPPORT_FIREWALL=PROVED_BY_EXISTING_POSITIVE_DENSITY_THEOREM.
+
+
+9. Route consequence
+
+
+The preferred whole-endpoint theorem gate remains unchanged:
+
+
+  #{positive primitive physical endpoints R<=B :
+      sf(gcd(eR,xy)) > B^(1/3-delta)}
+    = o(B^(1/3))
+
+
+for some fixed delta>0.
+
+
+229R sharpens the rationalized twist side as follows:
+
+
+- Q(i)-to-Q field mismatch remains retired.
+- Both canonical rational CM components are non-torsion.
+- The best guaranteed rational small point has canonical height at most 2 hhat(P), improving the 229Q factor 4.
+- Existence of a rational point alone is provably too broad because congruent twists have positive density.
+- The new exact structural subgate is CM_PAIR_DEPENDENCE_GATE, but no automatic production continuation is authorized.
+
+
+Useful future inputs include:
+(A) a physical selector-conditioned small-point theorem over Q retaining the 229L/229M descent labels;
+(B) a proof that the dependent CM-pair locus is empty or o(B^(1/3)), followed by a quantitatively strong independent-pair/rank>=2 theorem;
+(C) a sharper physical height-vs-d relation that places the rational CM component in a Le Boudec-compatible regime;
+(D) a direct same-physical twist/radical-support theorem.
+
+
+Do not reopen:
+- generic positive-rank congruent-number support counting;
+- unconditioned all-twist small-point counting at d<=2B^2;
+- rank>=2 counting without first proving A,C independence on the relevant physical population.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+PRIMARY_GATE_STATUS=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_SELECTOR_AWARE_OR_SUPPORT_LEVEL_THEOREM_INPUT.
+
+
+10. Sources checked
+
+
+Internal:
+- Stage37-NEW-INPUT-DELTA-AUDIT-229Q;
+- Stage37-NEW-INPUT-DELTA-AUDIT-229L;
+- retained 229M/N/O twist/radical identification;
+- current MAIN / CARD-INDEX / RESULT-LEDGER / active ROUTE.
+
+
+External:
+- Pierre Le Boudec, “Height of rational points on quadratic twists of a given elliptic curve,” Bull. London Math. Soc. 48 (2016), 99–108, arXiv:1404.7738. Retained 229Q theorem budget.
+- Alexander Smith, “The congruent numbers have positive natural density,” arXiv:1603.08479, revised 2026. Used only for the positive-rank support firewall.
+
+
+AUDIT SCOPE
+
+
+This card proves an exact strengthening of the 229Q CM decomposition on the physical selector population. It does not improve the endpoint exponent, does not establish CM-pair independence, does not change the preferred radical-gcd gate, does not retract 229L-Q, and does not issue M3-T11-230. Integrated audit186–229O remains unchanged in scope.
+
+
+
+
+FINAL_READBACK_RECEIPT: PASS.
+Card identity/title/content read back from Drive. CARD-INDEX row483 and 案内 latest/read-order point to 229R. MAIN contains CURRENT AUTHORITY OVERRIDE=229R with unchanged preferred sf(gcd(eR,xy)) gate, T11-230 unissued, PRIMARY_GATE OPEN and GLOBAL_COUNTING_CREDIT=0. RESULT-LEDGER contains the 229R change record and card pointer. Active ROUTE contains the POST-229R selector-exact CM-pair block, CM_PAIR_DEPENDENCE_GATE firewall and unchanged GAUSSIAN_TWIST_RADICAL_GCD conditional-reserve status. Both rational CM components non-torsion, exact height sum hhat(A)+hhat(C)=4hhat(P), factor-2 small-point transfer, positive-rank-support firewall, and no-rank>=2 nonclaim are all present. Integrated audit186–229O remains limited to its stated scope and is not silently extended to 229P–R. Production HOLD retained; P/M3 limit unproved.
