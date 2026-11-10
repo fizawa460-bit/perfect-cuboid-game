@@ -1,3 +1,13 @@
+> **CURRENT STAGE36 MANAGEMENT (Google Drive authoritative, 2026-10-16 checkpoint)**
+> Stage38 is `CLOSED_FOR_NOW`; Stage36 resumed as **36R** and is now
+> `PARKED_PROVISIONAL` after `36R-06`. This state is synced into
+> `stages/stage36/MAIN-STATE.json`; next log `36R-07`, no active leaf.
+> Historical Stage36 `36-09FE` / locked `36-09FF` state is archived at
+> `stages/stage36/historical/MAIN-STATE-V296R3-36-09FE.json`, not the current NEXT.
+> Read `ROADMAP-CURRENT.md` (Drive v3) and `DRIVE-RECONCILIATION.md` for provenance.
+> **Status synchronization from Drive requires no new adversarial mathematics audit.**
+> Research review tasks listed in Drive concern mathematical validation, not permission to sync records.
+
 # Stage36 MAIN constitution — Campedelli uniform H-torsor arithmetic
 
 Stage36 is the dedicated attack on the Stage29 Class-3 kernel
@@ -13,9 +23,10 @@ After confirming the live branch/PR head with the GitHub connector, read only:
 
 1. `AGENTS.md`
 2. this file
-3. `stages/stage36/MAIN-STATE.json`
-4. `stages/stage36/MAIN-BATCH-HANDOFF.md`
-5. only the immediate files named by `current_leaf_working_set`
+3. `stages/stage36/DRIVE-RECONCILIATION.json` and `.md` (external status mirror; no proof promotion)
+4. `stages/stage36/MAIN-STATE.json` (current Drive 36R status; old FE history separately archived)
+5. `stages/stage36/MAIN-BATCH-HANDOFF.md`
+6. only the immediate files named by `current_leaf_working_set` **when a current legal leaf is explicitly released**
 
 This list is the sole routine Stage36 startup enumeration authority.
 
@@ -24,7 +35,7 @@ the full Campedelli literature, the full Arsenal, all ten kernels, or sibling
 Brauer routes. Stage29 is consumed through exact Stage36 source interfaces and
 expanded only when the current leaf requires it.
 
-`ROADMAP.md` is planning provenance, not routine startup input.
+`ROADMAP-CURRENT.md` is the current Drive v3 planning authority and may be opened when research resumes. `ROADMAP.md` is preserved historical planning provenance.
 `MAIN-BATCH-HANDOFF.md` is transient delta memory only. If it is `EMPTY`, read
 no prior narrative from it.
 
@@ -119,12 +130,17 @@ QUOTIENT_Q_POINT != ENDPOINT_Q_POINT
 Do not promote Stage36 progress to `Q11-CAMPEDELLI`, endpoint closure, or
 perfect-cuboid existence/nonexistence without a separate audited full implication.
 
-## MAIN behavior
+## MAIN behavior (current Drive 36R)
 
-Advance exactly `current.next_exact_leaf` from `MAIN-STATE.json`.
+For management and routing, **use the current `MAIN-STATE.json` and Drive
+`ROADMAP-CURRENT.md`**. The present status is `PARKED_PROVISIONAL` after
+`36R-06`, `current.next_exact_leaf=null`, and next log `36R-07` only
+if materially new work is explicitly reopened. `R29_CAMP2_CLOSED=false`.
 
-The initial leaf is `36-01_SOURCE_AUTHORITY_LOCK`, not broad literature search,
-not torsor enumeration, and not computation on all ten kernels.
+The former `36-09FE -> 36-09FF` progression and the initial
+`36-01_SOURCE_AUTHORITY_LOCK` were **historical**. Do not auto-launch them,
+do not silently revive a dominated/frozen route, and do not mistake the
+old full-quotient-emptiness target for the current Drive-defined research goal.
 
 After the source frontier is fixed, proceed through the three certified
 Q-symmetry representatives. The first intended Class-3 wall is uniform
@@ -177,6 +193,7 @@ one mathematical claim or interface
 Before heavy Actions compute use the repo-wide Actions evidence/safety policy.
 Before receiver/theorem/endpoint promotion use the research-credit firewall.
 
+Only when doing **mathematical claim promotion** (not Drive record synchronization),
 At every hostile-audit boundary verify:
 
 ```text
