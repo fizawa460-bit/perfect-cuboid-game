@@ -1,0 +1,65 @@
+{
+  "schema": "STAGE36_36R_20261110_BOUNDED_DESK_REVIEW_V1",
+  "reviewed_on": "2026-11-10",
+  "mode": "INTERNAL_DESK_CHECK_NOT_EXTERNAL_HOSTILE_PASS",
+  "repo_main_base_sha": "3096951febf4c31a91319283da7b784d9e6202e4",
+  "reviewed_sources": [
+    "stages/stage36/36R-import-20261110/sources/stage36_roadmap_v3.md",
+    "stages/stage36/36R-import-20261110/sources/36R-00_adapter_quantifier.md",
+    "stages/stage36/36R-import-20261110/sources/36R-04_receiver_correspondence.md",
+    "stages/stage36/36R-import-20261110/sources/36R-05_endpoint_class_local.md",
+    "stages/stage36/36R-import-20261110/sources/36R-06_parking_audit.md",
+    "stages/stage29/29-02hb/campedelli-quotient-adapter.md",
+    "stages/stage36/36-02/representative-inventory.json",
+    "stages/stage36/36-03/physical-open-boundary.json"
+  ],
+  "checks": {
+    "36R_06_prop_A_boundary_rational_points": {
+      "result": "DESK_PROOF_SUPPORTED_CONDITIONAL_ON_AUDITED_GITHUB_MODEL",
+      "verified": "Pythagorean (m^2-n^2,2mn,0) gives 7 squares, unique branch line z=0, smooth quotient at boundary and infinitely many distinct base points; applies to all admissible H by same finite quotient.",
+      "caveat": "No formally independent hostile audit against current exact commit; not a promotion."
+    },
+    "36R_06_prop_B_compactification_Brauer": {
+      "result": "SCOPED_DESK_ARGUMENT_SUPPORTED",
+      "verified": "For fixed finite Br(C_H)/Br_0 and smooth rational boundary P, local approximation in dense open U_H can match Brauer evaluations at finitely many bad places, with almost-everywhere unramified evaluation.",
+      "caveat": "Only for classes from Br(C_H), not all classes from Br(U_H)."
+    },
+    "36R_06_prop_B_full_open_Brauer": {
+      "result": "NOT_PROVED_AS_WRITTEN_IN_BROAD_INTERPRETATION",
+      "missing": "Need Br(U_H)/im Br(C_H) calculation or appropriate residue/ramification analysis to conclude U_H(A)^Br(U_H) nonempty; etale-Brauer variant also not established."
+    },
+    "36R_04_prop_3_intersection": {
+      "result": "EXACT_FINITE_F2_PASS_FOR_TEN_KERNELS",
+      "verified": "S3 orbits 6+2+2, all 10 distinct H, g=e_B1+e_B2 not in H, V_H+V_J=V for every H.",
+      "caveat": "Point-image equality follows via Kummer chart with all seven line forms nonzero; not asserted on branch strata."
+    },
+    "36R_04_prop_4_endpoint_squareclass": {
+      "result": "EXACT_SYMBOLIC_IDENTITIES_PASS_GLOBAL_ADAPTER_HOLD",
+      "verified": "Both s+1 and s+x squareclass formulas reduce to polynomial identities in p and fiber t; verify_formal_core.py.",
+      "caveat": "Full birational inverse and deleted boundary-chart cases not independently reviewed."
+    },
+    "36R_05_p53over8_third_class": {
+      "result": "FACTOR_ARITHMETIC_PASS_LOCAL_REPRODUCTION_HOLD",
+      "verified": "H=53^2+8^2=17*13^2, a^2-b^2=3^2*5*61, proposed d1=5185=17*5*61, d3=34.",
+      "caveat": "Original p-adic/local image script, code, and complete 2-adic/good-prime witnesses were not located in Drive. Cannot independently affirm it survives every place."
+    }
+  },
+  "independent_blind_rediscovery_done": false,
+  "external_hostile_audit_pass": false,
+  "local_core_script_exists": true,
+  "current_main_promotion_authorized": false,
+  "legacy_main_state_changed": false,
+  "closure_flags": {
+    "R29_CAMP2_CLOSED": false,
+    "Q11_CAMPEDELLI_CLOSED": false,
+    "ENDPOINT_CLOSED": false,
+    "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false
+  },
+  "next_required": [
+    "Audit Br(U_H) separately from Br(C_H); do not classify all Brauer-Manin routes as BLOCKED.",
+    "Obtain and replay 36R-05 p=53/8 local images and independent fixed-p arithmetic.",
+    "Independently check the p,t inverse map and all deleted boundary cases.",
+    "Conduct independent fresh-session blind rediscovery without exposing previous ledger.",
+    "Conduct external hostile audit before changing Stage36 authoritative MAIN-STATE or claim credits."
+  ]
+}
