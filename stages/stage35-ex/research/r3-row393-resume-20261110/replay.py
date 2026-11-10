@@ -97,10 +97,30 @@ with tempfile.TemporaryDirectory(prefix='r3-resume-') as tmp:
     for name in fifth_names:
         if json.loads((fifth/name).read_text())!=expected_fifth[name]:
             raise RuntimeError('Wave5 result mismatch: '+name)
+    sixth=work/'wave6'
+    shutil.copytree(HERE/'wave6',sixth)
+    for name,item in json.loads((sixth/'PAYLOADS.json').read_text()).items():
+        data=gzip.decompress(base64.b64decode((sixth/item['stored']).read_text(),validate=False))
+        if len(data)!=item['bytes'] or hashlib.sha256(data).hexdigest()!=item['sha256']:
+            raise RuntimeError('Wave6 payload mismatch: '+name)
+        (sixth/name).write_bytes(data)
+    sixth_names=['verification_wave6.json','key_verification.json','bridge_verification.json',
+                 'results_wave6.json','certificate_wave6.json','dependency_witnesses.json',
+                 'dual_wave6.json','dual_screen.json','linear_verification.json']
+    expected_sixth={name:json.loads((sixth/name).read_text()) for name in sixth_names}
+    for script in ['verify_wave.py','verify_key.py','extract_dependencies.py',
+                   'verify_linear.py','verify_bridges.py','dual_screen.py']:
+        run=subprocess.run([sys.executable,str(sixth/script)],capture_output=True,text=True)
+        commands.append(dict(script='wave6/'+script,exit_status=run.returncode,stdout_sha256=hashlib.sha256(run.stdout.encode()).hexdigest()))
+        if run.returncode:raise RuntimeError(run.stdout+run.stderr)
+        print('PASS wave6/'+script,flush=True)
+    for name in sixth_names:
+        if json.loads((sixth/name).read_text())!=expected_sixth[name]:
+            raise RuntimeError('Wave6 result mismatch: '+name)
     report=dict(status='AUTHOR_REPLAY_PASS_NOT_INDEPENDENT_AUDIT',python=sys.version,
         platform=platform.platform(),parent_files_verified=len(lock),commands=commands,
-        result_json_equal=names+wave_names+third_names+fourth_names+fifth_names,new_relations=2770,formal_residual=177,p827_zero=False,
+        result_json_equal=names+wave_names+third_names+fourth_names+fifth_names+sixth_names,new_relations=4632,formal_residual=175,p827_zero=True,
         publication_frozen_manifest="NOT_VERIFIED_BY_LOCKED_PARENT_RESTORER",
         unconditional_exclusions=0)
     if a.output: a.output.write_text(json.dumps(report,indent=2)+'\n')
-    print('PASS exact result JSON equality; residual177; P827 not eliminated; exclusion0')
+    print('PASS exact result JSON equality; residual175; P827 zero in Cl/2; exclusion0')
