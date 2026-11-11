@@ -1,5 +1,6 @@
 # exact arithmetic in Q_B over Z[sqrt2]; enumerate Gamma_0 = PQ^1(P^2) elements, involutions, traces of products.
 import math, itertools, sys
+sys.dont_write_bytecode = True
 from collections import Counter
 R2=math.sqrt(2)
 class K:
