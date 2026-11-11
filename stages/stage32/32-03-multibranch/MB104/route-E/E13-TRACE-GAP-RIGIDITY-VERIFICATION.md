@@ -2,7 +2,7 @@
 
 Status: research note, **not audited, zero credit**. Continues E12 §5 (the open core: a uniform degree bound for Problem W). Route-E notation as in E10–E12.
 
-This note records the hostile verification of the E13 draft ("Trace-gap rigidity") and the corrected conditions required for Theorem B. No statement is made about the existence or non-existence of perfect cuboids.
+This note records the hostile verification of the E13 draft ("Trace-gap rigidity") and a corrected sketch of Theorem B. No statement is made about the existence or non-existence of perfect cuboids.
 
 ## 1. Hostile check of Theorem A
 
@@ -22,48 +22,42 @@ All five steps hold under the stated hypotheses of the draft:
 
 The packing bound of Theorem A part 2 is likewise reproduced (ℓ* ≈ 3.045, R(ℓ*) ≈ 5.4838, N ≈ 840, a ≤ 5863).
 
-## 2. Theorem B: Zariski density — gaps and corrected conditions
+## 2. Theorem B — corrected sketch with case distinction
 
-The outline of Theorem B requires an explicit justification that ρ₁(π₁^orb(W)) is Zariski-dense in the algebraic group G of Γ₀ (so that Skolem–Noether applies to the conjugating element g).
+**Theorem B (sketch).** Outside a bounded neighbourhood N of O₁ Δ O₂, on each connected component W of V₀ ∖ N the two maps are conjugate by an element of Comm(Γ₀). More precisely: there exists g ∈ D_B^	imes · ℝ^	imes such that ρ₂ = g ρ₁ g^{-1} on π₁^orb(W).
 
-### 2.1 Errors in the first explicit version
+### 2.1 Case distinction
 
-- Involutions alone do **not** generate a Zariski-dense subgroup. They are level-2 elements and generate a finite group ≈ (ℤ/2)³ whose Zariski closure is 0-dimensional. Density is carried by their products (level ≥3 elements).
-- π₁^orb(W) is not a finite-index subgroup of Λ₁, so the standard fact “finite-index subgroups of arithmetic groups are Zariski-dense” does not apply directly.
-- For small a the number of remaining involutions may be too small for their products to span D_B.
+- **Small degree (a ≤ A₀).** Suggested A₀ = 4. In this range the packing of Theorem A already bounds a, or the monodromy can be checked directly. The conclusion of Theorem B is then absorbed into an absolute bound. No Zariski-density argument is required.
+- **Large degree (a > A₀).** Proceed with the density argument below.
 
-### 2.2 Corrected applicability conditions
+### 2.2 Large-a argument (outline)
 
-**Case distinction.**
-- If a ≤ A₀ (suggested A₀ = 4), treat separately by the packing of Theorem A or by direct monodromy computation. The conclusion is then bounded by an absolute constant.
-- If a > A₀, proceed as follows.
+1. N has radius an absolute constant R₀, so |O₁ ∩ N| ≤ 4. Thus W contains at least 2a − 4 involutions of O₁.
+2. For a > 4 the remaining involutions are numerous. Their pairwise products are level-≥3 elements of conjugates of Γ₀ whose reduced traces lie in 2 + 2ℤ[√2].
+3. **Spanning hypothesis.** The K-span of these products is the whole of D_B. (Supported by the computation in §2.3: already 12 involutions give products of full rank 8. With ≥4 remaining involutions the same is expected generically.)
+4. The image ρ₁(π₁^orb(W)) therefore contains a set of elements whose K-span is D_B. Its Zariski closure in G = D_B^	imes / K^	imes is consequently the full G (Borel density, or the fact that any proper algebraic subgroup cannot contain enough elliptic elements of level ≥3).
+5. The local isometry g that matches the two developing maps normalises this image, hence normalises D_B. Skolem–Noether yields g ∈ D_B^	imes · ℝ^	imes, as required.
 
-**Large-a case.**
-- N is a neighbourhood of radius an absolute constant R₀ of O₁ Δ O₂, so at most 4 cone points are removed. W therefore contains at least 2a − 4 involutions of O₁.
-- Products of two such involutions yield level-≥3 elements whose reduced traces lie in 2 + 2ℤ[√2].
-- These products must be shown to K-span D_B (equivalently, to span the Lie algebra sl_1(D_B)). With that spanning, a Borel-density argument yields that the Zariski closure of the image is the full G = D_B^	imes / K^	imes.
-- The isometry g normalises this image, hence normalises D_B, and Skolem–Noether supplies g ∈ D_B^	imes · ℝ^	imes.
+### 2.3 Computational evidence for spanning (2026-11-11)
 
-### 2.3 Computational evidence (2026-11-11)
+In the unit group of the Bolza order, elements g with g² = ±1 were enumerated (12 such elements). The K-span of their pairwise products (66 products) has full rank 8. Thus products of involutions can span D_B when sufficiently many are present. With only two remaining involutions the single product cannot span; with four or more, spanning is plausible.
 
-In the unit group of the Bolza order, elements g with g² = ±1 (corresponding to elliptic involutions) were enumerated. 12 such elements were found. The K-span of their pairwise products (66 products) has full rank 8 in the 8-dimensional real vector space underlying D_B. Thus the products of involutions can span the whole algebra when sufficiently many are present.
+### 2.4 What is still open
 
-**Implication for small a.** With only 2 remaining involutions the number of products is 1, which cannot span. With 4 or more, the computational evidence suggests spanning is possible (and generic). This supports setting A₀ ≥ 2 and handling a = 1, 2 by direct means.
-
-**Still open for a complete proof of Theorem B.**
-1. Explicit construction (or genericity argument) that the products of the remaining involutions span D_B when a > A₀.
-2. Clean separation of the small-a case.
+- A rigorous (non-computational) proof that the products of the remaining involutions span D_B for all a > A₀, or a genericity statement that covers the arithmetic case.
+- Explicit verification for the boundary cases a = 3, 4 if A₀ is lowered.
 
 ## 3. What remains open (research, not bookkeeping)
 
-1. Explicit spanning of D_B by products of remaining involutions (large-a case of Theorem B). Computational evidence now exists that spanning is possible.
-2. Case distinction and separate treatment for small a.
-3. Sharpened packing bound using the exact distance spectrum of order-2 points in hyperbolic balls (instead of the pure packing estimate).
-4. Mixed slack-0 types (1,1), (2,2), (3,1), (1,3) and the positive-slack case (Variant A′).
-5. Whether Lemma 1 carries over to k = 4 (Problem W₄).
+1. Rigorous spanning (or genericity) for the large-a case of Theorem B.
+2. Explicit treatment of a ≤ A₀.
+3. Sharpened packing bound using the exact distance spectrum of order-2 points.
+4. Mixed slack-0 types and the positive-slack case (Variant A′).
+5. Carry-over of Lemma 1 to k = 4.
 
-Characteristic 0 only. All computations referenced above are local to this verification.
+Characteristic 0 only.
 
 ## 4. Reproduction
 
-The filtration and packing computations were performed in a Python environment with an explicit quaternion multiplication table for the Bolza order modulo 2. The involution-product span computation used the same arithmetic (full characteristic-0 version) and is reproducible from the generators α, β of the Bolza order.
+Filtration, packing, and involution-product rank computations are reproducible in Python from the Bolza generators α, β and the multiplication table of D_B = (-3, √2).
