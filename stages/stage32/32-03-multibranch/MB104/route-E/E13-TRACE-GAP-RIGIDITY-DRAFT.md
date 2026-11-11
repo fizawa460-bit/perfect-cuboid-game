@@ -8,8 +8,11 @@ core). Not registered in `STATE.json`. Scripts: `e13/filt.py`, `e13/traces.py`, 
   statements.
 - **Theorem A:** in the slack-(0, 0) case with O₁ ⊂ O₂ (or O₂ ⊂ O₁), the degree is bounded by an explicit absolute
   constant. This is the first bound in route E that is uniform in the bidegree and is not the equality face.
-- **Theorem B:** in every slack-(0, 0) case, W agrees exactly with a Hecke correspondence outside a region of bounded
-  size around the points of O₁ Δ O₂, and all four points of Ω lie in that one region.
+- **Theorem B** (complete proof, revision 3): in every slack-(0, 0) case, each non-collinear cluster of common cone
+  points far from O₁ Δ O₂ (distance ≥ 10.78) determines a commensurator element g with ρ₂ = gρ₁g⁻¹ on the cluster
+  group and the second leg equal to g∘(first leg) at the cone points; parity and label constraints follow, and for
+  δ = 8 all of Ω lies on one side of such a cluster. (Revisions 1–2 said "W agrees exactly with a Hecke
+  correspondence"; that was an overstatement and is withdrawn, §4.)
 - It does **not** close the core. Open: the mixed slack-0 types, and positive slack (§6).
 
 Notation as in E10–E12: k = 8, γ = 0, p₁, p₂ : V₀ ≅ P¹ → P¹ of degrees a, b; B = {0, ∞, ±1, ±i};
@@ -130,44 +133,180 @@ Remarks.
   (G = τ₁ ∘ τ₂⁻¹ is single-valued on H), and the argument gives a ≤ C·(1 + s₁)² with the non-standard ramification
   points of p₁ counted as additional defects. In particular γ = 1 (where O₁ = O₂ always) with one slack-0 leg.
 
-## 4. Theorem B — every slack-0 pair is exactly Hecke outside a bounded region
+## 4. Theorem B — anchored clusters are Hecke-rigid (complete proof, revision 3)
 
-**Theorem B.** Let s₁ = s₂ = 0 and O₁ ≠ O₂. There is an absolute constant R₀ such that, outside the R₀-neighbourhood
-N of O₁ Δ O₂ (in either metric), the following hold on each connected component W of V₀ ∖ N:
+*Corrections to the outline of revision 1–2.* (i) The outline said that W "agrees exactly with a Hecke
+correspondence" outside a bounded region. That is not what the argument gives and is withdrawn: what holds is
+equality at the common cone points and conjugacy of the holonomy on a subgroup (Theorem B (1)–(2)). (ii) The outline
+assumed that every region far from O₁ Δ O₂ contains enough cone points. X_i can have large cone-free regions, so the
+statements are now made on *anchored clusters*. (iii) The outline did not exclude a mirror-image matching of the cone
+points; Lemma B3 does. (iv) "Zariski dense" is replaced by the elementary fact that a quaternion division algebra has no
+non-commutative proper subalgebra.
 
-1. for cone points c, c′ ∈ W joined by a geodesic of length ≤ ℓ₀ (a fixed threshold), the distances in X₁ and X₂ are
-   **equal**;
-2. there is g ∈ Comm(Γ₀) = D_B^×/K^× with ρ₂ = g·ρ₁·g⁻¹ on π₁^orb(W) (ρ_i the holonomy of X_i), and the developing maps
-   satisfy τ₂(c̃) = g·τ₁(c̃) at every cone point of W;
-3. for each boundary circle ∂ of W, the numbers of points of O₁ and of O₂ enclosed by ∂ have the same parity;
-4. if δ = 8 and cone points of at least two labels occur in W, then g preserves labels, the label-differing points of
-   Ω are not in W, and **all of Ω lies in one component of N**.
+### 4.0 Setting and constants
 
-*Proof (outline).*
+- s₁ = s₂ = 0 and O₁ ≠ O₂. Put U := V₀ ∖ (O₁ Δ O₂), an orbifold whose cone points are the *anchors*
+  A := O₁ ∩ O₂ (order 2). Let Ũ be its universal orbifold cover and π := π₁^orb(U), acting on Ũ.
+- U is open in X₁ and in X₂. Let dev_i : Ũ → H be the developing maps and ρ_i : π → Λ_i the holonomies. Since p_i is
+  an orbifold covering of H/Γ₀, we normalize so that **Λ_i ⊂ Γ₀**. dev_i is ρ_i-equivariant and is a covering map
+  onto H ∖ 𝒬_i, where 𝒬_i is the set of lifts, in the X_i-picture, of the points of O₁ Δ O₂.
+- A lift x̃ of an anchor has stabilizer {1, e_x̃} in π, and ρ_i(e_x̃) is an elliptic involution of Γ₀ fixing dev_i(x̃).
+- x̃ is **R-deep** if B(dev_i x̃, R) ∩ 𝒬_i = ∅ for i = 1, 2, i.e. the anchor is at distance ≥ R from O₁ Δ O₂ in both
+  X₁ and X₂. For R-deep x̃ let s_i : B(dev_i x̃, R) → Ũ be the inverse branch of dev_i with s_i(dev_i x̃) = x̃, and put
+  F := dev₂ ∘ s₁ : B(dev₁ x̃, R) → H and G := dev₁ ∘ s₂. Then G ∘ F = id near dev₁ x̃.
+- The **L-star** St_L(x̃) is the set of anchor lifts ỹ ≠ x̃ with dev₁ ỹ ∈ B(dev₁ x̃, L) and s₁(dev₁ ỹ) = ỹ (the
+  anchors on the sheet of x̃ within L); for those, dev₂ ỹ = F(dev₁ ỹ).
+- Constants (all elementary functions; `e13/thmb_constants.py`). For R > L > 0, t := tanh(R/2), u := tanh(L/2):
+  - λ(R, L) := t(1 − u²)/(t² − u²) (the largest ratio of the Poincaré metric of B(c, R) to that of H on B(c, L));
+  - Δ(R, L) := max(2cosh(2λ₁L) − 2cosh(2L), 2cosh(2λ₂L̂) − 2cosh(2L̂)), with λ₁ = λ(R, L), L̂ = λ₁L, λ₂ = λ(R, L̂);
+  - ε(R, L) := 2E/(1 − (u + E)²), where s = u/t, η = 1 − t², E = sη(1 + s)/(1 − s) + u(1 − t)/t;
+  - w_min(L) := the least width (min over geodesics L′ of the largest distance of a vertex to L′) of a
+    non-degenerate triangle whose sides d₁, d₂ ≤ L and d₃ ≤ 2L all satisfy 2cosh d ∈ 2 + 2Z[√2] with conjugate in
+    [−2, 2]. These are finitely many shapes; degeneracy is decided exactly in Q(√2); the width is computed numerically.
+  - R_B(L) := the least R with Δ(R, L) < 2 and ε(R, L) < 2·w_min(L).
+- Values (`thmb_constants.py`; floating point, the width by numerical minimization):
 
-- 1: apply Lemma 2 in both directions (F = τ₂∘τ₁⁻¹ on a disc free of O₂ ∖ O₁, and its analogue for τ₁∘τ₂⁻¹). The two
-  traces then differ by less than 2, so they are equal by Lemma 1(b).
-- 2: equal pairwise distances for ≥ 3 cone points in a ball determine an isometry g_x with τ₂ = g_x τ₁ on those
-  points; overlapping balls give the same g_x, and following F around a loop gives the conjugacy. The subgroup
-  ρ₁(π₁^orb(W)) is Zariski dense in Γ₀, so g normalizes the K-algebra it spans, which is D_B; by Skolem–Noether
-  g ∈ D_B^×·R^×.
-- 3: ρ_i(∂) is the product of the involutions at the enclosed points of O_i. The two products are conjugate by g,
-  so they have the same parity by Lemma 1(c).
-- 4: conjugation by g acts on G through a fixed automorphism; matched points force it to be the identity once two
-  labels occur. Then the product of the G-classes around each boundary circle agrees, i.e. the (Z/2)³-cover E → V₀ is
-  unramified around each component of N; for δ = 8 this forces a single component. □
+  | L | sides ≤ L | shapes | degenerate | w_min(L) | R_B(L) | ε(R_B, L) |
+  |---|---|---|---|---|---|---|
+  | 1.6 | 1 | 7 | 1 | 0.2515 | 5.49 | 0.2567 |
+  | 2.0 | 2 | 32 | 2 | 0.1109 | 6.80 | 0.1427 |
+  | 2.5 | 4 | 229 | 4 | 0.0834 | 8.46 | 0.0690 |
+  | 3.2 | 8 | 2510 | 10 | 0.0377 | 10.78 | 0.0261 |
 
-Consequence: on W the curve W ⊂ P¹×P¹ is carried, by a conformal map φ of W that fixes every cone point and is
-exponentially close to the identity, onto an open piece of the Hecke correspondence T_g. So a mixed slack-0 solution
-of large degree is "a Hecke correspondence modified inside one region containing a bounded number of cone points".
+  In each case Δ < 2 is the binding condition; the width condition then holds with a factor ≥ 2.0 to spare. Theorem B
+  uses L = 2ℓ₀; with the smallest admissible ℓ₀ = 1.6 > ℓ_min this is L = 3.2 and **R = 10.78**.
+
+### 4.1 Lemma B1 — equal distances in a star
+
+Let x̃ be R-deep with Δ(R, L) < 2, and ỹ, z̃ ∈ St_L(x̃) ∪ {x̃} distinct. Then
+d(dev₂ ỹ, dev₂ z̃) = d(dev₁ ỹ, dev₁ z̃).
+
+*Proof.* Put c = dev₁ x̃, d₁ = d(dev₁ ỹ, dev₁ z̃) ≤ 2L, d₂ = d(dev₂ ỹ, dev₂ z̃).
+- The geodesic from dev₁ ỹ to dev₁ z̃ lies in B(c, L). By Schwarz–Pick for the Poincaré metric of B(c, R) and the
+  definition of λ, d₂ = d(F dev₁ ỹ, F dev₁ z̃) ≤ λ₁ d₁. Also F(B(c, L)) ⊂ B(dev₂ x̃, L̂).
+- The path s₁([c, dev₁ ỹ]) from x̃ to ỹ is mapped by dev₂ into B(dev₂ x̃, L̂) ⊂ B(dev₂ x̃, R) (Δ < ∞ forces L̂ < R),
+  so it is the s₂-lift of its image and s₂(dev₂ ỹ) = ỹ; likewise for z̃. The same argument with G gives d₁ ≤ λ₂ d₂.
+- T_i := 2cosh d_i = |tr(ρ_i(e_ỹ)ρ_i(e_z̃))| (two involutions with fixed points at distance d_i). By Lemma 1(b′)
+  both are traces of level-≥3 elements of Γ₀.
+- T₂ − T₁ ≤ 2cosh(λ₁d₁) − 2cosh d₁ and T₁ − T₂ ≤ 2cosh(λ₂d₂) − 2cosh d₂; both are increasing in d_i (λ ≥ 1), so
+  |T₁ − T₂| ≤ Δ(R, L) < 2. By Lemma 1(b), T₁ = T₂, so d₁ = d₂. □
+
+### 4.2 Lemma B2 — F is close to an orientation-preserving isometry
+
+Let x̃ be R-deep. There is an orientation-preserving isometry g̃ of H with d(F(p), g̃(p)) ≤ ε(R, L) for all
+p ∈ B(dev₁ x̃, L).
+
+*Proof.* In the unit-disc model, move dev₁ x̃ and dev₂ x̃ to 0. Then B(dev₁ x̃, R) = {|z| < t} and F becomes
+φ : {|z| < t} → D, φ(0) = 0.
+- By Schwarz–Pick for B(dev₁ x̃, R), |φ′(0)| ≤ 1/t. By Schwarz–Pick for G on B(dev₂ x̃, R) and G ∘ F = id,
+  |φ′(0)| ≥ t.
+- ψ(w) := φ(tw) maps D to D, ψ(0) = 0, |ψ′(0)| ∈ [t², 1]. Write ψ(w) = wχ(w) with χ : D → D̄ and c₀ = χ(0),
+  1 − |c₀| ≤ η = 1 − t². Schwarz–Pick for χ gives |χ(w) − c₀| ≤ s(1 − |c₀|²)/(1 − s) ≤ 2sη/(1 − s) for |w| ≤ s.
+  Hence |ψ(w) − e^{iθ}w| ≤ sη(1 + s)/(1 − s), e^{iθ} = c₀/|c₀|.
+- For |z| ≤ u (that is, p ∈ B(dev₁ x̃, L)), w = z/t and |φ(z) − e^{iθ}z| ≤ E. Both points lie in |·| ≤ u + E, where
+  the hyperbolic metric is at most 2/(1 − (u + E)²) times the Euclidean one. Take g̃ = the rotation z ↦ e^{iθ}z
+  composed with the two normalizing isometries. □
+
+### 4.3 Lemma B3 — one orientation-preserving isometry for each star
+
+Let x̃ be R-deep with R ≥ R_B(L) and St_L(x̃) ≠ ∅. There is a unique orientation-preserving isometry g_x̃ of H with
+g_x̃(dev₁ ỹ) = dev₂ ỹ for all ỹ ∈ St_L(x̃) ∪ {x̃}.
+
+*Proof.* Fix ỹ ∈ St_L(x̃) and let g be the orientation-preserving isometry with
+(dev₁ x̃, dev₁ ỹ) ↦ (dev₂ x̃, dev₂ ỹ); it exists and is unique by Lemma B1. Let z̃ ∈ St_L(x̃) and p₁, p₂, p₃ the
+dev₁-images of x̃, ỹ, z̃.
+- By Lemma B1 the triangles (p_j) and (dev₂ of the same points) have equal sides, so some isometry h maps one onto the
+  other.
+- If p₁, p₂, p₃ are collinear, h may be taken orientation-preserving, and then h = g.
+- Otherwise the side lengths are values d with 2cosh d ∈ 2 + 2Z[√2], conjugate in [−2, 2] (Lemma 1(b), (b′)), with
+  d(p₁, p₂), d(p₁, p₃) ≤ L, so the triangle is one of the shapes in the definition of w_min(L): its width is
+  ≥ w_min(L). Suppose h reverses orientation. Then σ := g̃⁻¹h (g̃ from Lemma B2) reverses orientation and moves each
+  p_j by d(g̃ p_j, F(p_j)) ≤ ε. An orientation-reversing isometry with axis L′ and translation τ satisfies
+  cosh d(p, σp) = cosh τ·cosh²δ + sinh²δ ≥ cosh 2δ, δ = d(p, L′) (Fermi coordinates). So every p_j lies within ε/2
+  of L′, the width is ≤ ε/2 < w_min(L): a contradiction. So h is orientation-preserving, and h = g (two points).
+- Hence g maps every point of the star correctly; uniqueness holds because the star has ≥ 2 points. □
+
+### 4.4 Clusters, the conjugating isometry, and its arithmetic
+
+Fix ℓ₀ ≥ ℓ_min, put L := 2ℓ₀, and fix R ≥ R_B(L) with R > L.
+- **Edges.** For R-deep anchor lifts x̃, ỹ, put an edge [x̃, ỹ] := s₁ of the geodesic segment [dev₁ x̃, dev₁ ỹ] when
+  this segment has length ≤ ℓ₀ and ỹ ∈ St_{ℓ₀}(x̃). The relation is symmetric and π-invariant (𝒬_i and the
+  deepness are ρ_i(π)-invariant).
+- **Clusters.** 𝒮 ⊂ Ũ is the union of all edges. A *cluster* 𝒞 is a connected component of 𝒮 (as a subset of Ũ, so
+  two crossing edges lie in the same cluster) with at least one edge. Π_𝒞 := {γ ∈ π : γ𝒞 = 𝒞}. Translates of a
+  cluster are clusters, and two of them are equal or disjoint.
+- **Lemma B4.** All g_x̃ (x̃ a vertex of 𝒞, Lemma B3 with stars of radius L) are equal; call it g = g_𝒞. So
+  dev₂ = g ∘ dev₁ on every anchor lift lying on 𝒞 or in the L-star of a vertex of 𝒞.
+  *Proof.* Along an edge [x̃, ỹ], g_x̃ and g_ỹ are orientation-preserving and agree on the two points dev₁ x̃, dev₁ ỹ.
+  At a crossing of [x̃, ỹ] and [z̃, w̃], the points z̃, w̃ lie within ℓ₀ + ℓ₀ = L of x̃ on the sheet of x̃, so they are
+  in St_L(x̃); then g_x̃ and g_z̃ agree on dev₁ z̃, dev₁ w̃. □
+- **Lemma B5 (conjugacy).** ρ₂(γ) = g·ρ₁(γ)·g⁻¹ for every γ ∈ Π_𝒞. Π_𝒞 contains e_x̃ for every anchor lift x̃ on 𝒞,
+  and the image of π₁^orb(W_𝒞) for W_𝒞 := the projection to V₀ of a thin regular neighbourhood of 𝒞 (thin enough to
+  contain no cone point other than the anchors on 𝒞).
+  *Proof.* For a vertex ỹ: g ρ₁(γ) dev₁ ỹ = g dev₁(γỹ) = dev₂(γỹ) = ρ₂(γ) g dev₁ ỹ. The orientation-preserving
+  isometries gρ₁(γ) and ρ₂(γ)g agree on ≥ 2 points, so they are equal. e_x̃ fixes x̃ ∈ 𝒞, so e_x̃𝒞 meets 𝒞 and equals it.
+  The preimage of the projection of 𝒞 is ∪_γ γ𝒞, a locally finite union of pairwise disjoint closed sets. A loop in
+  W_𝒞 deforms into the projection of 𝒞, and its lift from a point of 𝒞 is a connected path in that union, hence stays
+  in 𝒞; its endpoint is γ·(start) with γ the class of the loop, so γ ∈ Π_𝒞. □
+- **Lemma B6 (arithmetic of g).** If dev₁ of the vertices of 𝒞 is not contained in one geodesic, then g lies in
+  Comm(Γ₀) = D_B^×/K^× (image in PGL₂(R)⁺), and ρ₁(γ), ρ₂(γ) have the same level for every γ ∈ Π_𝒞.
+  *Proof.* Take three non-collinear vertices x̃, ỹ, z̃. The hyperbolic elements ρ₁(e_x̃ e_ỹ), ρ₁(e_x̃ e_z̃) have
+  different axes, so they do not commute. Let A_i ⊂ D_B be the K-span of the lifts ±ρ̃_i(Π_𝒞) ⊂ Q¹. A_i is a
+  non-commutative K-subalgebra of the quaternion division algebra D_B, so A_i = D_B (its proper subalgebras are
+  fields). Conjugation by a lift ĝ ∈ GL₂(R)⁺ is R-linear and maps ±ρ̃₁(Π_𝒞) onto ±ρ̃₂(Π_𝒞), so it restricts to a
+  K-algebra automorphism of D_B. By Skolem–Noether it is conjugation by some u ∈ D_B^×; as D_B spans M₂(R),
+  ĝ ∈ R^×·u. The levels agree by Lemma 1(c). □
+
+### 4.5 Theorem B
+
+**Theorem B.** Let s₁ = s₂ = 0, O₁ ≠ O₂, ℓ₀ ≥ ℓ_min, L = 2ℓ₀, R ≥ R_B(L), R > L, and let 𝒞 be a cluster whose vertices
+are not dev₁-collinear, with g = g_𝒞. Then:
+
+1. **(anchors)** dev₂ = g ∘ dev₁ on every anchor lift on 𝒞; in particular (p₁(c), p₂(c)) lies on the Hecke curve
+   T_g = {(Γ₀z, Γ₀gz)} ⊂ P¹×P¹ for every anchor c on the projection of 𝒞, and F is within ε(R, L) of g on the
+   L-stars of the vertices (Lemma B2);
+2. **(holonomy)** ρ₂ = gρ₁g⁻¹ on Π_𝒞, with g ∈ Comm(Γ₀);
+3. **(parity)** for every simple closed curve ∂ ⊂ W_𝒞 and either disc D ⊂ V₀ bounded by ∂,
+   |(O₁ Δ O₂) ∩ D| is even;
+4. **(labels)** let φ_g be the automorphism of G induced by g (below). If 𝒞 carries matched anchors of two different
+   labels, then φ_g = id, every anchor on 𝒞 is matched, and the E-monodromy μ is trivial on loops in W_𝒞. If
+   moreover δ = 8 (then the curve has genus 1 and |Ω| = 4, E10 §2), all four points of Ω lie in **one** component of V₀ ∖ W_𝒞.
+
+*Proof.*
+- (1), (2): Lemmas B4–B6.
+- (3): Let θ : Γ₀ → Γ₀/PQ¹(𝔓³) ≅ Z/2 (Lemma 1(c)); θ = 1 on elliptic involutions. In X_i, ∂ is homotopic to the
+  product of loops around the cone points of X_i in D, so θ(ρ_i(∂)) ≡ |O_i ∩ D| mod 2. ∂ ∈ Π_𝒞 (Lemma B5) and θ∘ρ₂ =
+  θ∘ρ₁ on Π_𝒞 (Lemma B6). O₁ and O₂ agree outside O₁ Δ O₂.
+- (4), φ_g: conjugation by g ∈ D_B^× preserves the valuation at √2, hence the local maximal order and every 𝔓^k. It
+  induces an automorphism φ_g of (Q_B/2Q_B)^× preserving levels, with r(gxg⁻¹) = φ_g(r(x)) whenever x, gxg⁻¹ ∈ Γ₀
+  (r = reduction mod 2Q_B = 𝔓⁴). φ_g carries conjugation orbits of (Q_B/2Q_B)^× to conjugation orbits. On the four
+  level-2 classes these orbits are {s_a, s_b, s_e} and {s_a s_b s_e} (`e13/check_lemma1.py`), so φ_g fixes s_a s_b s_e
+  and permutes the three singular involutions.
+- (4), labels: label_i(c) = r(ρ_i(e_c)). For an anchor on 𝒞, label₂ = φ_g(label₁). Matched anchors of two different
+  labels give two fixed singular involutions, so φ_g fixes all three, which generate G (their product
+  s_a s_b s_e ≠ 1): φ_g = id. Then every anchor on 𝒞 is matched and, for a loop γ in W_𝒞,
+  μ(γ) = r(ρ₁γ)·r(ρ₂γ)⁻¹ = r(ρ₁γ)·φ_g(r(ρ₁γ))⁻¹ = 1 (μ as in E10 §1: the monodromy of E → V₀ is
+  (r∘ρ₁)(r∘ρ₂)⁻¹ into (G×G)/ΔG ≅ G).
+- (4), δ = 8: W_𝒞 is a regular neighbourhood of a connected finite graph, so V₀ ∖ W_𝒞 is a union of discs D_j, each
+  bounded by a loop ∂_j in W_𝒞. Ω ∩ W_𝒞 = ∅ (the points of O₁ Δ O₂ are at distance ≥ R − ℓ₀ > 0 from 𝒞, and the
+  anchors on 𝒞 are matched). So the local monodromies μ_v (v ∈ Ω) multiply to μ(∂_j) = 1 over each D_j. A disc with
+  one point of Ω is impossible (μ_v ≠ 1). A split 2 + 2 makes the two monodromies in each disc equal, so the image of
+  μ, which is generated by the μ_v (V₀ = P¹), has order ≤ 4, contradicting δ = 8. So all of Ω lies in one D_j. □
+
+**What Theorem B does not say.** It does not say that W coincides with T_g on any open set (F ≠ g in general; they
+agree at the anchors), and it does not bound the degree. It is a constraint on mixed slack-0 solutions: the defects
+cannot be separated from each other by a non-collinear cluster with two matched labels, and every such cluster
+determines a commensurator element g.
 
 ## 5. What is proved, and at what level
 
 - Lemma 1(a): verified by exact computation (`filt.py`); the identification of G uses the uniqueness of (Z/2)³.
 - Lemma 1(b), (c), Lemma 2, Theorem A part 1: complete proofs above. Theorem A part 2: the counting is elementary;
   the numerical constant is from `bound.py` and is not optimized.
-- Theorem B and Variant A′: outlines. The steps "overlapping balls give the same g" and "Zariski dense" need to be
-  written out, and R₀, ℓ₀ made explicit.
+- Theorem B: complete proof (§4, revision 3). Its constants R_B(L) are explicit functions except w_min(L), whose
+  finitely many triangle shapes are enumerated with exact degeneracy tests but whose widths are minimized numerically
+  (`thmb_constants.py`); the width condition holds with a factor ≥ 2 to spare.
+- Variant A′: outline only.
 - Nothing here is audited. No exclusion is claimed below the bound of Theorem A: a finite search for a ≤ 5,863 is
   not feasible by the methods of E11/E12 as they stand.
 
@@ -192,7 +331,11 @@ of large degree is "a Hecke correspondence modified inside one region containing
 3. Theorem A: G is a branched covering with branch set 𝒬 (so F exists on D); strictness of T₁ < T₂; the equality
    T₁ = 2cosh ℓ.
 4. Theorem A part 2: the isolation/packing count.
-5. Theorem B: every step of the outline.
+5. Theorem B (§4): Lemma B1 (two-sided Schwarz–Pick and λ); Lemma B2 (the normalized Schwarz-lemma estimate);
+   Lemma B3 (the candidate-spectrum reduction to finitely many triangle shapes, the Fermi-coordinate inequality, and
+   the numerical widths); Lemma B4 (constancy of g across edges and crossings, L = 2ℓ₀); Lemma B5 (the cluster group
+   and W_𝒞); Lemma B6 (non-commutative subalgebra = D_B, Skolem–Noether); (3) and (4), including φ_g and the
+   conjugation orbits.
 6. Scope: slack (0, 0) only for Theorems A and B; k = 8, γ = 0.
 
 ## 8. Reproduction
@@ -204,15 +347,25 @@ python3 -I stages/stage32/32-03-multibranch/MB104/route-E/e13/filt.py
 python3 -I stages/stage32/32-03-multibranch/MB104/route-E/e13/traces.py 9
 python3 -I stages/stage32/32-03-multibranch/MB104/route-E/e13/bound.py
 python3 -I stages/stage32/32-03-multibranch/MB104/route-E/e13/check_lemma1.py
+python3 -I stages/stage32/32-03-multibranch/MB104/route-E/e13/thmb_constants.py 3.2
 ```
 
 - `filt.py`: exact arithmetic in Q_B/2Q_B (Lemma 1(a)); a few seconds.
 - `traces.py 9`: exact arithmetic over Z[√2] on words of length ≤ 9 in α^{±1}, β^{±1} (Lemma 1(b) check; a finite
   sample, not a proof); a few seconds.
 - `bound.py`: the numerical constants of Theorem A part 2 (floating point).
-- `check_lemma1.py`: Lemma 1(b′) on the sample, the quotient order 2, and the table comparison with E01.
+- `check_lemma1.py`: Lemma 1(b′) on the sample, the quotient order 2, the table comparison with E01, and the
+  conjugation orbits {s_a, s_b, s_e}, {s_a s_b s_e} of the level-2 classes (used in Theorem B (4)).
+- `thmb_constants.py L`: the candidate spectrum, the triangle shapes and w_min(L), Δ, ε and R_B(L) (about 2 minutes
+  for L = 3.2, seconds for L ≤ 2.5).
 
 ## 9. History
+
+- 2026-11-11, revision 3 (Claude): Theorem B rewritten as a complete proof (§4). Corrections to the outline: the
+  "exactly Hecke" overstatement withdrawn; statements restricted to anchored clusters (X_i can have large cone-free
+  regions); mirror matchings excluded (Lemma B3); "Zariski dense" replaced by the subalgebra argument (Lemma B6); the
+  label step needs that φ_g fixes s_a s_b s_e, which holds by the conjugation-orbit sizes (checked). Constants:
+  R_B(3.2) = 10.78.
 
 - 2026-11-11, reading audits of Theorem A with Lemmas 1–2 (two independent auditors, head `dd451568e`):
   - auditor 1: **PASS** on all six items;

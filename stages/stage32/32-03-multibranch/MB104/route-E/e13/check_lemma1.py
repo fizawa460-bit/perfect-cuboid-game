@@ -25,6 +25,12 @@ basis = [T.one, T.a, T.b, T.V(T.Z, T.Z, T.Z, T.O)]
 E = [[(1, 0) if k == i else (0, 0) for k in range(4)] for i in range(4)]
 tab = all(list(g["qmul"](E[i], E[j])) == [c.key() for c in T.mul(basis[i], basis[j])] for i in range(4) for j in range(4))
 print("multiplication table equals E01 bolza_mod2.py on 16 basis products:", tab); ok &= tab
+U = F.units
+inv = {u: [v for v in U if F.mul(u, v) == F.one][0] for u in U}
+orbs = {frozenset(F.mul(F.mul(u, x), inv[u]) for u in U) for x in ex2}
+sing = frozenset(T.mod2(x) for x in T.invs)
+print("conjugation orbits of the level-2 classes:", sorted(len(o) for o in orbs), " size-3 orbit = singular classes:", sing in orbs)
+ok &= (sorted(len(o) for o in orbs) == [1, 3] and sing in orbs)
 lmin = math.acosh(1 + math.sqrt(2)); ls = 3.045; R = math.acosh(math.cosh(ls) + math.sinh(ls) ** 2)
 print("R(3.045) = %.4f, N = %.2f" % (R, (math.cosh(R + lmin / 2) - 1) / (math.cosh(lmin / 2) - 1)))
 if not ok: raise SystemExit("FAIL")
