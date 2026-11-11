@@ -10,8 +10,8 @@ for i in range(2640,4000,5):
     if f<=0: continue
     for M in (2,4):
         a=(M*N(R(ls))-4)/(2*f)
-        if best is None or (M==4 and a<best[0]): 
+        if best is None or (M==4 and a<best[0]):
             if M==4: best=(a,ls)
-    
+
 a4,ls=best; f=1-1/(math.cosh(ls/2)-1)
 print("optimal l*",ls,"R(l*)",round(R(ls),3),"N",round(N(R(ls))),"bound a (M=4):",int(a4),"(M=2):",int((2*N(R(ls))-4)/(2*f)))

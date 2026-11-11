@@ -14,7 +14,7 @@ class K:
     def val(s): return s.x+s.y*R2
     def conj(s): return s.x-s.y*R2
 Z=K(); O=K(1); S=K(0,1)
-def V(*c): 
+def V(*c):
     c=list(c)+[Z]*(4-len(c)); return tuple(c)
 T={(0,0):V(O),(0,1):V(Z,O),(0,2):V(Z,Z,O),(0,3):V(Z,Z,Z,O),(1,0):V(Z,O),(2,0):V(Z,Z,O),(3,0):V(Z,Z,Z,O),
  (1,1):V(-O,O),(1,2):V(Z,Z,Z,O),(1,3):V(Z,Z,-O,O),
