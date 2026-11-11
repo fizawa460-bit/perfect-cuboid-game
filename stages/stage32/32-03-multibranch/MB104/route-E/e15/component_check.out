@@ -1,0 +1,15 @@
+Lattes family of E14 par. 6 (expected: class b empty, condition fails):
+  L_1                    degree   2, slack 0, label classes e/b/a = 4/0/4 -> condition for (p, -p): FAILS
+  L_2                    degree   4, slack 0, label classes e/b/a = 4/0/8 -> condition for (p, -p): FAILS
+  L_3                    degree   8, slack 0, label classes e/b/a = 4/0/16 -> condition for (p, -p): FAILS
+  L_4                    degree  16, slack 0, label classes e/b/a = 4/0/32 -> condition for (p, -p): FAILS
+  L_1(t^2 + 2)           degree   4, slack 1, label classes e/b/a = 6/0/8 -> condition for (p, -p): FAILS
+  L_2(t^2 + 2)           degree   8, slack 1, label classes e/b/a = 6/0/16 -> condition for (p, -p): FAILS
+  L_3(t^2 + 2)           degree  16, slack 1, label classes e/b/a = 6/0/32 -> condition for (p, -p): FAILS
+Degree-5 map f of Lemma M (expected: all classes non-empty, condition holds):
+  f                      degree   5, slack 0, label classes e/b/a = 2/2/10 -> condition for (p, -p): HOLDS
+  f o f                  degree  25, slack 0, label classes e/b/a = 2/2/50 -> condition for (p, -p): HOLDS
+  f(t^2 + (2, 0))        degree  10, slack 1, label classes e/b/a = 2/4/20 -> condition for (p, -p): HOLDS
+  f(t^2 + (1/3, 1/2))    degree  10, slack 1, label classes e/b/a = 2/4/20 -> condition for (p, -p): HOLDS
+  f(f(t^2 + 2))          degree  50, slack 1, label classes e/b/a = 2/4/100 -> condition for (p, -p): HOLDS
+PASS
