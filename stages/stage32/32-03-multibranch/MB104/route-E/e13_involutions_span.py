@@ -5,6 +5,8 @@ Exhaustive spanning check for products of involutions in the Bolza order.
 Enumerates ALL subsets of size >= 8 of the 12 involutions and checks
 the numerical rank of their pairwise products over R.
 
+Also identifies the unique size-8 subset that fails to give full rank.
+
 WARNING: This is a finite computational verification on the model of
 the 12 involutions of the Bolza unit group. It is NOT a general proof
 that every arithmetic configuration of remaining involutions spans D_B.
@@ -50,6 +52,7 @@ def qa(*xs):
 def nrd(x):
     a0, a1, a2, a3 = x
     return ka(ka(km(a0,a0), km(mA, km(a1,a1))), ka(km(mB, km(a2,a2)), km(AB, km(a3,a3))))
+def trd(x): return (2*x[0][0], 2*x[0][1])
 
 Q1 = (ONE, Z0, Z0, Z0)
 m1 = qs(kc(-1), Q1)
@@ -93,12 +96,22 @@ def main():
     for size in sizes:
         count = 0
         full = 0
-        for subset in itertools.combinations(invols, size):
+        bad_subsets = []
+        for indices in itertools.combinations(range(len(invols)), size):
+            subset = [invols[i] for i in indices]
             count += 1
             r = product_rank(subset)
             if r == 8:
                 full += 1
+            else:
+                bad_subsets.append((indices, r))
         print(f"Size {size}: {full}/{count} full rank")
+        if bad_subsets:
+            print(f"  Bad subsets: {len(bad_subsets)}")
+            for indices, r in bad_subsets:
+                print(f"    indices {indices}, rank {r}")
+                traces = [trd(invols[i]) for i in indices]
+                print(f"    reduced traces: {traces}")
     print("Done.")
 
 if __name__ == "__main__":
