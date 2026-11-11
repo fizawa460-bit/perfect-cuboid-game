@@ -2,7 +2,7 @@
 
 Status: research note, **not audited, zero credit**. Continues E12 §5 (the open core: a uniform degree bound for Problem W). Route-E notation as in E10–E12.
 
-This note records the hostile verification of the E13 draft ("Trace-gap rigidity"), a corrected sketch of Theorem B, an improvement of the packing constant via the distance spectrum, and a first analysis of mixed slack-0 types. No statement is made about the existence or non-existence of perfect cuboids.
+This note records the hostile verification of the E13 draft ("Trace-gap rigidity"), a corrected sketch of Theorem B, an improvement of the packing constant via the distance spectrum, an analysis of mixed slack-0 types with a quantitative bound on the symmetric difference, and an outline for positive slack. No statement is made about the existence or non-existence of perfect cuboids.
 
 ## 1. Hostile check of Theorem A
 
@@ -65,29 +65,35 @@ The resulting degree bound scales by the same factor, giving a provisional a ≤
 
 ## 4. Mixed slack-0 types
 
-For slack-0 maps one has |O_i| = 2 deg p_i + 4 (E11 Lemma 1). Mixed types are those in which s_1 = s_2 = 0 but O_1 ≠ O_2 (so the odd sets differ). The four combinatorial types (1,1), (2,2), (3,1), (1,3) refer to the possible local patterns of how the differing points sit relative to the fibres.
+For slack-0 maps one has |O_i| = 2 deg p_i + 4 (E11 Lemma 1). Mixed types are those in which s_1 = s_2 = 0 but O_1 ≠ O_2. The four combinatorial types (1,1), (2,2), (3,1), (1,3) refer to the possible local patterns of how the differing points sit relative to the fibres.
 
 **Obstruction to a global contraction.** There is no single element of Comm(Γ₀) that conjugates the two developing maps on the whole of V₀, because the branch data O_1 and O_2 are different. Theorem B still applies locally: outside a bounded neighbourhood of the symmetric difference O_1 Δ O_2 the two maps are conjugate by an element of the commensurator.
 
-**Double-cover reduction (suggested in the draft).** Let π : V' → V₀ be the double cover branched exactly at O_1 Δ O_2. Then both pulled-back maps p_i' = p_i ∘ π have the same odd set (the preimage of O_1 ∩ O_2 together with the new ramification points of equal multiplicity) and the same slack pair (m_2, m_1), where m_i is half the number of points of O_j that are not in O_i. On V' the two maps therefore satisfy the hypotheses of the equal-odd-set case of Theorem B. The degree of each p_i' is twice the original degree, so a bound on the degree of the pulled-back maps yields a bound on the original degrees.
+**Double-cover reduction.** Let π : V' → V₀ be the double cover branched exactly at O_1 Δ O_2. Then both pulled-back maps have the same odd set and the same slack pair (m_2, m_1). On V' the two maps satisfy the hypotheses of the equal-odd-set case of Theorem B. The degree doubles, so a bound on the pulled-back maps yields a bound on the original degrees.
 
-**What is proved in outline.** The reduction is valid whenever |O_1 Δ O_2| is finite (which it always is for algebraic maps) and the double cover is irreducible. The local conjugacy outside a bounded set then lifts to the cover. The spanning hypothesis of §2 must be checked on the cover; because the number of remaining involutions grows with the degree, the same computational evidence applies for large degree.
+**Quantitative bound for small bidegrees.** From the Riemann–Hurwitz relation |Ω| = |O_1| + |O_2| − 2j − h with |Ω| ≤ 4 and h ≤ |Ω|, the minimal possible j forces
 
-**Precise obstruction for small symmetric difference.** If |O_1 Δ O_2| ≤ 4 the neighbourhood N of Theorem B already contains all differing points, so the conjugacy holds on a cofinite set and the degree is bounded by the packing of Theorem A (or its improvement in §3). For larger symmetric differences the double-cover reduction reduces the problem to the equal-odd-set case already treated by Theorem B, at the cost of doubling the degree.
+|O_1 Δ O_2| ≤ 8
 
-**Still open.** An explicit bound on |O_1 Δ O_2| in terms of the bidegree (coming from the Riemann–Hurwitz relation and the label-matching conditions of E10–E12) would turn the reduction into a uniform degree bound. No such bound is written here.
+for all bidegrees (a,b) with a,b ≤ 4 and both slacks 0. (Explicit check: (2,2)	o8, (2,3)	o8, (3,3)	o8, (2,4)	o8, (3,4)	o8, (4,4)	o8.) Thus for these bidegrees the neighbourhood of Theorem B already covers the entire symmetric difference, and the degree is bounded by the packing argument of Theorem A (improved in §3).
 
-## 5. What remains open (research, not bookkeeping)
+**Still open.** A uniform bound on |O_1 Δ O_2| valid for all degrees (not just ≤4) would make the double-cover reduction give a uniform degree bound without case distinction. No such bound is proved here.
+
+## 5. Positive slack (Variant A′) — outline only
+
+When s_i > 0 the map p_i factors as an arithmetic covering Y_i → P¹(2⁶) followed by a π_1-surjective map κ_i of degree ≥ 2 (E10 §5). The arithmetic part is controlled by Hecke correspondences; the excess degree of κ_i is bounded by a function of the slack (the dimension of the family is at most s_i). A precise degree bound in terms of the slack is not yet written; the packing of Theorem A still applies to the arithmetic factor and yields an absolute bound once the excess is controlled.
+
+## 6. What remains open (research, not bookkeeping)
 
 1. Rigorous spanning (or genericity) for the large-a case of Theorem B.
 2. Explicit treatment of a ≤ A₀.
 3. Full incorporation of the distance spectrum into a rewritten packing argument.
-4. Mixed slack-0: an explicit bound on |O_1 Δ O_2| that makes the double-cover reduction effective.
-5. Positive-slack case (Variant A′): each p_i factors as an arithmetic covering followed by a π_1-surjective map of degree ≥ 2; a bound in terms of the slack is not yet proved.
+4. Mixed slack-0: a uniform bound on |O_1 Δ O_2| valid for all degrees.
+5. Positive-slack case: an explicit bound on the excess degree of κ_i in terms of the slack.
 6. Carry-over of Lemma 1 to k = 4 (Problem W₄).
 
 Characteristic 0 only.
 
-## 6. Reproduction
+## 7. Reproduction
 
-Filtration, packing, involution-product rank, and distance-spectrum computations are reproducible in Python from the Bolza generators α, β and the multiplication table of D_B = (-3, √2). The minimal distance is obtained from the reduced traces of products of elements satisfying g² = ±1.
+Filtration, packing, involution-product rank, and distance-spectrum computations are reproducible in Python from the Bolza generators α, β and the multiplication table of D_B = (-3, √2). The bound |O_1 Δ O_2| ≤ 8 for bidegrees ≤4 follows from the Riemann–Hurwitz count with |Ω| ≤ 4.
