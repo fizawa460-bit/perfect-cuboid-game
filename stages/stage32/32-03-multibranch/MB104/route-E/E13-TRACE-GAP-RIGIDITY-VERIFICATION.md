@@ -2,7 +2,7 @@
 
 Status: research note, **not audited, zero credit**. Continues E12 §5 (the open core: a uniform degree bound for Problem W). Route-E notation as in E10–E12.
 
-This note records the hostile verification of the E13 draft ("Trace-gap rigidity") and a corrected sketch of Theorem B. No statement is made about the existence or non-existence of perfect cuboids.
+This note records the hostile verification of the E13 draft ("Trace-gap rigidity"), a corrected sketch of Theorem B, and a first improvement of the packing constant via the distance spectrum of order-2 points. No statement is made about the existence or non-existence of perfect cuboids.
 
 ## 1. Hostile check of Theorem A
 
@@ -12,7 +12,7 @@ All five steps hold under the stated hypotheses of the draft:
 - (b) trd(𝕎) ⊂ √2 · ℤ[√2], and both traces compared in Theorem A are traces of level-≥3 elements of conjugates of Γ₀.
 - (c) The lifted map G : ℍ → ℍ is a branched covering branched exactly over the lifts of O₂ ∖ O₁, so a holomorphic section F exists on a disc avoiding them.
 - (d) Strictness T₁ < T₂, including the case where the two lifts have the same image.
-- (e) Isolation and packing count in part 2 (N ≈ 840, a ≤ 5863).
+- (e) Isolation and packing count in part 2 (original N ≈ 840, a ≤ 5863).
 
 **Computation (Python, quaternion algebra mod 2).** Reproduced the filtration of Q_B / 2Q_B:
 - |P^k / 2Q_B| = 64 / 16 / 4 / 1,
@@ -20,7 +20,7 @@ All five steps hold under the stated hypotheses of the draft:
 - 7 involutions at level ≥2,
 - the (ℤ/2)³ subgroup.
 
-The packing bound of Theorem A part 2 is likewise reproduced (ℓ* ≈ 3.045, R(ℓ*) ≈ 5.4838, N ≈ 840, a ≤ 5863).
+The original packing bound of Theorem A part 2 is reproduced (ℓ* ≈ 3.045, R(ℓ*) ≈ 5.4838, N ≈ 840, a ≤ 5863).
 
 ## 2. Theorem B — corrected sketch with case distinction
 
@@ -48,16 +48,31 @@ In the unit group of the Bolza order, elements g with g² = ±1 were enumerated 
 - A rigorous (non-computational) proof that the products of the remaining involutions span D_B for all a > A₀, or a genericity statement that covers the arithmetic case.
 - Explicit verification for the boundary cases a = 3, 4 if A₀ is lowered.
 
-## 3. What remains open (research, not bookkeeping)
+## 3. Distance spectrum of order-2 points and improved packing
+
+The same enumeration of the 12 involutions yields the reduced traces of their products. The distinct positive hyperbolic distances between the corresponding order-2 points begin at
+
+\[ d_{\min} \approx 1.528571. \]
+
+(The full list of observed distances starts 1.528571, 2.448452, 2.914035, ….)
+
+Using balls of radius \(d_{\min}/2\) instead of the coarser packing radius of the original argument improves the packing constant in the ball of radius \(R(\ell^*)\approx 5.4838\):
+
+- original N ≈ 840,
+- improved N ≈ 389.
+
+The resulting degree bound scales by the same factor, giving a provisional a ≤ 2710 (exact constant depends on the precise relation between N and a in the original derivation). This is a computed improvement, not yet folded into a fully rewritten proof of Theorem A.
+
+## 4. What remains open (research, not bookkeeping)
 
 1. Rigorous spanning (or genericity) for the large-a case of Theorem B.
 2. Explicit treatment of a ≤ A₀.
-3. Sharpened packing bound using the exact distance spectrum of order-2 points.
+3. Full incorporation of the distance spectrum into a rewritten packing argument (the numbers above are provisional).
 4. Mixed slack-0 types and the positive-slack case (Variant A′).
 5. Carry-over of Lemma 1 to k = 4.
 
 Characteristic 0 only.
 
-## 4. Reproduction
+## 5. Reproduction
 
-Filtration, packing, and involution-product rank computations are reproducible in Python from the Bolza generators α, β and the multiplication table of D_B = (-3, √2).
+Filtration, packing, involution-product rank, and distance-spectrum computations are reproducible in Python from the Bolza generators α, β and the multiplication table of D_B = (-3, √2). The minimal distance is obtained from the reduced traces of products of elements satisfying g² = ±1.
