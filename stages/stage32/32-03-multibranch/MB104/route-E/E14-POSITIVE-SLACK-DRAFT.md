@@ -1,6 +1,7 @@
 # E14 (draft) — Positive slack: factorization, localization, a linear bound for one configuration, and the obstruction for the rest
 
-Status: **draft research note, not audited, zero credit.** Not registered in `STATE.json`. Written 2026-11-11 as a
+Status: **draft research note, zero credit. Executing reading audit PASS** at `355a96e2e` (§1–§6 and §8, all items,
+no must-fix; Theorem B′ remains an outline). Not registered in `STATE.json`. Written 2026-11-11 as a
 continuation of E13 (head `ff096e46c`). Scripts and their outputs: `e14/` (§10). Characteristic 0 only; no
 mod-p input is used anywhere. Nothing is said about existence or non-existence of perfect cuboids.
 
@@ -157,7 +158,10 @@ F(Gĉ′) = ĉ′; put d₁ := d(Gĉ, Gĉ′) ≤ ℓ. E13 Lemma 2 for F gives T
 cosh R ≤ cosh d₁ + sinh²d₁ ≤ cosh ℓ + sinh²ℓ: contradiction.
 
 (3) Call c ∈ O₁ *isolated* if no other lift of a point of O₁ is within ℓ* of a lift of c. Isolated points have
-disjoint embedded cone-discs of radius ℓ*/2 in X₂ (area 2πb), so there are at most 2bθ of them. A non-isolated
+disjoint embedded cone-discs of radius ℓ*/2 in X₂ (area 2πb), so there are at most 2bθ of them. (Embedding: two
+lifts of the same isolated c are ≥ ℓ* apart, and a cone point of X₂ inside the disc would give, by its involution,
+another lift of c at distance < ℓ*; independently, ℓ*/2 = 1.524 < ℓ_min = 1.5286, so no other order-2 point of Γ₀ is
+inside at all.) A non-isolated
 point is not R-deep for every R > R(ℓ*), hence (the critical points being discrete) is attached to a critical point
 as in Proposition L(b) with distance ≤ R(ℓ*); by Proposition L(c) there are at most N·Σ_q ν_q/m_q ≤ N·2(b − a)
 such points. (4) Use |O₁| = 2b + 4 − m and m ≤ 2(b − a). □
@@ -382,6 +386,15 @@ python3 -I stages/stage32/32-03-multibranch/MB104/route-E/e14/nested_check.py
 - `residual_exact.py`: Theorem A⁺ Step 4, exact in Q(i) (`gq.py`: Gaussian rationals and polynomials). Ends `PASS`.
 - `lattes_family.py`: §6 items 1–2, exact in Q(i)[t]. About 10 seconds. Ends `PASS`.
 - `nested_check.py`: the two numerical checks of §5 (needs numpy). Ends `PASS`. Not part of any proof.
+
+## 12. Audit history
+
+- 2026-11-11, **executing reading audit, PASS** (head `355a96e2e`): items 1–7 (Lemma S, Propositions F, L, C,
+  Theorems A′ and A⁺, the summary and scope) all PASS, no must-fix. All four scripts re-run with the stated
+  outputs. The disc-embedding audit point of Theorem A′ was resolved by the auditor through ℓ*/2 < ℓ_min; a second,
+  independent argument is now written in §4 (3). Before the audit, Claude re-checked Theorem A⁺ Step 4 independently
+  (critical values to 60 digits, three other Möbius images of B, the direct test that the four v_j⁴ coincide:
+  smallest relative spread 0.9999), and re-ran all scripts (outputs identical to the stored `.out` files).
 
 ## 11. Changes relative to E13
 

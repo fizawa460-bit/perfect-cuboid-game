@@ -3,7 +3,8 @@
 Status: **draft research note, zero credit.** Lemma 1, Lemma 2 and Theorem A: reading audit PASS (`dd451568e`,
 one of two auditors; the other's FAIL rested on a miscount, §9). Theorem B: **executing reading audit PASS** at
 `e040d77f0` (all ten items, no must-fix). Not registered in `STATE.json`. Written 2026-11-11 as a continuation of
-E12 §5 (the open core). Scripts: `e13/` (§8).
+E12 §5 (the open core). Scripts: `e13/` (§8). **Theorem A is sharpened by E14 Theorem A⁺ (audited PASS): the nested
+slack-(0, 0) case does not occur at all.**
 
 - It gives a new tool for Problem W (E10 §5): the arithmetic group has a *trace gap*, and the two pulled-back
   hyperbolic structures are exponentially close away from the points where they differ. Together these give exact
