@@ -41,11 +41,25 @@ PQ¹(𝔓^k) = {x ∈ Q¹ : x ≡ ±1 mod 𝔓^k}/±1.
 - G is elementary abelian of order 8 and lies in PQ¹/PQ¹(2): a singular involution is the fourth power of an order-8
   element of Δ(2,3,8), and squares lie in the index-2 subgroup Δ(3,3,4) = PQ¹. So G is the level-≥2 subgroup, and the
   free subgroup G₀ (C8/G₀ = Bolza) is the level-≥3 subgroup.
-- The four elements at level exactly 2 are the three singular involutions (one orbit) and s_a s_b s_e.
+- The four elements at level exactly 2 are the three singular involutions (one orbit) and s_a s_b s_e. These four
+  form **one coset**: the quotient (level ≥ 2)/(level ≥ 3) = Γ₀/PQ¹(𝔓³) has order 8/4 = 2, not 4. The level-≥3
+  subgroup is G₀ = {1, s_a s_b, s_a s_e, s_b s_e}; in particular s_a s_b is free, not the third singular involution.
+- Notation: G = Γ₀/PQ¹(𝔓⁴) is the box group of FSM (C8/G = H/Γ₀), identified with the level-≥2 subgroup of
+  PQ¹/PQ¹(2). This identification holds because Γ₀ = PQ¹(𝔓²).
+- *Cross-check (`e13/check_lemma1.py`):* the multiplication table of Q_B used in `filt.py` / `traces.py` equals the
+  table of E01's `bolza_mod2.py` on all 16 basis products.
 
-**(b) Trace gap.** If x ∈ Γ₀ has level ≥ 3 (for example a product of two elliptic involutions of Γ₀), then
-tr x ∈ ±(2 + 2·Z[√2]) and |σ(tr x)| ≤ 2 for the non-trivial conjugation σ. Hence two such traces with different
-absolute values differ in absolute value by **at least 2**.
+**(b) Trace gap.** If x ∈ Γ₀ has level ≥ 3, then tr x ∈ ±(2 + 2·Z[√2]) and |σ(tr x)| ≤ 2 for the non-trivial
+conjugation σ. Hence two such traces with different absolute values differ in absolute value by **at least 2**.
+
+**(b′) Products of two elliptic involutions have level ≥ 3.** Let ε, ε′ be elliptic elements of order 2 of Γ₀ (or of
+one conjugate hΓ₀h⁻¹, h ∈ PSL₂(R)). Then εε′ has level ≥ 3, so (b) applies to tr(εε′).
+
+- *Proof.* PQ¹(𝔓³) is the Bolza surface group, which is torsion free, so an elliptic element of Γ₀ is not in it:
+  ε and ε′ have level exactly 2. Γ₀/PQ¹(𝔓³) has order 2 by (a), so εε′ ∈ PQ¹(𝔓³). For a conjugate hΓ₀h⁻¹ apply this
+  to h⁻¹εh, h⁻¹ε′h and use tr(h x h⁻¹) = tr x. □
+- *Check (`e13/check_lemma1.py`):* the 16 elliptic involutions found by `traces.py` all have level 2, and all 120
+  products of two distinct ones have level 3 (85) or 4 (35).
 
 - *Proof.* x = ±(1 + y) with y ∈ 𝔓³ = √2·𝔓, and trd(𝔓) ⊂ √2·Z[√2], so trd(y) ∈ 2·Z[√2]. D_B is ramified at
   one real place, so |σ(tr x)| ≤ 2. The difference of two absolute values is 2Δ′ with Δ′ ∈ Z[√2] ∖ {0} and
@@ -69,8 +83,9 @@ Let D ⊂ H be the hyperbolic disc of radius R about c, and F : D → H holomorp
 
   2cosh d(F(c), F(x)) ≤ 2cosh ℓ + 2·sinh²ℓ / (cosh R − cosh ℓ).
 
-*Proof.* Schwarz–Pick for the Poincaré metric of D: d(Fc, Fx) ≤ d_D(c, x) = 2·artanh(tanh(ℓ/2)/tanh(R/2)), and
-cosh(2·artanh u) = (1 + u²)/(1 − u²). □
+*Proof.* The Poincaré distance of D is d_D(c, x) = 2·artanh(tanh(ℓ/2)/tanh(R/2)), and cosh(2·artanh u) =
+(1 + u²)/(1 − u²) gives the **identity** cosh d_D(c, x) = cosh ℓ + sinh²ℓ/(cosh R − cosh ℓ). The inequality comes only
+from Schwarz–Pick, d(Fc, Fx) ≤ d_D(c, x). □
 
 ## 3. Theorem A — nested slack-0 pairs have bounded degree
 
@@ -92,7 +107,7 @@ cosh(2·artanh u) = (1 + u²)/(1 − u²). □
 - T₂ := |tr(εε′)| = 2cosh d(ĉ, ĉ′) and T₁ := |tr(π(ε)π(ε′))| = 2cosh ℓ. Both are traces of products of two
   involutions in conjugates of Γ₀.
 - G is a strict contraction (Schwarz–Pick, G not an automorphism), so ℓ = d(Gĉ, Gĉ′) < d(ĉ, ĉ′), i.e. T₁ < T₂.
-  By Lemma 1(b), T₂ ≥ T₁ + 2.
+  By Lemma 1(b′) both εε′ and π(ε)π(ε′) have level ≥ 3, so Lemma 1(b) gives T₂ ≥ T₁ + 2.
 - By Lemma 2 applied to F, T₂ ≤ T₁ + 2·sinh²ℓ/(cosh R − cosh ℓ).
 - So cosh R ≤ cosh ℓ + sinh²ℓ, i.e. R ≤ R(ℓ). □
 
@@ -188,14 +203,26 @@ From the repository root:
 python3 -I stages/stage32/32-03-multibranch/MB104/route-E/e13/filt.py
 python3 -I stages/stage32/32-03-multibranch/MB104/route-E/e13/traces.py 9
 python3 -I stages/stage32/32-03-multibranch/MB104/route-E/e13/bound.py
+python3 -I stages/stage32/32-03-multibranch/MB104/route-E/e13/check_lemma1.py
 ```
 
 - `filt.py`: exact arithmetic in Q_B/2Q_B (Lemma 1(a)); a few seconds.
 - `traces.py 9`: exact arithmetic over Z[√2] on words of length ≤ 9 in α^{±1}, β^{±1} (Lemma 1(b) check; a finite
   sample, not a proof); a few seconds.
 - `bound.py`: the numerical constants of Theorem A part 2 (floating point).
+- `check_lemma1.py`: Lemma 1(b′) on the sample, the quotient order 2, and the table comparison with E01.
 
 ## 9. History
+
+- 2026-11-11, reading audits of Theorem A with Lemmas 1–2 (two independent auditors, head `dd451568e`):
+  - auditor 1: **PASS** on all six items;
+  - auditor 2: **FAIL**, on one claim: that Γ₀/PQ¹(𝔓³) has order 4, so that a product of two singular involutions
+    is "the third singular involution, still at level 2". This is incorrect: the four elements at level exactly 2 form
+    one coset of a subgroup of index 2 (8/4 = 2), and s_a s_b ∈ G₀ is free. Answered by the new Lemma 1(b′) with its
+    proof and `e13/check_lemma1.py`. Its other items: MUST CHECK on the multiplication table vs E01 (now checked
+    exactly); SHOULD FIX on the symbol G and on the wording of Lemma 2 (both applied). Its N ≈ 850 "by hand" vs 840:
+    `check_lemma1.py` prints N = 840.02.
+  - Theorem A's statement and constants are unchanged.
 
 - 2026-11-11: draft written (Claude). A first reading check by another reviewer reproduced Lemma 1, Lemma 2 and
   Theorem A; Theorem B was confirmed to be an outline only.
