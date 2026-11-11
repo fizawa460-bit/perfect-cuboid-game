@@ -1,6 +1,8 @@
 # E13 (draft) — Trace-gap rigidity: a uniform degree bound for nested slack-0 pairs, and localization of the rest
 
-Status: **draft research note, not audited, zero credit.** Written 2026-11-11 as a continuation of E12 §5 (the open
+Status: **draft research note, zero credit.** Lemma 1, Lemma 2 and Theorem A: reading audit PASS (`dd451568e`,
+one of two auditors; the other's FAIL rested on a miscount, §9). Theorem B: **executing reading audit PASS** at
+`e040d77f0` (all ten items, no must-fix). Not registered in STATE.json. Written 2026-11-11 as a continuation of E12 §5 (the open
 core). Not registered in `STATE.json`. Scripts: `e13/filt.py`, `e13/traces.py`, `e13/bound.py`.
 
 - It gives a new tool for Problem W (E10 §5): the arithmetic group has a *trace gap*, and the two pulled-back
@@ -374,6 +376,12 @@ python3 -I stages/stage32/32-03-multibranch/MB104/route-E/e13/thmb_constants.py 
   total for L = 3.2 and w = 0.03; seconds for L ≤ 2.5).
 
 ## 9. History
+
+- 2026-11-11, **executing reading audit of Theorem B, PASS** (head `e040d77f0`, revisions 3–4): all ten items PASS,
+  no must-fix. The auditor re-ran `thmb_constants.py 3.2 0.03` (spectrum, exact degeneracy tests, widths, R_B, ε,
+  certified branch and bound) and `check_lemma1.py`; the other steps were read. The later commit `d6f238c59` changes
+  only wording (generation of G, the two normalizations, hyperbolicity in B6) and adds one check to
+  `check_lemma1.py`; no statement changed.
 
 - 2026-11-11, reading audit of Theorem B (revisions 3–4, head `e040d77f0`, scripts not executed by the auditor):
   HOLD with two FAILs, neither valid. (i) Item 2 repeated the claim that a product of two elliptic involutions may
