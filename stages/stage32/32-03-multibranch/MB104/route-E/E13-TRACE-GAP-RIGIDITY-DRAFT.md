@@ -149,7 +149,9 @@ non-commutative proper subalgebra.
   A := O₁ ∩ O₂ (order 2). Let Ũ be its universal orbifold cover and π := π₁^orb(U), acting on Ũ.
 - U is open in X₁ and in X₂. Let dev_i : Ũ → H be the developing maps and ρ_i : π → Λ_i the holonomies. Since p_i is
   an orbifold covering of H/Γ₀, we normalize so that **Λ_i ⊂ Γ₀**. dev_i is ρ_i-equivariant and is a covering map
-  onto H ∖ 𝒬_i, where 𝒬_i is the set of lifts, in the X_i-picture, of the points of O₁ Δ O₂.
+  onto H ∖ 𝒬_i, where 𝒬_i is the set of lifts, in the X_i-picture, of the points of O₁ Δ O₂. The two
+  normalizations are independent: replacing dev₂ by h∘dev₂ (h an isometry) replaces F by h∘F, ρ₂ by hρ₂h⁻¹ and every
+  g below by hg, so no compatibility between them is needed.
 - A lift x̃ of an anchor has stabilizer {1, e_x̃} in π, and ρ_i(e_x̃) is an elliptic involution of Γ₀ fixing dev_i(x̃).
 - x̃ is **R-deep** if B(dev_i x̃, R) ∩ 𝒬_i = ∅ for i = 1, 2, i.e. the anchor is at distance ≥ R from O₁ Δ O₂ in both
   X₁ and X₂. For R-deep x̃ let s_i : B(dev_i x̃, R) → Ũ be the inverse branch of dev_i with s_i(dev_i x̃) = x̃, and put
@@ -258,8 +260,9 @@ Fix ℓ₀ ≥ ℓ_min, put L := 2ℓ₀, and fix R ≥ R_B(L) with R > L.
   in 𝒞; its endpoint is γ·(start) with γ the class of the loop, so γ ∈ Π_𝒞. □
 - **Lemma B6 (arithmetic of g).** If dev₁ of the vertices of 𝒞 is not contained in one geodesic, then g lies in
   Comm(Γ₀) = D_B^×/K^× (image in PGL₂(R)⁺), and ρ₁(γ), ρ₂(γ) have the same level for every γ ∈ Π_𝒞.
-  *Proof.* Take three non-collinear vertices x̃, ỹ, z̃. The hyperbolic elements ρ₁(e_x̃ e_ỹ), ρ₁(e_x̃ e_z̃) have
-  different axes, so they do not commute. Let A_i ⊂ D_B be the K-span of the lifts ±ρ̃_i(Π_𝒞) ⊂ Q¹. A_i is a
+  *Proof.* Take three non-collinear vertices x̃, ỹ, z̃. ρ₁(e_x̃ e_ỹ) is hyperbolic with axis the geodesic through
+  dev₁ x̃, dev₁ ỹ (a product of two involutions with distinct fixed points at distance d is hyperbolic of translation
+  length 2d), and likewise ρ₁(e_x̃ e_z̃). Their axes differ, so they do not commute. Let A_i ⊂ D_B be the K-span of the lifts ±ρ̃_i(Π_𝒞) ⊂ Q¹. A_i is a
   non-commutative K-subalgebra of the quaternion division algebra D_B, so A_i = D_B (its proper subalgebras are
   fields). Conjugation by a lift ĝ ∈ GL₂(R)⁺ is R-linear and maps ±ρ̃₁(Π_𝒞) onto ±ρ̃₂(Π_𝒞), so it restricts to a
   K-algebra automorphism of D_B. By Skolem–Noether it is conjugation by some u ∈ D_B^×; as D_B spans M₂(R),
@@ -291,8 +294,10 @@ are not dev₁-collinear, with g = g_𝒞. Then:
   level-2 classes these orbits are {s_a, s_b, s_e} and {s_a s_b s_e} (`e13/check_lemma1.py`), so φ_g fixes s_a s_b s_e
   and permutes the three singular involutions.
 - (4), labels: label_i(c) = r(ρ_i(e_c)). For an anchor on 𝒞, label₂ = φ_g(label₁). Matched anchors of two different
-  labels give two fixed singular involutions, so φ_g fixes all three, which generate G (their product
-  s_a s_b s_e ≠ 1): φ_g = id. Then every anchor on 𝒞 is matched and, for a loop γ in W_𝒞,
+  labels give two fixed singular involutions, so φ_g fixes all three. They generate G: they are three distinct
+  non-identity elements of G ≅ (Z/2)³, and the only possible relation among such elements is s_a s_b s_e = 1, which
+  fails because s_a s_b s_e has level exactly 2 (`check_lemma1.py` also checks that they generate all 8 elements).
+  So φ_g = id. Then every anchor on 𝒞 is matched and, for a loop γ in W_𝒞,
   μ(γ) = r(ρ₁γ)·r(ρ₂γ)⁻¹ = r(ρ₁γ)·φ_g(r(ρ₁γ))⁻¹ = 1 (μ as in E10 §1: the monodromy of E → V₀ is
   (r∘ρ₁)(r∘ρ₂)⁻¹ into (G×G)/ΔG ≅ G).
 - (4), δ = 8: W_𝒞 is a regular neighbourhood of a connected finite graph, so V₀ ∖ W_𝒞 is a union of discs D_j, each
@@ -369,6 +374,14 @@ python3 -I stages/stage32/32-03-multibranch/MB104/route-E/e13/thmb_constants.py 
   total for L = 3.2 and w = 0.03; seconds for L ≤ 2.5).
 
 ## 9. History
+
+- 2026-11-11, reading audit of Theorem B (revisions 3–4, head `e040d77f0`, scripts not executed by the auditor):
+  HOLD with two FAILs, neither valid. (i) Item 2 repeated the claim that a product of two elliptic involutions may
+  have level 2; Lemma 1(b′) proves level ≥ 3 (the scope said Lemma 1 was to be used as given), and the sample gives
+  levels 3 and 4 only. (ii) Item 9 said that s_a s_b s_e ≠ 1 does not give independence; for three distinct
+  non-identity elements of (Z/2)³ it does (the auditor's own example s_a s_b = s_e is exactly the relation it
+  excludes). Wording made explicit, and a generation check added. Also added: the independence of the two
+  normalizations (§4.0) and why ρ₁(e_x̃ e_ỹ) is hyperbolic (Lemma B6). No change to any statement.
 
 - 2026-11-11, revision 4 (Claude): the width condition of Lemma B3 made rigorous (certified width ≥ 0.03 at L = 3.2).
   Prompted by a reading audit of revision 3 that could not open the repository (HOLD for lack of access). Its other
