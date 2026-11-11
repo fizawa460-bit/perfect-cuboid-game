@@ -1,6 +1,6 @@
 # E15 (draft) — Tools that see the image curve: Klein intersection, holonomy uniqueness, cone divisors; k = 4 by squaring
 
-Status: **draft research note, zero credit, not audited.** Written 2026-11-11 as a continuation of E14 (head
+Status: **draft research note, zero credit; reading audit PASS (Claude, 2026-11-12, `AUDIT-CLAUDE-E15-20261112.md`).** Written 2026-11-11 as a continuation of E14 (head
 `2ac01e841`). Not registered in `STATE.json`. Characteristic 0 only; no mod-p input. Nothing is said about existence
 or non-existence of perfect cuboids. Scripts: `e15/` (§8).
 
@@ -245,7 +245,8 @@ image points. (2) ρ_i(e_x̃), ρ_i(e_ỹ) are elliptic involutions of Γ₀ fix
 point maps to an odd power of the local generator), so 2cosh d_i is the trace of a product of two elliptic
 involutions of Γ₀, or 2; E13 Lemma 1(b), (b′). (3) By (1), d₂ ≤ e^{max w}·d₁ < e^{η(d₁)}d₁ = arccosh(cosh d₁ + 1),
 so 2cosh d₂ < 2cosh d₁ + 2 and (2) gives d₂ ≤ d₁. (4) d₁ ≤ ∫_{γ₂} e^{−w} ds₂ and d₁ = d₂ = ∫_{γ₂} ds₂ give
-∫_{γ₂}(e^{−w} − 1) ds₂ ≥ 0; likewise ∫_{γ₁}(e^{w} − 1) ds₁ ≥ 0. (5) w ≤ v₁ ≤ −log tanh(R/2) < η(ℓ) ≤ η(d₁). □
+∫_{γ₂}(e^{−w} − 1) ds₂ ≥ 0; likewise ∫_{γ₁}(e^{w} − 1) ds₁ ≥ 0. (5) w ≤ v₁ ≤ −log tanh(R/2) < η(ℓ) ≤ η(d₁), so d₂ ≤ d₁ ≤ ℓ by (3); hence η(d₂) ≥ η(ℓ) > v₂ ≥ −w and
+(3) also gives d₁ ≤ d₂. □
 
 - This is E13 Lemma B1 **at any slack, with a complete proof**, and with a smaller radius (the pair statement of the
   outline Theorem B′ of E14 §7). It does not replace Lemmas B2–B6.
@@ -262,7 +263,8 @@ analytic curve).
 gives w ≤ 0 on D. For type (1, 1): the zero set of a real-analytic solution is a graph with all vertices of even
 valence ≥ 4 or none; with two faces on the sphere, Euler's formula leaves only one simple closed curve. □
 
-**Corollary E–N (balance) [proved, with a Harnack constant not computed].** v_i > 0 solves
+**Corollary E–N (balance) [outline: Harnack constant not computed; the hypothesis that γ₁ ∪ γ₂ stays at distance ≥ 1
+from the poles is assumed, not implied by Theorem E(5)].** v_i > 0 solves
 Δ_X v_i = 1 − e^{−2v_i} = c_i(x)·v_i with 0 < c_i ≤ 2 away from its poles, so v_i satisfies a Harnack inequality
 with a constant H(r) on balls of radius r at distance ≥ 1 from the poles. With Theorem E(4): for every pair of
 anchors as in (5), **H⁻² ≤ v₁/v₂ ≤ H²** on γ₁ ∪ γ₂. The two legs' defect potentials are comparable at every short
@@ -372,3 +374,9 @@ Audit points for §11: (i) C1: H = R^⊥ and that the stabilizer of the image cu
 of the normalized fibre product (birational case); (ii) C2: the use of "label-differing ⇒ in Ω" and O₁ Δ O₂ ⊂ Ω;
 (iii) C′(2): that c avoids O_{f_n} and that t² + c is unramified over the other points of O_{f_n}; (iv) that
 −B_c = B_c makes the labels of p and −p equal.
+
+## 12. Audit history
+- 2026-11-12, reading audit by Claude (not the author session) at head 140a7a993: **PASS**, no must-fix; all four
+  scripts rerun, all `PASS`. Two should-fix items applied in the same commit: Theorem E(5) now states the step
+  d₂ ≤ d₁ ≤ ℓ before the symmetric condition; Corollary E–N relabelled [outline] (its distance-to-poles hypothesis is
+  an assumption). Details: `AUDIT-CLAUDE-E15-20261112.md`.
