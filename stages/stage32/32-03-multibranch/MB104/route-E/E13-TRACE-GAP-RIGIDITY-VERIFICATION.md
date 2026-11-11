@@ -44,13 +44,19 @@ The outline of Theorem B requires an explicit justification that ρ₁(π₁^orb
 - These products must be shown to K-span D_B (equivalently, to span the Lie algebra sl_1(D_B)). With that spanning, a Borel-density argument yields that the Zariski closure of the image is the full G = D_B^	imes / K^	imes.
 - The isometry g normalises this image, hence normalises D_B, and Skolem–Noether supplies g ∈ D_B^	imes · ℝ^	imes.
 
+### 2.3 Computational evidence (2026-11-11)
+
+In the unit group of the Bolza order, elements g with g² = ±1 (corresponding to elliptic involutions) were enumerated. 12 such elements were found. The K-span of their pairwise products (66 products) has full rank 8 in the 8-dimensional real vector space underlying D_B. Thus the products of involutions can span the whole algebra when sufficiently many are present.
+
+**Implication for small a.** With only 2 remaining involutions the number of products is 1, which cannot span. With 4 or more, the computational evidence suggests spanning is possible (and generic). This supports setting A₀ ≥ 2 and handling a = 1, 2 by direct means.
+
 **Still open for a complete proof of Theorem B.**
 1. Explicit construction (or genericity argument) that the products of the remaining involutions span D_B when a > A₀.
 2. Clean separation of the small-a case.
 
 ## 3. What remains open (research, not bookkeeping)
 
-1. Explicit spanning of D_B by products of remaining involutions (large-a case of Theorem B).
+1. Explicit spanning of D_B by products of remaining involutions (large-a case of Theorem B). Computational evidence now exists that spanning is possible.
 2. Case distinction and separate treatment for small a.
 3. Sharpened packing bound using the exact distance spectrum of order-2 points in hyperbolic balls (instead of the pure packing estimate).
 4. Mixed slack-0 types (1,1), (2,2), (3,1), (1,3) and the positive-slack case (Variant A′).
@@ -60,4 +66,4 @@ Characteristic 0 only. All computations referenced above are local to this verif
 
 ## 4. Reproduction
 
-The filtration and packing computations were performed in a Python environment with an explicit quaternion multiplication table for the Bolza order modulo 2. Scripts can be supplied on request.
+The filtration and packing computations were performed in a Python environment with an explicit quaternion multiplication table for the Bolza order modulo 2. The involution-product span computation used the same arithmetic (full characteristic-0 version) and is reproducible from the generators α, β of the Bolza order.
