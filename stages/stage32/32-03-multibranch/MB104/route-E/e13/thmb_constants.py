@@ -84,3 +84,39 @@ print("R_B(L) = %.2f  (Delta = %.4f < 2, eps = %.6f < 2 w_min = %.6f)" % (R, Del
 R1 = L0 + 0.01
 while not Delta(R1, L0) < 2: R1 += 0.01
 print("Delta alone needs R >= %.2f" % R1)
+
+# ---- Certified lower bound for the width (revision 4) ----------------------------------------------------------
+# For a triangle with p1 at the origin of the hyperboloid, M(n) := max_j |<P_j, n>| over unit spacelike
+# n(t, phi) = (sinh t, cosh t cos phi, cosh t sin phi); width = asinh(min M). Claim: M >= thr everywhere.
+# (i) |<P1, n>| = |sinh t|, so M >= thr whenever |t| >= T0 := asinh(thr): only |t| < T0 needs checking.
+# (ii) On |t| <= T0, each |<P_j, n>| is Lipschitz with |d/dt| <= cosh(d_j + T0), |d/dphi| <= cosh(T0) sinh(d_j),
+#     d_j = d(p1, p_j) <= L; a max of such functions has the same constants. So on a cell with centre c and
+#     half-widths (ht, hp): min M >= M(c) - Lt*ht - Lp*hp. Cells are split until this is >= thr (branch and bound).
+# Floating point is used; the margins accepted are many orders of magnitude above the rounding error.
+def certify(P, dmax, thr):
+    T0 = math.asinh(thr); Lt = math.cosh(dmax + T0); Lp = math.cosh(T0) * math.sinh(dmax)
+    def M(t, ph):
+        n = (math.sinh(t), math.cosh(t) * math.cos(ph), math.cosh(t) * math.sin(ph))
+        return max(abs(mink(p, n)) for p in P)
+    stack = [(0.0, math.pi * (2 * k + 1) / 64, T0, math.pi / 64) for k in range(64)]
+    evals = 0
+    while stack:
+        t, ph, ht, hp = stack.pop(); evals += 1
+        if M(t, ph) - Lt * ht - Lp * hp >= thr: continue
+        if ht < 1e-9 or evals > 5_000_000: return False, evals
+        stack += [(t + a * ht / 2, ph + b * hp / 2, ht / 2, hp / 2) for a in (-1, 1) for b in (-1, 1)]
+    return True, evals
+if len(sys.argv) > 2:
+    WC = float(sys.argv[2])                      # width to certify for every non-degenerate shape
+    thr = math.sinh(WC); bad = 0; tot = 0; ev = 0
+    for i, (c1, d1) in enumerate(spec1):
+        for (c2, d2) in spec1[i:]:
+            for (c3, d3) in spec3:
+                if d3 > d1 + d2 + 1e-9 or d3 < abs(d1 - d2) - 1e-9 or degenerate(c1, c2, c3): continue
+                cth = (math.cosh(d1) * math.cosh(d2) - math.cosh(d3)) / (math.sinh(d1) * math.sinh(d2))
+                th = math.acos(max(-1.0, min(1.0, cth)))
+                ok, e = certify([hyp(0, 0), hyp(d1, 0), hyp(d2, th)], max(d1, d2), thr)
+                tot += 1; ev += e
+                if not ok: bad += 1; print("  NOT certified: sides", round(d1, 4), round(d2, 4), round(d3, 4))
+    print("certified width >= %.4f for %d / %d non-degenerate shapes (%d cell evaluations)" % (WC, tot - bad, tot, ev))
+    print("condition eps(R_B, L) = %.6f < 2 * %.4f = %.4f: %s" % (eps(R, L0), WC, 2 * WC, eps(R, L0) < 2 * WC and bad == 0))

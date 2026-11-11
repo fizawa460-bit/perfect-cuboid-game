@@ -162,7 +162,14 @@ non-commutative proper subalgebra.
   - ε(R, L) := 2E/(1 − (u + E)²), where s = u/t, η = 1 − t², E = sη(1 + s)/(1 − s) + u(1 − t)/t;
   - w_min(L) := the least width (min over geodesics L′ of the largest distance of a vertex to L′) of a
     non-degenerate triangle whose sides d₁, d₂ ≤ L and d₃ ≤ 2L all satisfy 2cosh d ∈ 2 + 2Z[√2] with conjugate in
-    [−2, 2]. These are finitely many shapes; degeneracy is decided exactly in Q(√2); the width is computed numerically.
+    [−2, 2]. These are finitely many shapes; degeneracy is decided exactly in Q(√2).
+  - **Certified width bound (revision 4).** For each shape put p₁ at the origin and n(t, φ) = (sinh t, cosh t cos φ,
+    cosh t sin φ); the width is asinh(min_n M(n)), M(n) = max_j |⟨P_j, n⟩|. Since |⟨P₁, n⟩| = |sinh t|, the bound
+    M ≥ sinh w holds automatically for |t| ≥ w, and on |t| ≤ w each |⟨P_j, n⟩| is Lipschitz with
+    |∂_t| ≤ cosh(d_j + w), |∂_φ| ≤ cosh(w) sinh d_j. A branch-and-bound over the strip |t| ≤ w then proves
+    M ≥ sinh w. For L = 3.2 this proves **width ≥ 0.03 for all 2,500 non-degenerate shapes** (`thmb_constants.py 3.2
+    0.03`; 160,424 cells; floating point, with margins far above rounding). Negative control: on the thinnest shape
+    (numerical width 0.03774) the same procedure proves 0.037 and fails for 0.0385 and 0.040.
   - R_B(L) := the least R with Δ(R, L) < 2 and ε(R, L) < 2·w_min(L).
 - Values (`thmb_constants.py`; floating point, the width by numerical minimization):
 
@@ -174,7 +181,8 @@ non-commutative proper subalgebra.
   | 3.2 | 8 | 2510 | 10 | 0.0377 | 10.78 | 0.0261 |
 
   In each case Δ < 2 is the binding condition; the width condition then holds with a factor ≥ 2.0 to spare. Theorem B
-  uses L = 2ℓ₀; with the smallest admissible ℓ₀ = 1.6 > ℓ_min this is L = 3.2 and **R = 10.78**.
+  uses L = 2ℓ₀; with the smallest admissible ℓ₀ = 1.6 > ℓ_min this is L = 3.2 and **R = 10.78**. There the width
+  condition is used only through the certified bound: ε(10.78, 3.2) = 0.0261 < 2 × 0.03.
 
 ### 4.1 Lemma B1 — equal distances in a star
 
@@ -303,9 +311,9 @@ determines a commensurator element g.
 - Lemma 1(a): verified by exact computation (`filt.py`); the identification of G uses the uniqueness of (Z/2)³.
 - Lemma 1(b), (c), Lemma 2, Theorem A part 1: complete proofs above. Theorem A part 2: the counting is elementary;
   the numerical constant is from `bound.py` and is not optimized.
-- Theorem B: complete proof (§4, revision 3). Its constants R_B(L) are explicit functions except w_min(L), whose
-  finitely many triangle shapes are enumerated with exact degeneracy tests but whose widths are minimized numerically
-  (`thmb_constants.py`); the width condition holds with a factor ≥ 2 to spare.
+- Theorem B: complete proof (§4, revision 3). Its constants are explicit; for L = 3.2 the width condition is proved by
+  the certified bound width ≥ 0.03 (branch and bound with Lipschitz constants, revision 4), not by the numerical
+  minimum. Floating point is used throughout; no interval arithmetic.
 - Variant A′: outline only.
 - Nothing here is audited. No exclusion is claimed below the bound of Theorem A: a finite search for a ≤ 5,863 is
   not feasible by the methods of E11/E12 as they stand.
@@ -347,7 +355,7 @@ python3 -I stages/stage32/32-03-multibranch/MB104/route-E/e13/filt.py
 python3 -I stages/stage32/32-03-multibranch/MB104/route-E/e13/traces.py 9
 python3 -I stages/stage32/32-03-multibranch/MB104/route-E/e13/bound.py
 python3 -I stages/stage32/32-03-multibranch/MB104/route-E/e13/check_lemma1.py
-python3 -I stages/stage32/32-03-multibranch/MB104/route-E/e13/thmb_constants.py 3.2
+python3 -I stages/stage32/32-03-multibranch/MB104/route-E/e13/thmb_constants.py 3.2 0.03
 ```
 
 - `filt.py`: exact arithmetic in Q_B/2Q_B (Lemma 1(a)); a few seconds.
@@ -356,10 +364,18 @@ python3 -I stages/stage32/32-03-multibranch/MB104/route-E/e13/thmb_constants.py 
 - `bound.py`: the numerical constants of Theorem A part 2 (floating point).
 - `check_lemma1.py`: Lemma 1(b′) on the sample, the quotient order 2, the table comparison with E01, and the
   conjugation orbits {s_a, s_b, s_e}, {s_a s_b s_e} of the level-2 classes (used in Theorem B (4)).
-- `thmb_constants.py L`: the candidate spectrum, the triangle shapes and w_min(L), Δ, ε and R_B(L) (about 2 minutes
-  for L = 3.2, seconds for L ≤ 2.5).
+- `thmb_constants.py L [w]`: the candidate spectrum, the triangle shapes and the numerical w_min(L), Δ, ε and R_B(L);
+  with a second argument w, the certified proof that every non-degenerate shape has width ≥ w (about 4 minutes in
+  total for L = 3.2 and w = 0.03; seconds for L ≤ 2.5).
 
 ## 9. History
+
+- 2026-11-11, revision 4 (Claude): the width condition of Lemma B3 made rigorous (certified width ≥ 0.03 at L = 3.2).
+  Prompted by a reading audit of revision 3 that could not open the repository (HOLD for lack of access). Its other
+  points are answered in the text: the two normalizations Λ_i ⊂ Γ₀ are independent and need no compatibility (§4.0);
+  λ(R, L) ≥ 1 is a ratio of metrics, not a contraction factor (B1); the traces in B1 are products of exactly two
+  elliptic involutions, so Lemma 1(b′) applies; φ_g needs only the local maximal order at √2, which every
+  g ∈ D_B^× preserves (§4.5 (4)).
 
 - 2026-11-11, revision 3 (Claude): Theorem B rewritten as a complete proof (§4). Corrections to the outline: the
   "exactly Hecke" overstatement withdrawn; statements restricted to anchored clusters (X_i can have large cone-free
