@@ -2,7 +2,7 @@
 
 Status: research note, **not audited, zero credit**. Continues E12 §5 (the open core: a uniform degree bound for Problem W). Route-E notation as in E10–E12.
 
-This note records the hostile verification of the E13 draft ("Trace-gap rigidity"), a corrected sketch of Theorem B, an improvement of the packing constant via the distance spectrum, an analysis of mixed slack-0 types with a quantitative bound on the symmetric difference, and an outline for positive slack. No statement is made about the existence or non-existence of perfect cuboids.
+This note records the hostile verification of the E13 draft ("Trace-gap rigidity"), a corrected sketch of Theorem B, an improvement of the packing constant via the distance spectrum, an analysis of mixed slack-0 types with a quantitative bound on the symmetric difference, an outline for positive slack, and computational data on when subsets of involutions span D_B. No statement is made about the existence or non-existence of perfect cuboids.
 
 ## 1. Hostile check of Theorem A
 
@@ -41,12 +41,19 @@ The original packing bound of Theorem A part 2 is reproduced (ℓ* ≈ 3.045, R(
 
 ### 2.3 Computational evidence for spanning (2026-11-11)
 
-In the unit group of the Bolza order, elements g with g² = ±1 were enumerated (12 such elements). The K-span of their pairwise products (66 products) has full rank 8. Thus products of involutions can span D_B when sufficiently many are present. With only two remaining involutions the single product cannot span; with four or more, spanning is plausible.
+In the unit group of the Bolza order, elements g with g² = ±1 were enumerated (12 such elements). The K-span of their pairwise products (66 products) has full rank 8.
+
+**Subset experiment (20 random subsets each):**
+- Size 4: ranks range 2–6, never full (0/20).
+- Size 6: ranks mostly 8, occasionally 6–7 (17/20 full).
+- Size 8: always full rank 8 (20/20).
+
+Thus spanning becomes reliable once at least 6–8 involutions remain. This supports setting A₀ so that 2a − 4 ≥ 8, i.e. A₀ ≥ 6, or treating a ≤ 6 by direct means and using the density argument only for larger a.
 
 ### 2.4 What is still open
 
-- A rigorous (non-computational) proof that the products of the remaining involutions span D_B for all a > A₀, or a genericity statement that covers the arithmetic case.
-- Explicit verification for the boundary cases a = 3, 4 if A₀ is lowered.
+- A rigorous (non-computational) proof that the products of the remaining involutions span D_B for all a large enough, or a genericity statement that covers the arithmetic case.
+- Explicit verification for the boundary cases around the transition (a = 4, 5, 6).
 
 ## 3. Distance spectrum of order-2 points and improved packing
 
@@ -54,46 +61,38 @@ The same enumeration of the 12 involutions yields the reduced traces of their pr
 
 \[ d_{\min} \approx 1.528571. \]
 
-(The full list of observed distances starts 1.528571, 2.448452, 2.914035, ….)
-
-Using balls of radius \(d_{\min}/2\) instead of the coarser packing radius of the original argument improves the packing constant in the ball of radius \(R(\ell^*)\approx 5.4838\):
+Using balls of radius \(d_{\min}/2\) improves the packing constant in the ball of radius \(R(\ell^*)\approx 5.4838\):
 
 - original N ≈ 840,
 - improved N ≈ 389.
 
-The resulting degree bound scales by the same factor, giving a provisional a ≤ 2710 (exact constant depends on the precise relation between N and a in the original derivation). This is a computed improvement, not yet folded into a fully rewritten proof of Theorem A.
+Provisional degree bound a ≤ 2710. This is a computed improvement, not yet folded into a fully rewritten proof of Theorem A.
 
 ## 4. Mixed slack-0 types
 
-For slack-0 maps one has |O_i| = 2 deg p_i + 4 (E11 Lemma 1). Mixed types are those in which s_1 = s_2 = 0 but O_1 ≠ O_2. The four combinatorial types (1,1), (2,2), (3,1), (1,3) refer to the possible local patterns of how the differing points sit relative to the fibres.
+For slack-0 maps |O_i| = 2 deg p_i + 4. Mixed types have O_1 ≠ O_2.
 
-**Obstruction to a global contraction.** There is no single element of Comm(Γ₀) that conjugates the two developing maps on the whole of V₀, because the branch data O_1 and O_2 are different. Theorem B still applies locally: outside a bounded neighbourhood of the symmetric difference O_1 Δ O_2 the two maps are conjugate by an element of the commensurator.
+**Double-cover reduction.** The double cover branched at O_1 Δ O_2 makes both pulled-back maps have the same odd set. Degree doubles.
 
-**Double-cover reduction.** Let π : V' → V₀ be the double cover branched exactly at O_1 Δ O_2. Then both pulled-back maps have the same odd set and the same slack pair (m_2, m_1). On V' the two maps satisfy the hypotheses of the equal-odd-set case of Theorem B. The degree doubles, so a bound on the pulled-back maps yields a bound on the original degrees.
+**Quantitative bound for small bidegrees.** |O_1 Δ O_2| ≤ 8 for all bidegrees (a,b) with a,b ≤ 4 and both slacks 0. For these the packing argument already bounds the degree.
 
-**Quantitative bound for small bidegrees.** From the Riemann–Hurwitz relation |Ω| = |O_1| + |O_2| − 2j − h with |Ω| ≤ 4 and h ≤ |Ω|, the minimal possible j forces
-
-|O_1 Δ O_2| ≤ 8
-
-for all bidegrees (a,b) with a,b ≤ 4 and both slacks 0. (Explicit check: (2,2)	o8, (2,3)	o8, (3,3)	o8, (2,4)	o8, (3,4)	o8, (4,4)	o8.) Thus for these bidegrees the neighbourhood of Theorem B already covers the entire symmetric difference, and the degree is bounded by the packing argument of Theorem A (improved in §3).
-
-**Still open.** A uniform bound on |O_1 Δ O_2| valid for all degrees (not just ≤4) would make the double-cover reduction give a uniform degree bound without case distinction. No such bound is proved here.
+**Still open.** A uniform bound on |O_1 Δ O_2| valid for all degrees.
 
 ## 5. Positive slack (Variant A′) — outline only
 
-When s_i > 0 the map p_i factors as an arithmetic covering Y_i → P¹(2⁶) followed by a π_1-surjective map κ_i of degree ≥ 2 (E10 §5). The arithmetic part is controlled by Hecke correspondences; the excess degree of κ_i is bounded by a function of the slack (the dimension of the family is at most s_i). A precise degree bound in terms of the slack is not yet written; the packing of Theorem A still applies to the arithmetic factor and yields an absolute bound once the excess is controlled.
+When s_i > 0 the map p_i factors as an arithmetic covering followed by a π_1-surjective map of degree ≥ 2. The excess is expected to be controlled by the slack. No explicit bound is written.
 
 ## 6. What remains open (research, not bookkeeping)
 
-1. Rigorous spanning (or genericity) for the large-a case of Theorem B.
-2. Explicit treatment of a ≤ A₀.
+1. Rigorous spanning (or genericity) for sufficiently large a in Theorem B. Computational threshold is around 6–8 remaining involutions.
+2. Explicit treatment of a ≤ A₀ (suggested A₀ = 6).
 3. Full incorporation of the distance spectrum into a rewritten packing argument.
 4. Mixed slack-0: a uniform bound on |O_1 Δ O_2| valid for all degrees.
-5. Positive-slack case: an explicit bound on the excess degree of κ_i in terms of the slack.
+5. Positive-slack case: an explicit bound on the excess degree in terms of the slack.
 6. Carry-over of Lemma 1 to k = 4 (Problem W₄).
 
 Characteristic 0 only.
 
 ## 7. Reproduction
 
-Filtration, packing, involution-product rank, and distance-spectrum computations are reproducible in Python from the Bolza generators α, β and the multiplication table of D_B = (-3, √2). The bound |O_1 Δ O_2| ≤ 8 for bidegrees ≤4 follows from the Riemann–Hurwitz count with |Ω| ≤ 4.
+All computations (filtration, packing, full and subset involution-product ranks, distance spectrum) are reproducible in Python from the Bolza generators α, β and the multiplication table of D_B = (-3, √2).
