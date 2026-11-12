@@ -1,0 +1,22 @@
+n=2 coprime case solutions: [{c0: 0, c1: -I, c2: 0}, {c0: 0, c1: I, c2: 0}]
+PASS n=2 coprime: every solution has a^2+b^2+c^2 == 0 (no real points)
+n=2 proportional case: lam in [{lam: -1}, {lam: 1}]
+PASS n=2 proportional: only lam = +-1, and 1+lam^2 = 2 is not a rational square
+PASS n=3: g1 vanishes on the solution set
+PASS n=3: then g0 vanishes too, i.e. c == 0 (degenerate)
+PASS Salberger main exponent 3/sqrt(16) = 3/4 > 1/2 > 1/3
+PASS number of auxiliary curves exponent 3/(2 sqrt 16) = 3/8 > 1/3
+PASS rational curve of degree n gives B^(2/n): n>=4 -> <=1/2, n=6 -> 1/3
+PASS A47 scale: #{h*m <= B^2, h <= H, m 7-full} ~ B^(2/7) H^(6/7); H = B^(1/18) gives exactly B^(1/3)
+PASS Salberger Thm 0.8 terms for d=16: 3/4, 3/8+2/3 = 25/24, 1  (all > 1/2)
+PASS Bombieri-Lang scenario: rational curve of degree >= 18 gives <= B^(1/9) < B^(1/3)
+  local exponent    2000 ->   10000 : 0.587
+  local exponent   10000 ->   50000 : 0.526
+  local exponent   50000 ->  200000 : 0.483
+  local exponent  200000 -> 1000000 : 0.610
+  B=   2000  M3=   7  M3/B^(1/2)=0.157  M3/B^(1/3)=0.56
+  B=  10000  M3=  18  M3/B^(1/2)=0.180  M3/B^(1/3)=0.84
+  B=  50000  M3=  42  M3/B^(1/2)=0.188  M3/B^(1/3)=1.14
+  B= 200000  M3=  82  M3/B^(1/2)=0.183  M3/B^(1/3)=1.40
+  B=1000000  M3= 219  M3/B^(1/2)=0.219  M3/B^(1/3)=2.19
+ALL PASS
