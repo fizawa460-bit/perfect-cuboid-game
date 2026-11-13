@@ -118,7 +118,12 @@ Files: `f02_serial_2x4_3x4.out`, `f02_4x4.out`, `recheck4x4.out`.
    - The symmetry group of (P¹, B), including conjugation, has order 48, which divides 96.
    - This supports the heuristic that extremal coincidences come from symmetries of B [heuristic, not checked].
 
-## 5. Next
+## 5. Structure of the extremal pairs
+
+See `F02-SHAPE.md`. At (4,4), all 11,136 configurations with M = 12 come from a shared degree-2 left factor or a
+symmetry of B. Unstructured pairs reach M = 10 at (3,3) and (4,4).
+
+## 6. Next
 
 - **Theory request.** Ask the upper model why the coincidence count is bounded off the diagonal and grows on the
   diagonal. The question is whether the extremal (6,0) configurations at (4,4) come from a structural source, such as

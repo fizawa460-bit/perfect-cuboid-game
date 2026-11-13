@@ -80,11 +80,11 @@ def tkey(T):
 
 TOL = 1e-8; RAD = 1e-7
 AMB = (1e-12, 1e-6)      # cross values in this band are recorded as borderline
-SPECV = "v2"             # resume-file version (v2 adds the borderline list "amb")
+SPECV = "v4"             # resume-file version (v2 adds the borderline list "amb", v3 the list "lowrec")
 
 
 from math import gcd
-CUT = {(1, 2): 10, (2, 2): 12, (2, 3): 14, (3, 3): 16, (2, 4): 16, (3, 4): 18, (4, 4): 13}   # (4,4) lowered 18 -> 13 on 2026-11-13 after omega=12 was found (resume-compatible, see spectrum)
+CUT = {(1, 2): 10, (2, 2): 12, (2, 3): 14, (3, 3): 11, (2, 4): 16, (3, 4): 18, (4, 4): 14}   # (4,4): 18 -> 13 after omega=12 was found, then 14 to classify the next level; (3,3): 16 -> 11 (v3/v4 runs, 2026-11-13)
 
 
 _W = {}
@@ -109,7 +109,7 @@ def _chunk(ibs):
     for ib in ibs:
         Oq = B_dat[ib]; Xq = np.array([p for p, _ in Oq])
         trees[ib] = (Xq, np.array([l for _, l in Oq]), cKDTree(cr(Xq[tq])))
-    untested = Counter(); low = []; GAP = [0.0, 1.0]; cand = 0; amb = []
+    untested = Counter(); low = []; GAP = [0.0, 1.0]; cand = 0; amb = []; lowrec = []
     for ia, O1 in enumerate(A_dat):
         X1 = np.array([p for p, _ in O1]); L1 = np.array([l for _, l in O1])
         S = cr(X1[sq])
@@ -132,16 +132,17 @@ def _chunk(ibs):
                     if (~co).any(): GAP[1] = min(GAP[1], float(cross[~co].min()))
                     same = L1[:, None] == Lq[None, :]
                     j = int((co & same).sum()); h = int((co & ~same).sum())
-                    seen[k] = (nA + nB - 2 * j - h, j, h, T)
+                    seen[k] = (nA + nB - 2 * j - h, j, h, T, [int(x) for x in s], [int(x) for x in t])
                     if ((cross > AMB[0]) & (cross < AMB[1])).any():     # borderline: rechecked in high precision (recheck_amb.py)
                         amb.append((ia, ib, [int(x) for x in s], [int(x) for x in t], nA + nB - 2 * j - h, j, h))
-            for k, (om, j, h, T) in seen.items():
+            for k, (om, j, h, T, s3, t3) in seen.items():
                 if j + h < 4: continue      # a cross-ratio match must come from >= 4 coincidences
                 if gcd(a, b) == 1: bd = 1
                 elif om <= cut: bd = bir_degree(a, *A_maps[ia], *B_maps[ib], T)
                 else: untested[om] += 1; continue
                 low.append((om, j, h, bd))
-    return dict(ibs=list(ibs), untested=dict(untested), low=low, gap=GAP, cand=cand, amb=amb)
+                lowrec.append((ia, ib, s3, t3, om, j, h, bd))     # every T at omega <= cut, for the exact recheck
+    return dict(ibs=list(ibs), untested=dict(untested), low=low, gap=GAP, cand=cand, amb=amb, lowrec=lowrec)
 
 
 def spectrum(a, b, workers=None, chunk=None):
@@ -179,6 +180,7 @@ def spectrum(a, b, workers=None, chunk=None):
         GAP[0] = max(GAP[0], r["gap"][0]); GAP[1] = min(GAP[1], r["gap"][1]); cand += r["cand"]
     amb = [x for r in done for x in r.get("amb", [])]
     with open(os.path.join(HERE, f"amb{a}x{b}.json"), "w") as f: json.dump(amb, f)
+    with open(os.path.join(HERE, f"low{a}x{b}.json"), "w") as f: json.dump([x for r in done for x in r.get("lowrec", [])], f)
     bir = Counter(v[0] for v in low if v[3] == 1)
     nonb = Counter(v[0] for v in low if v[3] != 1)
     om_bir = min(bir) if bir else None
