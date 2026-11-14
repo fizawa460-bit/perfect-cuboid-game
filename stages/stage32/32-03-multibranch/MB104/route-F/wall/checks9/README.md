@@ -8,7 +8,7 @@
 |---|---|---|---|
 | `borel9.py [NMAX [DEPTH]]` | 補題 I（Iwahori）：距離ごとの奇素数の表、有限体での全数確認、Γ₀ の対合を mod 𝔭 に落とした確認、隣接する対合のラベル | 約 1〜2 秒 | `borel9.out`（既定）、`borel9_d11.out`（`50 11`） |
 | `census9.py` | 型の数え上げ。問題の範囲（混合型で \|Ω\| ≤ 4）について完全な探索。次数 (1,1)、(1,2)、(2,2)、(2,3)、(3,3)、(3,4) | 約 3.5 分 | `census9_default.out` |
-| `census9.py --bideg 4,4` | 同じく次数 (4,4) | 約 40 分 | `census9_44.out` |
+| `census9.py --bideg 4,4` | 同じく次数 (4,4) | 約 32 分 | `census9_44.out` |
 | `census9.py --bideg 2,2 --first 8 --anylabel --keep 2` | 依頼 7（near.py）の次数 2 の数の再現 | 約 1 分 | `census9_cross22.out` |
 | `dcover9.py` | 命題 C の族の欠陥、二重被覆での欠陥の分離、合成の補題、(t², t² + t³) | 約 45 秒 | `dcover9.out` |
 
