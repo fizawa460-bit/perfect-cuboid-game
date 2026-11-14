@@ -8,7 +8,8 @@ Newton (numpy) from random starts, refined in mpmath, verified (degree, distinct
 prescribed values), and deduplicated up to source Moebius maps. The count per datum is compared with
 the permutation count of hurwitz4.py (n = 4) or with 15 x 4 = 60 (n = 3).
 
-usage: python -I -O build_maps.py 4 > maps4.json   (writes maps as coefficient strings with 40 digits)
+usage: python -I -O build_maps.py 4 [workers]   (n = 3, 4, 5; targets from hurwitz4.json / hurwitz5.json)
+         (writes maps as coefficient strings with 40 digits)
 """
 import itertools, json, sys, random
 import numpy as np
@@ -226,8 +227,8 @@ def work(args):
 if __name__ == "__main__":
     import multiprocessing as mpc, os
     n = int(sys.argv[1]); outp = f"maps{n}.jsonl"
-    if n == 4:
-        H = json.loads(open("hurwitz4.json").read())
+    if n in (4, 5):
+        H = json.loads(open(f"hurwitz{n}.json").read())
         data = {k: v[0] for k, v in H.items()}
     elif n == 3:
         data = {"".join(map(str, ns)): 4 for ns in itertools.product(range(2), repeat=6) if sum(ns) == 4}
