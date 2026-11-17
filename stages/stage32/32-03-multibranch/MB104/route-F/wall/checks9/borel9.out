@@ -1,0 +1,39 @@
+Part A: admissible distances d with 2cosh d = 2 + 2m (m = x + y sqrt2, conj(m) in [-2, 0]), cosh d <= 400
+  d = 1.528571  m = 0 + 1 sqrt2  N(m) = -2  N(m+2) = 2  odd primes of N(t^2-4): none
+  d = 1.898923  m = 1 + 1 sqrt2  N(m) = -1  N(m+2) = 7  odd primes of N(t^2-4): [7]
+  d = 2.256768  m = 1 + 2 sqrt2  N(m) = -7  N(m+2) = 1  odd primes of N(t^2-4): [7]
+  d = 2.448452  m = 2 + 2 sqrt2  N(m) = -4  N(m+2) = 8  odd primes of N(t^2-4): none
+  d = 2.798768  m = 3 + 3 sqrt2  N(m) = -9  N(m+2) = 7  odd primes of N(t^2-4): [3, 7]
+  d = 2.914035  m = 4 + 3 sqrt2  N(m) = -2  N(m+2) = 18  odd primes of N(t^2-4): [3]
+  d = 3.057142  m = 4 + 4 sqrt2  N(m) = -16  N(m+2) = 4  odd primes of N(t^2-4): none
+  d = 3.147197  m = 5 + 4 sqrt2  N(m) = -7  N(m+2) = 17  odd primes of N(t^2-4): [7, 17]
+  d = 3.336003  m = 6 + 5 sqrt2  N(m) = -14  N(m+2) = 14  odd primes of N(t^2-4): [7]
+  d = 3.404822  m = 7 + 5 sqrt2  N(m) = -1  N(m+2) = 31  odd primes of N(t^2-4): [31]
+  d = 3.494694  m = 7 + 6 sqrt2  N(m) = -23  N(m+2) = 9  odd primes of N(t^2-4): [3, 23]
+  d = 3.553688  m = 8 + 6 sqrt2  N(m) = -8  N(m+2) = 28  odd primes of N(t^2-4): [7]
+  ... 282 admissible distances up to cosh d <= 400; with no odd prime: ['1.5286 (m=0+1sqrt2)', '2.4485 (m=2+2sqrt2)', '3.0571 (m=4+4sqrt2)', '4.8969 (m=32+24sqrt2)']
+  smallest admissible distance = l_min = 1.528571, no odd prime: True; the only one <= 1.6: True
+Part B: all X in SL2(F_q) with X^2 = -I, q <= 25; common eigenline => tr(XY) = +-2
+  q =   9 (inert): 90 involutions, eigenlines per involution [2], -1 square: True, pairs 3960, violations 0, converse violations 0
+  q =  25 (inert): 650 involutions, eigenlines per involution [2], -1 square: True, pairs 210600, violations 0, converse violations 0
+  q =   7 (split): 42 involutions, eigenlines per involution [0], -1 square: False, pairs 840, violations 0, converse violations 0
+  q =  17 (split): 306 involutions, eigenlines per involution [2], -1 square: True, pairs 46512, violations 0, converse violations 0
+  q =  23 (split): 506 involutions, eigenlines per involution [0], -1 square: False, pairs 127512, violations 0, converse violations 0
+Part C: 16 elliptic involutions of Gamma_0 from traces.py (depth 9)
+  pairs 120, adjacent pairs (|tr| = 2 + 2 sqrt2) 29
+  labels (classes mod 2Q_B): 3 classes among the involutions; adjacent pairs with equal label 0; pairs with equal label 35, all with m in 2Z[sqrt2]: True
+  P over   3 (q =   9, inert): splitting multiplicative True; eigenlines per involution [2] (-1 square: True); adjacent pairs sharing a line 0; control pairs (P | t^2-4) 46, sharing a line 46
+  P over   5 (q =  25, inert): splitting multiplicative True; eigenlines per involution [2] (-1 square: True); adjacent pairs sharing a line 0; control pairs (P | t^2-4) 6, sharing a line 6
+  P over   7 (q =   7, split): splitting multiplicative True; eigenlines per involution [0] (-1 square: False); adjacent pairs sharing a line 0; control pairs (P | t^2-4) 0, sharing a line 0
+  P over   7 (q =   7, split): splitting multiplicative True; eigenlines per involution [0] (-1 square: False); adjacent pairs sharing a line 0; control pairs (P | t^2-4) 0, sharing a line 0
+  P over  17 (q =  17, split): splitting multiplicative True; eigenlines per involution [2] (-1 square: True); adjacent pairs sharing a line 0; control pairs (P | t^2-4) 20, sharing a line 20
+  P over  17 (q =  17, split): splitting multiplicative True; eigenlines per involution [2] (-1 square: True); adjacent pairs sharing a line 0; control pairs (P | t^2-4) 14, sharing a line 14
+  P over  23 (q =  23, split): splitting multiplicative True; eigenlines per involution [0] (-1 square: False); adjacent pairs sharing a line 0; control pairs (P | t^2-4) 0, sharing a line 0
+  P over  23 (q =  23, split): splitting multiplicative True; eigenlines per involution [0] (-1 square: False); adjacent pairs sharing a line 0; control pairs (P | t^2-4) 0, sharing a line 0
+  P over  31 (q =  31, split): splitting multiplicative True; eigenlines per involution [0] (-1 square: False); adjacent pairs sharing a line 0; control pairs (P | t^2-4) 0, sharing a line 0
+  P over  31 (q =  31, split): splitting multiplicative True; eigenlines per involution [0] (-1 square: False); adjacent pairs sharing a line 0; control pairs (P | t^2-4) 0, sharing a line 0
+  P over  41 (q =  41, split): splitting multiplicative True; eigenlines per involution [2] (-1 square: True); adjacent pairs sharing a line 0; control pairs (P | t^2-4) 0, sharing a line 0
+  P over  41 (q =  41, split): splitting multiplicative True; eigenlines per involution [2] (-1 square: True); adjacent pairs sharing a line 0; control pairs (P | t^2-4) 0, sharing a line 0
+  P over  47 (q =  47, split): splitting multiplicative True; eigenlines per involution [0] (-1 square: False); adjacent pairs sharing a line 0; control pairs (P | t^2-4) 0, sharing a line 0
+  P over  47 (q =  47, split): splitting multiplicative True; eigenlines per involution [0] (-1 square: False); adjacent pairs sharing a line 0; control pairs (P | t^2-4) 0, sharing a line 0
+PASS

@@ -1,0 +1,51 @@
+Part A: rho_B (50 digits)
+  |W8^3 - E^2 - 108 f^4| = 6.0e-51;  int_0^1 rho_B = 1.52857091948, arccosh(1+sqrt2) = 1.52857091948, diff 3.2e-28
+  curvature: max |Laplace(log rho_B)/rho_B^2 - 1| at 6 points = 4.2e-21
+  double precision rho_B against 50 digits at 300 random points: max relative error 1.3e-14
+Part B: model (H with one extra cone point of order 2)
+  d =  0.1   u_model = 8.538859e-01   (1/2)Q_1 = 1.005780e+00   u_model*exp(2d) = 1.04294   (1/2)Q_1*exp(2d) = 1.22846   log coth(d/2) [Schwarz-Pick] = 2.997e+00
+  d =  0.3   u_model = 3.979352e-01   (1/2)Q_1 = 4.954659e-01   u_model*exp(2d) = 0.72509   (1/2)Q_1*exp(2d) = 0.90280   log coth(d/2) [Schwarz-Pick] = 1.905e+00
+  d =  0.5   u_model = 2.293376e-01   (1/2)Q_1 = 2.931885e-01   u_model*exp(2d) = 0.62340   (1/2)Q_1*exp(2d) = 0.79697   log coth(d/2) [Schwarz-Pick] = 1.407e+00
+  d =  1.0   u_model = 7.270673e-02   (1/2)Q_1 = 9.558039e-02   u_model*exp(2d) = 0.53723   (1/2)Q_1*exp(2d) = 0.70625   log coth(d/2) [Schwarz-Pick] = 7.719e-01
+  d =  1.5   u_model = 2.553459e-02   (1/2)Q_1 = 3.387435e-02   u_model*exp(2d) = 0.51288   (1/2)Q_1*exp(2d) = 0.68038   log coth(d/2) [Schwarz-Pick] = 4.539e-01
+  d =  2.0   u_model = 9.242723e-03   (1/2)Q_1 = 1.230095e-02   u_model*exp(2d) = 0.50464   (1/2)Q_1*exp(2d) = 0.67161   log coth(d/2) [Schwarz-Pick] = 2.723e-01
+  d =  3.0   u_model = 1.240915e-03   (1/2)Q_1 = 1.654143e-03   u_model*exp(2d) = 0.50062   (1/2)Q_1*exp(2d) = 0.66733   log coth(d/2) [Schwarz-Pick] = 9.966e-02
+  d =  4.0   u_model = 1.677595e-04   (1/2)Q_1 = 2.236718e-04   u_model*exp(2d) = 0.50008   (1/2)Q_1*exp(2d) = 0.66676   log coth(d/2) [Schwarz-Pick] = 3.664e-02
+  d =  6.0   u_model = 3.072116e-06   (1/2)Q_1 = 4.096152e-06   u_model*exp(2d) = 0.50000   (1/2)Q_1*exp(2d) = 0.66667   log coth(d/2) [Schwarz-Pick] = 4.958e-03
+  d =  8.0   u_model = 5.626759e-08   (1/2)Q_1 = 7.502345e-08   u_model*exp(2d) = 0.50000   (1/2)Q_1*exp(2d) = 0.66667   log coth(d/2) [Schwarz-Pick] = 6.709e-04
+  residual of (Delta-2)Q_1 = 0: 2.8e-23;  residual of Delta u = exp(2u) - 1 for u_model: 1.7e-23
+Part C: pairs from the census (grid 8000 points)
+  graph distance 0 -> 1 in rho_B: 1.4353 (exact 1.5286); distances are multiplied by 1.0650
+  bidegree (2,2), keep 3: 640 records, 4 kinds (m1, m2, h, degree onto image)
+  bidegree (1,2), keep 3: 3552 records, 2 kinds (m1, m2, h, degree onto image)
+  bidegree (3,3), keep 6: 53240 records, 7 kinds (m1, m2, h, degree onto image)
+  (2,2) type (0,0) h=0: O(p) = O(q') as sets;  max |u| on the grid = 0.0e+00
+  (2,2) type (0,0) h=4: O(p) = O(q') as sets;  max |u| on the grid = 4.6e-13
+  (2,2) m1=2 m2=2 h=2 |Omega pts|=4 of 8+8, degree onto image 1: max d = 1.61, slope of log sup|u| = -0.82, double vs 50 digits 1.6e-14
+      t:            0.25     0.50     0.75     1.00     1.25     1.50
+      sup|u|:    1.2e+00  8.5e-01  6.1e-01  5.0e-01  4.6e-01        -
+  (2,2) m1=3 m2=3 h=1 |Omega pts|=6 of 8+8, degree onto image 1: max d = 1.57, slope of log sup|u| = -1.01, double vs 50 digits 2.4e-14
+      t:            0.25     0.50     0.75     1.00     1.25     1.50
+      sup|u|:    1.7e+00  1.3e+00  1.1e+00  8.0e-01  6.4e-01        -
+  (1,2) m1=2 m2=4 h=0 |Omega pts|=6 of 6+8, degree onto image 1: max d = 1.49, slope of log sup|u| = -2.01, double vs 50 digits 2.8e-14
+      t:            0.25     0.50     0.75     1.00     1.25
+      sup|u|:    8.8e-01  4.6e-01  2.1e-01  1.3e-01  1.0e-01
+  (1,2) m1=3 m2=5 h=0 |Omega pts|=8 of 6+8, degree onto image 1: max d = 1.49, slope of log sup|u| = -1.04, double vs 50 digits 1.5e-14
+      t:            0.25     0.50     0.75     1.00     1.25
+      sup|u|:    1.1e+00  6.6e-01  5.1e-01  4.0e-01  3.0e-01
+  (3,3) type (0,0) h=0: O(p) = O(q') as sets;  max |u| on the grid = 0.0e+00
+  (3,3) type (0,0) h=4: O(p) = O(q') as sets;  max |u| on the grid = 1.1e-12
+  (3,3) type (0,0) h=6: O(p) = O(q') as sets;  max |u| on the grid = 1.9e-12
+  (3,3) m1=4 m2=4 h=2 |Omega pts|=8 of 10+10, degree onto image 1: max d = 1.46, slope of log sup|u| = -0.82, double vs 50 digits 1.0e-13
+      t:            0.25     0.50     0.75     1.00     1.25
+      sup|u|:    1.3e+00  8.9e-01  6.5e-01  5.3e-01  4.8e-01
+  (3,3) m1=5 m2=5 h=0 |Omega pts|=10 of 10+10, degree onto image 1: max d = 1.52, slope of log sup|u| = -1.48, double vs 50 digits 1.7e-13
+      t:            0.25     0.50     0.75     1.00     1.25     1.50
+      sup|u|:    1.5e+00  1.2e+00  1.0e+00  5.3e-01  4.2e-01        -
+  (3,3) m1=6 m2=6 h=0 |Omega pts|=12 of 10+10, degree onto image 1: max d = 1.25, slope of log sup|u| = -0.84, double vs 50 digits 1.1e-13
+      t:            0.25     0.50     0.75     1.00     1.25
+      sup|u|:    1.6e+00  1.2e+00  9.8e-01  7.8e-01        -
+  (3,3) m1=6 m2=6 h=1 |Omega pts|=12 of 10+10, degree onto image 1: max d = 1.75, slope of log sup|u| = -0.73, double vs 50 digits 1.2e-13
+      t:            0.25     0.50     0.75     1.00     1.25     1.50
+      sup|u|:    2.9e+00  2.5e+00  2.4e+00  1.9e+00  1.6e+00  1.2e+00
+PASS
