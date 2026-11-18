@@ -1,35 +1,30 @@
-E19 stage 0: chain of constants (sections 11-17, revised after the audits of s.20)
-fixed: l_min = 1.5286, l0 = 3.0571, c = 0.3273, eps0 = 0.20, R_seed = 10.78 [proved], A_V = 0.9631, kappa - C0 = 5.076, seedless = 73
+E19 stage 0: chain of constants (sections 11-17; s.20 audits; s.21 Lemma T2', Theorem T', seedless 121)
+fixed: l_min = 1.5286, l0 = 3.0571, c = 0.3273, eps0 = 0.20, R_seed = 10.78 [proved], A_V = 0.9631, seedless = 121
 
-1. mixed slack (0,0) (4 defects): the final bound a_max, and which term decides it
-   C_X [est]     C0      R0     log10 N_v(R0)   log10 a_max   log10 a_max (with log term, outline)
-      1.0      2.709  12.309         5.89           58.39         60.49
-  links: eps(R_seed) = 4.162e-05   K = 7.647 [proved*]   C_X = 2.0 [est]
-         C0 = 3.402   kappa = C0 + 5.076   R0 = 12.309   log10 N_v(R0) = 5.89   c = 0.3273
-      2.0      3.402  12.309         5.89           58.69         60.79
-      5.0      4.318  12.399         5.93           59.09         61.19
-     10.0      5.011  13.089         6.23           59.39         61.50
-   (in every row the bound is decided by the untransportable deep points, not by M(R0))
+1. mixed slack (0,0) (4 defects): the bound a_max (no [est] input; T2 hole closed)
+  links: eps(tau*) = 1.348e-02   K = 7.708 [proved*]   K1 = 7.721 [proved]   beta = 1.000045   gamma = 2.0987   h = 1.1002
+         kappa(t) = 2.620 + log(58.92 + 17.724 (t + 2.038))   kappa(R0) = 8.367   R0 = 12.309   log10 N_v(R0) = 5.89
+         smallest path depth used = 6.412 >= tau* = 5.0   c = 0.3273
+   log10 a_max = 61.75   (decided by the untransportable deep points, not by M(R0))
+   depth of the worst bad point ~ log a: kappa(log a_max) = 10.489
 
 2. positive slack (S defects incl. non-standard points; short circles K_short = S N_v(1.5 l0)):
    b_max(S) and the slope C' = b_max/S; the closed range is rho = S/b <~ 1/C'
    S          log10 b_max     log10 C' = log10(b_max/S)
-   1e+01           59.09          58.09
-   1e+03           61.09          58.09
-   1e+06           64.09          58.09
-   1e+12           70.09          58.09
-   1e+24           82.09          58.09
+   1e+01           62.15          61.15
+   1e+03           64.15          61.15
+   1e+06           67.15          61.15
+   1e+12           73.15          61.15
+   1e+24           85.15          61.15
 
 3. structural limit (s.17.3): deep area survives only if sigma e^{R0} <~ b, i.e. rho <~ e^{-R0} = 4.51e-06
-   (for R0 = 12.31 at C_X = 2).  Seeds alone need R_seed = 10.78: rho <~ 2.08e-05.
+   (for R0 = 12.31).  Seeds alone need R_seed = 10.78: rho <~ 2.08e-05.
 
-4. what moves the bound (C_X = 2): change one input at a time and recompute log10 a_max
-   base log10 a_max = 58.69
-   R_seed 10.78 -> 4.98 (ANSWER-09 radius)              log10 a_max =    58.70
-   seedless 73 -> 169 (pinches/holes, safe side)        log10 a_max =    62.40
-   with log term kappa += log(1+t) (outline)            log10 a_max =    60.79
-   log term and seedless 169 (all safe side)            log10 a_max =    64.53
-   coefficient 1/3 -> 1 (s.17.3, chains moving away)    log10 a_max =    26.09
-   c 0.327 -> 1 (simply connected decay)                log10 a_max =    27.34
+4. what moves the bound: change one input at a time and recompute log10 a_max
+   base log10 a_max = 61.75
+   seedless 121 -> 73 (if pinches/double edges were excluded) log10 a_max =    59.50
+   seedless 121 -> 169 (audit's safe side)                    log10 a_max =    63.23
+   coefficient 1/3 -> 1 (s.17.3, chains moving away)          log10 a_max =    27.42
+   c 0.327 -> 1 (simply connected decay)                      log10 a_max =    28.68
    exponent 3/(3+c) = 0.9016, so a_max ~ (constant)^{10.17}
 PASS
