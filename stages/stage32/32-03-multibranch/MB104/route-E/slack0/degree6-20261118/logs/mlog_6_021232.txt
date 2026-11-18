@@ -1,0 +1,58 @@
+decomposable seeds added 12
+/usr/local/lib/python3.13/site-packages/numpy/linalg/_linalg.py:2803: RuntimeWarning: overflow encountered in multiply
+  s = (x.conj() * x).real
+/home/user/work/track.py:7: RuntimeWarning: overflow encountered in power
+  V=c[:,:,None]**m
+/home/user/work/track.py:7: RuntimeWarning: invalid value encountered in power
+  V=c[:,:,None]**m
+/home/user/work/track.py:8: RuntimeWarning: overflow encountered in power
+  D=np.zeros_like(V); D[:,:,1:]=m[1:]*c[:,:,None]**(m[1:]-1)
+/home/user/work/track.py:8: RuntimeWarning: invalid value encountered in power
+  D=np.zeros_like(V); D[:,:,1:]=m[1:]*c[:,:,None]**(m[1:]-1)
+/home/user/work/track.py:8: RuntimeWarning: invalid value encountered in multiply
+  D=np.zeros_like(V); D[:,:,1:]=m[1:]*c[:,:,None]**(m[1:]-1)
+/home/user/work/track.py:9: RuntimeWarning: overflow encountered in power
+  D2=np.zeros_like(V); D2[:,:,2:]=m[2:]*(m[2:]-1)*c[:,:,None]**(m[2:]-2)
+/home/user/work/track.py:9: RuntimeWarning: invalid value encountered in power
+  D2=np.zeros_like(V); D2[:,:,2:]=m[2:]*(m[2:]-1)*c[:,:,None]**(m[2:]-2)
+/home/user/work/track.py:9: RuntimeWarning: invalid value encountered in multiply
+  D2=np.zeros_like(V); D2[:,:,2:]=m[2:]*(m[2:]-1)*c[:,:,None]**(m[2:]-2)
+/home/user/work/track.py:14: RuntimeWarning: invalid value encountered in multiply
+  F=Y1*Pv-Y0*Qv; Fd=Y1*Pd-Y0*Qd; Fdd=Y1*Pdd-Y0*Qdd
+/home/user/work/track.py:18: RuntimeWarning: invalid value encountered in multiply
+  J[:,:K,:n+1]=Y1[:,:,None]*V; J[:,:K,n+1:2*n+2]=-Y0[:,:,None]*V
+loop 1 (1,5 swap): tracked 12/12 new 0 -> 12 weighted 6.00 / 66.0  13s
+/home/user/work/track.py:8: RuntimeWarning: overflow encountered in multiply
+  D=np.zeros_like(V); D[:,:,1:]=m[1:]*c[:,:,None]**(m[1:]-1)
+/home/user/work/track.py:9: RuntimeWarning: overflow encountered in multiply
+  D2=np.zeros_like(V); D2[:,:,2:]=m[2:]*(m[2:]-1)*c[:,:,None]**(m[2:]-2)
+/home/user/work/track.py:19: RuntimeWarning: invalid value encountered in multiply
+  J[:,K:2*K,:n+1]=Y1[:,:,None]*D; J[:,K:2*K,n+1:2*n+2]=-Y0[:,:,None]*D
+loop 2 (3,5): tracked 10/12 new 0 -> 12 weighted 6.00 / 66.0  15s
+loop 3 (4,5): tracked 12/12 new 0 -> 12 weighted 6.00 / 66.0  17s
+  newton refill: new 2
+loop 4 (2,3 word[(np.int64(0), np.int64(4)), (np.int64(3), np.int64(1)), (np.int64(1), np.int64(5)), (np.int64(0), np.int64(4))]): tracked 14/14 new 2 -> 16 weighted 10.00 / 66.0  71s
+loop 5 (1,3 swap): tracked 16/16 new 4 -> 20 weighted 14.00 / 66.0  76s
+loop 6 (4,2): tracked 19/20 new 3 -> 23 weighted 17.00 / 66.0  82s
+loop 7 (3,5): tracked 21/23 new 7 -> 30 weighted 24.00 / 66.0  94s
+loop 8 (4,3 word[(np.int64(1), np.int64(3)), (np.int64(3), np.int64(1)), (np.int64(1), np.int64(0)), (np.int64(5), np.int64(1)), (np.int64(5), np.int64(0))]): tracked 26/30 new 7 -> 37 weighted 31.00 / 66.0  115s
+loop 9 (1,5 swap): tracked 37/37 new 7 -> 44 weighted 38.00 / 66.0  127s
+loop 10 (1,5 swap): tracked 44/44 new 2 -> 46 weighted 40.00 / 66.0  133s
+loop 11 (5,3): tracked 42/46 new 10 -> 56 weighted 50.00 / 66.0  149s
+loop 12 (1,5 swap): tracked 56/56 new 3 -> 59 weighted 53.00 / 66.0  155s
+/usr/local/lib/python3.13/site-packages/numpy/linalg/_linalg.py:2804: RuntimeWarning: overflow encountered in reduce
+  return sqrt(add.reduce(s, axis=axis, keepdims=keepdims))
+loop 13 (3,5 word[(np.int64(2), np.int64(0)), (np.int64(3), np.int64(1)), (np.int64(2), np.int64(0))]): tracked 56/59 new 5 -> 64 weighted 58.00 / 66.0  166s
+loop 14 (1,3 swap): tracked 63/64 new 1 -> 65 weighted 59.00 / 66.0  173s
+loop 15 (4,5 word[(np.int64(1), np.int64(5)), (np.int64(1), np.int64(3)), (np.int64(3), np.int64(5))]): tracked 65/65 new 0 -> 65 weighted 59.00 / 66.0  183s
+loop 16 (1,4): tracked 63/65 new 3 -> 68 weighted 62.00 / 66.0  193s
+loop 17 (1,5): tracked 66/68 new 2 -> 70 weighted 64.00 / 66.0  202s
+/usr/local/lib/python3.13/site-packages/numpy/linalg/_linalg.py:2803: RuntimeWarning: invalid value encountered in multiply
+  s = (x.conj() * x).real
+loop 18 (3,4): tracked 69/70 new 0 -> 70 weighted 64.00 / 66.0  206s
+loop 19 (4,1): tracked 69/70 new 0 -> 70 weighted 64.00 / 66.0  210s
+loop 20 (3,5 swap): tracked 69/70 new 1 -> 71 weighted 65.00 / 66.0  215s
+/home/user/work/track.py:14: RuntimeWarning: invalid value encountered in subtract
+  F=Y1*Pv-Y0*Qv; Fd=Y1*Pd-Y0*Qd; Fdd=Y1*Pdd-Y0*Qdd
+loop 21 (3,4 word[(np.int64(1), np.int64(3)), (np.int64(5), np.int64(1))]): tracked 68/71 new 1 -> 72 weighted 66.00 / 66.0  228s
+DONE 66.0 66.0

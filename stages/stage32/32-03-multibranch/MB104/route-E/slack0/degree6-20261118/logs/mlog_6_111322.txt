@@ -1,0 +1,43 @@
+resumed 304
+newton batch 0: 304 weighted 304.0 / 312.0  23s
+newton batch 1: 304 weighted 304.0 / 312.0  51s
+newton batch 2: 304 weighted 304.0 / 312.0  78s
+/home/user/work/track.py:7: RuntimeWarning: overflow encountered in power
+  V=c[:,:,None]**m
+/home/user/work/track.py:7: RuntimeWarning: invalid value encountered in power
+  V=c[:,:,None]**m
+/home/user/work/track.py:8: RuntimeWarning: overflow encountered in power
+  D=np.zeros_like(V); D[:,:,1:]=m[1:]*c[:,:,None]**(m[1:]-1)
+/home/user/work/track.py:8: RuntimeWarning: invalid value encountered in power
+  D=np.zeros_like(V); D[:,:,1:]=m[1:]*c[:,:,None]**(m[1:]-1)
+/home/user/work/track.py:8: RuntimeWarning: invalid value encountered in multiply
+  D=np.zeros_like(V); D[:,:,1:]=m[1:]*c[:,:,None]**(m[1:]-1)
+/home/user/work/track.py:9: RuntimeWarning: overflow encountered in power
+  D2=np.zeros_like(V); D2[:,:,2:]=m[2:]*(m[2:]-1)*c[:,:,None]**(m[2:]-2)
+/home/user/work/track.py:9: RuntimeWarning: invalid value encountered in power
+  D2=np.zeros_like(V); D2[:,:,2:]=m[2:]*(m[2:]-1)*c[:,:,None]**(m[2:]-2)
+/home/user/work/track.py:9: RuntimeWarning: invalid value encountered in multiply
+  D2=np.zeros_like(V); D2[:,:,2:]=m[2:]*(m[2:]-1)*c[:,:,None]**(m[2:]-2)
+/home/user/work/track.py:18: RuntimeWarning: invalid value encountered in multiply
+  J[:,:K,:n+1]=Y1[:,:,None]*V; J[:,:K,n+1:2*n+2]=-Y0[:,:,None]*V
+/usr/local/lib/python3.13/site-packages/numpy/linalg/_linalg.py:2803: RuntimeWarning: overflow encountered in multiply
+  s = (x.conj() * x).real
+/home/user/work/track.py:9: RuntimeWarning: overflow encountered in multiply
+  D2=np.zeros_like(V); D2[:,:,2:]=m[2:]*(m[2:]-1)*c[:,:,None]**(m[2:]-2)
+/home/user/work/track.py:14: RuntimeWarning: invalid value encountered in multiply
+  F=Y1*Pv-Y0*Qv; Fd=Y1*Pd-Y0*Qd; Fdd=Y1*Pdd-Y0*Qdd
+/home/user/work/track.py:8: RuntimeWarning: overflow encountered in multiply
+  D=np.zeros_like(V); D[:,:,1:]=m[1:]*c[:,:,None]**(m[1:]-1)
+/home/user/work/track.py:19: RuntimeWarning: invalid value encountered in multiply
+  J[:,K:2*K,:n+1]=Y1[:,:,None]*D; J[:,K:2*K,n+1:2*n+2]=-Y0[:,:,None]*D
+/usr/local/lib/python3.13/site-packages/numpy/linalg/_linalg.py:2803: RuntimeWarning: invalid value encountered in multiply
+  s = (x.conj() * x).real
+/usr/local/lib/python3.13/site-packages/numpy/linalg/_linalg.py:2804: RuntimeWarning: overflow encountered in reduce
+  return sqrt(add.reduce(s, axis=axis, keepdims=keepdims))
+loop 1 (5,2 word[(np.int64(0), np.int64(3)), (np.int64(4), np.int64(2)), (np.int64(2), np.int64(4)), (np.int64(0), np.int64(3)), (np.int64(4), np.int64(5))]): tracked 288/304 new 1 -> 308 weighted 308.00 / 312.0  221s
+loop 2 (0,4 word[(np.int64(0), np.int64(2)), (np.int64(2), np.int64(4)), (np.int64(4), np.int64(2))]): tracked 277/308 new 0 -> 308 weighted 308.00 / 312.0  338s
+loop 3 (1,5): tracked 299/308 new 0 -> 308 weighted 308.00 / 312.0  374s
+loop 4 (0,4 word[(np.int64(4), np.int64(0)), (np.int64(1), np.int64(4)), (np.int64(0), np.int64(4))]): tracked 303/308 new 0 -> 308 weighted 308.00 / 312.0  436s
+  newton refill: new 0
+loop 5 (4,0): tracked 296/308 new 1 -> 312 weighted 312.00 / 312.0  588s
+DONE 312.0 312.0
