@@ -12,7 +12,7 @@ Second revision (E19 s.21, closes the hole of s.20.3 and removes both [est] inpu
     by the explicit pinning inequality  beta K1 e^{1-kappa} [e^{8l/3} + h gamma (t + 4l/3) e^{4l/3}] <= l_min,
     i.e. kappa(t) = 1 + log(beta K1 / l_min) + log(e^{8l/3} + h gamma (t + 4l/3) e^{4l/3})   (the log term).
   * Seedless components (s.21.4): Gauss-Bonnet on the resolved closed-star complex, with pinches, holes and double
-    edges allowed: interior <= 14 |boundary|, so the factor is 1 + 8 + 8*14 = 121 (73 needed "no pinches").
+    edges allowed: interior <= 14 |boundary|, so the factor is 1 + 8 + 8*14 = 121 (61 with no pinches and no double edges).
 Earlier revision (E19 s.20): eps(R) = 2 atanh(e^{-R}); true minimum over t0; area shift l/2.
 
 Labels:  [proved] = formula from a proved statement with an explicit constant;
@@ -45,7 +45,7 @@ EPS0 = 0.2
 R_SEED = 10.78
 SEED_MAX = 4.8969                            # longest seed distance (s.11.2)
 TAU_STAR = 5.0                               # assumed lower bound for the unit-neighbourhood depth on every path
-SEEDLESS = 121                               # 1 + 8 + 8*14 (s.21.4; was 73 "no pinches", 169 audit safe side)
+SEEDLESS = 121                               # 1 + 8 + 8*14 (s.21.4; 61 without pinches/double edges, 73 the s.20.4 count, 169 audit safe side)
 A_V = math.pi * (math.cosh(L / 2) - 1)       # smallest area per vertex (cone point: half of a disc of radius l/2)
 log = math.log
 
@@ -205,7 +205,8 @@ print("4. what moves the bound: change one input at a time and recompute log10 a
 base = la / L10
 print("   base log10 a_max = %.2f" % base)
 rows = [
-    ("seedless 121 -> 73 (if pinches/double edges were excluded)", lambda: log_bound(ch, 4, seedless=73)),
+    ("seedless 121 -> 61 (if pinches/double edges were excluded)", lambda: log_bound(ch, 4, seedless=61)),
+    ("seedless 121 -> 73 (the s.20.4 count)", lambda: log_bound(ch, 4, seedless=73)),
     ("seedless 121 -> 169 (audit's safe side)", lambda: log_bound(ch, 4, seedless=169)),
     ("coefficient 1/3 -> 1 (s.17.3, chains moving away)", lambda: log_bound(ch, 4, coef=1.0)),
     ("c 0.327 -> 1 (simply connected decay)", lambda: log_bound(ch, 4, c=1.0)),
