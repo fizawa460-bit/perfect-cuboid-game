@@ -1,0 +1,15 @@
+A. eps(R_seed) = 4.162320144e-5
+   r = tanh(1/2) = 0.4621171573, lam(r) = 2.543080635, sup|f|/eps = 12.93505662
+   K (same inequalities as chain20.py) = 7.64708711
+   K with the sharp versions of the two gradient bounds (4/(pi r), 2r/3) = 5.321469912
+B. ingredients
+   harmonic: sup |grad h(0)| / sup|h| = 2.755231059  (code uses 2/r = 4.327906827)  ok=True
+   Green: integral of |grad_x G(0,y)| over the disc = 0.3080781048 ; 2r/3 = 0.3080781048 ; code uses r = 0.4621171573
+   Green: sup |v| for |f|<=1 is r^2/4 = 0.05338806676 (torsion function, exact)
+   nonlinearity: 1-e^{-2eps} = 8.3242938e-5 <= e^{2eps}-1 = 8.3249868e-5
+C. exact solutions from holomorphic F (Liouville)
+   300 random F + hill climbing: largest (|grad w(0)| + |w(0)|)/sup|w| = 1.0220   (K = 7.6471)
+D. linearised sharp constant: g0(1) = 1.5430806, g1(1) = 1.1752012
+   sharp sup |grad u(0)| = 1.0834226 ;  sharp sup(|grad u(0)| + |u(0)|) = 1.1629676
+   (for comparison, the code's K = 7.6470871 is 6.58 times the sharp value)
+   ratio eps(R-1)/eps(R) at R = 10.78: 2.7182818
