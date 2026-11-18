@@ -1,0 +1,68 @@
+decomposable seeds added 37
+/home/user/work/track.py:7: RuntimeWarning: overflow encountered in power
+  V=c[:,:,None]**m
+/home/user/work/track.py:7: RuntimeWarning: invalid value encountered in power
+  V=c[:,:,None]**m
+/home/user/work/track.py:8: RuntimeWarning: overflow encountered in power
+  D=np.zeros_like(V); D[:,:,1:]=m[1:]*c[:,:,None]**(m[1:]-1)
+/home/user/work/track.py:8: RuntimeWarning: invalid value encountered in power
+  D=np.zeros_like(V); D[:,:,1:]=m[1:]*c[:,:,None]**(m[1:]-1)
+/home/user/work/track.py:8: RuntimeWarning: invalid value encountered in multiply
+  D=np.zeros_like(V); D[:,:,1:]=m[1:]*c[:,:,None]**(m[1:]-1)
+/home/user/work/track.py:9: RuntimeWarning: overflow encountered in power
+  D2=np.zeros_like(V); D2[:,:,2:]=m[2:]*(m[2:]-1)*c[:,:,None]**(m[2:]-2)
+/home/user/work/track.py:9: RuntimeWarning: invalid value encountered in power
+  D2=np.zeros_like(V); D2[:,:,2:]=m[2:]*(m[2:]-1)*c[:,:,None]**(m[2:]-2)
+/home/user/work/track.py:9: RuntimeWarning: invalid value encountered in multiply
+  D2=np.zeros_like(V); D2[:,:,2:]=m[2:]*(m[2:]-1)*c[:,:,None]**(m[2:]-2)
+/home/user/work/track.py:18: RuntimeWarning: invalid value encountered in multiply
+  J[:,:K,:n+1]=Y1[:,:,None]*V; J[:,:K,n+1:2*n+2]=-Y0[:,:,None]*V
+/usr/local/lib/python3.13/site-packages/numpy/linalg/_linalg.py:2803: RuntimeWarning: overflow encountered in multiply
+  s = (x.conj() * x).real
+loop 1 (5,1 word[(np.int64(2), np.int64(0)), (np.int64(4), np.int64(2))]): tracked 37/37 new 2 -> 40 weighted 40.00 / 32.0  20s
+loop 2 (2,1): tracked 38/40 new 0 -> 40 weighted 40.00 / 32.0  23s
+loop 3 (3,5 swap): tracked 40/40 new 0 -> 40 weighted 40.00 / 32.0  27s
+loop 4 (5,4): tracked 40/40 new 0 -> 40 weighted 40.00 / 32.0  30s
+  newton refill: new 0
+/usr/local/lib/python3.13/site-packages/numpy/linalg/_linalg.py:2804: RuntimeWarning: overflow encountered in reduce
+  return sqrt(add.reduce(s, axis=axis, keepdims=keepdims))
+/home/user/work/track.py:9: RuntimeWarning: overflow encountered in multiply
+  D2=np.zeros_like(V); D2[:,:,2:]=m[2:]*(m[2:]-1)*c[:,:,None]**(m[2:]-2)
+/home/user/work/track.py:14: RuntimeWarning: invalid value encountered in multiply
+  F=Y1*Pv-Y0*Qv; Fd=Y1*Pd-Y0*Qd; Fdd=Y1*Pdd-Y0*Qdd
+/home/user/work/track.py:19: RuntimeWarning: invalid value encountered in multiply
+  J[:,K:2*K,:n+1]=Y1[:,:,None]*D; J[:,K:2*K,n+1:2*n+2]=-Y0[:,:,None]*D
+/home/user/work/track.py:8: RuntimeWarning: overflow encountered in multiply
+  D=np.zeros_like(V); D[:,:,1:]=m[1:]*c[:,:,None]**(m[1:]-1)
+loop 5 (4,5 word[(np.int64(5), np.int64(4)), (np.int64(4), np.int64(1)), (np.int64(5), np.int64(1))]): tracked 35/40 new 0 -> 40 weighted 40.00 / 32.0  97s
+loop 6 (5,3): tracked 39/40 new 0 -> 40 weighted 40.00 / 32.0  100s
+loop 7 (1,5): tracked 37/40 new 0 -> 40 weighted 40.00 / 32.0  105s
+  newton refill: new 0
+loop 8 (3,1 word[(np.int64(1), np.int64(4)), (np.int64(4), np.int64(2)), (np.int64(3), np.int64(4)), (np.int64(4), np.int64(3))]): tracked 37/40 new 0 -> 40 weighted 40.00 / 32.0  172s
+loop 9 (4,0): tracked 40/40 new 0 -> 40 weighted 40.00 / 32.0  176s
+loop 10 (1,4): tracked 39/40 new 0 -> 40 weighted 40.00 / 32.0  180s
+  newton refill: new 0
+loop 11 (1,4 swap): tracked 39/40 new 0 -> 40 weighted 40.00 / 32.0  238s
+loop 12 (0,4): tracked 40/40 new 0 -> 40 weighted 40.00 / 32.0  240s
+loop 13 (0,1 word[(np.int64(0), np.int64(4)), (np.int64(0), np.int64(2)), (np.int64(0), np.int64(2))]): tracked 40/40 new 0 -> 40 weighted 40.00 / 32.0  247s
+  newton refill: new 0
+loop 14 (3,2): tracked 34/40 new 0 -> 40 weighted 40.00 / 32.0  298s
+loop 15 (2,4 swap): tracked 39/40 new 0 -> 40 weighted 40.00 / 32.0  302s
+loop 16 (4,0): tracked 40/40 new 0 -> 40 weighted 40.00 / 32.0  306s
+  newton refill: new 0
+loop 17 (2,1): tracked 38/40 new 0 -> 40 weighted 40.00 / 32.0  355s
+loop 18 (2,3 word[(np.int64(0), np.int64(2)), (np.int64(1), np.int64(0)), (np.int64(2), np.int64(3)), (np.int64(2), np.int64(3))]): tracked 35/40 new 0 -> 40 weighted 40.00 / 32.0  370s
+loop 19 (5,1): tracked 37/40 new 0 -> 40 weighted 40.00 / 32.0  374s
+  newton refill: new 0
+loop 20 (0,4 swap): tracked 40/40 new 0 -> 40 weighted 40.00 / 32.0  421s
+loop 21 (4,3 word[(np.int64(4), np.int64(1)), (np.int64(4), np.int64(0)), (np.int64(2), np.int64(0))]): tracked 38/40 new 0 -> 40 weighted 40.00 / 32.0  436s
+loop 22 (2,4 swap): tracked 39/40 new 0 -> 40 weighted 40.00 / 32.0  439s
+  newton refill: new 0
+loop 23 (1,5 word[(np.int64(5), np.int64(2)), (np.int64(0), np.int64(5)), (np.int64(2), np.int64(5)), (np.int64(1), np.int64(2))]): tracked 36/40 new 0 -> 40 weighted 40.00 / 32.0  504s
+loop 24 (0,1): tracked 38/40 new 0 -> 40 weighted 40.00 / 32.0  507s
+loop 25 (3,2 word[(np.int64(5), np.int64(3)), (np.int64(4), np.int64(1))]): tracked 39/40 new 0 -> 40 weighted 40.00 / 32.0  516s
+  newton refill: new 0
+loop 26 (0,4 swap): tracked 40/40 new 0 -> 40 weighted 40.00 / 32.0  571s
+loop 27 (0,4 word[(np.int64(0), np.int64(1)), (np.int64(1), np.int64(4)), (np.int64(4), np.int64(1))]): tracked 39/40 new 0 -> 40 weighted 40.00 / 32.0  579s
+loop 28 (1,4 word[(np.int64(5), np.int64(3)), (np.int64(2), np.int64(0))]): tracked 40/40 new 0 -> 40 weighted 40.00 / 32.0  586s
+  newton refill: new 0
