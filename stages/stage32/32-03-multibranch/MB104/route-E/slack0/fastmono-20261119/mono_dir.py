@@ -28,6 +28,7 @@ from math import factorial
 from hurwitz_char import C
 from mono_rep import group_order
 import autact
+import hp_track
 
 # (a, b, side, w1, w2): after the half-twist, t[a] = e1 t[b] e1^-1 and t[b] = e2 t[a] e2^-1 with e = product of
 # the listed generators (old tuple), every other entry unchanged.  Found by probe.py / probe2.py on 2,2,2,2,2,2
@@ -35,6 +36,10 @@ import autact
 MOVES = [(4, 3, +1, (4,), ()), (4, 3, -1, (), (3,)),
          (5, 2, +1, (5,), ()), (5, 2, -1, (), (2,)),
          (2, 4, +1, (2, 0), (0,)), (2, 4, -1, (0,), (4, 0))]
+
+# pure braids: point a runs once around b (braid.path_loop); t[a] -> e1 t[a] e1^-1, t[b] -> e2 t[b] e2^-1, others
+# unchanged.  Found by probe3.py on 2,2,2,2,2,2 (40/40 each).  Needed where the stabiliser is trivial.
+LOOPS = [(0, 2, +1, (0, 2), (0,)), (0, 2, -1, (2,), (2, 0)), (0, 4, +1, (4,), (4, 0)), (0, 4, -1, (0, 4), (0,))]
 
 def ev(t, w):
     n = len(t[0]); g = tuple(range(n))
@@ -102,11 +107,75 @@ def main():
     ap.add_argument('--ckpt', default=''); ap.add_argument('--maxtime', type=float, default=1e18)
     ap.add_argument('--batch', type=int, default=300); ap.add_argument('--seedtries', type=int, default=40)
     ap.add_argument('--verify', type=float, default=0.03)
+    ap.add_argument('--loops', type=int, default=6, help='random loops to try when predictions run dry')
     a = ap.parse_args()
     n = a.n; prof = tuple(int(x) for x in a.prof.split(',')); rng = np.random.default_rng(a.seed)
-    for mv in MOVES: assert prof[mv[0]] == prof[mv[1]]
-    R = pickle.load(open(a.rules, 'rb')); assert tuple(R['prof']) == prof; RULES = R['rules']
-    SYMS = autact.sym_list(prof); assert len(SYMS) == len(RULES) and all(r[1] is not None for r in RULES)
+    # half-twist where the two points carry the same profile entry and no fixed critical point, else full twist
+    ys0 = [y for y in range(6) for _ in range(prof[y])]
+    def half_ok(a_, b_):
+        return prof[a_] == prof[b_] and all(ys0[k] not in (a_, b_) for k in range(3))
+    MV = [(mv, half_ok(mv[0], mv[1])) for mv in MOVES] + [(lp, 'loop') for lp in LOOPS]
+    NM = len(MV)
+    def pred(t, k):
+        mv, half = MV[k]
+        if half == 'loop':
+            a_, b_, _, w1, w2 = mv; s_ = list(t); s_[a_] = conj(t, w1, t[a_]); s_[b_] = conj(t, w2, t[b_]); return tuple(s_)
+        t1 = predict(t, mv); return t1 if half else predict(t1, mv)
+    def move_path(k, d=0.15):
+        mv, half = MV[k]
+        if half == 'loop': return braid.path_loop(mv[0], mv[1], r=0.3 + (d - 0.15), sense=mv[2])
+        return (braid.path if half is True else braid.path_full)(mv[0], mv[1], mv[2], d=d)
+    def run_move(U, k, careful=False, d=0.15):
+        mv, half = MV[k]; U1, ok = braid.run_path(S, U, move_path(k, d), careful=careful)
+        return (braid.relabel(S, U1, mv[0], mv[1]) if half is True else U1), ok
+    def endgame():
+        """retry every move predicted to reach a missing class along isotopic paths (other arc offsets), carefully"""
+        got = []
+        for dd in (0.06, 0.3, 0.45, 0.1, 0.22):
+            jobs = {}
+            for i in range(len(sols)):
+                for k in range(NM):
+                    pt = pred(TT[i], k)
+                    if not md.check(pt, prof): continue
+                    c = md.canon(pt)[0]
+                    if c not in TUP and c not in jobs: jobs[c] = (k, i, pt)
+            if not jobs: break
+            for k in range(NM):
+                lst = [(i, pt, c) for c, (kk, i, pt) in jobs.items() if kk == k]
+                if not lst: continue
+                U0 = np.array([sols[i] for i, _, _ in lst]); U1, ok = run_move(U0, k, careful=True, d=dd)
+                stat['tracks'] += len(lst); stat['fail'] += int((~ok).sum())
+                good = [(pt, c) for (i, pt, c), o in zip(lst, ok) if o]
+                if good:
+                    nw, _ = accept_tracked(list(U1[ok]), good); got += nw + add_images(nw)
+            report(f'  endgame d={dd}: {len(jobs)} missing targets tried')
+        # still missing: 40-digit tracking, every (cover, move) that predicts the class, two arc offsets
+        allj = {}
+        for i in range(len(sols)):
+            for k in range(NM):
+                pt = pred(TT[i], k)
+                if not md.check(pt, prof): continue
+                c = md.canon(pt)[0]
+                if c not in TUP: allj.setdefault(c, []).append((k, i, pt))
+        for c, lst in allj.items():
+            for dd in (0.15, 0.3):
+                if c in TUP: break
+                for k, i, pt in lst[:8]:
+                    if c in TUP: break
+                    mv, half = MV[k]; Ws = move_path(k, dd)
+                    uh = hp_track.track_path(S, sols[i], Ws); stat['hp_tracks'] += 1
+                    if uh is None: continue
+                    un = hp_track.to_np(uh)[None]
+                    if half is True: un = braid.relabel(S, un, mv[0], mv[1])
+                    nw, _ = accept_tracked([un[0]], [(pt, c)]); got += nw + add_images(nw)
+        report(f'  endgame 40-digit: {len(allj)} missing targets')
+        return got
+    # symmetry rules are geometric (base point + loops), learned on any profile; look them up by (conj, perm)
+    R = pickle.load(open(a.rules, 'rb'))
+    rkey = {(cj, pi): w for (cj, M, pi), (pi2, w) in zip(autact.sym_list(tuple(R['prof'])), R['rules'])}
+    SYMS = autact.sym_list(prof); RULES = [(pi, rkey[(cj, pi)]) for cj, M, pi in SYMS]
+    assert all(r[1] is not None for r in RULES)
+    print('moves', [(mv[:3], {True: 'half', False: 'full'}.get(h, h)) for mv, h in MV], '; symmetries', len(SYMS), flush=True)
     tag = f'{n}_{"".join(map(str, prof))}'; ckpt = a.ckpt or f'ckpt_dir_{tag}.pkl'
     target = float(Fraction(C(n, prof), factorial(n)))
     fixed = np.array([0.31 + 0.17j, -0.52 + 0.44j, 0.13 - 0.61j])
@@ -116,7 +185,7 @@ def main():
     sols = []; TT = []; TUP = {}; REJ = []; ISREP = []; CONF = []; NOIMG = []
     W = [0.0]
     stat = dict(tracks=0, fail=0, pred_ok=0, pred_bad=0, img=0, img_fail=0, ver_ok=0, ver_bad=0, ver_skip=0,
-                unconf=0, seeds=0)
+                unconf=0, seeds=0, hp_tracks=0)
     def an_of(u):
         p, q, cc = S.unpack(u[None])
         return analyse(p[0], q[0], n, prof, cc[0], list(S.ys)) or analyse_loose(p[0], q[0], n, prof, cc[0], list(S.ys))
@@ -178,6 +247,22 @@ def main():
                 else: REJ.append(u.copy()); j = None; cls.append(None)
             if j is not None: out.append(j)
         return out, cls
+    def random_loop():
+        def rnd_W():
+            Wr = B0.copy(); fin = [0, 2, 3, 4, 5]
+            Wr[fin, 0] = B0[fin, 0] + 2.0 * (rng.normal(size=5) + 1j * rng.normal(size=5)); return Wr
+        B1, B2 = rnd_W(), rnd_W()
+        idx = [i for i in range(len(sols)) if ISREP[i] and CONF[i]] or list(range(len(sols)))
+        U0 = np.array([sols[i] for i in idx]); U = U0.copy(); ok = np.ones(len(U), bool)
+        for Wa, Wb in ((B0, B1), (B1, B2), (B2, B0)):
+            U, o, _ = track(S, U, Wa, Wb); ok &= o
+        stat['tracks'] += len(U); got = []
+        tn = number(list(U[ok]))
+        for u, t in zip(U[ok], tn):
+            if t is not None and md.check(t, prof) and an_of(u) is not None:
+                j = add(u, t, True, rep=True)
+                if j is not None: got.append(j)
+        return got + add_images(got)
     def save():
         tmp = ckpt + '.tmp'
         pickle.dump({'sols': np.array(sols), 'TT': TT, 'ISREP': ISREP, 'CONF': CONF, 'REJ': REJ, 'L': L,
@@ -198,27 +283,36 @@ def main():
         d = pickle.load(open(ckpt, 'rb')); L = d['L']; S = System(n, prof, fixed, L); to_u = make_to_u(S, n)
         rng.bit_generator.state = d['rng']; stat.update(d['stat']); REJ[:] = d['REJ']
         for u, t, r, c in zip(d['sols'], d['TT'], d['ISREP'], d['CONF']): add(u, t, c, r)
+        stat['unconf'] = sum(not c for c in CONF)
         print(f'resumed {len(sols)} covers', flush=True)
     else:
         new_seed()
     def report(msg):
         st = ' '.join(f'{k} {v}' for k, v in stat.items())
         print(f'{msg}: covers {len(sols)} weighted {W[0]:.4f}/{target} {st} rej {len(REJ)} t={time.time()-t0:.1f}s', flush=True)
-    expanded = 0; pending = set(); tried = set(); use_images = False; seedfail = 0; rnd = 0; rescanned = False; reimaged = False
+    expanded = 0; pending = set(); tried = set(); use_images = False; seedfail = 0; rnd = 0; rescanned = False; reimaged = False; loops_left = a.loops; endgamed = False
     while W[0] < target - 1e-9 and time.time() - t0 < a.maxtime:
         rnd += 1
-        jobs = {k: [] for k in range(len(MOVES))}
+        jobs = {k: [] for k in range(NM)}
         for i in range(expanded, len(sols)):
             if not ISREP[i] and not use_images: continue
-            for k, mv in enumerate(MOVES):
+            for k in range(NM):
                 if (k, i) in tried: continue
-                pt = predict(TT[i], mv); c = md.canon(pt)[0]
+                pt = pred(TT[i], k); c = md.canon(pt)[0]
                 if c not in TUP and c not in pending: pending.add(c); jobs[k].append((i, pt, c))
         expanded = len(sols)
         if sum(len(v) for v in jobs.values()) == 0:
             if not rescanned:                  # predictions from every cover (images too), failed ones dropped
                 expanded = 0; pending.clear(); use_images = True; rescanned = True
                 report(f'round {rnd} rescan with images'); continue
+            if loops_left > 0:                 # random triangle loops on the tracked covers (mono.py style)
+                loops_left -= 1; got = random_loop(); report(f'round {rnd} random loop -> {len(got)} new')
+                if got: rescanned = False; use_images = False; expanded = 0; pending.clear()
+                continue
+            if not endgamed:
+                endgamed = True; got = endgame(); report(f'round {rnd} endgame -> {len(got)} new')
+                if got: rescanned = False; use_images = False; expanded = 0; pending.clear(); endgamed = False
+                continue
             if not reimaged:
                 reimaged = True; gotimg = add_images(list(range(len(sols))))
                 report(f'round {rnd} re-image pass -> {len(gotimg)} new')
@@ -231,15 +325,14 @@ def main():
                 if seedfail >= a.seedtries: break
             continue
         for k, lst in jobs.items():
-            mv = MOVES[k]
             for s0 in range(0, len(lst), a.batch):
                 chunk = [(i, pt, c) for i, pt, c in lst[s0:s0 + a.batch] if c not in TUP]
                 if not chunk: continue
                 for i, _, _ in chunk: tried.add((k, i))
                 U0 = np.array([sols[i] for i, _, _ in chunk])
-                U1, ok = braid.run(S, U0, mv[0], mv[1], mv[2])
+                U1, ok = run_move(U0, k)
                 if (~ok).any():
-                    U2, ok2 = braid.run(S, U0[~ok], mv[0], mv[1], mv[2], careful=True)
+                    U2, ok2 = run_move(U0[~ok], k, careful=True)
                     ii = np.nonzero(~ok)[0]; U1[ii[ok2]] = U2[ok2]; ok[ii[ok2]] = True
                 stat['tracks'] += len(chunk); stat['fail'] += int((~ok).sum())
                 for (i, pt, c), o in zip(chunk, ok):
