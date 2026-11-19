@@ -5,6 +5,8 @@
 
 Claude sessions: start with `MB104/CLAUDE-START-HERE.md` (navigation only; not an authority).
 
+**今の目標とフォルダの地図（2026-11-19）:** [`MB104/route-E/GOAL.md`](MB104/route-E/GOAL.md)（記録のみ、credit 0）。
+
 - `STATE.json`, `MISSION.json`, `PREFLIGHT.json`, `LIVE.json`, `fib/`: historical/frozen control records; current location references updated, frozen audit/credit statuses unchanged.
 - `MB101/`: retained normalization-profile results and original Python verifier.
 - `MB102/`: retained branch/delta/genus results and original Python verifier.
