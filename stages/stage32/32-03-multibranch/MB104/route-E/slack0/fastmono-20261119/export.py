@@ -3,7 +3,9 @@
 cov_<n>_<prof>.pkl / rej_<n>_<prof>.pkl hold only the covers that pass analyse() in double precision; build_all
 refines them at 40 digits and regenerates the Aut(B) images itself, which brings back the covers with almost
 coincident critical points as exact images (every Aut(B) orbit has such a member; checked by orbitcover.py for
-2,2,2,2,2,2).  The complete list (all classes, tuples, flags) goes to full_<n>_<prof>.pkl.
+2,2,2,2,2,2).  The complete list (all classes, tuples, flags) goes to full_<n>_<prof>.pkl, and the covers left out of the cov
+file to extra_<n>_<prof>.pkl.  For profiles with a small stabiliser the Aut(B) images of the cov file do NOT
+bring the extra covers back, so they have to be handled separately (40-digit refinement from their own data).
 usage: python3 export.py ckpt_dir_<n>_<prof>.pkl n t1,..,t6"""
 import sys, os, pickle, numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE); sys.path.insert(0, os.path.join(HERE, '../speedup-20261118'))
@@ -25,6 +27,12 @@ def export(d, n, prof, outdir='.'):
     pickle.dump({'n': n, 'prof': prof, 'covers': covs}, open(os.path.join(outdir, f'cov_{tag}.pkl'), 'wb'))
     pickle.dump({'sols': sols, 'ys': S.ys, 'L': d['L'], 'fixed': d['fixed'], 'tuples': d['TT'],
                  'confirmed': d['CONF'], 'in_cov_file': keep}, open(os.path.join(outdir, f'full_{tag}.pkl'), 'wb'))
+    extra = [i for i in range(len(sols)) if i not in set(keep)]
+    pickle.dump({'n': n, 'prof': prof, 'sols': sols[extra], 'ys': S.ys, 'fixed': d['fixed'], 'L': d['L'],
+                 'tuples': [d['TT'][i] for i in extra], 'confirmed': [d['CONF'][i] for i in extra],
+                 'note': 'covers that fail analyse() in double precision (almost-coincident critical points); '
+                         'u = (P, Q, critical points 3.. in ys order), first three critical points = fixed'},
+                open(os.path.join(outdir, f'extra_{tag}.pkl'), 'wb'))
     return len(keep), len(sols)
 
 if __name__ == '__main__':
