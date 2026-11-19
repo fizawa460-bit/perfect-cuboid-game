@@ -1,10 +1,12 @@
 """Pair search for slack (0,0), = speedup-20261118/search2.py (j-invariant keys, split subsets, same tolerances and
-the same Omega bookkeeping) with two changes:
+the same Omega bookkeeping) with these changes (same |Omega|<=4 hits on every test, plus hits search2 missed):
 
  (1) SELF PAIRS SEPARATELY.  A table cover q = U∘r whose representative r IS the query cover f has the same odd points
      as f (only the labels are permuted by U).  For such pairs search2 meets every quadruple of f twice over (M = id
      and the Klein-four reorderings), which is where almost all candidates of E22 (6,6) came from (3·10^8).  Here the
-     main loop drops every table entry of f's own Aut(B)-orbit, and the self pairs are done exactly once per f:
+     main loop drops every table entry whose representative index is f (pairs with a different representative that
+     happens to be in the same Aut(B)-orbit, e.g. through the profile stabiliser, stay in the main loop), and the
+     self pairs are done exactly once per f:
      all Möbius maps M sending an ordered 4-subset of f's first F1 odd points to a 4-subset of f's first F2 odd points
      with the same cross-ratio (F1 + F2 >= 2 nA - jmin + 4, so every M with >= jmin matched points is met), the point
      matching D is computed once per M,
@@ -24,6 +26,13 @@ the same Omega bookkeeping) with two changes:
      the cross-ratio is relative: |Δλ|/|λ| <~ Σ ε/|z_i - z_j| (ε ~ 1e-16 from the 40-digit points rounded to double,
      separations >= 1e-6 by the analyse test), i.e. <~ 1e-9, far inside the window; the measured largest ratio is
      printed as 'true_quad_rel_max'.  The final cross-ratio test on every candidate is unchanged (absolute 4 EPS).
+ (1''') 2-D GRID KEY: (label code, cell of width 8 EPS in the first sphere coordinate, second coordinate), so a lookup
+     meets a small square instead of a slab around a great circle.
+ (1'''') 40-DIGIT DISTANCES: computed with flint at 200 bits from the exact stored points, only for entries whose double
+     distance is < 1e-4, and with the Möbius map rebuilt from the three best separated nearest-neighbour pairs.
+ (3) PRECISION BUG FIXED: mp.dps is raised BEFORE the pickles are loaded (mpmath rounds unpickled numbers to the
+     current precision; search.py of E21 and search2.py of PR #1881 load at 15 digits, so their "40-digit" check
+     used double-precision points; at (5,5) this lost 7 composite hits).
  (2) every pair that the double-precision fibre test calls BIRATIONAL is rechecked at 40 digits automatically
      (bircheck40.py = the E22 §3 procedure); the final count uses the 40-digit verdict.
 
@@ -40,7 +49,7 @@ FA = int(sys.argv[4]) if len(sys.argv) > 4 and sys.argv[4] != '-' else None
 SH = int(sys.argv[5]) if len(sys.argv) > 5 else 0; NSH = int(sys.argv[6]) if len(sys.argv) > 6 else 1
 DA = sys.argv[7] if len(sys.argv) > 7 else '.'; DB = sys.argv[8] if len(sys.argv) > 8 else DA
 import mpmath as mp
-mp.mp.dps = 40   # BEFORE unpickling: mpmath rounds unpickled mpf/mpc to the current precision.  search.py (E21) and
+mp.mp.dps = 60   # BEFORE unpickling (60 >= the digits of any stored list, see build_all DPS): mpmath rounds unpickled mpf/mpc to the current precision.  search.py (E21) and
                  # speedup-20261118/search2.py load the pickles at the default 15 digits, so their "40-digit" points
                  # were really double precision (true matches then sit at ~1e-17 > the 1e-20 acceptance threshold).
 A = pickle.load(open(f'{DA}/all_{a}.pkl', 'rb')); Bd = pickle.load(open(f'{DB}/all_{b}.pkl', 'rb'))
@@ -106,7 +115,7 @@ def hplist(an):
         for z in an['hp'].get(y, []):
             out.append((acb(1), acb(0)) if z is None else (_mp2acb(z), acb(1)))
     return out
-def hpdist_pts(X, Y, xs_idx, ys_idx):
+def hpdist_pts(X, Y, xs_idx, ys_idx, Dd=None):
     """40-digit chordal distances between M(X_i) and Y_j, M the Möbius map with M X[xs_idx[k]] ~ Y[ys_idx[k]], k<3."""
     def frame(p):    # columns p0*l0, p1*l1 with l0 p0 + l1 p1 = p2
         a, b, c, d = p[0][0], p[1][0], p[0][1], p[1][1]; det = a * d - b * c
@@ -115,12 +124,16 @@ def hpdist_pts(X, Y, xs_idx, ys_idx):
     Fy = frame([Y[k] for k in ys_idx[:3]]); Fx = frame([X[k] for k in xs_idx[:3]])
     (a, b), (c, d) = Fx; det = a * d - b * c; Fi = ((d / det, -b / det), (-c / det, a / det))
     M = [[Fy[i][0] * Fi[0][j] + Fy[i][1] * Fi[1][j] for j in range(2)] for i in range(2)]
-    Yn = [(y, (abs(y[0]) ** 2 + abs(y[1]) ** 2).sqrt()) for y in Y]
-    D = np.zeros((len(X), len(Y)))
+    Yn = [(y, (abs(y[0]) ** 2 + abs(y[1]) ** 2).sqrt()) for y in Y]   # (cheap)
+    # entries whose double-precision distance is >= 1e-4 cannot be < 1e-20 at 40 digits: keep the double value there
+    D = np.array(Dd, float) if Dd is not None else np.zeros((len(X), len(Y)))
+    need = (Dd < 1e-4) if Dd is not None else np.ones((len(X), len(Y)), bool)
     for i, x in enumerate(X):
+        if not need[i].any(): continue
         u0 = M[0][0] * x[0] + M[0][1] * x[1]; u1 = M[1][0] * x[0] + M[1][1] * x[1]
         nu = (abs(u0) ** 2 + abs(u1) ** 2).sqrt()
-        for j, (y, ny) in enumerate(Yn):
+        for j in np.nonzero(need[i])[0]:
+            y, ny = Yn[j]
             D[i, j] = float((abs(u0 * y[1] - u1 * y[0]) / (nu * ny)).mid())
     return D
 HA = {}; HB = {}
@@ -230,7 +243,7 @@ for fi, (p, q, an, aut) in enumerate(A['reps']):
                             stats['amb'] += 1; xs3, ys3 = best_triple(Du, pts, s, yq)
                             if fi not in HA: HA[fi] = hplist(A['reps'][fi][2])
                             if qi not in HB: HB[qi] = hplist(Bd['all'][qi][2])
-                            Du = hpdist_pts(HA[fi], HB[qi], xs3, ys3)
+                            Du = hpdist_pts(HA[fi], HB[qi], xs3, ys3, Du)
                             if (Du < 1e-20).any(): stats['hp_acc_max'] = max(stats.get('hp_acc_max', 0), float(Du[Du < 1e-20].max()))
                             stats['hp_rej_min'] = min(stats.get('hp_rej_min', 1), float(Du[Du >= 1e-20].min()))
                             close = Du < 1e-20
@@ -264,7 +277,7 @@ for fi, (p, q, an, aut) in enumerate(A['reps']):
                 stats['amb'] += 1
                 if fi not in HA: HA[fi] = hplist(an)
                 xs3, ys3 = best_triple(Du, pts, list(allord[R_[u]]), list(allsub[E_[u]]))
-                Du = hpdist_pts(HA[fi], HA[fi], xs3, ys3); close = Du < 1e-20
+                Du = hpdist_pts(HA[fi], HA[fi], xs3, ys3, Du); close = Du < 1e-20
             else: close = Du < 1e-11
             # relabel for every cover of the orbit: q = U∘f, q's odd point list is f's points regrouped by perm
             for qi in orbit[fi]:

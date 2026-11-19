@@ -14,7 +14,8 @@ from covers import BP, AUT, polish
 sys.argv = _a
 _strict = allcovers.analyse
 allcovers.analyse = lambda *a, **k: _strict(*a, **k) or mono.analyse_loose(*a, **k)
-REF = hp.refine if OLD else hp_fast.refine
+DPS = int(os.environ.get('DPS', '40'))     # digits of the stored points (60 helps covers with nearly colliding points)
+REF = hp.refine if OLD else (lambda *a, **k: hp_fast.refine(*a, dps=DPS, **k))
 analyse = allcovers.analyse
 
 from covers import _OM
@@ -64,7 +65,7 @@ def dedupe_inv(lst, inv):
 
 def one_file(fn):
     """allcovers.load_reps for one file (same steps; only the refinement routine differs)."""
-    import mpmath as mp; mp.mp.dps = 40
+    import mpmath as mp; mp.mp.dps = max(40, DPS)
     d = pickle.load(open(fn, 'rb')); prof = d['prof']; out = []; worst = 0.0; t0 = time.time()
     # speedup mono.py also writes rej_n_prof.pkl with the full solutions (P, Q and the critical points in ys order):
     # use those critical points (the Wronskian route can mis-assign critical points of nearly colliding covers)
@@ -110,6 +111,7 @@ def one_file(fn):
     return fn, out, worst, time.time() - t0
 
 if __name__ == '__main__':
+    import mpmath as mp; mp.mp.dps = max(40, DPS)   # also governs pickling precision of the stored points
     from multiprocessing import Pool
     t0 = time.time()
     files = sorted(glob.glob(f'cov_{n}_*.pkl'))
