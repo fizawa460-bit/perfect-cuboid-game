@@ -133,8 +133,13 @@ TREP = np.concatenate(TREP).astype(np.int64); TTPV = np.concatenate(TTPV).astype
 IMAP = np.array([t[2] for t in TPV], np.int64); QCLS = np.array([t[3] for t in TPV], np.int64)
 SUBB = np.array([t[4] for t in TPV], np.int64); SCODE = np.array([t[5] for t in TPV], np.int64)
 wt = np.sum(1 / LB['aut'][TREP])
+def _code_counts():      # table entries per label code (without materialising the (covers x subsets) array)
+    nt = np.bincount(TTPV, minlength=len(TPV)); out = {}
+    for t in range(len(TPV)):
+        for c, k in zip(*np.unique(SCODE[t], return_counts=True)): out[int(c)] = out.get(int(c), 0) + int(k) * int(nt[t])
+    return dict(sorted(out.items()))
 print(f'table covers {len(TREP)} (weighted {wt:.2f}), {len(TPV)} (profile, coset) maps, {len(subF)} key subsets each; '
-      f'codes: {dict(zip(*np.unique(np.repeat(SCODE, np.bincount(TTPV), 0), return_counts=True)))}', flush=True)
+      f'codes: {_code_counts()}', flush=True)
 CODES_ALL = sorted(set(SCODE.ravel().tolist()))
 MERGEONLY = os.environ.get('MERGEONLY') == '1'      # only merge existing partial results and run the birationality stage
 if MERGEONLY: CODES_ALL = []
