@@ -336,47 +336,48 @@ def self_part(fi, cap=200000):
 # ---------------- main: one label code at a time, JOBS workers forked after each table build
 TT = {}
 CHILD = None
+BLK = int(os.environ.get('BLK', '2000'))          # queries per result block; every block is saved (resume after a restart)
+NBLK = (len(QUERY) + BLK - 1) // BLK
+def reset_stats():
+    hits.clear(); hist.clear()
+    for k in list(stats):
+        if k.startswith(('hp_', 'true_')): del stats[k]
+        elif k == 'rej_min': stats[k] = 1.0
+        elif isinstance(stats[k], float): stats[k] = 0.0
+        else: stats[k] = 0
+def run_blocks(tag, fn):
+    """blocks of QUERY not yet saved as {OUT}_{tag}_b{k}.pkl, spread over JOBS forked workers"""
+    todo = [k for k in range(NBLK) if not os.path.exists(f'{OUT}_{tag}_b{k}.pkl')]
+    if not todo: return False
+    kids = []
+    for w in range(JOBS):
+        pid = os.fork() if JOBS > 1 else 0
+        if pid: kids.append(pid); continue
+        for k in todo[w::JOBS]:
+            reset_stats(); _t = time.time()
+            for fi in QUERY[k * BLK:(k + 1) * BLK]: fn(int(fi))
+            out = f'{OUT}_{tag}_b{k}.pkl'
+            pickle.dump({'hits': hits, 'hist': hist, 'stats': stats, 'time': time.time() - _t}, open(out + '.tmp', 'wb'))
+            os.replace(out + '.tmp', out)
+        if JOBS > 1: os._exit(0)
+        break
+    for pid in kids: os.waitpid(pid, 0)
+    reset_stats(); return True
 for code, hx in [(c, h) for c in CODES_ALL for h in range(XSPLIT)]:
-    if all(os.path.exists(f'{OUT}_code{code}h{hx}_w{w}of{JOBS}.pkl') for w in range(JOBS)):
-        print(f'code {code} slice {hx}: results exist, skipped', flush=True); continue
+    tag = f'code{code}h{hx}'
+    if all(os.path.exists(f'{OUT}_{tag}_b{k}.pkl') for k in range(NBLK)):
+        print(f'{tag}: results exist, skipped', flush=True); continue
     _t = time.time(); Tb = build_table(code, hx, XSPLIT)
     if Tb is None: continue
     print(f'code {code} slice {hx}: {len(Tb["keys"])} entries, tiers {[(int(s), int(e)) for s, e in zip(Tb["tstart"], Tb["tend"])]}, '
           f'max S {Tb["tsmax"]}, built in {time.time() - _t:.0f}s', rss(), flush=True)
-    kids = []
-    for w in range(JOBS):
-        pid = os.fork() if JOBS > 1 else 0
-        if pid: kids.append(pid); continue
-        _t = time.time()
-        for qi, fi in enumerate(QUERY):
-            if qi % JOBS != w: continue
-            run_scan(int(fi), code, Tb)
-        pickle.dump({'hits': hits, 'hist': hist, 'stats': stats, 'time': time.time() - _t},
-                    open(f'{OUT}_code{code}h{hx}_w{w}of{JOBS}.pkl', 'wb'))
-        if JOBS > 1: os._exit(0)
-        break
-    for pid in kids: os.waitpid(pid, 0)
-    hits.clear(); hist.clear(); stats.update({k: 0 if not isinstance(v, float) else (1.0 if k == 'rej_min' else 0.0) for k, v in stats.items()})
-    for k in list(stats):
-        if k.startswith(('hp_', 'true_')): del stats[k]
+    run_blocks(tag, lambda fi: run_scan(fi, code, Tb))
     Tb = None
     print(f'code {code} slice {hx} done, {time.time() - t0:.0f}s', flush=True)
-if SAME and not NOSELF and not MERGEONLY and not all(os.path.exists(f'{OUT}_self_w{w}of{JOBS}.pkl') for w in range(JOBS)):
-    kids = []
-    for w in range(JOBS):
-        pid = os.fork() if JOBS > 1 else 0
-        if pid: kids.append(pid); continue
-        _t = time.time()
-        for qi, fi in enumerate(QUERY):
-            if qi % JOBS != w: continue
-            self_part(int(fi))
-        pickle.dump({'hits': hits, 'hist': hist, 'stats': stats, 'time': time.time() - _t}, open(f'{OUT}_self_w{w}of{JOBS}.pkl', 'wb'))
-        if JOBS > 1: os._exit(0)
-        break
-    for pid in kids: os.waitpid(pid, 0)
-    print(f'self part done, {time.time() - t0:.0f}s', flush=True)
+if SAME and not NOSELF and not MERGEONLY:
+    if run_blocks('self', self_part): print(f'self part done, {time.time() - t0:.0f}s', flush=True)
 # ---------------- merge the partial results, birationality (search4's double fibre test + automatic bircheck40)
-parts = sorted(glob.glob(f'{OUT}_code*_w*of{JOBS}.pkl')) + sorted(glob.glob(f'{OUT}_self_w*of{JOBS}.pkl'))
+parts = sorted(glob.glob(f'{OUT}_code*_b*.pkl')) + sorted(glob.glob(f'{OUT}_self_b*.pkl'))
 H = []; HIST = {}; ST = {}
 for fn in parts:
     d = pickle.load(open(fn, 'rb')); H += d['hits']
