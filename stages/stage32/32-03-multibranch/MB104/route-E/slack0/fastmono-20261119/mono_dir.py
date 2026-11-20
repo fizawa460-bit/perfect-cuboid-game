@@ -107,6 +107,7 @@ def main():
     ap.add_argument('--ckpt', default=''); ap.add_argument('--maxtime', type=float, default=1e18)
     ap.add_argument('--batch', type=int, default=300); ap.add_argument('--seedtries', type=int, default=40)
     ap.add_argument('--verify', type=float, default=0.03)
+    ap.add_argument('--seedfile', default='', help='pickle list of (P, Q, crit points, branch index per crit point), e.g. composite covers')
     ap.add_argument('--loops', type=int, default=6, help='random loops to try when predictions run dry')
     a = ap.parse_args()
     n = a.n; prof = tuple(int(x) for x in a.prof.split(',')); rng = np.random.default_rng(a.seed)
@@ -296,9 +297,24 @@ def main():
         print(f'resumed {len(sols)} covers', flush=True)
     else:
         new_seed()
+    def seed_from_file(fn):
+        """start covers given explicitly (composites g o h lie in braid orbits that random seeds almost never reach)"""
+        got = []; bad = 0
+        for P_, Q_, cc_, as_ in pickle.load(open(fn, 'rb')):
+            xg = np.concatenate([P_, Q_])
+            an0 = analyse(P_, Q_, n, prof, np.asarray(cc_), list(as_)) or analyse_loose(P_, Q_, n, prof, np.asarray(cc_), list(as_))
+            sd = to_u(xg, an0) if an0 is not None else None
+            if sd is None or an_of(sd) is None: bad += 1; continue
+            t = number([sd])[0]
+            if t is None or not md.check(t, prof): bad += 1; continue
+            j = add(sd, t, True, rep=True)
+            if j is not None: got.append(j)
+        return got + add_images(got), bad
     def report(msg):
         st = ' '.join(f'{k} {v}' for k, v in stat.items())
         print(f'{msg}: covers {len(sols)} weighted {W[0]:.4f}/{target} {st} rej {len(REJ)} t={time.time()-t0:.1f}s', flush=True)
+    if a.seedfile:
+        gotf, badf = seed_from_file(a.seedfile); report(f'seed file {a.seedfile}: {len(gotf)} new, {badf} not usable')
     expanded = 0; pending = set(); tried = set(); use_images = False; seedfail = 0; rnd = 0; rescanned = False; reimaged = False; loops_left = a.loops; endgamed = False
     while W[0] < target - 1e-9 and time.time() - t0 < a.maxtime:
         rnd += 1
