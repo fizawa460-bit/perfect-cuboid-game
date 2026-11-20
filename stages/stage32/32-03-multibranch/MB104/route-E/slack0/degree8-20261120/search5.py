@@ -179,16 +179,16 @@ def build_table(code, h=0, k=1):
             tier = np.searchsorted(TIERS, ST, 'right') - 1
             m = (S[:, 0] >= xlo) & (S[:, 0] < xhi)
             if (tier == ntier - 1).any(): smax_last = max(smax_last, float(ST[tier == ntier - 1].max()))
-            key = np.floor((S[:, 0] + 1) / W[tier]) * 4.0 + (S[:, 1] + 1) + tier * 1e7
-            parts.append((key[m], np.repeat(te, len(ks)).astype(np.int32)[m], np.tile(ks, len(te)).astype(np.int16)[m]))
+            key = np.floor((S[:, 0] + 1) / W[tier]) * 4.0 + (S[:, 1] + 1)
+            parts.append((key[m], np.repeat(te, len(ks)).astype(np.int32)[m], np.tile(ks, len(te)).astype(np.int16)[m], tier[m].astype(np.int8), S[m, 0]))
     if not parts: return None
-    key = np.concatenate([p[0] for p in parts]); TE = np.concatenate([p[1] for p in parts]); SB = np.concatenate([p[2] for p in parts]); parts = None
-    o = np.argsort(key, kind='stable'); key = key[o]; TE = TE[o]; SB = SB[o]; o = None
-    tstart = np.array([np.searchsorted(key, i * 1e7 - 1) for i in range(ntier)], np.int64)
-    tend = np.array([np.searchsorted(key, (i + 1) * 1e7 - 1) for i in range(ntier)], np.int64)
-    for i in range(ntier): key[tstart[i]:tend[i]] -= i * 1e7          # back to cell*4 + (y+1) within each tier
+    key = np.concatenate([p[0] for p in parts]); TE = np.concatenate([p[1] for p in parts]); SB = np.concatenate([p[2] for p in parts])
+    TI = np.concatenate([p[3] for p in parts]); XS = np.concatenate([p[4] for p in parts]); parts = None
+    o = np.lexsort((key, TI)); key = key[o]; TE = TE[o]; SB = SB[o]; TI = TI[o]; XS = XS[o]; o = None     # by tier, then key (exact)
+    tstart = np.searchsorted(TI, np.arange(ntier), 'left').astype(np.int64)
+    tend = np.searchsorted(TI, np.arange(ntier), 'right').astype(np.int64); TI = None
     tsmax = np.array([TIERS[i + 1] if np.isfinite(TIERS[i + 1]) else smax_last for i in range(ntier)])
-    return dict(keys=key, te=TE, sb=SB, ntier=ntier, tstart=tstart, tend=tend, W=W, tsmax=tsmax)
+    return dict(keys=key, te=TE, sb=SB, xs=XS, ntier=ntier, tstart=tstart, tend=tend, W=W, tsmax=tsmax)
 
 # ---------------- query side helpers
 def fpts(fi):
@@ -301,14 +301,15 @@ def verify(fi, pts, lab, subs, R, QX, YQ, qinfo, kind, qarr):
 def run_scan(fi, code, Tb, cap=200000):
     f0, f1, fl = fpts(fi); subs = fsubs(fi, code)
     if not len(subs): return
-    myc = int(CLSB[fi]) if SAME else -1
+    myc = int(CLSB[fi]) if SAME else -1; _t0 = time.time()
     while True:
         r, te, sb, p, cnt, full = scan_nb.scan(f0, f1, fl, subs, perm24, P6, TOL, 4 * EPS, MAXFAIL,
-                                               Tb['keys'], Tb['te'], Tb['sb'], Tb['ntier'], Tb['tstart'], Tb['tend'], Tb['W'], Tb['tsmax'],
+                                               Tb['keys'], Tb['te'], Tb['sb'], Tb['xs'], Tb['ntier'], Tb['tstart'], Tb['tend'], Tb['W'], Tb['tsmax'],
                                                TREP, TTPV, IMAP, QCLS, SUBB, LB['B0'], LB['B1'], CLSB, myc, cap)
         if not full: break
         cap *= 4
     stats['raw'] += int(cnt[0]); stats['win'] += int(cnt[1]); stats['cand_nb'] += int(cnt[2]); stats['surv'] += len(r)
+    stats['t_scan'] = stats.get('t_scan', 0.0) + time.time() - _t0; _t0 = time.time()
     if not len(r): return
     u = np.unique(np.stack([r, te, sb, p], 1), axis=0); r, te, sb, p = u.T
     T = SUBB[TTPV[te], sb]; YQ = T[np.arange(len(T))[:, None], perm24[p]]
@@ -317,6 +318,7 @@ def run_scan(fi, code, Tb, cap=200000):
         qp, qc = tpts(qx); rr = TREP[qx]; t = TTPV[qx]
         return qp, qc, (lambda: hplist(LB, rr, IMAP[t]))
     verify(fi, pts, lab, subs, r, te, YQ, qinfo, 'T', lambda QX: LB['odd'][TREP[QX][:, None], IMAP[TTPV[QX]]])
+    stats['t_verify'] = stats.get('t_verify', 0.0) + time.time() - _t0
 
 # self part: the 24 covers U∘f
 def self_part(fi, cap=200000):

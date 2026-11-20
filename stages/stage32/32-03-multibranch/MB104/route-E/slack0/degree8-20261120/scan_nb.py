@@ -154,7 +154,7 @@ def _prefilter_dedupe(f0, f1, flab, s, q0, q1, ql, T, perm24, TOL, EPS4, maxfail
 
 @njit(cache=True)
 def scan(f0, f1, flab, subs, perm24, P6, TOL, EPS4, maxfail,
-         keys, ete, esb, ntier, tstart, tend, tW, tsmax,
+         keys, ete, esb, exs, ntier, tstart, tend, tW, tsmax,
          TREP, TTPV, IMAP, QCLS, SUBB, B0, B1, CLSB, myclass, cap):
     """subs (R, 4): query subsets with the current label code.  Table entries of tier k are keys[tstart[k]:tend[k]]
     (sorted by cell*4 + (y+1), cell = floor((x+1)/tW[k])), ete = table cover, esb = subset index.  Table cover te
@@ -177,13 +177,14 @@ def scan(f0, f1, flab, subs, perm24, P6, TOL, EPS4, maxfail,
                 if tend[k] <= tstart[k]: continue
                 w = min(TOL * (SQ + tsmax[k]) * KQ, EPS4)
                 W = tW[k]
-                c1 = int(np.floor((x - w + 1) / W)); c2 = int(np.floor((x + w + 1) / W))
+                c1 = int(np.floor((x - w - 1e-7 + 1) / W)); c2 = int(np.floor((x + w + 1e-7 + 1) / W))   # 1e-7: key rounding slack
                 kk = keys[tstart[k]:tend[k]]
                 for cell in range(c1, c2 + 1):
-                    lo = np.searchsorted(kk, cell * 4.0 + (yv - w + 1) - 1e-9) + tstart[k]
-                    hi = np.searchsorted(kk, cell * 4.0 + (yv + w + 1) + 1e-9, 'right') + tstart[k]
+                    lo = np.searchsorted(kk, cell * 4.0 + (yv - w + 1) - 1e-7) + tstart[k]
+                    hi = np.searchsorted(kk, cell * 4.0 + (yv + w + 1) + 1e-7, 'right') + tstart[k]
                     cnt[0] += hi - lo
                     for e in range(lo, hi):
+                        if abs(exs[e] - x) > w + 1e-12: continue  # exs = the entry's x (exact): |dx| <= dd, cheap reject
                         te = ete[e]; rep = TREP[te]
                         if myclass >= 0 and CLSB[rep] == myclass: continue
                         t = TTPV[te]; sb = esb[e]
