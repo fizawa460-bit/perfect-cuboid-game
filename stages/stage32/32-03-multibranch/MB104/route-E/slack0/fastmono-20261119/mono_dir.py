@@ -167,12 +167,13 @@ def main():
                 c = md.canon(pt)[0]
                 if c not in TUP: allj.setdefault(c, []).append((k, i, pt))
         for c, lst in allj.items():
-            for dd in (0.15, 0.3):
+            # 40 digits first; then 80 (some degree-8 covers stall at 40 digits just above the 1e-24 step tolerance)
+            for dps, dd, nsrc in ((40, 0.15, 8), (40, 0.3, 8), (80, 0.15, 3), (80, 0.3, 3)):
                 if c in TUP: break
-                for k, i, pt in lst[:8]:
+                for k, i, pt in lst[:nsrc]:
                     if c in TUP: break
                     mv, half = MV[k]; Ws = move_path(k, dd)
-                    uh = hp_track.track_path(S, sols[i], Ws); stat['hp_tracks'] += 1
+                    uh = hp_track.track_path(S, sols[i], Ws, dps=dps); stat['hp_tracks'] += 1
                     if uh is None: continue
                     un = hp_track.to_np(uh)[None]
                     if half is True: un = braid.relabel(S, un, mv[0], mv[1])
