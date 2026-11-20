@@ -55,6 +55,7 @@ def predict(t, mv):
 
 TM = 12   # loop sampling for fasttuples (60 = monodromy.py's original)
 
+_kept = []
 def make_to_u(S, n):
     """mono.py's to_u, made robust for covers with almost-coincident critical points: the three critical points
     sent to S.fixed may be any members of their branch-point groups (all choices are tried), Newton is skipped
@@ -84,7 +85,7 @@ def make_to_u(S, n):
             except np.linalg.LinAlgError: break
             if not np.isfinite(u).all(): break
         return bu, best
-    def to_u(x2, an2):
+    def to_u(x2, an2, tol=1e-9):
         if any(z is None for y in range(6) for z in an2[y][1]): return None
         first = {}
         for y in S.ys:
@@ -97,7 +98,9 @@ def make_to_u(S, n):
             u, r = one(x2, choice)
             if r < 1e-9 * 0.01: return u
             if r < best: best, bu = r, u
-        return bu if best < 1e-9 else None
+        if os.environ.get('TOU_DEBUG') and best >= 1e-9: print('  to_u: best residual', best, flush=True)
+        if os.environ.get('TOU_KEEP') and bu is not None: _kept.append((best, bu))
+        return bu if best < tol else None
     return to_u
 
 def main():
@@ -300,16 +303,36 @@ def main():
         new_seed()
     def seed_from_file(fn):
         """start covers given explicitly (composites g o h lie in braid orbits that random seeds almost never reach)"""
-        got = []; bad = 0
-        for P_, Q_, cc_, as_ in pickle.load(open(fn, 'rb')):
+        got = []; bad = 0; hpstarts = {}; why = {'analyse': 0, 'to_u': 0, 'an_of': 0, 'number': 0, 'check': 0}
+        for si, (P_, Q_, cc_, as_) in enumerate(pickle.load(open(fn, 'rb'))):
             xg = np.concatenate([P_, Q_])
             an0 = analyse(P_, Q_, n, prof, np.asarray(cc_), list(as_)) or analyse_loose(P_, Q_, n, prof, np.asarray(cc_), list(as_))
-            sd = to_u(xg, an0) if an0 is not None else None
-            if sd is None or an_of(sd) is None: bad += 1; continue
+            if an0 is None: why['analyse'] += 1; why.setdefault('idx_analyse', []).append(si); bad += 1; continue
+            sd = to_u(xg, an0); hpu = None
+            if sd is None:
+                # ill-conditioned in double (Newton stalls near 1e-8; seen for composites): finish at 80 digits,
+                # keep the 80-digit point for build5 (regen file) and its double rounding for tracking/numbering
+                sd0 = to_u(xg, an0, tol=1e-5)
+                if sd0 is not None:
+                    hp_track.setup(80); H = hp_track.HP(S); W0 = [tuple(hp_track.to_acb(r)) for r in B0]; uh = hp_track.to_acb(sd0)
+                    for _ in range(12):
+                        F_, J_, _ = H.FJ(uh, W0); dx = hp_track.solve(J_, F_); uh = [(x_ - d_).mid() for x_, d_ in zip(uh, dx)]
+                    F_, _, _ = H.FJ(uh, W0)
+                    if max(abs(complex(f.real.mid()) + 1j * float(f.imag.mid())) for f in F_) < 1e-60:
+                        sd = hp_track.to_np(uh); hpu = [(z.real.mid().str(90, radius=False), z.imag.mid().str(90, radius=False)) for z in uh]
+            if sd is None: why['to_u'] += 1; why.setdefault('idx_to_u', []).append(si); bad += 1; continue
+            if hpu is None and an_of(sd) is None: why['an_of'] += 1; why.setdefault('idx_an_of', []).append(si); bad += 1; continue
             t = number([sd])[0]
-            if t is None or not md.check(t, prof): bad += 1; continue
+            if t is None: why['number'] += 1; why.setdefault('idx_number', []).append(si); bad += 1; continue
+            if not md.check(t, prof): why['check'] += 1; why.setdefault('idx_check', []).append(si); bad += 1; continue
             j = add(sd, t, True, rep=True)
-            if j is not None: got.append(j)
+            if j is not None:
+                got.append(j)
+                if hpu is not None: hpstarts[j] = hpu
+        print('seed file: not usable because', why, '; finished at 80 digits:', sorted(hpstarts), flush=True)
+        if hpstarts:            # build5 uses these as 80-digit starts (regen file, merged with an existing one)
+            rf = f'regen_{tag}.pkl'; old_ = pickle.load(open(rf, 'rb')) if os.path.exists(rf) else {}
+            old_.update(hpstarts); pickle.dump(old_, open(rf, 'wb'))
         return got + add_images(got), bad
     def report(msg):
         st = ' '.join(f'{k} {v}' for k, v in stat.items())
@@ -353,6 +376,18 @@ def main():
         print('regen done', {i: v is not None for i, v in outd.items()}, flush=True); sys.exit(0)
     if a.seedfile:
         gotf, badf = seed_from_file(a.seedfile); report(f'seed file {a.seedfile}: {len(gotf)} new, {badf} not usable')
+        if os.environ.get('SEEDONLY'):
+            if _kept:       # Newton at high precision from the best double point of each seed that to_u could not finish
+                import flint
+                for best, u0 in _kept:
+                    H = hp_track.HP(S); W0 = [tuple(hp_track.to_acb(r)) for r in B0]
+                    for dps in (40, 80, 160):
+                        hp_track.setup(dps); uh = hp_track.to_acb(u0); rs = []
+                        for it in range(25):
+                            F_, J_, _ = H.FJ(uh, W0); rs.append(max(abs(complex(f.real.mid()) + 1j * float(f.imag.mid())) for f in F_))
+                            dx = hp_track.solve(J_, F_); uh = [(x_ - d_).mid() for x_, d_ in zip(uh, dx)]
+                        print('  kept seed (double residual %.1e): dps %d residuals' % (best, dps), ' '.join('%.0e' % r for r in rs[::3]), flush=True)
+            sys.exit(0)
     expanded = 0; pending = set(); tried = set(); use_images = False; seedfail = 0; rnd = 0; rescanned = False; reimaged = False; loops_left = a.loops; endgamed = False
     while W[0] < target - 1e-9 and time.time() - t0 < a.maxtime:
         rnd += 1

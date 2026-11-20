@@ -42,12 +42,12 @@ def crit_assign(P, Q, cr):
     for z in cr:
         v = np.array([pv(P, z), pv(Q, z)]); v /= np.linalg.norm(v)
         d = [abs(v[0] * b[1] - v[1] * b[0]) / np.linalg.norm(b) for b in B]
-        ys.append(int(np.argmin(d))); assert min(d) < 1e-6, min(d)
+        ys.append(int(np.argmin(d))); assert min(d) < 1e-3, min(d)   # nearest point of B (they are far apart); mono_dir refines
     return cr, ys
 
 
 def main():
-    outdir = sys.argv[1]; seeds = {}
+    outdir = sys.argv[1]; seeds = {}; rng = np.random.default_rng(int(os.environ.get('SEED', '1')))
     sols = [u for fn in sys.argv[2:] for u in pickle.load(open(fn, 'rb'))['sols']]
     for u in sols:
         P, Q = u[:5], u[5:10]
@@ -70,6 +70,12 @@ def main():
                     for gam in gcr:                       # h(z) = gamma: num - 4 gamma z = 0
                         cr += list(np.roots((num - gam * den)[::-1]))
                     cr, ys = crit_assign(Pf, Qf, np.array(cr))
+                    # a random Moebius change of the source variable (keeps special positions such as z = 0, inf or
+                    # points of f^-1(B) at infinity away from what mono_dir's analyse handles badly)
+                    a_, b_, c_, d_ = np.array([1, 0, 0, 1]) + 0.3 * (rng.normal(size=4) + 1j * rng.normal(size=4))
+                    Pf, Qf = compose(Pf, Qf, np.array([b_, a_]), np.array([d_, c_]), m=8)
+                    s = np.abs(np.concatenate([Pf, Qf])).max(); Pf, Qf = Pf / s, Qf / s
+                    cr = (d_ * cr - b_) / (-c_ * cr + a_)      # same critical points, new coordinate (labels ys kept)
                     prof = tuple(ys.count(y) for y in range(6))
                     order = np.argsort(ys, kind='stable')
                     seeds.setdefault(prof, []).append((Pf, Qf, cr[order], [ys[k] for k in order]))
