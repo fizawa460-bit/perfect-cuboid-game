@@ -314,6 +314,43 @@ def main():
     def report(msg):
         st = ' '.join(f'{k} {v}' for k, v in stat.items())
         print(f'{msg}: covers {len(sols)} weighted {W[0]:.4f}/{target} {st} rej {len(REJ)} t={time.time()-t0:.1f}s', flush=True)
+    if os.environ.get('REGEN'):
+        # rebuild given covers at 80 digits (for build5: covers whose double-precision position is too poor for Newton,
+        # e.g. near-degenerate ones that slide to a map with a common root of P and Q): track to the cover's class
+        # from other covers along predicted moves at 80 digits, Newton at 80 digits, keep the result as strings.
+        import flint
+        want = [int(x) for x in os.environ['REGEN'].split(',')]; outd = {}
+        for i in want:
+            c = md.canon(TT[i])[0]; srcs = []
+            for j in range(len(sols)):
+                if j == i: continue
+                for k in range(NM):
+                    pt = pred(TT[j], k)
+                    if md.check(pt, prof) and md.canon(pt)[0] == c: srcs.append((j, k))
+                if len(srcs) >= 6: break
+            got = None
+            for j, k in srcs:
+                for dd in (0.15, 0.3):
+                    mv, half = MV[k]; uh = hp_track.track_path(S, sols[j], move_path(k, dd), dps=80)
+                    if uh is None: continue
+                    if half is True:      # relabel at 80 digits: same permutation as braid.relabel applies to the double vector
+                        ud = hp_track.to_np(uh); perm = braid.relabel(S, np.arange(len(ud))[None].astype(complex), mv[0], mv[1])[0].real.round().astype(int)
+                        uh = [uh[int(m)] for m in perm]
+                    H = hp_track.HP(S); W0 = [tuple(hp_track.to_acb(r)) for r in B0]
+                    for _ in range(30):
+                        F_, J_, _ = H.FJ(uh, W0); dx = hp_track.solve(J_, F_); uh = [(x_ - d_).mid() for x_, d_ in zip(uh, dx)]
+                    F_, _, _ = H.FJ(uh, W0); res = max(abs(complex(f.real.mid()) + 1j * float(f.imag.mid())) for f in F_)
+                    ud = hp_track.to_np(uh); cc = np.concatenate([fixed, ud[2 * n + 2:]])
+                    dmin = min(abs(cc[x] - cc[w]) for x in range(len(cc)) for w in range(x))
+                    tn = number([ud])[0]; cn = md.canon(tn)[0] if tn is not None else None
+                    print(f'regen {i}: source {j} move {k} d={dd}: residual {res:.1e}, smallest crit distance {dmin:.1e}, '
+                          f'class {"same" if cn == c else ("numbering failed" if cn is None else "OTHER")}', flush=True)
+                    if res < 1e-60 and dmin > 1e-12 and cn in (c, None):
+                        got = [(z.real.mid().str(90, radius=False), z.imag.mid().str(90, radius=False)) for z in uh]; break
+                if got: break
+            outd[i] = got
+        pickle.dump(outd, open(os.environ.get('REGEN_OUT', f'regen_{tag}.pkl'), 'wb'))
+        print('regen done', {i: v is not None for i, v in outd.items()}, flush=True); sys.exit(0)
     if a.seedfile:
         gotf, badf = seed_from_file(a.seedfile); report(f'seed file {a.seedfile}: {len(gotf)} new, {badf} not usable')
     expanded = 0; pending = set(); tried = set(); use_images = False; seedfail = 0; rnd = 0; rescanned = False; reimaged = False; loops_left = a.loops; endgamed = False

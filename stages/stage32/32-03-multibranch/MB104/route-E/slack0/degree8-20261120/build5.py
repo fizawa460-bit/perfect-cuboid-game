@@ -37,14 +37,18 @@ def refine_cov(p, q, n, prof, crit, ysl):
     if not res < 1e-25: return None
     return com, hpodd, critm, ys, float(res)
 
-def refine_extra(p, q, n, prof, crit, ysl):
-    """extras40.entry (degree7-20261119) for general n: 60-digit Newton, odd points from polyroots, fibre check."""
+def refine_extra(p, q, n, prof, crit, ysl, hpstart=None):
+    """extras40.entry (degree7-20261119) for general n: 60-digit Newton, odd points from polyroots, fibre check.
+    hpstart = (P, Q, crit) as acb: an 80-digit start (mono_dir REGEN) used for the Newton instead of the doubles."""
     an = {y: ([], [c for c, yy in zip(crit, ysl) if yy == y]) for y in range(6)}
     for y in range(6):
         g = (BP[y][1] * p - BP[y][0] * q)[::-1].copy()
         for c in an[y][1]:
             for _ in range(2): g, _r = np.polydiv(g, np.array([1, -c]))
         an[y] = (list(np.roots(g)) + [None] * (n - 2 * prof[y] - (len(g) - 1)), an[y][1])
+    if hpstart is not None:
+        p, q, ch = hpstart
+        an = {y: (an[y][0], [c for c, yy in zip(ch, ysl) if yy == y]) for y in range(6)}
     out, res, com, hpodd, critm, ys, nit = hp_fast.refine_full(p, q, an, n, iters=40, dps=DPS)
     assert res < 1e-25, res
     P = com[:n + 1]; Q = com[n + 1:]; hpo = {}
@@ -84,9 +88,18 @@ def work(args):
     for i in idx:
         u = F['sols'][i]; p, q = u[:n + 1], u[n + 1:2 * n + 2]
         crit = list(F['fixed'][:3]) + list(u[2 * n + 2:]); ysl = list(F['ys'])
-        r = refine_cov(p, q, n, prof, crit, ysl) if i in covmap else None
+        rg = F.get('regen', {}).get(i)
+        r = refine_cov(p, q, n, prof, crit, ysl) if i in covmap and rg is None else None
         kind = 'cov'
-        if r is None:
+        if rg is not None:
+            from flint import acb, ctx as fctx
+            old_ = fctx.prec; fctx.prec = 400
+            ua = [acb(a_, b_) for a_, b_ in rg]; fx = [acb(complex(z).real, complex(z).imag) for z in F['fixed'][:3]]
+            fctx.prec = old_; kind = 'regen'
+            try: r = refine_extra(p, q, n, prof, crit, ysl, hpstart=(ua[:n + 1], ua[n + 1:2 * n + 2], fx + ua[2 * n + 2:]))
+            except AssertionError as e:
+                out.append((i, None, None, None, None, None, None, None, 'failed')); continue
+        elif r is None:
             kind = 'extra'
             try: r = refine_extra(p, q, n, prof, crit, ysl)
             except AssertionError as e:      # drifts away under refinement (cf. E24 §2: 112323 #21): rebuilt below as an exact image
@@ -104,6 +117,8 @@ def main():
     prof = tuple(int(c) for c in tag); t0 = time.time()
     F = pickle.load(open(f'{D}/full_{n}_{tag}.pkl', 'rb')); N = len(F['sols'])
     covmap = set(F['in_cov_file'])
+    rgf = f'{D}/regen_{n}_{tag}.pkl'                 # 80-digit starts from mono_dir REGEN (covers Newton cannot reach from doubles)
+    if os.path.exists(rgf): F['regen'] = {i: v for i, v in pickle.load(open(rgf, 'rb')).items() if v is not None}; print('80-digit starts for', sorted(F['regen']), flush=True)
     oddy = np.array([y for y in range(6) for _ in range(n - 2 * prof[y])]); nodd = len(oddy)
     chunks = [list(range(k, N, max(1, NP * 4))) for k in range(max(1, NP * 4))]
     NCH = max(1, N // 2000)                   # chunks of ~2000 covers, each saved (resume after a restart)
@@ -111,7 +126,9 @@ def main():
     os.makedirs(f'b5tmp_{n}_{tag}', exist_ok=True)
     def one(k):
         fn = f'b5tmp_{n}_{tag}/c{k}of{NCH}.pkl'
-        if os.path.exists(fn): return pickle.load(open(fn, 'rb'))
+        if os.path.exists(fn):
+            r = pickle.load(open(fn, 'rb'))
+            if not any(e[0] in F.get('regen', {}) and e[8] != 'regen' for e in r): return r     # else redo (new 80-digit starts)
         r = work((n, prof, F, covmap, chunks[k])); pickle.dump(r, open(fn + '.tmp', 'wb')); os.replace(fn + '.tmp', fn); return r
     if NP > 1:
         from multiprocessing import Pool
@@ -123,6 +140,9 @@ def main():
     MINDIST = float(os.environ.get('MINDIST', '1e-10')); ndrift = 0
     for i in range(N):
         if R[i][8] == 'failed': continue
+        if R[i][8] == 'regen':                 # 80-digit start: no double-precision position to compare with
+            if R[i][7] < MINDIST: R[i] = (i, None, None, None, None, None, None, None, 'failed'); ndrift += 1
+            continue
         u = F['sols'][i]; c0 = np.array(list(F['fixed'][:3]) + list(u[2 * n + 2:]))
         dr = max(np.abs(R[i][4] - c).min() / (1 + abs(c)) for c in c0)
         if dr > 1e-5 or R[i][7] < MINDIST:
@@ -133,6 +153,7 @@ def main():
     RR = pickle.load(open(os.path.join(SL, 'fastmono-20261119', 'aut_rules_7_222222.pkl'), 'rb'))
     rkey = {(cj, pi): w for (cj, M, pi), (pi2, w) in zip(autact.sym_list(tuple(RR['prof'])), RR['rules'])}
     syms = autact.sym_list(prof); cls = [md.canon(t)[0] for t in F['tuples']]
+    orphans = []
     bad = [i for i in range(N) if R[i][8] == 'failed']; clsidx = {c: k for k, c in enumerate(cls)}
     oddy0 = np.array([y for y in range(6) for _ in range(n - 2 * prof[y])])
     for i in bad:
@@ -158,7 +179,11 @@ def main():
                 R[i] = (i, pq2, odd2, s2, crit2, [pi[ysa[k]] for k in cm], resj, mindj, f'image of {j}')
                 done_ = True; break
             if done_: break
-        assert done_, ('no refined cover maps to', i)
+        if not done_: orphans.append(i)
+    if orphans:      # no refined cover of the orbit: get 80-digit starts (mono_dir REGEN=...) and run again
+        open(f'{D}/orphans_{n}_{tag}.txt', 'w').write(','.join(map(str, orphans)) + '\n')
+        print('no refined cover maps to', orphans, '-> orphans file written', flush=True); sys.exit(3)
+    if False:
         print(f'cover {i}: refinement failed, replaced by the exact image ({R[i][8]})', flush=True)
     pq = np.array([r[1] for r in R]); odd = np.array([r[2] for r in R]); hp = np.array([[s if s == b'inf' else s for s in r[3]] for r in R], dtype=object)
     crit = np.array([r[4] for r in R]); crity = np.array(R[0][5])
