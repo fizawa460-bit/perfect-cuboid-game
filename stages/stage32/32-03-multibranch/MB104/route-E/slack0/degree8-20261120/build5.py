@@ -86,7 +86,11 @@ def work(args):
         crit = list(F['fixed'][:3]) + list(u[2 * n + 2:]); ysl = list(F['ys'])
         r = refine_cov(p, q, n, prof, crit, ysl) if i in covmap else None
         kind = 'cov'
-        if r is None: r = refine_extra(p, q, n, prof, crit, ysl); kind = 'extra'
+        if r is None:
+            kind = 'extra'
+            try: r = refine_extra(p, q, n, prof, crit, ysl)
+            except AssertionError as e:      # drifts away under refinement (cf. E24 §2: 112323 #21): rebuilt below as an exact image
+                out.append((i, None, None, None, None, None, None, None, 'failed')); continue
         com, hpo, critm, ys, res = r
         odd = [z for y in range(6) for z in hpo.get(y, [])]
         allp = [z for z in odd if z is not None] + list(critm)
@@ -107,6 +111,34 @@ def main():
         with Pool(NP) as P: res = P.map(work, [(n, prof, F, covmap, c) for c in chunks])
     else: res = [work((n, prof, F, covmap, c)) for c in chunks]
     R = sorted([r for rr in res for r in rr], key=lambda r: r[0]); assert [r[0] for r in R] == list(range(N))
+    # covers whose own refinement failed: exact symmetry image of a refined cover of the same profile (rule-named;
+    # the alignment check below then confirms the image relation numerically like every other)
+    RR = pickle.load(open(os.path.join(SL, 'fastmono-20261119', 'aut_rules_7_222222.pkl'), 'rb'))
+    rkey = {(cj, pi): w for (cj, M, pi), (pi2, w) in zip(autact.sym_list(tuple(RR['prof'])), RR['rules'])}
+    syms = autact.sym_list(prof); cls = [md.canon(t)[0] for t in F['tuples']]
+    bad = [i for i in range(N) if R[i][8] == 'failed']
+    oddy0 = np.array([y for y in range(6) for _ in range(n - 2 * prof[y])])
+    for i in bad:
+        done_ = False
+        for j in range(N):
+            if R[j][8] == 'failed': continue
+            for (cj, M, pi) in syms:
+                if md.canon(autact.apply(F['tuples'][j], (pi, rkey[(cj, pi)])))[0] != cls[i]: continue
+                _, pqj, oddj, sj, critj, ysj, resj, mindj, _k = R[j]
+                pp, qq = (pqj[:n + 1].conj(), pqj[n + 1:].conj()) if cj else (pqj[:n + 1], pqj[n + 1:])
+                pq2 = np.concatenate([M[0, 0] * pp + M[0, 1] * qq, M[1, 0] * pp + M[1, 1] * qq])
+                om = np.array([k for yq in range(6) for k in range(len(oddy0)) if pi[oddy0[k]] == yq])
+                ysa = np.array(ysj); cm = np.array([k for yq in range(6) for k in range(len(ysa)) if pi[ysa[k]] == yq])
+                cv = lambda w: w.conj() if cj else w
+                odd2 = [cv(oddj[k]) for k in om]
+                def cs(x): return x if (x == b'inf' or not cj) else (x[0], x[1][1:] if x[1].startswith(b'-') else b'-' + x[1])
+                s2 = [cs(sj[k]) for k in om]
+                crit2 = np.array([critj[k] for k in cm]); crit2 = crit2.conj() if cj else crit2
+                R[i] = (i, pq2, odd2, s2, crit2, [pi[ysa[k]] for k in cm], resj, mindj, f'image of {j}')
+                done_ = True; break
+            if done_: break
+        assert done_, ('no refined cover maps to', i)
+        print(f'cover {i}: refinement failed, replaced by the exact image ({R[i][8]})', flush=True)
     pq = np.array([r[1] for r in R]); odd = np.array([r[2] for r in R]); hp = np.array([[s if s == b'inf' else s for s in r[3]] for r in R], dtype=object)
     crit = np.array([r[4] for r in R]); crity = np.array(R[0][5])
     assert all(list(r[5]) == list(crity) for r in R)

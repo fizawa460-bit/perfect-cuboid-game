@@ -156,36 +156,34 @@ def condS(P):
     for i, j in itertools.combinations(range(4), 2): tot = tot + 1 / np.abs(wedge(P[..., i, :], P[..., j, :]))
     return tot
 
-def build_table(code):
-    """entries of one label code: keys (sorted within tiers), table cover, subset index"""
-    parts = []
+XSPLIT = int(os.environ.get('XSPLIT', '1'))     # each label code is built in XSPLIT slices of the first sphere coordinate (memory)
+def build_table(code, h=0, k=1):
+    """entries of one label code whose cross-ratio has x in slice h of k: keys (tier folded in, sorted), table
+    cover (int32), subset index (int16)"""
+    ntier = len(TIERS) - 1
+    W = np.array([CELLW[min(i, len(CELLW) - 1)] for i in range(ntier)])
+    xlo, xhi = -1 + 2 * h / k, (-1 + 2 * (h + 1) / k) if h < k - 1 else 2.0
+    parts = []; smax_last = 0.0
     for t, (pi, ui, im, qc, sb, codes) in enumerate(TPV):
         ks = np.nonzero(codes == code)[0]
         if not len(ks): continue
         tes = np.nonzero(TTPV == t)[0]
         for c0 in range(0, len(tes), 20000):
             te = tes[c0:c0 + 20000]; P = LB['odd'][TREP[te]][:, im][:, sb[ks]]     # (nc, nk, 4, 2)
-            S = cross(P); ST = condS(P)
+            S = cross(P).reshape(-1, 3); ST = condS(P).ravel()
             tier = np.searchsorted(TIERS, ST, 'right') - 1
-            parts.append((S[..., 0].ravel(), S[..., 1].ravel(), tier.ravel().astype(np.int8),
-                          np.repeat(te, len(ks)).astype(np.int32), np.tile(ks, len(te)).astype(np.int16)))
+            m = (S[:, 0] >= xlo) & (S[:, 0] < xhi)
+            if (tier == ntier - 1).any(): smax_last = max(smax_last, float(ST[tier == ntier - 1].max()))
+            key = np.floor((S[:, 0] + 1) / W[tier]) * 4.0 + (S[:, 1] + 1) + tier * 1e7
+            parts.append((key[m], np.repeat(te, len(ks)).astype(np.int32)[m], np.tile(ks, len(te)).astype(np.int16)[m]))
     if not parts: return None
-    X = np.concatenate([p[0] for p in parts]); Y = np.concatenate([p[1] for p in parts]); TI = np.concatenate([p[2] for p in parts])
-    TE = np.concatenate([p[3] for p in parts]); SB = np.concatenate([p[4] for p in parts]); parts = None
-    ntier = len(TIERS) - 1
-    W = np.array([CELLW[min(k, len(CELLW) - 1)] for k in range(ntier)])
-    key = np.floor((X + 1) / W[TI]) * 4.0 + (Y + 1); X = Y = None
-    o = np.lexsort((key, TI)); key = key[o]; TE = TE[o]; SB = SB[o]; TI = TI[o]; o = None
-    tstart = np.array([np.searchsorted(TI, k) for k in range(ntier)], np.int64)
-    tend = np.array([np.searchsorted(TI, k, 'right') for k in range(ntier)], np.int64)
-    tsmax = np.array([TIERS[k + 1] if np.isfinite(TIERS[k + 1]) else 0.0 for k in range(ntier)])
-    if not np.isfinite(TIERS[-1]):        # largest S actually present in the last tier (as search4)
-        last = TE[tstart[-1]:tend[-1]]
-        if len(last):
-            # recompute S of the last tier's entries (few)
-            P = np.array([LB['odd'][TREP[te_]][IMAP[TTPV[te_]]][SUBB[TTPV[te_], sb_]] for te_, sb_ in zip(last, SB[tstart[-1]:tend[-1]])])
-            tsmax[-1] = float(condS(P).max())
-    return dict(keys=key, te=TE.astype(np.int64), sb=SB.astype(np.int64), ntier=ntier, tstart=tstart, tend=tend, W=W, tsmax=tsmax)
+    key = np.concatenate([p[0] for p in parts]); TE = np.concatenate([p[1] for p in parts]); SB = np.concatenate([p[2] for p in parts]); parts = None
+    o = np.argsort(key, kind='stable'); key = key[o]; TE = TE[o]; SB = SB[o]; o = None
+    tstart = np.array([np.searchsorted(key, i * 1e7 - 1) for i in range(ntier)], np.int64)
+    tend = np.array([np.searchsorted(key, (i + 1) * 1e7 - 1) for i in range(ntier)], np.int64)
+    for i in range(ntier): key[tstart[i]:tend[i]] -= i * 1e7          # back to cell*4 + (y+1) within each tier
+    tsmax = np.array([TIERS[i + 1] if np.isfinite(TIERS[i + 1]) else smax_last for i in range(ntier)])
+    return dict(keys=key, te=TE, sb=SB, ntier=ntier, tstart=tstart, tend=tend, W=W, tsmax=tsmax)
 
 # ---------------- query side helpers
 def fpts(fi):
@@ -338,10 +336,12 @@ def self_part(fi, cap=200000):
 # ---------------- main: one label code at a time, JOBS workers forked after each table build
 TT = {}
 CHILD = None
-for code in CODES_ALL:
-    _t = time.time(); Tb = build_table(code)
+for code, hx in [(c, h) for c in CODES_ALL for h in range(XSPLIT)]:
+    if all(os.path.exists(f'{OUT}_code{code}h{hx}_w{w}of{JOBS}.pkl') for w in range(JOBS)):
+        print(f'code {code} slice {hx}: results exist, skipped', flush=True); continue
+    _t = time.time(); Tb = build_table(code, hx, XSPLIT)
     if Tb is None: continue
-    print(f'code {code}: {len(Tb["keys"])} entries, tiers {[(int(s), int(e)) for s, e in zip(Tb["tstart"], Tb["tend"])]}, '
+    print(f'code {code} slice {hx}: {len(Tb["keys"])} entries, tiers {[(int(s), int(e)) for s, e in zip(Tb["tstart"], Tb["tend"])]}, '
           f'max S {Tb["tsmax"]}, built in {time.time() - _t:.0f}s', rss(), flush=True)
     kids = []
     for w in range(JOBS):
@@ -352,7 +352,7 @@ for code in CODES_ALL:
             if qi % JOBS != w: continue
             run_scan(int(fi), code, Tb)
         pickle.dump({'hits': hits, 'hist': hist, 'stats': stats, 'time': time.time() - _t},
-                    open(f'{OUT}_code{code}_w{w}of{JOBS}.pkl', 'wb'))
+                    open(f'{OUT}_code{code}h{hx}_w{w}of{JOBS}.pkl', 'wb'))
         if JOBS > 1: os._exit(0)
         break
     for pid in kids: os.waitpid(pid, 0)
@@ -360,8 +360,8 @@ for code in CODES_ALL:
     for k in list(stats):
         if k.startswith(('hp_', 'true_')): del stats[k]
     Tb = None
-    print(f'code {code} done, {time.time() - t0:.0f}s', flush=True)
-if SAME and not NOSELF and not MERGEONLY:
+    print(f'code {code} slice {hx} done, {time.time() - t0:.0f}s', flush=True)
+if SAME and not NOSELF and not MERGEONLY and not all(os.path.exists(f'{OUT}_self_w{w}of{JOBS}.pkl') for w in range(JOBS)):
     kids = []
     for w in range(JOBS):
         pid = os.fork() if JOBS > 1 else 0

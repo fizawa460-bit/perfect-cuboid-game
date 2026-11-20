@@ -94,6 +94,65 @@ def _prefilter_one(f0, f1, flab, s, q0, q1, ql, T, perm24, TOL, EPS4, maxfail, o
     return na, ncand
 
 @njit(cache=True)
+def _prefilter_dedupe(f0, f1, flab, s, q0, q1, ql, T, perm24, TOL, EPS4, maxfail, outp, outn, seen, nseen):
+    """_prefilter_one, but a Moebius map already counted for this table cover (seen[:nseen[0]], normalised by its
+    largest entry, equal to 1e-7) is not counted again: the self part meets each map through many quadruples, and
+    search4/search5 keep one survivor per (cover, map rounded to 6 digits) anyway."""
+    nA = len(f0); nB = len(q0); ncand = 0
+    x0, x1, x2 = _cross4(f0[s[0]], f1[s[0]], f0[s[1]], f1[s[1]], f0[s[2]], f1[s[2]], f0[s[3]], f1[s[3]])
+    SX = _cond4(f0[s[0]], f1[s[0]], f0[s[1]], f1[s[1]], f0[s[2]], f1[s[2]], f0[s[3]], f1[s[3]]); kx = _kap(x0, x1, x2)
+    y = np.empty(4, np.int64); hitj = np.zeros(nB, np.bool_)
+    for p in range(24):
+        ok = True
+        for k in range(4):
+            y[k] = T[perm24[p, k]]
+            if ql[y[k]] != flab[s[k]]: ok = False; break
+        if not ok: continue
+        y0, y1_, y2 = _cross4(q0[y[0]], q1[y[0]], q0[y[1]], q1[y[1]], q0[y[2]], q1[y[2]], q0[y[3]], q1[y[3]])
+        d = np.sqrt((y0 - x0) ** 2 + (y1_ - x1) ** 2 + (y2 - x2) ** 2)
+        SY = _cond4(q0[y[0]], q1[y[0]], q0[y[1]], q1[y[1]], q0[y[2]], q1[y[2]], q0[y[3]], q1[y[3]]); ky = _kap(y0, y1_, y2)
+        win = min(TOL * (SX + SY) * min(1.0, max(kx, ky) / 10 * 1.01 + 1e-12), EPS4)
+        if not d <= win: continue
+        ncand += 1
+        a00, a01, a10, a11 = _frame(f0[s[0]], f1[s[0]], f0[s[1]], f1[s[1]], f0[s[2]], f1[s[2]])
+        b00, b01, b10, b11 = _frame(q0[y[0]], q1[y[0]], q0[y[1]], q1[y[1]], q0[y[2]], q1[y[2]])
+        det = a00 * a11 - a01 * a10
+        i00 = a11 / det; i01 = -a01 / det; i10 = -a10 / det; i11 = a00 / det
+        M00 = b00 * i00 + b01 * i10; M01 = b00 * i01 + b01 * i11
+        M10 = b10 * i00 + b11 * i10; M11 = b10 * i01 + b11 * i11
+        mx = M00
+        if abs(M01) > abs(mx): mx = M01
+        if abs(M10) > abs(mx): mx = M10
+        if abs(M11) > abs(mx): mx = M11
+        n0 = M00 / mx; n1 = M01 / mx; n2 = M10 / mx; n3 = M11 / mx
+        dup = False
+        for k in range(nseen[0]):
+            if abs(seen[k, 0] - n0) < 1e-7 and abs(seen[k, 1] - n1) < 1e-7 and abs(seen[k, 2] - n2) < 1e-7 and abs(seen[k, 3] - n3) < 1e-7:
+                dup = True; break
+        if dup: continue
+        if nseen[0] < seen.shape[0]:
+            seen[nseen[0], 0] = n0; seen[nseen[0], 1] = n1; seen[nseen[0], 2] = n2; seen[nseen[0], 3] = n3; nseen[0] += 1
+        fail = 0
+        for j in range(nB): hitj[j] = False
+        for i in range(nA):
+            u0 = M00 * f0[i] + M01 * f1[i]; u1 = M10 * f0[i] + M11 * f1[i]
+            nu = np.sqrt(abs(u0) ** 2 + abs(u1) ** 2)
+            hit = False
+            for j in range(nB):
+                if abs(u0 * q1[j] - u1 * q0[j]) < 1e-4 * nu:
+                    hit = True; hitj[j] = True
+            if not hit:
+                fail += 1
+                if fail > maxfail: break
+        if fail <= maxfail:
+            ncl = nA - fail; ncol = 0
+            for j in range(nB):
+                if hitj[j]: ncol += 1
+            if nA + nB - 2 * min(ncl, ncol) <= 4:
+                outp[outn[0]] = p; outn[0] += 1
+    return ncand
+
+@njit(cache=True)
 def scan(f0, f1, flab, subs, perm24, P6, TOL, EPS4, maxfail,
          keys, ete, esb, ntier, tstart, tend, tW, tsmax,
          TREP, TTPV, IMAP, QCLS, SUBB, B0, B1, CLSB, myclass, cap):
@@ -167,8 +226,10 @@ def selfscan(f0, f1, flab, subs, perm24, P6, TOL, EPS4, maxfail, Us, UMAP, UCLS,
             CR[r, o, 0] = x; CR[r, o, 1] = yv; CR[r, o, 2] = z
             KQ[r, o] = min(1.0, _kap(x, yv, z) / 10 * 1.01 + 1e-12)
         l = np.sort(flab[s]); CODE[r] = ((l[0] * 3 + l[1]) * 3 + l[2]) * 3 + l[3]
+    ORD = np.argsort(CODE, kind='mergesort'); CODES_S = CODE[ORD]
+    seen = np.empty((4096, 4), np.complex128); nseen = np.zeros(1, np.int64)
     for ui in range(len(Us)):
-        u = Us[ui]
+        u = Us[ui]; nseen[0] = 0
         for j in range(nA):
             q0[j] = f0[UMAP[u, j]]; q1[j] = f1[UMAP[u, j]]; ql[j] = UCLS[u, j]
         for sb in range(USUB.shape[1]):
@@ -177,14 +238,15 @@ def selfscan(f0, f1, flab, subs, perm24, P6, TOL, EPS4, maxfail, Us, UMAP, UCLS,
             ST = _cond4(q0[T[0]], q1[T[0]], q0[T[1]], q1[T[1]], q0[T[2]], q1[T[2]], q0[T[3]], q1[T[3]])
             l0 = ql[T[0]]; l1 = ql[T[1]]; l2 = ql[T[2]]; l3 = ql[T[3]]
             ll = np.sort(np.array([l0, l1, l2, l3])); tcode = ((ll[0] * 3 + ll[1]) * 3 + ll[2]) * 3 + ll[3]
-            for r in range(R):
-                if CODE[r] != tcode: continue
+            lo = np.searchsorted(CODES_S, tcode); hi = np.searchsorted(CODES_S, tcode, 'right')
+            for rr in range(lo, hi):
+                r = ORD[rr]
                 for o in range(6):
                     dd = np.sqrt((tx - CR[r, o, 0]) ** 2 + (ty - CR[r, o, 1]) ** 2 + (tz - CR[r, o, 2]) ** 2)
                     if not dd <= min(TOL * (SQ[r] + ST) * KQ[r, o], EPS4): continue
                     cnt[1] += 1
                     outn[0] = 0
-                    na, nc = _prefilter_one(f0, f1, flab, subs[r], q0, q1, ql, T, perm24, TOL, EPS4, maxfail, outp, outn)
+                    nc = _prefilter_dedupe(f0, f1, flab, subs[r], q0, q1, ql, T, perm24, TOL, EPS4, maxfail, outp, outn, seen, nseen)
                     cnt[2] += nc
                     for k in range(outn[0]):
                         if no >= cap: return o_r[:0], o_u[:0], o_sb[:0], o_p[:0], cnt, True
