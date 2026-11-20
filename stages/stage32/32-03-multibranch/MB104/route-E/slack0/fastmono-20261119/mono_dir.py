@@ -181,6 +181,26 @@ def main():
                     un = hp_track.to_np(uh)[None]
                     if half is True: un = braid.relabel(S, un, mv[0], mv[1])
                     nw, _ = accept_tracked([un[0]], [(pt, c)]); got += nw + add_images(nw)
+                    if not nw and c not in TUP:
+                        # reached, but not usable in double (e.g. critical points ~1e-9 apart): finish at 80 digits and
+                        # keep it under its predicted class (unconfirmed); build5 starts from the 80-digit point
+                        if half is True:
+                            perm = braid.relabel(S, np.arange(len(un[0]))[None].astype(complex), mv[0], mv[1])[0].real.round().astype(int)
+                            uh = [uh[int(m)] for m in perm]
+                        hp_track.setup(80); H = hp_track.HP(S); W0 = [tuple(hp_track.to_acb(r)) for r in B0]
+                        for _ in range(12):
+                            F_, J_, _ = H.FJ(uh, W0); dx = hp_track.solve(J_, F_); uh = [(x_ - d_).mid() for x_, d_ in zip(uh, dx)]
+                        F_, _, _ = H.FJ(uh, W0); res = max(abs(complex(f.real.mid()) + 1j * float(f.imag.mid())) for f in F_)
+                        ud = hp_track.to_np(uh); cc = np.concatenate([fixed, ud[2 * n + 2:]])
+                        dmin = min(abs(cc[x] - cc[w]) for x in range(len(cc)) for w in range(x))
+                        report(f'  80-digit finish of a reached target: residual {res:.1e}, smallest critical-point distance {dmin:.1e}')
+                        if res < 1e-60 and dmin > 1e-30:
+                            j = add(ud, pt, False, rep=True)
+                            if j is not None:
+                                got += [j] + add_images([j])
+                                rf = f'regen_{tag}.pkl'; old_ = pickle.load(open(rf, 'rb')) if os.path.exists(rf) else {}
+                                old_[j] = [(z.real.mid().str(90, radius=False), z.imag.mid().str(90, radius=False)) for z in uh]
+                                pickle.dump(old_, open(rf, 'wb'))
         report(f'  endgame 40-digit: {len(allj)} missing targets')
         return got
     # symmetry rules are geometric (base point + loops), learned on any profile; look them up by (conj, perm)
