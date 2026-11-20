@@ -106,10 +106,17 @@ def main():
     covmap = set(F['in_cov_file'])
     oddy = np.array([y for y in range(6) for _ in range(n - 2 * prof[y])]); nodd = len(oddy)
     chunks = [list(range(k, N, max(1, NP * 4))) for k in range(max(1, NP * 4))]
+    NCH = max(1, N // 2000)                   # chunks of ~2000 covers, each saved (resume after a restart)
+    chunks = [list(range(k, N, NCH)) for k in range(NCH)]
+    os.makedirs(f'b5tmp_{n}_{tag}', exist_ok=True)
+    def one(k):
+        fn = f'b5tmp_{n}_{tag}/c{k}of{NCH}.pkl'
+        if os.path.exists(fn): return pickle.load(open(fn, 'rb'))
+        r = work((n, prof, F, covmap, chunks[k])); pickle.dump(r, open(fn + '.tmp', 'wb')); os.replace(fn + '.tmp', fn); return r
     if NP > 1:
         from multiprocessing import Pool
-        with Pool(NP) as P: res = P.map(work, [(n, prof, F, covmap, c) for c in chunks])
-    else: res = [work((n, prof, F, covmap, c)) for c in chunks]
+        with Pool(NP) as P: res = P.map(one, range(NCH))
+    else: res = [one(k) for k in range(NCH)]
     R = sorted([r for rr in res for r in rr], key=lambda r: r[0]); assert [r[0] for r in R] == list(range(N))
     # covers whose own refinement failed: exact symmetry image of a refined cover of the same profile (rule-named;
     # the alignment check below then confirms the image relation numerically like every other)

@@ -263,6 +263,7 @@ def main():
                 j = add(u, t, True, rep=True)
                 if j is not None: got.append(j)
         return got + add_images(got)
+    CKPT_EVERY = float(os.environ.get('CKPT_EVERY', '240')); _last_save = [time.time()]
     def save():
         tmp = ckpt + '.tmp'
         pickle.dump({'sols': np.array(sols), 'TT': TT, 'ISREP': ISREP, 'CONF': CONF, 'REJ': REJ, 'L': L,
@@ -343,6 +344,8 @@ def main():
                 for (pt, c), cf in zip(good, cls):
                     if cf != c: pending.discard(c)
                 add_images(nw)
+                if time.time() - _last_save[0] > CKPT_EVERY:      # also inside long rounds (the container may restart)
+                    save(); _last_save[0] = time.time()
         report(f'round {rnd}')
         save()
     report('done'); save()
