@@ -126,7 +126,15 @@ def main():
         if half == 'loop': return braid.path_loop(mv[0], mv[1], r=0.3 + (d - 0.15), sense=mv[2])
         return (braid.path if half is True else braid.path_full)(mv[0], mv[1], mv[2], d=d)
     def run_move(U, k, careful=False, d=0.15):
-        mv, half = MV[k]; U1, ok = braid.run_path(S, U, move_path(k, d), careful=careful)
+        # careful retries: with the compiled tracker, also accept Newton steps that only reach ~1e-6 relative
+        # (ill-conditioned covers; about 9% of the large degree-8 profiles fail the 1e-10 test in double precision).
+        # Safe: the endpoint is numbered by its own monodromy and stored under that number, not under the prediction.
+        tnb = sys.modules.get('track_nb') if careful else None
+        if tnb is not None: old = tnb.NTOL[0]; tnb.NTOL[0] = float(os.environ.get('CAREFUL_NTOL', '1e-6'))
+        try:
+            mv, half = MV[k]; U1, ok = braid.run_path(S, U, move_path(k, d), careful=careful)
+        finally:
+            if tnb is not None: tnb.NTOL[0] = old
         return (braid.relabel(S, U1, mv[0], mv[1]) if half is True else U1), ok
     def endgame():
         """retry every move predicted to reach a missing class along isotopic paths (other arc offsets), carefully"""

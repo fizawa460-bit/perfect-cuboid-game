@@ -82,7 +82,7 @@ def _sc(v):
     return 1 + mx
 
 @njit(cache=True)
-def track_one(u0, Wa0, Wa1, Wb0, Wb1, n, ys, fixed, L, h0, hmin, dmax, maxsteps):
+def track_one(u0, Wa0, Wa1, Wb0, Wb1, n, ys, fixed, L, h0, hmin, dmax, maxsteps, ntol=1e-10):
     u = u0.copy(); s = 0.0; h = h0; steps = 0
     while True:
         if s >= 1 - 1e-14: return u, True, steps
@@ -111,7 +111,7 @@ def track_one(u0, Wa0, Wa1, Wb0, Wb1, n, ys, fixed, L, h0, hmin, dmax, maxsteps)
             else:
                 nd = np.nan
             if it == 0: d_first = nd
-            if it == 2: good = good and (nd < 1e-10 + 0.1 * d_first)
+            if it == 2: good = good and (nd < ntol + 0.1 * d_first)
             if ok: up = up - dx
             else: up = up * np.nan
         good = good and np.isfinite(nd) and (d_first < dmax)
@@ -123,6 +123,7 @@ def track_one(u0, Wa0, Wa1, Wb0, Wb1, n, ys, fixed, L, h0, hmin, dmax, maxsteps)
 
 import os
 MAXSTEPS = int(os.environ.get('TRACK_MAXSTEPS', '400'))   # per path segment; mono.track has no cap (a careful retry could spend seconds)
+NTOL = [float(os.environ.get('TRACK_NTOL', '1e-10'))]   # Newton acceptance (relative); looser only for ill-conditioned endgame retries
 def track(S, u, Wa, Wb, h0=0.05, hmin=1e-7, dmax=1e-4):
     """drop-in for mono.track (same signature/return: u_end, ok mask, number of steps)"""
     u = np.asarray(u, np.complex128); N = len(u)
@@ -131,7 +132,7 @@ def track(S, u, Wa, Wb, h0=0.05, hmin=1e-7, dmax=1e-4):
     ys = np.asarray(S.ys, np.int64); fixed = np.asarray(S.fixed, np.complex128); L = np.asarray(S.L, np.complex128)
     for i in range(N):
         wa = Wa[i] if Wa.ndim == 3 else Wa; wb = Wb[i] if Wb.ndim == 3 else Wb
-        ui, oi, si = track_one(u[i], wa[:, 0].copy(), wa[:, 1].copy(), wb[:, 0].copy(), wb[:, 1].copy(), S.n, ys, fixed, L, h0, hmin, dmax, MAXSTEPS)
+        ui, oi, si = track_one(u[i], wa[:, 0].copy(), wa[:, 1].copy(), wb[:, 0].copy(), wb[:, 1].copy(), S.n, ys, fixed, L, h0, hmin, dmax, MAXSTEPS, NTOL[0])
         out[i] = ui; ok[i] = oi; st = max(st, si)
     out[~ok] = u[~ok] if False else out[~ok]
     return out, ok, st
