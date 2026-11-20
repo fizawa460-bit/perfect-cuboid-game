@@ -118,17 +118,31 @@ def main():
         with Pool(NP) as P: res = P.map(one, range(NCH))
     else: res = [one(k) for k in range(NCH)]
     R = sorted([r for rr in res for r in rr], key=lambda r: r[0]); assert [r[0] for r in R] == list(range(N))
+    # drift test (E24 §2: a cover can slide to a degenerate solution under refinement): every critical point must stay
+    # within 1e-5 of the solver's, and no two points of f^-1(B) may come closer than MINDIST
+    MINDIST = float(os.environ.get('MINDIST', '1e-10')); ndrift = 0
+    for i in range(N):
+        if R[i][8] == 'failed': continue
+        u = F['sols'][i]; c0 = np.array(list(F['fixed'][:3]) + list(u[2 * n + 2:]))
+        dr = max(np.abs(R[i][4] - c).min() / (1 + abs(c)) for c in c0)
+        if dr > 1e-5 or R[i][7] < MINDIST:
+            print(f'cover {i}: drift {dr:.1e}, smallest point distance {R[i][7]:.1e} -> treated as failed', flush=True)
+            R[i] = (i, None, None, None, None, None, None, None, 'failed'); ndrift += 1
     # covers whose own refinement failed: exact symmetry image of a refined cover of the same profile (rule-named;
     # the alignment check below then confirms the image relation numerically like every other)
     RR = pickle.load(open(os.path.join(SL, 'fastmono-20261119', 'aut_rules_7_222222.pkl'), 'rb'))
     rkey = {(cj, pi): w for (cj, M, pi), (pi2, w) in zip(autact.sym_list(tuple(RR['prof'])), RR['rules'])}
     syms = autact.sym_list(prof); cls = [md.canon(t)[0] for t in F['tuples']]
-    bad = [i for i in range(N) if R[i][8] == 'failed']
+    bad = [i for i in range(N) if R[i][8] == 'failed']; clsidx = {c: k for k, c in enumerate(cls)}
     oddy0 = np.array([y for y in range(6) for _ in range(n - 2 * prof[y])])
     for i in bad:
         done_ = False
-        for j in range(N):
-            if R[j][8] == 'failed': continue
+        # candidates j: the classes S(i) for every symmetry S (then i = S^-1(j), found among the symmetries below)
+        cand = []
+        for (cj, M, pi) in syms:
+            jj = clsidx.get(md.canon(autact.apply(F['tuples'][i], (pi, rkey[(cj, pi)])))[0])
+            if jj is not None and R[jj][8] != 'failed' and jj not in cand: cand.append(jj)
+        for j in cand:
             for (cj, M, pi) in syms:
                 if md.canon(autact.apply(F['tuples'][j], (pi, rkey[(cj, pi)])))[0] != cls[i]: continue
                 _, pqj, oddj, sj, critj, ysj, resj, mindj, _k = R[j]
