@@ -125,6 +125,28 @@ def make_to_u(S, n):
         return bu if best < tol else None
     return to_u
 
+def _an_chunk(args):
+    """worker: which covers of a chunk pass analyse in double precision (export's test)"""
+    n, prof, fixed, L, U = args
+    S = System(n, prof, fixed, L); out = []
+    for u in U:
+        p, q, cc = S.unpack(u[None])
+        out.append((analyse(p[0], q[0], n, prof, cc[0], list(S.ys)) or analyse_loose(p[0], q[0], n, prof, cc[0], list(S.ys))) is not None)
+    return out
+
+def export_par(d, n, prof, pool):
+    """fastmono export.export with the analyse loop spread over the worker pool (hours at 10^6 covers otherwise)"""
+    import export as _ex
+    sols = np.array(d['sols']); ch = [(n, prof, d['fixed'], d['L'], sols[k:k + 2000]) for k in range(0, len(sols), 2000)]
+    oks = [o for r in (pool.map(_an_chunk, ch, chunksize=1) if pool is not None else map(_an_chunk, ch)) for o in r]
+    keepset = {i for i, o in enumerate(oks) if o}
+    _orig = _ex.analyse; _cnt = [0]
+    def fake(p, q, n_, prof_, cc, ys):          # export() calls analyse once per cover in order: answer from oks
+        i = _cnt[0]; _cnt[0] += 1; return True if i in keepset else None
+    _ex.analyse = fake; _ex.analyse_loose = lambda *a_, **k_: None
+    try: return _ex.export(d, n, prof)
+    finally: _ex.analyse = _orig
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('n', type=int); ap.add_argument('prof')
@@ -497,8 +519,7 @@ def main():
         report(f'round {rnd}')
         save()
     report('done'); save()
-    from export import export
-    k, N = export({'sols': sols, 'TT': TT, 'CONF': CONF, 'REJ': REJ, 'L': L, 'fixed': fixed}, n, prof)
+    k, N = export_par({'sols': sols, 'TT': TT, 'CONF': CONF, 'REJ': REJ, 'L': L, 'fixed': fixed}, n, prof, POOL)
     print(f'wrote cov_{tag}.pkl ({k} covers passing analyse) and full_{tag}.pkl ({N})', flush=True)
 
 if __name__ == '__main__': main()
