@@ -1,3 +1,5 @@
+> **2026-11-21 状態サマリ**: 現在の状態は [CURRENT-STATE-20261121.md](CURRENT-STATE-20261121.md) を参照してください。
+
 > **2026-11-10 owner-authorized R3-07 resumption.**
 > Continue only the same signed −30 / row393 route documented in [the resume record](research/r3-row393-resume-20261110/README.md). This unreviewed delta does not promote formal V74 authority or revive unrelated historical NEXT items. The publication-only pause below is historical.
 

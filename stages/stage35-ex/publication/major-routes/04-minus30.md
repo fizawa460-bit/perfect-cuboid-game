@@ -1,5 +1,8 @@
 # 4. −30 — 階数矛盾への還元と、未完の類群全尽性
 
+> ⚠ 状態注記（2026-11-21）: この文書の状態記述は row393到達時点（2026-11-08） のもので、現在の状態は ../../CURRENT-STATE-20261121.md を参照してください。
+
+
 対象は元のsigned −30、同じC29（種数52）と次数105・署名(7,49)の根体K。所有は[R3-07](../routes/R3-07.md)。[row381本文](../../materials/negative30-mw-selmer/row381/PROOF.md)、[row385–393の資料表](../../materials/classgroup-and-different/README.md)、[row393原稿](../../materials/classgroup-and-different/proofs/row393.md)・[独立監査](../../materials/classgroup-and-different/audits/row393.txt)を主な根拠とする。
 
 ## 何が証明されれば元sourceを排除できるか

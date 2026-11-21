@@ -1,5 +1,8 @@
 # 固定±18の親Selmer証書 — 第4移植群
 
+> ⚠ 状態注記（2026-11-21）: この文書の状態記述は 2026-11-09 のもので、現在の状態は ../../CURRENT-STATE-20261121.md を参照してください。
+
+
 2026-11-09 JST。既存のrow361–364とその入れ子の数学資料を保存する。研究はrow393で停止中。[PR #1854](https://github.com/fizawa460-bit/perfect-cuboid-game/pull/1854)だけを更新し、新しいPRは作らない。
 
 **対象は固定signed±18のC₂/J₂、36次数体である。−30側の105次数体へ類数1を移送しない。** row364の真正Selmer次元9をMW階数9と同一視せず、MW階数7..9、Cassels–Tate成分と全MWの163進上側Uの未確定を保持する。この親証書群による新規source排除は0。後続row367の既存±18排除は[第1群](../original-source-exclusions/README.md)に別途保存済み。
