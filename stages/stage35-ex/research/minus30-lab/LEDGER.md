@@ -89,6 +89,15 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   measures how much of the score is tail-limited. (Compute-heavy; the
   row383 verifier's --recount style path recounts only the stored range,
   so this needs new counting code: factor f mod p for ~664k primes.)
+  DONE (EXP09, 2026-11-21): counting code reproduced the stored table
+  byte-identically, extension to 10^7 counted (516,851 primes), and the
+  gain is moment-only: moment 99.186384435239… → 98.455001521382…,
+  score/bands exactly unchanged (structurally: score primes satisfy
+  log p < support, all already tabulated). Via threshold redesign the
+  certified gaps become base 0.029 → 0.039 and candG 0.3518725 →
+  0.357165. The direction is within ≈0.248 of its absolute ceiling
+  (LIMIT < B² caps the residual Chebyshev term at ≥ 0.5594); do not
+  extend further.
 
 ## Experiment log
 - 2026-11-21 EXP01 (E1): copied row383 to exp01-baseline/, decompressed
@@ -313,4 +322,35 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   (A4 rescale, baseline-weight configuration only), no variant
   beats candG's 0.3518725, lengths are rigid at these
   shifts/support. E2 fully exhausted. −30 NOT closed; no
+  exclusion; no credit.
+- 2026-11-21 EXP09 (E7): tail extension to 10^7. Full write-up:
+  exp09-e7-tail/NOTES.md. Semantics: c(p) = deg gcd(f mod p,
+  x^p − x) = # distinct roots of the degree-105 stem polynomial
+  in F_p, for primes 5003 < p ≤ LIMIT (row382_inputs
+  .degree_one_count = original row379 C++ roots379.cpp).
+  VALIDATION: new counting code (count_roots.py, python-flint)
+  reproduced the stored table on all 147,058 primes
+  BYTE-IDENTICALLY (sha256 572183b2…, sum 147,527; 28.4 s,
+  3 workers). EXTENSION: 516,851 primes in (1982760, 10^7] in
+  8 checkpointed chunks (124 s), sum 516,809; assembled
+  tail_roots_10m.csv: 663,909 rows, sum 664,336, 6,551,781
+  bytes, sha256 e5c2e2bed583ed3ac20c4ceb956a2a62438e558a679746aada89889c61735644.
+  CERTIFIED (full verifier, lab copies with LIMIT = 10^7):
+  score_lower IDENTICAL in both fixtures (base
+  0.0098858898430937020…, candG 0.0103597391213032410…) —
+  structurally forced, since score primes need log p < 7237/500
+  (p ≲ 1.93·10^6), all already tabulated; bands, rectangles,
+  tail ratio identical. moment_upper 99.1863844352390574… →
+  98.4550015213825703… (Δ = 0.7313829138564871, both fixtures):
+  Chebyshev cutoff term 1.5424274344666490 → 0.8074447222926290
+  minus the exact sum over newly covered primes
+  0.0035997983175329. Gap is threshold-defined, so as-is it is
+  unchanged; with EXP06-style threshold redesign, extra FULL
+  runs certify base (moment_thr 99) gap 39/1000 = 0.039 and
+  candG (moment_thr 9846/100) gap 71433/200000 = 0.357165.
+  CEILING: residual Chebyshev term at 10^7 is 0.8074447222926290
+  and LIMIT < B² = 25,030,009 caps it below at 0.5594076547027249,
+  so ≤ ≈0.248 more moment is ever buyable this way. Verdict:
+  E7 DONE — a real but one-dimensional (moment-only) gain;
+  the whole E-queue is now exhausted. −30 NOT closed; no
   exclusion; no credit.
