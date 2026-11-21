@@ -41,6 +41,55 @@ import hp_track
 import track_nb
 track_nb.install()
 _G = {}
+# ---- memory-light containers (2,2,3,3,3,3 at 2.5M covers took 11 GB with plain lists of tuples and arrays) ----
+def tkey(c):
+    """canonical tuple -> compact bytes key (entries < 256)"""
+    return c if isinstance(c, bytes) else bytes([x for g in c for x in g])
+class KeyDict(dict):
+    """dict keyed by canonical monodromy tuples, stored as bytes"""
+    def __contains__(self, c): return dict.__contains__(self, tkey(c))
+    def __getitem__(self, c): return dict.__getitem__(self, tkey(c))
+    def __setitem__(self, c, v): dict.__setitem__(self, tkey(c), v)
+    def get(self, c, d=None): return dict.get(self, tkey(c), d)
+class PackedTT:
+    """list of monodromy tuples (6 permutations of n points), packed as int8 rows; items come back as tuples"""
+    def __init__(self, n): self.n = n; self.blocks = []; self.cur = None; self.m = 0; self.B = 1 << 16
+    def append(self, t):
+        if self.m % self.B == 0: self.cur = np.zeros((self.B, 6, self.n), np.int8); self.blocks.append(self.cur)
+        self.cur[self.m % self.B] = t; self.m += 1
+    def __len__(self): return self.m
+    def _row(self, i):
+        if i < 0: i += self.m
+        if not 0 <= i < self.m: raise IndexError(i)
+        return self.blocks[i // self.B][i % self.B]
+    def __getitem__(self, i):
+        if isinstance(i, slice): return [self[j] for j in range(*i.indices(self.m))]
+        return tuple(map(tuple, self._row(i).tolist()))
+    def __iter__(self):
+        for j in range(self.m): yield self[j]
+    def array(self, start=0): return np.concatenate(self.blocks)[start:self.m] if self.blocks else np.zeros((0, 6, self.n), np.int8)
+    def __reduce__(self): return (list, (list(self),))      # pickled as a plain list (export's full_ file)
+class Rows:
+    """growing 2-D complex array of solution vectors, in blocks; rows come back as 1-D views"""
+    def __init__(self): self.blocks = []; self.cur = None; self.m = 0; self.B = 1 << 15
+    def append(self, u):
+        if self.m % self.B == 0: self.cur = np.zeros((self.B, len(u)), complex); self.blocks.append(self.cur)
+        self.cur[self.m % self.B] = u; self.m += 1
+    def __len__(self): return self.m
+    def __getitem__(self, i):
+        if isinstance(i, slice): return self.array()[i]
+        if i < 0: i += self.m
+        if not 0 <= i < self.m: raise IndexError(i)
+        return self.blocks[i // self.B][i % self.B]
+    def __iter__(self):
+        for j in range(self.m): yield self[j]
+    def array(self): return np.concatenate(self.blocks)[:self.m] if self.blocks else np.zeros((0, 0), complex)
+def tt_rows(TT):
+    """monodromy tuples of a checkpoint, whether stored as a list of tuples or as an int8 array"""
+    if isinstance(TT, np.ndarray):
+        for r in TT: yield tuple(map(tuple, r.tolist()))
+    else: yield from TT
+
 def _work(job):
     """worker: track one chunk along move k, careful retry of failures, then number and analyse the endpoints"""
     k, U0 = job
@@ -137,7 +186,7 @@ def _an_chunk(args):
 def export_par(d, n, prof, pool):
     """fastmono export.export with the analyse loop spread over the worker pool (hours at 10^6 covers otherwise)"""
     import export as _ex
-    sols = np.array(d['sols'])
+    sols = d['sols'].array() if isinstance(d['sols'], Rows) else np.array(d['sols']); d = dict(d, sols=sols)
     if os.environ.get('EXPORT_ANALYSE', '0') == '1':
         ch = [(n, prof, d['fixed'], d['L'], sols[k:k + 2000]) for k in range(0, len(sols), 2000)]
         oks = [o for r in (pool.map(_an_chunk, ch, chunksize=1) if pool is not None else map(_an_chunk, ch)) for o in r]
@@ -266,7 +315,7 @@ def main():
     import covers; covers.rng = rng
     L = rng.normal(size=2 * (n + 1)) + 1j * rng.normal(size=2 * (n + 1))
     S = System(n, prof, fixed, L); B0 = homB(); t0 = time.time()
-    sols = []; TT = []; TUP = {}; REJ = []; ISREP = []; CONF = []; NOIMG = []
+    sols = Rows(); TT = PackedTT(n); TUP = KeyDict(); REJ = []; ISREP = []; CONF = []; NOIMG = []
     W = [0.0]
     stat = dict(tracks=0, fail=0, pred_ok=0, pred_bad=0, img=0, img_fail=0, ver_ok=0, ver_bad=0, ver_skip=0,
                 unconf=0, seeds=0, hp_tracks=0)
@@ -351,7 +400,7 @@ def main():
     CKPT_EVERY = float(os.environ.get('CKPT_EVERY', '240')); _last_save = [time.time()]
     def save():
         tmp = ckpt + '.tmp'
-        pickle.dump({'sols': np.array(sols), 'TT': TT, 'ISREP': ISREP, 'CONF': CONF, 'REJ': REJ, 'L': L,
+        pickle.dump({'sols': sols.array(), 'TT': TT.array(), 'ISREP': ISREP, 'CONF': CONF, 'REJ': REJ, 'L': L,
                      'fixed': fixed, 'ys': S.ys, 'rng': rng.bit_generator.state, 'stat': stat}, open(tmp, 'wb'))
         os.replace(tmp, ckpt)
     def new_seed():
@@ -368,7 +417,8 @@ def main():
     if os.path.exists(ckpt):
         d = pickle.load(open(ckpt, 'rb')); L = d['L']; S = System(n, prof, fixed, L); to_u = make_to_u(S, n)
         rng.bit_generator.state = d['rng']; stat.update(d['stat']); REJ[:] = d['REJ']
-        for u, t, r, c in zip(d['sols'], d['TT'], d['ISREP'], d['CONF']): add(u, t, c, r)
+        for u, t, r, c in zip(d['sols'], tt_rows(d['TT']), d['ISREP'], d['CONF']): add(u, t, c, r)
+        del d
         stat['unconf'] = sum(not c for c in CONF)
         print(f'resumed {len(sols)} covers', flush=True)
     else:
@@ -548,7 +598,7 @@ def main():
     report('done'); save()
     if os.environ.get('DELTA_OUT'):            # split mode: write only the covers found beyond the shared base, no export
         nb = int(os.environ.get('NBASE', '0'))
-        pickle.dump({'sols': np.array(sols[nb:]), 'TT': TT[nb:], 'ISREP': ISREP[nb:], 'CONF': CONF[nb:], 'REJ': REJ,
+        pickle.dump({'sols': sols.array()[nb:], 'TT': TT.array(nb), 'ISREP': ISREP[nb:], 'CONF': CONF[nb:], 'REJ': REJ,
                      'nbase': nb, 'stat': stat}, open(os.environ['DELTA_OUT'] + '.tmp', 'wb'))
         os.replace(os.environ['DELTA_OUT'] + '.tmp', os.environ['DELTA_OUT'])
         print(f'wrote delta {len(sols) - nb} covers -> {os.environ["DELTA_OUT"]}', flush=True); return

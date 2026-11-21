@@ -12,15 +12,16 @@ for p in "$@"; do
   t=$(echo $p | tr -d ,)
   for phase in 1 2; do
     if [ $phase = 1 ]; then NE=1; else NE=; fi
-    grep -q "^$p phase $phase exit 0 " done.txt 2>/dev/null && continue      # finished before a restart
+    grep -q "^$p phase $phase exit 0 " done.txt 2>/dev/null && { ec=0; continue; }     # finished before a restart
     SEEDARG=; [ -f seeds_${n}_$t.pkl ] && SEEDARG="--seedfile seeds_${n}_$t.pkl"
     echo "$p phase $phase start $(date +%T)" >> done.txt
     PAR=${PAR:-4} NOENDGAME=$NE python3 $HERE/mono_par.py $n $p --rules $FM/aut_rules_7_222222.pkl --loops ${LOOPS:-0} $SEEDARG >> log_$t.txt 2>&1
-    echo "$p phase $phase exit $? $(date +%T)" >> done.txt
+    ec=$?; echo "$p phase $phase exit $ec $(date +%T)" >> done.txt
     if [ -d "$COPYTO" ]; then
       cp -f cov_${n}_$t.pkl full_${n}_$t.pkl rej_${n}_$t.pkl extra_${n}_$t.pkl ckpt_dir_${n}_$t.pkl log_$t.txt "$COPYTO" 2>/dev/null
       [ -f regen_${n}_$t.pkl ] && cp -f regen_${n}_$t.pkl "$COPYTO"
     fi
+    [ $ec -ne 0 ] && { echo "$p phase $phase failed (exit $ec); queue stopped, rerun the same command to resume" >> done.txt; exit $ec; }
   done
   grep -q "^$p final " done.txt 2>/dev/null || echo "$p final $(grep "^done:" log_$t.txt | tail -1)" >> done.txt
 done
