@@ -572,7 +572,7 @@ def main():
                 pt = pred(TT[i], k)
                 if not md.check(pt, prof): continue
                 c = md.canon(pt)[0]
-                if c not in TUP: allj.setdefault(tkey(c), []).append((k, i, pt))
+                if c not in TUP and owns(c): allj.setdefault(tkey(c), []).append((k, i, pt))
         report(f'  hp endgame: {len(allj)} missing classes, {sum(len(v) for v in allj.values())} edges')
         got = []; nfail = 0
         for dps, dd, src in ((40, 0.15, 0), (40, 0.3, 0), (40, 0.15, 1), (40, 0.3, 1), (80, 0.15, 0), (40, 0.15, 2), (80, 0.3, 1)):

@@ -6,6 +6,7 @@
 # it puts delta_<tag>_<r>of<K> to the shared dir with bigfile.sh (and writes done_<r>of<K>).
 # Afterwards one machine fetches base and deltas (bigfile.sh get), runs merge9.py base + all deltas -> ckpt_dir_<tag>.pkl and continues with run9.sh as usual
 # (the plain run then tracks whatever the split missed and does the endgame).
+# HPENDGAME=1 in the environment: the share also tracks its missing classes at 40 digits first (split phase 2).
 set -u
 W=$1; n=$2; p=$3; r=$4; K=$5; SH=$6
 HERE=$(cd "$(dirname "$0")" && pwd); FM=$HERE/../fastmono-20261119
@@ -18,7 +19,7 @@ if [ ! -f ckpt_dir_$tag.pkl ]; then      # the base comes in parts (bigfile.sh),
 fi
 NB=$(cat $SH/nbase_$tag.txt)
 echo "$p share $r/$K start $(date +%T)" >> log_split.txt
-OWN=$r/$K NBASE=$NB DELTA_OUT=$PWD/delta.pkl PAR=${PAR:-4} NOENDGAME=1 \
+OWN=$r/$K NBASE=$NB DELTA_OUT=$PWD/delta.pkl PAR=${PAR:-4} NOENDGAME=1 HPENDGAME=${HPENDGAME:-} \
   python3 $HERE/mono_par.py $n $p --rules $FM/aut_rules_7_222222.pkl --loops 0 >> log_split.txt 2>&1
 ec=$?
 echo "$p share $r/$K exit $ec $(date +%T)" >> log_split.txt
