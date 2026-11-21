@@ -90,6 +90,13 @@ def tt_rows(TT):
         for r in TT: yield tuple(map(tuple, r.tolist()))
     else: yield from TT
 
+def _hpwork(job):
+    """worker: one 40/80-digit track (ill-conditioned covers, where double precision cannot take the first step)"""
+    u, k, dd, dps = job
+    try: uh = hp_track.track_path(_G['S'], u, _G['move_path'](k, dd), dps=dps)
+    except Exception: return None
+    return None if uh is None else hp_track.to_np(uh)
+
 def _work(job):
     """worker: track one chunk along move k, careful retry of failures, then number and analyse the endpoints"""
     k, U0 = job
@@ -242,6 +249,7 @@ def main():
         return (braid.relabel(S, U1, mv[0], mv[1]) if half is True else U1), ok
     def endgame():
         """retry every move predicted to reach a missing class along isotopic paths (other arc offsets), carefully"""
+        if os.environ.get('HPENDGAME'): return hp_endgame()
         got = []
         for dd in (0.06, 0.3, 0.45, 0.1, 0.22):
             jobs = {}
@@ -510,7 +518,35 @@ def main():
                             dx = hp_track.solve(J_, F_); uh = [(x_ - d_).mid() for x_, d_ in zip(uh, dx)]
                         print('  kept seed (double residual %.1e): dps %d residuals' % (best, dps), ' '.join('%.0e' % r for r in rs[::3]), flush=True)
             sys.exit(0)
-    _G.update(run_move=run_move, number=number, an_of=an_of)
+    _G.update(run_move=run_move, number=number, an_of=an_of, S=S, move_path=move_path)
+    if os.environ.get('PROBE'):                 # diagnose failing tracks to missing classes, then exit
+        NP_ = int(os.environ['PROBE']); idx = rng.permutation(len(sols))
+        miss = []
+        for i in idx:
+            if not ISREP[i]: continue
+            for k in range(NM):
+                pt = pred(TT[i], k)
+                if md.check(pt, prof) and md.canon(pt)[0] not in TUP: miss.append((i, k, pt))
+        print(f'probe: {len(miss)} missing-target moves from {len(idx)} sampled covers', flush=True)
+        import collections; print('probe missing edges by move', collections.Counter(k for _, k, _ in miss), 'distinct targets', len(set(md.canon(pt)[0] for _, _, pt in miss)), 'distinct sources', len(set(i for i, _, _ in miss)), flush=True)
+        sel = rng.permutation(len(miss))[:400]
+        pickle.dump({'n': n, 'prof': prof, 'fixed': fixed, 'L': L, 'ys': S.ys, 'MV': MV,
+                     'edges': [(sols[miss[j][0]].copy(), miss[j][1], miss[j][2], TT[miss[j][0]]) for j in sel]}, open(f'probe_edges_{tag}.pkl', 'wb'))
+        if os.environ.get('PROBE_DUMPONLY'): sys.exit(0)
+        miss = [miss[j] for j in rng.permutation(len(miss))[:NP_]]; res = []
+        for i, k, pt in miss:
+            u = sols[i]; _, _, cc = S.unpack(u[None]); cs = np.concatenate([fixed, cc[0]])
+            dmin = min(abs(cs[x] - cs[w]) for x in range(len(cs)) for w in range(x))
+            r = dict(k=k, umax=float(np.abs(u).max()), dmin=float(dmin), ccmax=float(np.abs(cc[0]).max()))
+            for nm, kw in (('plain', {}), ('careful', dict(careful=True)), ('careful_d03', dict(careful=True, d=0.3))):
+                U1, ok = run_move(u[None].copy(), k, **kw); r[nm] = bool(ok[0])
+                if ok[0]:
+                    t1 = number([U1[0]])[0]; r[nm + '_hit'] = t1 is not None and md.canon(t1)[0] == md.canon(pt)[0]
+                    if nm == 'plain': break
+            res.append(r); print('probe', r, flush=True)
+        import collections
+        print('probe by move', {k: (sum(1 for r in res if r['k'] == k), sum(1 for r in res if r['k'] == k and (r['plain'] or r.get('careful')))) for k in range(NM)}, flush=True)
+        pickle.dump(res, open(f'probe_{tag}.pkl', 'wb')); sys.exit(0)
     PAR = int(os.environ.get('PAR', '4')); PIPE = os.environ.get('PIPE', '1') == '1'
     import gc; gc.collect(); gc.freeze()      # resumed runs: keep the forked workers from copying the heap
     POOL = mp.get_context('fork').Pool(PAR) if PAR > 1 else None
@@ -525,6 +561,44 @@ def main():
             key = min([c] + [md.canon(autact.apply(c, rule))[0] for rule in RULES])
             o = int(hashlib.md5(repr(key).encode()).hexdigest()[:8], 16) % own_K == own_r; _own[c] = o
         return o
+    def hp_endgame():
+        """HPENDGAME=1: every missing class straight at 40 digits on the worker pool (the double-precision endgame
+        cannot start from the ill-conditioned covers next to the missing ones: condition 1e10-1e13 at s = 0,
+        critical points 1e-3..1e-5 apart; 40 digits takes ~5 s a track).  Waves of 4*PAR targets, so a class
+        reached as an image of an earlier hit is not tracked again."""
+        allj = {}
+        for i in range(len(sols)):
+            for k in range(NM):
+                pt = pred(TT[i], k)
+                if not md.check(pt, prof): continue
+                c = md.canon(pt)[0]
+                if c not in TUP: allj.setdefault(tkey(c), []).append((k, i, pt))
+        report(f'  hp endgame: {len(allj)} missing classes, {sum(len(v) for v in allj.values())} edges')
+        got = []; nfail = 0
+        for dps, dd, src in ((40, 0.15, 0), (40, 0.3, 0), (40, 0.15, 1), (40, 0.3, 1), (80, 0.15, 0), (40, 0.15, 2), (80, 0.3, 1)):
+            todo = [(c, lst[src]) for c, lst in allj.items() if len(lst) > src and c not in TUP]
+            if not todo: continue
+            W_ = 4 * max(PAR, 1)
+            for w0 in range(0, len(todo), W_):
+                wave = [(c, e_) for c, e_ in todo[w0:w0 + W_] if c not in TUP]
+                if not wave: continue
+                jobs_ = [(sols[i].copy(), k, dd, dps) for c, (k, i, pt) in wave]
+                outs = POOL.map(_hpwork, jobs_, chunksize=1) if POOL is not None else [_hpwork(j) for j in jobs_]
+                for (c, (k, i, pt)), un in zip(wave, outs):
+                    stat['hp_tracks'] += 1
+                    if c in TUP: continue
+                    if un is None: nfail += 1; continue
+                    mv, half = MV[k]; un = un[None]
+                    if half is True: un = braid.relabel(S, un, mv[0], mv[1])
+                    nw, _ = accept_tracked([un[0]], [(pt, md.canon(pt)[0])]); got += nw + add_images(nw)
+                    if not nw: nfail += 1
+                if time.time() - _last_save[0] > CKPT_EVERY: save(); _last_save[0] = time.time()
+                if time.time() - t0 > a.maxtime: break
+            report(f'  hp endgame dps {dps} d {dd} source {src}: {len(todo)} tried, {len(got)} new so far, {nfail} failed')
+            if time.time() - t0 > a.maxtime: break
+        save(); return got
+    if os.environ.get('HPENDGAME'):
+        got = hp_endgame(); report(f'hp endgame -> {len(got)} new')
     expanded = 0; pending = set(); tried = set(); use_images = False; seedfail = 0; rnd = 0; rescanned = False; reimaged = False; loops_left = a.loops; endgamed = False
     while W[0] < target - 1e-9 and time.time() - t0 < a.maxtime:
         rnd += 1

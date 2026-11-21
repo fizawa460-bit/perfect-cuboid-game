@@ -11,11 +11,11 @@ COPYTO=${COPYTO:-/mnt/project-files/deg9gen/}
 for p in "$@"; do
   t=$(echo $p | tr -d ,)
   for phase in 1 2; do
-    if [ $phase = 1 ]; then NE=1; else NE=; fi
+    if [ $phase = 1 ]; then NE=1; HPE=; else NE=; HPE=1; fi      # phase 2: missing classes at 40 digits on all cores
     grep -q "^$p phase $phase exit 0 " done.txt 2>/dev/null && { ec=0; continue; }     # finished before a restart
     SEEDARG=; [ -f seeds_${n}_$t.pkl ] && SEEDARG="--seedfile seeds_${n}_$t.pkl"
     echo "$p phase $phase start $(date +%T)" >> done.txt
-    PAR=${PAR:-4} NOENDGAME=$NE python3 $HERE/mono_par.py $n $p --rules $FM/aut_rules_7_222222.pkl --loops ${LOOPS:-0} $SEEDARG >> log_$t.txt 2>&1
+    PAR=${PAR:-4} NOENDGAME=$NE HPENDGAME=$HPE python3 $HERE/mono_par.py $n $p --rules $FM/aut_rules_7_222222.pkl --loops ${LOOPS:-0} $SEEDARG >> log_$t.txt 2>&1
     ec=$?; echo "$p phase $phase exit $ec $(date +%T)" >> done.txt
     if [ -d "$COPYTO" ]; then
       cp -f cov_${n}_$t.pkl full_${n}_$t.pkl rej_${n}_$t.pkl extra_${n}_$t.pkl ckpt_dir_${n}_$t.pkl log_$t.txt "$COPYTO" 2>/dev/null
