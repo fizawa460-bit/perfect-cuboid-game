@@ -98,6 +98,17 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   0.357165. The direction is within ≈0.248 of its absolute ceiling
   (LIMIT < B² caps the residual Chebyshev term at ≥ 0.5594); do not
   extend further.
+- E8. Combination: apply EXP06's redesign machinery (LP weight
+  re-optimization + ε/threshold redesign) to the row384/EXP05
+  averaging test function φ384, 7-char first, then the original
+  3-char fixture; compose EXP09's extended tail if clean. DONE
+  (EXP10, 2026-11-21): certified on both targets — 7-char gap
+  0.45 → 5.8983 at EXP05's bands and bands narrowed to
+  0.65/0.76 (Pareto frontier); 3-char gap 0.7 → 3.98265 and Ω2
+  narrowed to Re > 0.64/0.68. The EXP05 "genuine patch" was
+  weight-dependent, not family-intrinsic. Do not re-run this LP
+  family at these shifts/lengths: ε-frontier, Σ|b| saturation
+  and the band-1 cap (c1 ≈ 0.16) are all mapped in EXP10.
 
 ## Experiment log
 - 2026-11-21 EXP01 (E1): copied row383 to exp01-baseline/, decompressed
@@ -354,3 +365,43 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   E7 DONE — a real but one-dimensional (moment-only) gain;
   the whole E-queue is now exhausted. −30 NOT closed; no
   exclusion; no credit.
+- 2026-11-21 EXP10 (E8): EXP06 machinery (affine gradient + float φ
+  evaluator + LP + rationalize + full-verifier adjudication) applied
+  to φ384. Full write-up: exp10-combo/NOTES.md. Baselines replayed
+  exactly (7-char score 0.0911527542420397790…, 3-char
+  0.0523946411808995256…). Gradient cc=7: g_0 = +0.168, g_1 = +0.159
+  (the (0, 1/40) pair is a near-free dial, g_1 − g_0 ≈ −0.009);
+  float evaluator validated vs transform_series to 3.3e-14. KEY
+  METHOD FINDING: EXP06's relative LP form chains the LP to the
+  baseline weights (~44k near-baseline constraints) and cannot
+  raise bands at all (even c1 = 0.145 infeasible); the ABSOLUTE
+  form (g_new ≥ FLOOR = 2e-4 on the whole required region — honest
+  because baseline min g is 5.6e-4 at the weight-independent
+  (1/2, 12) corner) unlocks the family. CERTIFIED, 7-char
+  (c_Cl ≥ 3): threshold-only redesign at baseline weights already
+  gives gap 0.6384 (thr 911/10000, M_thr 9919/100); relative ladder
+  A–D gaps 1.18685 / 1.48442 / 1.6828 / 1.75574 (ε 0.085 → 0.079,
+  frontier set by the (0.140, 0.652) band-1 edge, LP-infeasible
+  ≤ 0.0785 at FLOOR 5e-4); absolute ladder at bands (0.64, 0.68):
+  candE (ε=0.06) score 0.1053145701385321485… gap 5.08935, candH
+  (ε=13/400) gap 234983/40000 = 5.874575, +EXP09 tail (moment
+  98.4550015213825703…, M_thr 9846/100) gap 58983/10000 = 5.8983.
+  CERTIFIED narrowings (ε=0.06, Pareto): (0.65, 0.70) 2.5326,
+  (0.65, 0.71) 2.22285, (0.65, 0.72) 1.8816, (0.65, 0.73) 1.51935,
+  (0.65, 0.74) 1.13085 → 1.17465 with tail, (0.65, 0.76) 0.3066,
+  (0.655, 0.70) 1.4406, (0.655, 0.71) 1.1466, (0.66, 0.70) 0.33285.
+  CERTIFIED, 3-char (c_Cl ≥ 2): candR3 (ε=7/200, bands 0.63/0.63)
+  score 0.0709356122343433040… gap 3.9571 → 3.98265 with tail;
+  candS3 (0.64, 0.66) gap 1.6212; candT3 (0.64, 0.68) gap
+  1.33245 → 1.3653 with tail. FAILURES: candF (coarse grid) died
+  at depth 42, (u→1/2, t≈2.5788) — grid hole, fixed by
+  densification to 164,322 pts (candF weights show min gap
+  g = −5.7e-6 at (0.5, 2.575) on the dense grid); first LP version
+  falsely infeasible (equality-tight capped-floor rows; HiGHS) —
+  every recorded infeasibility was cross-checked. FRONTIERS:
+  fixed-band ε ≥ 0.0325 at FLOOR 2e-4 (ε=0.030 LP-infeasible:
+  corner εW < FLOOR); Σ|b| saturates ≈ 10.62; band-1 c1 caps
+  ≈ 0.16–0.165 at any ε. Verdict: E8 DONE with certified gains
+  on both averages; −30 NOT closed, no exclusion, no credit;
+  the bite still needs ZF-type zero-freeness (EXP03 gap ≈ 0.37
+  in Re from literature).
