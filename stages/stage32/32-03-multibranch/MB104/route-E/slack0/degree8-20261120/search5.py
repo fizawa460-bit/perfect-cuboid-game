@@ -39,6 +39,7 @@ import scan_nb
 a, b = int(sys.argv[1]), int(sys.argv[2]); DA = sys.argv[3]; DB = sys.argv[4] if len(sys.argv) > 4 else DA
 SAME = (a == b) and os.path.samefile(DA, DB)
 EPS = float(os.environ.get('EPS', '2.5e-6')); TOL = float(os.environ.get('TOL', '1e-9'))
+MIDTOL = float(os.environ.get('MIDTOL', '1e-14'))   # margin check: see verify()
 JOBS = int(os.environ.get('JOBS', '1')); QMAX = int(os.environ.get('QMAX', '0')); ALLQ = os.environ.get('ALLQ') == '1'
 NOSELF = os.environ.get('NOSELF') == '1'; OUT = os.environ.get('OUT', f'res5_{a}_{b}')
 CELLW = [float(x) for x in os.environ.get('CELLW', '4e-6,2e-5').split(',')]
@@ -253,7 +254,7 @@ def kappa(S):
 
 stats = {'raw': 0, 'win': 0, 'cand_nb': 0, 'surv': 0, 'cand': 0, 'dup_skipped': 0, 'amb': 0, 'skip': 0,
          'acc_max': 0.0, 'rej_min': 1.0, 'cr_acc_max': 0.0, 'self_win': 0, 'self_surv': 0}
-hist = {}; hits = []
+hist = {}; hits = []; mids = []
 def verify(fi, pts, lab, subs, R, QX, YQ, qinfo, kind, qarr):
     """search4's numpy verification of the pre-filter survivors of one query f.  QX: table cover per survivor (or
     U index for the self part), YQ: matched q positions (4), qinfo(qx) -> (q points (nB,2), q class labels, hp-list fn)."""
@@ -296,6 +297,13 @@ def verify(fi, pts, lab, subs, R, QX, YQ, qinfo, kind, qarr):
         assert len(set(ii)) == len(ii) and len(set(jj)) == len(jj)
         j = int((lab[ii] == ql[jj]).sum()); h = len(ii) - j; om = nA + nB - 2 * j - h
         hist[om] = hist.get(om, 0) + 1
+        if om > 4:
+            # margin check (E24 3 midcheck): accept every distance below MIDTOL instead of 1e-20 (60 digits) / 1e-11;
+            # the one-to-one bound nA + nB - 2 min(#rows, #columns) is a lower bound of |Omega| for that acceptance.
+            near = Du < MIDTOL; oml = nA + nB - 2 * min(int(near.any(1).sum()), int(near.any(0).sum()))
+            rj = Du[(Du >= (1e-20 if amb[u] else 1e-11)) & near]      # rejected now, accepted under MIDTOL
+            if oml <= 4 and rj.size:
+                mids.append((int(fi), kind, int(qx), M[u], om, oml, float(rj.min()), bool(amb[u]), int(rj.size)))
         if om <= 4: hits.append((int(fi), kind, int(qx), M[u], om, j, h))
 
 def run_scan(fi, code, Tb, cap=200000):
@@ -346,7 +354,7 @@ CHILD = None
 BLK = int(os.environ.get('BLK', '2000'))          # queries per result block; every block is saved (resume after a restart)
 NBLK = (len(QUERY) + BLK - 1) // BLK
 def reset_stats():
-    hits.clear(); hist.clear()
+    hits.clear(); hist.clear(); mids.clear()
     for k in list(stats):
         if k.startswith(('hp_', 'true_')): del stats[k]
         elif k == 'rej_min': stats[k] = 1.0
@@ -364,7 +372,7 @@ def run_blocks(tag, fn):
             reset_stats(); _t = time.time()
             for fi in QUERY[k * BLK:(k + 1) * BLK]: fn(int(fi))
             out = f'{OUT}_{tag}_b{k}.pkl'
-            pickle.dump({'hits': hits, 'hist': hist, 'stats': stats, 'time': time.time() - _t}, open(out + '.tmp', 'wb'))
+            pickle.dump({'hits': hits, 'hist': hist, 'stats': stats, 'mids': mids, 'time': time.time() - _t}, open(out + '.tmp', 'wb'))
             os.replace(out + '.tmp', out)
         if JOBS > 1: os._exit(0)
         break
@@ -385,15 +393,16 @@ if SAME and not NOSELF and not MERGEONLY:
     if run_blocks('self', self_part): print(f'self part done, {time.time() - t0:.0f}s', flush=True)
 # ---------------- merge the partial results, birationality (search4's double fibre test + automatic bircheck40)
 parts = sorted(glob.glob(f'{OUT}_code*_b*.pkl')) + sorted(glob.glob(f'{OUT}_self_b*.pkl'))
-H = []; HIST = {}; ST = {}
+H = []; HIST = {}; ST = {}; MIDS = []
 for fn in parts:
-    d = pickle.load(open(fn, 'rb')); H += d['hits']
+    d = pickle.load(open(fn, 'rb')); H += d['hits']; MIDS.extend(d.get('mids', []))
     for k, v in d['hist'].items(): HIST[k] = HIST.get(k, 0) + v
     for k, v in d['stats'].items():
         if k in ('acc_max', 'cr_acc_max') or k.endswith('_max'): ST[k] = max(ST.get(k, 0.0), v)
         elif k.endswith('_min'): ST[k] = min(ST.get(k, 1.0), v)
         else: ST[k] = ST.get(k, 0) + v
     ST['core_s'] = ST.get('core_s', 0) + d['time']
+print(f'margin check: candidates with |Omega| > 4, a rejected distance below {MIDTOL:g}, and one-to-one bound <= 4 if those counted: {len(MIDS)}', flush=True)
 print('hist (distinct (f,q,M); q = table cover or U∘f)', dict(sorted(HIST.items(), key=lambda kv: (isinstance(kv[0], str), kv[0]))))
 print('stats', ST, flush=True)
 def coeffs(L, r, ui):
@@ -438,5 +447,5 @@ for fi, kind, qx, M, om, j, h in H:
 print(f'|Omega|<=4 hits: {len(H)}  non-birational: {nonbir}  (double-precision BIRATIONAL flags: {len(flags)}, '
       f'composite at 40 digits: {sum(f[4]["verdict"] == "composite" for f in flags)})  BIRATIONAL or unclear after 40 digits: {len(bir)}')
 for x in bir[:20]: print('  BIR', x)
-pickle.dump({'hits': H, 'hits_q': HQ, 'bir': bir, 'flags': flags, 'hist': HIST, 'stats': ST, 'queries': QUERY}, open(f'{OUT}.pkl', 'wb'))
+pickle.dump({'hits': H, 'hits_q': HQ, 'bir': bir, 'flags': flags, 'hist': HIST, 'stats': ST, 'queries': QUERY, 'mids': MIDS}, open(f'{OUT}.pkl', 'wb'))
 print('done', f'{time.time() - t0:.0f}s', rss(), flush=True)
