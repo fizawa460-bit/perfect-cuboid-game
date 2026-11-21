@@ -70,7 +70,14 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   narrowed to Re > 0.64 / 0.68 per band.
 - E6. Deuring–Heilbronn repulsion variant: assume one χ HAS a band zero;
   derive widened zero-free regions for the others and feed back into the
-  row384 average. Untried in the materials.
+  row384 average. DONE, NEGATIVE (EXP07, 2026-11-21): no repulsion is
+  available from the row383/row384 test functions — the average couples
+  characters only through one scalar budget (cannot localize the
+  others' zeros), one deep zero orbit supplies 1.9x–2000x the whole
+  budget (counting fails), and the classical full-group channel is
+  vacuous (pole term 2φ(1/2) ≈ +90.7 > group budget ≈ 36.6). Do not
+  retry with these test functions; the exact criterion a future
+  depth-capped test function would need is recorded in EXP07 §5.
 - E7. Tail extension: recompute first-degree prime counts for p up to
   10^7 (repo tail stops at 1,982,760) and re-run E2 with the longer tail;
   measures how much of the score is tail-limited. (Compute-heavy; the
@@ -227,3 +234,34 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   family is negligible (float score ceiling ≈0.0104 under rigorous-
   plausible positivity). −30 NOT closed; no exclusion; hard core
   unchanged.
+- 2026-11-21 EXP07 (E6): Deuring–Heilbronn repulsion variant. Full
+  write-up: exp07-e6-repulsion/NOTES.md. The assumed zero can only
+  enter through the derived budget Σ_{χ∈X} Z_in(χ) ≤ −G_N (the
+  verifier has no slot for it). Certified budgets G_N: row383 per-char
+  0.046155 (baseline) / 0.368671 (candG); row384 G_3 = 6.089742;
+  EXP05 7-char G_7 = 42.696610 (base ε=7/200) / 4.509852 (cand6).
+  Three obstructions, all quantified. (1) STRUCTURAL: one scalar
+  budget cannot localize the other characters' zeros — for any proper
+  subregion R' with inf Re φ < 0 outside it, unbounded multiplicities
+  at one deep point satisfy the budget with the others zerofree in R';
+  the only localization the formalism gives is the positivity region,
+  which is assumption-independent. φ383/φ384 negative patches coincide
+  (both minima at (u,t)→(0.5,0.44)), so two functions do not rescue
+  it. (2) COUNTING FAILS: min Re φ over the band regions (arb point
+  evaluations, verifier's own phi0; rigorous at sampled points) is
+  −19.920 for φ384 on Ω2 (at u=0.5, t=0.435; band 2 only −1.742) and
+  −24.191/−24.203 for φ383 baseline/candG, so one zero orbit supplies
+  c_max = 79.68 (φ384) / 96.8 (φ383) of negativity vs budgets above:
+  ratios G/c_max = 0.0005 (383 base), 0.0038 (candG), 0.076 (row384),
+  0.536 (EXP05 base — closest), 0.057 (cand6), all < 1. Assumed-zero
+  shift c1 = −4 Re φ(ρ1) ranges over [−18.9, +79.7] on Ω2 and never
+  localizes. (3) CLASSICAL DH CHANNEL VACUOUS: full-group average
+  {1,χ1,χ2,χ1χ2} (odd bound −1/3 → 0, diagnostic with repo prime
+  machinery, arch/moment stand-ins flagged) gives S_G ≈ 0.120221,
+  G_group ≈ 36.6, but the ζ_K pole term 2φ384(1/2) ≈ +90.7 exceeds
+  it: the group inequality forces Σ Z_in ≤ +54.1, i.e. nothing; and
+  Z_in(ζ_K) has no available lower bound anyway (EXP03). Criterion
+  for any future attempt: −min_R Re φ < G_N/4 (EXP05 config would
+  need min > −10.67 vs actual −19.92). Verdict: E6 DONE, negative;
+  do not retry with these test functions. −30 NOT closed; no
+  exclusion; no credit.
