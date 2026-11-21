@@ -210,10 +210,10 @@ def fill_entries(TREP, TTPV, IMAP, SUBB, SCODE, Z, INF, code, xlo, xhi, TIERS, W
 @njit(cache=True)
 def scan6(f0, f1, flab, subs, perm24, P6, TOL, EPS4, maxfail,
           keys, ete, esb, ntier, tstart, tend, tW, NY, tsmax, xlo, xhi,
-          TREP, TTPV, IMAP, QCLS, SUBB, Z, INF, CLSB, myclass, cap):
+          TREP, TTPV, IMAP, QCLS, SUBB, Z, INF, CLSB, myclass, cap, maxc=64):
     """scan() of scan_nb on the integer grid: for each query subset ordering with x within the slice (+ window), the
     cells cx in [floor((x - w + 1)/W), floor((x + w + 1)/W)] are looked up with cy in the same range (one contiguous
-    key range per cx); when that is more than 64 cells wide, the whole x-slab is scanned instead.  Then the same
+    key range per cx); when that is more than maxc cells wide (SLABC, default 64), the whole x-strip (all y) is scanned instead.  Then the same
     exact window test, pre-filter and one-to-one bound as scan()."""
     nB = Z.shape[1]
     o_r = np.empty(cap, np.int64); o_te = np.empty(cap, np.int64); o_sb = np.empty(cap, np.int64); o_p = np.empty(cap, np.int64)
@@ -236,24 +236,24 @@ def scan6(f0, f1, flab, subs, perm24, P6, TOL, EPS4, maxfail,
                 c1 = np.int64(np.floor((x - w - 1e-12 + 1) / Wk)); c2 = np.int64(np.floor((x + w + 1e-12 + 1) / Wk))
                 y1 = np.int64(np.floor((yv - w - 1e-12 + 1) / Wk)); y2 = np.int64(np.floor((yv + w + 1e-12 + 1) / Wk))
                 kk = keys[tstart[k]:tend[k]]
-                if c2 - c1 > 64:
+                if c2 - c1 > maxc:
                     ranges_lo = np.searchsorted(kk, c1 * NYk) + tstart[k]; ranges_hi = np.searchsorted(kk, (c2 + 1) * NYk) + tstart[k]
                     nr = 1
                 else:
                     nr = c2 - c1 + 1; ranges_lo = 0; ranges_hi = 0
                 for ci in range(nr):
-                    if c2 - c1 > 64:
+                    if c2 - c1 > maxc:
                         lo = ranges_lo; hi = ranges_hi
                     else:
                         cell = c1 + ci
                         lo = np.searchsorted(kk, cell * NYk + y1) + tstart[k]
                         hi = np.searchsorted(kk, cell * NYk + y2, 'right') + tstart[k]
                     cnt[0] += hi - lo
-                    if c2 - c1 > 64: cnt[4] += hi - lo
+                    if c2 - c1 > maxc: cnt[4] += hi - lo
                     else: cnt[3] += hi - lo
                     cnt[5 + min(k, 2)] += hi - lo
                     for e in range(lo, hi):
-                        if c2 - c1 > 64:
+                        if c2 - c1 > maxc:
                             cy = keys[e] % NYk
                             if cy < y1 or cy > y2: continue
                         te = ete[e]; rep = TREP[te]

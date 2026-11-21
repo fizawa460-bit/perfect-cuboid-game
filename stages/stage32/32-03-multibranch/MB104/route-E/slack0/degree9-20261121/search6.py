@@ -218,6 +218,7 @@ def condS(P):
     for i, j in itertools.combinations(range(4), 2): tot = tot + 1 / np.abs(wedge(P[..., i, :], P[..., j, :]))
     return tot
 
+SLABC = int(os.environ.get('SLABC', '64'))     # per-cell lookups up to this many x-cells, else one strip scan (all y)
 XSPLIT = int(os.environ.get('XSPLIT', '1'))     # each label code is built in XSPLIT slices of the first sphere coordinate (memory)
 CELLW6 = float(os.environ.get('CELLW6', '2'))   # grid cell of tier k = CELLW6 * TOL * (largest S of the tier), capped at 4 EPS
 def build_table(code, h=0, k=1):
@@ -369,7 +370,7 @@ def run_scan(fi, code, Tb, cap=200000):
     while True:
         r, te, sb, p, cnt, full = scan_nb.scan6(f0, f1, fl, subs, perm24, P6, TOL, 4 * EPS, MAXFAIL,
                                                Tb['keys'], Tb['te'], Tb['sb'], Tb['ntier'], Tb['tstart'], Tb['tend'], Tb['W'], Tb['NY'], Tb['tsmax'], Tb['xlo'], Tb['xhi'],
-                                               TREP, TTPV, IMAP, QCLS, SUBB, LB['Z'], LB['INF'], CLSB, myc, cap)
+                                               TREP, TTPV, IMAP, QCLS, SUBB, LB['Z'], LB['INF'], CLSB, myc, cap, SLABC)
         if not full: break
         cap *= 4
     stats['raw'] += int(cnt[0]); stats['win'] += int(cnt[1]); stats['cand_nb'] += int(cnt[2]); stats['surv'] += len(r)
