@@ -39,7 +39,35 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   would be GRH/heuristic-conditional = same status as row381, and
   |disc| ≈ 10^173 is out of practical range. Scouted 2026-11-21, DEAD.
 
+## Trap-B gate (added 2026-11-21, after the user's TRAPS.md / trap-B question)
+- Before starting any new experiment, write down in one line: (1) the
+  finite claim or range-limited theorem it aims at, stated before the
+  run; (2) the certified number that must move, and by how much, for
+  the run to count as progress (not a paraphrase); (3) the stop
+  condition — "small side done, remainder OPEN" — at which the
+  experiment is closed rather than polished further. If a run moves no
+  certified number, record it as trap-B-shaped and do not re-run the
+  same family with new angles. This gate does not change the freeze
+  judgement; it is ledger discipline only.
+
 ## Untried experiment queue
+- E10. Depth-capped repulsion retry (new fixture family): change
+  support/degree so a future test function meets EXP07 §5's criterion
+  (−min_R Re φ < G_N/4; EXP05 7-char: min > −10.67 vs actual −19.92).
+  SCOUT DONE 2026-11-21 (EXP12, float only): shortening lengths DOES
+  shallow the depth (×0.85 → −9.47, passes the criterion on paper),
+  but with inherited weights every shallowing variant breaks exterior
+  positivity at the band-1 top edge t ≈ 0.77 (min g −0.08 at ×0.95
+  … −3.08 at ×0.80), so the cheap path is DEAD — do not run the full
+  verifier on length variants with inherited weights. FULL
+  EXPERIMENT DONE 2026-11-21 (EXP13): LP redesign in six length
+  families (×0.80–×0.95, redistribution, baseline control) — NO
+  family reaches the criterion; best counting margin −10.03
+  (baseline lengths) vs the > 0 needed, and every shortened family
+  loses the score entirely to positivity repair (max repaired
+  score < 0 from ×0.90 down). E10 CLOSED, negative, quantified —
+  do not re-run E10 variants with new angles; a different
+  test-function shape would be a new experiment, not a retry.
 - E1. Baseline replay of row383 certificate in this environment. DONE
   (see log). Purpose: working harness for E2/E5/E6.
 - E2. Test-function variations on the row383 harness: (a) Hadamard point
@@ -48,7 +76,12 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   single-weight scout + EXP06 positivity-constrained LP with joint
   ε/threshold redesign, 2026-11-21): certified score 0.0098858898… →
   0.0103597391…, contradiction gap 29/1000 → 0.3518725 (×12.1), bands
-  unchanged; ε ≲ 0.007 and band raising are dead in this family. Do
+  unchanged; ε ≲ 0.007 and band raising are dead in this family
+  [the band-raising clause is SUPERSEDED by EXP11 (E9): it was an
+  artifact of EXP06's relative LP form; the absolute-floor form
+  certifies raised bands — see the EXP11 log entry. The ε ≲ 0.007
+  clause is likewise relative-form-specific: EXP11 certifies
+  ε = 1/500 at the original bands]. Do
   not retry weight re-optimization at these shifts/lengths; (c)
   different length splits at the same support — DONE (EXP08,
   2026-11-21): length multiset is essentially rigid; only a ×1.001
@@ -98,6 +131,53 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   0.357165. The direction is within ≈0.248 of its absolute ceiling
   (LIMIT < B² caps the residual Chebyshev term at ≥ 0.5594); do not
   extend further.
+- E8. Combination: apply EXP06's redesign machinery (LP weight
+  re-optimization + ε/threshold redesign) to the row384/EXP05
+  averaging test function φ384, 7-char first, then the original
+  3-char fixture; compose EXP09's extended tail if clean. DONE
+  (EXP10, 2026-11-21): certified on both targets — 7-char gap
+  0.45 → 5.8983 at EXP05's bands and bands narrowed to
+  0.65/0.76 (Pareto frontier); 3-char gap 0.7 → 3.98265 and Ω2
+  narrowed to Re > 0.64/0.68. The EXP05 "genuine patch" was
+  weight-dependent, not family-intrinsic. Do not re-run this LP
+  family at these shifts/lengths: ε-frontier, Σ|b| saturation
+  and the band-1 cap (c1 ≈ 0.16) are all mapped in EXP10.
+- E9. φ383 band narrowing via EXP10's absolute-floor LP (the
+  c_Cl ≥ 1 case; EXP06's relative form declared band raising
+  dead — the verdict EXP10's φ384 finding reopened). DONE
+  (EXP11, 2026-11-21): certified narrowings — band 3 threshold
+  0.605 → 0.680, band 2 0.572 → 0.580 (0.585 in one point),
+  band 1 0.562 → 0.564, joint points (0.562, 0.580, 0.680) and
+  (0.564, 0.580, 0.640); at the original bands the gap rises to
+  0.51708 (tail composed) at ε = 1/500, at a LOWER score than
+  candG (0.006967 vs 0.010360 — same bands, more slack, not a
+  stronger statement). Frontier mapped (band 1 caps c1 ≈
+  0.066–0.067 at the deep patch; band 2 ≈ 0.09–0.095 alone;
+  band 3 ≈ 0.18–0.20 alone; fixed-band ε-ladder plateaus at
+  ε ≈ 0.0015–0.002, collapses at 0.001 under the tail-ratio
+  cap; Σ|b| saturation ≈ 1.70). Do not re-run this LP family
+  at these shifts/lengths.
+- E11. New SHIFT SETS for φ384/φ383: every prior experiment
+  (EXP06/08/10/11/13) kept the baseline shift set fixed; shifts
+  are the one never-varied axis. DONE (EXP14, 2026-11-21):
+  shifts are NOT verifier-locked (any rationals with a_0 = 0,
+  0 < a_j < tail_height, Σb = 1, dominance, d_upper > 0 are
+  legal), and the axis is real — the uniform step-1/5 respread
+  over [0, 6] (F5, 31 shifts) beats EVERY EXP10/EXP11 record,
+  all certified by full verifier runs: φ384 7-char fixed-band
+  gap 5.8983 → 6.21855 and (0.65, 0.76) gap 0.3066 → 1.09065;
+  3-char gap 3.98265 → 4.21365 and Ω2 (0.64, 0.68) gap
+  1.3653 → 1.72230; φ383 fixed-band gap 0.51708 → 0.53283 (at
+  a higher score) and the (0.562, 0.572, 0.680) point
+  0.120915 → 0.147165. Frontier mapped: F4-sparse (11 shifts)
+  is dead (max feasible score ≈ −0.445); the fixed-band
+  ε-frontier (0.0325) is a (1/2, 12)-corner effect and does
+  not move with shifts; (0.67, 0.72)/(0.66, 0.76) and the
+  φ383 joint point (0.564, 0.585, 0.680) stay past the LP
+  frontier in all families. Do not re-run these shift
+  families; the only untried point left on this axis is a
+  step-1/10 dictionary on [0, 6], with diminishing returns
+  expected.
 
 ## Experiment log
 - 2026-11-21 EXP01 (E1): copied row383 to exp01-baseline/, decompressed
@@ -248,7 +328,13 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   gap ×12.1, same bands); the remaining headroom in this fixture
   family is negligible (float score ceiling ≈0.0104 under rigorous-
   plausible positivity). −30 NOT closed; no exclusion; hard core
-  unchanged.
+  unchanged. [SUPERSEDED IN PART by EXP11 (E9, 2026-11-21): the
+  "BAND RAISING DEAD" verdict above and the ≈0.0104 ceiling were
+  artifacts of the relative LP form + grid v2 resolution. The
+  absolute-floor form on a 742,597-point grid certifies raised
+  bands (0.562/0.572/0.605 → up to 0.562/0.572/0.680 and
+  0.564/0.580/0.640) and a fixed-band gap of 0.51708 at ε = 1/500.
+  See the EXP11 log entry and exp11-phi383-bands/NOTES.md.]
 - 2026-11-21 EXP07 (E6): Deuring–Heilbronn repulsion variant. Full
   write-up: exp07-e6-repulsion/NOTES.md. The assumed zero can only
   enter through the derived budget Σ_{χ∈X} Z_in(χ) ≤ −G_N (the
@@ -354,3 +440,189 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   E7 DONE — a real but one-dimensional (moment-only) gain;
   the whole E-queue is now exhausted. −30 NOT closed; no
   exclusion; no credit.
+- 2026-11-21 EXP10 (E8): EXP06 machinery (affine gradient + float φ
+  evaluator + LP + rationalize + full-verifier adjudication) applied
+  to φ384. Full write-up: exp10-combo/NOTES.md. Baselines replayed
+  exactly (7-char score 0.0911527542420397790…, 3-char
+  0.0523946411808995256…). Gradient cc=7: g_0 = +0.168, g_1 = +0.159
+  (the (0, 1/40) pair is a near-free dial, g_1 − g_0 ≈ −0.009);
+  float evaluator validated vs transform_series to 3.3e-14. KEY
+  METHOD FINDING: EXP06's relative LP form chains the LP to the
+  baseline weights (~44k near-baseline constraints) and cannot
+  raise bands at all (even c1 = 0.145 infeasible); the ABSOLUTE
+  form (g_new ≥ FLOOR = 2e-4 on the whole required region — honest
+  because baseline min g is 5.6e-4 at the weight-independent
+  (1/2, 12) corner) unlocks the family. CERTIFIED, 7-char
+  (c_Cl ≥ 3): threshold-only redesign at baseline weights already
+  gives gap 0.6384 (thr 911/10000, M_thr 9919/100); relative ladder
+  A–D gaps 1.18685 / 1.48442 / 1.6828 / 1.75574 (ε 0.085 → 0.079,
+  frontier set by the (0.140, 0.652) band-1 edge, LP-infeasible
+  ≤ 0.0785 at FLOOR 5e-4); absolute ladder at bands (0.64, 0.68):
+  candE (ε=0.06) score 0.1053145701385321485… gap 5.08935, candH
+  (ε=13/400) gap 234983/40000 = 5.874575, +EXP09 tail (moment
+  98.4550015213825703…, M_thr 9846/100) gap 58983/10000 = 5.8983.
+  CERTIFIED narrowings (ε=0.06, Pareto): (0.65, 0.70) 2.5326,
+  (0.65, 0.71) 2.22285, (0.65, 0.72) 1.8816, (0.65, 0.73) 1.51935,
+  (0.65, 0.74) 1.13085 → 1.17465 with tail, (0.65, 0.76) 0.3066,
+  (0.655, 0.70) 1.4406, (0.655, 0.71) 1.1466, (0.66, 0.70) 0.33285.
+  CERTIFIED, 3-char (c_Cl ≥ 2): candR3 (ε=7/200, bands 0.63/0.63)
+  score 0.0709356122343433040… gap 3.9571 → 3.98265 with tail;
+  candS3 (0.64, 0.66) gap 1.6212; candT3 (0.64, 0.68) gap
+  1.33245 → 1.3653 with tail. FAILURES: candF (coarse grid) died
+  at depth 42, (u→1/2, t≈2.5788) — grid hole, fixed by
+  densification to 164,322 pts (candF weights show min gap
+  g = −5.7e-6 at (0.5, 2.575) on the dense grid); first LP version
+  falsely infeasible (equality-tight capped-floor rows; HiGHS) —
+  every recorded infeasibility was cross-checked. FRONTIERS:
+  fixed-band ε ≥ 0.0325 at FLOOR 2e-4 (ε=0.030 LP-infeasible:
+  corner εW < FLOOR); Σ|b| saturates ≈ 10.62; band-1 c1 caps
+  ≈ 0.16–0.165 at any ε. Verdict: E8 DONE with certified gains
+  on both averages; −30 NOT closed, no exclusion, no credit;
+  the bite still needs ZF-type zero-freeness (EXP03 gap ≈ 0.37
+  in Re from literature).
+- 2026-11-21 EXP11 (E9): EXP10's absolute-floor LP form applied to
+  φ383 band narrowing (c_Cl ≥ 1). Full write-up:
+  exp11-phi383-bands/NOTES.md. Pipeline as EXP06/EXP10 (affine
+  gradient from EXP06, float evaluator revalidated to 1.8e-15,
+  baselines replayed exactly); LP form is ABSOLUTE (g_new ≥ FLOOR
+  on the whole required region; FLOOR capped by the (1/2, 8)
+  corner, εW = 0.01373ε there) on a tagged grid built out to
+  u = 0.22/0.24/0.30 in the bands. CERTIFIED narrowings (all
+  ε = 29/4000 except candC at 27/4000; |Im| windows unchanged):
+  K-narrow-d bands (0.562, 0.572, 0.680) score
+  0.0081125003351975160… gap 46249/400000 = 0.1156225, with
+  EXP09 tail (moment 98.4550015213825703…, M_thr 9846/100) gap
+  24183/200000 = 0.120915; K-narrow-a (0.562, 0.580, 0.660)
+  score 0.0080622749120922782… gap 0.1103725 → 0.115665 with
+  tail; K-narrow-b (0.564, 0.580, 0.620) gap 0.0946225;
+  K-narrow-f (0.562, 0.585, 0.660) gap 0.0473725; K-narrow-c
+  (0.564, 0.580, 0.640) gap 0.0549675; K-narrow-e (0.562,
+  0.580, 0.680) gap 0.0263725. CERTIFIED fixed-band: K-fixed-a
+  (ε = 1/500, FLOOR 6e-6) score 0.0069670144039762558… gap
+  25781/50000 = 0.51562 → 12927/25000 = 0.51708 with tail —
+  above candG's 0.3518725/0.357165 on the gap metric, but at a
+  LOWER score (0.006967 vs 0.010360): same bands, more slack,
+  not a stronger statement. FRONTIER (LP diagnostics, viability
+  = gap > 0, cross-checked at ≥ 2 ε): band 1 caps at c1 ≈
+  0.066–0.067 (score falls ~0.0014 per +0.002 near the cap; the
+  deep patch at (0.5, 0.44) is the obstruction); band 2 caps
+  ≈ 0.09–0.095 alone, ≈ 0.085 combined; band 3 caps ≈ 0.18–0.20
+  alone; joint points (0.062, 0.09, 0.16) and (0.066, 0.08,
+  0.12) are past the frontier (LP gap < 0 at ε = 0.00725).
+  Fixed-band ε-ladder (LP): gap rises to a plateau ≈ 0.51 over
+  ε ∈ [0.0015, 0.002] and collapses at ε = 0.001 (score
+  −0.0266); at ε ≤ 0.0065 the tail-ratio cap 0.95ε is the
+  binding constraint. Σ|b| saturation ≈ 1.70 (= baseline total;
+  cap ∈ {1.7, 2.5, 4.0} identical at ε ≥ 0.0065 — unlike
+  φ384's ≈ 10.62). FAILURES: K-fixed-a died at depth 42 three
+  times before passing — (i) 1e-6 rationalization (rounding
+  moved g by −1.7e-5 at the (0.5, 3.295) dip, swamping FLOOR
+  6e-6; fixed by a 1e-7 grid), (ii) grid v1 (141,975 pts):
+  continuum dip at (0.5, t ≈ 2.4586) between t-step-0.01 edge
+  samples, (iii) grid v2 (268,200 pts): band-1 top edge dip
+  −1.79e-5 at (0.062, 0.686), ~0.002 wide in t (EXP06 candA/B's
+  site; cliff |g″| ≈ 31 ⇒ sag ≈ 31h²/8). Grid v3 (742,597 pts,
+  cliff windows at t-step 0.0005) passes everything. Verdict:
+  E9 DONE — EXP06's "band raising is dead" is superseded (it
+  was the relative form + grid resolution, exactly as EXP10's
+  φ384 finding predicted); the c_Cl ≥ 1 necessary region is
+  now as small as (0.562, 0.572, 0.680) / (0.564, 0.580,
+  0.640) on the certified Pareto frontier. −30 NOT closed; no
+  exclusion; no credit; the bite still needs zero-freeness in
+  the narrowed bands (EXP03: literature reaches Re ≈ 0.99986,
+  deficit shortfall ~3×10³, unchanged).
+- 2026-11-21 EXP12 (E10 scout, float only): depth-capped fixture family
+  by changing lengths, inherited weights (EXP05 cand6 / EXP10 candH).
+  Full write-up: exp12-e10-scout/NOTES.md. Evaluator validated by
+  reproduction (baseline depth −19.920 = EXP07; exterior min g
+  +0.000557 = EXP10's 5.6e-4). Shortening lengths shallows the depth
+  (×0.95 → −15.89, ×0.90 → −12.32, ×0.85 → −9.47, ×0.80 → −7.20;
+  redistributing at fixed T=14.4 → −2.91; dropping the 0.35 components
+  changes nothing — the longest length sets the depth), but every
+  shallowing variant breaks exterior positivity at the band-1 top edge
+  t ≈ 0.77 (min g −0.078 at ×0.95 … −3.08 at ×0.80), i.e. the negative
+  lobe widens in t and spills into the gap. Verdict: E10's cheap path
+  (change lengths, keep weights) is DEAD — do not run the full
+  verifier on these variants. Only live path is a full LP redesign in
+  a new length family (EXP10/EXP11-scale work, outcome unknown).
+  −30 NOT closed; no exclusion; no credit. All numbers float
+  diagnostics, not certified.
+- 2026-11-21 EXP13 (E10 full experiment): LP redesign inside six
+  length families (baseline control; uniform ×0.95/×0.90/×0.85/×0.80;
+  redistribution [4,4,3,2,1.4]), EXP10 absolute-floor form + a depth
+  cap on the band rectangles R, ε ∈ {0.09, 0.06, 0.045, 0.035},
+  470 sign-fixed LP solves + free-sign and Σ|b|-cap-25 relaxations.
+  Trap-B line and full frontier: exp13-e10-lp/NOTES.md. Verdict:
+  NEGATIVE, quantified — the criterion margin G_7/4 + min_R Re φ
+  (needs > 0) peaks at −10.03 (baseline lengths, ε=0.035, score
+  +0.0887, depth −20.20) and degrades monotonically with shortening
+  (×0.95: −17.96; ×0.90: −36.86; ×0.85: −79.53; ×0.80: −140.65;
+  redistribution: −103.15). Two failure modes: (A) at baseline/×0.95
+  lengths positivity is affordable but the depth under positivity is
+  floored (−13.76 at score ≥ 0, −16.40 at score ≥ 0.065, ε=0.09)
+  vs the ≤ 5.9 the criterion tolerates at those scores; forcing
+  depth = 10.674 exactly (free signs, cap 25) leaves score −0.112.
+  (B) from ×0.90 down, positivity repair consumes the whole score —
+  max repaired score < 0, so G_7 < 0 and no budget exists at all —
+  even though the raw depth is shallow (redistribution −1.80).
+  Mechanism: the R-depth dip and the band-1-top-edge exterior lobe
+  are one boundary layer of φ_0 at u → 1/2; shortening shallows the
+  first and deepens the second, and the LP exchange rate never
+  favors the criterion. Machinery note: the affine score model
+  needs the exact d_upper correction (C_m·Δd_upper, C_m ≈ 5.09e-7)
+  — validated to 2.8e-17 against candH's certified score; moment
+  confirmed lengths-independent by the verifier itself
+  (99.186384435239… in all six families); LP optima spot-checked
+  against the verifier's own score code (agreement ≤ 3.3e-6).
+  No candidate passed the LP screen, so no full-verifier
+  certification was run and no new certificate exists. E10 DONE —
+  do not retry in these families. −30 NOT closed; no exclusion;
+  no credit.
+- 2026-11-21 EXP14 (E11): new shift sets for φ384 and φ383.
+  Full write-up: exp14-shifts/NOTES.md. Shifts are NOT
+  verifier-locked (fixture cosine_weights are read directly;
+  constraints are only a_0 = 0, 0 < a_j < tail_height, Σb = 1,
+  dominance, d_upper > 0). The moment is exactly
+  shift-independent (log_deriv never touches f), so the 10^7
+  tail and M_thr = 9846/100 compose unchanged. Machinery: exact
+  affine score model score = C + Σ h_j b_j − C_tail·(K0 +
+  Σ|b_j|a_j²) with per-shift unit-modulation extraction in the
+  verifier's own arithmetic (C_tail = 32/62853135 ≈ 5.091234e-07,
+  EXP13's correction; K0 = +0.071548128650 φ384 / +0.079169205031
+  φ383), validated to ≤ 8e-17 on assembly and to 1.4e-17 against
+  candH's certified score; EXP10 absolute-floor LP in a FREE-SIGN
+  form (no inherited sign pattern exists for a new shift set).
+  Families: F0 baseline control, F1 step-1/10 on [0,4] (41),
+  F2 step-1/5 on [0,4] (21), F3 baseline + {4.4,…,6} (26),
+  F4 step-2/5 on [0,4] (11), F5 step-1/5 on [0,6] (31), G5 = F5
+  pattern on φ383. CERTIFIED (full verifier, tail composed) —
+  F5 wins every target: 7-char (0.64, 0.68) gap 124371/20000
+  = 6.21855 (score 0.0898783530560583442…, ε = 13/400; F1 also
+  passes at 6.13455); 7-char narrowings (0.65, 0.74) 1.86765,
+  (0.65, 0.76) 21813/20000 = 1.09065, (0.66, 0.70) 0.83865
+  (all ε = 3/50); 3-char (0.63, 0.63) gap 84273/20000
+  = 4.21365 (score 0.0731051205933053291…, ε = 7/200; F3 also
+  passes at 4.13490) and (0.64, 0.68) gap 17223/10000
+  = 1.72230 (ε = 9/200); φ383 G5 fixed-band gap 53283/100000
+  = 0.53283 (score 0.0071055083602527473…, ε = 1/500 — above
+  EXP11's K-fixed-a on both gap and score) and (0.562, 0.572,
+  0.680) gap 29433/200000 = 0.147165 (ε = 29/4000). Every new
+  family also beats the F0 baseline-shift control under the
+  same free-sign LP, so the gain is the shift axis itself;
+  F5's optima use Σ|b| ≈ 1.7–1.9 (vs ≈ 10–12 cap-bound at
+  baseline shifts). FRONTIER: F4-sparse dead (max
+  positivity-feasible score ≈ −0.445); ε = 0.030 infeasible in
+  all families (the (1/2, 12) corner εW ≈ 1.85e-4 < FLOOR
+  2e-4, shift-independent); (0.67, 0.72), (0.66, 0.76) and
+  the φ383 joint point (0.564, 0.585, 0.680) are LP-negative
+  in every family. FAILURES RECORDED: the first ladder batch
+  failed two ways — FLOOR 3e-4 is infeasible at ε ≤ 0.045
+  (corner cap εW; floors must be per-ε), and three F5
+  narrowing candidates died at depth 42 (u → 1/2, t ≈ 6.99)
+  because the LP thinning inherited from EXP10's lp384.py
+  (integer-t only above t = 6) hid a genuine g dip at
+  (0.5, ≈6.21) — full-grid LP fixed it and all re-laddered
+  candidates passed. Verdict: E11 DONE, positive — every
+  EXP10/EXP11 record beaten and certified. −30 NOT closed;
+  no exclusion; no credit; the bite still needs ZF-type
+  zero-freeness (EXP03 gap unchanged).
