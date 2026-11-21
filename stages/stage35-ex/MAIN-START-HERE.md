@@ -18,7 +18,7 @@ K16-C3-PESCH-EXPONENT-ONE
 child: R29-PESCH-E1
 ```
 
-Its immediate target is the weaker replacement theorem exposed by Stage35-35-10 / Peschmann Conjecture E1:
+Its immediate target is the theorem exposed by Stage35-35-10 / Peschmann Conjecture E1 (equivalent to the nonexistence of a perfect cuboid modulo the audited Stage29-08 coverage theorem — not a weaker replacement; see `STAGE35EX-FROZEN-20261112.md` and `review-20261112/CONTINUATION-JUDGEMENT.md`):
 
 ```text
 For every Master-Hit, with
