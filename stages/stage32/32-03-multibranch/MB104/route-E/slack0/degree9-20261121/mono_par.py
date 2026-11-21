@@ -464,6 +464,17 @@ def main():
     PAR = int(os.environ.get('PAR', '4')); PIPE = os.environ.get('PIPE', '1') == '1'
     import gc; gc.collect(); gc.freeze()      # resumed runs: keep the forked workers from copying the heap
     POOL = mp.get_context('fork').Pool(PAR) if PAR > 1 else None
+    OWN = os.environ.get('OWN', '')            # 'r/K': track only targets whose symmetry orbit hashes to r mod K (split one profile over K machines)
+    _own = {}
+    if OWN:
+        import hashlib; own_r, own_K = map(int, OWN.split('/')); print(f'split mode: share {own_r} of {own_K}', flush=True)
+    def owns(c):
+        if not OWN: return True
+        o = _own.get(c)
+        if o is None:
+            key = min([c] + [md.canon(autact.apply(c, rule))[0] for rule in RULES])
+            o = int(hashlib.md5(repr(key).encode()).hexdigest()[:8], 16) % own_K == own_r; _own[c] = o
+        return o
     expanded = 0; pending = set(); tried = set(); use_images = False; seedfail = 0; rnd = 0; rescanned = False; reimaged = False; loops_left = a.loops; endgamed = False
     while W[0] < target - 1e-9 and time.time() - t0 < a.maxtime:
         rnd += 1
@@ -473,7 +484,7 @@ def main():
             for k in range(NM):
                 if (k, i) in tried: continue
                 pt = pred(TT[i], k); c = md.canon(pt)[0]
-                if c not in TUP and c not in pending: pending.add(c); jobs[k].append((i, pt, c))
+                if c not in TUP and c not in pending and owns(c): pending.add(c); jobs[k].append((i, pt, c))
         expanded = len(sols)
         if sum(len(v) for v in jobs.values()) == 0:
             if not rescanned:                  # predictions from every cover (images too), failed ones dropped
@@ -530,10 +541,17 @@ def main():
                 handle(wave, POOL.map(_work, jobsw, chunksize=1) if POOL is not None else [_work(j) for j in jobsw])
             if time.time() - _last_save[0] > CKPT_EVERY:      # also inside long rounds (the container may restart)
                 save(); _last_save[0] = time.time()
+            if time.time() - t0 > a.maxtime: break
         if inflight is not None: handle(inflight[0], inflight[1].get())
         report(f'round {rnd}')
         save()
     report('done'); save()
+    if os.environ.get('DELTA_OUT'):            # split mode: write only the covers found beyond the shared base, no export
+        nb = int(os.environ.get('NBASE', '0'))
+        pickle.dump({'sols': np.array(sols[nb:]), 'TT': TT[nb:], 'ISREP': ISREP[nb:], 'CONF': CONF[nb:], 'REJ': REJ,
+                     'nbase': nb, 'stat': stat}, open(os.environ['DELTA_OUT'] + '.tmp', 'wb'))
+        os.replace(os.environ['DELTA_OUT'] + '.tmp', os.environ['DELTA_OUT'])
+        print(f'wrote delta {len(sols) - nb} covers -> {os.environ["DELTA_OUT"]}', flush=True); return
     k, N = export_par({'sols': sols, 'TT': TT, 'CONF': CONF, 'REJ': REJ, 'L': L, 'fixed': fixed}, n, prof, POOL)
     print(f'wrote cov_{tag}.pkl ({k} covers passing analyse) and full_{tag}.pkl ({N})', flush=True)
 
