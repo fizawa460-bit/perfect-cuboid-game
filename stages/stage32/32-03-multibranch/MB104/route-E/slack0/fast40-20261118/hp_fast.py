@@ -30,7 +30,7 @@ def to_mp(z):
         return mp.mpf((m, e)) if m else mp.mpf(0)
     return mp.mpc(f(z.real), f(z.imag))
 
-def _acb(z): return acb(complex(z).real, complex(z).imag)
+def _acb(z): return z if isinstance(z, acb) else acb(complex(z).real, complex(z).imag)   # acb passes (80-digit starts)
 
 def _newton(co, crit, Y, n, K, k0, prec_eps, iters, miniters):
     ncol = 2 * n + 2 + K - 3

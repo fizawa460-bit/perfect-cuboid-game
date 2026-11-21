@@ -55,6 +55,7 @@ def predict(t, mv):
 
 TM = 12   # loop sampling for fasttuples (60 = monodromy.py's original)
 
+_kept = []
 def make_to_u(S, n):
     """mono.py's to_u, made robust for covers with almost-coincident critical points: the three critical points
     sent to S.fixed may be any members of their branch-point groups (all choices are tried), Newton is skipped
@@ -84,7 +85,7 @@ def make_to_u(S, n):
             except np.linalg.LinAlgError: break
             if not np.isfinite(u).all(): break
         return bu, best
-    def to_u(x2, an2):
+    def to_u(x2, an2, tol=1e-9):
         if any(z is None for y in range(6) for z in an2[y][1]): return None
         first = {}
         for y in S.ys:
@@ -97,7 +98,9 @@ def make_to_u(S, n):
             u, r = one(x2, choice)
             if r < 1e-9 * 0.01: return u
             if r < best: best, bu = r, u
-        return bu if best < 1e-9 else None
+        if os.environ.get('TOU_DEBUG') and best >= 1e-9: print('  to_u: best residual', best, flush=True)
+        if os.environ.get('TOU_KEEP') and bu is not None: _kept.append((best, bu))
+        return bu if best < tol else None
     return to_u
 
 def main():
@@ -107,6 +110,7 @@ def main():
     ap.add_argument('--ckpt', default=''); ap.add_argument('--maxtime', type=float, default=1e18)
     ap.add_argument('--batch', type=int, default=300); ap.add_argument('--seedtries', type=int, default=40)
     ap.add_argument('--verify', type=float, default=0.03)
+    ap.add_argument('--seedfile', default='', help='pickle list of (P, Q, crit points, branch index per crit point), e.g. composite covers')
     ap.add_argument('--loops', type=int, default=6, help='random loops to try when predictions run dry')
     a = ap.parse_args()
     n = a.n; prof = tuple(int(x) for x in a.prof.split(',')); rng = np.random.default_rng(a.seed)
@@ -126,7 +130,15 @@ def main():
         if half == 'loop': return braid.path_loop(mv[0], mv[1], r=0.3 + (d - 0.15), sense=mv[2])
         return (braid.path if half is True else braid.path_full)(mv[0], mv[1], mv[2], d=d)
     def run_move(U, k, careful=False, d=0.15):
-        mv, half = MV[k]; U1, ok = braid.run_path(S, U, move_path(k, d), careful=careful)
+        # careful retries: with the compiled tracker, also accept Newton steps that only reach ~1e-6 relative
+        # (ill-conditioned covers; about 9% of the large degree-8 profiles fail the 1e-10 test in double precision).
+        # Safe: the endpoint is numbered by its own monodromy and stored under that number, not under the prediction.
+        tnb = sys.modules.get('track_nb') if careful else None
+        if tnb is not None: old = tnb.NTOL[0]; tnb.NTOL[0] = float(os.environ.get('CAREFUL_NTOL', '1e-6'))
+        try:
+            mv, half = MV[k]; U1, ok = braid.run_path(S, U, move_path(k, d), careful=careful)
+        finally:
+            if tnb is not None: tnb.NTOL[0] = old
         return (braid.relabel(S, U1, mv[0], mv[1]) if half is True else U1), ok
     def endgame():
         """retry every move predicted to reach a missing class along isotopic paths (other arc offsets), carefully"""
@@ -158,16 +170,37 @@ def main():
                 c = md.canon(pt)[0]
                 if c not in TUP: allj.setdefault(c, []).append((k, i, pt))
         for c, lst in allj.items():
-            for dd in (0.15, 0.3):
+            # 40 digits first; then 80 (some degree-8 covers stall at 40 digits just above the 1e-24 step tolerance)
+            for dps, dd, nsrc in ((40, 0.15, 8), (40, 0.3, 8), (80, 0.15, 3), (80, 0.3, 3)):
                 if c in TUP: break
-                for k, i, pt in lst[:8]:
+                for k, i, pt in lst[:nsrc]:
                     if c in TUP: break
                     mv, half = MV[k]; Ws = move_path(k, dd)
-                    uh = hp_track.track_path(S, sols[i], Ws); stat['hp_tracks'] += 1
+                    uh = hp_track.track_path(S, sols[i], Ws, dps=dps); stat['hp_tracks'] += 1
                     if uh is None: continue
                     un = hp_track.to_np(uh)[None]
                     if half is True: un = braid.relabel(S, un, mv[0], mv[1])
                     nw, _ = accept_tracked([un[0]], [(pt, c)]); got += nw + add_images(nw)
+                    if not nw and c not in TUP:
+                        # reached, but not usable in double (e.g. critical points ~1e-9 apart): finish at 80 digits and
+                        # keep it under its predicted class (unconfirmed); build5 starts from the 80-digit point
+                        if half is True:
+                            perm = braid.relabel(S, np.arange(len(un[0]))[None].astype(complex), mv[0], mv[1])[0].real.round().astype(int)
+                            uh = [uh[int(m)] for m in perm]
+                        hp_track.setup(80); H = hp_track.HP(S); W0 = [tuple(hp_track.to_acb(r)) for r in B0]
+                        for _ in range(12):
+                            F_, J_, _ = H.FJ(uh, W0); dx = hp_track.solve(J_, F_); uh = [(x_ - d_).mid() for x_, d_ in zip(uh, dx)]
+                        F_, _, _ = H.FJ(uh, W0); res = max(abs(complex(f.real.mid()) + 1j * float(f.imag.mid())) for f in F_)
+                        ud = hp_track.to_np(uh); cc = np.concatenate([fixed, ud[2 * n + 2:]])
+                        dmin = min(abs(cc[x] - cc[w]) for x in range(len(cc)) for w in range(x))
+                        report(f'  80-digit finish of a reached target: residual {res:.1e}, smallest critical-point distance {dmin:.1e}')
+                        if res < 1e-60 and dmin > 1e-30:
+                            j = add(ud, pt, False, rep=True)
+                            if j is not None:
+                                got += [j] + add_images([j])
+                                rf = f'regen_{tag}.pkl'; old_ = pickle.load(open(rf, 'rb')) if os.path.exists(rf) else {}
+                                old_[j] = [(z.real.mid().str(90, radius=False), z.imag.mid().str(90, radius=False)) for z in uh]
+                                pickle.dump(old_, open(rf, 'wb'))
         report(f'  endgame 40-digit: {len(allj)} missing targets')
         return got
     # symmetry rules are geometric (base point + loops), learned on any profile; look them up by (conj, perm)
@@ -263,6 +296,7 @@ def main():
                 j = add(u, t, True, rep=True)
                 if j is not None: got.append(j)
         return got + add_images(got)
+    CKPT_EVERY = float(os.environ.get('CKPT_EVERY', '240')); _last_save = [time.time()]
     def save():
         tmp = ckpt + '.tmp'
         pickle.dump({'sols': np.array(sols), 'TT': TT, 'ISREP': ISREP, 'CONF': CONF, 'REJ': REJ, 'L': L,
@@ -287,9 +321,93 @@ def main():
         print(f'resumed {len(sols)} covers', flush=True)
     else:
         new_seed()
+    def seed_from_file(fn):
+        """start covers given explicitly (composites g o h lie in braid orbits that random seeds almost never reach)"""
+        got = []; bad = 0; hpstarts = {}; why = {'analyse': 0, 'to_u': 0, 'an_of': 0, 'number': 0, 'check': 0}
+        for si, (P_, Q_, cc_, as_) in enumerate(pickle.load(open(fn, 'rb'))):
+            xg = np.concatenate([P_, Q_])
+            an0 = analyse(P_, Q_, n, prof, np.asarray(cc_), list(as_)) or analyse_loose(P_, Q_, n, prof, np.asarray(cc_), list(as_))
+            if an0 is None: why['analyse'] += 1; why.setdefault('idx_analyse', []).append(si); bad += 1; continue
+            sd = to_u(xg, an0); hpu = None
+            if sd is None:
+                # ill-conditioned in double (Newton stalls near 1e-8; seen for composites): finish at 80 digits,
+                # keep the 80-digit point for build5 (regen file) and its double rounding for tracking/numbering
+                sd0 = to_u(xg, an0, tol=1e-5)
+                if sd0 is not None:
+                    hp_track.setup(80); H = hp_track.HP(S); W0 = [tuple(hp_track.to_acb(r)) for r in B0]; uh = hp_track.to_acb(sd0)
+                    for _ in range(12):
+                        F_, J_, _ = H.FJ(uh, W0); dx = hp_track.solve(J_, F_); uh = [(x_ - d_).mid() for x_, d_ in zip(uh, dx)]
+                    F_, _, _ = H.FJ(uh, W0)
+                    if max(abs(complex(f.real.mid()) + 1j * float(f.imag.mid())) for f in F_) < 1e-60:
+                        sd = hp_track.to_np(uh); hpu = [(z.real.mid().str(90, radius=False), z.imag.mid().str(90, radius=False)) for z in uh]
+            if sd is None: why['to_u'] += 1; why.setdefault('idx_to_u', []).append(si); bad += 1; continue
+            if hpu is None and an_of(sd) is None: why['an_of'] += 1; why.setdefault('idx_an_of', []).append(si); bad += 1; continue
+            t = number([sd])[0]
+            if t is None: why['number'] += 1; why.setdefault('idx_number', []).append(si); bad += 1; continue
+            if not md.check(t, prof): why['check'] += 1; why.setdefault('idx_check', []).append(si); bad += 1; continue
+            j = add(sd, t, True, rep=True)
+            if j is not None:
+                got.append(j)
+                if hpu is not None: hpstarts[j] = hpu
+        print('seed file: not usable because', why, '; finished at 80 digits:', sorted(hpstarts), flush=True)
+        if hpstarts:            # build5 uses these as 80-digit starts (regen file, merged with an existing one)
+            rf = f'regen_{tag}.pkl'; old_ = pickle.load(open(rf, 'rb')) if os.path.exists(rf) else {}
+            old_.update(hpstarts); pickle.dump(old_, open(rf, 'wb'))
+        return got + add_images(got), bad
     def report(msg):
         st = ' '.join(f'{k} {v}' for k, v in stat.items())
         print(f'{msg}: covers {len(sols)} weighted {W[0]:.4f}/{target} {st} rej {len(REJ)} t={time.time()-t0:.1f}s', flush=True)
+    if os.environ.get('REGEN'):
+        # rebuild given covers at 80 digits (for build5: covers whose double-precision position is too poor for Newton,
+        # e.g. near-degenerate ones that slide to a map with a common root of P and Q): track to the cover's class
+        # from other covers along predicted moves at 80 digits, Newton at 80 digits, keep the result as strings.
+        import flint
+        want = [int(x) for x in os.environ['REGEN'].split(',')]; outd = {}
+        for i in want:
+            c = md.canon(TT[i])[0]; srcs = []
+            for j in range(len(sols)):
+                if j == i: continue
+                for k in range(NM):
+                    pt = pred(TT[j], k)
+                    if md.check(pt, prof) and md.canon(pt)[0] == c: srcs.append((j, k))
+                if len(srcs) >= 6: break
+            got = None
+            for j, k in srcs:
+                for dd in (0.15, 0.3):
+                    mv, half = MV[k]; uh = hp_track.track_path(S, sols[j], move_path(k, dd), dps=80)
+                    if uh is None: continue
+                    if half is True:      # relabel at 80 digits: same permutation as braid.relabel applies to the double vector
+                        ud = hp_track.to_np(uh); perm = braid.relabel(S, np.arange(len(ud))[None].astype(complex), mv[0], mv[1])[0].real.round().astype(int)
+                        uh = [uh[int(m)] for m in perm]
+                    H = hp_track.HP(S); W0 = [tuple(hp_track.to_acb(r)) for r in B0]
+                    for _ in range(30):
+                        F_, J_, _ = H.FJ(uh, W0); dx = hp_track.solve(J_, F_); uh = [(x_ - d_).mid() for x_, d_ in zip(uh, dx)]
+                    F_, _, _ = H.FJ(uh, W0); res = max(abs(complex(f.real.mid()) + 1j * float(f.imag.mid())) for f in F_)
+                    ud = hp_track.to_np(uh); cc = np.concatenate([fixed, ud[2 * n + 2:]])
+                    dmin = min(abs(cc[x] - cc[w]) for x in range(len(cc)) for w in range(x))
+                    tn = number([ud])[0]; cn = md.canon(tn)[0] if tn is not None else None
+                    print(f'regen {i}: source {j} move {k} d={dd}: residual {res:.1e}, smallest crit distance {dmin:.1e}, '
+                          f'class {"same" if cn == c else ("numbering failed" if cn is None else "OTHER")}', flush=True)
+                    if res < 1e-60 and dmin > 1e-12 and cn in (c, None):
+                        got = [(z.real.mid().str(90, radius=False), z.imag.mid().str(90, radius=False)) for z in uh]; break
+                if got: break
+            outd[i] = got
+        pickle.dump(outd, open(os.environ.get('REGEN_OUT', f'regen_{tag}.pkl'), 'wb'))
+        print('regen done', {i: v is not None for i, v in outd.items()}, flush=True); sys.exit(0)
+    if a.seedfile:
+        gotf, badf = seed_from_file(a.seedfile); report(f'seed file {a.seedfile}: {len(gotf)} new, {badf} not usable')
+        if os.environ.get('SEEDONLY'):
+            if _kept:       # Newton at high precision from the best double point of each seed that to_u could not finish
+                import flint
+                for best, u0 in _kept:
+                    H = hp_track.HP(S); W0 = [tuple(hp_track.to_acb(r)) for r in B0]
+                    for dps in (40, 80, 160):
+                        hp_track.setup(dps); uh = hp_track.to_acb(u0); rs = []
+                        for it in range(25):
+                            F_, J_, _ = H.FJ(uh, W0); rs.append(max(abs(complex(f.real.mid()) + 1j * float(f.imag.mid())) for f in F_))
+                            dx = hp_track.solve(J_, F_); uh = [(x_ - d_).mid() for x_, d_ in zip(uh, dx)]
+                        print('  kept seed (double residual %.1e): dps %d residuals' % (best, dps), ' '.join('%.0e' % r for r in rs[::3]), flush=True)
+            sys.exit(0)
     expanded = 0; pending = set(); tried = set(); use_images = False; seedfail = 0; rnd = 0; rescanned = False; reimaged = False; loops_left = a.loops; endgamed = False
     while W[0] < target - 1e-9 and time.time() - t0 < a.maxtime:
         rnd += 1
@@ -343,6 +461,8 @@ def main():
                 for (pt, c), cf in zip(good, cls):
                     if cf != c: pending.discard(c)
                 add_images(nw)
+                if time.time() - _last_save[0] > CKPT_EVERY:      # also inside long rounds (the container may restart)
+                    save(); _last_save[0] = time.time()
         report(f'round {rnd}')
         save()
     report('done'); save()

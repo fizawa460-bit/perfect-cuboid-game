@@ -27,7 +27,8 @@ def export(d, n, prof, outdir='.'):
     pickle.dump({'n': n, 'prof': prof, 'covers': covs}, open(os.path.join(outdir, f'cov_{tag}.pkl'), 'wb'))
     pickle.dump({'sols': sols, 'ys': S.ys, 'L': d['L'], 'fixed': d['fixed'], 'tuples': d['TT'],
                  'confirmed': d['CONF'], 'in_cov_file': keep}, open(os.path.join(outdir, f'full_{tag}.pkl'), 'wb'))
-    extra = [i for i in range(len(sols)) if i not in set(keep)]
+    keepset = set(keep)            # (was set(keep) inside the comprehension: quadratic, hours at 262k covers)
+    extra = [i for i in range(len(sols)) if i not in keepset]
     pickle.dump({'n': n, 'prof': prof, 'sols': sols[extra], 'ys': S.ys, 'fixed': d['fixed'], 'L': d['L'],
                  'tuples': [d['TT'][i] for i in extra], 'confirmed': [d['CONF'][i] for i in extra],
                  'note': 'covers that fail analyse() in double precision (almost-coincident critical points); '
