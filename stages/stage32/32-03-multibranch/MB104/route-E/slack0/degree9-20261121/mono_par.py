@@ -137,8 +137,15 @@ def _an_chunk(args):
 def export_par(d, n, prof, pool):
     """fastmono export.export with the analyse loop spread over the worker pool (hours at 10^6 covers otherwise)"""
     import export as _ex
-    sols = np.array(d['sols']); ch = [(n, prof, d['fixed'], d['L'], sols[k:k + 2000]) for k in range(0, len(sols), 2000)]
-    oks = [o for r in (pool.map(_an_chunk, ch, chunksize=1) if pool is not None else map(_an_chunk, ch)) for o in r]
+    sols = np.array(d['sols'])
+    if os.environ.get('EXPORT_ANALYSE', '0') == '1':
+        ch = [(n, prof, d['fixed'], d['L'], sols[k:k + 2000]) for k in range(0, len(sols), 2000)]
+        oks = [o for r in (pool.map(_an_chunk, ch, chunksize=1) if pool is not None else map(_an_chunk, ch)) for o in r]
+    else:
+        # default: no analyse here.  build6 only reads full_ and tries refine_cov (which runs analyse itself) on every
+        # cover listed in in_cov_file, falling back to refine_extra; so listing all covers loses nothing.  The cov_ file
+        # then holds every cover and extra_ is empty (they are only used by the old build_all path).
+        oks = [True] * len(sols)
     keepset = {i for i, o in enumerate(oks) if o}
     _orig = _ex.analyse; _cnt = [0]
     def fake(p, q, n_, prof_, cc, ys):          # export() calls analyse once per cover in order: answer from oks
@@ -454,7 +461,7 @@ def main():
                         print('  kept seed (double residual %.1e): dps %d residuals' % (best, dps), ' '.join('%.0e' % r for r in rs[::3]), flush=True)
             sys.exit(0)
     _G.update(run_move=run_move, number=number, an_of=an_of)
-    PAR = int(os.environ.get('PAR', '4'))
+    PAR = int(os.environ.get('PAR', '4')); PIPE = os.environ.get('PIPE', '1') == '1'
     import gc; gc.collect(); gc.freeze()      # resumed runs: keep the forked workers from copying the heap
     POOL = mp.get_context('fork').Pool(PAR) if PAR > 1 else None
     expanded = 0; pending = set(); tried = set(); use_images = False; seedfail = 0; rnd = 0; rescanned = False; reimaged = False; loops_left = a.loops; endgamed = False
@@ -494,16 +501,7 @@ def main():
                 if seedfail >= a.seedtries: break
             continue
         allch = [(k, lst[s0:s0 + a.batch]) for k, lst in jobs.items() for s0 in range(0, len(lst), a.batch)]
-        for w0 in range(0, len(allch), PAR):
-            wave = []
-            for k, raw in allch[w0:w0 + PAR]:
-                chunk = [(i, pt, c) for i, pt, c in raw if c not in TUP]
-                if not chunk: continue
-                for i, _, _ in chunk: tried.add((k, i))
-                wave.append((k, chunk))
-            if not wave: continue
-            jobsw = [(k, np.array([sols[i] for i, _, _ in chunk])) for k, chunk in wave]
-            res = POOL.map(_work, jobsw, chunksize=1) if POOL is not None else [_work(j) for j in jobsw]
+        def handle(wave, res):
             for (k, chunk), (U1, ok, tn_, oa_) in zip(wave, res):
                 stat['tracks'] += len(chunk); stat['fail'] += int((~ok).sum())
                 for (i, pt, c), o in zip(chunk, ok):
@@ -514,8 +512,25 @@ def main():
                 for (pt, c), cf in zip(good, cls):
                     if cf != c: pending.discard(c)
                 add_images(nw)
-                if time.time() - _last_save[0] > CKPT_EVERY:      # also inside long rounds (the container may restart)
-                    save(); _last_save[0] = time.time()
+        inflight = None      # PIPE=1: the next wave is tracked while the main process accepts and images the last one
+        for w0 in range(0, len(allch), PAR):
+            wave = []
+            for k, raw in allch[w0:w0 + PAR]:
+                chunk = [(i, pt, c) for i, pt, c in raw if c not in TUP]
+                if not chunk: continue
+                for i, _, _ in chunk: tried.add((k, i))
+                wave.append((k, chunk))
+            if not wave: continue
+            jobsw = [(k, np.array([sols[i] for i, _, _ in chunk])) for k, chunk in wave]
+            if POOL is not None and PIPE:
+                r = POOL.map_async(_work, jobsw, chunksize=1)
+                if inflight is not None: handle(inflight[0], inflight[1].get())
+                inflight = (wave, r)
+            else:
+                handle(wave, POOL.map(_work, jobsw, chunksize=1) if POOL is not None else [_work(j) for j in jobsw])
+            if time.time() - _last_save[0] > CKPT_EVERY:      # also inside long rounds (the container may restart)
+                save(); _last_save[0] = time.time()
+        if inflight is not None: handle(inflight[0], inflight[1].get())
         report(f'round {rnd}')
         save()
     report('done'); save()
