@@ -232,19 +232,19 @@ def build_table(code, h=0, k=1):
     tsmax = np.array([TIERS[i + 1] if np.isfinite(TIERS[i + 1]) else 3e7 for i in range(ntier)])
     W = np.minimum(CELLW6 * TOL * tsmax, 4 * EPS); NY = (np.floor(2.0 / W) + 2).astype(np.int64)
     start = np.concatenate([[0], np.cumsum(cnt)]).astype(np.int64); pos = np.zeros(ntier, np.int64)
-    key = np.empty(start[-1], np.int64); TE = np.empty(start[-1], np.int32); SB = np.empty(start[-1], np.int8)
-    scan_nb.fill_entries(TREP, TTPV, IMAP, SUBB, SCODE, Z, INF, code, xlo, xhi, TI, W, NY, start, pos, key, TE, SB)
+    key = np.empty(start[-1], np.int64); TE = np.empty(start[-1], np.int32); SB = np.empty(start[-1], np.int8); XY = np.empty((start[-1], 2), np.float32)
+    scan_nb.fill_entries(TREP, TTPV, IMAP, SUBB, SCODE, Z, INF, code, xlo, xhi, TI, W, NY, start, pos, key, TE, SB, XY)
     smax_last = 0.0
     for t in range(ntier):
         a_, b_ = start[t], start[t + 1]
-        o = np.argsort(key[a_:b_], kind='stable'); key[a_:b_] = key[a_:b_][o]; TE[a_:b_] = TE[a_:b_][o]; SB[a_:b_] = SB[a_:b_][o]; o = None
+        o = np.argsort(key[a_:b_], kind='stable'); key[a_:b_] = key[a_:b_][o]; TE[a_:b_] = TE[a_:b_][o]; SB[a_:b_] = SB[a_:b_][o]; XY[a_:b_] = XY[a_:b_][o]; o = None
     # the last tier's largest S is needed for the query window (as search5's smax_last)
     if cnt[-1]:
         idx = np.arange(start[-2], start[-1])
         smax_last = max(float(_condS_entry(int(TE[e]), int(SB[e]))) for e in idx[:: max(1, len(idx) // 20000)])
         smax_last = max(smax_last, 3e7)
     tsmax[-1] = max(tsmax[-1], smax_last)
-    return dict(keys=key, te=TE, sb=SB, ntier=ntier, tstart=start[:-1].copy(), tend=start[1:].copy(), W=W, NY=NY, tsmax=tsmax, xlo=xlo, xhi=xhi)
+    return dict(keys=key, te=TE, sb=SB, ntier=ntier, tstart=start[:-1].copy(), tend=start[1:].copy(), W=W, NY=NY, tsmax=tsmax, xlo=xlo, xhi=xhi, xy=XY)
 def _condS_entry(te, sb):
     t = TTPV[te]; P = LB['odd'][int(TREP[te])][IMAP[t]][SUBB[t, sb]]; return condS(P[None])[0]
 
@@ -370,7 +370,7 @@ def run_scan(fi, code, Tb, cap=200000):
     while True:
         r, te, sb, p, cnt, full = scan_nb.scan6(f0, f1, fl, subs, perm24, P6, TOL, 4 * EPS, MAXFAIL,
                                                Tb['keys'], Tb['te'], Tb['sb'], Tb['ntier'], Tb['tstart'], Tb['tend'], Tb['W'], Tb['NY'], Tb['tsmax'], Tb['xlo'], Tb['xhi'],
-                                               TREP, TTPV, IMAP, QCLS, SUBB, LB['Z'], LB['INF'], CLSB, myc, cap, SLABC)
+                                               TREP, TTPV, IMAP, QCLS, SUBB, LB['Z'], LB['INF'], CLSB, myc, cap, SLABC, Tb['xy'])
         if not full: break
         cap *= 4
     stats['raw'] += int(cnt[0]); stats['win'] += int(cnt[1]); stats['cand_nb'] += int(cnt[2]); stats['surv'] += len(r)

@@ -193,7 +193,7 @@ def count_entries(TREP, TTPV, IMAP, SUBB, SCODE, Z, INF, code, xlo, xhi, TIERS, 
             cnt[_tier(S, TIERS)] += 1
 
 @njit(cache=True)
-def fill_entries(TREP, TTPV, IMAP, SUBB, SCODE, Z, INF, code, xlo, xhi, TIERS, W, NY, start, pos, key, ete, esb):
+def fill_entries(TREP, TTPV, IMAP, SUBB, SCODE, Z, INF, code, xlo, xhi, TIERS, W, NY, start, pos, key, ete, esb, exy):
     """write the entries counted by count_entries: tier k goes to key[start[k] + ...]; key = cx * NY + cy with
     cx = floor((x + 1) / W[k]), cy = floor((y + 1) / W[k]) (exact integers, no rounding slack needed)"""
     nsub = SUBB.shape[1]
@@ -205,16 +205,16 @@ def fill_entries(TREP, TTPV, IMAP, SUBB, SCODE, Z, INF, code, xlo, xhi, TIERS, W
             if x < xlo or x >= xhi: continue
             k = _tier(S, TIERS); e = start[k] + pos[k]; pos[k] += 1
             key[e] = np.int64(np.floor((x + 1) / W[k])) * NY[k] + np.int64(np.floor((y + 1) / W[k]))
-            ete[e] = te; esb[e] = sb
+            ete[e] = te; esb[e] = sb; exy[e, 0] = x; exy[e, 1] = y
 
 @njit(cache=True)
 def scan6(f0, f1, flab, subs, perm24, P6, TOL, EPS4, maxfail,
           keys, ete, esb, ntier, tstart, tend, tW, NY, tsmax, xlo, xhi,
-          TREP, TTPV, IMAP, QCLS, SUBB, Z, INF, CLSB, myclass, cap, maxc=64):
+          TREP, TTPV, IMAP, QCLS, SUBB, Z, INF, CLSB, myclass, cap, maxc, exy):
     """scan() of scan_nb on the integer grid: for each query subset ordering with x within the slice (+ window), the
     cells cx in [floor((x - w + 1)/W), floor((x + w + 1)/W)] are looked up with cy in the same range (one contiguous
     key range per cx); when that is more than maxc cells wide (SLABC, default 64), the whole x-strip (all y) is scanned instead.  Then the same
-    exact window test, pre-filter and one-to-one bound as scan()."""
+    exact window test, pre-filter and one-to-one bound as scan().  exy: float32 (x, y) per entry, a cheap pre-test."""
     nB = Z.shape[1]
     o_r = np.empty(cap, np.int64); o_te = np.empty(cap, np.int64); o_sb = np.empty(cap, np.int64); o_p = np.empty(cap, np.int64)
     no = 0; cnt = np.zeros(8, np.int64)
@@ -256,6 +256,8 @@ def scan6(f0, f1, flab, subs, perm24, P6, TOL, EPS4, maxfail,
                         if c2 - c1 > maxc:
                             cy = keys[e] % NYk
                             if cy < y1 or cy > y2: continue
+                        # float32 copy of the entry's (x, y): a contiguous pre-test before the exact point (error < 1.2e-7)
+                        if abs(exy[e, 0] - x) > w + 1.2e-7 or abs(exy[e, 1] - yv) > w + 1.2e-7: continue
                         te = ete[e]; rep = TREP[te]
                         if myclass >= 0 and CLSB[rep] == myclass: continue
                         t = TTPV[te]; sb = esb[e]
