@@ -15,7 +15,7 @@ for p in "$@"; do
     grep -q "^$p phase $phase exit 0 " done.txt 2>/dev/null && { ec=0; continue; }     # finished before a restart
     SEEDARG=; [ -f seeds_${n}_$t.pkl ] && SEEDARG="--seedfile seeds_${n}_$t.pkl"
     echo "$p phase $phase start $(date +%T)" >> done.txt
-    PAR=${PAR:-4} NOENDGAME=$NE HPENDGAME=$HPE python3 $HERE/mono_par.py $n $p --rules $FM/aut_rules_7_222222.pkl --loops ${LOOPS:-0} $SEEDARG >> log_$t.txt 2>&1
+    PAR=${PAR:-4} NOENDGAME=$NE HPENDGAME=$HPE python3 $HERE/mono_par.py $n $p --rules $FM/aut_rules_7_222222.pkl --loops ${LOOPS:-0} --seedtries ${SEEDTRIES:-40} $SEEDARG >> log_$t.txt 2>&1
     ec=$?; echo "$p phase $phase exit $ec $(date +%T)" >> done.txt
     if [ -d "$COPYTO" ]; then
       cp -f cov_${n}_$t.pkl full_${n}_$t.pkl rej_${n}_$t.pkl extra_${n}_$t.pkl ckpt_dir_${n}_$t.pkl log_$t.txt "$COPYTO" 2>/dev/null
