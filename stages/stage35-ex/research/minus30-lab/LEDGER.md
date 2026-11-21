@@ -48,7 +48,12 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   single-weight scout + EXP06 positivity-constrained LP with joint
   ε/threshold redesign, 2026-11-21): certified score 0.0098858898… →
   0.0103597391…, contradiction gap 29/1000 → 0.3518725 (×12.1), bands
-  unchanged; ε ≲ 0.007 and band raising are dead in this family. Do
+  unchanged; ε ≲ 0.007 and band raising are dead in this family
+  [the band-raising clause is SUPERSEDED by EXP11 (E9): it was an
+  artifact of EXP06's relative LP form; the absolute-floor form
+  certifies raised bands — see the EXP11 log entry. The ε ≲ 0.007
+  clause is likewise relative-form-specific: EXP11 certifies
+  ε = 1/500 at the original bands]. Do
   not retry weight re-optimization at these shifts/lengths; (c)
   different length splits at the same support — DONE (EXP08,
   2026-11-21): length multiset is essentially rigid; only a ×1.001
@@ -109,6 +114,21 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   weight-dependent, not family-intrinsic. Do not re-run this LP
   family at these shifts/lengths: ε-frontier, Σ|b| saturation
   and the band-1 cap (c1 ≈ 0.16) are all mapped in EXP10.
+- E9. φ383 band narrowing via EXP10's absolute-floor LP (the
+  c_Cl ≥ 1 case; EXP06's relative form declared band raising
+  dead — the verdict EXP10's φ384 finding reopened). DONE
+  (EXP11, 2026-11-21): certified narrowings — band 3 threshold
+  0.605 → 0.680, band 2 0.572 → 0.580 (0.585 in one point),
+  band 1 0.562 → 0.564, joint points (0.562, 0.580, 0.680) and
+  (0.564, 0.580, 0.640); at the original bands the gap rises to
+  0.51708 (tail composed) at ε = 1/500, at a LOWER score than
+  candG (0.006967 vs 0.010360 — same bands, more slack, not a
+  stronger statement). Frontier mapped (band 1 caps c1 ≈
+  0.066–0.067 at the deep patch; band 2 ≈ 0.09–0.095 alone;
+  band 3 ≈ 0.18–0.20 alone; fixed-band ε-ladder plateaus at
+  ε ≈ 0.0015–0.002, collapses at 0.001 under the tail-ratio
+  cap; Σ|b| saturation ≈ 1.70). Do not re-run this LP family
+  at these shifts/lengths.
 
 ## Experiment log
 - 2026-11-21 EXP01 (E1): copied row383 to exp01-baseline/, decompressed
@@ -259,7 +279,13 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   gap ×12.1, same bands); the remaining headroom in this fixture
   family is negligible (float score ceiling ≈0.0104 under rigorous-
   plausible positivity). −30 NOT closed; no exclusion; hard core
-  unchanged.
+  unchanged. [SUPERSEDED IN PART by EXP11 (E9, 2026-11-21): the
+  "BAND RAISING DEAD" verdict above and the ≈0.0104 ceiling were
+  artifacts of the relative LP form + grid v2 resolution. The
+  absolute-floor form on a 742,597-point grid certifies raised
+  bands (0.562/0.572/0.605 → up to 0.562/0.572/0.680 and
+  0.564/0.580/0.640) and a fixed-band gap of 0.51708 at ε = 1/500.
+  See the EXP11 log entry and exp11-phi383-bands/NOTES.md.]
 - 2026-11-21 EXP07 (E6): Deuring–Heilbronn repulsion variant. Full
   write-up: exp07-e6-repulsion/NOTES.md. The assumed zero can only
   enter through the derived budget Σ_{χ∈X} Z_in(χ) ≤ −G_N (the
@@ -405,3 +431,54 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   on both averages; −30 NOT closed, no exclusion, no credit;
   the bite still needs ZF-type zero-freeness (EXP03 gap ≈ 0.37
   in Re from literature).
+- 2026-11-21 EXP11 (E9): EXP10's absolute-floor LP form applied to
+  φ383 band narrowing (c_Cl ≥ 1). Full write-up:
+  exp11-phi383-bands/NOTES.md. Pipeline as EXP06/EXP10 (affine
+  gradient from EXP06, float evaluator revalidated to 1.8e-15,
+  baselines replayed exactly); LP form is ABSOLUTE (g_new ≥ FLOOR
+  on the whole required region; FLOOR capped by the (1/2, 8)
+  corner, εW = 0.01373ε there) on a tagged grid built out to
+  u = 0.22/0.24/0.30 in the bands. CERTIFIED narrowings (all
+  ε = 29/4000 except candC at 27/4000; |Im| windows unchanged):
+  K-narrow-d bands (0.562, 0.572, 0.680) score
+  0.0081125003351975160… gap 46249/400000 = 0.1156225, with
+  EXP09 tail (moment 98.4550015213825703…, M_thr 9846/100) gap
+  24183/200000 = 0.120915; K-narrow-a (0.562, 0.580, 0.660)
+  score 0.0080622749120922782… gap 0.1103725 → 0.115665 with
+  tail; K-narrow-b (0.564, 0.580, 0.620) gap 0.0946225;
+  K-narrow-f (0.562, 0.585, 0.660) gap 0.0473725; K-narrow-c
+  (0.564, 0.580, 0.640) gap 0.0549675; K-narrow-e (0.562,
+  0.580, 0.680) gap 0.0263725. CERTIFIED fixed-band: K-fixed-a
+  (ε = 1/500, FLOOR 6e-6) score 0.0069670144039762558… gap
+  25781/50000 = 0.51562 → 12927/25000 = 0.51708 with tail —
+  above candG's 0.3518725/0.357165 on the gap metric, but at a
+  LOWER score (0.006967 vs 0.010360): same bands, more slack,
+  not a stronger statement. FRONTIER (LP diagnostics, viability
+  = gap > 0, cross-checked at ≥ 2 ε): band 1 caps at c1 ≈
+  0.066–0.067 (score falls ~0.0014 per +0.002 near the cap; the
+  deep patch at (0.5, 0.44) is the obstruction); band 2 caps
+  ≈ 0.09–0.095 alone, ≈ 0.085 combined; band 3 caps ≈ 0.18–0.20
+  alone; joint points (0.062, 0.09, 0.16) and (0.066, 0.08,
+  0.12) are past the frontier (LP gap < 0 at ε = 0.00725).
+  Fixed-band ε-ladder (LP): gap rises to a plateau ≈ 0.51 over
+  ε ∈ [0.0015, 0.002] and collapses at ε = 0.001 (score
+  −0.0266); at ε ≤ 0.0065 the tail-ratio cap 0.95ε is the
+  binding constraint. Σ|b| saturation ≈ 1.70 (= baseline total;
+  cap ∈ {1.7, 2.5, 4.0} identical at ε ≥ 0.0065 — unlike
+  φ384's ≈ 10.62). FAILURES: K-fixed-a died at depth 42 three
+  times before passing — (i) 1e-6 rationalization (rounding
+  moved g by −1.7e-5 at the (0.5, 3.295) dip, swamping FLOOR
+  6e-6; fixed by a 1e-7 grid), (ii) grid v1 (141,975 pts):
+  continuum dip at (0.5, t ≈ 2.4586) between t-step-0.01 edge
+  samples, (iii) grid v2 (268,200 pts): band-1 top edge dip
+  −1.79e-5 at (0.062, 0.686), ~0.002 wide in t (EXP06 candA/B's
+  site; cliff |g″| ≈ 31 ⇒ sag ≈ 31h²/8). Grid v3 (742,597 pts,
+  cliff windows at t-step 0.0005) passes everything. Verdict:
+  E9 DONE — EXP06's "band raising is dead" is superseded (it
+  was the relative form + grid resolution, exactly as EXP10's
+  φ384 finding predicted); the c_Cl ≥ 1 necessary region is
+  now as small as (0.562, 0.572, 0.680) / (0.564, 0.580,
+  0.640) on the certified Pareto frontier. −30 NOT closed; no
+  exclusion; no credit; the bite still needs zero-freeness in
+  the narrowed bands (EXP03: literature reaches Re ≈ 0.99986,
+  deficit shortfall ~3×10³, unchanged).
