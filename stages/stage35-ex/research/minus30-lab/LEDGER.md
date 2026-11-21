@@ -43,10 +43,16 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
 - E1. Baseline replay of row383 certificate in this environment. DONE
   (see log). Purpose: working harness for E2/E5/E6.
 - E2. Test-function variations on the row383 harness: (a) Hadamard point
-  σ ∈ {6/5, 8/5} instead of 7/5; (b) numerical re-optimization of the 20
-  cosine weights to raise the score margin / push band Re thresholds up;
-  (c) different length splits at the same support. Success = strictly
-  narrower bands or larger gap than 29/1000, with interval arithmetic.
+  σ ∈ {6/5, 8/5} instead of 7/5 — DONE, dead (EXP02a); (b) numerical
+  re-optimization of the 20 cosine weights — DONE in full (EXP02b
+  single-weight scout + EXP06 positivity-constrained LP with joint
+  ε/threshold redesign, 2026-11-21): certified score 0.0098858898… →
+  0.0103597391…, contradiction gap 29/1000 → 0.3518725 (×12.1), bands
+  unchanged; ε ≲ 0.007 and band raising are dead in this family. Do
+  not retry weight re-optimization at these shifts/lengths; (c)
+  different length splits at the same support — still OPEN (the only
+  remaining E2 sub-item). Success = strictly narrower bands or larger
+  gap than 29/1000, with interval arithmetic.
 - E3. ZF2 reality check: collect the best EXPLICIT zero-free regions for
   Hecke/Dedekind L-functions at log-conductor ≈ 400 (literature), compute
   the exact Re they reach at height ≤ 2.12, record the gap to 0.63.
@@ -174,3 +180,50 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   real but modest sharpening of the c_Cl ≥ 3 necessary condition;
   −30 NOT closed, no exclusion; hard core remains c_Cl ∈ {1, 2} plus
   ZF-type zero-freeness in every case.
+- 2026-11-21 EXP02b (E2b): cosine-weight re-optimization scout. Full
+  write-up: exp02b-weights/NOTES.md. Harness reproduced the baseline
+  exactly (score 0.009885889843093703, moment 99.186384435239). Findings:
+  (1) the score is affine in the weights (dscore(+delta) = -dscore(-delta)
+  exactly in every tested move), so score-only optimization is degenerate
+  -- it points toward killing the modulation (w0 -> 1); the weights are
+  chosen against exterior positivity, not score. (2) Dominance margin
+  w0 - sum|b_i| = 0.001998 at baseline, so +0.01 on any positive weight
+  breaks the verifier's dominance assert. (3) Best score candidate
+  (shift 51/20, delta=-1/50, score-only 0.066658) passed score/moment in
+  the FULL verifier but FAILED check_exterior at depth 42, u->1/2,
+  t~=1.70 (top of the gap below band 3). Uniform scaling x0.9 / x0.8
+  raised the score only +0.00227 / +0.00454; x1.1 / x1.2 break dominance.
+  Coverage: single moves delta in {+-1/100, +-1/50} for idx 1-11 only
+  (scout killed by 280 s timeout before idx 12-19). Verdict: single-weight
+  direction EXHAUSTED, do not retry; a positivity-constrained
+  optimization remains unattempted and is a different experiment.
+- 2026-11-21 EXP06 (E2b, full): positivity-constrained LP re-optimization
+  of the row383 weights + joint ε / threshold redesign. Full write-up:
+  exp06-e2b-weights/NOTES.md. Method: exact affine gradient extracted
+  with the verifier's own interval arithmetic (score = C + Σ g_j b_j,
+  all g_j < 0; affine recon matched certified score to 7e-17); float
+  φ evaluator validated vs phi0_series (worst err 1.8e-15); LP
+  (HiGHS) maximizing score subject to pointwise-relative positivity
+  vs baseline-at-ε, dominance ≥ 0.001, tail ratio ≤ 0.95ε; candidates
+  rationalized to 1e-6 and judged ONLY by the full rigorous verifier.
+  CERTIFIED PASSES (bands unchanged in all): candC (ε=9/1000) gap
+  0.13629, candC2 gap 0.14679, candD (ε=17/2000) 0.191135, candD2
+  0.201635, candE (ε=1/125) 0.24598, candF (ε=3/400) 0.306075, candF2
+  0.316575, candG (ε=29/4000, score_thr 51/5000, moment_thr 9919/100)
+  score_lower 0.0103597391213032410…, gap 140749/400000 = 0.3518725
+  (baseline 0.029, ×12.1). ε and moment_threshold are legitimate
+  redesign knobs (PROOF §4: ε is a free constant policed by exactly
+  the verifier's asserts; 99.1863844352390… < 9919/100). FAILURES:
+  candA/candB (grid-v1 LP, ε=0.0075/0.007) died in check_exterior at
+  depth 42, band-1 top edge u→0.062, t≈0.687–0.689 — grid v1 never
+  sampled u=0.062 (flaw found and fixed in grid v2); candH (ε=0.007,
+  v2, slack 8e-4) died at u→1/2, t≈3.3077 in the [2.12,8] gap
+  rectangle. LP frontier (v2): ε=0.007 infeasible at slack ≤4e-4,
+  ε=0.0075 needs slack ≥4e-4. BAND RAISING DEAD: float scan goes
+  negative immediately past each u_max (cliff at t≈0.68/1.37/2.01),
+  and LP with all bands +0.01 is infeasible at slack 5e-5 and 2e-4.
+  Verdict: E2(b) DONE with a real certified improvement (score +4.8%,
+  gap ×12.1, same bands); the remaining headroom in this fixture
+  family is negligible (float score ceiling ≈0.0104 under rigorous-
+  plausible positivity). −30 NOT closed; no exclusion; hard core
+  unchanged.
