@@ -17,11 +17,25 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   |Im| ∈ (0.26,0.77) ∪ (1.03,1.46)). Open obligations stated by the repo
   itself: ZF2 (zero-freeness in Ω2) and δ★ Sel4 non-lift. "次は ZF2 と
   δ★ の4リフトを具体的に検査する" (row384 PROOF §, final paragraph).
+  [EXP16 annotation, 2026-11-21: the quoted sentence is confirmed as
+  row384's statement, but as a description of the CURRENT open state
+  it is superseded in part — the δ★ inspection was executed (rows
+  385–387; EXP04/EXP15) and ended UNDETERMINED with a named blocker;
+  only ZF2 remains untouched. See exp16-resync/NOTES.md, G4.]
 
 ## Already tried (do not redo as new)
 - T1. Prime-ideal-by-prime-ideal killing of Cl/2 (R3 rows 370–393):
   878 small primes (norm ≤ 6768), formal residual 181. Generation
   certificate needs all primes < 2^94. DEAD as a finishing method.
+  [EXP16 annotation, 2026-11-21: 181 (and zero count 628) are the
+  AUDITED row393 endpoint. The repo's current recorded state also
+  includes an owner-authorized, UNAUDITED resumption
+  (2026-11-10, PR #1861, research/r3-row393-resume-20261110/,
+  waves 1–6) that moved the same presentation to residual 175 /
+  zero 636 and killed P_(827,0); head is now P_(953,0). Verdict
+  unchanged — every wave restates generation uncertified and
+  exclusions 0. Quote 181/628 only as the row393 endpoint. See
+  exp16-resync/NOTES.md, D1/T1.]
 - T2. Odlyzko/discriminant comparison, unconditional: root disc 44.5 vs
   unconditional bound ≈ 23.9 for this signature. DEAD (gap ~2x in constant).
 - T3. Analytic score method under "uniform nonnegativity, no extra lower
@@ -39,7 +53,66 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   would be GRH/heuristic-conditional = same status as row381, and
   |disc| ≈ 10^173 is out of practical range. Scouted 2026-11-21, DEAD.
 
+## Trap-B gate (added 2026-11-21, after the user's TRAPS.md / trap-B question)
+- Before starting any new experiment, write down in one line: (1) the
+  finite claim or range-limited theorem it aims at, stated before the
+  run; (2) the certified number that must move, and by how much, for
+  the run to count as progress (not a paraphrase); (3) the stop
+  condition — "small side done, remainder OPEN" — at which the
+  experiment is closed rather than polished further. If a run moves no
+  certified number, record it as trap-B-shaped and do not re-run the
+  same family with new angles. This gate does not change the freeze
+  judgement; it is ledger discipline only.
+
+## Trap-B assessment at programme level (recorded 2026-11-21, user
+## judgement RESERVED — this entry records the discussion, not a stop)
+- The user pressed the question: is the lab's polishing programme
+  trap B after all? Quantified yardstick agreed in the discussion:
+  the goal-connected number is the ratio between the deficit of the
+  BINDING (weakest) necessary band and the literature zero-free
+  deficit (≈1.1–1.4×10⁻⁴, EXP03). Baseline vs after EXP14:
+  c_Cl ≥ 1 binding band 0.562 → 0.564, ratio ≈3130× → ≈3110×
+  (0.5% movement); c_Cl ≥ 2 and ≥ 3 binding bands moved ≈3%. In
+  orders of magnitude the ratio has NEVER moved — not in this lab,
+  and not since row383/384 set it at ≈3000× on 2026-11-07. The
+  large movements reported (gaps ×12–×200, band 3 0.605 → 0.680,
+  scores, moments) are internal certificate slack or the position/
+  thickness of the wall, not distance-to-goal. Exceptions that were
+  NOT wall measurement: corrections of false walls (EXP05 patch,
+  EXP06 band verdict, EXP14 baseline-shift conditioning).
+- Muse's position after the discussion: individual experiments
+  were not paraphrases (each produced new certified statements,
+  false-wall corrections, or frontier closures), but the programme's
+  overall shape — tractable side completed and polished, core OPEN
+  and untouched — matches trap B's avoidance condition ("small side
+  done, remainder OPEN"). The earlier flat verdict "not trap B"
+  relied on the letter of the definition and is corrected here.
+- Reporting rule adopted: every future lab report must carry the
+  goal-connected yardstick (binding-band ratio) alongside internal
+  metrics, and must not frame internal-metric gains as approach
+  toward closure.
+- The user recorded this assessment but RESERVED the decision on
+  whether to stop the test-function family. This entry is not a
+  stop order; the family is neither continued nor closed by it.
+
 ## Untried experiment queue
+- E10. Depth-capped repulsion retry (new fixture family): change
+  support/degree so a future test function meets EXP07 §5's criterion
+  (−min_R Re φ < G_N/4; EXP05 7-char: min > −10.67 vs actual −19.92).
+  SCOUT DONE 2026-11-21 (EXP12, float only): shortening lengths DOES
+  shallow the depth (×0.85 → −9.47, passes the criterion on paper),
+  but with inherited weights every shallowing variant breaks exterior
+  positivity at the band-1 top edge t ≈ 0.77 (min g −0.08 at ×0.95
+  … −3.08 at ×0.80), so the cheap path is DEAD — do not run the full
+  verifier on length variants with inherited weights. FULL
+  EXPERIMENT DONE 2026-11-21 (EXP13): LP redesign in six length
+  families (×0.80–×0.95, redistribution, baseline control) — NO
+  family reaches the criterion; best counting margin −10.03
+  (baseline lengths) vs the > 0 needed, and every shortened family
+  loses the score entirely to positivity repair (max repaired
+  score < 0 from ×0.90 down). E10 CLOSED, negative, quantified —
+  do not re-run E10 variants with new angles; a different
+  test-function shape would be a new experiment, not a retry.
 - E1. Baseline replay of row383 certificate in this environment. DONE
   (see log). Purpose: working harness for E2/E5/E6.
 - E2. Test-function variations on the row383 harness: (a) Hadamard point
@@ -72,6 +145,9 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   exp04-delta-lift/NOTES.md). No single place can witness non-lift:
   the lift is a global Cassels–Tate condition, reduced by row385 to
   one class q★ ∈ Cl(O_K)/2Cl(O_K). Do not run place-by-place checks.
+  [EXP16 pointer, 2026-11-21: EXP15 further superseded EXP04's
+  step-(i) framing — δ★-first is provably blocked (row386), the
+  η-first route is the live one (row387). See E12 / EXP15.]
 - E5. More-character averaging: generalize row384 from 3 characters
   (−1/3) to 7 characters of a (Z/2)^2 subgroup... note: for c_Cl ≥ 3 use
   the 7 nontrivial characters of (Z/2)^3, odd-power bound −1/7 at
@@ -129,6 +205,67 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   ε ≈ 0.0015–0.002, collapses at 0.001 under the tail-ratio
   cap; Σ|b| saturation ≈ 1.70). Do not re-run this LP family
   at these shifts/lengths.
+- E11. New SHIFT SETS for φ384/φ383: every prior experiment
+  (EXP06/08/10/11/13) kept the baseline shift set fixed; shifts
+  are the one never-varied axis. DONE (EXP14, 2026-11-21):
+  shifts are NOT verifier-locked (any rationals with a_0 = 0,
+  0 < a_j < tail_height, Σb = 1, dominance, d_upper > 0 are
+  legal), and the axis is real — the uniform step-1/5 respread
+  over [0, 6] (F5, 31 shifts) beats EVERY EXP10/EXP11 record,
+  all certified by full verifier runs: φ384 7-char fixed-band
+  gap 5.8983 → 6.21855 and (0.65, 0.76) gap 0.3066 → 1.09065;
+  3-char gap 3.98265 → 4.21365 and Ω2 (0.64, 0.68) gap
+  1.3653 → 1.72230; φ383 fixed-band gap 0.51708 → 0.53283 (at
+  a higher score) and the (0.562, 0.572, 0.680) point
+  0.120915 → 0.147165. Frontier mapped: F4-sparse (11 shifts)
+  is dead (max feasible score ≈ −0.445); the fixed-band
+  ε-frontier (0.0325) is a (1/2, 12)-corner effect and does
+  not move with shifts; (0.67, 0.72)/(0.66, 0.76) and the
+  φ383 joint point (0.564, 0.585, 0.680) stay past the LP
+  frontier in all families. Do not re-run these shift
+  families; the only untried point left on this axis is a
+  step-1/10 dictionary on [0, 6], with diminishing returns
+  expected.
+- E12. The q★ programme (row385 §7): decide δ★'s Selmer-4 lift
+  via q★ ∈ Cl(O_K)/2Cl(O_K). DONE AS A FEASIBILITY AUDIT
+  (EXP15, 2026-11-21): NOT executable from recorded data, and
+  the blocker is sharper than EXP04 recorded. Rows 386–393
+  restructured the programme: δ★-first CT computation is
+  provably blocked at 2 (row386), the η-first route works
+  (row387: 55-unit correction operator + one norm equation
+  per basis η in the degree-10,920 root-pair field + Shukla
+  Algorithm 2 + formula (7) decides q★ in BOTH directions),
+  and the recorded relation closure provably contains no
+  η (row388 theorem Γ̄ ∩ ℋ_nr = {0}, extended through
+  row393). All downstream machinery was re-verified live in
+  EXP15 (four-lift replay exact; unit-correction operator
+  PASS; row387 certificate PASS; frontier388 reproduced
+  488/332; verify_row388 recomputed the integer kernel
+  certificate EQUAL to the recorded one — 4,143 × 4,966,
+  rank 4,044, saturated, Principalizer exercised on the
+  full even-valuation lattice basis). The single missing
+  input: a certified exhaustive basis of Cl(O_K)[2] with
+  witnesses I_i² = (α_i), equivalently an unconditional
+  generation certificate for Cl/2 on a finite factor base.
+  Generation is proved only for norm < 2⁹⁴ (~3×10²⁶ prime
+  ideals vs 878 processed); on the 878 base, 181 formal
+  directions remain (row393) and residual 0 there would
+  still not certify generation. This is T1's wall in dual
+  form. q★ remains UNDETERMINED; δ★ lift status unmoved;
+  the ≈3100× ZF yardstick is not this programme's variable
+  and is also unmoved. Do not re-run the machinery checks;
+  the only continuation is the missing input itself.
+  [EXP16 annotation, 2026-11-21: two scope corrections. (1) The
+  "181 formal directions" and "(827, j=0) first remaining
+  direction" are row393-scoped; the unaudited resume waves
+  (see T1 annotation) killed (827,0) and moved the recorded
+  presentation to residual 175 / zero 636, head P_(953,0).
+  The missing-input verdict is unaffected. (2) The closure
+  statement Γ̄ ∩ ℋ_nr = {0} is proved through row393 only;
+  the waves added 4,619 independent relations afterwards and
+  the intersection was not re-examined for the enlarged
+  closure — do not quote it beyond row393 data. See
+  exp16-resync/NOTES.md, D2/D4.]
 
 ## Experiment log
 - 2026-11-21 EXP01 (E1): copied row383 to exp01-baseline/, decompressed
@@ -482,3 +619,155 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   exclusion; no credit; the bite still needs zero-freeness in
   the narrowed bands (EXP03: literature reaches Re ≈ 0.99986,
   deficit shortfall ~3×10³, unchanged).
+- 2026-11-21 EXP12 (E10 scout, float only): depth-capped fixture family
+  by changing lengths, inherited weights (EXP05 cand6 / EXP10 candH).
+  Full write-up: exp12-e10-scout/NOTES.md. Evaluator validated by
+  reproduction (baseline depth −19.920 = EXP07; exterior min g
+  +0.000557 = EXP10's 5.6e-4). Shortening lengths shallows the depth
+  (×0.95 → −15.89, ×0.90 → −12.32, ×0.85 → −9.47, ×0.80 → −7.20;
+  redistributing at fixed T=14.4 → −2.91; dropping the 0.35 components
+  changes nothing — the longest length sets the depth), but every
+  shallowing variant breaks exterior positivity at the band-1 top edge
+  t ≈ 0.77 (min g −0.078 at ×0.95 … −3.08 at ×0.80), i.e. the negative
+  lobe widens in t and spills into the gap. Verdict: E10's cheap path
+  (change lengths, keep weights) is DEAD — do not run the full
+  verifier on these variants. Only live path is a full LP redesign in
+  a new length family (EXP10/EXP11-scale work, outcome unknown).
+  −30 NOT closed; no exclusion; no credit. All numbers float
+  diagnostics, not certified.
+- 2026-11-21 EXP13 (E10 full experiment): LP redesign inside six
+  length families (baseline control; uniform ×0.95/×0.90/×0.85/×0.80;
+  redistribution [4,4,3,2,1.4]), EXP10 absolute-floor form + a depth
+  cap on the band rectangles R, ε ∈ {0.09, 0.06, 0.045, 0.035},
+  470 sign-fixed LP solves + free-sign and Σ|b|-cap-25 relaxations.
+  Trap-B line and full frontier: exp13-e10-lp/NOTES.md. Verdict:
+  NEGATIVE, quantified — the criterion margin G_7/4 + min_R Re φ
+  (needs > 0) peaks at −10.03 (baseline lengths, ε=0.035, score
+  +0.0887, depth −20.20) and degrades monotonically with shortening
+  (×0.95: −17.96; ×0.90: −36.86; ×0.85: −79.53; ×0.80: −140.65;
+  redistribution: −103.15). Two failure modes: (A) at baseline/×0.95
+  lengths positivity is affordable but the depth under positivity is
+  floored (−13.76 at score ≥ 0, −16.40 at score ≥ 0.065, ε=0.09)
+  vs the ≤ 5.9 the criterion tolerates at those scores; forcing
+  depth = 10.674 exactly (free signs, cap 25) leaves score −0.112.
+  (B) from ×0.90 down, positivity repair consumes the whole score —
+  max repaired score < 0, so G_7 < 0 and no budget exists at all —
+  even though the raw depth is shallow (redistribution −1.80).
+  Mechanism: the R-depth dip and the band-1-top-edge exterior lobe
+  are one boundary layer of φ_0 at u → 1/2; shortening shallows the
+  first and deepens the second, and the LP exchange rate never
+  favors the criterion. Machinery note: the affine score model
+  needs the exact d_upper correction (C_m·Δd_upper, C_m ≈ 5.09e-7)
+  — validated to 2.8e-17 against candH's certified score; moment
+  confirmed lengths-independent by the verifier itself
+  (99.186384435239… in all six families); LP optima spot-checked
+  against the verifier's own score code (agreement ≤ 3.3e-6).
+  No candidate passed the LP screen, so no full-verifier
+  certification was run and no new certificate exists. E10 DONE —
+  do not retry in these families. −30 NOT closed; no exclusion;
+  no credit.
+- 2026-11-21 EXP14 (E11): new shift sets for φ384 and φ383.
+  Full write-up: exp14-shifts/NOTES.md. Shifts are NOT
+  verifier-locked (fixture cosine_weights are read directly;
+  constraints are only a_0 = 0, 0 < a_j < tail_height, Σb = 1,
+  dominance, d_upper > 0). The moment is exactly
+  shift-independent (log_deriv never touches f), so the 10^7
+  tail and M_thr = 9846/100 compose unchanged. Machinery: exact
+  affine score model score = C + Σ h_j b_j − C_tail·(K0 +
+  Σ|b_j|a_j²) with per-shift unit-modulation extraction in the
+  verifier's own arithmetic (C_tail = 32/62853135 ≈ 5.091234e-07,
+  EXP13's correction; K0 = +0.071548128650 φ384 / +0.079169205031
+  φ383), validated to ≤ 8e-17 on assembly and to 1.4e-17 against
+  candH's certified score; EXP10 absolute-floor LP in a FREE-SIGN
+  form (no inherited sign pattern exists for a new shift set).
+  Families: F0 baseline control, F1 step-1/10 on [0,4] (41),
+  F2 step-1/5 on [0,4] (21), F3 baseline + {4.4,…,6} (26),
+  F4 step-2/5 on [0,4] (11), F5 step-1/5 on [0,6] (31), G5 = F5
+  pattern on φ383. CERTIFIED (full verifier, tail composed) —
+  F5 wins every target: 7-char (0.64, 0.68) gap 124371/20000
+  = 6.21855 (score 0.0898783530560583442…, ε = 13/400; F1 also
+  passes at 6.13455); 7-char narrowings (0.65, 0.74) 1.86765,
+  (0.65, 0.76) 21813/20000 = 1.09065, (0.66, 0.70) 0.83865
+  (all ε = 3/50); 3-char (0.63, 0.63) gap 84273/20000
+  = 4.21365 (score 0.0731051205933053291…, ε = 7/200; F3 also
+  passes at 4.13490) and (0.64, 0.68) gap 17223/10000
+  = 1.72230 (ε = 9/200); φ383 G5 fixed-band gap 53283/100000
+  = 0.53283 (score 0.0071055083602527473…, ε = 1/500 — above
+  EXP11's K-fixed-a on both gap and score) and (0.562, 0.572,
+  0.680) gap 29433/200000 = 0.147165 (ε = 29/4000). Every new
+  family also beats the F0 baseline-shift control under the
+  same free-sign LP, so the gain is the shift axis itself;
+  F5's optima use Σ|b| ≈ 1.7–1.9 (vs ≈ 10–12 cap-bound at
+  baseline shifts). FRONTIER: F4-sparse dead (max
+  positivity-feasible score ≈ −0.445); ε = 0.030 infeasible in
+  all families (the (1/2, 12) corner εW ≈ 1.85e-4 < FLOOR
+  2e-4, shift-independent); (0.67, 0.72), (0.66, 0.76) and
+  the φ383 joint point (0.564, 0.585, 0.680) are LP-negative
+  in every family. FAILURES RECORDED: the first ladder batch
+  failed two ways — FLOOR 3e-4 is infeasible at ε ≤ 0.045
+  (corner cap εW; floors must be per-ε), and three F5
+  narrowing candidates died at depth 42 (u → 1/2, t ≈ 6.99)
+  because the LP thinning inherited from EXP10's lp384.py
+  (integer-t only above t = 6) hid a genuine g dip at
+  (0.5, ≈6.21) — full-grid LP fixed it and all re-laddered
+  candidates passed. Verdict: E11 DONE, positive — every
+  EXP10/EXP11 record beaten and certified. −30 NOT closed;
+  no exclusion; no credit; the bite still needs ZF-type
+  zero-freeness (EXP03 gap unchanged).
+- 2026-11-21 EXP15 (E12): q★ programme feasibility audit.
+  Full write-up: exp15-qstar/NOTES.md. Stage 1 inventory of
+  rows 384–393 found the programme restructured beyond
+  EXP04's account (δ★-first blocked, η-first viable, closure
+  ∩ ℋ_nr = 0). Stage 2 executed every recorded check on
+  copies: four-lift replay EXACT (NOT_DETERMINED);
+  unit_correction387 PASS (operator live, self-reports
+  basis NOT_CONSTRUCTED); verify_row387 PASS (good-class
+  classification, norm-equation degree 10,920);
+  verify_frontier388 PASS (878 base: 488 zero / 332 formal,
+  generation NOT_CERTIFIED — row388 snapshot; row393's
+  recorded endpoint is 628 / 181); verify_row388 PASS —
+  integer kernel certificate recomputed from raw profiles
+  and equal to the recorded certificate (rank 4,044,
+  pivots ±1, kernel 99, 44 square relations), Principalizer
+  verified on the whole even-valuation lattice basis.
+  Verdict: steps (ii)/(iii) machinery is real and ready;
+  the programme is blocked on ONE named input — a certified
+  exhaustive Cl(O_K)[2] basis with I_i² = (α_i) witnesses
+  (unconditional Cl/2 generation certificate). Proved
+  generation range is norm < 2⁹⁴ (~3×10²⁶ prime ideals);
+  181 formal directions remain on the 878 base and killing
+  them would still not certify generation. q★ UNDETERMINED,
+  no exclusion, no credit; the binary lift variable did not
+  move and neither did the ≈3100× yardstick. E12 DONE;
+  continuation = the missing input only (= T1 dual).
+- 2026-11-21 EXP16 (resync audit): lab premises vs current
+  repo state. Full write-up: exp16-resync/NOTES.md. Every
+  Ground-facts claim (4), Tried claim (T1–T7), queue/log
+  repo-state claim (6), and the V74/Goal4AK authority
+  assumption was checked against the clone with file
+  pointers. Tally: CONFIRMED — G1, G2, G3, T3, T4, T5, T6,
+  D5 (2⁹⁴ generation range, D-1 gate PASS), D6 (LOW 9/16),
+  A1 (V74/Goal4AK), T2/T7 as lab-internal scout verdicts,
+  and all lab verdicts. CORRECTED — 1: EXP15's Γ̄ ∩ ℋ_nr
+  = {0} is proved through row393 only, not over the
+  post-wave enlarged closure. SUPERSEDED — 3: (i) T1's
+  numbers as current state; (ii) the ground-facts row384
+  obligation pair as current-state description (δ★ half
+  executed → UNDETERMINED, ZF2 half still open);
+  (iii) E12's "(827, j=0) first remaining direction" as
+  the live head. HEADLINE: the repo did not stop at
+  row393 — an owner-authorized UNAUDITED resumption
+  (2026-11-10, PR #1861, research/r3-row393-resume-
+  20261110/, waves 1–6, never cited by the lab) moved the
+  878-base presentation residual 181 → 175 and individual
+  Cl/2 zeros 628 → 636, killed P_(827,0), and left
+  P_(953,0) as head with a dual certificate; 4,632 new
+  algebraic integers, exclusions still 0, generation still
+  uncertified, no formal row394 adopted anywhere. No lab
+  verdict or queue item changes; T1, the row384 ground
+  fact, and E12 were annotated in place (original text
+  preserved) with dated pointers to exp16-resync/NOTES.md.
+  Standing rule from this audit: quote 181/628/(827, j=0)
+  only as "audited row393 endpoint" and Γ̄ ∩ ℋ_nr = {0}
+  only through row393. Yardstick unmoved, as expected;
+  no credit.
