@@ -7,6 +7,7 @@ set -u
 W=$1; n=$2; p=$3; K=$4; SH=$5
 HERE=$(cd "$(dirname "$0")" && pwd); t=$(echo $p | tr -d ,)
 mkdir -p $W
+[ -f $W/base_${n}_$t.pkl ] || bash $HERE/bigfile.sh get $SH base_${n}_$t $W/base_${n}_$t.pkl || { echo "base of $p not (yet) complete in $SH; nothing claimed"; exit 2; }
 for r in $(seq 0 $((K-1))); do
   if [ -d $W/split_${t}_${r}of$K ] && [ ! -f $SH/done_${r}of$K ]; then bash $HERE/split9.sh $W $n $p $r $K $SH || exit $?; fi
 done
