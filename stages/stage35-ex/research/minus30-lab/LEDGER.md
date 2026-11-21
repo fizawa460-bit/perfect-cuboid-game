@@ -50,9 +50,15 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   0.0103597391…, contradiction gap 29/1000 → 0.3518725 (×12.1), bands
   unchanged; ε ≲ 0.007 and band raising are dead in this family. Do
   not retry weight re-optimization at these shifts/lengths; (c)
-  different length splits at the same support — still OPEN (the only
-  remaining E2 sub-item). Success = strictly narrower bands or larger
-  gap than 29/1000, with interval arithmetic.
+  different length splits at the same support — DONE (EXP08,
+  2026-11-21): length multiset is essentially rigid; only a ×1.001
+  support rescale helps (certified score 0.0099193768789228958…,
+  gap 0.0476 in the baseline-weight configuration), the one
+  score-positive split (E4) is positivity-dead with an LP frontier
+  below candG at every ε, and the moment is exactly
+  lengths-independent in this verifier. Nothing beats EXP06's
+  candG gap 0.3518725. E2 is now FULLY DONE (a)+(b)+(c); do not
+  retry length splits at these shifts/support.
 - E3. ZF2 reality check: collect the best EXPLICIT zero-free regions for
   Hecke/Dedekind L-functions at log-conductor ≈ 400 (literature), compute
   the exact Re they reach at height ≤ 2.12, record the gap to 0.63.
@@ -264,4 +270,47 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   for any future attempt: −min_R Re φ < G_N/4 (EXP05 config would
   need min > −10.67 vs actual −19.92). Verdict: E6 DONE, negative;
   do not retry with these test functions. −30 NOT closed; no
+  exclusion; no credit.
+- 2026-11-21 EXP08 (E2c): length-splitting variants of the row383
+  test function. Full write-up: exp08-e2c-lengths/NOTES.md.
+  Baselines (original fixture; EXP06 candG) replayed EXACTLY.
+  Structural finding first: in verify_spectral383.py the moment is
+  EXACTLY lengths-independent (prime_bounds' log_deriv never touches
+  f; the certified moment string 99.1863844352390573896… is identical
+  for n=6, n=12 and rescaled length sets at σ=7/5), so lengths move
+  only score / positivity / tail ratio, and σ retries cannot be
+  rescued by lengths (σ=8/5 / 6/5 joint gaps ≤ 0.2568 / 0.0735 at
+  the best certified score — dominated, not run). Float screen
+  (validated to 1e-10 on both baselines; its n=12 arch value is a
+  cancellation artifact — arb gives E3 score −0.334114128000016…)
+  over 19 variants: splitting or shrinking the big component
+  (229/25), merging smalls, redistributing, equalizing, n=2/3/12
+  are all ≤ baseline or strongly negative; tiny components
+  (≤0.115) explode the tail ratio (D4: 22.69, F1: 1.618). Only two
+  non-negative directions. (1) E4 = split one mid component
+  (397/200 → 397/400×2, n=7): float score 0.010653 (base w) /
+  0.010987 (candG w), but positivity screen min g = −0.0294 at
+  (0.5, ~2.52) and the FULL verifier with candG weights FAILS
+  check_exterior at depth 42, u→1/2, t≈4.0878 ([2.12,8] gap).
+  Absolute-LP frontier (grid, slack 0) vs the candG-beating score:
+  ε=0.00725: 0.009578 vs 0.010200; 0.0075: 0.009751 vs 0.010436;
+  0.008: 0.010094 vs 0.010908; 0.009: 0.010775 vs 0.011853; 0.01:
+  0.011447 vs 0.012810 — shortfall grows with ε; relative-form
+  feasibility needs slack s* = 0.00292. E4 DEAD. (2) A4 = uniform
+  rescale ×1.001 (T = 14.488474 < log LIMIT): CERTIFIED PASS with
+  baseline weights (candA4base2/; fixture383-A4.json,
+  result-A4.json): score_lower 0.0099193768789228958… (+3.35e-5
+  over baseline), tail ratio 0.0077811469051161555… < 1/100,
+  moment identical, bands identical; gap 119/2500 = 0.0476 at
+  thresholds (99/10000, 9919/100), ε=1/100 (0.0371 at
+  (49/5000, 9919/100)). A4 + LP weights at ε=29/4000: predicted
+  0.010431–0.010462 but grid min g ≈ 0 along the u=1/2 edge in
+  [2.12,8]; FULL verifier FAILS twice at depth 42, u→1/2,
+  t≈4.1786 and t≈4.1918 (grids up to 823,776 pts with surgical
+  patch). Also recorded: the pure relative LP form without
+  EXP06's floor is unsound at ε<1/100 (min g −5.0e-4 at slack
+  1e-4). Verdict: E2(c) DONE — one small certified improvement
+  (A4 rescale, baseline-weight configuration only), no variant
+  beats candG's 0.3518725, lengths are rigid at these
+  shifts/support. E2 fully exhausted. −30 NOT closed; no
   exclusion; no credit.
