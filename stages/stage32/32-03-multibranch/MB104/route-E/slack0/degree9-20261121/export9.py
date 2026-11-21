@@ -8,6 +8,9 @@ ck, n, prof = sys.argv[1], int(sys.argv[2]), tuple(int(x) for x in sys.argv[3].s
 NP = int(sys.argv[4]) if len(sys.argv) > 4 else 4
 d = pickle.load(open(ck, 'rb'))
 os.chdir(os.path.dirname(os.path.abspath(ck)))
-with mp.get_context('fork').Pool(NP) as P:
-    k, N = mono_par.export_par({'sols': list(d['sols']), 'TT': d['TT'], 'CONF': d['CONF'], 'REJ': d['REJ'], 'L': d['L'], 'fixed': d['fixed']}, n, prof, P)
+if os.environ.get('EXPORT_FULL') == '1':
+    with mp.get_context('fork').Pool(NP) as P:
+        k, N = mono_par.export_par({'sols': list(d['sols']), 'TT': list(mono_par.tt_rows(d['TT'])), 'CONF': d['CONF'], 'REJ': d['REJ'], 'L': d['L'], 'fixed': d['fixed']}, n, prof, P)
+else:
+    k, N = mono_par.export_lean(d, n, prof)
 print(f'wrote cov ({k} covers passing analyse) and full ({N})', flush=True)

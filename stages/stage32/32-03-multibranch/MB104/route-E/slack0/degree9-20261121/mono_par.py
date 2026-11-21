@@ -190,6 +190,21 @@ def _an_chunk(args):
         out.append((analyse(p[0], q[0], n, prof, cc[0], list(S.ys)) or analyse_loose(p[0], q[0], n, prof, cc[0], list(S.ys))) is not None)
     return out
 
+def export_lean(d, n, prof):
+    """the only output build6/build7 read: full_<tag>.pkl with sols (array), tuples (int8 array (N, 6, n)), confirmed,
+    in_cov_file = all.  No cov_/rej_/extra_ copies (export() kept three copies of 3M covers plus a list of 3M tuples:
+    13 GB, killed on 2,3,2,3,3,3).  EXPORT_FULL=1 in mono_par's environment restores export_par."""
+    S = System(n, prof, d['fixed'], d['L']); tag = f'{n}_{"".join(map(str, prof))}'
+    sols = d['sols'].array() if isinstance(d['sols'], Rows) else np.asarray(d['sols'])
+    TT = d['TT'].array() if isinstance(d['TT'], PackedTT) else np.array(d['TT'], np.int8)
+    N = len(sols)
+    pickle.dump({'sols': sols, 'ys': S.ys, 'L': d['L'], 'fixed': d['fixed'], 'tuples': TT, 'confirmed': list(d['CONF']),
+                 'in_cov_file': np.arange(N)}, open(f'full_{tag}.pkl.tmp', 'wb'), protocol=4)
+    os.replace(f'full_{tag}.pkl.tmp', f'full_{tag}.pkl')
+    pickle.dump({'sols': np.zeros((0, sols.shape[1]), complex), 'ys': S.ys, 'REJ': d['REJ'], 'L': d['L'], 'fixed': d['fixed']},
+                open(f'rej_{tag}.pkl', 'wb'))
+    return N, N
+
 def export_par(d, n, prof, pool):
     """fastmono export.export with the analyse loop spread over the worker pool (hours at 10^6 covers otherwise)"""
     import export as _ex
@@ -676,7 +691,9 @@ def main():
                      'nbase': nb, 'stat': stat}, open(os.environ['DELTA_OUT'] + '.tmp', 'wb'))
         os.replace(os.environ['DELTA_OUT'] + '.tmp', os.environ['DELTA_OUT'])
         print(f'wrote delta {len(sols) - nb} covers -> {os.environ["DELTA_OUT"]}', flush=True); return
-    k, N = export_par({'sols': sols, 'TT': TT, 'CONF': CONF, 'REJ': REJ, 'L': L, 'fixed': fixed}, n, prof, POOL)
+    if os.environ.get('NOENDGAME') and not os.environ.get('EXPORT_PHASE1'): print('phase 1: no export (phase 2 writes it)', flush=True); return
+    ex_ = (lambda d_: export_par(d_, n, prof, POOL)) if os.environ.get('EXPORT_FULL') == '1' else (lambda d_: export_lean(d_, n, prof))
+    k, N = ex_({'sols': sols, 'TT': TT, 'CONF': CONF, 'REJ': REJ, 'L': L, 'fixed': fixed})
     print(f'wrote cov_{tag}.pkl ({k} covers passing analyse) and full_{tag}.pkl ({N})', flush=True)
 
 if __name__ == '__main__': main()

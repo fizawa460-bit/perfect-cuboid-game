@@ -103,10 +103,19 @@ def do_chunk(k):
              orphans=np.array(orphans, np.int64))
     os.replace(fn + '.tmp.npz', fn); return fn
 
+class TupleView:
+    """int8 array (N, 6, n) of monodromy tuples, read as tuples"""
+    def __init__(self, a): self.a = a
+    def __len__(self): return len(self.a)
+    def __getitem__(self, i): return tuple(map(tuple, self.a[i].tolist()))
+    def __iter__(self):
+        for i in range(len(self.a)): yield self[i]
+
 def main():
     n = int(sys.argv[1]); tag = sys.argv[2]; D = sys.argv[3]; NP = int(sys.argv[4]) if len(sys.argv) > 4 else 1
     prof = tuple(int(c) for c in tag); t0 = time.time()
     F = pickle.load(open(f'{D}/full_{n}_{tag}.pkl', 'rb')); N = len(F['sols'])
+    if isinstance(F['tuples'], np.ndarray): F['tuples'] = TupleView(F['tuples'])     # mono_par export_lean
     covmap = set(F['in_cov_file'])
     rgf = f'{D}/regen_{n}_{tag}.pkl'
     if os.path.exists(rgf): F['regen'] = {i: v for i, v in pickle.load(open(rgf, 'rb')).items() if v is not None}; print('80-digit starts for', sorted(F['regen']), flush=True)
