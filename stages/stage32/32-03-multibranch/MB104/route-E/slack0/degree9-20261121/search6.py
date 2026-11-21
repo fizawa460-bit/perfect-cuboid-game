@@ -120,7 +120,7 @@ def load7(files, n):
         off += N
     out = {'n': n, 'profs': L['profs'], 'off': np.array(offs + [off]), 'N': off}
     out['Z'] = np.concatenate(L['z']); out['INF'] = np.concatenate(L['inf']); L['z'] = L['inf'] = None
-    out['oddy'] = np.concatenate([np.broadcast_to(o, (len(a_), len(o))) for o, a_ in zip(L['oddy'], L['aut'])]).astype(np.int64)
+    out['oddy'] = np.concatenate([np.broadcast_to(o, (len(a_), len(o))) for o, a_ in zip(L['oddy'], L['aut'])]).astype(np.int8)
     out['aut'] = np.concatenate(L['aut']); out['pid'] = np.concatenate(L['pid'])
     out['pq'] = RowView(L['pq'], out['off']); out['crit'] = L['crit']; out['crity'] = L['crity']; out['hp'] = L['hp']
     out['odd'] = OddView(out['Z'], out['INF'])
@@ -150,6 +150,8 @@ print(f'(a,b)=({a},{b}) nA={nA} nB={nB} jmin={jmin} Fb={Fb}; degree {a}: {LA["N"
 GA = LA['GA']
 QUERY = np.arange(LA['N']) if ALLQ else np.nonzero(GA == np.arange(LA['N']))[0]
 if QMAX: QUERY = QUERY[:QMAX]
+if os.environ.get('QSHARD'):          # k/K: this run takes every K-th query starting at k (several machines)
+    _k, _K = (int(x) for x in os.environ['QSHARD'].split('/')); QUERY = QUERY[_k::_K]
 CLSB = LB['GB'] if SAME else np.full(LB['N'], -2, np.int64)
 print(f'queries: {len(QUERY)} ({"all covers" if ALLQ else "one per Aut(B)x<conj> orbit"}); Aut(B) classes of the table side: '
       f'{len(np.unique(CLSB)) if SAME else "-"}', flush=True)
