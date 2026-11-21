@@ -50,6 +50,37 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   same family with new angles. This gate does not change the freeze
   judgement; it is ledger discipline only.
 
+## Trap-B assessment at programme level (recorded 2026-11-21, user
+## judgement RESERVED — this entry records the discussion, not a stop)
+- The user pressed the question: is the lab's polishing programme
+  trap B after all? Quantified yardstick agreed in the discussion:
+  the goal-connected number is the ratio between the deficit of the
+  BINDING (weakest) necessary band and the literature zero-free
+  deficit (≈1.1–1.4×10⁻⁴, EXP03). Baseline vs after EXP14:
+  c_Cl ≥ 1 binding band 0.562 → 0.564, ratio ≈3130× → ≈3110×
+  (0.5% movement); c_Cl ≥ 2 and ≥ 3 binding bands moved ≈3%. In
+  orders of magnitude the ratio has NEVER moved — not in this lab,
+  and not since row383/384 set it at ≈3000× on 2026-11-07. The
+  large movements reported (gaps ×12–×200, band 3 0.605 → 0.680,
+  scores, moments) are internal certificate slack or the position/
+  thickness of the wall, not distance-to-goal. Exceptions that were
+  NOT wall measurement: corrections of false walls (EXP05 patch,
+  EXP06 band verdict, EXP14 baseline-shift conditioning).
+- Muse's position after the discussion: individual experiments
+  were not paraphrases (each produced new certified statements,
+  false-wall corrections, or frontier closures), but the programme's
+  overall shape — tractable side completed and polished, core OPEN
+  and untouched — matches trap B's avoidance condition ("small side
+  done, remainder OPEN"). The earlier flat verdict "not trap B"
+  relied on the letter of the definition and is corrected here.
+- Reporting rule adopted: every future lab report must carry the
+  goal-connected yardstick (binding-band ratio) alongside internal
+  metrics, and must not frame internal-metric gains as approach
+  toward closure.
+- The user recorded this assessment but RESERVED the decision on
+  whether to stop the test-function family. This entry is not a
+  stop order; the family is neither continued nor closed by it.
+
 ## Untried experiment queue
 - E10. Depth-capped repulsion retry (new fixture family): change
   support/degree so a future test function meets EXP07 §5's criterion
@@ -178,6 +209,35 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   families; the only untried point left on this axis is a
   step-1/10 dictionary on [0, 6], with diminishing returns
   expected.
+- E12. The q★ programme (row385 §7): decide δ★'s Selmer-4 lift
+  via q★ ∈ Cl(O_K)/2Cl(O_K). DONE AS A FEASIBILITY AUDIT
+  (EXP15, 2026-11-21): NOT executable from recorded data, and
+  the blocker is sharper than EXP04 recorded. Rows 386–393
+  restructured the programme: δ★-first CT computation is
+  provably blocked at 2 (row386), the η-first route works
+  (row387: 55-unit correction operator + one norm equation
+  per basis η in the degree-10,920 root-pair field + Shukla
+  Algorithm 2 + formula (7) decides q★ in BOTH directions),
+  and the recorded relation closure provably contains no
+  η (row388 theorem Γ̄ ∩ ℋ_nr = {0}, extended through
+  row393). All downstream machinery was re-verified live in
+  EXP15 (four-lift replay exact; unit-correction operator
+  PASS; row387 certificate PASS; frontier388 reproduced
+  488/332; verify_row388 recomputed the integer kernel
+  certificate EQUAL to the recorded one — 4,143 × 4,966,
+  rank 4,044, saturated, Principalizer exercised on the
+  full even-valuation lattice basis). The single missing
+  input: a certified exhaustive basis of Cl(O_K)[2] with
+  witnesses I_i² = (α_i), equivalently an unconditional
+  generation certificate for Cl/2 on a finite factor base.
+  Generation is proved only for norm < 2⁹⁴ (~3×10²⁶ prime
+  ideals vs 878 processed); on the 878 base, 181 formal
+  directions remain (row393) and residual 0 there would
+  still not certify generation. This is T1's wall in dual
+  form. q★ remains UNDETERMINED; δ★ lift status unmoved;
+  the ≈3100× ZF yardstick is not this programme's variable
+  and is also unmoved. Do not re-run the machinery checks;
+  the only continuation is the missing input itself.
 
 ## Experiment log
 - 2026-11-21 EXP01 (E1): copied row383 to exp01-baseline/, decompressed
@@ -626,3 +686,29 @@ setup, result, verdict. No E1/endpoint credit is claimed by anything here.
   EXP10/EXP11 record beaten and certified. −30 NOT closed;
   no exclusion; no credit; the bite still needs ZF-type
   zero-freeness (EXP03 gap unchanged).
+- 2026-11-21 EXP15 (E12): q★ programme feasibility audit.
+  Full write-up: exp15-qstar/NOTES.md. Stage 1 inventory of
+  rows 384–393 found the programme restructured beyond
+  EXP04's account (δ★-first blocked, η-first viable, closure
+  ∩ ℋ_nr = 0). Stage 2 executed every recorded check on
+  copies: four-lift replay EXACT (NOT_DETERMINED);
+  unit_correction387 PASS (operator live, self-reports
+  basis NOT_CONSTRUCTED); verify_row387 PASS (good-class
+  classification, norm-equation degree 10,920);
+  verify_frontier388 PASS (878 base: 488 zero / 332 formal,
+  generation NOT_CERTIFIED — row388 snapshot; row393's
+  recorded endpoint is 628 / 181); verify_row388 PASS —
+  integer kernel certificate recomputed from raw profiles
+  and equal to the recorded certificate (rank 4,044,
+  pivots ±1, kernel 99, 44 square relations), Principalizer
+  verified on the whole even-valuation lattice basis.
+  Verdict: steps (ii)/(iii) machinery is real and ready;
+  the programme is blocked on ONE named input — a certified
+  exhaustive Cl(O_K)[2] basis with I_i² = (α_i) witnesses
+  (unconditional Cl/2 generation certificate). Proved
+  generation range is norm < 2⁹⁴ (~3×10²⁶ prime ideals);
+  181 formal directions remain on the 878 base and killing
+  them would still not certify generation. q★ UNDETERMINED,
+  no exclusion, no credit; the binary lift variable did not
+  move and neither did the ≈3100× yardstick. E12 DONE;
+  continuation = the missing input only (= T1 dual).
