@@ -19,7 +19,7 @@ that a profile with millions of covers fits in memory:
     src (N,) the refined cover each row was made from, res/mind of the refined source, syms.
   - Orbits where no member refines are listed in orphans_<n>_<tag>.txt and the run exits with code 3 (as build5).
 Checks to run afterwards: count (sum 1/aut = Hurwitz number) and distinct (fingerprints) on the pq file.
-usage: DPS=60 [DROPCHUNKS=1] python3 build7.py n tag D [procs]"""
+usage: DPS=60 [DROPCHUNKS=1] [PACK=pack.npz] python3 build7.py n tag D [procs]   (PACK: rebuild from a pack9.py backup, no full_ needed)"""
 import os, sys, pickle, time, numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -73,6 +73,7 @@ def do_chunk(k):
     for o in chunks[k]:
         mem = members[o]; ok = None
         order = sorted(mem, key=lambda x: (x not in F.get('regen', {}), x not in covmap, x))
+        if 'only' in G: order = [x for x in order if x in G['only']]
         for i in order:
             r = B6.work((n, prof, F, covmap, [i]))[0]
             if r[8] == 'failed': continue
@@ -120,11 +121,18 @@ class TupleView:
 def main():
     n = int(sys.argv[1]); tag = sys.argv[2]; D = sys.argv[3]; NP = int(sys.argv[4]) if len(sys.argv) > 4 else 1
     prof = tuple(int(c) for c in tag); t0 = time.time()
-    F = pickle.load(open(f'{D}/full_{n}_{tag}.pkl', 'rb')); N = len(F['sols'])
-    if isinstance(F['tuples'], np.ndarray): F['tuples'] = TupleView(F['tuples'])     # mono_par export_lean
-    covmap = set(F['in_cov_file'])
+    PK = os.environ.get('PACK')
+    if PK:      # rebuild from a pack9.py backup: only the members refined before have positions, and only they are tried
+        z = np.load(PK, allow_pickle=False); F = pickle.loads(z['meta'].tobytes()); N = int(z['N']); reps = z['reps']
+        sols = np.full((N, z['sols'].shape[1]), np.nan, complex); sols[reps] = z['sols']; F['sols'] = sols
+        F['tuples'] = TupleView(z['tuples']); covmap = set(reps[z['incov']].tolist()); G['only'] = set(reps.tolist())
+        F['regen'] = pickle.loads(z['regen'].tobytes()); print('pack', PK, ':', len(reps), 'refined members, regen', sorted(F['regen']), flush=True)
+    else:
+        F = pickle.load(open(f'{D}/full_{n}_{tag}.pkl', 'rb')); N = len(F['sols'])
+        if isinstance(F['tuples'], np.ndarray): F['tuples'] = TupleView(F['tuples'])     # mono_par export_lean
+        covmap = set(F['in_cov_file'])
     rgf = f'{D}/regen_{n}_{tag}.pkl'
-    if os.path.exists(rgf): F['regen'] = {i: v for i, v in pickle.load(open(rgf, 'rb')).items() if v is not None}; print('80-digit starts for', sorted(F['regen']), flush=True)
+    if not PK and os.path.exists(rgf): F['regen'] = {i: v for i, v in pickle.load(open(rgf, 'rb')).items() if v is not None}; print('80-digit starts for', sorted(F['regen']), flush=True)
     oddy0 = np.array([y for y in range(6) for _ in range(n - 2 * prof[y])])
     orbG, members, syms, rkey, cls, cidx = orbits(F, prof, True)
     orbA, _, _, _, _, _ = orbits(F, prof, False, (cls, cidx))
