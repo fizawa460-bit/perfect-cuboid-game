@@ -138,6 +138,11 @@ def main():
         with _mp.get_context('fork').Pool(NP) as P: files = P.map(do_chunk, range(len(chunks)), chunksize=1)
     else: files = [do_chunk(k) for k in range(len(chunks))]
     t1 = time.time(); print(f'refined in {t1 - t0:.0f}s', flush=True)
+    orph0 = [o for fn in files for o in np.load(fn)['orphans']]
+    if orph0:      # stop before writing L7 (a big profile cannot hold chunks + L7 on disk); fixorph9.sh, then rerun
+        bad = sorted({i for o in orph0 for i in members[o]})
+        open(f'{D}/orphans_{n}_{tag}.txt', 'w').write(','.join(map(str, bad)) + '\n')
+        print(f'{len(orph0)} orbits without a refined cover ({len(bad)} covers) -> orphans file written', flush=True); sys.exit(3)
     nodd = len(oddy0); pre = f'{D}/L7_{n}_{tag}'
     def mm(name, shape, dt): return np.lib.format.open_memmap(f'{pre}_{name}.npy.tmp', mode='w+', dtype=dt, shape=shape)
     PQ = mm('pq', (N, 2 * n + 2), complex); Z = mm('z', (N, nodd), complex); INF = mm('inf', (N, nodd), bool)
@@ -146,7 +151,7 @@ def main():
     # DROPCHUNKS=1: when no chunk has orphans, delete each chunk once it is copied (the .npy.tmp files are sparse, so the
     # disk peak is about one L7 set instead of chunks + L7; 232333 needs 13 GB each).  A crash while copying then means
     # refining again, so it is off by default.
-    drop = os.environ.get('DROPCHUNKS') == '1' and not any(len(np.load(fn)['orphans']) for fn in files)
+    drop = os.environ.get('DROPCHUNKS') == '1'      # no orphans here (checked above)
     if drop: print('no orphans: chunks are deleted as they are copied', flush=True)
     for fn in files:
         d = np.load(fn); ii = d['i']
