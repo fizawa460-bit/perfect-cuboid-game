@@ -19,7 +19,7 @@ that a profile with millions of covers fits in memory:
     src (N,) the refined cover each row was made from, res/mind of the refined source, syms.
   - Orbits where no member refines are listed in orphans_<n>_<tag>.txt and the run exits with code 3 (as build5).
 Checks to run afterwards: count (sum 1/aut = Hurwitz number) and distinct (fingerprints) on the pq file.
-usage: DPS=60 python3 build7.py n tag D [procs]"""
+usage: DPS=60 [DROPCHUNKS=1] python3 build7.py n tag D [procs]"""
 import os, sys, pickle, time, numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -143,6 +143,11 @@ def main():
     PQ = mm('pq', (N, 2 * n + 2), complex); Z = mm('z', (N, nodd), complex); INF = mm('inf', (N, nodd), bool)
     CR = mm('crit', (N, 2 * n - 2), complex); HP = mm('hp', (N, nodd, 2), 'S%d' % (DPS + 12))
     kind = np.full(N, -1, np.int8); src = np.full(N, -1, np.int64); res = np.zeros((N, 2)); crity = None; orph = []
+    # DROPCHUNKS=1: when no chunk has orphans, delete each chunk once it is copied (the .npy.tmp files are sparse, so the
+    # disk peak is about one L7 set instead of chunks + L7; 232333 needs 13 GB each).  A crash while copying then means
+    # refining again, so it is off by default.
+    drop = os.environ.get('DROPCHUNKS') == '1' and not any(len(np.load(fn)['orphans']) for fn in files)
+    if drop: print('no orphans: chunks are deleted as they are copied', flush=True)
     for fn in files:
         d = np.load(fn); ii = d['i']
         if len(ii):
@@ -152,6 +157,9 @@ def main():
             if crity is None: crity = cy[0]
             assert (cy == crity).all()
         orph += list(d['orphans'])
+        if drop:
+            for a in (PQ, Z, INF, CR, HP): a.flush()
+            del d; os.remove(fn)
     for a in (PQ, Z, INF, CR, HP): a.flush()
     del PQ, Z, INF, CR, HP
     if orph:
