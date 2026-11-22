@@ -27,10 +27,16 @@ import build6 as B6
 from build6 import md, autact, mp, DPS
 SL = B6.SL
 
-def orbits(F, prof, conj_too):
+def bkey(c):
+    """canonical tuple -> bytes (classes of millions of covers: ~100 bytes each instead of ~1 kB)"""
+    return bytes([x for g in c for x in g])
+
+def orbits(F, prof, conj_too, pre=None):
     RR = pickle.load(open(os.path.join(SL, 'fastmono-20261119', 'aut_rules_7_222222.pkl'), 'rb'))
     rkey = {(cj, pi): w for (cj, M, pi), (pi2, w) in zip(autact.sym_list(tuple(RR['prof'])), RR['rules'])}
-    syms = autact.sym_list(prof); cls = [md.canon(t)[0] for t in F['tuples']]; cidx = {c: k for k, c in enumerate(cls)}
+    syms = autact.sym_list(prof)
+    if pre is None: cls = [bkey(md.canon(t)[0]) for t in F['tuples']]; cidx = {c: k for k, c in enumerate(cls)}
+    else: cls, cidx = pre
     N = len(cls); orb = np.full(N, -1, np.int64); members = []
     via = {}          # (j) -> (i, sym index) with class(j) = sym(class(i)), for i the first member of the orbit
     for i in range(N):
@@ -38,7 +44,7 @@ def orbits(F, prof, conj_too):
         o = len(members); orb[i] = o; mem = [i]
         for k, (cj, M, pi) in enumerate(syms):
             if cj and not conj_too: continue
-            j = cidx.get(md.canon(autact.apply(F['tuples'][i], (pi, rkey[(cj, pi)])))[0])
+            j = cidx.get(bkey(md.canon(autact.apply(F['tuples'][i], (pi, rkey[(cj, pi)])))[0]))
             if j is not None and orb[j] < 0: orb[j] = o; mem.append(j)
         members.append(mem)
     return orb, members, syms, rkey, cls, cidx
@@ -84,7 +90,7 @@ def do_chunk(k):
             if j == i: continue
             sym = None
             for (cj, M, pi) in syms:
-                if md.canon(autact.apply(F['tuples'][i], (pi, rkey[(cj, pi)])))[0] == cls[j]: sym = (cj, M, pi); break
+                if bkey(md.canon(autact.apply(F['tuples'][i], (pi, rkey[(cj, pi)])))[0]) == cls[j]: sym = (cj, M, pi); break
             if sym is None: orphans.append(o); continue      # cannot happen: j was put in the orbit by such a symmetry
             rows_i.append(j); rows.append(image_row(Ri, sym, n, prof, oddy0)); kinds.append(3); srcs.append(i); resl.append((r[6], r[7]))
     m = len(rows); nodd = len(oddy0)
@@ -121,7 +127,7 @@ def main():
     if os.path.exists(rgf): F['regen'] = {i: v for i, v in pickle.load(open(rgf, 'rb')).items() if v is not None}; print('80-digit starts for', sorted(F['regen']), flush=True)
     oddy0 = np.array([y for y in range(6) for _ in range(n - 2 * prof[y])])
     orbG, members, syms, rkey, cls, cidx = orbits(F, prof, True)
-    orbA, _, _, _, _, _ = orbits(F, prof, False)
+    orbA, _, _, _, _, _ = orbits(F, prof, False, (cls, cidx))
     print(f'{N} covers, {len(members)} orbits under Stab x <conj>, {orbA.max() + 1} under Stab in Aut(B); {time.time() - t0:.0f}s', flush=True)
     CH = int(os.environ.get('CHUNK', '300'))
     chunks = [list(range(k, min(k + CH, len(members)))) for k in range(0, len(members), CH)]
