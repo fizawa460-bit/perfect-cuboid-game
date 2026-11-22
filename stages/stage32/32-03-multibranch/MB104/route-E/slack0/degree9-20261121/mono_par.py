@@ -645,7 +645,10 @@ def main():
                 if c not in TUP and owns(c): allj.setdefault(tkey(c), []).append((k, i, pt))
         report(f'  hp endgame: {len(allj)} missing classes, {sum(len(v) for v in allj.values())} edges')
         got = []; nfail = 0
-        for dps, dd, src in ((40, 0.15, 0), (40, 0.3, 0), (40, 0.15, 1), (40, 0.3, 1), (80, 0.15, 0), (40, 0.15, 2), (80, 0.3, 1)):
+        confs = ((40, 0.15, 0), (40, 0.3, 0), (40, 0.15, 1), (40, 0.3, 1), (80, 0.15, 0), (40, 0.15, 2), (80, 0.3, 1))
+        if os.environ.get('HPCONF'):    # e.g. HPCONF='80,0.05,0;80,0.05,1;80,0.08,0' for the last few classes (smaller detours)
+            confs = tuple((int(a_), float(b_), int(c_)) for a_, b_, c_ in (x.split(',') for x in os.environ['HPCONF'].split(';')))
+        for dps, dd, src in confs:
             todo = [(c, lst[src]) for c, lst in allj.items() if len(lst) > src and c not in TUP]
             if not todo: continue
             W_ = 4 * max(PAR, 1)
