@@ -539,7 +539,9 @@ def main():
                         got = [(z.real.mid().str(90, radius=False), z.imag.mid().str(90, radius=False)) for z in uh]; break
                 if got: break
             outd[i] = got
-        pickle.dump(outd, open(os.environ.get('REGEN_OUT', f'regen_{tag}.pkl'), 'wb'))
+        rf = os.environ.get('REGEN_OUT', f'regen_{tag}.pkl'); old_ = pickle.load(open(rf, 'rb')) if os.path.exists(rf) else {}
+        old_.update({i: v for i, v in outd.items() if v is not None})      # keep the 80-digit starts already there
+        pickle.dump(old_, open(rf + '.tmp', 'wb')); os.replace(rf + '.tmp', rf)
         print('regen done', {i: v is not None for i, v in outd.items()}, flush=True); sys.exit(0)
     if a.seedfile:
         gotf, badf = seed_from_file(a.seedfile); report(f'seed file {a.seedfile}: {len(gotf)} new, {badf} not usable')
