@@ -3,6 +3,8 @@ fails because critical points almost collide on the way.  Same equations as mono
 import numpy as np, flint
 from flint import acb, acb_mat
 DEBUG = False
+import os
+POLISH = [int(os.environ.get('HPPOLISH', '30'))]      # Newton steps at the start of track_path (0: off, the old behaviour)
 def setup(dps=40): flint.ctx.dps = dps
 def _poly(co, z):            # value, first and second derivative of sum co[j] z^j
     v = acb(0); d1 = acb(0); d2 = acb(0)
@@ -67,6 +69,11 @@ def track_segment(H, u, Wa, Wb, h=0.05, hmin=1e-9, tol=None, maxsteps=20000):
     return u, t >= 1 - 1e-15
 def track_path(S, u_np, Ws, dps=40):
     setup(dps); H = HP(S); u = to_acb(u_np)
+    if POLISH[0]:    # Newton at the start point first: for condition 1e10-1e13 the double start is off by up to 1e-3
+        W0 = [tuple(to_acb(r)) for r in Ws[0]]          # relative, which fails the predictor's 'first < 1e-3' test at t = 0
+        for _ in range(POLISH[0]):
+            F, J, _ = H.FJ(u, W0); dx = solve(J, F); u = [(a - b).mid() for a, b in zip(u, dx)]
+            if norm(dx) / (1 + norm(u)) < 10.0 ** (-0.8 * flint.ctx.dps): break
     for Wa, Wb in zip(Ws[:-1], Ws[1:]):
         u, ok = track_segment(H, u, Wa, Wb)
         if not ok: return None
