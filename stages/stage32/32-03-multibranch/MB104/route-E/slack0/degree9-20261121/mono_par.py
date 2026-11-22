@@ -512,8 +512,15 @@ def main():
         want = [int(x) for x in os.environ['REGEN'].split(',')]; outd = {}
         for i in want:
             c = md.canon(TT[i])[0]; srcs = []
-            for j in range(len(sols)):
-                if j == i: continue
+            # candidate sources: the covers one move away from i (each move has its inverse in MV), found by lookup;
+            # the old scan over all covers took hours at 3 million covers.  Each candidate is checked forward as before.
+            cand = set()
+            for k2 in range(NM):
+                pt = pred(TT[i], k2)
+                if not md.check(pt, prof): continue
+                j = TUP.get(md.canon(pt)[0])
+                if j is not None and j != i: cand.add(j)
+            for j in sorted(cand):
                 for k in range(NM):
                     pt = pred(TT[j], k)
                     if md.check(pt, prof) and md.canon(pt)[0] == c: srcs.append((j, k))
