@@ -2,7 +2,7 @@
 # Degree-n covers for a list of profiles, one profile after another, each on PAR cores (mono_par.py).
 # usage: bash run9.sh <workdir> <n> <profile> [<profile> ...]      e.g. bash run9.sh /home/user/deg9/gen 9 2,2,3,3,3,3
 # Phase 1 (NOENDGAME=1): the bulk.  Phase 2: the same command resumes from the checkpoint and runs the endgame.
-# After each phase the outputs (cov_/full_/rej_/extra_/regen_/ckpt_dir_ files and the log) are copied to $COPYTO
+# After each phase the log and the regen file are copied to $COPYTO
 # (default /mnt/project-files/deg9gen/) when that folder exists.
 set -u
 HERE=$(cd "$(dirname "$0")" && pwd); FM=$HERE/../fastmono-20261119
@@ -18,7 +18,7 @@ for p in "$@"; do
     PAR=${PAR:-4} NOENDGAME=$NE HPENDGAME=$HPE python3 $HERE/mono_par.py $n $p --rules $FM/aut_rules_7_222222.pkl --loops ${LOOPS:-0} --seedtries ${SEEDTRIES:-40} $SEEDARG >> log_$t.txt 2>&1
     ec=$?; echo "$p phase $phase exit $ec $(date +%T)" >> done.txt
     if [ -d "$COPYTO" ]; then
-      cp -f cov_${n}_$t.pkl full_${n}_$t.pkl rej_${n}_$t.pkl extra_${n}_$t.pkl ckpt_dir_${n}_$t.pkl log_$t.txt "$COPYTO" 2>/dev/null
+      cp -f log_$t.txt "$COPYTO" 2>/dev/null      # big files no longer (the shared folder holds 10 GB): pack9.py after build7
       [ -f regen_${n}_$t.pkl ] && cp -f regen_${n}_$t.pkl "$COPYTO"
     fi
     [ $ec -ne 0 ] && { echo "$p phase $phase failed (exit $ec); queue stopped, rerun the same command to resume" >> done.txt; exit $ec; }
