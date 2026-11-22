@@ -452,8 +452,13 @@ def main():
         for si, (P_, Q_, cc_, as_) in enumerate(pickle.load(open(fn, 'rb'))):
             xg = np.concatenate([P_, Q_])
             an0 = analyse(P_, Q_, n, prof, np.asarray(cc_), list(as_)) or analyse_loose(P_, Q_, n, prof, np.asarray(cc_), list(as_))
+            forced = False
+            if an0 is None and os.environ.get('SEEDNOAN'):
+                # composite seeds made in double often miss analyse's thresholds (a critical point off by 1e-7,
+                # an odd point numerically double); to_u only needs the critical points: go to 80 digits directly
+                an0 = {y: ([], [cc_[k] for k in range(len(as_)) if as_[k] == y]) for y in range(6)}; forced = True
             if an0 is None: why['analyse'] += 1; why.setdefault('idx_analyse', []).append(si); bad += 1; continue
-            sd = to_u(xg, an0); hpu = None
+            sd = None if forced else to_u(xg, an0); hpu = None
             if sd is None:
                 # ill-conditioned in double (Newton stalls near 1e-8; seen for composites): finish at 80 digits,
                 # keep the 80-digit point for build5 (regen file) and its double rounding for tracking/numbering
@@ -468,6 +473,23 @@ def main():
             if sd is None: why['to_u'] += 1; why.setdefault('idx_to_u', []).append(si); bad += 1; continue
             if hpu is None and an_of(sd) is None: why['an_of'] += 1; why.setdefault('idx_an_of', []).append(si); bad += 1; continue
             t = number([sd])[0]
+            if t is None and os.environ.get('SEEDNOAN'):
+                # cannot be numbered in double: step off it along a move at 40 digits; a neighbour that can be numbered
+                # starts the exploration of this braid orbit (the loop then predicts the seed's class back)
+                for k in range(NM):
+                    try: uh = hp_track.track_path(S, sd, move_path(k), dps=40)
+                    except Exception: uh = None
+                    if uh is None: continue
+                    mv, half = MV[k]; un = hp_track.to_np(uh)[None]
+                    if half is True: un = braid.relabel(S, un, mv[0], mv[1])
+                    t2 = number([un[0]])[0]
+                    if t2 is not None and md.check(t2, prof) and an_of(un[0]) is not None:
+                        j = add(un[0], t2, True, rep=True)
+                        why['neighbour'] = why.get('neighbour', 0) + 1
+                        if j is not None: got.append(j); why['neighbour_new'] = why.get('neighbour_new', 0) + 1
+                        break
+                else: why['number'] += 1; why.setdefault('idx_number', []).append(si); bad += 1
+                continue
             if t is None: why['number'] += 1; why.setdefault('idx_number', []).append(si); bad += 1; continue
             if not md.check(t, prof): why['check'] += 1; why.setdefault('idx_check', []).append(si); bad += 1; continue
             j = add(sd, t, True, rep=True)
@@ -576,6 +598,30 @@ def main():
             key = min([c] + [md.canon(autact.apply(c, rule))[0] for rule in RULES])
             o = int(hashlib.md5(repr(key).encode()).hexdigest()[:8], 16) % own_K == own_r; _own[c] = o
         return o
+    def finish80(i, k, dd, pt):
+        """target reached at 40 digits but not usable in double (rejected by accept_tracked): track again at 80 digits,
+        Newton at 80 digits and keep it under its predicted class (unconfirmed), with the 80-digit point as build's
+        regen start (the old endgame's last step, which hp_endgame had left out)"""
+        mv, half = MV[k]; uh = hp_track.track_path(S, sols[i], move_path(k, dd), dps=80); stat['hp_tracks'] += 1
+        if uh is None: return []
+        un = hp_track.to_np(uh)[None]
+        if half is True:
+            perm = braid.relabel(S, np.arange(len(un[0]))[None].astype(complex), mv[0], mv[1])[0].real.round().astype(int)
+            uh = [uh[int(m)] for m in perm]
+        hp_track.setup(80); H = hp_track.HP(S); W0 = [tuple(hp_track.to_acb(r)) for r in B0]
+        for _ in range(12):
+            F_, J_, _ = H.FJ(uh, W0); dx = hp_track.solve(J_, F_); uh = [(x_ - d_).mid() for x_, d_ in zip(uh, dx)]
+        F_, _, _ = H.FJ(uh, W0); res = max(abs(complex(f.real.mid()) + 1j * float(f.imag.mid())) for f in F_)
+        ud = hp_track.to_np(uh); cc = np.concatenate([fixed, ud[2 * n + 2:]])
+        dmin = min(abs(cc[x] - cc[w]) for x in range(len(cc)) for w in range(x))
+        report(f'  80-digit finish of a reached target: residual {res:.1e}, smallest critical-point distance {dmin:.1e}')
+        if not (res < 1e-60 and dmin > 1e-30): return []
+        j = add(ud, pt, False, rep=True)
+        if j is None: return []
+        rf = f'regen_{tag}.pkl'; old_ = pickle.load(open(rf, 'rb')) if os.path.exists(rf) else {}
+        old_[j] = [(z.real.mid().str(90, radius=False), z.imag.mid().str(90, radius=False)) for z in uh]
+        pickle.dump(old_, open(rf, 'wb'))
+        return [j] + add_images([j])
     def hp_endgame():
         """HPENDGAME=1: every missing class straight at 40 digits on the worker pool (the double-precision endgame
         cannot start from the ill-conditioned covers next to the missing ones: condition 1e10-1e13 at s = 0,
@@ -606,6 +652,7 @@ def main():
                     mv, half = MV[k]; un = un[None]
                     if half is True: un = braid.relabel(S, un, mv[0], mv[1])
                     nw, _ = accept_tracked([un[0]], [(pt, md.canon(pt)[0])]); got += nw + add_images(nw)
+                    if not nw and c not in TUP: got += finish80(i, k, dd, pt)
                     if not nw: nfail += 1
                 if time.time() - _last_save[0] > CKPT_EVERY: save(); _last_save[0] = time.time()
                 if time.time() - t0 > a.maxtime: break
