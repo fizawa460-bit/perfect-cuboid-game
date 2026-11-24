@@ -471,7 +471,7 @@ def main():
                     if max(abs(complex(f.real.mid()) + 1j * float(f.imag.mid())) for f in F_) < 1e-60:
                         sd = hp_track.to_np(uh); hpu = [(z.real.mid().str(90, radius=False), z.imag.mid().str(90, radius=False)) for z in uh]
             if sd is None: why['to_u'] += 1; why.setdefault('idx_to_u', []).append(si); bad += 1; continue
-            if hpu is None and an_of(sd) is None: why['an_of'] += 1; why.setdefault('idx_an_of', []).append(si); bad += 1; continue
+            if hpu is None and an_of(sd) is None and not os.environ.get('SEEDNOANOF'): why['an_of'] += 1; why.setdefault('idx_an_of', []).append(si); bad += 1; continue
             t = number([sd])[0]
             if t is None and os.environ.get('SEEDNOAN'):
                 # cannot be numbered in double: step off it along a move at 40 digits; a neighbour that can be numbered
