@@ -211,6 +211,11 @@ def rr_pos(oy):
     for k, y in enumerate(oy): rank[k] = seen.get(int(y), 0); seen[int(y)] = rank[k] + 1
     return sorted(range(len(oy)), key=lambda k: (rank[k], int(oy[k])))[:Fb5]
 KPP = np.array([np.array(rr_pos(LB['oddy'][LB['off'][pi]]))[SUB5] for pi in range(len(LB['profs']))], np.int64)
+KEYSEL = os.environ.get('KEYSEL', 'spread')
+if KEYSEL == 'spread':     # per cover: Fb5 odd points spread out (greedy farthest point, chordal): fewer near-degenerate 5-subsets
+    KPOS = np.empty((LB['N'], Fb5), np.int8); scan7_nb.spread_pos(LB['Z'], LB['INF'], Fb5, KPOS)
+else:
+    KPOS = np.array([rr_pos(LB['oddy'][LB['off'][pi]]) for pi in range(len(LB['profs']))], np.int8)[np.asarray(LB['pid'])]
 PIDB = np.asarray(LB['pid']).astype(np.int32)
 IMAP = np.array([t[2] for t in TPV], np.int64); INVM = np.argsort(IMAP, axis=1); QCLS = np.array([t[3] for t in TPV], np.int64)
 SUBB = np.array([t[4] for t in TPV], np.int64); SCODE = np.array([t[5] for t in TPV], np.int64)
@@ -465,7 +470,7 @@ def run_blocks(tag, fn):
 G7 = float(os.environ.get('G', '1e-3')); DUMP = os.environ.get('DUMPCAND') == '1'
 CAND = []
 DEL7 = float(os.environ.get('DELTA7', '1e-12'))
-if DUMPC: np.savez(f'{OUT}_meta.npz', TREP=TREP, TTPV=TTPV, KPP=KPP, PIDB=PIDB, IMAP=IMAP, QCLS=QCLS)
+if DUMPC: np.savez(f'{OUT}_meta.npz', TREP=TREP, TTPV=TTPV, KPOS=KPOS, SUB5=SUB5, IMAP=IMAP, QCLS=QCLS)
 TI7 = np.array([float(x) for x in os.environ.get('TIERS7', '0,1e5,1e6,1e7,1e8,inf').split(',')])
 def _xbounds(k):
     """slice boundaries of K_0: quantiles of a sample (K_0 is far from uniform on [-5, 5])"""
@@ -473,8 +478,8 @@ def _xbounds(k):
     rng_ = np.random.default_rng(7); rows = rng_.choice(LB['N'], min(LB['N'], 3000), replace=False)
     P0 = np.empty(5, np.complex128); P1 = np.empty(5, np.complex128); K = np.empty(4); xs = []
     for r in rows:
-        for sb in range(KPP.shape[1]):
-            scan7_nb._tkey(LB['Z'], LB['INF'], int(r), KPP, PIDB, sb, P0, P1, K); xs.append(K[0])
+        for sb in range(SUB5.shape[0]):
+            scan7_nb._tkey(LB['Z'], LB['INF'], int(r), KPOS, SUB5, sb, P0, P1, K); xs.append(K[0])
     q = np.quantile(np.array(xs), np.arange(1, k) / k)
     return np.concatenate([[-5.5], q, [5.5]])
 XB = _xbounds(XSPLIT)
@@ -487,20 +492,20 @@ def build7(h, k):
     BASE = np.concatenate([[0], np.cumsum(NXK * NYK)]).astype(np.int64); NC = int(BASE[-1])
     Z, INF = LB['Z'], LB['INF']
     if os.environ.get('PBUILD', '1') == '1':      # parallel (numba threads): keys once per pass, then one sort by (cell, ck)
-        nin = np.zeros(LB['N'], np.int64); scan7_nb.pcount7(Z, INF, LB['N'], KPP, PIDB, xlo, xhi, nin)
+        nin = np.zeros(LB['N'], np.int64); scan7_nb.pcount7(Z, INF, LB['N'], KPOS, SUB5, xlo, xhi, nin)
         start = np.zeros(LB['N'] + 1, np.int64); np.cumsum(nin, out=start[1:]); nin = None; E = int(start[-1])
         cell = np.empty(E, np.int64); erep = np.empty(E, np.int32); esb = np.empty(E, np.int8); ek = np.empty((E, 4), np.float64)
         es = np.empty(E, np.float32); ck = np.empty(E, np.float64)
-        scan7_nb.pfill7(Z, INF, LB['N'], KPP, PIDB, xlo, xhi, TI7, GK, NYK, BASE, start, cell, erep, esb, ek, es, ck); start = None
+        scan7_nb.pfill7(Z, INF, LB['N'], KPOS, SUB5, xlo, xhi, TI7, GK, NYK, BASE, start, cell, erep, esb, ek, es, ck); start = None
         o = np.lexsort((ck, cell))
         cell = cell[o]; erep = erep[o]; esb = esb[o]; ek = ek[o]; es = es[o]; ck = ck[o]; o = None
         off = np.zeros(NC + 1, np.int64); off[1:] = np.searchsorted(cell, np.arange(1, NC + 1)); cell = None
     else:
         cnt = np.zeros(NC, np.int64)
-        scan7_nb.count7(Z, INF, LB['N'], KPP, PIDB, xlo, xhi, TI7, GK, NYK, BASE, cnt)
+        scan7_nb.count7(Z, INF, LB['N'], KPOS, SUB5, xlo, xhi, TI7, GK, NYK, BASE, cnt)
         off = np.zeros(NC + 1, np.int64); np.cumsum(cnt, out=off[1:]); E = int(off[-1]); cnt = None
         erep = np.empty(E, np.int32); esb = np.empty(E, np.int8); ek = np.empty((E, 4), np.float64); es = np.empty(E, np.float32)
-        scan7_nb.fill7(Z, INF, LB['N'], KPP, PIDB, xlo, xhi, TI7, GK, NYK, BASE, off, np.zeros(NC, np.int64), erep, esb, ek, es)
+        scan7_nb.fill7(Z, INF, LB['N'], KPOS, SUB5, xlo, xhi, TI7, GK, NYK, BASE, off, np.zeros(NC, np.int64), erep, esb, ek, es)
         ck = np.empty(E, np.float64); scan7_nb.sort_cells(off, erep, esb, ek, es, ck, BASE, GK, NYK)
     print(f'  nan keys {int(np.isnan(ek).any(1).sum())}, nan Phi {int(np.isnan(es).sum())}, inf Phi {int(np.isinf(es).sum())}', flush=True)
     if os.environ.get('DUMPTB'): np.savez(os.environ['DUMPTB'], ek=ek, es=es, erep=erep, esb=esb, off=off, BASE=BASE)
@@ -514,14 +519,14 @@ def run_scan7(fi, Tb, cap=200000):
     while True:
         _fn = scan7_nb.scan7.py_func if os.environ.get('PYF') else scan7_nb.scan7
         r, rep, sb, p, cnt, full = _fn(f0, f1, subA5[:int(os.environ.get('PYF', '0')) or None], perm120, TOL, DEL7, 4 * EPS, MAXFAIL, Tb['off'], Tb['erep'], Tb['esb'], Tb['ek'], Tb['es'], Tb['ck'],
-                                                 Tb['xlo'], Tb['xhi'], Tb['TM'], Tb['GK'], Tb['NXK'], Tb['NYK'], Tb['BASE'], LB['Z'], LB['INF'], KPP, PIDB, CLSB, myc, cap, int(os.environ.get('K2MIN', '8')))
+                                                 Tb['xlo'], Tb['xhi'], Tb['TM'], Tb['GK'], Tb['NXK'], Tb['NYK'], Tb['BASE'], LB['Z'], LB['INF'], KPOS, SUB5, CLSB, myc, cap, int(os.environ.get('K2MIN', '8')))
         if not full: break
         cap *= 4
     for _k, _n in zip(('raw', 'win', 'key_exact', 'order_ok', 'bad_key', 'exact_wide'), cnt[:6]): stats[_k] = stats.get(_k, 0) + int(_n)
     stats['surv'] += len(r); stats['t_scan'] = stats.get('t_scan', 0.0) + time.time() - _t0; _t0 = time.time()
     if not len(r): return
     pts = LA['odd'][fi]
-    S5 = subA5[r]; Y5 = KPP[PIDB[rep][:, None], sb[:, None], perm120[p]]                          # f positions, rep positions (5 each)
+    S5 = subA5[r]; Y5 = KPOS[rep[:, None], SUB5[sb[:, None], perm120[p]]].astype(np.int64)                          # f positions, rep positions (5 each)
     Q = LB['odd'][rep.astype(np.int64)]
     M = mob3v(pts[S5[:, :3]], Q[np.arange(len(rep))[:, None], Y5[:, :3]])
     # one candidate per (table cover, point correspondence): the map found from different 5-subsets differs in the

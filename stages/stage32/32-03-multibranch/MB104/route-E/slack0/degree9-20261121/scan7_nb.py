@@ -23,7 +23,7 @@ Key points of a table cover: Fb5 odd points taken round-robin over the branch po
 then the second, ...), so that they do not all lie in one fibre: a fibre that is one orbit of an automorphism group of
 the cover is rigid up to Moebius maps (e.g. six points with cyclic symmetry), and many different covers then share the
 same keys.  Any fixed choice per cover is valid (>= 5 of any Fb5 points are matched).  KP is indexed by cover
-(KP[PID[cover]], one array per profile).
+(KP[cover] = its Fb5 key positions, PID = the C(Fb5, 5) subsets of range(Fb5): names kept from the per-profile version).
 
 Table: entries (cover, subset) of one slice of K_0, in a dense 2-D grid of cells (G x G in (K_0, K_1)), CSR layout,
 each with its K (float64, as computed: the tests are exact) and Phi (float32, used as Phi * (1 + 1e-6)); the
@@ -86,7 +86,7 @@ def _win5(SX, SY, DEL, EPS4):
 @njit(cache=True)
 def _tkey(Z, INF, rep, KP, PID, sb, P0, P1, K):
     for k in range(5):
-        i = KP[PID[rep], sb, k]; P0[k], P1[k] = _hp(Z[rep, i], INF[rep, i])
+        i = KP[rep, PID[sb, k]]; P0[k], P1[k] = _hp(Z[rep, i], INF[rep, i])
     return _key5(P0, P1, K)
 
 @njit(cache=True, inline='always')
@@ -101,7 +101,7 @@ def count7(Z, INF, NT, KP, PID, xlo, xhi, TI, GK, NYK, BASE, cnt):
     [TI[k], TI[k+1]), cell = BASE[k] + cx * NYK[k] + cy on the grid of width GK[k]"""
     P0 = np.empty(5, np.complex128); P1 = np.empty(5, np.complex128); K = np.empty(4)
     for r in range(NT):
-        for sb in range(KP.shape[1]):
+        for sb in range(PID.shape[0]):
             Phi = _tkey(Z, INF, r, KP, PID, sb, P0, P1, K)
             if K[0] < xlo or K[0] >= xhi: continue
             cnt[_cell(K, Phi, xlo, TI, GK, NYK, BASE)] += 1
@@ -110,7 +110,7 @@ def count7(Z, INF, NT, KP, PID, xlo, xhi, TI, GK, NYK, BASE, cnt):
 def fill7(Z, INF, NT, KP, PID, xlo, xhi, TI, GK, NYK, BASE, off, pos, erep, esb, ek, es):
     P0 = np.empty(5, np.complex128); P1 = np.empty(5, np.complex128); K = np.empty(4)
     for r in range(NT):
-        for sb in range(KP.shape[1]):
+        for sb in range(PID.shape[0]):
             Phi = _tkey(Z, INF, r, KP, PID, sb, P0, P1, K)
             if K[0] < xlo or K[0] >= xhi: continue
             c = _cell(K, Phi, xlo, TI, GK, NYK, BASE)
@@ -133,7 +133,7 @@ def pcount7(Z, INF, NT, KP, PID, xlo, xhi, nin):
     """parallel build, pass 1: nin[r] = number of subsets of cover r with K_0 in [xlo, xhi)"""
     for r in prange(NT):
         P0 = np.empty(5, np.complex128); P1 = np.empty(5, np.complex128); K = np.empty(4); m = 0
-        for sb in range(KP.shape[1]):
+        for sb in range(PID.shape[0]):
             _tkey(Z, INF, r, KP, PID, sb, P0, P1, K)
             if K[0] >= xlo and K[0] < xhi: m += 1
         nin[r] = m
@@ -143,7 +143,7 @@ def pfill7(Z, INF, NT, KP, PID, xlo, xhi, TI, GK, NYK, BASE, start, cell, erep, 
     """pass 2: entries of cover r at start[r]..; cell index and bisection key ck (as sort_cells) per entry"""
     for r in prange(NT):
         P0 = np.empty(5, np.complex128); P1 = np.empty(5, np.complex128); K = np.empty(4); e = start[r]
-        for sb in range(KP.shape[1]):
+        for sb in range(PID.shape[0]):
             Phi = _tkey(Z, INF, r, KP, PID, sb, P0, P1, K)
             if not (K[0] >= xlo and K[0] < xhi): continue
             k = 0
@@ -238,7 +238,7 @@ def scan7(f0, f1, subs, perm120, TOL, DEL, EPS4, maxfail, off, erep, esb, ek, es
                   cnt[1] += 1
                   sb = esb[e]
                   for k in range(5):
-                      i_ = KP[PID[rep], sb, k]; Q0[k], Q1[k] = _hp(Z[rep, i_], INF[rep, i_])
+                      i_ = KP[rep, PID[sb, k]]; Q0[k], Q1[k] = _hp(Z[rep, i_], INF[rep, i_])
                   SY = _key5s(Q0, Q1, KY, SVY)
                   w = _win5(SX, SY, DEL, EPS4)
                   if (abs(KY[0] - KX[0]) > w or abs(KY[1] - KX[1]) > w or abs(KY[2] - KX[2]) > w or abs(KY[3] - KX[3]) > w): continue
@@ -259,7 +259,7 @@ def scan7(f0, f1, subs, perm120, TOL, DEL, EPS4, maxfail, off, erep, esb, ek, es
                       if not loaded:
                           for j in range(nB): q0[j], q1[j] = _hp(Z[rep, j], INF[rep, j])
                           loaded = True
-                      for k in range(5): y[k] = KP[PID[rep], sb, perm120[p, k]]
+                      for k in range(5): y[k] = KP[rep, PID[sb, perm120[p, k]]]
                       ok = True
                       for h in range(2):
                           x0, x1, x2 = _cross4(f0[s[h]], f1[s[h]], f0[s[h + 1]], f1[s[h + 1]], f0[s[h + 2]], f1[s[h + 2]], f0[s[h + 3]], f1[s[h + 3]])
@@ -297,3 +297,29 @@ def scan7(f0, f1, subs, perm120, TOL, DEL, EPS4, maxfail, off, erep, esb, ek, es
                               if no >= cap: return o_r[:0], o_rep[:0], o_sb[:0], o_p[:0], cnt, True
                               o_r[no] = r; o_rep[no] = rep; o_sb[no] = sb; o_p[no] = p; no += 1
     return o_r[:no], o_rep[:no], o_sb[:no], o_p[:no], cnt, False
+
+@njit(cache=True, parallel=True)
+def spread_pos(Z, INF, F, out):
+    """out[r] = F positions of cover r chosen greedily: the pair of largest chordal distance, then each time the point
+    farthest (largest minimum chordal distance) from those chosen (ties: smallest index)"""
+    N, n = Z.shape
+    for r in prange(N):
+        P0 = np.empty(n, np.complex128); P1 = np.empty(n, np.complex128)
+        for k in range(n): P0[k], P1[k] = _hp(Z[r, k], INF[r, k])
+        D = np.empty((n, n))
+        for i in range(n):
+            for j in range(n): D[i, j] = abs(P0[i] * P1[j] - P1[i] * P0[j])
+        bi = 0; bj = 1; bd = -1.0
+        for i in range(n):
+            for j in range(i + 1, n):
+                if D[i, j] > bd: bd = D[i, j]; bi = i; bj = j
+        used = np.zeros(n, np.bool_); used[bi] = True; used[bj] = True
+        md = np.empty(n)
+        for k in range(n): md[k] = min(D[k, bi], D[k, bj])
+        out[r, 0] = bi; out[r, 1] = bj
+        for m in range(2, F):
+            best = -1; bv = -1.0
+            for k in range(n):
+                if not used[k] and md[k] > bv: bv = md[k]; best = k
+            used[best] = True; out[r, m] = best
+            for k in range(n): md[k] = min(md[k], D[k, best])
