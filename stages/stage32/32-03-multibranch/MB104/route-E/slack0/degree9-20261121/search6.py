@@ -311,7 +311,7 @@ def kappa(S):
 
 stats = {'raw': 0, 'win': 0, 'cand_nb': 0, 'surv': 0, 'cand': 0, 'dup_skipped': 0, 'amb': 0, 'skip': 0,
          'acc_max': 0.0, 'rej_min': 1.0, 'cr_acc_max': 0.0, 'self_win': 0, 'self_surv': 0}
-hist = {}; hits = []; mids = []
+hist = {}; hits = []; mids = []; cands = []; DUMPC = os.environ.get('DUMPCAND') == '1'
 def verify(fi, pts, lab, subs, R, QX, YQ, qinfo, kind, qarr):
     """search4's numpy verification of the pre-filter survivors of one query f.  QX: table cover per survivor (or
     U index for the self part), YQ: matched q positions (4), qinfo(qx) -> (q points (nB,2), q class labels, hp-list fn)."""
@@ -354,6 +354,7 @@ def verify(fi, pts, lab, subs, R, QX, YQ, qinfo, kind, qarr):
         assert len(set(ii)) == len(ii) and len(set(jj)) == len(jj)
         j = int((lab[ii] == ql[jj]).sum()); h = len(ii) - j; om = nA + nB - 2 * j - h
         hist[om] = hist.get(om, 0) + 1
+        if DUMPC: cands.append((int(fi), kind, int(qx), om, j, h, M[u].copy()))
         if om > 4:
             # margin check (E24 3 midcheck): accept every distance below MIDTOL instead of 1e-20 (60 digits) / 1e-11;
             # the one-to-one bound nA + nB - 2 min(#rows, #columns) is a lower bound of |Omega| for that acceptance.
@@ -412,7 +413,7 @@ CHILD = None
 BLK = int(os.environ.get('BLK', '2000'))          # queries per result block; every block is saved (resume after a restart)
 NBLK = (len(QUERY) + BLK - 1) // BLK
 def reset_stats():
-    hits.clear(); hist.clear(); mids.clear()
+    hits.clear(); hist.clear(); mids.clear(); cands.clear()
     for k in list(stats):
         if k.startswith(('hp_', 'true_')): del stats[k]
         elif k == 'rej_min': stats[k] = 1.0
@@ -430,7 +431,7 @@ def run_blocks(tag, fn):
             reset_stats(); _t = time.time()
             for fi in QUERY[k * BLK:(k + 1) * BLK]: fn(int(fi))
             out = f'{OUT}_{tag}_b{k}.pkl'
-            pickle.dump({'hits': hits, 'hist': hist, 'stats': stats, 'mids': mids, 'time': time.time() - _t}, open(out + '.tmp', 'wb'))
+            pickle.dump({'hits': hits, 'hist': hist, 'stats': stats, 'mids': mids, 'cands': cands, 'time': time.time() - _t}, open(out + '.tmp', 'wb'))
             os.replace(out + '.tmp', out)
         if JOBS > 1: os._exit(0)
         break
