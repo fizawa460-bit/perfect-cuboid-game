@@ -92,7 +92,20 @@ class RowView:
     def __init__(self, parts, off): self.parts, self.off = parts, off
     def __getitem__(self, r):
         pi = int(np.searchsorted(self.off, r, 'right') - 1); return np.asarray(self.parts[pi][r - self.off[pi]])
+def loadq(files, n):
+    """query-only files of export_q9.py: every row is a query; no 60-digit points, p, q, critical points"""
+    out = {'n': n, 'profs': [], 'tags': [], 'hp': None, 'pq': None, 'crit': None}; Z = []; INF = []; oy = []; orig = []; pid = []; aut = []; off = [0]
+    for pi, fn in enumerate(files):
+        d = np.load(fn); prof = tuple(int(c) for c in d['prof']); out['profs'].append(prof); out['tags'].append(''.join(map(str, prof)))
+        Z.append(d['Z']); INF.append(d['INF']); k = len(d['orig']); orig.append(d['orig']); aut.append(d['aut'])
+        oy.append(np.broadcast_to(d['oddy'], (k, len(d['oddy'])))); pid.append(np.full(k, pi, np.int32)); off.append(off[-1] + k)
+    out['Z'] = np.concatenate(Z); out['INF'] = np.concatenate(INF); out['oddy'] = np.concatenate(oy).astype(np.int8)
+    out['orig'] = np.concatenate(orig); out['aut'] = np.concatenate(aut); out['pid'] = np.concatenate(pid); out['off'] = np.array(off)
+    out['N'] = off[-1]; out['odd'] = OddView(out['Z'], out['INF']); out['GA'] = np.arange(out['N']); out['GB'] = np.arange(out['N'])
+    return out
 def load(D, n):
+    fq = sorted(glob.glob(f'{D}/qry_{n}_*.npz'))
+    if fq: return loadq(fq, n)
     files7 = sorted(glob.glob(f'{D}/L7_{n}_*[0-9].pkl'))
     if files7: return load7(files7, n)
     files = sorted(glob.glob(f'{D}/L5_{n}_*.pkl')); assert files, (D, n)
@@ -167,7 +180,14 @@ QUERY = np.arange(LA['N']) if ALLQ else np.nonzero(GA == np.arange(LA['N']))[0]
 if QMAX: QUERY = QUERY[:QMAX]
 if os.environ.get('QSHARD'):          # k/K: this run takes every K-th query starting at k (several machines)
     _k, _K = (int(x) for x in os.environ['QSHARD'].split('/')); QUERY = QUERY[_k::_K]
-CLSB = LB['GB'] if SAME else np.full(LB['N'], -2, np.int64)
+QMODE = LA.get('hp', 0) is None
+CLSB = LB['GB'] if (SAME or QMODE) else np.full(LB['N'], -2, np.int64)
+if QMODE:      # a query of a profile that the table also holds: its own Aut(B) class is left to the self part (SELFONLY run)
+    QMYC = np.full(LA['N'], -1, np.int64); _bp = {p: i for i, p in enumerate(LB['profs'])}
+    for pi, p in enumerate(LA['profs']):
+        if p in _bp:
+            a_, b_ = LA['off'][pi], LA['off'][pi + 1]; QMYC[a_:b_] = CLSB[LB['off'][_bp[p]] + LA['orig'][a_:b_]]
+    print(f'query-only side: {LA["N"]} queries, {int((QMYC >= 0).sum())} of profiles in the table', flush=True)
 print(f'queries: {len(QUERY)} ({"all covers" if ALLQ else "one per Aut(B)x<conj> orbit"}); Aut(B) classes of the table side: '
       f'{len(np.unique(CLSB)) if SAME else "-"}', flush=True)
 
@@ -341,7 +361,8 @@ def kappa(S):
 
 stats = {'raw': 0, 'win': 0, 'cand_nb': 0, 'surv': 0, 'cand': 0, 'dup_skipped': 0, 'amb': 0, 'skip': 0,
          'acc_max': 0.0, 'rej_min': 1.0, 'cr_acc_max': 0.0, 'self_win': 0, 'self_surv': 0}
-hist = {}; hits = []; mids = []; cands = []; DUMPC = os.environ.get('DUMPCAND') == '1'
+AMBNEAR = float(os.environ.get('AMBNEAR', '1e-8'))
+hist = {}; hits = []; mids = []; cands = []; deferred = []; DUMPC = os.environ.get('DUMPCAND') == '1'
 def verify(fi, pts, lab, subs, R, QX, YQ, qinfo, kind, qarr):
     """search4's numpy verification of the pre-filter survivors of one query f.  QX: table cover per survivor (or
     U index for the self part), YQ: matched q positions (4), qinfo(qx) -> (q points (nB,2), q class labels, hp-list fn)."""
@@ -368,7 +389,19 @@ def verify(fi, pts, lab, subs, R, QX, YQ, qinfo, kind, qarr):
     for u in np.nonzero(~skip)[0]:
         qx = QX[u]; yq = YQ[u]; s = subs[R[u]]; Du = D[u]; qp, ql, qhp = qinfo(qx)
         if amb[u]:
-            stats['amb'] += 1; xs3, ys3 = best_triple(Du, pts, s, yq)
+            stats['amb'] += 1
+            # lower bound of |Omega| if every pair within chordal AMBNEAR (default 1e-8) in double precision were accepted
+            # (the 60-digit test accepts < 1e-20; double distances of true pairs are <= 2e-12 in every test, so a pair
+            # with double distance >= 1e-8 is not accepted): Omega = nA + nB - 2j - h >= nA + nB - jmax - (j + h)max.  Above 4: no hit possible.
+            near = Du < AMBNEAR; lm = near & (lab[:, None] == ql[None, :])
+            jmax = min(int(lm.any(1).sum()), int(lm.any(0).sum())); mmax = min(int(near.any(1).sum()), int(near.any(0).sum()))
+            if nA + nB - jmax - mmax > 4:
+                stats['amb_lb_skip'] = stats.get('amb_lb_skip', 0) + 1; k_ = ('lb', nA + nB - jmax - mmax); hist[k_] = hist.get(k_, 0) + 1
+                continue
+            if LA['hp'] is None:      # query from another machine: its 60-digit points are there (resolve later)
+                deferred.append((int(fi), str(LA['tags'][LA['pid'][fi]]), int(LA['orig'][fi]), kind, int(qx), M[u].copy(), Du.copy(), s.copy(), yq.copy()))
+                stats['deferred'] = stats.get('deferred', 0) + 1; continue
+            xs3, ys3 = best_triple(Du, pts, s, yq)
             Du = hpdist_pts(hplist(LA, fi), qhp(), xs3, ys3, Du)
             if (Du < 1e-20).any(): stats['hp_acc_max'] = max(stats.get('hp_acc_max', 0), float(Du[Du < 1e-20].max()))
             stats['hp_rej_min'] = min(stats.get('hp_rej_min', 1), float(Du[Du >= 1e-20].min()))
@@ -443,7 +476,7 @@ CHILD = None
 BLK = int(os.environ.get('BLK', '2000'))          # queries per result block; every block is saved (resume after a restart)
 NBLK = (len(QUERY) + BLK - 1) // BLK
 def reset_stats():
-    hits.clear(); hist.clear(); mids.clear(); cands.clear()
+    hits.clear(); hist.clear(); mids.clear(); cands.clear(); deferred.clear()
     for k in list(stats):
         if k.startswith(('hp_', 'true_')): del stats[k]
         elif k == 'rej_min': stats[k] = 1.0
@@ -461,7 +494,7 @@ def run_blocks(tag, fn):
             reset_stats(); _t = time.time()
             for fi in QUERY[k * BLK:(k + 1) * BLK]: fn(int(fi))
             out = f'{OUT}_{tag}_b{k}.pkl'
-            pickle.dump({'hits': hits, 'hist': hist, 'stats': stats, 'mids': mids, 'cands': cands, 'time': time.time() - _t}, open(out + '.tmp', 'wb'))
+            pickle.dump({'hits': hits, 'hist': hist, 'stats': stats, 'mids': mids, 'cands': cands, 'deferred': deferred, 'time': time.time() - _t}, open(out + '.tmp', 'wb'))
             os.replace(out + '.tmp', out)
         if JOBS > 1: os._exit(0)
         break
@@ -515,7 +548,7 @@ def build7(h, k):
         if b_ > a_: TM[i] = float(es[a_:b_].max()) * 1.001 + 1
     return dict(off=off, erep=erep, esb=esb, ek=ek, es=es, ck=ck, xlo=xlo, xhi=xhi, TM=TM, GK=GK, NXK=NXK, NYK=NYK, BASE=BASE, E=E, ntier=ntier)
 def run_scan7(fi, Tb, cap=200000):
-    f0, f1, fl = fpts(fi); myc = int(CLSB[fi]) if SAME else -1; _t0 = time.time()
+    f0, f1, fl = fpts(fi); myc = int(QMYC[fi]) if QMODE else (int(CLSB[fi]) if SAME else -1); _t0 = time.time()
     while True:
         _fn = scan7_nb.scan7.py_func if os.environ.get('PYF') else scan7_nb.scan7
         r, rep, sb, p, cnt, full = _fn(f0, f1, subA5[:int(os.environ.get('PYF', '0')) or None], perm120, TOL, DEL7, 4 * EPS, MAXFAIL, Tb['off'], Tb['erep'], Tb['esb'], Tb['ek'], Tb['es'], Tb['ck'],
@@ -549,7 +582,8 @@ def run_scan7(fi, Tb, cap=200000):
     nh = len(hits)
     verify(fi, pts, fl, S4, np.arange(len(QX)), QX, YQ, qinfo, 'T', lambda X: LB['odd'][TREP[X][:, None], IMAP[TTPV[X]]])
     stats['t_verify'] = stats.get('t_verify', 0.0) + time.time() - _t0
-for hx in range(XSPLIT if not MERGEONLY else 0):
+SELFONLY = os.environ.get('SELFONLY') == '1'
+for hx in range(XSPLIT if not (MERGEONLY or SELFONLY) else 0):
     tag = f'code7h{hx}'
     if all(os.path.exists(f'{OUT}_{tag}_b{k}.pkl') for k in range(NBLK)):
         print(f'{tag}: results exist, skipped', flush=True); continue
@@ -564,8 +598,13 @@ if SAME and not NOSELF and not MERGEONLY:
 # ---------------- merge the partial results, birationality (search4's double fibre test + automatic bircheck40)
 parts = sorted(glob.glob(f'{OUT}_code7h*_b*.pkl')) + sorted(glob.glob(f'{OUT}_self_b*.pkl'))
 H = []; HIST = {}; ST = {}; MIDS = []
+_seenH = set()
 for fn in parts:
-    d = pickle.load(open(fn, 'rb')); H += d['hits']; MIDS.extend(d.get('mids', []))
+    d = pickle.load(open(fn, 'rb')); MIDS.extend(d.get('mids', []))
+    for h_ in d['hits']:      # the same (f, q, map) can come from several K_0 slices: keep one (map to 4 digits)
+        Mf_ = np.asarray(h_[3]).ravel(); Mn_ = Mf_ / Mf_[np.argmax(np.abs(Mf_))]
+        k_ = (h_[0], h_[1], h_[2], tuple(np.round(Mn_.real, 4)), tuple(np.round(Mn_.imag, 4)))
+        if k_ not in _seenH: _seenH.add(k_); H.append(h_)
     for k, v in d['hist'].items(): HIST[k] = HIST.get(k, 0) + v
     for k, v in d['stats'].items():
         if k in ('acc_max', 'cr_acc_max') or k.endswith('_max'): ST[k] = max(ST.get(k, 0.0), v)
@@ -573,7 +612,7 @@ for fn in parts:
         else: ST[k] = ST.get(k, 0) + v
     ST['core_s'] = ST.get('core_s', 0) + d['time']
 print(f'margin check: candidates with |Omega| > 4, a rejected distance below {MIDTOL:g}, and one-to-one bound <= 4 if those counted: {len(MIDS)}', flush=True)
-print('hist (distinct (f,q,M); q = table cover or U∘f)', dict(sorted(HIST.items(), key=lambda kv: (isinstance(kv[0], str), kv[0]))))
+print('hist (distinct (f,q,M); q = table cover or U∘f)', dict(sorted(HIST.items(), key=lambda kv: (not isinstance(kv[0], (int, np.integer)), str(kv[0]) if not isinstance(kv[0], (int, np.integer)) else '', kv[0] if isinstance(kv[0], (int, np.integer)) else 0))))
 print('stats', ST, flush=True)
 def coeffs(L, r, ui):
     n = L['n']; p, q = L['pq'][r][:n + 1], L['pq'][r][n + 1:]; Mu = AUT[ui][0]
@@ -594,6 +633,12 @@ def evalc(p, q, t):
     return np.stack([P, Qv], -1)
 import bircheck40
 nonbir = 0; bir = []; flags = []; HQ = []
+DEF = []
+for fn in parts: DEF.extend(pickle.load(open(fn, 'rb')).get('deferred', []))
+print(f'deferred (query 60-digit points on the owner machine): {len(DEF)}', flush=True)
+if QMODE:      # p, q of the queries are on their owner machines: the birationality stage is done there
+    pickle.dump({'hits': [(int(LA['pid'][h[0]]), LA['tags'][LA['pid'][h[0]]], int(LA['orig'][h[0]])) + tuple(h[1:]) for h in H], 'deferred': DEF, 'hist': HIST, 'stats': ST}, open(f'{OUT}.pkl', 'wb'))
+    print(f'|Omega|<=4 hits: {len(H)} (birationality on the owner machines)  deferred: {len(DEF)}', flush=True); print('done', f'{time.time() - t0:.0f}s', flush=True); sys.exit(0)
 for fi, kind, qx, M, om, j, h in H:
     p, q = LA['pq'][fi][:a + 1], LA['pq'][fi][a + 1:]
     if kind == 'T': r, ui, Lq = int(TREP[qx]), int(TPV[TTPV[qx]][1]), LB
