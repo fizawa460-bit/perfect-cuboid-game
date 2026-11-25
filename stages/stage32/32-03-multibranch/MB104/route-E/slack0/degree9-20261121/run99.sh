@@ -7,7 +7,8 @@
 #  3. SELFONLY run on the local L7 (the 24 U o f of each local query), then the table run (queries qall, table local)
 #     (both resume from their saved blocks: rerun the same command after a stop)
 #  4. copies logs and the small result files to /mnt/project-files/deg9gen/q99/<name>/
-# env: XSPLIT (default: table entries / 5e7, at least 1), JOBS (4).
+# env: XSPLIT (default: table entries / 5e7, at least 1), JOBS (4), QSKIP (default from qskip9.py NAME: query profiles
+#   that another machine runs against this one; QSKIP= runs all).
 set -u
 L7=$1; W=$2; NAME=$3; shift 3; MORE="$@"
 HERE=$(cd "$(dirname "$0")" && pwd); SH=/mnt/project-files/deg9gen/qry
@@ -29,7 +30,8 @@ import pickle, glob; print(sum(pickle.load(open(f, 'rb'))['N'] for f in glob.glo
 XS=${XSPLIT:-$(( NT * 56 / 50000000 + 1 ))}; echo "table covers $NT, XSPLIT $XS"
 cd "$W"
 SELFONLY=1 MIXED=1 JOBS=${JOBS:-4} OUT=self99_$NAME python3 $HERE/search7.py 9 9 loc loc >> self99.log 2>&1; e1=$?
-MIXED=1 JOBS=${JOBS:-4} XSPLIT=$XS OUT=res99_$NAME python3 $HERE/search7.py 9 9 qall loc >> s99.log 2>&1; e2=$?
+QS=${QSKIP-$(python3 $HERE/qskip9.py $NAME loc)}; echo "QSKIP $QS"
+QSKIP=$QS MIXED=1 JOBS=${JOBS:-4} XSPLIT=$XS OUT=res99_$NAME python3 $HERE/search7.py 9 9 qall loc >> s99.log 2>&1; e2=$?
 mkdir -p /mnt/project-files/deg9gen/q99/$NAME
 grep -av Warn self99.log > /mnt/project-files/deg9gen/q99/$NAME/self99.log; grep -av Warn s99.log > /mnt/project-files/deg9gen/q99/$NAME/s99.log
 for f in self99_$NAME.pkl res99_$NAME.pkl; do [ -f "$f" ] && [ $(stat -c %s "$f") -lt 50000000 ] && cp "$f" /mnt/project-files/deg9gen/q99/$NAME/; done

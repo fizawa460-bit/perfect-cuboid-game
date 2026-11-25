@@ -473,6 +473,12 @@ def self_part(fi, cap=200000):
 # ---------------- main: one label code at a time, JOBS workers forked after each table build
 TT = {}
 CHILD = None
+# QSKIP=tag,tag (query-only side): queries of these profiles are not run here (another machine runs them against
+# this machine's profiles, see qskip9.py); block numbering is unchanged, so blocks saved before stay valid
+SKIPQ = None
+if os.environ.get('QSKIP') and QMODE:
+    _sk = set(os.environ['QSKIP'].split(',')); SKIPQ = np.array([LA['tags'][p] in _sk for p in LA['pid']])
+    print(f'QSKIP: {len(_sk)} profiles, {int(SKIPQ[QUERY].sum())} of {len(QUERY)} queries skipped here', flush=True)
 BLK = int(os.environ.get('BLK', '2000'))          # queries per result block; every block is saved (resume after a restart)
 NBLK = (len(QUERY) + BLK - 1) // BLK
 def reset_stats():
@@ -492,7 +498,9 @@ def run_blocks(tag, fn):
         if pid: kids.append(pid); continue
         for k in todo[w::JOBS]:
             reset_stats(); _t = time.time()
-            for fi in QUERY[k * BLK:(k + 1) * BLK]: fn(int(fi))
+            for fi in QUERY[k * BLK:(k + 1) * BLK]:
+                if SKIPQ is not None and SKIPQ[fi]: stats['qskip'] = stats.get('qskip', 0) + 1; continue
+                fn(int(fi))
             out = f'{OUT}_{tag}_b{k}.pkl'
             pickle.dump({'hits': hits, 'hist': hist, 'stats': stats, 'mids': mids, 'cands': cands, 'deferred': deferred, 'time': time.time() - _t}, open(out + '.tmp', 'wb'))
             os.replace(out + '.tmp', out)
