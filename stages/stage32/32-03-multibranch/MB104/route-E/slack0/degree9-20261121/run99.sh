@@ -29,7 +29,7 @@ NT=$(python3 -c "
 import pickle, glob; print(sum(pickle.load(open(f, 'rb'))['N'] for f in glob.glob('$W/loc/L7_9_*[0-9].pkl')))")
 XS=${XSPLIT:-$(( NT * 56 / 50000000 + 1 ))}; echo "table covers $NT, XSPLIT $XS"
 cd "$W"
-SELFONLY=1 MIXED=1 JOBS=${JOBS:-4} OUT=self99_$NAME python3 $HERE/search7.py 9 9 loc loc >> self99.log 2>&1; e1=$?
+if [ -f self99_$NAME.pkl ]; then e1=0; else SELFONLY=1 MIXED=1 JOBS=${JOBS:-4} OUT=self99_$NAME python3 $HERE/search7.py 9 9 loc loc >> self99.log 2>&1; e1=$?; fi   # done once: skip the merge and 40-digit stage on reruns
 QS=${QSKIP-$(python3 $HERE/qskip9.py $NAME loc)}; echo "QSKIP $QS"
 QSKIP=$QS MIXED=1 JOBS=${JOBS:-4} XSPLIT=$XS OUT=res99_$NAME python3 $HERE/search7.py 9 9 qall loc >> s99.log 2>&1; e2=$?
 mkdir -p /mnt/project-files/deg9gen/q99/$NAME
