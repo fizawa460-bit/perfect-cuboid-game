@@ -39,9 +39,14 @@ python3 l36_step1_verify.py   # 要 sympy
 各条について「記録から独立に確かめられるか」「暗黙の仮定が紛れていないか」
 を判定すること。特に次の3点は重点的に疑うこと：
 
-1. **P3（Λ_true = Λ_known）**：双対錐 = {0} の Farkas 型証明書と
-   Fincke–Pohst 列挙は、本パッケージには検証スクリプトが同梱されて
-   いない（著者の作業ファイル側にのみ存在）。再現できない場合は
+1. **P3（Λ_true = Λ_known）**：第2ラウンド追補（2026-11-26）で、
+   双対錐 = {0} の Farkas 型証明書（verify/g3_farkas_B8.json /
+   g3_farkas_B16.json、入力 verify/g3_data_*.json の pair140 行列）と
+   その厳密検証スクリプト verify/g3_farkas_verify.py を同梱した
+   （再実行可能）。ただし pair140 行列自体の stage1 データからの
+   構成過程と、Fincke–Pohst 完全列挙の出力本体（各11MB）は同梱
+   されていない（列挙スクリプト verify/g3_enum3.py と被約格子
+   データ verify/g3_red_*.json のみ同梱）。再現できない部分は
    「未監査」として明示すること。
 2. **P5 / G2（Q_h の既約・被約性）**：生成点での次数勘定
    Σ m_X·[k(X):k(D)] = 4 が生成有限射でも成立すること、C の係数が1で
