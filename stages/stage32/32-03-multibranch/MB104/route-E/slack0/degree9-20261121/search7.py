@@ -178,6 +178,8 @@ print(f'(a,b)=({a},{b}) nA={nA} nB={nB} jmin={jmin} Fb={Fb}; degree {a}: {LA["N"
 GA = LA['GA']
 QUERY = np.arange(LA['N']) if ALLQ else np.nonzero(GA == np.arange(LA['N']))[0]
 if QMAX: QUERY = QUERY[:QMAX]
+if os.environ.get('QONLY'):         # positions in QUERY (debugging, timing a single heavy query)
+    QUERY = QUERY[[int(x) for x in os.environ['QONLY'].split(',')]]
 if os.environ.get('QSHARD'):          # k/K: this run takes every K-th query starting at k (several machines)
     _k, _K = (int(x) for x in os.environ['QSHARD'].split('/')); QUERY = QUERY[_k::_K]
 QMODE = LA.get('hp', 0) is None
@@ -492,6 +494,7 @@ def reset_stats():
         else: stats[k] = 0
 def run_blocks(tag, fn):
     """blocks of QUERY not yet saved as {OUT}_{tag}_b{k}.pkl, spread over JOBS forked workers"""
+    global SUBR
     todo = [k for k in range(NBLK) if not os.path.exists(f'{OUT}_{tag}_b{k}.pkl')]
     if not todo: return False
     kids = []
@@ -508,21 +511,29 @@ def run_blocks(tag, fn):
                 pf = f'{out}.p{j0 - k * BLK}'; j1 = min(j0 + SUBBLK, (k + 1) * BLK, len(QUERY))
                 if os.path.exists(pf): continue
                 stale = [c for c in glob.glob(pf + '.claim*') if c != f'{pf}.claim{RUNID}']
-                units = [(pf, j0, j1)] if not stale else [(f'{pf}.q{j}', j, j + 1) for j in range(j0, j1)]
-                for uf, u0, u1 in units:
+                units = [(pf, j0, j1, None)] if not stale else [(f'{pf}.q{j}', j, j + 1, None) for j in range(j0, j1)]
+                for uf0, u0, u1, _ in list(units):
+                    # a single query that an earlier run did not finish: its 5-subsets in NSUBCH chunks
+                    if stale and not os.path.exists(uf0) and [c for c in glob.glob(uf0 + '.claim*') if c != f'{uf0}.claim{RUNID}']:
+                        units.remove((uf0, u0, u1, None)); nS = len(subA5)
+                        units += [(f'{uf0}.s{c}', u0, u1, slice(c * nS // NSUBCH, (c + 1) * nS // NSUBCH)) for c in range(NSUBCH)]
+                for uf, u0, u1, sr in units:
                     if os.path.exists(uf): continue
                     try: os.close(os.open(f'{uf}.claim{RUNID}', os.O_CREAT | os.O_EXCL | os.O_WRONLY))
                     except FileExistsError: continue
-                    if stale: print(f'  slow part {pf}: query {u0} alone', flush=True)
-                    reset_stats(); _t = time.time()
+                    if stale: print(f'  slow part {pf}: query {u0} alone' + (f', 5-subsets {sr.start}:{sr.stop}' if sr else ''), flush=True)
+                    reset_stats(); _t = time.time(); SUBR = sr if sr is not None else slice(None)
                     for fi in QUERY[u0:u1]:
                         if SKIPQ is not None and SKIPQ[fi]: stats['qskip'] = stats.get('qskip', 0) + 1; continue
                         fn(int(fi))
+                    SUBR = slice(None)
                     pickle.dump({'hits': hits, 'hist': hist, 'stats': stats, 'mids': mids, 'cands': cands, 'deferred': deferred, 'time': time.time() - _t}, open(uf + '.tmp', 'wb'))
                     os.replace(uf + '.tmp', uf)
                     try: os.remove(f'{uf}.claim{RUNID}')
                     except OSError: pass
-                if stale: join_files(pf, [f'{pf}.q{j}' for j in range(j0, j1)])
+                if stale:
+                    for j in range(j0, j1): join_files(f'{pf}.q{j}', [f'{pf}.q{j}.s{c}' for c in range(NSUBCH)])
+                    join_files(pf, [f'{pf}.q{j}' for j in range(j0, j1)])
         if JOBS > 1: os._exit(0)
         break
     for pid in kids: os.waitpid(pid, 0)
@@ -549,7 +560,9 @@ def merge_parts(out, k):
     parts = []
     for j0 in range(k * BLK, min((k + 1) * BLK, len(QUERY)), SUBBLK):
         pf = f'{out}.p{j0 - k * BLK}'; j1 = min(j0 + SUBBLK, (k + 1) * BLK, len(QUERY))
-        if not os.path.exists(pf): join_files(pf, [f'{pf}.q{j}' for j in range(j0, j1)])
+        if not os.path.exists(pf):
+            for j in range(j0, j1): join_files(f'{pf}.q{j}', [f'{pf}.q{j}.s{c}' for c in range(NSUBCH)])
+            join_files(pf, [f'{pf}.q{j}' for j in range(j0, j1)])
         parts.append(pf)
     join_files(out, parts)
 G7 = float(os.environ.get('G', '1e-3')); DUMP = os.environ.get('DUMPCAND') == '1'
@@ -599,11 +612,13 @@ def build7(h, k):
         a_, b_ = off[BASE[i]], off[BASE[i + 1]]; ntier.append(int(b_ - a_))
         if b_ > a_: TM[i] = float(es[a_:b_].max()) * 1.001 + 1
     return dict(off=off, erep=erep, esb=esb, ek=ek, es=es, ck=ck, xlo=xlo, xhi=xhi, TM=TM, GK=GK, NXK=NXK, NYK=NYK, BASE=BASE, E=E, ntier=ntier)
+SUBR = slice(None)      # the query's 5-subsets scanned by run_scan7 (a slice of subA5: one heavy query split in chunks)
+NSUBCH = int(os.environ.get('NSUBCH', '32'))
 def run_scan7(fi, Tb, cap=200000):
     f0, f1, fl = fpts(fi); myc = int(QMYC[fi]) if QMODE else (int(CLSB[fi]) if SAME else -1); _t0 = time.time()
     while True:
         _fn = scan7_nb.scan7.py_func if os.environ.get('PYF') else scan7_nb.scan7
-        r, rep, sb, p, cnt, full = _fn(f0, f1, subA5[:int(os.environ.get('PYF', '0')) or None], perm120, TOL, DEL7, 4 * EPS, MAXFAIL, Tb['off'], Tb['erep'], Tb['esb'], Tb['ek'], Tb['es'], Tb['ck'],
+        r, rep, sb, p, cnt, full = _fn(f0, f1, subA5[SUBR][:int(os.environ.get('PYF', '0')) or None], perm120, TOL, DEL7, 4 * EPS, MAXFAIL, Tb['off'], Tb['erep'], Tb['esb'], Tb['ek'], Tb['es'], Tb['ck'],
                                                  Tb['xlo'], Tb['xhi'], Tb['TM'], Tb['GK'], Tb['NXK'], Tb['NYK'], Tb['BASE'], LB['Z'], LB['INF'], KPOS, SUB5, CLSB, myc, cap, int(os.environ.get('K2MIN', '8')))
         if not full: break
         cap *= 4
@@ -611,7 +626,7 @@ def run_scan7(fi, Tb, cap=200000):
     stats['surv'] += len(r); stats['t_scan'] = stats.get('t_scan', 0.0) + time.time() - _t0; _t0 = time.time()
     if not len(r): return
     pts = LA['odd'][fi]
-    S5 = subA5[r]; Y5 = KPOS[rep[:, None], SUB5[sb[:, None], perm120[p]]].astype(np.int64)                          # f positions, rep positions (5 each)
+    S5 = subA5[SUBR][r]; Y5 = KPOS[rep[:, None], SUB5[sb[:, None], perm120[p]]].astype(np.int64)                          # f positions, rep positions (5 each)
     Q = LB['odd'][rep.astype(np.int64)]
     M = mob3v(pts[S5[:, :3]], Q[np.arange(len(rep))[:, None], Y5[:, :3]])
     # one candidate per (table cover, point correspondence): the map found from different 5-subsets differs in the
@@ -636,6 +651,7 @@ def run_scan7(fi, Tb, cap=200000):
     stats['t_verify'] = stats.get('t_verify', 0.0) + time.time() - _t0
 SELFONLY = os.environ.get('SELFONLY') == '1'
 for hx in range(XSPLIT if not (MERGEONLY or SELFONLY) else 0):
+    if os.environ.get('HONLY') and hx != int(os.environ['HONLY']): continue
     tag = f'code7h{hx}'
     if all(os.path.exists(f'{OUT}_{tag}_b{k}.pkl') for k in range(NBLK)):
         print(f'{tag}: results exist, skipped', flush=True); continue
