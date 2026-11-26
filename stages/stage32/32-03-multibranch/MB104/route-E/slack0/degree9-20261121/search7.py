@@ -499,30 +499,37 @@ def run_blocks(tag, fn):
         pid = os.fork() if JOBS > 1 else 0
         if pid: kids.append(pid); continue
         # work unit = one part of SUBBLK queries of a block (a block can take hours): own blocks first, then any
-        # part nobody of this run has claimed; every part is saved, so a stop loses at most one part per worker
+        # part nobody of this run has claimed; every part is saved, so a stop loses at most one part per worker.
+        # A part that an earlier run claimed and did not finish is done one query at a time (pf.q<i>, each claimable).
         for k in todo[w::JOBS] + todo:
             out = f'{OUT}_{tag}_b{k}.pkl'
             if os.path.exists(out): continue
             for j0 in range(k * BLK, min((k + 1) * BLK, len(QUERY)), SUBBLK):
-                pf = f'{out}.p{j0 - k * BLK}'
+                pf = f'{out}.p{j0 - k * BLK}'; j1 = min(j0 + SUBBLK, (k + 1) * BLK, len(QUERY))
                 if os.path.exists(pf): continue
-                try: os.close(os.open(f'{pf}.claim{RUNID}', os.O_CREAT | os.O_EXCL | os.O_WRONLY))
-                except FileExistsError: continue
-                reset_stats(); _t = time.time()
-                for fi in QUERY[j0:min(j0 + SUBBLK, (k + 1) * BLK)]:
-                    if SKIPQ is not None and SKIPQ[fi]: stats['qskip'] = stats.get('qskip', 0) + 1; continue
-                    fn(int(fi))
-                pickle.dump({'hits': hits, 'hist': hist, 'stats': stats, 'mids': mids, 'cands': cands, 'deferred': deferred, 'time': time.time() - _t}, open(pf + '.tmp', 'wb'))
-                os.replace(pf + '.tmp', pf)
-                try: os.remove(f'{pf}.claim{RUNID}')
-                except OSError: pass
+                stale = [c for c in glob.glob(pf + '.claim*') if c != f'{pf}.claim{RUNID}']
+                units = [(pf, j0, j1)] if not stale else [(f'{pf}.q{j}', j, j + 1) for j in range(j0, j1)]
+                for uf, u0, u1 in units:
+                    if os.path.exists(uf): continue
+                    try: os.close(os.open(f'{uf}.claim{RUNID}', os.O_CREAT | os.O_EXCL | os.O_WRONLY))
+                    except FileExistsError: continue
+                    if stale: print(f'  slow part {pf}: query {u0} alone', flush=True)
+                    reset_stats(); _t = time.time()
+                    for fi in QUERY[u0:u1]:
+                        if SKIPQ is not None and SKIPQ[fi]: stats['qskip'] = stats.get('qskip', 0) + 1; continue
+                        fn(int(fi))
+                    pickle.dump({'hits': hits, 'hist': hist, 'stats': stats, 'mids': mids, 'cands': cands, 'deferred': deferred, 'time': time.time() - _t}, open(uf + '.tmp', 'wb'))
+                    os.replace(uf + '.tmp', uf)
+                    try: os.remove(f'{uf}.claim{RUNID}')
+                    except OSError: pass
+                if stale: join_files(pf, [f'{pf}.q{j}' for j in range(j0, j1)])
         if JOBS > 1: os._exit(0)
         break
     for pid in kids: os.waitpid(pid, 0)
     for k in todo: merge_parts(f'{OUT}_{tag}_b{k}.pkl', k)
     reset_stats(); return True
-def merge_parts(out, k):
-    parts = [f'{out}.p{j0 - k * BLK}' for j0 in range(k * BLK, min((k + 1) * BLK, len(QUERY)), SUBBLK)]
+def join_files(out, parts):
+    """combine saved result pieces into one file (atomic), then remove the pieces; nothing if one is missing"""
     if os.path.exists(out) or not all(os.path.exists(pf) for pf in parts): return
     P = [pickle.load(open(pf, 'rb')) for pf in parts]; H_, HI_, ST_ = [], {}, {}
     for d in P:
@@ -535,7 +542,16 @@ def merge_parts(out, k):
     pickle.dump({'hits': H_, 'hist': HI_, 'stats': ST_, 'mids': sum((d['mids'] for d in P), []), 'cands': sum((d['cands'] for d in P), []),
                  'deferred': sum((d['deferred'] for d in P), []), 'time': sum(d['time'] for d in P)}, open(out + '.tmp', 'wb'))
     os.replace(out + '.tmp', out)
-    for pf in parts: os.remove(pf)
+    for pf in parts + glob.glob(out + '.claim*') + [c for pf in parts for c in glob.glob(pf + '.claim*')]:
+        try: os.remove(pf)
+        except OSError: pass
+def merge_parts(out, k):
+    parts = []
+    for j0 in range(k * BLK, min((k + 1) * BLK, len(QUERY)), SUBBLK):
+        pf = f'{out}.p{j0 - k * BLK}'; j1 = min(j0 + SUBBLK, (k + 1) * BLK, len(QUERY))
+        if not os.path.exists(pf): join_files(pf, [f'{pf}.q{j}' for j in range(j0, j1)])
+        parts.append(pf)
+    join_files(out, parts)
 G7 = float(os.environ.get('G', '1e-3')); DUMP = os.environ.get('DUMPCAND') == '1'
 CAND = []
 DEL7 = float(os.environ.get('DELTA7', '1e-12'))
